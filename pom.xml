@@ -52,6 +52,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- SpringBoot 热部署机制-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
