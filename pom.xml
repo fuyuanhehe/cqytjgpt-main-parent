@@ -6,7 +6,16 @@
 
     <groupId>com.ccttic.framework</groupId>
     <artifactId>cqytjgpt-main-parent</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>cqytjgpt-eureka-register</module>
+        <module>cqytjgpt-eureka-config</module>
+        <module>cqytjgpt-serivce-gateway</module>
+        <module>cqytjgpt-hystrix-turbine</module>
+        <module>cqytjgpt-sleuth-zipkin</module>
+        <module>cqytjgpt-service-auth</module>
+    </modules>
 
 
 </project>
