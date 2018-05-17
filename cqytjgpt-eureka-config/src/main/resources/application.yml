@@ -1,0 +1,35 @@
+info:
+  description: 重庆交巡警源头监管项目配置中心
+
+server:
+  port: 9090
+
+# 关闭验证
+management:
+  security:
+    enabled: false
+
+spring:
+  application:
+    name: cqytjgpt-eureka-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://D:/config # 注意文件夹必须是git仓库，并且提交了配置文件
+          #uri: http://10.10.20.36/cttic/settingcenter.git
+          clone-on-start: true
+          force-pull: true
+  rabbitmq:
+    host: 10.10.20.22
+    username: cqjxj
+    password: cqjxj123
+
+# 设置eureka行为
+eureka:
+  instance:
+    instance-id: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8090/eureka/

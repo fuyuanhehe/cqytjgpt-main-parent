@@ -1,0 +1,51 @@
+# 设置项目的info信息
+info:
+  description: 重庆交巡警源头监管项目服务注册中心
+  author: wl(atva725@qq.com)
+
+# 设置服务端口号
+server:
+  port: 8090
+
+# 设置项目的名称，eureka会使用项目名称分组
+spring:
+  application:
+    name: cqytjgpt-eureka-register
+  cloud:
+    inetutils:
+      use-only-site-local-interfaces: true
+      ignored-interfaces: VMware*
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+
+# 设置eureka行为
+eureka:
+  instance:
+    prefer-ip-address: true
+  server:
+    enable-self-preservation: false   # 关闭自动保护功能，开发的时候使用
+    eviction-interval-timer-in-ms: 15000 # 多少秒驱逐丢失的服务，正式环境请开启自我保护
+    wait-time-in-ms-when-sync-empty: 0
+  client:
+    fetch-registry: false # 开发使用单机模式，fetch-registry、register-with-eureka都为false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${spring.cloud.client.ipAddress}:${server.port}/eureka/
+
+---
+spring:
+  profiles: prod
+eureka:
+  instance:
+    prefer-ip-address: true
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+  client:
+    fetch-registry: false # 开发使用单机模式，fetch-registry、register-with-eureka都为false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${spring.cloud.client.ipAddress}:${server.port}/eureka/

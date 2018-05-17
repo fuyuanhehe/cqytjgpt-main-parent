@@ -11,4 +11,11 @@
     <artifactId>cqytjgpt-eureka-register</artifactId>
     <description>重庆交巡警 源头监管项目 服务注册中心</description>
 
+    <dependencies>
+        <!-- SpringCloud eureka server -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+        </dependency>
+    </dependencies>
 </project>
