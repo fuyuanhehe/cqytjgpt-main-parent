@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.OrganizationMapper">
+	<!-- 自定义返回结果集 -->
+	<resultMap id="orgMap" type="Organization">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="orgCd" column="orgCd" javaType="java.lang.String"></result>
+		<result property="orgNm" column="orgNm" javaType="java.lang.String"></result>
+		<result property="shortNm" column="shortNm" javaType="java.lang.String"></result>
+		<result property="remark" column="remark" javaType="java.lang.String"></result>
+		<result property="orgDuty" column="orgDuty" javaType="java.lang.String"></result>
+		<result property="dispOrder" column="dispOrder" javaType="java.lang.Integer"></result>
+		<result property="superOrgId" column="superOrg_id" javaType="java.lang.String"></result>
+		<result property="superOrgCd" column="superOrgCd" javaType="java.lang.String"></result>
+		<result property="superOrgNm" column="superOrgNm" javaType="java.lang.String"></result>
+		<result property="companyAdminId" column="companyAdmin_id" javaType="java.lang.String"></result>
+		<result property="companyAdminCd" column="companyAdminCd" javaType="java.lang.String"></result>
+		<result property="companyAdminNm" column="companyAdminNm" javaType="java.lang.String"></result>
+		<result property="generalManagerId" column="generalManager_id" javaType="java.lang.String"></result>
+		<result property="generalManagerCd" column="generalManagerCd" javaType="java.lang.String"></result>
+		<result property="generalManagerNm" column="generalManagerNm" javaType="java.lang.String"></result>
+		<result property="chairmanId" column="chairman_id" javaType="java.lang.String"></result>
+		<result property="chairmanCd" column="chairmanCd" javaType="java.lang.String"></result>
+		<result property="chairmanNm" column="chairmanNm" javaType="java.lang.String"></result>
+		<result property="leadershipId" column="leadership_id" javaType="java.lang.String"></result>
+		<result property="leadershipCd" column="leadershipCd" javaType="java.lang.String"></result>
+		<result property="leadershipNm" column="leadershipNm" javaType="java.lang.String"></result>
+		<result property="managerId" column="manager_id" javaType="java.lang.String"></result>
+		<result property="managerCd" column="managerCd" javaType="java.lang.String"></result>
+		<result property="managerNm" column="managerNm" javaType="java.lang.String"></result>
+		<result property="deptDeputyId" column="deptDeputy_id" javaType="java.lang.String"></result>
+		<result property="deptDeputyCd" column="deptDeputyCd" javaType="java.lang.String"></result>
+		<result property="deptDeputyNm" column="deptDeputyNm" javaType="java.lang.String"></result>
+		<result property="orgType" column="orgType" javaType="java.lang.String"></result>
+		<result property="superOrgCd" column="superOrgCd" javaType="java.lang.String"></result>
+	</resultMap>
+	<!-- 获取总公司 -->
+	<select id="getHeadOrg" resultMap="orgMap">
+		select * from ess_organization org where (org.isDeleted is null or org.isDeleted = 0) and org.orgType='HEAD'
+	</select>
+	<!-- 通过机构ID获取机构信息 -->
+	<select id="findOrgById" parameterType="java.lang.String" resultMap="orgMap">
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm, 
+			org.remark as remark, org.orgDuty as orgDuty, org.dispOrder as dispOrder, 
+			org.superOrg_id as superOrgId,parentOrg.orgCd as superOrgCd,parentOrg.orgNm as superOrgNm,parentOrg.orgType as superOrgType,org.orgType as orgType, 
+			admin.id as companyAdminId, admin.empCd as companyAdminCd, admin.empNm as companyAdminNm, 
+			manager.id as generalManagerId, manager.empCd as generalManagerCd, manager.empNm as generalManagerNm, 
+			chairman.id as chairmanId, chairman.empCd as chairmanCd, chairman.empNm as chairmanNm, 
+			leadership.id as leadershipId, leadership.empCd as leadershipCd, leadership.empNm as leadershipNm, 
+			mainmanager.id as managerId, mainmanager.empCd as managerCd, mainmanager.empNm as managerNm, 
+			deputy.id as deptDeputyId, deputy.empCd as deptDeputyCd, deputy.empNm as deptDeputyNm 
+			from ess_organization org left join ess_organization parentOrg on org.superOrg_id = parentOrg.id 
+			left join ess_employee admin on org.companyAdmin_id = admin.id left join ess_employee manager on org.generalManager_id = manager.id 
+			left join ess_employee chairman on org.chairman_id = chairman.id left join ess_employee leadership on org.leadership_id = leadership.id 
+			left join ess_employee mainmanager on org.manager_id = mainmanager.id left join ess_employee deputy on org.deptDeputy_id = deputy.id 
+			where org.id=#{orgId}
+	</select>
+	<!-- 通过机构编码获取机构信息 -->
+	<select id="findOrgByOrgCd" parameterType="java.lang.String" resultMap="orgMap">
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm, 
+			org.remark as remark, org.orgDuty as orgDuty, org.dispOrder as dispOrder, 
+			org.superOrg_id as superOrgId,parentOrg.orgCd as superOrgCd,parentOrg.orgNm as superOrgNm,parentOrg.orgType as superOrgType,org.orgType as orgType, 
+			admin.id as companyAdminId, admin.empCd as companyAdminCd, admin.empNm as companyAdminNm, 
+			manager.id as generalManagerId, manager.empCd as generalManagerCd, manager.empNm as generalManagerNm, 
+			chairman.id as chairmanId, chairman.empCd as chairmanCd, chairman.empNm as chairmanNm, 
+			leadership.id as leadershipId, leadership.empCd as leadershipCd, leadership.empNm as leadershipNm, 
+			mainmanager.id as managerId, mainmanager.empCd as managerCd, mainmanager.empNm as managerNm, 
+			deputy.id as deptDeputyId, deputy.empCd as deptDeputyCd, deputy.empNm as deptDeputyNm 
+			from ess_organization org left join ess_organization parentOrg on org.superOrg_id = parentOrg.id 
+			left join ess_employee admin on org.companyAdmin_id = admin.id left join ess_employee manager on org.generalManager_id = manager.id 
+			left join ess_employee chairman on org.chairman_id = chairman.id left join ess_employee leadership on org.leadership_id = leadership.id 
+			left join ess_employee mainmanager on org.manager_id = mainmanager.id left join ess_employee deputy on org.deptDeputy_id = deputy.id 
+			where org.orgCd=#{orgCd}
+	</select>
+	<!-- 通过机构编码获取子机构 -->
+	<select id="findSubOrgsByOrgCd" parameterType="java.lang.String" resultMap="orgMap">
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm, 
+			org.remark as remark, org.orgDuty as orgDuty, org.dispOrder as dispOrder, 
+			org.superOrg_id as superOrgId,parentOrg.orgCd as superOrgCd,parentOrg.orgNm as superOrgNm,parentOrg.orgType as superOrgType,org.orgType as orgType, 
+			admin.id as companyAdminId, admin.empCd as companyAdminCd, admin.empNm as companyAdminNm, 
+			manager.id as generalManagerId, manager.empCd as generalManagerCd, manager.empNm as generalManagerNm, 
+			chairman.id as chairmanId, chairman.empCd as chairmanCd, chairman.empNm as chairmanNm, 
+			leadership.id as leadershipId, leadership.empCd as leadershipCd, leadership.empNm as leadershipNm, 
+			mainmanager.id as managerId, mainmanager.empCd as managerCd, mainmanager.empNm as managerNm, 
+			deputy.id as deptDeputyId, deputy.empCd as deptDeputyCd, deputy.empNm as deptDeputyNm 
+			from ess_organization org left join ess_organization parentOrg on org.superOrg_id = parentOrg.id 
+			left join ess_employee admin on org.companyAdmin_id = admin.id left join ess_employee manager on org.generalManager_id = manager.id 
+			left join ess_employee chairman on org.chairman_id = chairman.id left join ess_employee leadership on org.leadership_id = leadership.id 
+			left join ess_employee mainmanager on org.manager_id = mainmanager.id left join ess_employee deputy on org.deptDeputy_id = deputy.id 
+			where (org.isDeleted is null or org.isDeleted = 0) and parentOrg.orgCd=#{orgCd} order by org.dispOrder asc
+	</select>
+	<!-- 修改组织机构 -->
+	<update id="modifyOrg" parameterType="com.ccttic.cqytjgpt.beans.ess.Organization">
+		update ess_organization set orgNm=#{org.orgNm}, shortNm=#{org.shortNm},orgDuty=#{org.orgDuty}, dispOrder=#{org.dispOrder},remark=#{org.remark} where orgCd=#{org.orgCd}
+	</update>
+	<!-- 删除组织机构 -->
+	<update id="removeOrg" parameterType="java.lang.String">
+		update ess_organization set isDeleted = 1,deleteTime=now() where orgCd=#{orgCd}
+	</update>
+	<!-- 设置公司管理人员-->
+	<update id="setCompanyAdmin" parameterType="java.lang.String">
+		update ess_organization set companyAdmin_id = #{empId} where id=#{orgId}
+	</update>
+	<!-- 设置董事长-->
+	<update id="setChairman" parameterType="java.lang.String">
+		update ess_organization set chairman_id = #{empId} where orgCd=#{orgCd}
+	</update>
+	<!-- 设置总经理-->
+	<update id="setGeneralManager" parameterType="java.lang.String">
+		update ess_organization set generalManager_id = #{empId} where orgCd=#{orgCd}
+	</update>
+	<!-- 设置分管领导-->
+	<update id="setLeadership" parameterType="java.lang.String">
+		update ess_organization set leadership_id = #{empId} where orgCd=#{orgCd}
+	</update>
+	<!-- 设置部门主管-->
+	<update id="setDeptManager" parameterType="java.lang.String">
+		update ess_organization set manager_id = #{empId} where orgCd=#{orgCd}
+	</update>
+	<!-- 设置部门副主管-->
+	<update id="setDeptDeputy" parameterType="java.lang.String">
+		update ess_organization set deptDeputy_id = #{empId} where orgCd=#{orgCd}
+	</update>
+	<!-- 创建子组织机构-->
+	<insert id="createChildOrg" parameterType="com.ccttic.cqytjgpt.beans.ess.Organization">
+		insert into ess_organization(id,orgCd,orgNm,shortNm,remark,orgDuty,dispOrder,superOrg_id,orgType,version) values 
+			(#{org.id},#{org.orgCd},#{org.orgNm},#{org.shortNm},#{org.remark},#{org.orgDuty},#{org.dispOrder},#{org.superOrgId},#{org.orgType},#{org.version})
+	</insert>
+	<!-- 创建组织机构-->
+	<insert id="createOrg" parameterType="com.ccttic.cqytjgpt.beans.ess.Organization">
+		insert into ess_organization(id,orgCd,orgNm,shortNm,remark,orgDuty,dispOrder,orgType,version) values 
+			(#{org.id},#{org.orgCd},#{org.orgNm},#{org.shortNm},#{org.remark},#{org.orgDuty},#{org.dispOrder},#{org.orgType},#{org.version})
+	</insert>
+</mapper>	

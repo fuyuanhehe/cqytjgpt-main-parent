@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.RoleMapper">
+	<!-- 自定义返回结果集 -->
+	<resultMap id="roleMap" type="Role">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="roleCd" column="roleCd" javaType="java.lang.String"></result>
+		<result property="roleNm" column="roleNm" javaType="java.lang.String"></result>
+		<result property="description" column="description" javaType="java.lang.String"></result>
+		<result property="isDefault" column="isDefault" javaType="java.lang.Boolean"></result>
+		<result property="empIds" column="empIds" javaType="java.lang.String"></result>
+		<result property="empCds" column="empCds" javaType="java.lang.String"></result>
+		<result property="empNms" column="empNms" javaType="java.lang.String"></result>
+	</resultMap>
+	<!--  根据条件获取角色信息 -->
+	<select id="pagerRole" parameterType="java.util.Map" resultMap="roleMap">
+		select * from ess_role where 1=1
+		<if test="roleCd != null">
+			and roleCd like '%${roleCd}%'
+		</if>
+		<if test="roleNm != null">
+			and roleNm like '%${roleNm}%'
+		</if>
+		<if test="isDefault != null">
+			and isDefault = ${isDefault}
+		</if>
+		order by roleCd asc	limit ${startRecord},${pageSize}
+	</select>
+	<!-- 根据条件获取角色信息总记录数 -->
+	<select id="countRole" parameterType="java.util.Map" resultType="long">
+		select count(*) from ess_role where 1=1
+		<if test="roleCd != null">
+			and roleCd like '%${roleCd}%'
+		</if>
+		<if test="roleNm != null">
+			and roleNm like '%${roleNm}%'
+		</if>
+		<if test="isDefault != null">
+			and isDefault = ${isDefault}
+		</if>
+	</select>
+	<!-- 编辑角色 -->
+	<insert id="addRole" parameterType="com.ccttic.cqytjgpt.beans.ess.Role">
+		insert into ess_role(id,roleCd,roleNm,description,isDefault,version) values 
+		(#{role.id},#{role.roleCd},#{role.roleNm},#{role.description},#{role.isDefault},#{role.version})
+	</insert>
+	<!-- 通过id获取角色信息 -->
+	<select id="findRoleById" parameterType="java.lang.String" resultMap="roleMap">
+		 select * from ess_role where id=#{id}
+	</select>
+	<!-- 修改角色 -->
+	<update id="modifyRole" parameterType="com.ccttic.cqytjgpt.beans.ess.Role">
+		 update ess_role set roleCd=#{role.roleCd},roleNm=#{role.roleNm} ,description=#{role.description},version=#{role.version} where id=#{role.id}
+	</update>
+	<!-- 通过ID删除角色信息-->
+	<delete id="deleteRole" parameterType="java.lang.String">
+		delete from ess_role where id=#{id}
+	</delete>
+	<!-- 通过编码获取角色 -->
+	<select id="findRoleByRoleCd" parameterType="java.lang.String" resultMap="roleMap">
+		select * from ess_role where roleCd=#{roleCd}
+	</select>
+</mapper>	

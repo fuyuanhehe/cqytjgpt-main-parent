@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.EmpMenuMapper">
+	<!-- 自定义返回结果集 -->
+	<resultMap id="empMenuMap" type="EmpMenu">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="empId" column="emp_id" javaType="java.lang.String"></result>
+		<result property="menuId" column="menu_id" javaType="java.lang.String"></result>
+		<result property="version" column="version" javaType="java.lang.Integer"></result>
+	</resultMap>
+
+	<!-- 通过人员ID删除人员菜单关系表-->
+	<delete id="deleteEmpMenuByEmpId" parameterType="java.lang.String">
+		delete from ess_employee_menu where emp_id=#{empId}
+	</delete>
+	<!-- 批量增加人员菜单关系 -->
+	<insert id="setEmpResource" parameterType="java.util.List">
+	   insert into ess_employee_menu (id,emp_id,menu_id,version) values 
+	    <foreach collection="ems" item="em" separator=",">
+	     (#{em.id},#{em.empId},#{em.menuId},#{em.version})
+	    </foreach>
+	</insert>
+	<!-- 获取人员已有权限菜单-->
+	<select id="findEmpResources" parameterType="java.lang.String" resultMap="empMenuMap">
+		select * from ess_employee_menu where emp_id = #{empId}  
+	</select>
+</mapper>	

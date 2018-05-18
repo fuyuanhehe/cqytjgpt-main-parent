@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.mapper.res.MenuMapper">
+<!-- 自定义返回结果集 -->
+   <resultMap id="menuMap" type="MenuBean">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="resource" column="resource" javaType="java.lang.String"></result>
+		<result property="label" column="label" javaType="java.lang.String"></result>
+		<result property="group" column="groupResource" javaType="java.lang.String"></result>
+		<result property="order" column="sortOrder" javaType="java.lang.Integer"></result>
+		<result property="icon" column="icon" javaType="java.lang.String"></result>
+		<result property="description" column="description" javaType="java.lang.String"></result>
+		<result property="path" column="path" javaType="java.lang.String"></result>
+	</resultMap>
+	<!-- 新增菜单 -->
+	<insert id="addMenu" parameterType="com.ccttic.cqytjgpt.beans.res.MenuBean">
+		insert into res_menu(id,resource,label,groupResource,sortOrder,icon,description,path) values 
+		(#{menu.id},#{menu.resource},#{menu.label},#{menu.group},#{menu.order},#{menu.icon},#{menu.description},#{menu.path})
+	</insert>
+	<!-- 修改菜单 -->
+	<update id="updateMenu" parameterType="com.ccttic.cqytjgpt.beans.res.MenuBean">
+		  update res_menu set resource=#{menu.resource},label=#{menu.label},groupResource=#{menu.group}, 
+		  sortOrder=#{menu.order},icon=#{menu.icon},description=#{menu.description},path=#{menu.path} where id=#{menu.id}
+	</update>
+	<!-- 根据ID查询菜单 -->
+	<select id="findMenuById" parameterType="java.lang.String" resultMap="menuMap">
+		 select * from res_menu where id=#{id}
+	</select>
+	
+	<!-- 根据resource查看菜单 -->
+	<select id="findMenuByResource" parameterType="java.lang.String" resultMap="menuMap">
+		 select * from res_menu where resource=#{resource}
+	</select>
+	
+	<!-- 获取一级菜单权限 -->
+	<select id="getFirstPermissionMenus" parameterType="java.lang.String" resultMap="menuMap">
+		 select t.* from(select rm.* from res_menu rm left join ess_employee_menu eem on rm.id = eem.menu_id 
+		 left join ess_employee ee on eem.emp_id=ee.id where (rm.groupResource is null or rm.groupResource='') and ee.empCd=#{empCd} 
+		 union all select rm.* from res_menu rm left join ess_role_menu erm on rm.id=erm.menu_id 
+		 left join ess_role er on erm.role_id = er.id where (rm.groupResource is null or rm.groupResource='') and er.roleCd in(${roleCds}))t order by t.sortOrder asc;
+	</select>
+	<!-- 获取二级菜单权限 -->
+	<select id="getSecondPermissionMenus" parameterType="java.lang.String" resultMap="menuMap">
+		 select t.* from(select rm.* from res_menu rm left join ess_employee_menu eem on rm.id = eem.menu_id 
+		 left join ess_employee ee on eem.emp_id=ee.id where rm.groupResource=#{resource} and ee.empCd=#{empCd} 
+		 union all select rm.* from res_menu rm left join ess_role_menu erm on rm.id=erm.menu_id 
+		 left join ess_role er on erm.role_id = er.id where rm.groupResource=#{resource} and er.roleCd in(${roleCds}))t order by t.sortOrder asc;
+	</select>
+	
+	<!-- 获取一级菜单 -->
+	<select id="getFirstMenus" parameterType="java.lang.String" resultMap="menuMap">
+		  select * from res_menu where groupResource is null or groupResource='' order by sortOrder asc
+	</select>
+	<!-- 获取二级菜单 -->
+	<select id="getSecondMenus" parameterType="java.lang.String" resultMap="menuMap">
+		  select * from res_menu where groupResource=#{resource} order by sortOrder asc
+	</select>
+	
+</mapper>	
