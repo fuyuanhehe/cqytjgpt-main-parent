@@ -28,6 +28,8 @@
         <module>cqytjgpt-consume-test</module>
         <!-- 测试工程02 -->
         <module>cqytjgpt-consume-test-2</module>
+        <!-- 基本的web模块 -->
+        <module>cqytjgpt-web-api</module>
     </modules>
 
     <properties>

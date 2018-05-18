@@ -8,6 +8,7 @@ server:
 management:
   security:
     enabled: false
+
 spring:
   application:
     name: cqytjgpt-eureka-config
