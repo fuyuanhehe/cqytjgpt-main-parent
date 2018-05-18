@@ -3,11 +3,14 @@ spring:
     host: 116.196.120.26
     username: cqjxj
     password: axzsd110
+
 ---
 spring:
   profiles: dev
   sleuth:
     enabled: true
+    sampler:
+      percentage: 1
   zipkin:
     sender:
       type: rabbit
