@@ -30,7 +30,7 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-         fetch config 重试机制
+         <!--fetch config 重试机制-->
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
@@ -47,7 +47,7 @@
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
 
-         使用总线接受刷新配置
+        <!-- 使用总线接受刷新配置-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
