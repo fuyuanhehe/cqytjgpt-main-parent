@@ -74,6 +74,31 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
+    <repositories>
+		<repository>
+			<id>internal repository</id>
+			<name>Local repository</name>
+			<url>http://10.10.20.36:8081/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>interval:30</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Internal Snapshots</name>
+			<url>http://10.10.20.36:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>releases</id>
+			<name>Internal Releases</name>
+			<url>http://10.10.20.36:8081/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
 
     <build>
         <plugins>
