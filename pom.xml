@@ -20,8 +20,6 @@
         <module>cqytjgpt-serivce-gateway</module>
         <!-- 熔断器监控 -->
         <module>cqytjgpt-hystrix-turbine</module>
-        <!-- 分布式服务跟踪 -->
-        <module>cqytjgpt-sleuth-zipkin</module>
         <!-- 认证中心 -->
         <module>cqytjgpt-service-auth</module>
         <!-- 分布式任务 -->
