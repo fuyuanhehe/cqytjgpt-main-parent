@@ -24,7 +24,9 @@
         <module>cqytjgpt-service-auth</module>
         <!-- 分布式任务 -->
         <module>cqytjgpt-service-task</module>
+        <!-- 测试工程01 -->
         <module>cqytjgpt-consume-test</module>
+        <!-- 测试工程02 -->
         <module>cqytjgpt-consume-test-2</module>
     </modules>
 
