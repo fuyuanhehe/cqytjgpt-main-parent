@@ -7,19 +7,17 @@ server:
 spring:
   application:
     name: cqytjgpt-serivce-gateway
-  cloud:
-    config:
-      enabled: true
-      discovery:
-        enabled: true
-        service-id: cqytjgpt-eureka-config
-      fail-fast: true
-      label: master
-      profile: dev # 开发环境
-  rabbitmq:
-    host: 10.10.20.22
-    username: cqjxj
-    password: cqjxj123
+  profiles:
+    active: dev
+#  cloud:
+#    config:
+#      enabled: true
+#      discovery:
+#        enabled: true
+#        service-id: cqytjgpt-eureka-config
+#      fail-fast: true
+#      label: master
+#      profile: dev # 开发环境
 
 # 设置eureka行为
 eureka:
@@ -31,3 +29,12 @@ eureka:
       defaultZone: http://127.0.0.1:8090/eureka/
 zuul:
   retryable: true
+  routes:
+    cqytjgpt-eureka-config: /config/**
+---
+spring:
+  profiles: dev
+  sleuth:
+    sampler:
+      percentage: 1 # 开发环境，收集所有链路的日志
+    enabled: true
