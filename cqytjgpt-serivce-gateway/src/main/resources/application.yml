@@ -1,15 +1,15 @@
 spring:
   rabbitmq:
-    host: 116.196.120.26
+    host: 10.10.20.22
     username: cqjxj
-    password: axzsd110
+    password: cqjxj123
 ---
 spring:
   profiles: dev
   sleuth:
-    enabled: true
     sampler:
-      percentage: 1
+      percentage: 1 # 开发环境，收集所有链路的日志
+    enabled: true
   zipkin:
     sender:
       type: rabbit
