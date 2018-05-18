@@ -1,8 +1,9 @@
 spring:
   rabbitmq:
-    host: 116.196.120.26
+    host: 10.10.20.22
+    port: 5672
     username: cqjxj
-    password: axzsd110
+    password: cqjxj123
 
 ---
 spring:

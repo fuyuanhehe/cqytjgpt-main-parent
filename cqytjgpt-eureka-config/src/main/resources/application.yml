@@ -8,18 +8,22 @@ server:
 management:
   security:
     enabled: false
-
 spring:
   application:
     name: cqytjgpt-eureka-config
+  profiles:
+    active: native
   cloud:
     config:
       server:
-        git:
-          uri: file://D:/config # 注意文件夹必须是git仓库，并且提交了配置文件
+        native:
+          search-locations: file:/D:/cqytjgpt-config
+          add-label-locations: false
+        #git:
+          #uri: file://D:/config # 注意文件夹必须是git仓库，并且提交了配置文件
           #uri: http://10.10.20.36/cttic/settingcenter.git
-          clone-on-start: true
-          force-pull: true
+          #clone-on-start: true
+          #force-pull: true
   rabbitmq:
     host: 10.10.20.22
     username: cqjxj
