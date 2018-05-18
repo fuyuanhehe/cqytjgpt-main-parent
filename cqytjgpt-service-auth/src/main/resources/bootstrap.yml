@@ -44,23 +44,13 @@ mybatis:
   type-aliases-package:com.ccttic.auth.model
   mapper-locations:classpath:mapper/*.xml
 mapper.mappers:
-  com.ccttic.auth.util.MyMappe
+  com.ccttic.auth.util.MyMapper
 mapper.not-empty:
   false
 mapper.identity:
   MYSQL
    
-#分页配置
-pagehelper:
-  helperDialect:
-    mysql
-  reasonable:
-    true
-  supportMethodsArguments:
-    true
-  params:
-    count\=countSql
-  
+
 #log 设置
 debug:
   true
@@ -73,8 +63,4 @@ logging:
       ccttic:
         auth:
           trace
-    org:
-      springframework:
-        web:
-          DEBUG
 

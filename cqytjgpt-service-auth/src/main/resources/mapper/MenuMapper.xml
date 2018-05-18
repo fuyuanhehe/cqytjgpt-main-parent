@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.mapper.res.MenuMapper">
+<mapper namespace="com.ccttic.auth.mapper.MenuMapper">
 <!-- 自定义返回结果集 -->
    <resultMap id="menuMap" type="MenuBean">
 		<id property="id" column="id" javaType="java.lang.String"></id>
@@ -13,12 +13,12 @@
 		<result property="path" column="path" javaType="java.lang.String"></result>
 	</resultMap>
 	<!-- 新增菜单 -->
-	<insert id="addMenu" parameterType="com.ccttic.cqytjgpt.beans.res.MenuBean">
+	<insert id="addMenu" parameterType="com.ccttic.auth.model.MenuBean">
 		insert into res_menu(id,resource,label,groupResource,sortOrder,icon,description,path) values 
 		(#{menu.id},#{menu.resource},#{menu.label},#{menu.group},#{menu.order},#{menu.icon},#{menu.description},#{menu.path})
 	</insert>
 	<!-- 修改菜单 -->
-	<update id="updateMenu" parameterType="com.ccttic.cqytjgpt.beans.res.MenuBean">
+	<update id="updateMenu" parameterType="com.ccttic.auth.model.MenuBean">
 		  update res_menu set resource=#{menu.resource},label=#{menu.label},groupResource=#{menu.group}, 
 		  sortOrder=#{menu.order},icon=#{menu.icon},description=#{menu.description},path=#{menu.path} where id=#{menu.id}
 	</update>

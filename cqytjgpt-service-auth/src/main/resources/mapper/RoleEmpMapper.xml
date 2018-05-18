@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.RoleEmpMapper">
+<mapper namespace="com.ccttic.auth.mapper.RoleEmpMapper">
 	<!-- 自定义返回结果集 -->
 	<resultMap id="roleEmpMap" type="RoleEmp">
 		<id property="id" column="id" javaType="java.lang.String"></id>
@@ -33,7 +33,7 @@
 		delete from ess_employee_role where emp_id=#{empId}
 	</delete>
 	<!-- 插入人员角色关系 -->
-	<insert id="addRoleEmp" parameterType="com.ccttic.cqytjgpt.beans.ess.RoleEmp">
+	<insert id="addRoleEmp" parameterType="com.ccttic.auth.model.RoleEmp">
 		insert into ess_employee_role (id, emp_id,role_id,version) values (#{roleEmp.id},#{roleEmp.empId},#{roleEmp.roleId},#{roleEmp.version})
 	</insert>
 </mapper>	

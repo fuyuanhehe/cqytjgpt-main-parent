@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.RoleMapper">
+<mapper namespace="com.ccttic.auth.mapper.RoleMapper">
 	<!-- 自定义返回结果集 -->
 	<resultMap id="roleMap" type="Role">
 		<id property="id" column="id" javaType="java.lang.String"></id>
@@ -40,7 +40,7 @@
 		</if>
 	</select>
 	<!-- 编辑角色 -->
-	<insert id="addRole" parameterType="com.ccttic.cqytjgpt.beans.ess.Role">
+	<insert id="addRole" parameterType="com.ccttic.auth.model.Role">
 		insert into ess_role(id,roleCd,roleNm,description,isDefault,version) values 
 		(#{role.id},#{role.roleCd},#{role.roleNm},#{role.description},#{role.isDefault},#{role.version})
 	</insert>
@@ -49,7 +49,7 @@
 		 select * from ess_role where id=#{id}
 	</select>
 	<!-- 修改角色 -->
-	<update id="modifyRole" parameterType="com.ccttic.cqytjgpt.beans.ess.Role">
+	<update id="modifyRole" parameterType="com.ccttic.auth.model.Role">
 		 update ess_role set roleCd=#{role.roleCd},roleNm=#{role.roleNm} ,description=#{role.description},version=#{role.version} where id=#{role.id}
 	</update>
 	<!-- 通过ID删除角色信息-->

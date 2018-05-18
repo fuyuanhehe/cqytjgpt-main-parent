@@ -8,9 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 
-/**
- * Created by yangqj on 2017/4/19.
- */
 @Configuration
 public class DruidConfig {
 
@@ -22,7 +19,7 @@ public class DruidConfig {
 
         servletRegistrationBean.addInitParameter("loginUsername","admin");
 
-        servletRegistrationBean.addInitParameter("loginPassword","123456");
+        servletRegistrationBean.addInitParameter("loginPassword","admin123");
         return servletRegistrationBean;
     }
 

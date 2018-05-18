@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.PostEmpMapper">
+<mapper namespace="com.ccttic.auth.mapper.PostEmpMapper">
 	<!-- 自定义返回结果集 -->
 	<resultMap id="postEmpMap" type="PostEmp">
 		<id property="id" column="id" javaType="java.lang.String"></id>
@@ -37,7 +37,7 @@
 		delete from ess_employee_post where emp_id=#{empId}
 	</delete>
 	<!-- 插入岗位人员信息 -->
-	<insert id="addPostEmp" parameterType="com.ccttic.cqytjgpt.beans.ess.PostEmp">
+	<insert id="addPostEmp" parameterType="com.ccttic.auth.model.PostEmp">
 		insert into ess_employee_post (id, version,emp_id,post_id) values (#{postEmp.id},#{postEmp.version},#{postEmp.empId},#{postEmp.postId})
 	</insert>
 	<!-- 移除指定人员指定岗位-->

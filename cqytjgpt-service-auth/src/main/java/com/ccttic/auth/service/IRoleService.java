@@ -1,10 +1,10 @@
 package com.ccttic.auth.service;
 
-import java.awt.print.Pageable;
 
 import com.ccttic.auth.common.exception.AppException;
+import com.ccttic.auth.common.page.Page;
+import com.ccttic.auth.common.page.Pageable;
 import com.ccttic.auth.model.Role;
-import com.github.pagehelper.Page;
 
 /**
    功能说明：     角色业务接口

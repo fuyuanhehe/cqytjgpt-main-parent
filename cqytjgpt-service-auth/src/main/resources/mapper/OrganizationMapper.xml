@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.OrganizationMapper">
+<mapper namespace="com.ccttic.auth.mapper.OrganizationMapper">
 	<!-- 自定义返回结果集 -->
 	<resultMap id="orgMap" type="Organization">
 		<id property="id" column="id" javaType="java.lang.String"></id>
@@ -90,7 +90,7 @@
 			where (org.isDeleted is null or org.isDeleted = 0) and parentOrg.orgCd=#{orgCd} order by org.dispOrder asc
 	</select>
 	<!-- 修改组织机构 -->
-	<update id="modifyOrg" parameterType="com.ccttic.cqytjgpt.beans.ess.Organization">
+	<update id="modifyOrg" parameterType="com.ccttic.auth.model.Organization">
 		update ess_organization set orgNm=#{org.orgNm}, shortNm=#{org.shortNm},orgDuty=#{org.orgDuty}, dispOrder=#{org.dispOrder},remark=#{org.remark} where orgCd=#{org.orgCd}
 	</update>
 	<!-- 删除组织机构 -->
@@ -122,12 +122,12 @@
 		update ess_organization set deptDeputy_id = #{empId} where orgCd=#{orgCd}
 	</update>
 	<!-- 创建子组织机构-->
-	<insert id="createChildOrg" parameterType="com.ccttic.cqytjgpt.beans.ess.Organization">
+	<insert id="createChildOrg" parameterType="com.ccttic.auth.model.Organization">
 		insert into ess_organization(id,orgCd,orgNm,shortNm,remark,orgDuty,dispOrder,superOrg_id,orgType,version) values 
 			(#{org.id},#{org.orgCd},#{org.orgNm},#{org.shortNm},#{org.remark},#{org.orgDuty},#{org.dispOrder},#{org.superOrgId},#{org.orgType},#{org.version})
 	</insert>
 	<!-- 创建组织机构-->
-	<insert id="createOrg" parameterType="com.ccttic.cqytjgpt.beans.ess.Organization">
+	<insert id="createOrg" parameterType="com.ccttic.auth.model.Organization">
 		insert into ess_organization(id,orgCd,orgNm,shortNm,remark,orgDuty,dispOrder,orgType,version) values 
 			(#{org.id},#{org.orgCd},#{org.orgNm},#{org.shortNm},#{org.remark},#{org.orgDuty},#{org.dispOrder},#{org.orgType},#{org.version})
 	</insert>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.mapper.ess.ModPasswdMapper">
+<mapper namespace="com.ccttic.auth.mapper.ModPasswdMapper">
 	<!-- 自定义返回结果集 -->
 	<resultMap id="empMap" type="Employee">
 		<id property="id" column="id" javaType="java.lang.String"></id>
@@ -13,7 +13,7 @@
 		select id,empCd,empNm,password from ess_employee 
 		where empCd = #{empCd} and isDeleted='0'
 	</select>
-	<update id="updPasswd" parameterType="com.ccttic.cqytjgpt.beans.ess.Employee">
+	<update id="updPasswd" parameterType="com.ccttic.auth.model.Employee">
 		update ess_employee set password=#{password} 
 		where empCd = #{empCd} and isDeleted='0'
 	</update>

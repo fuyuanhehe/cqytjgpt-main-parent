@@ -1,15 +1,15 @@
 package com.ccttic.auth.service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import com.ccttic.auth.common.exception.AppException;
+import com.ccttic.auth.common.page.Page;
+import com.ccttic.auth.common.page.Pageable;
 import com.ccttic.auth.model.EmpCategoryEnum;
 import com.ccttic.auth.model.EmpMenu;
 import com.ccttic.auth.model.Employee;
 import com.ccttic.auth.model.RoleEmp;
 import com.ccttic.auth.model.RoleMenu;
-import com.github.pagehelper.Page;
 
 /**
    功能说明：     人员业务接口
