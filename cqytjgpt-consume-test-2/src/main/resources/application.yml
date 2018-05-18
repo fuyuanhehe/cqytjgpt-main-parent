@@ -1,0 +1,13 @@
+spring:
+  rabbitmq:
+    host: 116.196.120.26
+    username: cqjxj
+    password: axzsd110
+---
+spring:
+  profiles: dev
+  sleuth:
+    enabled: true
+  zipkin:
+    sender:
+      type: rabbit
