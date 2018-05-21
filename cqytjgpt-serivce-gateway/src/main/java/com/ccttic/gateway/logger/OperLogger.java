@@ -14,7 +14,6 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  * */
 @Component
 public class OperLogger extends ZuulFilter {
-    DiscoveryClient discoveryClient;
 
     @Override
     public String filterType() {

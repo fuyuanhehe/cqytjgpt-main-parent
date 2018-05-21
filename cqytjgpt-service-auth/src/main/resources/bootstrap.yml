@@ -67,3 +67,4 @@ logging:
       ccttic:
         auth:
           trace
+  config: classpath:logback.xml
