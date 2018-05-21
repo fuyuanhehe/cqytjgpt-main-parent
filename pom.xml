@@ -32,6 +32,7 @@
         <module>cqytjgpt-web-api</module>
         <module>cqytjgpt-basic-config-pom</module>
         <module>cqytjgpt-basic-zipkin-pom</module>
+        <module>cqytjgpt-basic-hystrix-pom</module>
     </modules>
 
     <properties>

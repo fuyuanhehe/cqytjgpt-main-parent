@@ -24,16 +24,11 @@
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
-        <!-- 熔断器 -->
+        <!-- 熔断器 和 hystrix stream （Rabbit） -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix</artifactId>
-        </dependency>
-
-        <!-- hystrix stream -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-netflix-hystrix-amqp</artifactId>
+            <groupId>com.ccttic.framework</groupId>
+            <artifactId>cqytjgpt-basic-hystrix-pom</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- 配置中心客户端依赖，集成总线刷新配置（Rabbit） -->
