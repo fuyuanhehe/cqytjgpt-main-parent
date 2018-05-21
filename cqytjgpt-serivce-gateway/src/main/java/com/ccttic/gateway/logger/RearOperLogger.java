@@ -1,9 +1,12 @@
 package com.ccttic.gateway.logger;
 
 import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
+import org.springframework.stereotype.Component;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
+@Component
 public class RearOperLogger extends ZuulFilter {
     @Override
     public String filterType() {
@@ -12,16 +15,23 @@ public class RearOperLogger extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return 0;
+        return 2;
     }
 
     @Override
     public boolean shouldFilter() {
-        return false;
+        return true;
     }
 
     @Override
     public Object run() {
+        RequestContext currentContext = RequestContext.getCurrentContext();
+        String shardId = String.class.cast(currentContext.get(PreOperLogger.LINK_SHARD_ID));
+        System.out.println("========================" + shardId);
+        Throwable throwable = currentContext.getThrowable();
+        if (throwable != null) {
+            System.out.println("==================================" + throwable.getCause());
+        }
         return null;
     }
 }

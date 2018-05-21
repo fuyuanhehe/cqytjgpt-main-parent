@@ -33,7 +33,6 @@ spring:
     maxActive: 20
 
 
-
 # 设置eureka行为
 eureka:
   instance:

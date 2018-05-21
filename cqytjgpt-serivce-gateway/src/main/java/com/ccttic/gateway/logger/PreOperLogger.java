@@ -15,6 +15,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  * */
 @Component
 public class PreOperLogger extends ZuulFilter {
+    public static final String LINK_SHARD_ID = "shardId";
 
     @Override
     public String filterType() {
@@ -33,10 +34,12 @@ public class PreOperLogger extends ZuulFilter {
 
     @Override
     public Object run() {
+        RequestContext currentContext = RequestContext.getCurrentContext();
         // 获得当前请求的 request
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         // 设置这次的日志链ID，在路由出去的时候将会使用该ID
-        request.setAttribute("shardId", UUID.randomUUID().toString());
+        String shardId = UUID.randomUUID().toString();
+        RequestContext.getCurrentContext().set(LINK_SHARD_ID, shardId);
         // ..
         if (request.getMethod().equalsIgnoreCase("POST")) {
             // 打印参数
