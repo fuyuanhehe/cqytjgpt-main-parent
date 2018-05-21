@@ -30,8 +30,11 @@
         <module>cqytjgpt-consume-test-2</module>
         <!-- 基本的web模块 -->
         <module>cqytjgpt-web-api</module>
+        <!-- config client pom -->
         <module>cqytjgpt-basic-config-pom</module>
+        <!-- zipkin pom -->
         <module>cqytjgpt-basic-zipkin-pom</module>
+        <!-- hystrix 熔断器 pom-->
         <module>cqytjgpt-basic-hystrix-pom</module>
     </modules>
 
