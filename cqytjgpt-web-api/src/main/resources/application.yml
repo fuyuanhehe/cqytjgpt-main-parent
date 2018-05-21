@@ -1,11 +1,16 @@
 spring:
-  rabbitmq:
+  rabbitmq:     # 配置RabbitMQ
     host: 10.10.20.22
     port: 5672
     username: cqjxj
     password: cqjxj123
 logging:
   config: classpath:logback.xml
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
 ---
 spring:
   profiles: dev
