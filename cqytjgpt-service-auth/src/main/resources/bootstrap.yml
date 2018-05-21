@@ -18,17 +18,21 @@ spring:
       profile: dev # 开发环境
   rabbitmq:
     host: 10.10.20.22
+    port: 5672
     username: cqjxj
     password: cqjxj123
   datasource:
-    type:com.alibaba.druid.pool.DruidDataSource
-    driver:com.mysql.jdbc.Driver
-    url:jdbc:mysql://10.10.20.22:3306/cqytjgpt
-    username:root
-    password:ccttic!
-    initialSize:1
-    minIdle:1
-    maxActive:20
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.10.20.22:3306/cqytjgpt
+    username: root
+    password: ccttic!
+    driver-class-name: com.mysql.jdbc.Driver
+    initialize: true
+    initialSize: 1
+    minIdle: 1
+    maxActive: 20
+
+
 
 # 设置eureka行为
 eureka:
@@ -41,8 +45,8 @@ eureka:
 
 # mybatis 配置
 mybatis:
-  type-aliases-package:com.ccttic.auth.model
-  mapper-locations:classpath:mapper/*.xml
+  type-aliases-package: com.ccttic.auth.model
+  mapper-locations: classpath:mapper/*.xml
 mapper.mappers:
   com.ccttic.auth.util.MyMapper
 mapper.not-empty:
@@ -63,4 +67,3 @@ logging:
       ccttic:
         auth:
           trace
-

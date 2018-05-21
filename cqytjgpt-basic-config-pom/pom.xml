@@ -8,31 +8,33 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cqytjgpt-hystrix-turbine</artifactId>
-    <description>重庆交巡警 源头监管项目 熔断器监控</description>
+    <packaging>pom</packaging>
+    <artifactId>cqytjgpt-basic-config-pom</artifactId>
+    <description>简化依赖操作-如果需要配置中心客户端可以依赖此文件</description>
 
     <dependencies>
-        <!-- hystrix -->
+        <!-- 配置中心客户端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-        <!-- dashboard -->
+        <!--fetch config 重试机制-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
         </dependency>
 
-        <!-- turbine stream -->
+        <!-- aop -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-turbine-stream</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <!-- 使用总线接受刷新配置-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
         </dependency>
 
         <!-- 健康检测 -->

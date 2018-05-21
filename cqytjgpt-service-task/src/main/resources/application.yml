@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dubbo
+    username: root
+    password: axzsd110
+  rabbitmq:
+    host: 10.10.20.22
+    port: 5672
+    username: cqjxj
+    password: cqjxj123
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          task: DEBUG

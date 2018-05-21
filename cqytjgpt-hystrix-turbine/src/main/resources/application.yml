@@ -1,0 +1,28 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: cqytjgpt-hystrix-turbine
+  rabbitmq:
+    host: 10.10.20.22
+    port: 5672
+    username: cqjxj
+    password: cqjxj123
+turbine:
+  stream:
+    port: 8084
+
+# 设置eureka行为
+eureka:
+  instance:
+    instance-id: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8090/eureka/
+
+info:
+  description: 重庆交巡警 源头监管项目 熔断器监控
+  server.port: ${server.port}
+  management.port: ${turbine.stream.port}
+  operation: 请在 http://${spring.cloud.client.ipAddress}:${server.port}/hystrix 中访问http://${spring.cloud.client.ipAddress}:${turbine.stream.port}/turbine.stream

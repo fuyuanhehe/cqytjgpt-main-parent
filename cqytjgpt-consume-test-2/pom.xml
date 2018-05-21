@@ -28,16 +28,11 @@
             <artifactId>spring-cloud-starter-ribbon</artifactId>
         </dependency>
 
-        <!-- zipkin -->
+        <!-- zipkin 依赖（Rabbit发送信息） -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
-
-        <!-- zipkin 信息通过rabbitmq发送 -->
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
+            <groupId>com.ccttic.framework</groupId>
+            <artifactId>cqytjgpt-basic-zipkin-pom</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- 健康检测 -->

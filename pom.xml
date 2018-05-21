@@ -30,6 +30,8 @@
         <module>cqytjgpt-consume-test-2</module>
         <!-- 基本的web模块 -->
         <module>cqytjgpt-web-api</module>
+        <module>cqytjgpt-basic-config-pom</module>
+        <module>cqytjgpt-basic-zipkin-pom</module>
     </modules>
 
     <properties>

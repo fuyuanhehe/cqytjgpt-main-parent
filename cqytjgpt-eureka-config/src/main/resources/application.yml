@@ -27,6 +27,7 @@ spring:
           #force-pull: true
   rabbitmq:
     host: 10.10.20.22
+    port: 5672
     username: cqjxj
     password: cqjxj123
 
