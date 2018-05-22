@@ -5,17 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.auth.model.Organization;
-import com.ccttic.auth.util.MyMapper;
 
 /**
    功能说明：     myBatis机构映射
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.mapper.ess.OrganizationMapper.java
  @date  2016年12月12日
  */
 
-public interface OrganizationMapper extends MyMapper<Organization> {
+public interface OrganizationMapper {
 
 	/**
 	 * 获取总公司

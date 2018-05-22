@@ -1,16 +1,10 @@
 spring:
-  rabbitmq:
+  rabbitmq:   # 配置rabbitMQ
     host: 10.10.20.22
     port: 5672
     username: cqjxj
     password: cqjxj123
-  http:
-    encoding:
-      charset: UTF-8    # 设置编码
-      force: true
-      force-request: true
-      force-response: true
-  datasource:
+  datasource: # 配置数据源
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://10.10.20.22:3306/cqytjgpt
     username: root
@@ -28,22 +22,23 @@ spring:
       test-on-return: false
       filters: stat,wall,log4j
       pool-prepared-statements: true
+# mybatis 配置
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
-  configuration: # 配置懒加载机制
+  configuration:  # 配置懒加载机制
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
     log-prefix: dao.
-
+#log 设置
+debug:
+  true
 logging:
+  level:
+    tk:
+      mybatis:
+        TRACE
+    com:
+      ccttic:
+        auth:
+          trace
   config: classpath:logback.xml
----
-spring:
-  profiles: dev
-  sleuth:
-    sampler:
-      percentage: 1 # 开发环境，收集所有链路的日志
-    enabled: true
-  zipkin:
-    sender:
-      type: rabbit

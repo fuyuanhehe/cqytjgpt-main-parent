@@ -6,17 +6,15 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.auth.model.Employee;
-import com.ccttic.auth.util.MyMapper;
 
 /**
    功能说明：     MyBatis人员映射
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.mapper.ess.EmployeeMapper.java
  @date  2016年12月3日
  */
 
-public interface EmployeeMapper extends MyMapper<Employee>  {
+public interface EmployeeMapper {
 	/**
 	 * 根据ID查询人员
 	 * @param id

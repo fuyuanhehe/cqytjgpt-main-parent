@@ -5,17 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.auth.model.PostEmp;
-import com.ccttic.auth.util.MyMapper;
 
 /**
    功能说明：      MyBatis岗位人员映射
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.mapper.ess.PostEmpMapper.java
  @date  2016年12月10日
  */
 
-public interface PostEmpMapper extends MyMapper<PostEmp>{
+public interface PostEmpMapper {
 	/**
 	 * 根据岗位ID获取员工信息
 	 * @param postId

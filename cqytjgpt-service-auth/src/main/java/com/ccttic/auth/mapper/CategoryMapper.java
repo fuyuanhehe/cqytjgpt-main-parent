@@ -5,17 +5,15 @@ import java.util.List;
 import com.ccttic.auth.common.exception.AppException;
 import com.ccttic.auth.model.Category;
 import com.ccttic.auth.model.CategoryAttr;
-import com.ccttic.auth.util.MyMapper;
 
 /**
  * 
    功能说明：    MyBatis数据字典映射
  @version  1.0.0
  @author  sqli
- @see  com.studio.framework.mapper.param.CategoryMapper.java
  @date  2016年12月29日
  */
-public interface CategoryMapper extends MyMapper<Category> {
+public interface CategoryMapper {
 	/**
 	 * 新增数据字典
 	 * @param category

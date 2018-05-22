@@ -16,21 +16,6 @@ spring:
       fail-fast: true
       label: master
       profile: dev # 开发环境
-  rabbitmq:
-    host: 10.10.20.22
-    port: 5672
-    username: cqjxj
-    password: cqjxj123
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://10.10.20.22:3306/cqytjgpt
-    username: root
-    password: ccttic!
-    driver-class-name: com.mysql.jdbc.Driver
-    initialize: true
-    initialSize: 1
-    minIdle: 1
-    maxActive: 20
 
 
 # 设置eureka行为
@@ -41,29 +26,3 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8090/eureka/
-
-# mybatis 配置
-mybatis:
-  type-aliases-package: com.ccttic.auth.model
-  mapper-locations: classpath:mapper/*.xml
-mapper.mappers:
-  com.ccttic.auth.util.MyMapper
-mapper.not-empty:
-  false
-mapper.identity:
-  MYSQL
-   
-
-#log 设置
-debug:
-  true
-logging:
-  level:
-    tk:
-      mybatis:
-        TRACE
-    com:
-      ccttic:
-        auth:
-          trace
-  config: classpath:logback.xml

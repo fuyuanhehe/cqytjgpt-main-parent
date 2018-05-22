@@ -6,17 +6,15 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.auth.model.Post;
-import com.ccttic.auth.util.MyMapper;
 
 /**
    功能说明：      MyBatis岗位映射
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.mapper.ess.ContractMapper.java
  @date  2016年12月10日
  */
 
-public interface PostMapper extends MyMapper<Post>{
+public interface PostMapper {
 	/**
 	 * 根据条件获取岗位信息
 	 * @param params

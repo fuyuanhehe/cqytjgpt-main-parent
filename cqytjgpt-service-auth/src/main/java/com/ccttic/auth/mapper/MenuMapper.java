@@ -5,17 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.auth.model.MenuBean;
-import com.ccttic.auth.util.MyMapper;
 
 /**
  * 
    功能说明：    MyBatis菜单映射
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.mapper.res.MenuMapper.java
  @date  2016年12月3日
  */
-public interface MenuMapper extends MyMapper<MenuBean>{
+public interface MenuMapper {
 	/**
 	 * 新增菜单
 	 * @param menu

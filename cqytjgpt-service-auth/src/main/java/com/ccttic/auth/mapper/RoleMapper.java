@@ -6,17 +6,15 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.auth.model.Role;
-import com.ccttic.auth.util.MyMapper;
 
 /**
    功能说明：      MyBatis角色映射
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.mapper.ess.RoleMapper.java
  @date  2016年12月11日
  */
 
-public interface RoleMapper extends MyMapper<RoleMapper> {
+public interface RoleMapper {
 
 	/**
 	 * 根据条件获取角色信息

@@ -5,17 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.auth.model.EmpMenu;
-import com.ccttic.auth.util.MyMapper;
 
 /**
    功能说明：      MyBatis人员菜单映射
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.mapper.ess.ContractMapper.java
  @date  2016年12月10日
  */
 
-public interface EmpMenuMapper extends MyMapper<EmpMenu> {
+public interface EmpMenuMapper {
 	/**
 	 * 通过人员ID删除人员菜单关系表
 	 * @param empId
