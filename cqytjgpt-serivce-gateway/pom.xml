@@ -67,12 +67,28 @@
             <groupId>com.ccttic.framework</groupId>
             <artifactId>cqytjgpt-basic-config-pom</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <type>pom</type>
         </dependency>
 
         <!-- zipkin 依赖（Rabbit发送信息） -->
         <dependency>
             <groupId>com.ccttic.framework</groupId>
             <artifactId>cqytjgpt-basic-zipkin-pom</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>pom</type>
+        </dependency>
+
+        <!-- 通用的工具类 -->
+        <dependency>
+            <groupId>com.ccttic.framework</groupId>
+            <artifactId>cqytjgpt-common-tools</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 所有的实体类 -->
+        <dependency>
+            <groupId>com.ccttic.framework</groupId>
+            <artifactId>cqytjgpt-all-domain</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

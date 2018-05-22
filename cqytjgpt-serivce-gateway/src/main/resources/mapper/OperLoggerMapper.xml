@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.gateway.mapper.OperLoggerMapper">
+    <!-- 所有的字段 -->
+    <sql id="fieldAll">id, operName, url, params, startTime, endTime, success, abnormity</sql>
 
+    <sql id="setFieldAll">#{id}, #{operName}, #{url}, #{params}, #{startTime}, #{endTime}, #{success}, #{abnormity}</sql>
+
+    <!-- 保存操作日志 -->
+    <insert id="addOperlog" parameterType="com.ccttic.entity.OperLogger">
+        INSERT INTO sys_oper_log(<include refid="fieldAll"/>)
+        VALUES (<include refid="setFieldAll"/>)
+    </insert>
+
+    <!-- 更新操作 -->
+    <update id="renewOperlog" parameterType="com.ccttic.entity.OperLogger">
+        UPDATE sys_oper_log
+        <set>
+            <if test="operName != null and operName != ''">operName = #{operName},</if>
+            <if test="url != null and url != ''">url = #{url},</if>
+            <if test="params != null and params != ''">params = #{params},</if>
+            <if test="startTime != null and startTime != ''">startTime = #{startTime},</if>
+            <if test="endTime != null and endTime != ''">endTime = #{endTime},</if>
+            <if test="success != null and success != ''">success = #{success},</if>
+            <if test="abnormity != null and abnormity != ''">abnormity = #{abnormity}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 判断数据是否存在 -->
+    <select id="isExist" parameterType="java.lang.StringBuilder" resultType="com.ccttic.entity.OperLogger">
+        SELECT id FROM sys_oper_log WHERE id = #{id}
+    </select>
 </mapper>

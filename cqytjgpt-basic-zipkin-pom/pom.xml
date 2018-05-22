@@ -7,6 +7,7 @@
         <groupId>com.ccttic.framework</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cqytjgpt-basic-zipkin-pom</artifactId>
     <description>eureka client 需要zipkin跟踪调用链路的时候依赖这个项目</description>

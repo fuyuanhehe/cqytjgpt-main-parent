@@ -18,6 +18,8 @@ public class OperLogger implements Serializable {
     private String endTime;
     // 是否成功 0 成功 1 失败
     private int success;
+    // 异常信息
+    private String abnormity;
 
     public String getId() {
         return id;
@@ -73,5 +75,13 @@ public class OperLogger implements Serializable {
 
     public void setSuccess(int success) {
         this.success = success;
+    }
+
+    public String getAbnormity() {
+        return abnormity;
+    }
+
+    public void setAbnormity(String abnormity) {
+        this.abnormity = abnormity;
     }
 }

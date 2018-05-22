@@ -37,6 +37,7 @@
         <!-- 测试工程02 -->
         <module>cqytjgpt-consume-test-2</module>
         <module>cqytjgpt-all-domain</module>
+        <module>cqytjgpt-common-tools</module>
     </modules>
 
     <properties>

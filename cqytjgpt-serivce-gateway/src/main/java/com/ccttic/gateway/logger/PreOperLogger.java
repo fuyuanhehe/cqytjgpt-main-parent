@@ -1,11 +1,20 @@
 package com.ccttic.gateway.logger;
 
+import com.ccttic.entity.OperLogger;
+import com.ccttic.gateway.service.OperLoggerService;
+import com.ccttic.util.common.CCtticDateUtils;
+import com.ccttic.util.common.CommonGenerator;
+import com.ccttic.util.web.CCtticWebUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import org.apache.ibatis.jdbc.SQL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.zuul.util.ZuulRuntimeException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.sql.SQLException;
 import java.util.*;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
@@ -15,7 +24,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  * */
 @Component
 public class PreOperLogger extends ZuulFilter {
-    public static final String LINK_SHARD_ID = "shardId";
+    public static final String LINK_SHARD_OPER = "shardOper";
 
     @Override
     public String filterType() {
@@ -38,56 +47,27 @@ public class PreOperLogger extends ZuulFilter {
         RequestContext currentContext = RequestContext.getCurrentContext();
         // 获得当前请求的 request
         HttpServletRequest request = currentContext.getRequest();
-        // 设置这次的日志链ID，在路由出去的时候将会使用该ID
-        String shardId = UUID.randomUUID().toString();
-        currentContext.set(LINK_SHARD_ID, shardId);
-        // 获得参数
-        if (request.getMethod().equalsIgnoreCase("POST")) {
-            // 打印参数
-            System.out.println(getPostParams(request));
-        }
-        // 存储数据库的操作
-        // ******
+        // 得到log
+        OperLogger operLogger = getOperLogger(request);
+        operLogger.setStartTime(CCtticDateUtils.presentDay("yyyy-MM-dd HH:mm:ss"));
+        operLogger.setEndTime("");
+        // 设置这次的日志
+        currentContext.set(LINK_SHARD_OPER, operLogger);
         return null;
     }
 
-    /**
-     * 说明：获得HttpServletRequest POST的参数
-     * */
-    private Map<String, Object> getPostParams(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
-        // 必须是POST方式
-        if (!request.getMethod().equalsIgnoreCase("POST")) {
-            return map;
-        }
-        // 得到参数，如果参数为空就返回
-        Map<String, String[]> parameterMap = request.<String, String[]>getParameterMap();
-        if (parameterMap == null || parameterMap.size() == 0)
-            return map;
-        // 循环遍历元素
-        String next = null;
-        String[] param = null;
-        List<String> templist = null;
-        Iterator<String> iterator = parameterMap.keySet().iterator();
-        while (iterator.hasNext()) {
-            next = iterator.next();
-            param = parameterMap.get(next);
-            // 如果没有参数
-            if (param == null || param.length == 0) {
-                map.put(next, null);
-                continue;
-            }
-            // 如果只有一个参数
-            if (param.length == 1) {
-                map.put(next, param[0]);
-            } else {    // 多个参数
-                templist = new ArrayList<>();
-                for (String val : param) {
-                    templist.add(val);
-                }
-                map.put(next, templist);
-            }
-        }
-        return map;
+    public static OperLogger getOperLogger(HttpServletRequest request) {
+        // 日志实体类
+        OperLogger operLogger = new OperLogger();
+       // 设置ID
+        String shardId = CommonGenerator.DistributiveIDGenerator();
+        operLogger.setId(shardId);
+        // 获得参数
+        Map<String, Object> requestParams = CCtticWebUtils.getRequestParams(request);
+        operLogger.setParams(requestParams.toString());
+        // 设置URL连接
+        operLogger.setUrl(request.getRequestURL().toString());
+        operLogger.setSuccess(0);
+        return operLogger;
     }
 }
