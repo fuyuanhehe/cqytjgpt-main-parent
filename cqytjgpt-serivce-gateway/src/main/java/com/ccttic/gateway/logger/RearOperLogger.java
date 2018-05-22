@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
+/**
+ * 说明：后置日志操作管理（用户访问具体服务之后进行记录）
+ * */
 @Component
 public class RearOperLogger extends ZuulFilter {
     @Override

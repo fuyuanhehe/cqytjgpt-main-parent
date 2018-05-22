@@ -11,7 +11,7 @@ import java.util.*;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
- * 说明：日志操作管理
+ * 说明：前前置日志操作管理（用户访问具体服务之前进行记录）
  * */
 @Component
 public class PreOperLogger extends ZuulFilter {
@@ -34,13 +34,14 @@ public class PreOperLogger extends ZuulFilter {
 
     @Override
     public Object run() {
+        // 获得当前请求的上下文
         RequestContext currentContext = RequestContext.getCurrentContext();
         // 获得当前请求的 request
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        HttpServletRequest request = currentContext.getRequest();
         // 设置这次的日志链ID，在路由出去的时候将会使用该ID
         String shardId = UUID.randomUUID().toString();
-        RequestContext.getCurrentContext().set(LINK_SHARD_ID, shardId);
-        // ..
+        currentContext.set(LINK_SHARD_ID, shardId);
+        // 获得参数
         if (request.getMethod().equalsIgnoreCase("POST")) {
             // 打印参数
             System.out.println(getPostParams(request));
@@ -59,13 +60,15 @@ public class PreOperLogger extends ZuulFilter {
         if (!request.getMethod().equalsIgnoreCase("POST")) {
             return map;
         }
+        // 得到参数，如果参数为空就返回
         Map<String, String[]> parameterMap = request.<String, String[]>getParameterMap();
         if (parameterMap == null || parameterMap.size() == 0)
-            return null;
-        Iterator<String> iterator = parameterMap.keySet().iterator();
+            return map;
+        // 循环遍历元素
         String next = null;
         String[] param = null;
         List<String> templist = null;
+        Iterator<String> iterator = parameterMap.keySet().iterator();
         while (iterator.hasNext()) {
             next = iterator.next();
             param = parameterMap.get(next);

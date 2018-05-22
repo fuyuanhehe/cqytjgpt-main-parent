@@ -4,6 +4,37 @@ spring:
     port: 5672
     username: cqjxj
     password: cqjxj123
+  http:
+    encoding:
+      charset: UTF-8    # 设置编码
+      force: true
+      force-request: true
+      force-response: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.10.20.22:3306/cqytjgpt
+    username: root
+    password: ccttic!
+    driver-class-name: com.mysql.jdbc.Driver
+    initialize: true
+    druid:
+      initial-size: 1
+      max-active: 15
+      min-idle: 1
+      validation-query: select 1
+      validation-query-timeout: 10000
+      test-on-borrow: true
+      test-while-idle: true
+      test-on-return: false
+      filters: stat,wall,log4j
+      pool-prepared-statements: true
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    log-prefix: dao.
+
 logging:
   config: classpath:logback.xml
 ---
