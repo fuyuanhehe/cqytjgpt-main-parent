@@ -60,7 +60,7 @@ public class PreOperLogger extends ZuulFilter {
         // 日志实体类
         OperLogger operLogger = new OperLogger();
        // 设置ID
-        String shardId = CommonGenerator.DistributiveIDGenerator();
+        String shardId = CommonGenerator.distributiveIDGenerator();
         operLogger.setId(shardId);
         // 获得参数
         Map<String, Object> requestParams = CCtticWebUtils.getRequestParams(request);

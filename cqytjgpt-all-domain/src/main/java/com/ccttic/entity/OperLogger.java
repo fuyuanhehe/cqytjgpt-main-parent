@@ -2,6 +2,9 @@ package com.ccttic.entity;
 
 import java.io.Serializable;
 
+/**
+ * 说明：系统日志实体类
+ * */
 public class OperLogger implements Serializable {
     private static final long serialVersionUID = -6888925596209686545L;
     // 操作日志ID
