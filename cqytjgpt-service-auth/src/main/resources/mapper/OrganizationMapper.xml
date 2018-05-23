@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.auth.mapper.OrganizationMapper">
 	<!-- 自定义返回结果集 -->
-	<resultMap id="orgMap" type="Organization">
+	<resultMap id="orgMap" type="com.ccttic.auth.model.Organization">
 		<id property="id" column="id" javaType="java.lang.String"></id>
 		<result property="orgCd" column="orgCd" javaType="java.lang.String"></result>
 		<result property="orgNm" column="orgNm" javaType="java.lang.String"></result>

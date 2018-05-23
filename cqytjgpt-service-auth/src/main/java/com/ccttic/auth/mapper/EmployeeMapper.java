@@ -21,6 +21,13 @@ public interface EmployeeMapper {
 	 * @return
 	 */
 	public Employee findEmployeeById(@Param("id") String id);
+	
+	/**
+	 * 根据账号查询人员
+	 * @param account
+	 * @return
+	 */
+	public Employee findEmployeeByAccount(@Param("account") String account);
 
 	/**
 	 * 用户登录

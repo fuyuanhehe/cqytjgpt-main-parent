@@ -587,4 +587,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return reMapper.findRolesByEmpId(empId);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Employee findEmployeeByAccount(String account) {
+		return mapper.findEmployeeByAccount(account);
+	}
+
 }

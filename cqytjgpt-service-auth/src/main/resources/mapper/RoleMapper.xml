@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.auth.mapper.RoleMapper">
 	<!-- 自定义返回结果集 -->
-	<resultMap id="roleMap" type="Role">
+	<resultMap id="roleMap" type="com.ccttic.auth.model.Role">
 		<id property="id" column="id" javaType="java.lang.String"></id>
 		<result property="roleCd" column="roleCd" javaType="java.lang.String"></result>
 		<result property="roleNm" column="roleNm" javaType="java.lang.String"></result>

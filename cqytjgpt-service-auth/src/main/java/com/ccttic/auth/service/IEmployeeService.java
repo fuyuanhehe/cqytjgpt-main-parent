@@ -2,6 +2,8 @@ package com.ccttic.auth.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ccttic.auth.common.exception.AppException;
 import com.ccttic.auth.common.page.Page;
 import com.ccttic.auth.common.page.Pageable;
@@ -38,6 +40,13 @@ public interface IEmployeeService {
 	 */
 	public Employee findEmployeeById(String id) throws AppException;
 
+	/**
+	 * 根据账号查找用户
+	 * @param account
+	 * @return
+	 */
+	public Employee findEmployeeByAccount(String account);
+	
 	/**
 	 * 用户登录
 	 * @param account
