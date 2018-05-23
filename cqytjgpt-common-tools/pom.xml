@@ -40,5 +40,21 @@
             <version>${javax.servlet.api.version}</version>
             <scope>provided</scope>
         </dependency>
+        
+        		<!-- fegin 调用工具，比restTemplt方式调用好 start -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+		</dependency>
+		<!-- fegin 调用工具 end -->
+		
+				<!-- jwt start -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+		<!-- jwt end -->
+		
     </dependencies>
 </project>
