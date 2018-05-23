@@ -65,11 +65,11 @@
         </dependency>
 
         <!-- SpringBoot 热部署机制-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <!-- 引入SpringCloud -->
@@ -113,14 +113,14 @@
     <build>
         <plugins>
             <!-- SpringBoot maven-plugin -->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <!-- 如果没有该项配置，devtools不会起作用，即应用不会restart -->
+                    &lt;!&ndash; 如果没有该项配置，devtools不会起作用，即应用不会restart &ndash;&gt;
                     <fork>true</fork>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
