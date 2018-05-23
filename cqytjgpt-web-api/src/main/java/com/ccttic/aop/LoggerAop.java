@@ -20,8 +20,8 @@ public class LoggerAop {
     private LoggerAspect loggerAspect;
 
     @Around("execution(* com.ccttic.controller..*.*(..))")
-    public void logAspect(ProceedingJoinPoint joinPoint) {
-        loggerAspect.doAroundLogger(joinPoint);
+    public Object logAspect(ProceedingJoinPoint joinPoint) {
+         return loggerAspect.doAroundLogger(joinPoint);
     }
 
     @Bean(destroyMethod = "destroy")
