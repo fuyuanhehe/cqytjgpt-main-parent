@@ -11,6 +11,8 @@ import com.ccttic.util.task.GeneralTestQueueExecutor;
 import com.ccttic.util.web.CCtticWebUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -22,7 +24,10 @@ import java.lang.reflect.Method;
  * 说明：日志切面配置
  */
 public class LoggerAspect {
+    // 日志
+    private Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
+    // 网关中必须将用户姓名写入request域，USER_NAME_TOKEN 就是key
     public static final String USER_NAME_TOKEN = "authentication_name";
 
     // 默认会抛异常的 userOperLoggerService
@@ -33,11 +38,7 @@ public class LoggerAspect {
      * 500 队列最大数量
      * 2 两个消费者
      * */
-    private GeneralTestQueueExecutor generalTestQueueExecutor = new GeneralTestQueueExecutor(-1, 500, 2);
-
-    public LoggerAspect() {
-        generalTestQueueExecutor.start();
-    }
+    private GeneralTestQueueExecutor generalTestQueueExecutor;
 
     /**
      * 说明：日志环绕通知
@@ -49,9 +50,9 @@ public class LoggerAspect {
         // 获得request
         HttpServletRequest request = getHttpServletRequest();
         try {
-            // 如果request为空或者userOperLoggerService，那么直接执行后退出
-            if (userOperLoggerService == null || request == null) {
-                System.out.println("当前不是web环境或者userOperLoggerService为空，无法增加记录");
+            // 如果request为空或者generalTestQueueExecutor为空，那么直接执行后退出
+            if (generalTestQueueExecutor == null || request == null) {
+                logger.warn("当前不是web环境或者generalTestQueueExecutor为空，无法增加记录");
                 return proceed = joinPoint.proceed();
             }
             // 获得方法对象
@@ -128,5 +129,12 @@ public class LoggerAspect {
      * */
     public void setUserOperLoggerService(UserOperLoggerService userOperLoggerService) {
         this.userOperLoggerService = userOperLoggerService;
+    }
+
+    /**
+     * 说明：需要将GeneralTestQueueExecutor注入进来
+     * */
+    public void setGeneralTestQueueExecutor(GeneralTestQueueExecutor generalTestQueueExecutor) {
+        this.generalTestQueueExecutor = generalTestQueueExecutor;
     }
 }

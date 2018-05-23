@@ -1,12 +1,17 @@
 package com.ccttic.util.task;
 
 import com.ccttic.util.common.SystemEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
 public class GeneralTestQueueExecutor {
+    // 日志
+    private Logger logger = LoggerFactory.getLogger(GeneralTestQueueExecutor.class);
+
     /**
      * 说明：监听器的线程池
      */
@@ -54,6 +59,9 @@ public class GeneralTestQueueExecutor {
      * 开始执行
      */
     public void start() {
+        if (logger.isInfoEnabled()) {
+            logger.info("GeneralTestQueueExecutor 开始执行....");
+        }
         // 开始设置监听者,并执行
         for (int i = 0; i < consumer; i++) {
             final ListenerWorker listenerWorker = new ListenerWorker();
@@ -101,7 +109,7 @@ public class GeneralTestQueueExecutor {
             listenerService.shutdown();
             try {
                 if (listenerService.awaitTermination(60, TimeUnit.SECONDS)) {
-                    System.out.println("强制关闭listenerService");
+                    logger.error("强制关闭listenerService");
                     listenerService.shutdownNow();
                 }
             } catch (InterruptedException e) {
@@ -112,7 +120,7 @@ public class GeneralTestQueueExecutor {
             executorService.shutdown();
             try {
                 if (executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-                    System.out.println("executorService");
+                    logger.error("executorService");
                     executorService.shutdownNow();
                 }
             } catch (InterruptedException e) {
@@ -152,7 +160,7 @@ public class GeneralTestQueueExecutor {
 
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-            System.out.println("线程名称：" + t.getName() + " listenerWorker 出现异常：" + e.getMessage() + " 重新启动中");
+            logger.error("线程名称：" + t.getName() + " listenerWorker 出现异常：" + e.getMessage() + " 重新启动中");
             synchronized (listenerWorker) {
                 listenerWorkers.remove(listenerWorker);
                 listenerWorker.interrupt();
