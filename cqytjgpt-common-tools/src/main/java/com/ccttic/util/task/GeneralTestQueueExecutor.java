@@ -12,6 +12,8 @@ public class GeneralTestQueueExecutor {
     // 日志
     private Logger logger = LoggerFactory.getLogger(GeneralTestQueueExecutor.class);
 
+    // 重试的Map
+    private ConcurrentHashMap<Runnable, Integer> retryMap = new ConcurrentHashMap<>();
     /**
      * 说明：监听器的线程池
      */
@@ -136,15 +138,33 @@ public class GeneralTestQueueExecutor {
         @Override
         public void run() {
             Runnable take = null;
+            Integer retry = 1;
             while (enabled && !Thread.currentThread().isInterrupted()) {
                 try {
                     take = task_queue.take();
+                    if (retryMap.get(take) != null) {
+                        retry = retryMap.get(take);
+                        retry = retry + 1;
+                        retryMap.put(take, retry);
+                    }
                     executorService.execute(take);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     Thread.currentThread().interrupt();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    try {
+                        // 再次放入队列
+                        if (retry < 3) {
+                            task_queue.put(take);
+                        } else {
+                            retryMap.remove(take);
+                        }
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                } finally {
+                    retry = 1;
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.ccttic.gateway.servicefallback;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
