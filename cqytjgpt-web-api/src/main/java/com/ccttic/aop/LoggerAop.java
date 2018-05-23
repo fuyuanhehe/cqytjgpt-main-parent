@@ -22,7 +22,7 @@ public class LoggerAop {
         loggerAspect.doAroundLogger(joinPoint);
     }
 
-    @Bean
+    @Bean(destroyMethod = "destroy")
     public LoggerAspect loggerAspect(UserOperLoggerService userOperLoggerService) {
         LoggerAspect loggerAspect = new LoggerAspect();
         loggerAspect.setUserOperLoggerService(userOperLoggerService);
