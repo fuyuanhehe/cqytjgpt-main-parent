@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "cqytjgpt-service-auth", configuration = FeignConfiguration.class)
 public interface AuthServiceFeign {
 	/**
-	 * 这里@requestMapping里指定的路径就是cqjxj-interface工程里的controller里的/ws/queryObject路径
+	 * 
 	 * 认证登录获取访问token
 	 * @return
 	 */
