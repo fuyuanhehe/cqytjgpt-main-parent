@@ -64,7 +64,8 @@ public class LoggerAspect {
             // 要保存的信息
             UserOperLogger userOperLoggerDataInfo = getUserOperLoggerDataInfo(request, loggerInfo);
            //  userOperLoggerService.addUserOperLogger(userOperLoggerDataInfo);
-            generalTestQueueExecutor.putTask(new UserOperLoggerTask(userOperLoggerService, userOperLoggerDataInfo));
+            if (userOperLoggerDataInfo != null)
+                generalTestQueueExecutor.putTask(new UserOperLoggerTask(userOperLoggerService, userOperLoggerDataInfo));
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -72,6 +73,8 @@ public class LoggerAspect {
     }
 
     public static UserOperLogger getUserOperLoggerDataInfo(HttpServletRequest request, LoggerModel loggerInfo) {
+        if (loggerInfo == null)
+            return null;
         // 需要保持的UserOperLogger
         UserOperLogger userOperLogger = new UserOperLogger();
         Object user_name_token = request.getAttribute("USER_NAME_TOKEN");

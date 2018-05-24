@@ -41,7 +41,7 @@ public class LoggerAop {
         // 队列中最大的任务数量为500
         // 两个监听消费者
         GeneralTestQueueExecutor generalTestQueueExecutor
-                = new GeneralTestQueueExecutor(SystemEnvironment.PROCESSOR, 500, 1);
+                = new GeneralTestQueueExecutor(SystemEnvironment.PROCESSOR, 500, 2);
         return generalTestQueueExecutor;
     }
 }

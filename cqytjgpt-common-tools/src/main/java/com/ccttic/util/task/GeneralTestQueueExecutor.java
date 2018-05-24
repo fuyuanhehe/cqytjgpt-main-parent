@@ -4,8 +4,10 @@ import com.ccttic.util.common.SystemEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.management.relation.RoleUnresolved;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.*;
 
 public class GeneralTestQueueExecutor {
@@ -13,7 +15,7 @@ public class GeneralTestQueueExecutor {
     private Logger logger = LoggerFactory.getLogger(GeneralTestQueueExecutor.class);
 
     // 重试的Map
-    private ConcurrentHashMap<Runnable, Integer> retryMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<WrapTask, Integer> retryMap = new ConcurrentHashMap<>();
     /**
      * 说明：监听器的线程池
      */
@@ -22,7 +24,7 @@ public class GeneralTestQueueExecutor {
     /**
      * 说明：存储执行任务的队列
      */
-    private final BlockingQueue<Runnable> task_queue;
+    private final BlockingQueue<WrapTask> task_queue;
 
     /**
      * 说明：执行任务的工作线程
@@ -77,7 +79,9 @@ public class GeneralTestQueueExecutor {
     public void putTask(Runnable runnable) {
         if (enabled) {
             try {
-                task_queue.put(runnable);
+                WrapTask wrapTask = new WrapTask(runnable);
+                wrapTask.setUncaughtExceptionHandler(new WrapTaskUncaughtExceptionHandler(wrapTask));
+                task_queue.put(wrapTask);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -135,36 +139,23 @@ public class GeneralTestQueueExecutor {
      * 说明：监听者
      */
     class ListenerWorker extends Thread {
+        private Random random = new Random();
+
         @Override
         public void run() {
-            Runnable take = null;
-            Integer retry = 1;
+            WrapTask wrapTask = null;
             while (enabled && !Thread.currentThread().isInterrupted()) {
                 try {
-                    take = task_queue.take();
-                    if (retryMap.get(take) != null) {
-                        retry = retryMap.get(take);
-                        retry = retry + 1;
-                        retryMap.put(take, retry);
-                    }
-                    executorService.execute(take);
+                    wrapTask = task_queue.take();
+                    // 沉睡随机时间,防止大量数据摧毁系统
+                    Thread.sleep(random.nextInt(300));
+                    executorService.execute(wrapTask);
+                    if (retryMap.get(wrapTask) != null)
+                        retryMap.remove(wrapTask);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                     Thread.currentThread().interrupt();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    try {
-                        // 再次放入队列
-                        if (retry < 3) {
-                            task_queue.put(take);
-                        } else {
-                            retryMap.remove(take);
-                        }
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                } finally {
-                    retry = 1;
                 }
             }
         }
@@ -177,7 +168,6 @@ public class GeneralTestQueueExecutor {
         public MyUncaughtExceptionHandler(ListenerWorker listenerWorker) {
             this.listenerWorker = listenerWorker;
         }
-
         @Override
         public void uncaughtException(Thread t, Throwable e) {
             logger.error("线程名称：" + t.getName() + " listenerWorker 出现异常：" + e.getMessage() + " 重新启动中");
@@ -189,6 +179,48 @@ public class GeneralTestQueueExecutor {
                 newWorker.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler(newWorker));
                 listenerService.execute(newWorker);
                 listenerWorkers.add(newWorker);
+            }
+        }
+    }
+
+    class WrapTask extends Thread {
+        private Runnable runnable;
+
+        public WrapTask(Runnable runnable) {
+            this.runnable = runnable;
+        }
+
+        @Override
+        public void run() {
+            runnable.run();
+        }
+    }
+
+    class WrapTaskUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+        private WrapTask wrapTask;
+
+        public WrapTaskUncaughtExceptionHandler(WrapTask wrapTask) {
+            this.wrapTask = wrapTask;
+        }
+
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+            logger.error("线程名称：" + t.getName() + " wrapTask 出现异常：" + e.getMessage() + " 重新执行3次");
+            Integer retry = 1;
+            // 判断是不是重新执行的队列
+            if (retryMap.get(wrapTask) != null) {
+                retry = retryMap.get(wrapTask);
+                retry = retry + 1;
+                retryMap.put(wrapTask, retry);
+            }
+            try {
+                if (retry < 3)
+                    task_queue.put(wrapTask);
+                else
+                    retryMap.remove(wrapTask);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
             }
         }
     }

@@ -38,7 +38,7 @@ public class SystemEnvironment {
             String property = sc.next();
             serial = sc.next();
         } catch (IOException e) {
-            e.printStackTrace();
+            serial = CCtticStringUtils.getRandomString(8);
         }
         return serial;
     }
