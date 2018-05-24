@@ -34,6 +34,11 @@ mybatis:
     aggressive-lazy-loading: false
     log-prefix: dao.
 
+# 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false
+
 #log 设置
 debug:
   true

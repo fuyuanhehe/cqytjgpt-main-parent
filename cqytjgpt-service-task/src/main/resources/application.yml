@@ -15,3 +15,7 @@ logging:
       springframework:
         cloud:
           task: DEBUG
+# 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false

@@ -47,6 +47,11 @@ zuul:
       serviceId: cqytjgpt-web-api
       sensitiveHeaders:
 
+# 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false
+
 # 设置logback.xml地址
 logging:
   config: classpath:logback.xml

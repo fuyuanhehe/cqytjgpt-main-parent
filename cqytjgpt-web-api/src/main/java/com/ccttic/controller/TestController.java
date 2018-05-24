@@ -1,6 +1,8 @@
 package com.ccttic.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,7 @@ import com.ccttic.util.auth.AuthServiceFeign;
 import com.ccttic.util.logger.annotation.Logger;
 
 @RestController
+@RefreshScope
 public class TestController {
 
     @Autowired
@@ -17,13 +20,14 @@ public class TestController {
     
     @Autowired
 	private AuthServiceFeign authFeign;
-	
 
+    @Value("${name}")
+	private String name;
 
     @RequestMapping("/test")
     @Logger(content = "123456", remark = "test", operType = 1)
     public String getTestString() {
-        return testService.toNameString();
+        return name;
     }
     
 	@RequestMapping("/login")

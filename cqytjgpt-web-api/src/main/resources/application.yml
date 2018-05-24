@@ -36,6 +36,11 @@ eureka:
   client:
     healthcheck:
       enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
+
+# 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false
 ---
 spring:
   profiles: dev

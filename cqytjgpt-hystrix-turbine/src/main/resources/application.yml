@@ -21,6 +21,11 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8090/eureka/
 
+# 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false
+
 info:
   description: 重庆交巡警 源头监管项目 熔断器监控
   server.port: ${server.port}
