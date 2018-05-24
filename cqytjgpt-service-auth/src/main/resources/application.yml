@@ -39,9 +39,6 @@ debug:
   true
 logging:
   level:
-    tk:
-      mybatis:
-        TRACE
     com:
       ccttic:
         auth:
