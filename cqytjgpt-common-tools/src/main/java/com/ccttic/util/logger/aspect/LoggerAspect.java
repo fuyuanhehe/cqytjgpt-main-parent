@@ -3,6 +3,7 @@ package com.ccttic.util.logger.aspect;
 import com.ccttic.entity.UserOperLogger;
 import com.ccttic.util.common.CCtticDateUtils;
 import com.ccttic.util.common.CommonGenerator;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.logger.model.LoggerModel;
 import com.ccttic.util.logger.worker.impl.FutilityUserOperLoggerServiceImpl;
 import com.ccttic.util.logger.worker.LoggerWorker;
@@ -26,6 +27,9 @@ import java.lang.reflect.Method;
 public class LoggerAspect {
     // 日志
     private Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
+
+    // token key
+    public final static String AUTHORIZATION = "Authorization";
 
     // 网关中必须将用户姓名写入request域，USER_NAME_TOKEN 就是key
     public static final String USER_NAME_TOKEN = "authentication_name";
@@ -98,13 +102,17 @@ public class LoggerAspect {
     public static UserOperLogger getUserOperLoggerDataInfo(HttpServletRequest request) {
         // 需要保持的UserOperLogger
         UserOperLogger userOperLogger = new UserOperLogger();
-        Object user_name_token = request.getAttribute("USER_NAME_TOKEN");
-        String userName = null;
-        if (user_name_token != null) {
-            userName = String.valueOf(user_name_token);
-        } else
-            userName = "游客";
-        userOperLogger.setOperBy(userName);
+        String token = request.getHeader(AUTHORIZATION);
+        String zjhm = null;
+        if (token == null)
+            userOperLogger.setOperBy("游客");
+        else {
+            // 获得姓名  这一步可以异步操作，优化响应时间
+            zjhm = JWTUtil.getUsername(token);
+            if (zjhm == null)
+                zjhm = "游客";
+            userOperLogger.setOperBy("" + zjhm);
+        }
         // 设置基本信息
         userOperLogger.setId(CommonGenerator.distributiveIDGenerator());
         userOperLogger.setIpAddr(CCtticWebUtils.getRemoteHost(request));
