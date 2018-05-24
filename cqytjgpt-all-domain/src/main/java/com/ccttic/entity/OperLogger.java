@@ -20,7 +20,7 @@ public class OperLogger implements Serializable {
     // 结束的时间
     private String endTime;
     // 是否成功 0 成功 1 失败
-    private int success;
+    private Integer success;
     // 异常信息
     private String abnormity;
 
@@ -72,11 +72,11 @@ public class OperLogger implements Serializable {
         this.endTime = endTime;
     }
 
-    public int getSuccess() {
+    public Integer getSuccess() {
         return success;
     }
 
-    public void setSuccess(int success) {
+    public void setSuccess(Integer success) {
         this.success = success;
     }
 

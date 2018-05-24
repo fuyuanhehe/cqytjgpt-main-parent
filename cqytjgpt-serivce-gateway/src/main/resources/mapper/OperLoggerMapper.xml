@@ -31,4 +31,36 @@
     <select id="isExist" parameterType="java.lang.StringBuilder" resultType="com.ccttic.entity.OperLogger">
         SELECT id FROM sys_oper_log WHERE id = #{id}
     </select>
+
+    <!-- 查询所有的日志 -->
+    <select id="findSysOperLogger" parameterType="java.util.Map" resultType="com.ccttic.entity.OperLogger">
+        SELECT <include refid="fieldAll"/> FROM sys_oper_log
+        <where>
+            <if test="operName != null and operName != ''">operName = #{operName} </if>
+            <if test="url != null and url != ''">AND url = #{url} </if>
+            <if test="startTime != null and startTime != ''">AND = #{startTime} </if>
+            <if test="endTime != null and endTime != ''">AND endTime = #{endTime} </if>
+            <if test="success != null and success != ''">AND success = #{success} </if>
+        </where>
+        ORDER BY startTime ASC
+        <if test="startRecod != null">
+            limit #{startRecod}, #{offset}
+        </if>
+    </select>
+
+    <select id="findSysOperLoggerCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM sys_oper_log
+        <where>
+            <if test="operName != null and operName != ''">operName = #{operName} </if>
+            <if test="url != null and url != ''">AND url = #{url} </if>
+            <if test="startTime != null and startTime != ''">AND = #{startTime} </if>
+            <if test="endTime != null and endTime != ''">AND endTime = #{endTime} </if>
+            <if test="success != null and success != ''">AND success = #{success} </if>
+        </where>
+    </select>
+    
+    <select id="findSingleSysOperLogger" parameterType="java.lang.String" resultType="com.ccttic.entity.OperLogger">
+        SELECT <include refid="fieldAll"/> FROM sys_oper_log
+        WHERE id = #{id}
+    </select>
 </mapper>

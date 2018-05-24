@@ -10,7 +10,7 @@ public class UserOperLogger implements Serializable {
 
     private String id; // 标识符
     private String content; // 操作内容
-    private int operType; // 0:增加;1:修改;2:删除,3查询
+    private Integer operType; // 0:增加;1:修改;2:删除,3查询
     private String operBy; // 操作人
     private String operTime; // 操作时间
     private String ipAddr; // ip地址
@@ -32,11 +32,11 @@ public class UserOperLogger implements Serializable {
         this.content = content;
     }
 
-    public int getOperType() {
+    public Integer getOperType() {
         return operType;
     }
 
-    public void setOperType(int operType) {
+    public void setOperType(Integer operType) {
         this.operType = operType;
     }
 

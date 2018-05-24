@@ -114,6 +114,7 @@ public class LoggerAspect {
             userOperLogger.setOperBy("" + zjhm);
         }
         // 设置基本信息
+        userOperLogger.setOperType(3);
         userOperLogger.setId(CommonGenerator.distributiveIDGenerator());
         userOperLogger.setIpAddr(CCtticWebUtils.getRemoteHost(request));
         userOperLogger.setOperTime(CCtticDateUtils.presentDay("yyyy-MM-dd HH:mm:ss"));

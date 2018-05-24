@@ -1,5 +1,7 @@
 package com.ccttic.gateway.servicefallback;
 
+import com.ccttic.util.common.JsonUtil;
+import com.netflix.zuul.context.RequestContext;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,9 +16,21 @@ import java.util.Map;
 
 /**
  * 说明：cqytjgpt-web-api 服务的降级数据
- * */
+ */
 @Component
 public class CqytjgptWebApiFallBack implements FallbackProvider {
+
+    public static final String WEB_API_FALL_BACK = "CqytjgptWebApiFallBack";
+
+    private static final byte[] RESULT_BYTES;
+
+    static {
+        Map<String, String> strMap = new HashMap<>();
+        strMap.put("state", "false");
+        strMap.put("error", "");
+        strMap.put("msg", "当前访问的模块不可用");
+        RESULT_BYTES = JsonUtil.objectToJson(strMap).getBytes();
+    }
 
     @Override
     public String getRoute() {
@@ -48,34 +62,15 @@ public class CqytjgptWebApiFallBack implements FallbackProvider {
 
             @Override
             public InputStream getBody() throws IOException {
-                Map<String, String> strMap = new HashMap<>();
-                strMap.put("state", "false");
-                strMap.put("error", cause.getMessage());
-                strMap.put("msg", "当前访问的模块不可用");
-                ByteArrayOutputStream byteArrayOutputStream = null;
-                ObjectOutputStream objectOutputStream = null;
-                byte[] bytes = null;
-                try {
-                    byteArrayOutputStream = new ByteArrayOutputStream();
-                    objectOutputStream = new ObjectOutputStream(new ByteArrayOutputStream());
-                    objectOutputStream.writeObject(strMap);
-                    objectOutputStream.flush();
-                    bytes = byteArrayOutputStream.toByteArray();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (byteArrayOutputStream != null)
-                        byteArrayOutputStream.close();
-                    if (objectOutputStream != null)
-                        objectOutputStream.close();
-                }
-                return new ByteArrayInputStream(bytes);
+                return new ByteArrayInputStream(RESULT_BYTES);
             }
 
             @Override
             public HttpHeaders getHeaders() {
                 HttpHeaders headers = new HttpHeaders();
                 MediaType mt = new MediaType("application", "json", Charset.forName("UTF-8"));
+                RequestContext currentContext = RequestContext.getCurrentContext();
+                currentContext.set(WEB_API_FALL_BACK, cause.getMessage());
                 headers.setContentType(mt);
                 return headers;
             }
@@ -107,34 +102,15 @@ public class CqytjgptWebApiFallBack implements FallbackProvider {
 
             @Override
             public InputStream getBody() throws IOException {
-                Map<String, String> strMap = new HashMap<>();
-                strMap.put("state", "false");
-                strMap.put("error", "");
-                strMap.put("msg", "当前访问的模块不可用");
-                ByteArrayOutputStream byteArrayOutputStream = null;
-                ObjectOutputStream objectOutputStream = null;
-                byte[] bytes = null;
-                try {
-                    byteArrayOutputStream = new ByteArrayOutputStream();
-                    objectOutputStream = new ObjectOutputStream(new ByteArrayOutputStream());
-                    objectOutputStream.writeObject(strMap);
-                    objectOutputStream.flush();
-                    bytes = byteArrayOutputStream.toByteArray();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (byteArrayOutputStream != null)
-                        byteArrayOutputStream.close();
-                    if (objectOutputStream != null)
-                        objectOutputStream.close();
-                }
-                return new ByteArrayInputStream(bytes);
+                return new ByteArrayInputStream(RESULT_BYTES);
             }
 
             @Override
             public HttpHeaders getHeaders() {
                 HttpHeaders headers = new HttpHeaders();
                 MediaType mt = new MediaType("application", "json", Charset.forName("UTF-8"));
+                RequestContext currentContext = RequestContext.getCurrentContext();
+                currentContext.set(WEB_API_FALL_BACK, "cqytjgpt-web-api 服务访问失败");
                 headers.setContentType(mt);
                 return headers;
             }

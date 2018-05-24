@@ -2,12 +2,15 @@ package com.ccttic.gateway.logger;
 
 import com.ccttic.entity.OperLogger;
 import com.ccttic.gateway.logger.storage.OperLoggerStorage;
+import com.ccttic.gateway.servicefallback.CqytjgptWebApiFallBack;
 import com.ccttic.util.common.CCtticDateUtils;
 import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.logger.aspect.LoggerAspect;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
@@ -48,6 +51,11 @@ public class RearOperLogger extends ZuulFilter {
         }
         // 设置结束时间
         logger.setEndTime(CCtticDateUtils.presentDay("yyyy-MM-dd HH:mm:ss"));
+        String back = (String) currentContext.get(CqytjgptWebApiFallBack.WEB_API_FALL_BACK);
+        if (back != null) {
+            logger.setSuccess(1);
+            logger.setAbnormity(back);
+        }
         // 放入队列
         OperLoggerStorage.addOperLoggerStorage(logger);
         return null;

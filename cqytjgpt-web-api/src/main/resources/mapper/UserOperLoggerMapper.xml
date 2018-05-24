@@ -28,4 +28,38 @@
     <delete id="delUserOperLogger" parameterType="java.lang.String">
         DELETE FROM user_oper_log WHERE id = #{id}
     </delete>
+
+    <!-- 说明：查找所有的logs -->
+    <select id="findAllUserOperLogger" parameterType="java.util.Map" resultType="com.ccttic.entity.UserOperLogger">
+        SELECT <include refid="fieldAll"/> FROM user_oper_log
+        <where>
+            <if test="content != null and content != ''">content = #{content} </if>
+            <if test="operBy != null and operBy != ''">AND operBy = #{operBy} </if>
+            <if test="operType != null and operType != ''">AND operType = #{operType} </if>
+            <if test="operTime != null and operTime != ''">AND operTime = #{operTime} </if>
+            <if test="ipAddr != null and ipAddr != ''">AND ipAddr = #{ipAddr} </if>
+            <if test="remark != null and remark != ''">AND remark = #{remark} </if>
+        </where>
+        ORDER BY operTime ASC
+        <if test="startRecod != null">
+            limit #{startRecod}, #{offset}
+        </if>
+    </select>
+
+    <!-- 说明：查找所有的logs count -->
+    <select id="findAllUserOperLoggerCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM user_oper_log
+        <where>
+            <if test="content != null and content != ''">content = #{content} </if>
+            <if test="operBy != null and operBy != ''">AND operBy = #{operBy} </if>
+            <if test="operType != null and operType != ''">AND operType = #{operType} </if>
+            <if test="operTime != null and operTime != ''">AND operTime = #{operTime} </if>
+            <if test="ipAddr != null and ipAddr != ''">AND ipAddr = #{ipAddr} </if>
+            <if test="remark != null and remark != ''">AND remark = #{remark} </if>
+        </where>
+    </select>
+    
+    <select id="findSingleUserOperLog" parameterType="java.lang.String" resultType="com.ccttic.entity.UserOperLogger">
+        SELECT <include refid="fieldAll"/> FROM user_oper_log WHERE id = #{id}
+    </select>
 </mapper>

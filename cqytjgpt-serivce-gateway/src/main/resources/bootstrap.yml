@@ -27,12 +27,3 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8090/eureka/
-
-zuul:
-  retryable: true
-  ignored-services: '*'
-  routes:
-    cqytjgpt-web-api:
-      path: /web/**
-      serviceId: cqytjgpt-web-api
-      sensitiveHeaders:

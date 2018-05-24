@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 @Transactional
 public class OperLoggerServiceImpl implements OperLoggerService {
@@ -29,5 +32,23 @@ public class OperLoggerServiceImpl implements OperLoggerService {
     public boolean isExist(String id) {
         OperLogger exist = operLoggerMapper.isExist(id);
         return exist != null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OperLogger> findSysOperLogger(Map<String, Object> params) {
+        return operLoggerMapper.findSysOperLogger(params);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer findSysOperLoggerCount(Map<String, Object> params) {
+        return operLoggerMapper.findSysOperLoggerCount(params);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OperLogger findSingleSysOperLogger(String id) {
+        return operLoggerMapper.findSingleSysOperLogger(id);
     }
 }

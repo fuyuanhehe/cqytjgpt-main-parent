@@ -35,6 +35,19 @@ mybatis:
     aggressive-lazy-loading: false
     log-prefix: dao.
 
+# 配置路由
+zuul:
+  servlet-path: /zuul
+  retryable: true
+  ignored-services: '*'   # 忽略所有的服务，必须访问配置过的路由
+  add-host-header: true
+  routes:
+    cqytjgpt-web-api:
+      path: /web/**
+      serviceId: cqytjgpt-web-api
+      sensitiveHeaders:
+
+# 设置logback.xml地址
 logging:
   config: classpath:logback.xml
 ---
