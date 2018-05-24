@@ -8,6 +8,10 @@ import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
+/**
+ * Quartz 示例程序
+ * */
+
 @Configuration
 public class QuartzConfigration {
 
