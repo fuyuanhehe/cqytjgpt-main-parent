@@ -46,7 +46,6 @@ public class LoggerAspect {
     public Object doAroundLogger(ProceedingJoinPoint joinPoint) {
         Object proceed = null;  // 返回的数据
         Method method = null;   // 执行的目标方法
-        LoggerModel loggerInfo = null;  // 注解的信息
         // 获得request
         HttpServletRequest request = getHttpServletRequest();
         try {
@@ -57,24 +56,46 @@ public class LoggerAspect {
             }
             // 获得方法对象
             method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+            // 获得用户的基本操作日志
+            UserOperLogger userOperLoggerDataInfo = getUserOperLoggerDataInfo(request);
+            // 异步保存用户日志
+            generalTestQueueExecutor.putTask(new UserOperLoggerTask(method, userOperLoggerService, userOperLoggerDataInfo));
             // 执行目标方法,如果这一句不执行，那么目标方法不会执行
             proceed = joinPoint.proceed();
-            // 获得方法和他所在类它上面的注解信息
-            loggerInfo = LoggerWorker.getLoggerInfo(method);
-            // 要保存的信息
-            UserOperLogger userOperLoggerDataInfo = getUserOperLoggerDataInfo(request, loggerInfo);
-           //  userOperLoggerService.addUserOperLogger(userOperLoggerDataInfo);
-            if (userOperLoggerDataInfo != null)
-                generalTestQueueExecutor.putTask(new UserOperLoggerTask(userOperLoggerService, userOperLoggerDataInfo));
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
         return proceed;
     }
 
-    public static UserOperLogger getUserOperLoggerDataInfo(HttpServletRequest request, LoggerModel loggerInfo) {
-        if (loggerInfo == null)
-            return null;
+    class UserOperLoggerTask implements Runnable {
+        private UserOperLoggerService userOperLoggerService;
+        private UserOperLogger userOperLogger;
+        private Method method;
+
+        public UserOperLoggerTask(Method method, UserOperLoggerService userOperLoggerService, UserOperLogger userOperLogger) {
+            this.method = method;
+            this.userOperLoggerService = userOperLoggerService;
+            this.userOperLogger = userOperLogger;
+        }
+
+        @Override
+        public void run() {
+            // 获得方法和他所在类它上面的注解信息
+            LoggerModel loggerInfo = LoggerWorker.getLoggerInfo(method);
+            if (loggerInfo != null) {
+                userOperLogger.setContent(loggerInfo.getContent());
+                userOperLogger.setRemark(loggerInfo.getRemark());
+                userOperLogger.setOperType(loggerInfo.getOperType());
+            }
+            userOperLoggerService.addUserOperLogger(userOperLogger);
+        }
+    }
+
+    /**
+     * 说明：通过request创建一个UserOperLogger
+     * */
+    public static UserOperLogger getUserOperLoggerDataInfo(HttpServletRequest request) {
         // 需要保持的UserOperLogger
         UserOperLogger userOperLogger = new UserOperLogger();
         Object user_name_token = request.getAttribute("USER_NAME_TOKEN");
@@ -82,14 +103,11 @@ public class LoggerAspect {
         if (user_name_token != null) {
             userName = String.valueOf(user_name_token);
         } else
-            userName = "未知用户";
+            userName = "游客";
         userOperLogger.setOperBy(userName);
         // 设置基本信息
         userOperLogger.setId(CommonGenerator.distributiveIDGenerator());
         userOperLogger.setIpAddr(CCtticWebUtils.getRemoteHost(request));
-        userOperLogger.setContent(loggerInfo.getContent());
-        userOperLogger.setRemark(loggerInfo.getRemark());
-        userOperLogger.setOperType(loggerInfo.getOperType());
         userOperLogger.setOperTime(CCtticDateUtils.presentDay("yyyy-MM-dd HH:mm:ss"));
         return userOperLogger;
     }
@@ -110,21 +128,6 @@ public class LoggerAspect {
 
     public void destroy() {
         generalTestQueueExecutor.destroy();
-    }
-
-    class UserOperLoggerTask implements Runnable {
-        private UserOperLoggerService userOperLoggerService;
-        private UserOperLogger userOperLogger;
-
-        public UserOperLoggerTask(UserOperLoggerService userOperLoggerService, UserOperLogger userOperLogger) {
-            this.userOperLoggerService = userOperLoggerService;
-            this.userOperLogger = userOperLogger;
-        }
-
-        @Override
-        public void run() {
-            userOperLoggerService.addUserOperLogger(userOperLogger);
-        }
     }
 
     /**

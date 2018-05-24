@@ -114,7 +114,7 @@ public class GeneralTestQueueExecutor {
         if (listenerWorkers != null && !listenerService.isShutdown()) {
             listenerService.shutdown();
             try {
-                if (listenerService.awaitTermination(60, TimeUnit.SECONDS)) {
+                if (listenerService.awaitTermination(10, TimeUnit.SECONDS)) {
                     logger.error("强制关闭listenerService");
                     listenerService.shutdownNow();
                 }
@@ -125,7 +125,7 @@ public class GeneralTestQueueExecutor {
         if (executorService != null && !executorService.isShutdown()) {
             executorService.shutdown();
             try {
-                if (executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                if (executorService.awaitTermination(10, TimeUnit.SECONDS)) {
                     logger.error("executorService");
                     executorService.shutdownNow();
                 }

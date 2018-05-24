@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+/**
+ * 说明：记录用户操作日志
+ * @author wl
+ * @date 2018年5月24日 09:45:49
+ * */
 @Aspect
 @Configuration
 public class LoggerAop {
@@ -38,10 +43,10 @@ public class LoggerAop {
     @Bean(initMethod = "start")
     public GeneralTestQueueExecutor generalTestQueueExecutor() {
         // SystemEnvironment.PROCESSOR 与CPU核心数一样的写入线程
-        // 队列中最大的任务数量为500
+        // 队列中最大的任务数量为2000
         // 两个监听消费者
         GeneralTestQueueExecutor generalTestQueueExecutor
-                = new GeneralTestQueueExecutor(SystemEnvironment.PROCESSOR, 500, 2);
+                = new GeneralTestQueueExecutor(SystemEnvironment.PROCESSOR, 2000, 2);
         return generalTestQueueExecutor;
     }
 }
