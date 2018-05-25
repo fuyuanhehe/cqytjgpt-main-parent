@@ -4,6 +4,9 @@ spring:
     port: 5672
     username: cqjxj
     password: cqjxj123
+  zipkin:
+    sender:
+      type: rabbit  # zipkin的数据发送方式，使用RabbitMQ
   http:
     encoding:
       charset: UTF-8    # 设置编码
@@ -38,14 +41,14 @@ mybatis:
 # 配置路由
 zuul:
   servlet-path: /zuul
-  retryable: true
+  retryable: true         # 开启重试
   ignored-services: '*'   # 忽略所有的服务，必须访问配置过的路由
   add-host-header: true
   routes:
     cqytjgpt-web-api:
       path: /web/**
       serviceId: cqytjgpt-web-api
-      sensitiveHeaders:
+      sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token
 
 # 手动POST刷新配置需要关闭安全策略
 management:
@@ -61,7 +64,10 @@ spring:
   sleuth:
     sampler:
       percentage: 1 # 开发环境，收集所有链路的日志
-    enabled: true
-  zipkin:
-    sender:
-      type: rabbit
+
+---
+spring:
+  profiles: prod
+  sleuth:
+    sampler:
+      percentage: 0.1 # 开发环境，收集所有链路的日志

@@ -22,12 +22,13 @@ public class OperLoggerStorage {
     // 是不是开启
     private volatile static boolean enabled = true;
 
-    // 任务队列 500
-    private static final BlockingQueue<OperLogger> taskQueue = new LinkedBlockingQueue<>(500);
+    // 任务队列 2000
+    private static final BlockingQueue<OperLogger> taskQueue = new LinkedBlockingQueue<>(2000);
 
-    // 任务队列线程池
+    // 任务队列线程池，默认为CPU核心数
     public ExecutorService executorService = null;
 
+    // 任务消费者
     private MonitorOperLoggerStorage monitorOperLoggerStorage = null;
 
     // 初始化应用
