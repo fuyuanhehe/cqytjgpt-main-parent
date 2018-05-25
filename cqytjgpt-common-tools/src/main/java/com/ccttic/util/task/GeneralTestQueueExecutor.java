@@ -4,12 +4,16 @@ import com.ccttic.util.common.SystemEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.management.relation.RoleUnresolved;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
 
+/**
+ * 说明：异步执行任务的执行器类
+ * @author wl
+ * @date 2018年5月23日 11:05:35
+ * */
 public class GeneralTestQueueExecutor {
     // 日志
     private Logger logger = LoggerFactory.getLogger(GeneralTestQueueExecutor.class);
@@ -42,17 +46,26 @@ public class GeneralTestQueueExecutor {
     private final List<ListenerWorker> listenerWorkers = new LinkedList<>();
 
     /**
+     * 说明：在com.ccttic.util.task.GeneralTestQueueExecutor.ListenerWorker中，线程随机沉睡的时间数
+     * 该字段的作用是沉睡随机时间,防止大量数据摧毁系统
+     * */
+    private int cushion = 300;
+
+    /**
      * 要启动的监听者数量
      */
     private int consumer = 1;
 
+    /**
+     * 说明：初始化构造函数
+     * */
     public GeneralTestQueueExecutor(int workerThreadNumber, int queueBorder, int consumer) {
         // 初始化
         if (workerThreadNumber < 1)
             workerThreadNumber = SystemEnvironment.PROCESSOR;
         this.executorService = Executors.newFixedThreadPool(workerThreadNumber);
         if (queueBorder < 1)
-            queueBorder = 500;
+            queueBorder = 2000;
         this.task_queue = new LinkedBlockingQueue<>(queueBorder);
         if (consumer > 1)
             this.consumer = consumer;
@@ -70,12 +83,15 @@ public class GeneralTestQueueExecutor {
         for (int i = 0; i < consumer; i++) {
             final ListenerWorker listenerWorker = new ListenerWorker();
             listenerWorker.setName("ListenerWorker-thread-" + i);
-            listenerWorker.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler(listenerWorker));
+            listenerWorker.setUncaughtExceptionHandler(new ListenerWorkerUncaughtExceptionHandler(listenerWorker));
             listenerService.execute(listenerWorker);
             listenerWorkers.add(listenerWorker);
         }
     }
 
+    /**
+     * 说明：将任务放入执行队列中，异步执行任务
+     * */
     public void putTask(Runnable runnable) {
         if (enabled) {
             try {
@@ -103,15 +119,44 @@ public class GeneralTestQueueExecutor {
     }
 
     /**
+     * 说明：监听者
+     */
+    class ListenerWorker extends Thread {
+        private Random random = new Random();
+
+        @Override
+        public void run() {
+            WrapTask wrapTask = null;
+            while (enabled && !Thread.currentThread().isInterrupted()) {
+                try {
+                    wrapTask = task_queue.take();
+                    // 沉睡随机时间,防止大量数据摧毁系统
+                    Thread.sleep(random.nextInt(cushion));
+                    executorService.execute(wrapTask);
+                    if (retryMap.get(wrapTask) != null)
+                        retryMap.remove(wrapTask);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
      * 说明：销毁资源
      */
-    public void destroy() {
+    public synchronized void destroy() {
         this.enabled = false;
         // 不在监听任务了
         synchronized (listenerWorkers) {
+            for (ListenerWorker worker : listenerWorkers) {
+                worker.interrupt();
+            }
             listenerWorkers.clear();
         }
-        if (listenerWorkers != null && !listenerService.isShutdown()) {
+        if (listenerService != null && !listenerService.isShutdown()) {
             listenerService.shutdown();
             try {
                 if (listenerService.awaitTermination(10, TimeUnit.SECONDS)) {
@@ -126,7 +171,7 @@ public class GeneralTestQueueExecutor {
             executorService.shutdown();
             try {
                 if (executorService.awaitTermination(10, TimeUnit.SECONDS)) {
-                    logger.error("executorService");
+                    logger.error("强制关闭executorService");
                     executorService.shutdownNow();
                 }
             } catch (InterruptedException e) {
@@ -136,36 +181,13 @@ public class GeneralTestQueueExecutor {
     }
 
     /**
-     * 说明：监听者
-     */
-    class ListenerWorker extends Thread {
-        private Random random = new Random();
-
-        @Override
-        public void run() {
-            WrapTask wrapTask = null;
-            while (enabled && !Thread.currentThread().isInterrupted()) {
-                try {
-                    wrapTask = task_queue.take();
-                    // 沉睡随机时间,防止大量数据摧毁系统
-                    Thread.sleep(random.nextInt(300));
-                    executorService.execute(wrapTask);
-                    if (retryMap.get(wrapTask) != null)
-                        retryMap.remove(wrapTask);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+     * 说明：ListenerWorker 异常处理类
+     * */
+    class ListenerWorkerUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         private ListenerWorker listenerWorker;
 
-        public MyUncaughtExceptionHandler(ListenerWorker listenerWorker) {
+        public ListenerWorkerUncaughtExceptionHandler(ListenerWorker listenerWorker) {
             this.listenerWorker = listenerWorker;
         }
         @Override
@@ -176,13 +198,16 @@ public class GeneralTestQueueExecutor {
                 listenerWorker.interrupt();
                 final ListenerWorker newWorker = new ListenerWorker();
                 newWorker.setName(listenerWorker.getName());
-                newWorker.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler(newWorker));
+                newWorker.setUncaughtExceptionHandler(new ListenerWorkerUncaughtExceptionHandler(newWorker));
                 listenerService.execute(newWorker);
                 listenerWorkers.add(newWorker);
             }
         }
     }
 
+    /**
+     * 说明：put进来的任务包装成WrapTask
+     * */
     class WrapTask extends Thread {
         private Runnable runnable;
 
@@ -196,6 +221,9 @@ public class GeneralTestQueueExecutor {
         }
     }
 
+    /**
+     * 说明：WrapTask异常处理类
+     * */
     class WrapTaskUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         private WrapTask wrapTask;
