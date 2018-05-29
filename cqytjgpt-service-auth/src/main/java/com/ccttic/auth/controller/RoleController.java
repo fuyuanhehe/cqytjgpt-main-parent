@@ -3,7 +3,8 @@ package com.ccttic.auth.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ import com.ccttic.auth.util.ObjectHelper;
 @RequestMapping("/ess")
 public class RoleController implements Serializable {
 	private static final long serialVersionUID = 3151609131168651231L;
-	private Logger logger = Logger.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(RoleController.class);
 	@Autowired
 	private IRoleService roleService;
 
@@ -85,10 +86,10 @@ public class RoleController implements Serializable {
 			resp.success("编辑角色成功!");
 		} catch (AppException e) {
 			resp.fail("编辑角色失败!");
-			logger.error(e);
+			logger.error("编辑角色失败!",e);
 		} catch (Exception e) {
 			resp.fail("编辑角色失败!");
-			logger.error(e);
+			logger.error("编辑角色失败!",e);
 		}
 		return resp;
 	}
@@ -107,10 +108,10 @@ public class RoleController implements Serializable {
 			resp.setData(role);
 		} catch (AppException e) {
 			resp.fail("根据角色id获取角色失败");
-			logger.error(e);
+			logger.error("根据角色id获取角色失败",e);
 		} catch (Exception e) {
 			resp.fail("根据角色id获取角色失败");
-			logger.error(e);
+			logger.error("根据角色id获取角色失败",e);
 		}
 		return resp;
 	}
@@ -128,10 +129,10 @@ public class RoleController implements Serializable {
 			resp.success("根据id删除角色成功");
 		} catch (AppException ae) {
 			resp.fail("根据id删除角色失败");
-			logger.error(ae);
+			logger.error("根据id删除角色失败",ae);
 		} catch (Exception ae) {
 			resp.fail("根据id删除角色失败");
-			logger.error(ae);
+			logger.error("根据id删除角色失败",ae);
 		}
 		return resp;
 	}

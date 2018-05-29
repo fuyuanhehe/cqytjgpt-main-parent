@@ -1,20 +1,48 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dubbo
+  datasource: # 配置数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.10.20.22:3306/quartz?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: root
-    password: axzsd110
-  rabbitmq:
-    host: 10.10.20.22
-    port: 5672
-    username: cqjxj
-    password: cqjxj123
-logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          task: DEBUG
+    password: ccttic!
+    driver-class-name: com.mysql.jdbc.Driver
+    initialization-mode: never
+    druid:
+      initial-size: 1
+      max-active: 15
+      min-idle: 1
+      validation-query: select 1
+      validation-query-timeout: 10000
+      test-on-borrow: true
+      test-while-idle: true
+      test-on-return: false
+      filters: stat,wall,log4j
+      pool-prepared-statements: true
+  quartz:
+    #相关属性配置
+     properties:
+       org:
+         quartz:
+           scheduler:
+             instanceName: clusteredScheduler
+             instanceId: AUTO
+           jobStore:
+             class: org.quartz.impl.jdbcjobstore.JobStoreTX
+             driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+             tablePrefix: QRTZ_
+             isClustered: true
+             clusterCheckinInterval: 10000
+             useProperties: false
+           threadPool:
+             class: org.quartz.simpl.SimpleThreadPool
+             threadCount: 10
+             threadPriority: 5
+             threadsInheritContextClassLoaderOfInitializingThread: true
+     #数据库方式
+     job-store-type: jdbc
+      #初始化表结构
+     jdbc:
+       initialize-schema: never
+      
 # 手动POST刷新配置需要关闭安全策略
 management:
   security:
