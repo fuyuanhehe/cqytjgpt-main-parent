@@ -1,19 +1,18 @@
-package com.ccttic.auth.service;
+package com.ccttic.service.role;
 
 
 import java.util.List;
 
-import com.ccttic.auth.common.exception.AppException;
-import com.ccttic.auth.common.page.Page;
-import com.ccttic.auth.common.page.Pageable;
-import com.ccttic.auth.model.Role;
-import com.ccttic.auth.vo.RoleMenuVo;
+import com.ccttic.entity.role.Role;
+import com.ccttic.entity.role.vo.RoleMenuVo;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.Pageable;
 
 /**
    功能说明：     角色业务接口
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.service.ess.IRoleService.java
+ @see  com.ccttic.service.role.studio.framework.service.ess.IRoleService.java
  @date  2016年12月11日
  */
 
@@ -26,7 +25,7 @@ public interface IRoleService {
 	 * @return
 	 * @throws AppException
 	 */
-	Page<Role> loadRolePages(Pageable page, Role role) throws AppException;
+	Page<Role> loadRolePages(Pageable page, Role role);
 
 	/**
 	 * 编辑角色信息
@@ -34,7 +33,7 @@ public interface IRoleService {
 	 * @return
 	 * @throws AppException
 	 */
-	boolean editRole(Role role) throws AppException;
+	boolean editRole(Role role);
 
 	/**
 	 * 通过ID获取角色信息
@@ -42,7 +41,7 @@ public interface IRoleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Role findRoleById(String id) throws AppException;
+	public Role findRoleById(String id);
 
 	/**
 	 * 通过ID删除角色信息
@@ -50,7 +49,7 @@ public interface IRoleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public boolean deleteRole(String id) throws AppException;
+	public boolean deleteRole(String id);
 	
 	/**
 	 * 查询所有角色对应的菜单

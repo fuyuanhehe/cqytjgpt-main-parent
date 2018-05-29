@@ -1,11 +1,12 @@
-package com.ccttic.auth.mapper;
+package com.ccttic.mapper.role;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ccttic.auth.model.RoleMenu;
-import com.ccttic.auth.vo.RoleMenuVo;
+import com.ccttic.entity.role.RoleMenu;
+import com.ccttic.entity.role.vo.RoleMenuVo;
+
 
 /**
    功能说明：      MyBatis角色菜单映射

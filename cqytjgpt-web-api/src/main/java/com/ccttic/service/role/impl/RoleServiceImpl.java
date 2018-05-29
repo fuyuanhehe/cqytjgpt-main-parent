@@ -1,4 +1,4 @@
-package com.ccttic.auth.service.impl;
+package com.ccttic.service.role.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,19 +9,18 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ccttic.auth.common.exception.AppException;
-import com.ccttic.auth.common.page.Page;
-import com.ccttic.auth.common.page.PageImpl;
-import com.ccttic.auth.common.page.Pageable;
-import com.ccttic.auth.mapper.RoleEmpMapper;
-import com.ccttic.auth.mapper.RoleMapper;
-import com.ccttic.auth.mapper.RoleMenuMapper;
-import com.ccttic.auth.model.Role;
-import com.ccttic.auth.model.RoleEmp;
-import com.ccttic.auth.service.IRoleService;
-import com.ccttic.auth.util.ObjectHelper;
-import com.ccttic.auth.util.RandomHelper;
-import com.ccttic.auth.vo.RoleMenuVo;
+import com.ccttic.entity.role.Role;
+import com.ccttic.entity.role.RoleEmp;
+import com.ccttic.entity.role.vo.RoleMenuVo;
+import com.ccttic.mapper.role.RoleEmpMapper;
+import com.ccttic.mapper.role.RoleMapper;
+import com.ccttic.mapper.role.RoleMenuMapper;
+import com.ccttic.service.role.IRoleService;
+import com.ccttic.util.common.ObjectHelper;
+import com.ccttic.util.common.RandomHelper;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.PageImpl;
+import com.ccttic.util.page.Pageable;
 
 /**
    功能说明：     角色业务实现类
@@ -41,7 +40,7 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Role> loadRolePages(Pageable page, Role role) throws AppException {
+	public Page<Role> loadRolePages(Pageable page, Role role)  {
 		Page<Role> pager = new PageImpl<Role>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
@@ -78,7 +77,7 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	@Transactional
-	public boolean editRole(Role role) throws AppException {
+	public boolean editRole(Role role)  {
 		if (ObjectHelper.isEmpty(role.getId())) {
 			String roleId = RandomHelper.uuid();
 			role.setId(roleId);
@@ -117,7 +116,7 @@ public class RoleServiceImpl implements IRoleService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Role findRoleById(String id) throws AppException {
+	public Role findRoleById(String id) {
 		return mapper.findRoleById(id);
 	}
 
@@ -126,7 +125,7 @@ public class RoleServiceImpl implements IRoleService {
 	 */
 	@Override
 	@Transactional
-	public boolean deleteRole(String id) throws AppException {
+	public boolean deleteRole(String id)  {
 		reMapper.deleteEmpRoleByRoleId(id);
 		rmMapper.deleteRoleMenuByRoleId(id);
 		mapper.deleteRole(id);

@@ -21,13 +21,12 @@ public class TestController {
     @Autowired
 	private AuthServiceFeign authFeign;
 
-    @Value("${name}")
-	private String name;
+
 
     @RequestMapping("/test")
     @Logger(content = "123456", remark = "test", operType = 1)
     public String getTestString() {
-        return name;
+        return "syao";
     }
     
 	@RequestMapping("/login")

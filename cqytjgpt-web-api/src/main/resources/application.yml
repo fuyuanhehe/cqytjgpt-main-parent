@@ -61,3 +61,7 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 60000      
+#全局配置    
+ribbon:
+  ReadTimeout: 30000 #请求连接超时 单位毫秒
+  ConnectTimeout: 30000 #请求处理超时 单位毫秒            
