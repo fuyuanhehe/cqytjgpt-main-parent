@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +32,7 @@ import com.ccttic.auth.util.ObjectHelper;
 @RequestMapping("/ess")
 public class PostController implements Serializable {
 	private static final long serialVersionUID = 213026144265132682L;
-	private Logger logger = Logger.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(PostController.class);
 	
 	@Autowired
 	private IPostService postService;
@@ -115,10 +116,10 @@ public class PostController implements Serializable {
 			resp.success("编辑岗位成功!");
 		} catch (AppException e) {
 			resp.fail("编辑岗位失败!");
-			logger.error(e);
+			logger.error("编辑岗位失败!",e);
 		} catch (Exception e) {
 			resp.fail("编辑岗位失败!");
-			logger.error(e);
+			logger.error("编辑岗位失败!",e);
 		}
 		return resp;
 	}
@@ -137,10 +138,10 @@ public class PostController implements Serializable {
 			resp.setData(post);
 		} catch (AppException e) {
 			resp.fail("根据id获取岗位失败!");
-			logger.error(e);
+			logger.error("编辑岗位失败!",e);
 		}catch (Exception e) {
 			resp.fail("根据id获取岗位失败!");
-			logger.error(e);
+			logger.error("编辑岗位失败!",e);
 		}
 		return resp;
 	}
@@ -159,10 +160,10 @@ public class PostController implements Serializable {
 			resp.success("根据id删除岗位成功!");
 		} catch (AppException e) {
 			resp.fail("根据id删除岗位失败!");
-			logger.error(e);
+			logger.error("编辑岗位失败!",e);
 		} catch (Exception e) {
 			resp.fail("根据id删除岗位失败!");
-			logger.error(e);
+			logger.error("编辑岗位失败!",e);
 		}
 		return resp;
 	}

@@ -3,7 +3,8 @@ package com.ccttic.auth.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,7 @@ import com.ccttic.auth.util.ObjectHelper;
 @RequestMapping("/ess")
 public class EmployeeController implements Serializable {
 	private static final long serialVersionUID = 6413857376921472315L;
-	private Logger logger = Logger.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
 	@Autowired
 	private IEmployeeService employeeService;
@@ -80,10 +81,10 @@ public class EmployeeController implements Serializable {
 			resp.setData(list);
 		} catch (AppException e) {
 			resp.fail("获取领导员失败!");
-			logger.error(e);
+			logger.error("获取领导员失败!",e);
 		} catch (Exception e) {
 			resp.fail("获取领导员失败!");
-			logger.error(e);
+			logger.error("获取领导员失败!",e);
 		}
 		return resp;
 	}
@@ -104,10 +105,10 @@ public class EmployeeController implements Serializable {
 			resp.setData(emp);
 		} catch (AppException e) {
 			resp.fail("查询人员失败!");
-			logger.error(e);
+			logger.error("查询人员失败!",e);
 		} catch (Exception e) {
 			resp.fail("查询人员失败!");
-			logger.error(e);
+			logger.error("查询人员失败!",e);
 		}
 		return resp;
 	}
@@ -127,10 +128,10 @@ public class EmployeeController implements Serializable {
 			resp.success("删除人员失败!");
 		} catch (DeleteRefusedException e) {
 			resp.fail("查询人员失败!");
-			logger.error(e);
+			logger.error("查询人员失败!",e);
 		} catch (Exception e) {
 			resp.fail("删除人员失败!");
-			logger.error(e);
+			logger.error("查询人员失败!",e);
 		}
 		return resp;
 	}
@@ -148,10 +149,10 @@ public class EmployeeController implements Serializable {
 			resp.success("新增员工成功!");
 		} catch (AppException e) {
 			resp.fail("新增人员失败!");
-			logger.error(e);
+			logger.error("新增人员失败!",e);
 		} catch (Exception e) {
 			resp.fail("新增人员失败!");
-			logger.error(e);
+			logger.error("新增人员失败!",e);
 		}
 		return resp;
 	}
@@ -170,10 +171,10 @@ public class EmployeeController implements Serializable {
 			resp.success("修改人员成功!");
 		} catch (AppException e) {
 			resp.fail("保存人员失败!");
-			logger.error(e);
+			logger.error("保存人员失败!",e);
 		} catch (Exception e) {
 			resp.fail("保存人员失败!");
-			logger.error(e);
+			logger.error("保存人员失败!",e);
 		}
 		return resp;
 	}
@@ -192,10 +193,10 @@ public class EmployeeController implements Serializable {
 			resp.success("密码设置成功!");
 		} catch (AppException e) {
 			resp.fail("密码设置失败!");
-			logger.error(e);
+			logger.error("密码设置失败!",e);
 		} catch (Exception e) {
 			resp.fail("密码设置失败!");
-			logger.error(e);
+			logger.error("密码设置失败!",e);
 		}
 		return resp;
 	}
@@ -213,10 +214,10 @@ public class EmployeeController implements Serializable {
 			resp.success("设置管理员成功!");
 		} catch (AppException e) {
 			resp.fail("创建管理员失败!");
-			logger.error(e);
+			logger.error("创建管理员失败!",e);
 		} catch (Exception e) {
 			resp.fail("创建管理员失败!");
-			logger.error(e);
+			logger.error("创建管理员失败!",e);
 		}
 		return resp;
 	}
@@ -234,10 +235,10 @@ public class EmployeeController implements Serializable {
 			resp.success("移除管理员成功!");
 		} catch (AppException e) {
 			resp.fail("移除管理员失败!");
-			logger.error(e);
+			logger.error("移除管理员失败!",e);
 		} catch (Exception e) {
 			resp.fail("移除管理员失败!");
-			logger.error(e);
+			logger.error("移除管理员失败!",e);
 		}
 		return resp;
 	}
@@ -257,10 +258,10 @@ public class EmployeeController implements Serializable {
 			resp.success("更新管理员成功!");
 		} catch (AppException e) {
 			resp.fail("新管理员失败!");
-			logger.error(e);
+			logger.error("新管理员失败!",e);
 		} catch (Exception e) {
 			resp.fail("新管理员失败!");
-			logger.error(e);
+			logger.error("新管理员失败!",e);
 		}
 		return resp;
 	}
@@ -288,10 +289,10 @@ public class EmployeeController implements Serializable {
 				}
 			} catch (AppException e) {
 				resp.fail("获取公司管理员失败!");
-				logger.error(e);
+				logger.error("获取公司管理员失败!",e);
 			} catch (Exception e) {
 				resp.fail("获取公司管理员失败!");
-				logger.error(e);
+				logger.error("获取公司管理员失败!",e);
 			}
 		}
 		return resp;

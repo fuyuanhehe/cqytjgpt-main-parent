@@ -1,12 +1,12 @@
 package com.ccttic.auth.security;
 
-import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,12 +17,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.druid.support.spring.stat.SpringStatUtils;
 import com.ccttic.auth.common.exception.AppException;
 import com.ccttic.auth.model.Employee;
 import com.ccttic.auth.model.RoleEmp;
 import com.ccttic.auth.service.IEmployeeService;
-import com.ccttic.auth.service.IRoleService;
 
 
 
@@ -33,12 +31,12 @@ import com.ccttic.auth.service.IRoleService;
 @Component
 public class DomainUserDetailsService implements UserDetailsService {
 
-	private Logger logger = Logger.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(DomainUserDetailsService.class);
 	
 	@Autowired
     private  	IEmployeeService  employeeService;
 
-
+	
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

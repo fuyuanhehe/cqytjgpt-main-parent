@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,11 +31,12 @@ import com.ccttic.auth.util.ObjectHelper;
  @date  2016年12月25日
  */
 @RestController
-@RequestMapping("/ess")
 public class AuthorizationController implements Serializable {
+	
+	private final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
+	
 	private static final long serialVersionUID = 1566894389329322104L;
 	
-	private Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
 	private IMenuService menuService;
@@ -72,10 +74,10 @@ public class AuthorizationController implements Serializable {
 			resp.success("设置权限成功!");
 		} catch (AppException ae) {
 			resp.fail("设置权限失败!");
-			logger.error(ae);
+			logger.error("设置权限失败!", ae); 
 		} catch (Exception e) {
 			resp.fail("设置权限失败!");
-			logger.error(e);
+			logger.error("设置权限失败!", e); 
 		}
 		return resp;
 	}
@@ -99,10 +101,10 @@ public class AuthorizationController implements Serializable {
 			resp.success("设置权限成功!");
 		} catch (AppException ae) {
 			resp.fail("设置权限失败!");
-			logger.error(ae);
+			logger.error("设置权限失败!", ae); 
 		} catch (Exception e) {
 			resp.fail("设置权限失败!");
-			logger.error(e);
+			logger.error("设置权限失败!", e); 
 		}
 		return resp;
 	}
@@ -123,10 +125,10 @@ public class AuthorizationController implements Serializable {
 			resp.setData(menus);
 		} catch (AppException ae) {
 			resp.fail("获取人员权限失败!");
-			logger.error(ae);
+			logger.error("获取人员权限失败!", ae); 
 		} catch (Exception e) {
 			resp.fail("获取人员权限失败!");
-			logger.error(e);
+			logger.error("获取人员权限失败!", e); 
 		}
 		return resp;
 	}
@@ -148,10 +150,10 @@ public class AuthorizationController implements Serializable {
 		} catch (AppException ae) {
 			ae.printStackTrace();
 			resp.fail("获取角色权限失败!");
-			logger.error(ae);
+			logger.error("获取角色权限失败!", ae); 
 		} catch (Exception e) {
 			resp.fail("获取角色权限失败!");
-			logger.error(e);
+			logger.error("获取角色权限失败!", e); 
 		}
 		return resp;
 	}

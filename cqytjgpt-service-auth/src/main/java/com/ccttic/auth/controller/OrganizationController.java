@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +33,8 @@ import com.ccttic.auth.util.ObjectHelper;
 @RequestMapping("/ess")
 public class OrganizationController implements Serializable {
 	private static final long serialVersionUID = 2914535047234085214L;
-	private Logger logger = Logger.getLogger(this.getClass());
+	
+	private final Logger logger = LoggerFactory.getLogger(OrganizationController.class);
 	
 	@Autowired
 	private IOrganizationService organizationService;
@@ -49,232 +51,6 @@ public class OrganizationController implements Serializable {
 		return mv;
 	}*/
 
-	/**
-	 * 任命董事长
-	 * 
-	 * @param orgCd
-	 * @param empCd
-	 * @return
-	 */
-	@RequestMapping("/assignChairman")
-	public ResponseMsg<String> assignChairman(String orgCd, String empCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.assignChairman(orgCd, empCd);
-			resp.success("任命董事长成功!");
-		} catch (AppException e) {
-			resp.fail("任命董事长失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("任命董事长失败!");
-			logger.error(e);;
-		}
-		return resp;
-	}
-
-	/**
-	 * 卸任现任董事长
-	 * 
-	 * @param orgCd
-	 * @return
-	 */
-	@RequestMapping("/removeChairman")
-	public ResponseMsg<String> removeChairman(String orgCd, String jsoncallback) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.removeChairman(orgCd);
-			resp.success("卸任董事长成功!");
-		} catch (AppException e) {
-			resp.fail("卸任董事长失败");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("卸任董事长失败");
-			logger.error(e);
-		}
-		return resp;
-
-	}
-
-	/**
-	 * 任命总经理
-	 * 
-	 * @param orgCd
-	 * @param empCd
-	 * @return
-	 */
-	@RequestMapping("/assignGeneralManager")
-	public ResponseMsg<String> assignGeneralManager(String orgCd, String empCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.assignGeneralManager(orgCd, empCd);
-			resp.success("任命总经理成功!");
-		} catch (AppException e) {
-			resp.fail("任命总经理失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("任命总经理失败!");
-			logger.error(e);
-		}
-		return resp;
-	}
-
-	/**
-	 * 卸任总经理
-	 * 
-	 * @param orgCd
-	 * @return
-	 */
-	@RequestMapping("/removeGeneralManager")
-	public ResponseMsg<String> removeGeneralManager(String orgCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.removeGeneralManager(orgCd);
-			resp.success("卸任总经理成功!");
-		} catch (AppException e) {
-			resp.fail("卸任总经理失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("卸任总经理失败!");
-			logger.error(e);
-		}
-		return resp;
-	}
-
-	/**
-	 * 任命分管领导
-	 * 
-	 * @param orgCd
-	 * @param empCd
-	 * @return
-	 */
-	@RequestMapping("/assignDeparemntLeadership")
-	public ResponseMsg<String> assignDeparemntLeadership(String orgCd, String empCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.assignDeparemntLeadership(orgCd, empCd);
-			resp.success("任命分管领导成功!");
-		} catch (AppException e) {
-			resp.fail("任命分管领导失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("任命分管领导失败!");
-			logger.error(e);
-		}
-		return resp;
-	}
-
-	/**
-	 * 卸任部门分管领导
-	 * 
-	 * @param orgCd
-	 * @return
-	 */
-	@RequestMapping("/removeDepartmentLeadership")
-	public ResponseMsg<String> removeDepartmentLeadership(String orgCd, String jsoncallback) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.removeDepartmentLeadership(orgCd);
-			resp.success("卸任分管领导成功!");
-		} catch (AppException e) {
-			resp.fail("卸任分管领导失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("卸任分管领导失败!");
-			logger.error(e);
-		}
-		return resp;
-	}
-
-	/**
-	 * 任命部门主管
-	 * 
-	 * @param orgCd
-	 * @param empCd
-	 * @return
-	 */
-	@RequestMapping("/assignDeparmentManager")
-	public ResponseMsg<String> assignDeparmentManager(String orgCd, String empCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.assignDeparmentManager(orgCd, empCd);
-			resp.success("任命主管成功!");
-		} catch (AppException e) {
-			resp.fail("任命主管失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("任命主管失败!");
-			logger.error(e);
-		}
-		return resp;
-	}
-
-	/**
-	 * 卸任部门主管
-	 * 
-	 * @param orgCd
-	 * @return
-	 */
-	@RequestMapping("/removeDepartmentManager")
-	public ResponseMsg<String> removeDepartmentManager(String orgCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.removeDepartmentManager(orgCd);
-			resp.success("卸任部门主管成功!");
-		} catch (AppException e) {
-			resp.fail("卸任部门主管失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("卸任部门主管失败!");
-			logger.error(e);
-		}
-		return resp;
-	}
-
-	/**
-	 * 任命部门副主管
-	 * 
-	 * @param orgCd
-	 * @param empCd
-	 * @return
-	 */
-	@RequestMapping("/assignDeputyManagers")
-	@ResponseBody
-	public ResponseMsg<String> assignDeputyManagers(String orgCd, String empCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.assignDeputyManagers(orgCd, empCd);
-			resp.success("任命部门副主管成功!");
-		} catch (AppException e) {
-			resp.fail("任命部门副主管失败!");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("任命部门副主管失败!");
-			logger.error(e);
-		}
-		return resp;
-	}
-
-	/**
-	 * 卸任部门副主管
-	 * 
-	 * @param orgCd
-	 * @return
-	 */
-	@RequestMapping("/removeDeputyManager")
-	public ResponseMsg<String>  removeDeputyManager(String orgCd) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
-		try {
-			organizationService.removeDeputyManager(orgCd);
-			resp.success("卸任部门副主管成功!");
-		} catch (AppException e) {
-			resp.fail("卸任部门副主管失败！");
-			logger.error(e);
-		} catch (Exception e) {
-			resp.fail("卸任部门副主管失败！");
-			logger.error(e);
-		}
-		return resp;
-	}
 
 	/**
 	 * 取得总公司
@@ -347,10 +123,10 @@ public class OrganizationController implements Serializable {
 			resp.setData(org);
 		} catch (AppException ae) {
 			resp.fail("获取机构是吧！");
-			logger.error(ae);
+			logger.error("获取机构是吧！",ae);
 		} catch (Exception e) {
 			resp.fail("获取机构是吧！");
-			logger.error(e);		
+			logger.error("获取机构是吧！",e);		
 		}
 		return resp;
 	}
@@ -371,10 +147,10 @@ public class OrganizationController implements Serializable {
 			resp.setData(org);
 		} catch (AppException e) {
 			resp.fail("创建机构失败！");
-			logger.error(e);
+			logger.error("创建机构失败！",e);
 		} catch (Exception e) {
 			resp.fail("创建机构失败！");
-			logger.error(e);	
+			logger.error("创建机构失败！",e);	
 		}
 		return resp;
 	}
@@ -395,10 +171,10 @@ public class OrganizationController implements Serializable {
 			resp.success("机构删除成功!");
 		} catch (AppException e) {
 			resp.fail("删除机构失败！");
-			logger.error(e);
+			logger.error("删除机构失败!",e);
 		} catch (Exception e) {
-			resp.fail("创删除机构失败！");
-			logger.error(e);
+			resp.fail("删除机构失败！");
+			logger.error("删除机构失败!",e);
 		}
 		return resp;
 	}
@@ -420,10 +196,10 @@ public class OrganizationController implements Serializable {
 			resp.setData(org);
 		} catch (AppException e) {
 			resp.fail("修改机构失败！");
-			logger.error(e);
+			logger.error("修改机构失败！",e);
 		}  catch (Exception e) {
 			resp.fail("修改机构失败！");
-			logger.error(e);
+			logger.error("修改机构失败！",e);
 		}
 		return resp;
 	}
@@ -454,10 +230,10 @@ public class OrganizationController implements Serializable {
 			resp.setData(orgList);
 		} catch (AppException e) {
 			resp.fail("获取下级机构失败！");
-			logger.error(e);
+			logger.error("获取下级机构失败！",e);
 		}catch (Exception e) {
 			resp.fail("获取下级机构失败！");
-			logger.error(e);
+			logger.error("获取下级机构失败！",e);
 		}
 		return resp;
 	}

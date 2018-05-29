@@ -5,7 +5,8 @@ import java.security.Security;
 
 import javax.crypto.Cipher;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  @date  2016年12月3日
  */
 public class DESHelper {
-	private Logger logger = Logger.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(DESHelper.class);
 	private static DESHelper instance;
 	//DES密钥字符串
 	private static final String strDefaultKey = "CQYTJGPT";
