@@ -1,0 +1,18 @@
+org:
+  quartz:
+    scheduler:
+      instanceName: TaxiScheduler  
+      instanceId: AUTO 
+    threadPool:
+      class: org.quartz.simpl.SimpleThreadPool
+      threadCount: 10
+      threadPriority: 5
+      threadsInheritContextClassLoaderOfInitializingThread: true
+    jobStore:
+      misfireThreshold: 60000
+      class: org.quartz.impl.jdbcjobstore.JobStoreTX
+      driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+      tablePrefix: QRTZ_
+      maxMisfiresToHandleAtATime: 10
+      isClustered: true 
+      clusterCheckinInterval: 20000
