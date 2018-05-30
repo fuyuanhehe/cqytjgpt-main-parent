@@ -2,6 +2,7 @@ package com.ccttic.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ public class TestController {
 
     @RequestMapping("/test")
     @Logger(content = "123456", remark = "test", operType = 1)
+    @PreAuthorize("hasAuthority('query-demo')")
     public String getTestString() {
         return "syao";
     }
