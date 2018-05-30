@@ -17,8 +17,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import com.ccttic.task.service.BaseTask;
-
 @Component
 public class SchedulerRuner implements ApplicationRunner,ApplicationContextAware {
 	

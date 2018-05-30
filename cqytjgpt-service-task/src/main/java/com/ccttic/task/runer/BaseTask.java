@@ -1,4 +1,4 @@
-package com.ccttic.task.service;
+package com.ccttic.task.runer;
 
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.PersistJobDataAfterExecution;
