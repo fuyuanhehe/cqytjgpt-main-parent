@@ -1,10 +1,10 @@
 package com.ccttic.util.logger.worker.impl;
 
-import com.ccttic.entity.UserOperLogger;
-import com.ccttic.util.logger.worker.UserOperLoggerService;
-
 import java.util.List;
 import java.util.Map;
+
+import com.ccttic.entity.logger.UserOperLogger;
+import com.ccttic.util.logger.worker.UserOperLoggerService;
 
 /**
  * 说明：无用的UserOperLoggerService

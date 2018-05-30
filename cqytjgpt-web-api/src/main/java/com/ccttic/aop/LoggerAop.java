@@ -1,16 +1,16 @@
 package com.ccttic.aop;
 
-import com.ccttic.util.common.SystemEnvironment;
-import com.ccttic.util.logger.aspect.LoggerAspect;
-import com.ccttic.util.logger.worker.UserOperLoggerService;
-import com.ccttic.util.task.GeneralTestQueueExecutor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+
+import com.ccttic.util.common.SystemEnvironment;
+import com.ccttic.util.logger.aspect.LoggerAspect;
+import com.ccttic.util.logger.worker.UserOperLoggerService;
+import com.ccttic.util.task.GeneralTestQueueExecutor;
 
 /**
  * 说明：记录用户操作日志

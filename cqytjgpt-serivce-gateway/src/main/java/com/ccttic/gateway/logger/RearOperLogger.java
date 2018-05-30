@@ -1,18 +1,15 @@
 package com.ccttic.gateway.logger;
 
-import com.ccttic.entity.OperLogger;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
+
+import org.springframework.stereotype.Component;
+
+import com.ccttic.entity.logger.OperLogger;
 import com.ccttic.gateway.logger.storage.OperLoggerStorage;
 import com.ccttic.gateway.servicefallback.CqytjgptWebApiFallBack;
 import com.ccttic.util.common.CCtticDateUtils;
-import com.ccttic.util.jwt.JWTUtil;
-import com.ccttic.util.logger.aspect.LoggerAspect;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletResponse;
-
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
 /**
  * 说明：后置日志操作管理（用户访问具体服务之后进行记录）

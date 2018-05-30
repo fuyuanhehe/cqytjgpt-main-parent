@@ -1,32 +1,20 @@
 package com.ccttic.gateway.logger;
 
-import com.ccttic.entity.OperLogger;
-import com.ccttic.gateway.service.OperLoggerService;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Component;
+
+import com.ccttic.entity.logger.OperLogger;
 import com.ccttic.util.common.CCtticDateUtils;
 import com.ccttic.util.common.CommonGenerator;
 import com.ccttic.util.jwt.JWTUtil;
-import com.ccttic.util.logger.aspect.LoggerAspect;
 import com.ccttic.util.web.CCtticWebUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.netflix.zuul.http.ServletInputStreamWrapper;
-import org.apache.ibatis.jdbc.SQL;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.zuul.util.ZuulRuntimeException;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StreamUtils;
-
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.sql.SQLException;
-import java.util.*;
-
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
  * 说明：前前置日志操作管理（用户访问具体服务之前进行记录）

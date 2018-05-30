@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.mapper.UserOperLoggerMapper">
+<mapper namespace="com.ccttic.mapper.logger.UserOperLoggerMapper">
     <!-- 所有的字段 -->
     <sql id="fieldAll">id, content, operType, operBy, operTime, ipAddr, remark</sql>
 
     <sql id="setFieldAll">#{id}, #{content}, #{operType}, #{operBy}, #{operTime}, #{ipAddr}, #{remark}</sql>
 
     <!-- 保存操作日志 -->
-    <insert id="addUserOperLogger" parameterType="com.ccttic.entity.UserOperLogger">
+    <insert id="addUserOperLogger" parameterType="com.ccttic.entity.logger.UserOperLogger">
         INSERT INTO user_oper_log(<include refid="fieldAll"/>)
         VALUES (<include refid="setFieldAll"/>)
     </insert>
 
     <!-- 更新操作 -->
-    <update id="renewUserOperLogger" parameterType="com.ccttic.entity.UserOperLogger">
+    <update id="renewUserOperLogger" parameterType="com.ccttic.entity.logger.UserOperLogger">
         UPDATE user_oper_log
         <set>
             <if test="content != null and content != ''">content = #{content},</if>
@@ -30,7 +30,7 @@
     </delete>
 
     <!-- 说明：查找所有的logs -->
-    <select id="findAllUserOperLogger" parameterType="java.util.Map" resultType="com.ccttic.entity.UserOperLogger">
+    <select id="findAllUserOperLogger" parameterType="java.util.Map" resultType="com.ccttic.entity.logger.UserOperLogger">
         SELECT <include refid="fieldAll"/> FROM user_oper_log
         <where>
             <if test="content != null and content != ''">content = #{content} </if>
@@ -59,7 +59,7 @@
         </where>
     </select>
     
-    <select id="findSingleUserOperLog" parameterType="java.lang.String" resultType="com.ccttic.entity.UserOperLogger">
+    <select id="findSingleUserOperLog" parameterType="java.lang.String" resultType="com.ccttic.entity.logger.UserOperLogger">
         SELECT <include refid="fieldAll"/> FROM user_oper_log WHERE id = #{id}
     </select>
 </mapper>

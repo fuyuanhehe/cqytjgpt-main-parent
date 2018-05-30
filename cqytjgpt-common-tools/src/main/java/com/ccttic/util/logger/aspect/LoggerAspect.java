@@ -1,15 +1,9 @@
 package com.ccttic.util.logger.aspect;
 
-import com.ccttic.entity.UserOperLogger;
-import com.ccttic.util.common.CCtticDateUtils;
-import com.ccttic.util.common.CommonGenerator;
-import com.ccttic.util.jwt.JWTUtil;
-import com.ccttic.util.logger.model.LoggerModel;
-import com.ccttic.util.logger.worker.impl.FutilityUserOperLoggerServiceImpl;
-import com.ccttic.util.logger.worker.LoggerWorker;
-import com.ccttic.util.logger.worker.UserOperLoggerService;
-import com.ccttic.util.task.GeneralTestQueueExecutor;
-import com.ccttic.util.web.CCtticWebUtils;
+import java.lang.reflect.Method;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
@@ -18,8 +12,16 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
+import com.ccttic.entity.logger.UserOperLogger;
+import com.ccttic.util.common.CCtticDateUtils;
+import com.ccttic.util.common.CommonGenerator;
+import com.ccttic.util.jwt.JWTUtil;
+import com.ccttic.util.logger.model.LoggerModel;
+import com.ccttic.util.logger.worker.LoggerWorker;
+import com.ccttic.util.logger.worker.UserOperLoggerService;
+import com.ccttic.util.logger.worker.impl.FutilityUserOperLoggerServiceImpl;
+import com.ccttic.util.task.GeneralTestQueueExecutor;
+import com.ccttic.util.web.CCtticWebUtils;
 
 /**
  * 说明：日志切面配置

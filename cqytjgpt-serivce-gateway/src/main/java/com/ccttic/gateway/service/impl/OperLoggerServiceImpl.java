@@ -1,14 +1,15 @@
 package com.ccttic.gateway.service.impl;
 
-import com.ccttic.entity.OperLogger;
-import com.ccttic.gateway.mapper.OperLoggerMapper;
-import com.ccttic.gateway.service.OperLoggerService;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import com.ccttic.entity.logger.OperLogger;
+import com.ccttic.gateway.mapper.OperLoggerMapper;
+import com.ccttic.gateway.service.OperLoggerService;
 
 @Service
 @Transactional
