@@ -25,8 +25,8 @@ public class CqytjgptWebApiFallBack implements FallbackProvider {
     private static final byte[] RESULT_BYTES;
 
     static {
-        Map<String, String> strMap = new HashMap<>();
-        strMap.put("state", "false");
+        Map<String, Object> strMap = new HashMap<>();
+        strMap.put("state", -1);
         strMap.put("error", "");
         strMap.put("msg", "当前访问的模块不可用");
         RESULT_BYTES = JsonUtil.objectToJson(strMap).getBytes();

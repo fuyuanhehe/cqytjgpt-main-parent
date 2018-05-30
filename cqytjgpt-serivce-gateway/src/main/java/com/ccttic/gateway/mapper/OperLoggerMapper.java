@@ -1,9 +1,9 @@
 package com.ccttic.gateway.mapper;
 
-import com.ccttic.entity.OperLogger;
-
 import java.util.List;
 import java.util.Map;
+
+import com.ccttic.entity.logger.OperLogger;
 
 /**
  *  说明：操作日志mapper

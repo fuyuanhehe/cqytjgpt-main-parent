@@ -1,11 +1,16 @@
-package com.ccttic.util.logger.worker;
+package com.ccttic.mapper.logger;
+
+
 
 import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.logger.UserOperLogger;
 
-public interface UserOperLoggerService {
+/**
+ * 说明：用户日志操作
+ * */
+public interface UserOperLoggerMapper {
     /**
      * 说明：增加UserOperLogger
      * */

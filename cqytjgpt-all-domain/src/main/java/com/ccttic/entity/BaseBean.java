@@ -31,47 +31,21 @@ public abstract class BaseBean {
 	private String createBy;
 	//创建人名称
 	private String createByNm;
-	//创建人机构编码
-	private String createOrgCd;
+	//创建人部门编码
+	private String createDepCd;
 	//创建人机构名称
-	private String createOrgCdNm;
+	private String createDepNm;
 	//修改人
 	private String updateBy;
 	//修改人名称
 	private String updateByNm;
-	//修改人机构编码
-	private String updateOrgCd;
-	//修改人机构名称
-	private String updateOrgCdNm;
-
-	/**
-	 * 
-	 */
-	public BaseBean() {
-		super();
-
-	}
+	//修改人部门编码
+	private String updateDepCd;
+	//修改人部门名称
+	private String updateDepNm;
 
 
-	public BaseBean(String id, Integer version, Boolean isDeleted, Date createTime, Date updateTime, Date deleteTime,
-			String createBy, String createByNm, String createOrgCd, String createOrgCdNm, String updateBy,
-			String updateByNm, String updateOrgCd, String updateOrgCdNm) {
-		super();
-		this.id = id;
-		this.version = version;
-		this.isDeleted = isDeleted;
-		this.createTime = createTime;
-		this.updateTime = updateTime;
-		this.deleteTime = deleteTime;
-		this.createBy = createBy;
-		this.createByNm = createByNm;
-		this.createOrgCd = createOrgCd;
-		this.createOrgCdNm = createOrgCdNm;
-		this.updateBy = updateBy;
-		this.updateByNm = updateByNm;
-		this.updateOrgCd = updateOrgCd;
-		this.updateOrgCdNm = updateOrgCdNm;
-	}
+
 
 	/**
 	 * @return the id
@@ -172,19 +146,6 @@ public abstract class BaseBean {
 		this.createBy = createBy;
 	}
 
-	/**
-	 * @return the createOrgCd
-	 */
-	public String getCreateOrgCd() {
-		return createOrgCd;
-	}
-
-	/**
-	 * @param createOrgCd the createOrgCd to set
-	 */
-	public void setCreateOrgCd(String createOrgCd) {
-		this.createOrgCd = createOrgCd;
-	}
 
 	/**
 	 * @return the updateBy
@@ -200,19 +161,6 @@ public abstract class BaseBean {
 		this.updateBy = updateBy;
 	}
 
-	/**
-	 * @return the updateOrgCd
-	 */
-	public String getUpdateOrgCd() {
-		return updateOrgCd;
-	}
-
-	/**
-	 * @param updateOrgCd the updateOrgCd to set
-	 */
-	public void setUpdateOrgCd(String updateOrgCd) {
-		this.updateOrgCd = updateOrgCd;
-	}
 
 	/**
 	 * @return the createByNm
@@ -242,31 +190,43 @@ public abstract class BaseBean {
 		this.updateByNm = updateByNm;
 	}
 
-	public String getCreateOrgCdNm() {
-		return createOrgCdNm;
-	}
 
-	public void setCreateOrgCdNm(String createOrgCdNm) {
-		this.createOrgCdNm = createOrgCdNm;
-	}
-
-	public String getUpdateOrgCdNm() {
-		return updateOrgCdNm;
-	}
-
-	public void setUpdateOrgCdNm(String updateOrgCdNm) {
-		this.updateOrgCdNm = updateOrgCdNm;
-	}
-
-	@Override
-	public String toString() {
-		return "BaseBean [id=" + id + ", version=" + version + ", isDeleted=" + isDeleted + ", createTime=" + createTime
-				+ ", updateTime=" + updateTime + ", deleteTime=" + deleteTime + ", createBy=" + createBy
-				+ ", createByNm=" + createByNm + ", createOrgCd=" + createOrgCd + ", createOrgCdNm=" + createOrgCdNm
-				+ ", updateBy=" + updateBy + ", updateByNm=" + updateByNm + ", updateOrgCd=" + updateOrgCd
-				+ ", updateOrgCdNm=" + updateOrgCdNm + "]";
+	public String getCreateDepCd() {
+		return createDepCd;
 	}
 
 
+	public void setCreateDepCd(String createDepCd) {
+		this.createDepCd = createDepCd;
+	}
 
+
+	public String getCreateDepNm() {
+		return createDepNm;
+	}
+
+
+	public void setCreateDepNm(String createDepNm) {
+		this.createDepNm = createDepNm;
+	}
+
+
+	public String getUpdateDepCd() {
+		return updateDepCd;
+	}
+
+
+	public void setUpdateDepCd(String updateDepCd) {
+		this.updateDepCd = updateDepCd;
+	}
+
+
+	public String getUpdateDepNm() {
+		return updateDepNm;
+	}
+
+
+	public void setUpdateDepNm(String updateDepNm) {
+		this.updateDepNm = updateDepNm;
+	}
 }

@@ -1,16 +1,22 @@
 package com.ccttic.gateway.logger.storage;
 
-import com.ccttic.entity.OperLogger;
-import com.ccttic.gateway.service.OperLoggerService;
-import com.ccttic.util.common.SystemEnvironment;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.util.concurrent.*;
+import com.ccttic.entity.logger.OperLogger;
+import com.ccttic.gateway.service.OperLoggerService;
+import com.ccttic.util.common.SystemEnvironment;
 
 @Component
 public class OperLoggerStorage {
