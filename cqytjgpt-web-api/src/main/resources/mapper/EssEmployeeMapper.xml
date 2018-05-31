@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.mapper.employee.EssEmployeeMapper">
-  <resultMap id="BaseResultMap" type="com.rls.rm.batch.domain.entity.EssEmployee">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.employee.EssEmployee">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="empCd" jdbcType="VARCHAR" property="empcd" />
     <result column="empNm" jdbcType="VARCHAR" property="empnm" />
@@ -89,7 +89,7 @@
     password, empStatus, empType, version, isDeleted, createTime, updateTime, deleteTime, 
     createBy, createDepCd, updateBy, updateDepCd
   </sql>
-  <select id="selectByExample" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ccttic.entity.employee.EssEmployeeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -113,13 +113,13 @@
     delete from ess_employee
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeExample">
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.employee.EssEmployeeExample">
     delete from ess_employee
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.rls.rm.batch.domain.entity.EssEmployee">
+  <insert id="insert" parameterType="com.ccttic.entity.employee.EssEmployee">
     insert into ess_employee (id, empCd, empNm, 
       empNo, duty, empGender, 
       phone, mobile, entryDate, 
@@ -137,7 +137,7 @@
       #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
       #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rls.rm.batch.domain.entity.EssEmployee">
+  <insert id="insertSelective" parameterType="com.ccttic.entity.employee.EssEmployee">
     insert into ess_employee
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -282,7 +282,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ccttic.entity.employee.EssEmployeeExample" resultType="java.lang.Long">
     select count(*) from ess_employee
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -394,7 +394,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rls.rm.batch.domain.entity.EssEmployee">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.employee.EssEmployee">
     update ess_employee
     <set>
       <if test="empcd != null">
@@ -466,7 +466,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rls.rm.batch.domain.entity.EssEmployee">
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.employee.EssEmployee">
     update ess_employee
     set empCd = #{empcd,jdbcType=VARCHAR},
       empNm = #{empnm,jdbcType=VARCHAR},

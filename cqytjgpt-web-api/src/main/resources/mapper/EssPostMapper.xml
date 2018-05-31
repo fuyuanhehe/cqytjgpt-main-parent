@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.mapper.post.EssPostMapper">
-  <resultMap id="BaseResultMap" type="com.rls.rm.batch.domain.entity.EssPost">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.post.EssPost">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
     <result column="postType" jdbcType="VARCHAR" property="posttype" />
@@ -81,7 +81,7 @@
     id, org_id, postType, postCd, description, postNm, isDefault, version, isDeleted, 
     createTime, updateTime, deleteTime, createBy, createDepCd, updateBy, updateDepCd
   </sql>
-  <select id="selectByExample" parameterType="com.rls.rm.batch.domain.entity.EssPostExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ccttic.entity.post.EssPostExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -105,13 +105,13 @@
     delete from ess_post
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.rls.rm.batch.domain.entity.EssPostExample">
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.post.EssPostExample">
     delete from ess_post
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+  <insert id="insert" parameterType="com.ccttic.entity.post.EssPost">
     insert into ess_post (id, org_id, postType, 
       postCd, description, postNm, 
       isDefault, version, isDeleted, 
@@ -125,7 +125,7 @@
       #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR}, 
       #{updatedepcd,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+  <insert id="insertSelective" parameterType="com.ccttic.entity.post.EssPost">
     insert into ess_post
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -228,7 +228,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.rls.rm.batch.domain.entity.EssPostExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ccttic.entity.post.EssPostExample" resultType="java.lang.Long">
     select count(*) from ess_post
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -312,7 +312,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.post.EssPost">
     update ess_post
     <set>
       <if test="orgId != null">
@@ -363,7 +363,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.post.EssPost">
     update ess_post
     set org_id = #{orgId,jdbcType=VARCHAR},
       postType = #{posttype,jdbcType=VARCHAR},

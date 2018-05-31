@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.mapper.employee.EssEmployeeMenuMapper">
-  <resultMap id="BaseResultMap" type="com.rls.rm.batch.domain.entity.EssEmployeeMenu">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.employee.EssEmployeeMenu">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="emp_id" jdbcType="VARCHAR" property="empId" />
@@ -68,7 +68,7 @@
   <sql id="Base_Column_List">
     id, version, emp_id, menu_id
   </sql>
-  <select id="selectByExample" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeMenuExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ccttic.entity.employee.EssEmployeeMenuExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -92,19 +92,19 @@
     delete from ess_employee_menu
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeMenuExample">
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.employee.EssEmployeeMenuExample">
     delete from ess_employee_menu
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeMenu">
+  <insert id="insert" parameterType="com.ccttic.entity.employee.EssEmployeeMenu">
     insert into ess_employee_menu (id, version, emp_id, 
       menu_id)
     values (#{id,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{empId,jdbcType=VARCHAR}, 
       #{menuId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeMenu">
+  <insert id="insertSelective" parameterType="com.ccttic.entity.employee.EssEmployeeMenu">
     insert into ess_employee_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -135,7 +135,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeMenuExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ccttic.entity.employee.EssEmployeeMenuExample" resultType="java.lang.Long">
     select count(*) from ess_employee_menu
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -171,7 +171,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeMenu">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.employee.EssEmployeeMenu">
     update ess_employee_menu
     <set>
       <if test="version != null">
@@ -186,7 +186,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rls.rm.batch.domain.entity.EssEmployeeMenu">
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.employee.EssEmployeeMenu">
     update ess_employee_menu
     set version = #{version,jdbcType=INTEGER},
       emp_id = #{empId,jdbcType=VARCHAR},
