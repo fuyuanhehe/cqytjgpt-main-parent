@@ -1,10 +1,10 @@
 package com.ccttic.util.logger.worker;
 
-import com.ccttic.util.logger.annotation.Logger;
-import com.ccttic.util.logger.model.LoggerModel;
-
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.ccttic.util.logger.annotation.OperLogging;
+import com.ccttic.util.logger.model.LoggerModel;
 
 public class LoggerWorker {
     // 缓存
@@ -14,7 +14,7 @@ public class LoggerWorker {
      * 说明：判断类上面有没有全局的日志记录
      * */
     public static boolean isClassLogger(Class<?> cls) {
-        Logger annotation = cls.getAnnotation(Logger.class);
+    	OperLogging annotation = cls.getAnnotation(OperLogging.class);
         return annotation != null;
     }
 
@@ -22,7 +22,7 @@ public class LoggerWorker {
      * 说明：判断方法需不需要日志记录
      * */
     public static boolean isMethodLogger(Method method) {
-        Logger annotation = method.getAnnotation(Logger.class);
+    	OperLogging annotation = method.getAnnotation(OperLogging.class);
         return annotation != null;
     }
 
@@ -39,7 +39,7 @@ public class LoggerWorker {
         if (isClassLogger(declaringClass)) {
             model = new LoggerModel();
             // 获得他所在类的注解
-            Logger classAnnotation = declaringClass.getAnnotation(Logger.class);
+            OperLogging classAnnotation = declaringClass.getAnnotation(OperLogging.class);
             // 设置内容
             if (classAnnotation.content() != null && classAnnotation.content().length() != 0)
                 model.setContent(classAnnotation.content());
@@ -53,7 +53,7 @@ public class LoggerWorker {
         if (!isMethodLogger(method))
             return model;
         // 获得方法上的注解
-        Logger methodAnnotation = method.getAnnotation(Logger.class);
+        OperLogging methodAnnotation = method.getAnnotation(OperLogging.class);
         if (model == null)
             model = new LoggerModel();
         // 设置内容

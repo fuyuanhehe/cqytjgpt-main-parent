@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.common.beans.ResponseMsg;
 import com.ccttic.entity.logger.UserOperLogger;
+import com.ccttic.util.logger.annotation.OperLogging;
 import com.ccttic.util.logger.worker.UserOperLoggerService;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.PageRequest;
 
 @RestController
-@RequestMapping("/log/user")
+@RequestMapping("/operlog")
 public class UserOperLoggerController {
 
     private Logger logger = LoggerFactory.getLogger(UserOperLoggerController.class);
@@ -24,53 +28,36 @@ public class UserOperLoggerController {
     private UserOperLoggerService userOperLoggerService;
 
     @GetMapping("/multi")
-    public Map<String, Object> findOperLogger(UserOperLogger userOperLogger, Integer startRecod, Integer offset) {
-        Map<String, Object> reMap = new HashMap<>();
-        Map<String, Object> params = new HashMap<>();
+    @OperLogging(content="分页查询用户操作日志")
+    public ResponseMsg<List<UserOperLogger>> findOperLogger(UserOperLogger userOperLogger, PageRequest page) {
+        ResponseMsg<List<UserOperLogger>> resp = new ResponseMsg<List<UserOperLogger>>();
         try {
-            if (startRecod != null && startRecod > 0) {
-                if (offset == null)
-                    offset = Integer.valueOf(10);
-                params.put("startRecod", Integer.valueOf(startRecod - 1) * offset);
-                params.put("offset", offset);
-            }
-            if (userOperLogger != null) {
-                params.put("operType", userOperLogger.getOperType());
-                params.put("operBy", userOperLogger.getOperBy());
-                params.put("content", userOperLogger.getContent());
-                params.put("operTime", userOperLogger.getOperTime());
-                params.put("ipAddr", userOperLogger.getIpAddr());
-                params.put("remark", userOperLogger.getRemark());
-            }
-            List<UserOperLogger> allUserOperLogger = userOperLoggerService.findAllUserOperLogger(params);
-            Integer userOperLoggerCount = userOperLoggerService.findAllUserOperLoggerCount(params);
-            reMap.put("data", allUserOperLogger);
-            reMap.put("size", userOperLoggerCount);
-            reMap.put("state", true);
-            reMap.put("msg", "查询成功");
+        	Page<UserOperLogger> pagedLogger = userOperLoggerService.findAllUserOperLogger(userOperLogger,page);
+        	resp.success("分页查询用户操作日志成功");
+        	resp.setData(pagedLogger.getRecords());
+        	resp.setTotal(pagedLogger.getTotalRows().intValue());
         } catch (Exception e) {
             logger.error("{}出现异常：{}", UserOperLoggerController.class.getSimpleName(), e.getMessage());
-            reMap.put("state", false);
-            reMap.put("msg", e.getMessage());
+            resp.fail("分页查询用户操作日志失败");
         }
-        return reMap;
+        return resp;
     }
 
     @GetMapping("/single")
-    public Map<String, Object> findOperLogger(String id) {
+    @OperLogging(content="根据ID查询用户操作日志")
+    public ResponseMsg<UserOperLogger> findOperLogger(String id) {
+    	ResponseMsg<UserOperLogger> resp = new ResponseMsg<UserOperLogger>();
         Map<String, Object> reMap = new HashMap<>();
         try {
             if (id == null || id.trim().length() == 0)
                 throw new NullPointerException("ID不能为空");
             UserOperLogger singleUserOperLog = userOperLoggerService.findSingleUserOperLog(id);
-            reMap.put("data", singleUserOperLog);
-            reMap.put("state", true);
-            reMap.put("msg", "查询成功");
+            resp.success("根据ID查询用户操作日志成功");
+            resp.setData(singleUserOperLog);
         } catch (Exception e) {
             logger.error("{}出现异常：{}", UserOperLoggerController.class.getSimpleName(), e.getMessage());
-            reMap.put("state", false);
-            reMap.put("msg", e.getMessage());
+            resp.fail("根据ID查询用户操作日志失败");
         }
-        return reMap;
+        return resp;
     }
 }

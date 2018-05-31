@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.service.TestService;
 import com.ccttic.util.auth.AuthServiceFeign;
-import com.ccttic.util.logger.annotation.Logger;
+import com.ccttic.util.logger.annotation.OperLogging;
 
 @RestController
 @RefreshScope
@@ -24,7 +24,7 @@ public class TestController {
 
 
     @RequestMapping("/test")
-    @Logger(content = "123456", remark = "test", operType = 1)
+    @OperLogging(content = "123456", remark = "test", operType = 1)
     @PreAuthorize("hasAuthority('query-demo')")
     public String getTestString() {
         return "syao";

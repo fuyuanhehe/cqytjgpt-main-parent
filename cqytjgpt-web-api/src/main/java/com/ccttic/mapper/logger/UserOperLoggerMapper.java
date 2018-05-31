@@ -38,7 +38,7 @@ public interface UserOperLoggerMapper {
      * 说明：查询所有的参数
      * map keys：【operName：操作者，url：访问的URL，startTime：开始时间，endTime：结束时间，success：是否成功】
      * */
-    Integer findAllUserOperLoggerCount(Map<String, Object> params);
+    Long findAllUserOperLoggerCount(Map<String, Object> params);
 
     /**
      * 说明：查找单个日志
