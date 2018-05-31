@@ -1,7 +1,11 @@
 package com.ccttic.util.common;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import net.sf.json.JSONArray;
 
 /**
    功能说明：     常用工具类
@@ -71,4 +75,51 @@ public class ObjectHelper {
 		return !isEmpty(obj);
 	}
 
+	/**
+	 * 将list转换成json 
+	 * @param list
+	 * @return
+	 */
+	public static String objectToJson(List<?> list) {
+		JSONArray json = JSONArray.fromObject(list);
+		String temp = json.toString();
+		return temp;
+	}
+
+	/**
+	 * 将set转换成json
+	 * @param set
+	 * @return
+	 */
+	public static String objectToJson(Set<?> set) {
+		JSONArray json = JSONArray.fromObject(set);
+		String temp = json.toString();
+		return temp;
+	}
+
+	/**
+	 * 将Map转换成json
+	 * @param map
+	 * @return
+	 */
+	public static String objectToJson(Map<?, ?> map) {
+		JSONArray json = JSONArray.fromObject(map);
+		String res = "";
+		res = json.get(0).toString();
+		return res;
+	}
+
+	/**
+	 * 将对象转换成json
+	 * @param obj
+	 * @return
+	 */
+	public static String objectToJson(Object obj) {
+		JSONArray json = JSONArray.fromObject(obj);
+		String res = "";
+		if (json.size() != 0) {
+			res = json.get(0).toString();
+		}
+		return res;
+	}
 }
