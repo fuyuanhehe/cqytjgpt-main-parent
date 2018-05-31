@@ -1,6 +1,6 @@
 package com.ccttic.service.logger.impl;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ccttic.entity.logger.UserOperLogger;
 import com.ccttic.mapper.logger.UserOperLoggerMapper;
 import com.ccttic.util.logger.worker.UserOperLoggerService;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.PageImpl;
+import com.ccttic.util.page.Pageable;
 
 
 @Service
@@ -36,13 +39,25 @@ public class UserOperLoggerServiceImpl implements UserOperLoggerService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserOperLogger> findAllUserOperLogger(Map<String, Object> params) {
-        return userOperLoggerMapper.findAllUserOperLogger(params);
+    public Page<UserOperLogger> findAllUserOperLogger(UserOperLogger userOperLogger, Pageable page) {
+    	Page<UserOperLogger> pager = new PageImpl<UserOperLogger>(page);
+    	Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+        params.put("operType", userOperLogger.getOperType());
+        params.put("operBy", userOperLogger.getOperBy());
+        params.put("content", userOperLogger.getContent());
+        params.put("operTime", userOperLogger.getOperTime());
+        params.put("ipAddr", userOperLogger.getIpAddr());
+        params.put("remark", userOperLogger.getRemark());
+		pager.setTotalRows(userOperLoggerMapper.findAllUserOperLoggerCount(params));
+		pager.setRecords(userOperLoggerMapper.findAllUserOperLogger(params));
+        return pager;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Integer findAllUserOperLoggerCount(Map<String, Object> params) {
+    public Long findAllUserOperLoggerCount(Map<String, Object> params) {
         return userOperLoggerMapper.findAllUserOperLoggerCount(params);
     }
 

@@ -17,9 +17,7 @@
 		<result property="password" column="password" javaType="java.lang.String"></result>
 		<result property="empStatus" column="empStatus" javaType="java.lang.String"></result>
 		<result property="empType" column="empType" javaType="java.lang.String"></result>
-		<result property="orgId" column="orgId" javaType="java.lang.String"></result>
-		<result property="orgCd" column="orgCd" javaType="java.lang.String"></result>
-		<result property="orgNm" column="orgNm" javaType="java.lang.String"></result>
+
 	</resultMap>
 	<!-- 分页查询人员 -->
 	<select id="pagerEmployee" parameterType="java.util.Map" resultMap="empMap">
@@ -105,7 +103,7 @@
 	</select>
 	<!-- 通过人员account获取人员信息-->
 	<select id="findEmployeeByAccount" parameterType="java.lang.String" resultMap="empMap">
-		select emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp left join ess_organization org on emp.org_id = org.id where  emp.account=#{account} and (emp.isDeleted = 0 or emp.isDeleted is null)
+		select emp.* from ess_employee emp  where  emp.account=#{account} and (emp.isDeleted = 0 or emp.isDeleted is null)
 	</select>
 	<!-- 通过人员编号获取人员信息 -->
 	<select id="findEmployeeByEmpCd" parameterType="java.lang.String" resultMap="empMap">

@@ -37,6 +37,13 @@ eureka:
     healthcheck:
       enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
 
+security:
+  oauth2:
+    resource:
+      id: cqytjgpt-web-api
+      user-info-uri: http://localhost:10001/user
+      prefer-token-info: false       
+
 # 手动POST刷新配置需要关闭安全策略
 management:
   security:
@@ -65,3 +72,5 @@ hystrix:
 ribbon:
   ReadTimeout: 30000 #请求连接超时 单位毫秒
   ConnectTimeout: 30000 #请求处理超时 单位毫秒            
+  
+ 

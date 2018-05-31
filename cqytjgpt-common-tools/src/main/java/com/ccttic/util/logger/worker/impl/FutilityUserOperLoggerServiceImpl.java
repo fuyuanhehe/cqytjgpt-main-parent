@@ -1,10 +1,11 @@
 package com.ccttic.util.logger.worker.impl;
 
-import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.logger.UserOperLogger;
 import com.ccttic.util.logger.worker.UserOperLoggerService;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.Pageable;
 
 /**
  * 说明：无用的UserOperLoggerService
@@ -26,12 +27,12 @@ public class FutilityUserOperLoggerServiceImpl implements UserOperLoggerService 
     }
 
     @Override
-    public List<UserOperLogger> findAllUserOperLogger(Map<String, Object> params) {
+    public Page<UserOperLogger> findAllUserOperLogger(UserOperLogger logger, Pageable page) {
         throw new RuntimeException("配置错误，你必须实现 com.ccttic.util.logger.worker.UserOperLoggerService 让后将他注入给我");
     }
 
     @Override
-    public Integer findAllUserOperLoggerCount(Map<String, Object> params) {
+    public Long findAllUserOperLoggerCount(Map<String, Object> params) {
         throw new RuntimeException("配置错误，你必须实现 com.ccttic.util.logger.worker.UserOperLoggerService 让后将他注入给我");
     }
 

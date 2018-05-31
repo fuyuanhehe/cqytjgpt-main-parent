@@ -68,14 +68,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("client_1")
+//                .resourceIds("YD")
                 .scopes("ccttic1")
                 .secret("123456")
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+                
             .and()
                 .withClient("client_2")
+//                .resourceIds("YD")
                 .scopes("ccttic2")
                 .secret("123456")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token");
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token","client_credentials");
     	
 
         
@@ -93,7 +96,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setReuseRefreshToken(false);
-        tokenServices.setAccessTokenValiditySeconds(60*60*2); // token有效期自定义设置，默认12小时
+        tokenServices.setAccessTokenValiditySeconds(60*10); // token有效期自定义设置，默认12小时
         tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 30);//默认30天，这里修改
         tokenServices.setTokenEnhancer(accessTokenConverter());
         return tokenServices;

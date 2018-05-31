@@ -42,7 +42,7 @@
         </where>
         ORDER BY operTime ASC
         <if test="startRecod != null">
-            limit #{startRecod}, #{offset}
+            limit #{startRecord}, #{pageSize}
         </if>
     </select>
 
