@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.mapper.post.EssPostMapper">
+  <resultMap id="BaseResultMap" type="com.rls.rm.batch.domain.entity.EssPost">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="postType" jdbcType="VARCHAR" property="posttype" />
+    <result column="postCd" jdbcType="VARCHAR" property="postcd" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="postNm" jdbcType="VARCHAR" property="postnm" />
+    <result column="isDefault" jdbcType="BIT" property="isdefault" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="isDeleted" jdbcType="BIT" property="isdeleted" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime" />
+    <result column="createBy" jdbcType="VARCHAR" property="createby" />
+    <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd" />
+    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
+    <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, org_id, postType, postCd, description, postNm, isDefault, version, isDeleted, 
+    createTime, updateTime, deleteTime, createBy, createDepCd, updateBy, updateDepCd
+  </sql>
+  <select id="selectByExample" parameterType="com.rls.rm.batch.domain.entity.EssPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ess_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ess_post
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ess_post
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rls.rm.batch.domain.entity.EssPostExample">
+    delete from ess_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+    insert into ess_post (id, org_id, postType, 
+      postCd, description, postNm, 
+      isDefault, version, isDeleted, 
+      createTime, updateTime, deleteTime, 
+      createBy, createDepCd, updateBy, 
+      updateDepCd)
+    values (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{posttype,jdbcType=VARCHAR}, 
+      #{postcd,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{postnm,jdbcType=VARCHAR}, 
+      #{isdefault,jdbcType=BIT}, #{version,jdbcType=INTEGER}, #{isdeleted,jdbcType=BIT}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{deletetime,jdbcType=TIMESTAMP}, 
+      #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR}, 
+      #{updatedepcd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+    insert into ess_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="posttype != null">
+        postType,
+      </if>
+      <if test="postcd != null">
+        postCd,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="postnm != null">
+        postNm,
+      </if>
+      <if test="isdefault != null">
+        isDefault,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="isdeleted != null">
+        isDeleted,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="deletetime != null">
+        deleteTime,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="createdepcd != null">
+        createDepCd,
+      </if>
+      <if test="updateby != null">
+        updateBy,
+      </if>
+      <if test="updatedepcd != null">
+        updateDepCd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="posttype != null">
+        #{posttype,jdbcType=VARCHAR},
+      </if>
+      <if test="postcd != null">
+        #{postcd,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="postnm != null">
+        #{postnm,jdbcType=VARCHAR},
+      </if>
+      <if test="isdefault != null">
+        #{isdefault,jdbcType=BIT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        #{isdeleted,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletetime != null">
+        #{deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdepcd != null">
+        #{createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedepcd != null">
+        #{updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.rls.rm.batch.domain.entity.EssPostExample" resultType="java.lang.Long">
+    select count(*) from ess_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ess_post
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posttype != null">
+        postType = #{record.posttype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcd != null">
+        postCd = #{record.postcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postnm != null">
+        postNm = #{record.postnm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdefault != null">
+        isDefault = #{record.isdefault,jdbcType=BIT},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdeleted != null">
+        isDeleted = #{record.isdeleted,jdbcType=BIT},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deletetime != null">
+        deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        createBy = #{record.createby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdepcd != null">
+        createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateby != null">
+        updateBy = #{record.updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedepcd != null">
+        updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ess_post
+    set id = #{record.id,jdbcType=VARCHAR},
+      org_id = #{record.orgId,jdbcType=VARCHAR},
+      postType = #{record.posttype,jdbcType=VARCHAR},
+      postCd = #{record.postcd,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      postNm = #{record.postnm,jdbcType=VARCHAR},
+      isDefault = #{record.isdefault,jdbcType=BIT},
+      version = #{record.version,jdbcType=INTEGER},
+      isDeleted = #{record.isdeleted,jdbcType=BIT},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
+      createBy = #{record.createby,jdbcType=VARCHAR},
+      createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
+      updateBy = #{record.updateby,jdbcType=VARCHAR},
+      updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+    update ess_post
+    <set>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="posttype != null">
+        postType = #{posttype,jdbcType=VARCHAR},
+      </if>
+      <if test="postcd != null">
+        postCd = #{postcd,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="postnm != null">
+        postNm = #{postnm,jdbcType=VARCHAR},
+      </if>
+      <if test="isdefault != null">
+        isDefault = #{isdefault,jdbcType=BIT},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        isDeleted = #{isdeleted,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletetime != null">
+        deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdepcd != null">
+        createDepCd = #{createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        updateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedepcd != null">
+        updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rls.rm.batch.domain.entity.EssPost">
+    update ess_post
+    set org_id = #{orgId,jdbcType=VARCHAR},
+      postType = #{posttype,jdbcType=VARCHAR},
+      postCd = #{postcd,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      postNm = #{postnm,jdbcType=VARCHAR},
+      isDefault = #{isdefault,jdbcType=BIT},
+      version = #{version,jdbcType=INTEGER},
+      isDeleted = #{isdeleted,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=VARCHAR},
+      createDepCd = #{createdepcd,jdbcType=VARCHAR},
+      updateBy = #{updateby,jdbcType=VARCHAR},
+      updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
