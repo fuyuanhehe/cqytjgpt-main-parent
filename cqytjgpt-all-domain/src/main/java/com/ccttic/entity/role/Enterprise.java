@@ -13,7 +13,7 @@ public class Enterprise implements Serializable{
 	// id 
 	private String id;
 	// 所属机构Id
-	private String org_id;
+	private String orgId;
 	// 企业编码
 	private String etpCd;
 	// 企业名称
@@ -32,16 +32,18 @@ public class Enterprise implements Serializable{
 	private String ownerTraffic;
 	// 所属运管所
 	private String ownerTransport;
+	// 显示顺序
+	private int dispOrder;
 	
 	public Enterprise() {
 		super();
 	}
 
-	public Enterprise(String id, String org_id, String etpCd, String etpNm, String etpshortNm, String etpLawer,
+	public Enterprise(String id, String orgId, String etpCd, String etpNm, String etpshortNm, String etpLawer,
 			String lawerTel, String etpSafer, String saferTel, String ownerTraffic, String ownerTransport) {
 		super();
 		this.id = id;
-		this.org_id = org_id;
+		this.orgId = orgId;
 		this.etpCd = etpCd;
 		this.etpNm = etpNm;
 		this.etpshortNm = etpshortNm;
@@ -61,12 +63,12 @@ public class Enterprise implements Serializable{
 		this.id = id;
 	}
 
-	public String getOrg_id() {
-		return org_id;
+	public String getOrgId() {
+		return orgId;
 	}
 
-	public void setOrg_id(String org_id) {
-		this.org_id = org_id;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
 	public String getEtpCd() {
@@ -143,7 +145,7 @@ public class Enterprise implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Enterprise [org_id=" + org_id + ", etpCd=" + etpCd + ", etpNm=" + etpNm + ", etpshortNm=" + etpshortNm
+		return "Enterprise [orgId=" + orgId + ", etpCd=" + etpCd + ", etpNm=" + etpNm + ", etpshortNm=" + etpshortNm
 				+ ", etpLawer=" + etpLawer+ ", lawerTel=" + lawerTel+ ", etpSafer=" + etpSafer
 				+ ", saferTel=" + saferTel+ ", ownerTraffic=" + ownerTraffic+ ", ownerTransport=" + ownerTransport +", id=" + id + "]";
 	}
