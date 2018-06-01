@@ -1,5 +1,6 @@
 package com.ccttic.service.role.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.RoleEmp;
+import com.ccttic.entity.role.Role_Emp;
+import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.RoleMenuVo;
+
 import com.ccttic.mapper.role.RoleEmpMapper;
 import com.ccttic.mapper.role.RoleMapper;
 import com.ccttic.mapper.role.RoleMenuMapper;
 import com.ccttic.service.role.IRoleService;
+
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
@@ -37,6 +42,7 @@ public class RoleServiceImpl implements IRoleService {
 	private RoleEmpMapper reMapper;
 	@Resource
 	private RoleMenuMapper rmMapper;
+
 
 	@Override
 	@Transactional(readOnly = true)
@@ -137,5 +143,73 @@ public class RoleServiceImpl implements IRoleService {
 	public List<RoleMenuVo> findAllRoleMeun() {
 		return rmMapper.findRoleAllResources();
 	}
+
+	@Override
+
+	public void addRole_Emp(List<Role_Emp> role) {
+
+		mapper.addRoleEmp(role);
+
+	}
+
+	@Override
+
+	public void addRoless(Roles rolty) {
+
+		mapper.addRoless(rolty);
+
+	}
+
+	@Override
+	public Page<Roles> seAllRole(Pageable page,Roles roles) {
+		Page<Roles> pager = new PageImpl<Roles>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());		
+		params.put("roleNm", roles.getRoleNm());
+		params.put("roleId", roles.getRoleId());
+		long totolRols = mapper.seRoleCount(params);
+		List<Roles> records = mapper.seRoleAll(params);
+		
+		
+		pager.setTotalRows(totolRols);
+		pager.setRecords(records);
+		return pager;
+
+
+	}
+
+	@Override
+	@Transactional
+	public void updateEssRole(Roles roles) {
+		//角色ID
+		String role_id = roles.getRoleId();
+		//删除关联
+		mapper.deleteEssRoleById(role_id);
+		//修改角色信息
+		mapper.updateRoleById(roles);
+
+		List<Role_Emp> roless = new ArrayList<Role_Emp>(); 
+
+		//员工ID
+		String str = roles.getEmp_id();
+			
+		String[] strs=str.split(",");
+        //修改角色员工关联
+		for(int i =0 ; i<strs.length; i++) {	
+			Role_Emp emp = new Role_Emp();
+			emp.setRole_id(role_id);
+			emp.setVersion(1);
+			emp.setId(RandomHelper.uuid());
+			emp.setEmp_id(strs[i]);
+			roless.add(emp);
+		}
+      
+		mapper.addRoleEmp(roless);
+
+
+	}
+
+
 
 }

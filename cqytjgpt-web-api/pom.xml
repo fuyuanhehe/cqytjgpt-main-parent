@@ -101,8 +101,8 @@
 			<type>pom</type>
 		</dependency>
 
-		<!-- auth2.0 start -->
- 		<dependency>
+		<!-- auth2.0 start //-->
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-security</artifactId>
 		</dependency>
@@ -110,7 +110,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
-		</dependency> 
+		</dependency>  
 		<!-- auth2.0 end -->
 	</dependencies>
 

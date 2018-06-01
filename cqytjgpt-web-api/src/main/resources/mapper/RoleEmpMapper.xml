@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.auth.mapper.RoleEmpMapper">
+<mapper namespace="com.ccttic.mapper.role.RoleEmpMapper">
 	<!-- 自定义返回结果集 -->
 	<resultMap id="roleEmpMap" type="com.ccttic.entity.role.RoleEmp">
 		<id property="id" column="id" javaType="java.lang.String"></id>

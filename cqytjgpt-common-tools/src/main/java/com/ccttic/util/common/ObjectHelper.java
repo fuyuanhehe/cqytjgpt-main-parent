@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.ccttic.entity.role.Role;
+
 import net.sf.json.JSONArray;
 
 
@@ -123,4 +125,6 @@ public class ObjectHelper {
 		}
 		return res;
 	}
+	
+	
 }

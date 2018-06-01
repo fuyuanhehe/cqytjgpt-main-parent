@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.role.Role;
+import com.ccttic.entity.role.Role_Emp;
+import com.ccttic.entity.role.Roles;
 
 /**
    功能说明：      MyBatis角色映射
@@ -62,5 +64,36 @@ public interface RoleMapper {
 	 * @return
 	 */
 	public Role findRoleByRoleCd(@Param("roleCd") String roleCd);
+
+
+	/**
+	 * 增加角色并关联员工
+	 * @param role
+	 */
+
+	public	int addRoless(Roles roles);
+
+	public	int addRoleEmp(List<Role_Emp> role);
+
+	/**
+	 * 分页角色
+	 * @param roleNm
+	 */
+	public	long seRoleCount(Map<String, Object> params);
+
+	public	List<Roles> seRoleAll(Map<String, Object> params);
+
+	/**
+	 * 删除角色员工关联
+	 * @param id
+	 */
+	public int deleteEssRoleById(String role_id);
+
+	
+	/**
+	 * 修改角色
+	 * @param roles
+	 */
+	public int updateRoleById(Roles roles);
 
 }

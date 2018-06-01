@@ -3,7 +3,10 @@ package com.ccttic.service.role;
 
 import java.util.List;
 
+
 import com.ccttic.entity.role.Role;
+import com.ccttic.entity.role.Role_Emp;
+import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
@@ -50,7 +53,7 @@ public interface IRoleService {
 	 * @throws AppException
 	 */
 	public boolean deleteRole(String id);
-	
+
 	/**
 	 * 查询所有角色对应的菜单
 	 * @return
@@ -58,4 +61,29 @@ public interface IRoleService {
 	 */
 	public List<RoleMenuVo> findAllRoleMeun();
 
+	/**
+	 * 增加角色关联员工
+	 * @return
+	 * @throws AppException
+	 */
+	public void addRoless(Roles rolty);
+
+	public void addRole_Emp(List<Role_Emp> role);
+
+	/**
+	 * 分页角色
+	 * @return
+	 * @throws AppException
+	 */
+
+	Page<Roles> seAllRole(Pageable page,Roles roles);
+
+	/**
+	 * 修改角色信息和关联的员工
+	 * @return
+	 * @throws AppException
+	 */
+	public void updateEssRole(Roles roles);
+		
+			
 }
