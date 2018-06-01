@@ -13,9 +13,9 @@ public class Department implements Serializable{
 	// id
 	private String id;
 	// 所属机构Id
-	private String org_id;
-	// 
-	private String ept_id;
+	private String orgId;
+	// 企业id
+	private String eptId;
 	// 部门名称
 	private String depNm;
 	// 部门简称
@@ -26,22 +26,25 @@ public class Department implements Serializable{
 	private String depDuty;
 	// 岗位名称
 	private String remark;
+	// 显示顺序
+	private String dispOrder;
 	
 	public Department() {
 		super();
 	}
 	
-	public Department(String id, String org_id, String ept_id, String depNm, String depShortNm, String depCd,
-			String depDuty, String remark) {
+	public Department(String id, String orgId, String eptId, String depNm, String depShortNm, String depCd,
+			String depDuty, String remark,String dispOrder) {
 		super();
 		this.id = id;
-		this.org_id = org_id;
-		this.ept_id = ept_id;
+		this.orgId = orgId;
+		this.eptId = eptId;
 		this.depNm = depNm;
 		this.depShortNm = depShortNm;
 		this.depCd = depCd;
 		this.depDuty = depDuty;
 		this.remark = remark;
+		this.dispOrder = dispOrder;
 	}
 
 	public String getId() {
@@ -52,20 +55,20 @@ public class Department implements Serializable{
 		this.id = id;
 	}
 
-	public String getOrg_id() {
-		return org_id;
+	public String getOrgId() {
+		return orgId;
 	}
 
-	public void setOrg_id(String org_id) {
-		this.org_id = org_id;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
-	public String getEpt_id() {
-		return ept_id;
+	public String getEptId() {
+		return eptId;
 	}
 
-	public void setEpt_id(String ept_id) {
-		this.ept_id = ept_id;
+	public void setEptId(String eptId) {
+		this.eptId = eptId;
 	}
 
 	public String getDepNm() {
@@ -108,10 +111,18 @@ public class Department implements Serializable{
 		this.remark = remark;
 	}
 	
+	public String getDispOrder() {
+		return dispOrder;
+	}
+
+	public void setDispOrder(String dispOrder) {
+		this.dispOrder = dispOrder;
+	}
+
 	@Override
 	public String toString() {
-		return "Department [org_id=" + org_id + ", ept_id=" + ept_id + ", depNm=" + depNm 
-				+ ", depShortNm=" + depShortNm+ ", depCd=" + depCd+ ", remark=" + remark
+		return "Department [orgId=" + orgId + ", eptId=" + eptId + ", depNm=" + depNm 
+				+ ", depShortNm=" + depShortNm+ ", depCd=" + depCd+ ", remark=" + remark+ ", dispOrder=" + dispOrder
 				+", id=" + id + "]";
 	}
 	

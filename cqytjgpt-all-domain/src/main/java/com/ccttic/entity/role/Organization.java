@@ -23,32 +23,43 @@ public class Organization extends BaseBean implements Serializable{
 	private String shortNm;
 	// 备注
 	private String remark;
-	//部门职能
-	private String orgDuty;
+	// 行政区域代码
+	private String areaCode;
 	//显示顺序
 	private Integer dispOrder;
-	//父组织机构ID
-	private String superOrgId;
 	// 机构类型 0机构 1企业 2部门
 	private String orgType;
+	//父组织机构ID
+	private String superOrgId;
+	//父组织机构编号
+	private String superOrgCd;
+	//父组织机构名称
+	private String superOrgNm;
+	//父机构类型类型
+	private String superOrgType;
 	
 	public Organization() {
 		super();
 	}
 
-	public Organization(String id, String orgCd, String orgNm, String shortNm, String remark, String orgDuty,
-			Integer dispOrder, String superOrgId, String orgType) {
+	public Organization(String id, String orgCd, String orgNm, String shortNm, String remark,String areaCode, Integer dispOrder,
+			String orgType, String superOrgId, String superOrgCd, String superOrgNm, String superOrgType) {
 		super();
 		this.id = id;
 		this.orgCd = orgCd;
 		this.orgNm = orgNm;
 		this.shortNm = shortNm;
 		this.remark = remark;
-		this.orgDuty = orgDuty;
+		this.areaCode = areaCode;
 		this.dispOrder = dispOrder;
-		this.superOrgId = superOrgId;
 		this.orgType = orgType;
+		this.superOrgId = superOrgId;
+		this.superOrgCd = superOrgCd;
+		this.superOrgNm = superOrgNm;
+		this.superOrgType = superOrgType;
 	}
+
+
 
 	public String getId() {
 		return id;
@@ -89,13 +100,13 @@ public class Organization extends BaseBean implements Serializable{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
-	public String getOrgDuty() {
-		return orgDuty;
+	
+	public String getAreaCode() {
+		return areaCode;
 	}
 
-	public void setOrgDuty(String orgDuty) {
-		this.orgDuty = orgDuty;
+	public void setAreaCode(String areaCode) {
+		this.areaCode = areaCode;
 	}
 
 	public Integer getDispOrder() {
@@ -122,10 +133,34 @@ public class Organization extends BaseBean implements Serializable{
 		this.orgType = orgType;
 	}
 	
+	public String getSuperOrgCd() {
+		return superOrgCd;
+	}
+
+	public void setSuperOrgCd(String superOrgCd) {
+		this.superOrgCd = superOrgCd;
+	}
+
+	public String getSuperOrgNm() {
+		return superOrgNm;
+	}
+
+	public void setSuperOrgNm(String superOrgNm) {
+		this.superOrgNm = superOrgNm;
+	}
+
+	public String getSuperOrgType() {
+		return superOrgType;
+	}
+
+	public void setSuperOrgType(String superOrgType) {
+		this.superOrgType = superOrgType;
+	}
+	
 	@Override
 	public String toString() {
-		return "Organization [orgCd=" + orgCd + ", orgNm=" + orgNm + ", shortNm=" + shortNm + ", remark=" + remark
-				+ ", orgDuty=" + orgDuty+ ", dispOrder=" + dispOrder+ ", superOrgId=" + superOrgId
-				+ ", orgType=" + orgType +", id=" + id + "]";
+		return "Organization [orgCd=" + orgCd + ", orgNm=" + orgNm + ", shortNm=" + shortNm + ", remark=" + remark + ", areaCode=" + areaCode
+				+ ", dispOrder=" + dispOrder + ", superOrgId=" + superOrgId + ", superOrgCd=" + superOrgCd 
+				+ ", superOrgNm=" + superOrgNm + ", superOrgType=" + superOrgType + ", orgType=" + orgType +", id=" + id + "]";
 	}
 }
