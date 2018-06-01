@@ -8,7 +8,7 @@
 		<result property="shortNm" column="shortNm" javaType="java.lang.String"></result>
 		<result property="remark" column="remark" javaType="java.lang.String"></result>
 		<result property="areaCode" column="areaCode" javaType="java.lang.String"></result>
-		<result property="dispOrder" column="dispOrder" javaType="java.lang.Integer"></result>
+		<!-- <result property="dispOrder" column="dispOrder" javaType="java.lang.Integer"></result> -->
 		<result property="superOrgId" column="superOrg_id" javaType="java.lang.String"></result>
 		<result property="superOrgCd" column="superOrgCd" javaType="java.lang.String"></result>
 		<result property="superOrgNm" column="superOrgNm" javaType="java.lang.String"></result>

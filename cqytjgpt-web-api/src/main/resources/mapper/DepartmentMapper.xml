@@ -8,9 +8,9 @@
 		<result property="depNm" column="depNm" javaType="java.lang.String"></result>
 		<result property="depShortNm" column="depShortNm" javaType="java.lang.String"></result>
 		<result property="depCd" column="depCd" javaType="java.lang.String"></result>
-		<result property="depDuty" column="depDuty" javaType="java.lang.Integer"></result>
+		<result property="depDuty" column="depDuty" javaType="java.lang.String"></result>
 		<result property="remark" column="remark" javaType="java.lang.String"></result>
-		<result property="dispOrder" column="dispOrder" javaType="java.lang.Integer"></result>
+		<!-- <result property="dispOrder" column="dispOrder" javaType="java.lang.Integer"></result> -->
 	</resultMap>
 	<!-- 通过机构代码获取部门信息 -->
 	<select id="qryDepartmentList" parameterType="java.util.Map" resultMap="Department">
