@@ -1,4 +1,4 @@
-package com.ccttic.common.exception;
+package com.ccttic.entity.common.exception;
 
 /**
    功能说明：     无效参数异常

@@ -12,9 +12,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ccttic.common.exception.AppException;
 import com.ccttic.entity.category.Category;
 import com.ccttic.entity.category.CategoryAttr;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.mapper.category.CategoryMapper;
 import com.ccttic.service.category.ICategoryService;
 import com.ccttic.util.common.RandomHelper;

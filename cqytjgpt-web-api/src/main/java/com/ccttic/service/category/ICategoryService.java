@@ -3,9 +3,9 @@ package com.ccttic.service.category;
 import java.util.List;
 import java.util.Map;
 
-import com.ccttic.common.exception.AppException;
 import com.ccttic.entity.category.Category;
 import com.ccttic.entity.category.CategoryAttr;
+import com.ccttic.entity.common.exception.AppException;
 
 /**
    功能说明：     数据字典业务接口

@@ -1,4 +1,4 @@
-package com.ccttic.common.exception;
+package com.ccttic.entity.common.exception;
 
 /**
    功能说明：     用户名或密码无效异常

@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccttic.common.beans.ResponseMsg;
-import com.ccttic.common.exception.AppException;
 import com.ccttic.entity.category.Category;
 import com.ccttic.entity.category.CategoryAttr;
 import com.ccttic.entity.category.vo.TreeCategoryBean;
+import com.ccttic.entity.common.beans.ResponseMsg;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.service.category.ICategoryService;
 
 @RestController

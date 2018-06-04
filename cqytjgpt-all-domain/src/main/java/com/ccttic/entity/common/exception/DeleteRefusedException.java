@@ -1,4 +1,4 @@
-package com.ccttic.common.exception;
+package com.ccttic.entity.common.exception;
 
 public class DeleteRefusedException extends AppException {
 

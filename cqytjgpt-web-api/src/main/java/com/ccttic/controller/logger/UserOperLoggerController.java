@@ -1,8 +1,6 @@
 package com.ccttic.controller.logger;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccttic.common.beans.ResponseMsg;
+import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.logger.UserOperLogger;
 import com.ccttic.util.logger.annotation.OperLogging;
 import com.ccttic.util.logger.worker.UserOperLoggerService;
@@ -47,7 +45,6 @@ public class UserOperLoggerController {
     @OperLogging(content="根据ID查询用户操作日志")
     public ResponseMsg<UserOperLogger> findOperLogger(String id) {
     	ResponseMsg<UserOperLogger> resp = new ResponseMsg<UserOperLogger>();
-        Map<String, Object> reMap = new HashMap<>();
         try {
             if (id == null || id.trim().length() == 0)
                 throw new NullPointerException("ID不能为空");

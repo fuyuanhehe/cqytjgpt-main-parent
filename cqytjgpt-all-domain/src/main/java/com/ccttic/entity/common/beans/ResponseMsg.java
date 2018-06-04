@@ -1,4 +1,4 @@
-package com.ccttic.common.beans;
+package com.ccttic.entity.common.beans;
 
 import java.io.Serializable;
 

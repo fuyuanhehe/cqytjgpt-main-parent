@@ -1,4 +1,4 @@
-package com.ccttic.common.exception;
+package com.ccttic.entity.common.exception;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;

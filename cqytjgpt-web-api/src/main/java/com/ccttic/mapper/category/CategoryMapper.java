@@ -2,9 +2,9 @@ package com.ccttic.mapper.category;
 
 import java.util.List;
 
-import com.ccttic.common.exception.AppException;
 import com.ccttic.entity.category.Category;
 import com.ccttic.entity.category.CategoryAttr;
+import com.ccttic.entity.common.exception.AppException;
 
 /**
  * 
