@@ -42,7 +42,7 @@ public class OrganizationServiceImpl implements IOrganizationService{
 		org.setId(id);
 		org.setOrgCd(id);
 		org.setSuperOrgId(org.getSuperOrgCd());
-		if (ObjectHelper.isEmpty(org.getSuperOrgCd())) {
+		if (ObjectHelper.isEmpty(org.getSuperOrgCd())) {// 如果没有父id则是在创建机构
 			mapper.createOrg(org);
 		} else {
 			mapper.createChildOrg(org);
