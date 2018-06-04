@@ -6,7 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
-
+/**
+ * 
+    * @ClassName: Config  
+    * @Description: spring session分布式session配置
+    * @author syao  
+    * @date 2018年6月4日  
+    *
+ */
 @Configuration
 @EnableRedisHttpSession
 public class Config {

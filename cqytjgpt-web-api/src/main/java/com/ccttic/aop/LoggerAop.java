@@ -17,8 +17,8 @@ import com.ccttic.util.task.GeneralTestQueueExecutor;
  * @author wl
  * @date 2018年5月24日 09:45:49
  * */
-//@Aspect
-//@Configuration
+@Aspect
+@Configuration
 public class LoggerAop {
 
     @Autowired
