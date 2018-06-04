@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 import com.ccttic.entity.role.Organization;

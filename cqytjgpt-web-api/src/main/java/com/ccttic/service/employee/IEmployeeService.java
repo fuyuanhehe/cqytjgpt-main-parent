@@ -2,7 +2,7 @@ package com.ccttic.service.employee;
 
 import java.util.List;
 
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.util.page.Page;

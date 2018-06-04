@@ -2,7 +2,7 @@ package com.ccttic.service.organization;
 
 import java.util.List;
 
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Organization;
 
 public interface IOrganizationService {

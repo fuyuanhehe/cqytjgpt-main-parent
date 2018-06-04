@@ -3,14 +3,11 @@ package com.ccttic.controller.employee;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.ccttic.common.beans.ResponseMsg;
+import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.service.employee.IEmployeeService;
 import com.ccttic.util.auth.AuthServiceFeign;

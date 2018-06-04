@@ -7,13 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.ccttic.common.beans.ResponseMsg;
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.beans.ResponseMsg;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
@@ -23,7 +21,6 @@ import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.logger.annotation.OperLogging;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
-import com.ccttic.util.page.Pageable;
 
 @RestController
 @RequestMapping("/roles")

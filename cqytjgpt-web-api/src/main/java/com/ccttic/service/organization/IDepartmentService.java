@@ -2,7 +2,7 @@ package com.ccttic.service.organization;
 
 import java.util.Map;
 
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 import com.ccttic.util.page.Page;

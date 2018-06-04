@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.mapper.employee.EmployeeMapper;
