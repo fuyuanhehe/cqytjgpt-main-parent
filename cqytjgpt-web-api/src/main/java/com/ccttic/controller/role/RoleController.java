@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.ccttic.common.beans.ResponseMsg;
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
@@ -52,14 +50,13 @@ public class RoleController {
 				Roleservice.deleteRole(id);
 				resp.setStatus(0);
 				resp.setMesssage("删除角色成功!");
-
-				return resp;
+				
 			}
 		} catch (Exception e) {
 			resp.setStatus(-1);
 			resp.setMesssage("删除角色失败!");				
 			logger.error("删除角色失败!");
-			return resp;
+			
 
 		}
 		return resp;
@@ -140,15 +137,21 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 3)
 	@GetMapping("/loadRolePages")
-	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,Roles roles) throws AppException {
+	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,Roles roles)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
-
-		Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
-		resp.setMesssage("根据条件查询角色列表成功！");
-		resp.setStatus(0);
-		resp.setData(pager.getRecords());
-		resp.setTotal(pager.getTotalRows().intValue());
-		return resp;
+		try {
+			Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
+			resp.setMesssage("根据条件查询角色列表成功！");
+			resp.setStatus(0);
+			resp.setData(pager.getRecords());
+			resp.setTotal(pager.getTotalRows().intValue());
+			
+		} catch (Exception e) {
+			resp.setMesssage("根据条件查询角色列表失败！");
+			resp.setStatus(-1);
+			logger.error("根据条件查询角色列表失败！",e);
+		}
+		return resp;  
 	}
 
 
@@ -170,7 +173,7 @@ public class RoleController {
 			Roleservice.updateEssRole(roles);
 			resp.setMesssage("修改角色成功!");
 			resp.setStatus(0);
-
+			
 		} catch (Exception e) {
 			resp.success("添加角色关联员工失败");
 			resp.setMesssage("添加角色关联员工失败");
