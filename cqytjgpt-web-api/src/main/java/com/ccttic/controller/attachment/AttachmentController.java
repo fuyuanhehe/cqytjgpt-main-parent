@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ccttic.entity.attchment.Attachment;
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.common.exception.AppException;
+import com.ccttic.entity.employee.Employee;
 import com.ccttic.service.attachment.FastDfsService;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.logger.annotation.OperLogging;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -56,10 +59,15 @@ public class AttachmentController implements Serializable {
 	@OperLogging(content="分页获取附件")
 	public ResponseMsg<List<Attachment>> getAttachments(PageRequest page) throws AppException {
 		ResponseMsg<List<Attachment>>  resp = new ResponseMsg<List<Attachment>>();
-		Page<Attachment> attas =  attachmentService.getAttachments(page);
-		resp.success("获取附件分页成功");
-		resp.setData(attas.getRecords());
-		resp.setTotal(attas.getTotalRows().intValue());
+		try {
+			Page<Attachment> attas =  attachmentService.getAttachments(page);
+			resp.success("获取附件分页成功");
+			resp.setData(attas.getRecords());
+			resp.setTotal(attas.getTotalRows().intValue());
+		}catch (Exception e) {
+			resp.fail("获取附件分页失败");
+			logger.error("获取附件分页失败",e);
+		}
 		return resp;
 	}
 	
@@ -68,9 +76,14 @@ public class AttachmentController implements Serializable {
 	@OperLogging(content="获取附件")
 	public ResponseMsg<Attachment> getAttachment(String attachmentId) throws AppException {
 		ResponseMsg<Attachment> resp = new ResponseMsg<Attachment>();
-		Attachment atta = attachmentService.getAttachment(attachmentId);
-		resp.setData(atta);
-		resp.success("获取附件成功");
+		try {
+			Attachment atta = attachmentService.getAttachment(attachmentId);
+			resp.setData(atta);
+			resp.success("获取附件成功");
+		}catch (Exception e) {
+			resp.fail("获取附件失败");
+			logger.error("获取附件失败",e);
+		}
 		return resp;
 	}
 	
@@ -106,10 +119,10 @@ public class AttachmentController implements Serializable {
 	 */
 	@PutMapping("/upload")
 	@OperLogging(content="上传附件")
-	public ResponseMsg<Attachment> uploadAttachment(MultipartFile uploadFile) {
+	public ResponseMsg<Attachment> uploadAttachment(MultipartFile uploadFile, @ModelAttribute(Const.USER) Employee emp) {
 		ResponseMsg<Attachment> resp = new ResponseMsg<Attachment>();
 		try {
-			Attachment att = attachmentService.uploadFile(uploadFile);
+			Attachment att = attachmentService.uploadFile(uploadFile, emp);
 			resp.success("上传附件成功");
 			resp.setData(att);
 		} catch (Exception e) {

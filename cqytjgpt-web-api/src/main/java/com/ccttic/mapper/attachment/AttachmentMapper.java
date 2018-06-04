@@ -66,6 +66,6 @@ public interface AttachmentMapper {
 	 * @return
 	 * @throws AppException
 	 */
-	public boolean uploadAttachment(Attachment attachment);
+	public boolean uploadAttachment(Attachment atta);
 }
 	

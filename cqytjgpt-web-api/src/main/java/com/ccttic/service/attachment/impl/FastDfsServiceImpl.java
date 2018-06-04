@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ccttic.entity.attchment.Attachment;
+import com.ccttic.entity.employee.Employee;
 import com.ccttic.mapper.attachment.AttachmentMapper;
 import com.ccttic.service.attachment.FastDfsService;
 import com.ccttic.util.common.RandomHelper;
@@ -65,7 +66,7 @@ public class FastDfsServiceImpl implements FastDfsService {
 	 * @throws IOException
 	 */
 	@Transactional
-	public Attachment uploadFile(MultipartFile file) throws IOException {
+	public Attachment uploadFile(MultipartFile file,Employee employee) throws IOException {
 		// Metadata
 		Set<MataData> metaDataSet = new HashSet<MataData>();
 		metaDataSet.add(new MataData("Author", "cqytjg"));
@@ -78,8 +79,8 @@ public class FastDfsServiceImpl implements FastDfsService {
 		atta.setAttachmentNm(file.getOriginalFilename());
 		atta.setAttachmentPath(storePath.getPath());
 		atta.setAttachementGroup(storePath.getGroup());
-		// atta.setCreateNm(this.getEmployeeNm());
-		// atta.setCreateBy(this.getEmployeeCd());
+		atta.setCreateNm(employee.getEmpNm());
+		atta.setCreateBy(employee.getEmpCd());
 		atta.setUploadTime(new Date());
 		attachmentMapper.uploadAttachment(atta);
 		return atta;

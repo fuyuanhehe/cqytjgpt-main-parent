@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ccttic.entity.attchment.Attachment;
+import com.ccttic.entity.employee.Employee;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
 
@@ -33,7 +34,7 @@ public interface FastDfsService {
      * @return 文件访问地址
      * @throws IOException
      */
-    public Attachment uploadFile(MultipartFile file) throws Exception;
+    public Attachment uploadFile(MultipartFile file,Employee employee) throws Exception;
     
 	/**
 	 * 下文件
