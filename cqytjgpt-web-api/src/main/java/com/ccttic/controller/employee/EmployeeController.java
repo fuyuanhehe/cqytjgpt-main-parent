@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
@@ -27,6 +29,7 @@ import com.ccttic.util.common.ObjectHelper;
  */
 @RestController
 @RequestMapping("/employee")
+@SessionAttributes(Const.USER)
 public class EmployeeController {
 
 	private Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -91,7 +94,7 @@ public class EmployeeController {
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<Employee> employeeInfo(HttpServletRequest request,
-			String useranme/* ,@ModelAttribute("EMP")Employee emp */) {
+			String useranme,@ModelAttribute(Const.USER)Employee emp) {
 		ResponseMsg<Employee> response = new ResponseMsg<Employee>();
 		Object employee = request.getSession(true).getAttribute(Const.USER);
 		if (employee == null) {

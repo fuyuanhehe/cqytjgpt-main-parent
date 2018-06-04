@@ -18,7 +18,7 @@ public class AuthImageController {
 	private Logger logger = Logger.getLogger(getClass());
 	
 	 static final long serialVersionUID = 1L;  
-	    @RequestMapping("img")
+	    @RequestMapping("/img")
 	    public ResponseMsg<String> img( HttpServletRequest request, HttpServletResponse response,HttpSession session )  {  
 	    	ResponseMsg<String> rm = new ResponseMsg<>();
 	    	
