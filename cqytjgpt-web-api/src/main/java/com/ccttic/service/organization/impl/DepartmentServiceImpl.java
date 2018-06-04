@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.ccttic.common.exception.AppException;
-import com.ccttic.common.exception.DeleteRefusedException;
+import com.ccttic.entity.common.exception.AppException;
+import com.ccttic.entity.common.exception.DeleteRefusedException;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 import com.ccttic.mapper.organization.DepartmentMapper;

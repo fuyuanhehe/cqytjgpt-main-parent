@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ccttic.common.exception.AppException;
+import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 
