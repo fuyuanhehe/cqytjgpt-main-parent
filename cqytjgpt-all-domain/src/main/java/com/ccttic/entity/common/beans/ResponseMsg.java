@@ -12,7 +12,7 @@ public class ResponseMsg<T> implements Serializable{
 	
 	private Integer status;
 	
-	private String  messsage;
+	private String  message;
 	
 	private T data;
 	
@@ -26,12 +26,12 @@ public class ResponseMsg<T> implements Serializable{
 		this.status = status;
 	}
 
-	public String getMesssage() {
-		return messsage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMesssage(String messsage) {
-		this.messsage = messsage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public T getData() {
@@ -43,12 +43,12 @@ public class ResponseMsg<T> implements Serializable{
 	}
 
 	public void success(String msg){
-		this.messsage = msg;
+		this.message = msg;
 		this.status = STATUS_SUCCES;
 	}
 	
 	public void fail(String msg){
-		this.messsage = msg;
+		this.message = msg;
 		this.status = STATUS_FAIL;
 	}
 	
@@ -63,7 +63,7 @@ public class ResponseMsg<T> implements Serializable{
 
 	@Override
 	public String toString() {
-		return "ResponseMsg [status=" + status + ", messsage=" + messsage + ", data=" + data + ", total=" + total + "]";
+		return "ResponseMsg [status=" + status + ", message=" + message + ", data=" + data + ", total=" + total + "]";
 	}
 	
 }

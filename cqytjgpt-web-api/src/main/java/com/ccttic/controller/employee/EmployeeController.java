@@ -50,7 +50,7 @@ public class EmployeeController {
 		Employee employee = employeeService.login(username, password);
 		
 		if(employee == null) {
-			response.setMesssage("用户名或密码错误!");
+			response.setMessage("用户名或密码错误!");
 			response.setStatus(ResponseMsg.STATUS_FAIL);
 			return response;
 		}
@@ -81,7 +81,7 @@ public class EmployeeController {
 		}
 		
 		if(employee ==null) {
-			response.setMesssage("获取用户信息失败!");
+			response.setMessage("获取用户信息失败!");
 			response.setStatus(ResponseMsg.STATUS_FAIL);
 			return response;
 		}
