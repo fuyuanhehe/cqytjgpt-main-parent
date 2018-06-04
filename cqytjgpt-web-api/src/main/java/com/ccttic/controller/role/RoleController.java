@@ -1,4 +1,4 @@
-package com.ccttic.controller;
+package com.ccttic.controller.role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
-import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
@@ -32,10 +31,10 @@ public class RoleController {
 	private final Logger logger = LoggerFactory.getLogger(RoleController.class);
 	/**
 	 * 功能说明：  通过ID删除角色信息
-	 * @param 
+	 * @param id 角色的ID
 	 * @return
 	 * @date  2018年5月30日
-	 * 已经测试成功
+	 * 
 	 */ 
 	@OperLogging(operType = 2)
 	@GetMapping(value="deleteRoleById")
@@ -49,14 +48,13 @@ public class RoleController {
 				Roleservice.deleteRole(id);
 				resp.setStatus(0);
 				resp.setMesssage("删除角色成功!");
-
-				return resp;
+				
 			}
 		} catch (Exception e) {
 			resp.setStatus(-1);
 			resp.setMesssage("删除角色失败!");				
 			logger.error("删除角色失败!");
-			return resp;
+			
 
 		}
 		return resp;
@@ -80,7 +78,11 @@ public class RoleController {
 
 	/**
 	 * 功能说明：  增加角色并关联员工
-	 * @param 
+	 * @param  roleCd 角色编码
+	 * @param  roleNm 角色名称
+	 * @param  description 角色描述
+	 * @param  emp_id 员工ID 多个用,隔开
+	 * 
 	 * @return
 	 * @date  2018年5月31日
 	 */
@@ -123,30 +125,40 @@ public class RoleController {
 		}
 		return resp;
 	}
-	
+
 	/**
 	 * 功能说明： 条件角色和关联的员工分页
-	 * @param 
-	 * @return
+	 * @param roles roleNm 角色名称,筛选
+	 * @param roles roleId 角色ID,获得具体角色信息
+	 * @return 
 	 * @date  2018年6月1日
 	 */
 	@OperLogging(operType = 3)
 	@GetMapping("/loadRolePages")
-	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,Roles roles) throws AppException {
+	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,Roles roles)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
-
-		Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
-		resp.setMesssage("根据条件查询角色列表成功！");
-		resp.setStatus(0);
-		resp.setData(pager.getRecords());
-		resp.setTotal(pager.getTotalRows().intValue());
-		return resp;
+		try {
+			Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
+			resp.setMesssage("根据条件查询角色列表成功！");
+			resp.setStatus(0);
+			resp.setData(pager.getRecords());
+			resp.setTotal(pager.getTotalRows().intValue());
+			
+		} catch (Exception e) {
+			resp.setMesssage("根据条件查询角色列表失败！");
+			resp.setStatus(-1);
+			logger.error("根据条件查询角色列表失败！",e);
+		}
+		return resp;  
 	}
 
 
 	/**
 	 * 功能说明：  修改角色和关联的员工
-	 * @param 
+	 * @param roleCd 角色编码
+	 * @param roleNm 角色名称
+	 * @param description 角色描述
+	 * @param emp_id 员工ID 多个用,隔开
 	 * @return
 	 * @date  2018年6月1日
 	 */
@@ -159,7 +171,7 @@ public class RoleController {
 			Roleservice.updateEssRole(roles);
 			resp.setMesssage("修改角色成功!");
 			resp.setStatus(0);
-
+			
 		} catch (Exception e) {
 			resp.success("添加角色关联员工失败");
 			resp.setMesssage("添加角色关联员工失败");
