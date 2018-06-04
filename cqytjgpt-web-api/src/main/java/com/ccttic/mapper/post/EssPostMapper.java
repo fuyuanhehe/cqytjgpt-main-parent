@@ -1,32 +1,39 @@
 package com.ccttic.mapper.post;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.EssEmployeePost;
 import com.ccttic.entity.post.EssPost;
-import com.ccttic.entity.post.EssPostExample;
+import com.ccttic.entity.post.EssPostVo;
+import com.ccttic.entity.role.Department;
+import com.ccttic.entity.role.Organization;
 
 public interface EssPostMapper {
-    long countByExample(EssPostExample example);
 
-    int deleteByExample(EssPostExample example);
 
-    int deleteByPrimaryKey(String id);
+	long qryPostListCount(Map<String, String> params)throws Exception;
 
-    int insert(EssPost record);
+	List<EssPostVo> qryPostList(Map<String, String> params)throws Exception;
 
-    int insertSelective(EssPost record);
+	List<Organization> getAllOrg()throws Exception;
 
-    List<EssPost> selectByExample(EssPostExample example);
+	List<Department> getDepartmentByOrg(Map<String, String> map)throws Exception;
 
-    EssPost selectByPrimaryKey(String id);
+	List<EssEmployee> getEmployeeByDep(Map<String, String> map)throws Exception;
 
-    int updateByExampleSelective(@Param("record") EssPost record, @Param("example") EssPostExample example);
+	int createpost(EssPost post);
 
-    int updateByExample(@Param("record") EssPost record, @Param("example") EssPostExample example);
+	void relatedPostAndEmp(EssEmployeePost eep);
 
-    int updateByPrimaryKeySelective(EssPost record);
+	void updatepost(EssPost post);
 
-    int updateByPrimaryKey(EssPost record);
+	List<String> selectEmpUnderPost(@Param("id") String id);
+
+	void delEmpUnderPost(String id);
+	
+	
 }

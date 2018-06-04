@@ -47,12 +47,12 @@ public class RoleController {
 			if( !(ObjectHelper.isEmpty(id)) ) {		
 				Roleservice.deleteRole(id);
 				resp.setStatus(0);
-				resp.setMesssage("删除角色成功!");
+				resp.setMessage("删除角色成功!");
 				
 			}
 		} catch (Exception e) {
 			resp.setStatus(-1);
-			resp.setMesssage("删除角色失败!");				
+			resp.setMessage("删除角色失败!");				
 			logger.error("删除角色失败!");
 			
 
@@ -112,13 +112,13 @@ public class RoleController {
 				rolty.setId(idss);
 				Roleservice.addRoless(rolty);
 				Roleservice.addRole_Emp(roles);
-				resp.setMesssage("添加角色关联员工成功");
+				resp.setMessage("添加角色关联员工成功");
 				resp.setStatus(0);
 				resp.success("添加角色关联员工成功");
 			} catch (Exception e) {
 				resp.success("添加角色关联员工失败");
 				resp.setStatus(-1);
-				resp.setMesssage("添加角色关联员工失败");
+				resp.setMessage("添加角色关联员工失败");
 				logger.error("添加角色关联员工失败",e);
 			}
 
@@ -139,13 +139,13 @@ public class RoleController {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
 			Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
-			resp.setMesssage("根据条件查询角色列表成功！");
+			resp.setMessage("根据条件查询角色列表成功！");
 			resp.setStatus(0);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			
 		} catch (Exception e) {
-			resp.setMesssage("根据条件查询角色列表失败！");
+			resp.setMessage("根据条件查询角色列表失败！");
 			resp.setStatus(-1);
 			logger.error("根据条件查询角色列表失败！",e);
 		}
@@ -169,12 +169,12 @@ public class RoleController {
 
 		try {
 			Roleservice.updateEssRole(roles);
-			resp.setMesssage("修改角色成功!");
+			resp.setMessage("修改角色成功!");
 			resp.setStatus(0);
 			
 		} catch (Exception e) {
 			resp.success("添加角色关联员工失败");
-			resp.setMesssage("添加角色关联员工失败");
+			resp.setMessage("添加角色关联员工失败");
 			resp.setStatus(-1);
 			logger.error("修改角色关联员工成功失败",e);
 		}
