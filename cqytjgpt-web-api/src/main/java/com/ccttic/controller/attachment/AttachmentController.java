@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ccttic.entity.attchment.Attachment;
@@ -35,6 +36,7 @@ import com.ccttic.util.page.PageRequest;
 */
 @RestController
 @RequestMapping("/attachment")
+@SessionAttributes(Const.USER)
 public class AttachmentController implements Serializable {
 	private static final long serialVersionUID = 213026144265132682L;
 	
