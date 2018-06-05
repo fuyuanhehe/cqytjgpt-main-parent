@@ -5,8 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
@@ -25,7 +25,7 @@ public class UserOperLoggerController {
     @Autowired
     private UserOperLoggerService userOperLoggerService;
 
-    @GetMapping("/multi")
+	@RequestMapping(value="/multi",method= {RequestMethod.GET,RequestMethod.POST})
     @OperLogging(content="分页查询用户操作日志")
     public ResponseMsg<List<UserOperLogger>> findOperLogger(UserOperLogger userOperLogger, PageRequest page) {
         ResponseMsg<List<UserOperLogger>> resp = new ResponseMsg<List<UserOperLogger>>();
@@ -41,7 +41,7 @@ public class UserOperLoggerController {
         return resp;
     }
 
-    @GetMapping("/single")
+	@RequestMapping(value="/single",method= {RequestMethod.GET,RequestMethod.POST})
     @OperLogging(content="根据ID查询用户操作日志")
     public ResponseMsg<UserOperLogger> findOperLogger(String id) {
     	ResponseMsg<UserOperLogger> resp = new ResponseMsg<UserOperLogger>();

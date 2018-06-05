@@ -1,8 +1,6 @@
 package com.ccttic.service.attachment.impl;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ccttic.entity.attchment.Attachment;
+import com.ccttic.entity.employee.Employee;
 import com.ccttic.mapper.attachment.AttachmentMapper;
 import com.ccttic.service.attachment.FastDfsService;
 import com.ccttic.util.common.RandomHelper;
@@ -26,7 +25,7 @@ import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
 import com.github.tobato.fastdfs.domain.MataData;
 import com.github.tobato.fastdfs.domain.StorePath;
-import com.github.tobato.fastdfs.proto.storage.DownloadCallback;
+import com.github.tobato.fastdfs.proto.storage.DownloadByteArray;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 
 @Service
@@ -67,7 +66,7 @@ public class FastDfsServiceImpl implements FastDfsService {
 	 * @throws IOException
 	 */
 	@Transactional
-	public Attachment uploadFile(MultipartFile file) throws IOException {
+	public Attachment uploadFile(MultipartFile file,Employee employee) throws IOException {
 		// Metadata
 		Set<MataData> metaDataSet = new HashSet<MataData>();
 		metaDataSet.add(new MataData("Author", "cqytjg"));
@@ -78,10 +77,10 @@ public class FastDfsServiceImpl implements FastDfsService {
 		Attachment atta = new Attachment();
 		atta.setId(RandomHelper.uuid());
 		atta.setAttachmentNm(file.getOriginalFilename());
-		atta.setAttachmentPath(storePath.getFullPath());
+		atta.setAttachmentPath(storePath.getPath());
 		atta.setAttachementGroup(storePath.getGroup());
-		// atta.setCreateNm(this.getEmployeeNm());
-		// atta.setCreateBy(this.getEmployeeCd());
+		atta.setCreateNm(employee.getEmpNm());
+		atta.setCreateBy(employee.getEmpCd());
 		atta.setUploadTime(new Date());
 		attachmentMapper.uploadAttachment(atta);
 		return atta;
@@ -96,19 +95,8 @@ public class FastDfsServiceImpl implements FastDfsService {
 	@Transactional
 	public Attachment downloadFile(String attachmentId) {
 		Attachment atta = attachmentMapper.findAttachmentById(attachmentId);
-		byte [] fileBytes = storageClient.downloadFile(atta.getAttachementGroup(), atta.getAttachmentPath(), new DownloadCallback<byte[]>() {
-			@Override
-			public byte[] recv(InputStream ins) throws IOException {
-				 ByteArrayOutputStream swapStream = new ByteArrayOutputStream();  
-				 byte[] buff = new byte[100];  
-				 int rc = 0;  
-				 while ((rc = ins.read(buff, 0, 100)) > 0) {  
-				   swapStream.write(buff, 0, rc);  
-				 }  
-				 return swapStream.toByteArray();
-			}
-		});
-		atta.setFileBytes(fileBytes);
+		DownloadByteArray callback = new DownloadByteArray();
+		atta.setFileBytes(storageClient.downloadFile(atta.getAttachementGroup(), atta.getAttachmentPath(),callback));
 		return atta;
 	}
 

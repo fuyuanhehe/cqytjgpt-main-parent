@@ -9,12 +9,12 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.category.Category;
@@ -23,6 +23,7 @@ import com.ccttic.entity.category.vo.TreeCategoryBean;
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.service.category.ICategoryService;
+import com.ccttic.util.logger.annotation.OperLogging;
 
 @RestController
 @RequestMapping("/param")
@@ -41,7 +42,8 @@ public class CategoryController implements Serializable {
 	 * @return
 	 * @throws AppException
 	 */
-	@GetMapping("/findAllCategorys")
+	@RequestMapping(value="/findAllCategorys",method= {RequestMethod.GET,RequestMethod.POST})
+	@OperLogging(content="获取数据字典树")
 	public ResponseMsg<List<TreeCategoryBean>> findAllCategorys(HttpServletRequest request) throws AppException {
 		ResponseMsg<List<TreeCategoryBean>> resp = new ResponseMsg<List<TreeCategoryBean>>();
 		String categoryCd = request.getParameter("categoryCd");
@@ -86,55 +88,44 @@ public class CategoryController implements Serializable {
 	 * @return
 	 * @throws AppException
 	 */
-	/*@RequestMapping(value = { "/editCategory" }, produces = { "text/plain;charset=UTF-8" })
-	@ResponseBody
-	public String editCategory(Category category) throws AppException {
-		Map<String, Object> map = new HashMap<String, Object>();
+	@RequestMapping(value="/editCategory",method= {RequestMethod.GET,RequestMethod.POST})
+	@OperLogging(content="编辑数据字典")
+	public ResponseMsg<Boolean> editCategory(Category category) {
+		ResponseMsg<Boolean> resp = new ResponseMsg<Boolean>();
 		try {
 			boolean result = false;
 			int cnt = 0;
-
-			category.setUpdateBy(this.getEmployeeCd());
-			category.setUpdateByNm(this.getEmployeeNm());
-			category.setUpdateOrgCd(this.getOrgCd());
-			category.setUpdateOrgCdNm(this.getOrgNm());
-
-			if (ObjectHelper.isEmpty(category.getId())) {
-				category.setCreateBy(this.getEmployeeCd());
-				category.setCreateByNm(this.getEmployeeNm());
-				category.setCreateOrgCd(this.getOrgCd());
-				category.setCreateOrgCdNm(this.getOrgNm());
+			if(StringUtils.isEmpty(category.getId())){
 				//新增
 				cnt = this.categoryService.addCategory(category);
-			} else {
+			}else {
 				//修改
 				cnt = this.categoryService.updateCategory(category);
 			}
 
 			if (cnt > 0) {
 				result = true;
-				System.getProperties().remove("dataDictObj");
 			}
 			String msg = "编辑数据字典信息成功!";
 			if(!result) {
 				msg = "编辑数据字典信息失败!";
 			}
-			map.put("result", result);
-			map.put("msg", msg);
+			resp.success(msg);
+			resp.setData(result);
 		} catch (Exception ae) {
-			ae.printStackTrace();
-			map.put("result", false);
-			map.put("msg", "系统异常," + ae.getMessage());
+			logger.error("编辑数据字典异常",ae);
+			resp.fail("编辑数据字典异常");
 		}
-		return ObjectHelper.objectToJson(map);
-	}*/
+		return resp;
+	}
 
 	/**
 	 * 删除字典树
 	 * @return
 	 * @throws AppException
 	 */
-	@DeleteMapping("/deleteCategory")
+	@RequestMapping(value="/deleteCategory",method= {RequestMethod.GET,RequestMethod.POST})
+	@OperLogging(content="删除数据字典",operType=2)
 	public ResponseMsg<Boolean> deleteCategory(String id) throws AppException {
 		ResponseMsg<Boolean> resp = new ResponseMsg<Boolean>();
 		try {
@@ -163,7 +154,8 @@ public class CategoryController implements Serializable {
 	 * @return
 	 * @throws AppException
 	 */
-	@GetMapping("/findCategoryAttrsByCd" )
+	@RequestMapping(value="/findCategoryAttrsByCd",method= {RequestMethod.GET,RequestMethod.POST})
+	@OperLogging(content="根据分类cd获取数据字典树")
 	public ResponseMsg<List<Map<String, String>>> findCategoryAttrsByCd(String categoryCd, String allflag) throws Exception {
 		ResponseMsg<List<Map<String, String>>> resp = new ResponseMsg<List<Map<String, String>>>();
 		List<Map<String, String>> mapDataList = new ArrayList<Map<String, String>>();
@@ -202,13 +194,10 @@ public class CategoryController implements Serializable {
 	 * @return
 	 * @throws AppException
 	 */
-	@GetMapping("/findCategoryAttrNm")
+	@RequestMapping(value="/findCategoryAttrNm",method= {RequestMethod.GET,RequestMethod.POST})
+	@OperLogging(content="根据分类cd和属性cd获取数据字典配置")
 	public ResponseMsg<String> findCategoryAttrNm(String categoryCd, String attrCd) throws Exception {
-		
 		ResponseMsg<String> resp = new  ResponseMsg<String>();
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		
 		try {
 			String attrNm = this.categoryService.findCategoryAttrNm(categoryCd, attrCd);
 			if(attrNm == null 
