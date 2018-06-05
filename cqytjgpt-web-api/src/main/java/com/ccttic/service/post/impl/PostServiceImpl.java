@@ -20,6 +20,7 @@ import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+
 @Service
 public class PostServiceImpl implements IPostService {
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -27,18 +28,17 @@ public class PostServiceImpl implements IPostService {
 	private EssPostMapper postMapper;
 
 	@Override
-	public Page<EssPostVo> selectPost(Pageable page, EssPostVo post) throws Exception{
+	public Page<EssPostVo> selectPost(Pageable page, EssPostVo post) throws Exception {
 		Page<EssPostVo> pager = new PageImpl<EssPostVo>(page);
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("pageSize", page.getRows()+"");
-		params.put("startRecord", (page.getPage() - 1) * page.getRows()+"");
+		params.put("pageSize", page.getRows() + "");
+		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
 		params.put("postNm", post.getPostnm());// 岗位名称
-		
 
 		long totolRols = postMapper.qryPostListCount(params);
 		List<EssPostVo> records = postMapper.qryPostList(params);
 		for (EssPostVo essPostVo : records) {
-			List<EssEmployee> emp= postMapper.selectEmpUnderPost(essPostVo.getId());
+			List<EssEmployee> emp = postMapper.selectEmpUnderPost(essPostVo.getId());
 			essPostVo.setEmp(emp);
 		}
 
@@ -49,10 +49,9 @@ public class PostServiceImpl implements IPostService {
 	}
 
 	@Override
-	public List<Organization> getAllOrg() throws Exception{
+	public List<Organization> getAllOrg() throws Exception {
 		return postMapper.getAllOrg();
 	}
-
 
 	@Override
 	public List<Department> getDepartmentByOrg(Map<String, String> map) throws Exception {
@@ -69,13 +68,13 @@ public class PostServiceImpl implements IPostService {
 	@Override
 	@Transactional
 	public int addpost(EssPostVo post) {
-		
+
 		try {
 			String id = RandomHelper.uuid();
 			post.setId(id);
 			postMapper.createpost(post);
 			for (int i = 0; i < post.getEmp().size(); i++) {
-				String uid =RandomHelper.uuid();
+				String uid = RandomHelper.uuid();
 				EssEmployeePost eep = new EssEmployeePost();
 				eep.setEmpId(post.getEmp().get(i).getId());
 				eep.setId(uid);
@@ -84,23 +83,23 @@ public class PostServiceImpl implements IPostService {
 				postMapper.relatedPostAndEmp(eep);
 			}
 		} catch (Exception e) {
-			
+
 			logger.info(e);
 			return 0;
 		}
-		
+
 		return 1;
 	}
 
 	@Override
 	@Transactional
 	public int updatepost(EssPostVo post) {
-		
+
 		try {
 			postMapper.updatepost(post);
 			postMapper.delEmpUnderPost(post.getId());
 			for (int i = 0; i < post.getEmp().size(); i++) {
-				String uid =RandomHelper.uuid();
+				String uid = RandomHelper.uuid();
 				EssEmployeePost eep = new EssEmployeePost();
 				eep.setEmpId(post.getEmp().get(i).getId());
 				eep.setId(uid);
@@ -112,10 +111,8 @@ public class PostServiceImpl implements IPostService {
 			logger.info(e);
 			return 0;
 		}
-		
+
 		return 1;
 	}
-
-	
 
 }
