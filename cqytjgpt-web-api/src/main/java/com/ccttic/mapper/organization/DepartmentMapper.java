@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Department;
+import com.ccttic.entity.role.DepartmentEnterpriseCombine;
 import com.ccttic.entity.role.Enterprise;
 
 public interface DepartmentMapper {
@@ -58,4 +59,11 @@ public interface DepartmentMapper {
 	 * @param rise
 	 */
 	public void createRise(@Param("rise") Enterprise rise);
+	
+	/**
+	 * 根据部门id查询该部门是否有在职人员
+	 * @param id
+	 * @return
+	 */
+	public List<DepartmentEnterpriseCombine> finByDepEmpId(@Param("id") String id);
 }

@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -215,13 +217,13 @@ public class OrganizationContrller implements Serializable {
 	 * @param ment
 	 * @return
 	 */
-	@RequestMapping(value = "/saveDepartment", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/saveDepartment", method=RequestMethod.POST)
 	@ResponseBody
-	public String saveDepartment (String orgCd,Department ment) {
+	public String saveDepartment (@RequestBody Department ment) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String id = RandomHelper.uuid();
-			ment = departmentService.createMent(ment, id, orgCd);
+			ment = departmentService.createMent(ment, id);
 			map.put("data", ment);
 			map.put("result", 0);
 			map.put("msg", "添加成功！");
@@ -258,16 +260,15 @@ public class OrganizationContrller implements Serializable {
 	
 	/**
 	 *  删除部门
-	 * @param orgCd
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/removeDepartment", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String removeDepartment(String orgCd,String id) {
+	public String removeDepartment(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			departmentService.removeMent(orgCd, id);
+			departmentService.removeMent(id);
 			map.put("result", 0);
 			map.put("msg", "删除成功！");
 		} catch (AppException e) {
@@ -286,13 +287,13 @@ public class OrganizationContrller implements Serializable {
 	 * @param rise
 	 * @return
 	 */
-	@RequestMapping(value = "/saveEnterprise", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/saveEnterprise",method=RequestMethod.POST)
 	@ResponseBody
-	public String saveEnterprise (String orgCd,Enterprise rise) {
+	public String saveEnterprise (@RequestBody Enterprise rise) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String id = RandomHelper.uuid();
-			rise = departmentService.createRise(rise, id, orgCd);
+			rise = departmentService.createRise(rise, id);
 			map.put("data", rise);
 			map.put("result", 0);
 			map.put("msg", "添加成功！");
@@ -302,19 +303,6 @@ public class OrganizationContrller implements Serializable {
 			logger.error(e.getMessage());
 		}
 		return ObjectHelper.objectToJson(map);
-	}
-	
-	/**
-	 * 根据机构orgCd取得人员管理信息
-	 * @param orgCd 机构code
-	 * @return
-	 */
-	@RequestMapping(value = "/findOrgPersonnel", produces = "text/plain;charset=UTF-8")
-	@ResponseBody
-	public String findOrgPersonnel(String orgCd) {
-		
-		
-		return "";
 	}
 	
 }
