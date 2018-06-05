@@ -161,6 +161,7 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
+	@Transactional
 	public Page<Roles> seAllRole(Pageable page,Roles roles) {
 		Page<Roles> pager = new PageImpl<Roles>(page);
 		Map<String, Object> params = new HashMap<String, Object>();

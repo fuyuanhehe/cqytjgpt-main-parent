@@ -1,10 +1,12 @@
 package com.ccttic.mapper.role;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.role.RoleMenu;
+import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 
 
@@ -42,4 +44,22 @@ public interface RoleMenuMapper {
 	 */
 	public List<RoleMenuVo> findRoleAllResources();
 
+	
+	/**
+	 * 角色，员工，菜单条件分页
+	 * @param 
+	 * @return
+	 */
+	public long getPagesCount(Map<String, Object> params);
+	
+	public List<Roles> getRoleMenuPages(Map<String, Object> params);
+	
+	/**
+	 * 删除角色菜单关系
+	 * @param 
+	 * @return
+	 */
+	
+	public void deletesRoleMenuById(String [] roleId);
+	
 }

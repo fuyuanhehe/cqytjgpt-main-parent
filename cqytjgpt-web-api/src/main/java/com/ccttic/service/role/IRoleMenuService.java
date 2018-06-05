@@ -1,0 +1,48 @@
+package com.ccttic.service.role;
+
+import java.util.List;
+import java.util.Map;
+
+import com.ccttic.entity.role.RoleMenu;
+import com.ccttic.entity.role.Roles;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.Pageable;
+
+/**
+功能说明：     角色菜单业务
+@version  1.0.0
+@author  Fy
+@date  2018年6月1日
+ */
+
+public interface IRoleMenuService {
+
+	/**
+	 * 删除角色菜单
+	 * @return
+	 * @throws 
+	 */		
+	public void deleteRoleMenuByRoleId(String roleId);
+    
+	
+	/**
+	 * 批量角色菜单
+	 * @return
+	 * @throws 
+	 */
+    public void setRoleResource(List<RoleMenu> list);
+    
+	/**
+	 * 分页角色员工菜单
+	 * @return
+	 * @throws 
+	 */
+     Page<Roles> getRoleMenuPages(Pageable page,Roles roles);
+     
+     /**
+ 	 * 删除多个角色菜单
+ 	 * @return
+ 	 * @throws 
+ 	 */	
+     public void deletesRoleMenuById(String [] roleId);
+}
