@@ -41,9 +41,9 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	}
 
 	@Override
-	public Department createMent(Department ment, String id, String orgCd) throws AppException {
+	public Department createMent(Department ment, String id) throws AppException {
 		ment.setId(id);
-		ment.setOrgId(orgCd);
+		ment.setOrgId(ment.getOrgCd());
 		mapper.createMent(ment);
 		return ment;
 	}
@@ -55,17 +55,17 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	}
 
 	@Override
-	public void removeMent(String orgCd,String id) throws AppException {
-		if (ObjectHelper.isNotEmpty("")) {// TODO
+	public void removeMent(String id) throws AppException {
+		if (ObjectHelper.isNotEmpty(mapper.finByDepEmpId(id))) {
 			throw new DeleteRefusedException("该部门有供职人员，请移除员工后删除!");
 		}
 		mapper.removeMent(id);
 	}
 
 	@Override
-	public Enterprise createRise(Enterprise rise, String id, String orgCd) throws AppException {
+	public Enterprise createRise(Enterprise rise, String id) throws AppException {
 		rise.setId(id);
-		rise.setOrgId(orgCd);
+		rise.setOrgId(rise.getOrgCd());
 		mapper.createRise(rise);
 		return rise;
 	}

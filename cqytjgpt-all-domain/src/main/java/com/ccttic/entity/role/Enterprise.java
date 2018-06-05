@@ -12,6 +12,8 @@ public class Enterprise implements Serializable{
 	private static final long serialVersionUID = -8991984368056005329L;
 	// id 
 	private String id;
+	// 机构编码
+	private String orgCd;
 	// 所属机构Id
 	private String orgId;
 	// 企业编码
@@ -34,15 +36,20 @@ public class Enterprise implements Serializable{
 	private String ownerTransport;
 	// 显示顺序
 	private int dispOrder;
+	// 备注
+	private String remark;
 	
 	public Enterprise() {
 		super();
 	}
 
-	public Enterprise(String id, String orgId, String etpCd, String etpNm, String etpshortNm, String etpLawer,
-			String lawerTel, String etpSafer, String saferTel, String ownerTraffic, String ownerTransport) {
+
+	public Enterprise(String id, String orgCd, String orgId, String etpCd, String etpNm, String etpshortNm,
+			String etpLawer, String lawerTel, String etpSafer, String saferTel, String ownerTraffic,
+			String ownerTransport, int dispOrder, String remark) {
 		super();
 		this.id = id;
+		this.orgCd = orgCd;
 		this.orgId = orgId;
 		this.etpCd = etpCd;
 		this.etpNm = etpNm;
@@ -53,7 +60,11 @@ public class Enterprise implements Serializable{
 		this.saferTel = saferTel;
 		this.ownerTraffic = ownerTraffic;
 		this.ownerTransport = ownerTransport;
+		this.dispOrder = dispOrder;
+		this.remark = remark;
 	}
+
+
 
 	public String getId() {
 		return id;
@@ -143,11 +154,37 @@ public class Enterprise implements Serializable{
 		this.ownerTransport = ownerTransport;
 	}
 	
+	public int getDispOrder() {
+		return dispOrder;
+	}
+
+	public void setDispOrder(int dispOrder) {
+		this.dispOrder = dispOrder;
+	}
+	
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+	public String getOrgCd() {
+		return orgCd;
+	}
+
+
+	public void setOrgCd(String orgCd) {
+		this.orgCd = orgCd;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Enterprise [orgId=" + orgId + ", etpCd=" + etpCd + ", etpNm=" + etpNm + ", etpshortNm=" + etpshortNm
 				+ ", etpLawer=" + etpLawer+ ", lawerTel=" + lawerTel+ ", etpSafer=" + etpSafer
-				+ ", saferTel=" + saferTel+ ", ownerTraffic=" + ownerTraffic+ ", ownerTransport=" + ownerTransport +", id=" + id + "]";
+				+ ", orgCd=" + orgCd+ ", remark=" + remark+ ", dispOrder=" + dispOrder+ ", saferTel=" + saferTel+ ", ownerTraffic=" + ownerTraffic+ ", ownerTransport=" + ownerTransport +", id=" + id + "]";
 	}
 	
 	

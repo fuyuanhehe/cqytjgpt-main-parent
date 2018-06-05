@@ -66,10 +66,10 @@ public class OrganizationServiceImpl implements IOrganizationService{
 			if (ObjectHelper.isNotEmpty(mentMapper.findOrgDepartment(orgCd))) {
 				throw new DeleteRefusedException("该机构有挂靠部门，请移除部门后删除!");
 			}
-			// TODO 人员表未加关联 select emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp left join ess_organization org on emp.org_id = org.id where org.orgCd=#{orgCd} and (emp.isDeleted = 0 or emp.isDeleted is null)
-			if (ObjectHelper.isNotEmpty(mentMapper.findOrgDepartment(orgCd))) {
-				throw new DeleteRefusedException("该机构的部门有供职人员，请移除员工后删除!");
-			}
+//			//  select emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp left join ess_organization org on emp.org_id = org.id where org.orgCd=#{orgCd} and (emp.isDeleted = 0 or emp.isDeleted is null)
+//			if (ObjectHelper.isNotEmpty(mentMapper.findOrgDepartment(orgCd))) {
+//				throw new DeleteRefusedException("该机构的部门有供职人员，请移除员工后删除!");
+//			}
 		}
 		
 		mapper.removeOrg(orgCd);

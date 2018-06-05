@@ -47,7 +47,14 @@
 			,#{rise.ownerTransport},#{rise.remark},#{rise.dispOrder})
 	</insert>
 
-
+	<!-- 通过机构代码获取部门总条数 -->
+	<select id="finByDepEmpId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.DepartmentEnterpriseCombine">
+	SELECT middle.dep_id middleDepId,middle.emp_id middleEmpId, dep.id as depId,yee.id as empId ,dep.depCd as depCd,dep.depNm as depNm,dep.depShortNm as depShortNm,
+		dep.depDuty as depDuty,yee.id as id,yee.empCd as empCd,yee.empNm as empNm,yee.empNo as empNo,yee.duty as duty,yee.empGender as empGender,yee.phone as phone
+		FROM ess_employee_dept middle LEFT JOIN ess_department dep ON middle.dep_id=dep.id
+		LEFT JOIN ess_employee yee ON middle.emp_id=yee.id WHERE dep.id=#{id}
+	 	AND (yee.isDeleted = 0 or yee.isDeleted is null)
+	</select>
 
 
 

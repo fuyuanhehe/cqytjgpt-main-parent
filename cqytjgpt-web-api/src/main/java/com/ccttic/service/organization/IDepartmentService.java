@@ -25,7 +25,7 @@ public interface IDepartmentService {
 	 * @return
 	 * @throws AppException
 	 */
-	Department createMent(Department ment, String id,String orgCd) throws AppException;
+	Department createMent(Department ment, String id) throws AppException;
 	
 	/**
 	 * 修改部门
@@ -40,15 +40,14 @@ public interface IDepartmentService {
 	 * @param orgCd
 	 * @throws AppException
 	 */
-	void removeMent(String orgCd,String id) throws AppException;
+	void removeMent(String id) throws AppException;
 	
 	/**
 	 * 创建企业
 	 * @param rise
 	 * @param id
-	 * @param orgCd
 	 * @return
 	 * @throws AppException
 	 */
-	Enterprise createRise(Enterprise rise, String id,String orgCd) throws AppException;
+	Enterprise createRise(Enterprise rise, String id) throws AppException;
 }

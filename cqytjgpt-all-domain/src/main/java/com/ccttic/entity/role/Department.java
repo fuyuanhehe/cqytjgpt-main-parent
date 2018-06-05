@@ -14,6 +14,8 @@ public class Department implements Serializable{
 	private String id;
 	// 所属机构Id
 	private String orgId;
+	// 机构编码
+	private String orgCd;
 	// 企业id
 	private String eptId;
 	// 部门名称
@@ -33,11 +35,12 @@ public class Department implements Serializable{
 		super();
 	}
 	
-	public Department(String id, String orgId, String eptId, String depNm, String depShortNm, String depCd,
-			String depDuty, String remark,String dispOrder) {
+	public Department(String id, String orgId, String orgCd, String eptId, String depNm, String depShortNm,
+			String depCd, String depDuty, String remark, String dispOrder) {
 		super();
 		this.id = id;
 		this.orgId = orgId;
+		this.orgCd = orgCd;
 		this.eptId = eptId;
 		this.depNm = depNm;
 		this.depShortNm = depShortNm;
@@ -46,6 +49,8 @@ public class Department implements Serializable{
 		this.remark = remark;
 		this.dispOrder = dispOrder;
 	}
+
+
 
 	public String getId() {
 		return id;
@@ -119,11 +124,19 @@ public class Department implements Serializable{
 		this.dispOrder = dispOrder;
 	}
 
+	public String getOrgCd() {
+		return orgCd;
+	}
+
+	public void setOrgCd(String orgCd) {
+		this.orgCd = orgCd;
+	}
+
 	@Override
 	public String toString() {
 		return "Department [orgId=" + orgId + ", eptId=" + eptId + ", depNm=" + depNm 
 				+ ", depShortNm=" + depShortNm+ ", depCd=" + depCd+ ", remark=" + remark+ ", dispOrder=" + dispOrder
-				+", id=" + id + "]";
+				+", orgCd=" + orgCd +", id=" + id + "]";
 	}
 	
 }
