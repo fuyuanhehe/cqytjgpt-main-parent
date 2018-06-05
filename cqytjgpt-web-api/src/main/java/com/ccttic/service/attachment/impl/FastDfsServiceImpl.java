@@ -107,6 +107,7 @@ public class FastDfsServiceImpl implements FastDfsService {
 	 *            文件访问地址
 	 * @return
 	 */
+	@Transactional
 	public void deleteFile(String attachmentId) {
 		Attachment atta = attachmentMapper.findAttachmentById(attachmentId);
 		StorePath storePath = StorePath.praseFromUrl(atta.getAttachmentPath());
