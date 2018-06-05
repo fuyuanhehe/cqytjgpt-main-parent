@@ -11,7 +11,7 @@ public class EssPost {
     /**
      * 
      */
-    private String orgId;
+    private String depId;
 
     /**
      * 岗位类型
@@ -103,16 +103,16 @@ public class EssPost {
      * 
      * @return org_id 
      */
-    public String getOrgId() {
-        return orgId;
+    public String getdepId() {
+        return depId;
     }
 
     /**
      * 
-     * @param orgId 
+     * @param depId 
      */
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
+    public void setdepId(String depId) {
+        this.depId = depId;
     }
 
     /**

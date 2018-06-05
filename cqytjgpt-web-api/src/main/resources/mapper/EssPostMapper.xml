@@ -50,7 +50,7 @@
 			AND dept.dep_id==#{depid}
 		</if>
 	</select>
-	<insert id="createpost"  parameterType="com.ccttic.entity.post.EssPost" >
+	<insert id="createpost"  parameterType="com.ccttic.entity.post.EssPostVo" >
 	insert into ess_post (id,dep_id,postCd,postNm,description) value(#{id},#{depId},#{postcd},#{postnm},#{description})
 	</insert>
 	<insert id="relatedPostAndEmp"  parameterType="com.ccttic.entity.employee.EssEmployeePost" >
@@ -63,7 +63,7 @@
 	delete from ess_employee_post where post_id = #{postId}
 	</delete>
 	
-	<select id="selectEmpUnderPost" parameterType="java.lang.String" resultType="java.lang.String">
-	SELECT emp.empNm FROM ess_employee emp,ess_employee_post post WHERE emp.id = post.emp_id AND post.post_id=#{id}
+	<select id="selectEmpUnderPost" parameterType="java.lang.String" resultType="com.ccttic.entity.employee.EssEmployee">
+	SELECT emp.* FROM ess_employee emp,ess_employee_post post WHERE emp.id = post.emp_id AND post.post_id=#{id}
 	</select>
 </mapper>
