@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
-import com.ccttic.mapper.role.RoleMapper;
+import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.mapper.role.RoleMenuMapper;
 import com.ccttic.service.role.IRoleMenuService;
 import com.ccttic.util.common.ObjectHelper;
@@ -19,6 +21,13 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
 @Service
+
+/**
+功能说明：     功能权限功能
+@version  1.0.0
+@date  
+*/
+
 public class RoleMenuServiceImpl implements IRoleMenuService {
 
 	@Autowired
@@ -41,9 +50,13 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 	}
 
 	@Override
-	public Page<Roles> getRoleMenuPages(Pageable page, Roles roles) {
-		Page<Roles> pager = new PageImpl<Roles>(page);
+	public Page<Model_RmsVo> getRoleMenuPages(Pageable page, Roles roles) {
+		Page<Model_RmsVo> pager = new PageImpl<Model_RmsVo>(page);
+
 		Map<String, Object> params = new HashMap<String, Object>();
+
+		List<Model_RmsVo> modellist = new ArrayList<>();
+	
 		String roleids = roles.getRoleId();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
@@ -52,24 +65,54 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		long totolRols  = Mapper.getPagesCount(params);
 		List<Roles> records = Mapper.getRoleMenuPages(params);
 
-		List<Roles> lists = new ArrayList<Roles>();
-		
-		if(!(ObjectHelper.isEmpty(roleids))){		    	
-			for (Roles roModel : records) {
-				if(roModel.getRoleId().equals(roleids)) {
-					lists.add(roModel);
-					pager.setTotalRows(new Long(1));
-					pager.setRecords(lists);
-					return pager;
-				}
+		for (Roles man : records) {
+			Model_RmsVo demol = new Model_RmsVo();
+			List<String> list = new ArrayList<>();
 
-			}
+			List<String> listnm = new ArrayList<>();
 
+			List<String> listenm = new ArrayList<>();
+			
+			demol.setRoleId(man.getRoleId());
+			demol.setRoleCd(man.getRoleCd());
+			demol.setRoleNm(man.getRoleNm());
+			demol.setDescription(man.getDescription());
+            
+			/*String [] string3 = man.getEmpNms().split(",");
+			for (int i = 0; i < string3.length; i++) {
+				listenm.add(string3[i]);
+			} */ 
+			demol.setEmpName(man.getEmpNms());
+			
+		//	listenm.add( man.getEmpNms());
+												
+			String [] string = man.getMenuIds().split(",");
+			for (int i = 0; i < string.length; i++) {
+				list.add(string[i]);
+			}  
+			String [] string2 = man.getMenuLabels().split(","); 
+			for (int i = 0; i < string2.length; i++) {
+				listnm.add(string2[i]);
+			} 
+			demol.setEmpNms(listenm);
+			demol.setAllMenuIds(list);
+			demol.setAllMenus(listnm);
+			modellist.add(demol);
 		}
 
-
+		if(!(ObjectHelper.isEmpty(modellist))){		    	
+			for (Model_RmsVo roModel : modellist) {
+				if(roModel.getRoleId().equals(roleids)) {
+					List<Model_RmsVo> main = new ArrayList<>();
+					main.add(roModel);
+					pager.setTotalRows(new Long(1));
+					pager.setRecords(main);
+					return pager;
+				}
+			}
+		}
 		pager.setTotalRows(totolRols);
-		pager.setRecords(records);
+		pager.setRecords(modellist);
 		return pager;
 	}
 
@@ -79,6 +122,16 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 
 		Mapper.deletesRoleMenuById(roleId);
 
+	}
+	@Override
+	public List<EssEmployee> seAllEmp() {
+		// TODO Auto-generated method stub
+		return Mapper.seAllEmp();
+	}
+	@Override
+	public List<ResMenu> seAllMenu() {
+		// TODO Auto-generated method stub
+		return Mapper.seAllMenu();
 	}
 
 

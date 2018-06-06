@@ -2,33 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.mapper.role.RoleMenuMapper">
 	<!-- 自定义返回结果集 -->
-	<resultMap id="roleMenuMap"
-		type="com.ccttic.entity.role.RoleMenu">
+	<resultMap id="roleMenuMap" type="com.ccttic.entity.role.RoleMenu">
 		<id property="id" column="id" javaType="java.lang.String"></id>
-		<result property="roleId" column="role_id"
-			javaType="java.lang.String"></result>
-		<result property="menuId" column="menu_id"
-			javaType="java.lang.String"></result>
-		<result property="version" column="version"
-			javaType="java.lang.Integer"></result>
+		<result property="roleId" column="role_id" javaType="java.lang.String"></result>
+		<result property="menuId" column="menu_id" javaType="java.lang.String"></result>
+		<result property="version" column="version" javaType="java.lang.Integer"></result>
 	</resultMap>
 
 	<!-- 自定义返回结果集 -->
-	<resultMap id="allRoleMenuList"
-		type="com.ccttic.entity.role.vo.RoleMenuVo">
-		<result property="roleCd" column="roleCd"
-			javaType="java.lang.String"></result>
-		<result property="roleNm" column="roleNm"
-			javaType="java.lang.String"></result>
-		<result property="menu_id" column="menu_id"
-			javaType="java.lang.String"></result>
-		<result property="path" column="path"
-			javaType="java.lang.String"></result>
+	<resultMap id="allRoleMenuList" type="com.ccttic.entity.role.vo.RoleMenuVo">
+		<result property="roleCd" column="roleCd" javaType="java.lang.String"></result>
+		<result property="roleNm" column="roleNm" javaType="java.lang.String"></result>
+		<result property="menu_id" column="menu_id" javaType="java.lang.String"></result>
+		<result property="path" column="path" javaType="java.lang.String"></result>
 	</resultMap>
 	<!-- 通过角色ID删除角色菜单关系表 -->
-	<delete id="deleteRoleMenuByRoleId"
-		parameterType="java.lang.String">
-		delete from ess_role_menu where role_id=#{roleId}
+	<delete id="deleteRoleMenuByRoleId" parameterType="java.lang.String">
+		delete from
+		ess_role_menu where role_id=#{roleId}
 	</delete>
 	<!-- 批量增加角色菜单关系 -->
 	<insert id="setRoleResource" parameterType="java.util.List">
@@ -52,8 +43,7 @@
 	</select>
 
 	<!-- 分页查询角色对应菜单，员工 -->
-	<select id="getRoleMenuPages"
-		resultType="com.ccttic.entity.role.Roles"
+	<select id="getRoleMenuPages" resultType="com.ccttic.entity.role.Roles"
 		parameterType="java.util.Map">
 		SELECT
 		r.id AS roleId,
@@ -82,9 +72,7 @@
 		ON rm.menu_id
 		= m.id where 1 = 1
 
-		<!-- <if test="roleId!=null and roleId!='' ">
-			and r.id = #{roleId}
-		</if> -->
+		<!-- <if test="roleId!=null and roleId!='' "> and r.id = #{roleId} </if> -->
 		<if test="roleNm!=null and roleNm!='' ">
 			and r.roleNm like '%${roleNm}%'
 		</if>
@@ -100,9 +88,7 @@
 
 		where 1 = 1
 
-	<!-- 	<if test="roleId!=null and roleId!='' ">
-			and id = #{roleId}
-		</if> -->
+		<!-- <if test="roleId!=null and roleId!='' "> and id = #{roleId} </if> -->
 
 		<if test="roleNm!=null and roleNm!='' ">
 
@@ -113,8 +99,7 @@
 	</select>
 
 	<!-- 删除角色菜单关联 -->
-	<delete id="deletesRoleMenuById"
-		parameterType="java.lang.String">
+	<delete id="deletesRoleMenuById" parameterType="java.lang.String">
 		delete from ess_role_menu where role_id in
 		<foreach item="id" collection="array" open="(" separator=","
 			close=")">
@@ -122,6 +107,23 @@
 		</foreach>
 
 	</delete>
+	<!-- 查询所有菜单 -->
+	<select id="seAllMenu" resultType="com.ccttic.entity.employee.ResMenu">
+
+
+		SELECT id,label FROM res_menu
+
+	</select>
+	<!-- 查询所有员工 -->
+	<select id="seAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
+
+		SELECT
+		id,
+		empNm as empnm
+		FROM
+		ess_employee
+
+	</select>
 
 
 </mapper>	

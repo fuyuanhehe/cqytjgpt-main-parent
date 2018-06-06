@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.RoleMenuVo;
@@ -36,7 +38,7 @@ public interface RoleMenuMapper {
 	 * @return
 	 */
 	public List<RoleMenu> findRoleResources(@Param("roleId") String roleId);
-	
+
 	/**
 	 * 获取所有角色的权限菜单
 	 * @param roleId
@@ -44,22 +46,36 @@ public interface RoleMenuMapper {
 	 */
 	public List<RoleMenuVo> findRoleAllResources();
 
-	
+
 	/**
 	 * 角色，员工，菜单条件分页
 	 * @param 
 	 * @return
 	 */
 	public long getPagesCount(Map<String, Object> params);
-	
+
 	public List<Roles> getRoleMenuPages(Map<String, Object> params);
-	
+
 	/**
 	 * 删除角色菜单关系
 	 * @param 
 	 * @return
 	 */
-	
+
 	public void deletesRoleMenuById(String [] roleId);
+
+	/**
+	 * 查询菜单id，名称
+	 * @param 
+	 * @return
+	 */
+	
+	public List<ResMenu> seAllMenu();
+	/**
+	 * 查询员工id，名称
+	 * @param 
+	 * @return
+	 */
+	public List<EssEmployee> seAllEmp();
 	
 }

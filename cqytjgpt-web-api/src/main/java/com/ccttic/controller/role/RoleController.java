@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
-import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
 import com.ccttic.service.role.IRoleService;
@@ -48,32 +47,17 @@ public class RoleController {
 				Roleservice.deleteRole(id);
 				resp.setStatus(0);
 				resp.setMessage("删除角色成功!");
-				
+
 			}
 		} catch (Exception e) {
 			resp.setStatus(-1);
 			resp.setMessage("删除角色失败!");				
 			logger.error("删除角色失败!");
-			
+
 
 		}
 		return resp;
 
-	}
-
-
-	@GetMapping(value="findRoleById")
-	public void findRoleById( String id) {
-
-		Role data = Roleservice.findRoleById(id);
-
-		System.out.println(data);
-	}
-
-	@GetMapping(value="findAllRoleMeun")
-	public void findAllRoleMeun(String id ) {
-
-		System.out.println( Roleservice.findRoleById(id));
 	}
 
 	/**
@@ -96,8 +80,10 @@ public class RoleController {
 			List<Role_Emp> roles = new ArrayList<Role_Emp>(); 
 			//员工ID
 			String str = rolty.getEmp_id();
-
-			String[] strs=str.split(",");
+			String [] strs = str.split(",");
+			
+		//	List<String> str = rolty.getEmp_id();
+		//	String [] strs = (String[]) str.toArray();
 
 			for(int i =0 ; i<strs.length; i++) {
 				//循环添加角色关联员工
@@ -143,7 +129,7 @@ public class RoleController {
 			resp.setStatus(0);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
-			
+
 		} catch (Exception e) {
 			resp.setMessage("根据条件查询角色列表失败！");
 			resp.setStatus(-1);
@@ -171,7 +157,7 @@ public class RoleController {
 			Roleservice.updateEssRole(roles);
 			resp.setMessage("修改角色成功!");
 			resp.setStatus(0);
-			
+
 		} catch (Exception e) {
 			resp.success("添加角色关联员工失败");
 			resp.setMessage("添加角色关联员工失败");

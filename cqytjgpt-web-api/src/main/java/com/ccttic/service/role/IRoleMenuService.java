@@ -1,10 +1,12 @@
 package com.ccttic.service.role;
 
 import java.util.List;
-import java.util.Map;
 
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
 
@@ -37,7 +39,7 @@ public interface IRoleMenuService {
 	 * @return
 	 * @throws 
 	 */
-     Page<Roles> getRoleMenuPages(Pageable page,Roles roles);
+     Page<Model_RmsVo> getRoleMenuPages(Pageable page,Roles roles);
      
      /**
  	 * 删除多个角色菜单
@@ -45,4 +47,19 @@ public interface IRoleMenuService {
  	 * @throws 
  	 */	
      public void deletesRoleMenuById(String [] roleId);
+     
+ 	/**
+ 	 * 查询员工id，名称
+ 	 * @param 
+ 	 * @return
+ 	 */
+ 	public List<EssEmployee> seAllEmp();
+ 	
+ 	/**
+	 * 查询菜单id，名称
+	 * @param 
+	 * @return
+	 */
+	
+	public List<ResMenu> seAllMenu();
 }
