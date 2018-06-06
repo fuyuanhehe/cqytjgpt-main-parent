@@ -30,4 +30,9 @@ public class Const {
 	 * 从session中获取登录验证面的key
 	 */
 	final public static String PIC_CODE = "PIC_CODE";
+	
+	/**
+	 * resmenu表中系统根菜单
+	 */
+	public static final String ROOT = "Root";
 }
