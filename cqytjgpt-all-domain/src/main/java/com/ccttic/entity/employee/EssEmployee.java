@@ -486,4 +486,9 @@ public class EssEmployee {
     public void setUpdatedepcd(String updatedepcd) {
         this.updatedepcd = updatedepcd;
     }
+    
+    public EssEmployee() {
+		// TODO Auto-generated constructor stub
+	}
+    
 }

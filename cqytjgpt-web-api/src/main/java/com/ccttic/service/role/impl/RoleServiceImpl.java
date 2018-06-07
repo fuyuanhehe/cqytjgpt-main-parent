@@ -161,6 +161,7 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
+	@Transactional
 	public Page<Roles> seAllRole(Pageable page,Roles roles) {
 		Page<Roles> pager = new PageImpl<Roles>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -170,8 +171,21 @@ public class RoleServiceImpl implements IRoleService {
 		params.put("roleId", roles.getRoleId());
 		long totolRols = mapper.seRoleCount(params);
 		List<Roles> records = mapper.seRoleAll(params);
-		
-		
+
+		for (Roles role : records) {
+			List<String> list = new ArrayList<>();
+			
+			String [] array = role.getEmp_id().split(",");
+			
+			for (int i = 0; i < array.length; i++) {
+				list.add(array[i]);
+			}
+			
+			role.setEmporIds(list);  
+			role.setEmp_id("");
+
+		}
+
 		pager.setTotalRows(totolRols);
 		pager.setRecords(records);
 		return pager;
@@ -192,10 +206,12 @@ public class RoleServiceImpl implements IRoleService {
 		List<Role_Emp> roless = new ArrayList<Role_Emp>(); 
 
 		//员工ID
+		//	List<String> str = roles.getEmp_id();
 		String str = roles.getEmp_id();
-			
-		String[] strs=str.split(",");
-        //修改角色员工关联
+		String [] strs = str.split(",");
+
+		//	String [] strs = (String[]) str.toArray();
+		//修改角色员工关联
 		for(int i =0 ; i<strs.length; i++) {	
 			Role_Emp emp = new Role_Emp();
 			emp.setRole_id(role_id);
@@ -204,7 +220,7 @@ public class RoleServiceImpl implements IRoleService {
 			emp.setEmp_id(strs[i]);
 			roless.add(emp);
 		}
-      
+
 		mapper.addRoleEmp(roless);
 
 

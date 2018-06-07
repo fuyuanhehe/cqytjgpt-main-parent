@@ -107,8 +107,8 @@
 		r.roleNm,
 		r.description,
 		GROUP_CONCAT(e.empNm, e.account) AS empNms,
-		GROUP_CONCAT(e.id) AS
-		emp_id
+		GROUP_CONCAT(e.id) AS emp_id
+		
 		FROM
 		ess_role r
 		LEFT JOIN ess_employee_role re ON r.id =
@@ -123,7 +123,7 @@
 		</if>
 
 		GROUP BY
-		r.id limit ${startRecord},${pageSize}
+			r.id limit ${startRecord},${pageSize}
 	</select>
 
 	<!-- 根据条件查询总记录数目 -->

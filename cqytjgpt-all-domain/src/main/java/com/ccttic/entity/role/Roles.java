@@ -1,5 +1,7 @@
 package com.ccttic.entity.role;
 
+import java.util.List;
+
 public class Roles {
 
 	/**
@@ -23,48 +25,29 @@ public class Roles {
 	//角色ID
 	private String roleId;
 	//角色包含的菜单ID
-	private String menuIds;
+	private  String menuIds;
 	//角色包含的菜单名
 	private String menuLabels;
 	//员工ID
 	private String emp_id;
+	//员工id
+	private List<String> emporIds;
+				
+	public List<String> getEmporIds() {
+		return emporIds;
+	}
 
-	
-	
-	
-	public Roles(String emp_id) {
+	public void setEmporIds(List<String> emporIds) {
+		this.emporIds = emporIds;
+	}
+
+	public Roles(List<String> emporIds) {
 		super();
-		this.emp_id = emp_id;
+		this.emporIds = emporIds;
 	}
 
-	public String getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(String emp_id) {
-		this.emp_id = emp_id;
-	}
-
-	public  Roles() { super();}
-
-	public Roles(String id, String roleCd, String roleNm, String description, Boolean isDefault, String empNms,
-			String empIds, String roleId, String menuIds, String menuLabels) {
-		super();
-		this.id = id;
-		this.roleCd = roleCd;
-		this.roleNm = roleNm;
-		this.description = description;
-		this.isDefault = isDefault;
-		this.empNms = empNms;
-		this.empIds = empIds;
-		this.roleId = roleId;
-		this.menuIds = menuIds;
-		this.menuLabels = menuLabels;
-	}
-
-	@Override
-	public String toString() {
-		return "Roles [emp_id=" + emp_id + "]";
+	public Roles() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getId() {
@@ -147,9 +130,39 @@ public class Roles {
 		this.menuLabels = menuLabels;
 	}
 
-   
-	
-	
+	public String getEmp_id() {
+		return emp_id;
+	}
+
+	public void setEmp_id(String emp_id) {
+		this.emp_id = emp_id;
+	}
+
+	public Roles(String id, String roleCd, String roleNm, String description, Boolean isDefault,
+			String empNms, String empIds, String roleId, String menuIds, String menuLabels,
+			String emp_id) {
+		super();
+		this.id = id;
+		this.roleCd = roleCd;
+		this.roleNm = roleNm;
+		this.description = description;
+		this.isDefault = isDefault;
+		this.empNms = empNms;
+		this.empIds = empIds;
+		this.roleId = roleId;
+		this.menuIds = menuIds;
+		this.menuLabels = menuLabels;
+		this.emp_id = emp_id;
+	}
+
+	@Override
+	public String toString() {
+		return "Roles [id=" + id + ", roleCd=" + roleCd + ", roleNm=" + roleNm + ", description="
+				+ description + ", isDefault=" + isDefault + ", empNms=" + empNms + ", empIds="
+				+ empIds + ", roleId=" + roleId + ", menuIds=" + menuIds + ", menuLabels="
+				+ menuLabels + ", emp_id=" + emp_id + "]";
+	}
+
 
 
 
