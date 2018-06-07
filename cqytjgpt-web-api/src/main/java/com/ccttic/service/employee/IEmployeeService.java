@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.employee.Employee;
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
@@ -64,7 +66,7 @@ public interface IEmployeeService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Employee addEmployee(Employee emp) ;
+	public void addEmployee(EssEmployeeVo emp) throws Exception ;
 
 	/**
 	 * 修改员工
@@ -72,7 +74,7 @@ public interface IEmployeeService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Employee editEmployee(Employee emp) ;
+	public void editEmployee(EssEmployeeVo emp)  throws Exception;
 
 
 
@@ -91,5 +93,23 @@ public interface IEmployeeService {
 	 * @throws AppException
 	 */
 	public List<RoleEmp> findRolesByEmpId(String empId) ;
+
+	/**
+	 * 获取员工列表
+	 * @param page
+	 * @param emp
+	 * @return
+	 * @throws Exception
+	 */
+	public Page<EssEmployeeVo> selectEmployee(Pageable page, EssEmployeeVo emp) throws Exception ;
+
+	/**修改员工密码
+	 * @param emp
+	 * @return
+	 */
+	public void modifyPassword(EssEmployee emp) throws Exception;
+	
+	public void delEmployee(List<EssEmployee> emps) throws Exception;
+
 
 }

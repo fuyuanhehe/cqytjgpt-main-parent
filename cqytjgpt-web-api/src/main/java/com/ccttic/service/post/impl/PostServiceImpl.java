@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeePost;
+import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
@@ -23,7 +23,6 @@ import com.ccttic.util.page.Pageable;
 
 @Service
 public class PostServiceImpl implements IPostService {
-	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private EssPostMapper postMapper;
 
@@ -67,52 +66,53 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional
-	public int addpost(EssPostVo post) {
+	public void addpost(EssPostVo post) throws Exception {
 
-		try {
-			String id = RandomHelper.uuid();
-			post.setId(id);
-			postMapper.createpost(post);
-			for (int i = 0; i < post.getEmp().size(); i++) {
-				String uid = RandomHelper.uuid();
-				EssEmployeePost eep = new EssEmployeePost();
-				eep.setEmpId(post.getEmp().get(i).getId());
-				eep.setId(uid);
-				eep.setVersion(1);
-				eep.setPostId(id);
-				postMapper.relatedPostAndEmp(eep);
-			}
-		} catch (Exception e) {
-
-			logger.info(e);
-			return 0;
+		String id = RandomHelper.uuid();
+		post.setId(id);
+		postMapper.createpost(post);
+		for (int i = 0; i < post.getEmp().size(); i++) {
+			String uid = RandomHelper.uuid();
+			EssEmployeePost eep = new EssEmployeePost();
+			eep.setEmpId(post.getEmp().get(i).getId());
+			eep.setId(uid);
+			eep.setVersion(1);
+			eep.setPostId(id);
+			postMapper.relatedPostAndEmp(eep);
 		}
-
-		return 1;
 	}
 
 	@Override
 	@Transactional
-	public int updatepost(EssPostVo post) {
+	public void updatepost(EssPostVo post) throws Exception {
 
-		try {
-			postMapper.updatepost(post);
-			postMapper.delEmpUnderPost(post.getId());
-			for (int i = 0; i < post.getEmp().size(); i++) {
-				String uid = RandomHelper.uuid();
-				EssEmployeePost eep = new EssEmployeePost();
-				eep.setEmpId(post.getEmp().get(i).getId());
-				eep.setId(uid);
-				eep.setVersion(1);
-				eep.setPostId(post.getId());
-				postMapper.relatedPostAndEmp(eep);
-			}
-		} catch (Exception e) {
-			logger.info(e);
-			return 0;
+		postMapper.updatepost(post);
+		postMapper.delEmpUnderPost(post.getId());
+		for (int i = 0; i < post.getEmp().size(); i++) {
+			String uid = RandomHelper.uuid();
+			EssEmployeePost eep = new EssEmployeePost();
+			eep.setEmpId(post.getEmp().get(i).getId());
+			eep.setId(uid);
+			eep.setVersion(1);
+			eep.setPostId(post.getId());
+			postMapper.relatedPostAndEmp(eep);
 		}
+	}
 
-		return 1;
+	@Override
+	@Transactional
+	public void delpost(Map<String, String> map) throws Exception {
+		postMapper.delpost(map);
+		postMapper.delEmpUnderPost(map.get("postId"));
+
+	}
+
+	@Override
+	public List<EssPost> selectPostUnderDep(Map<String, String> map) throws Exception {
+
+		List<EssPost> list = postMapper.selectPostUnderDep(map);
+
+		return list;
 	}
 
 }

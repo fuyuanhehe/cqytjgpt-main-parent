@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.mapper.employee.EssEmployeeMapper">
-  <resultMap id="BaseResultMap" type="com.ccttic.entity.employee.EssEmployee">
+<mapper namespace="com.ccttic.mapper.enterprise.EssEnterpriseMapper">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.enterprise.EssEnterprise">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="empCd" jdbcType="VARCHAR" property="empcd" />
-    <result column="empNm" jdbcType="VARCHAR" property="empnm" />
-    <result column="empNo" jdbcType="VARCHAR" property="empno" />
-    <result column="duty" jdbcType="VARCHAR" property="duty" />
-    <result column="empGender" jdbcType="VARCHAR" property="empgender" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="entryDate" jdbcType="DATE" property="entrydate" />
-    <result column="leaveDate" jdbcType="DATE" property="leavedate" />
-    <result column="account" jdbcType="VARCHAR" property="account" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="empStatus" jdbcType="VARCHAR" property="empstatus" />
-    <result column="empType" jdbcType="VARCHAR" property="emptype" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="etpCd" jdbcType="VARCHAR" property="etpcd" />
+    <result column="etpNm" jdbcType="VARCHAR" property="etpnm" />
+    <result column="etpshortNm" jdbcType="VARCHAR" property="etpshortnm" />
+    <result column="etpLawer" jdbcType="VARCHAR" property="etplawer" />
+    <result column="lawerTel" jdbcType="VARCHAR" property="lawertel" />
+    <result column="etpSafer" jdbcType="VARCHAR" property="etpsafer" />
+    <result column="saferTel" jdbcType="VARCHAR" property="safertel" />
+    <result column="admin_empid" jdbcType="VARCHAR" property="adminEmpid" />
+    <result column="ownerTraffic" jdbcType="VARCHAR" property="ownertraffic" />
+    <result column="ownerTransport" jdbcType="VARCHAR" property="ownertransport" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="dispOrder" jdbcType="INTEGER" property="disporder" />
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="isDeleted" jdbcType="BIT" property="isdeleted" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
@@ -85,17 +85,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, empCd, empNm, empNo, duty, empGender, phone, mobile, entryDate, leaveDate, account, 
-    password, empStatus, empType, version, isDeleted, createTime, updateTime, deleteTime, 
-    createBy, createDepCd, updateBy, updateDepCd
+    id, org_id, etpCd, etpNm, etpshortNm, etpLawer, lawerTel, etpSafer, saferTel, admin_empid, 
+    ownerTraffic, ownerTransport, remark, dispOrder, version, isDeleted, createTime, 
+    updateTime, deleteTime, createBy, createDepCd, updateBy, updateDepCd
   </sql>
-  <select id="selectByExample" parameterType="com.ccttic.entity.employee.EssEmployeeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ess_employee
+    from ess_enterprise
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -106,81 +106,81 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ess_employee
+    from ess_enterprise
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from ess_employee
+    delete from ess_enterprise
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ccttic.entity.employee.EssEmployeeExample">
-    delete from ess_employee
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample">
+    delete from ess_enterprise
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ccttic.entity.employee.EssEmployee">
-    insert into ess_employee (id, empCd, empNm, 
-      empNo, duty, empGender, 
-      phone, mobile, entryDate, 
-      leaveDate, account, password, 
-      empStatus, empType, version, 
+  <insert id="insert" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    insert into ess_enterprise (id, org_id, etpCd, 
+      etpNm, etpshortNm, etpLawer, 
+      lawerTel, etpSafer, saferTel, 
+      admin_empid, ownerTraffic, ownerTransport, 
+      remark, dispOrder, version, 
       isDeleted, createTime, updateTime, 
       deleteTime, createBy, createDepCd, 
       updateBy, updateDepCd)
-    values (#{id,jdbcType=VARCHAR}, #{empcd,jdbcType=VARCHAR}, #{empnm,jdbcType=VARCHAR}, 
-      #{empno,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, #{empgender,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{entrydate,jdbcType=DATE}, 
-      #{leavedate,jdbcType=DATE}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{empstatus,jdbcType=VARCHAR}, #{emptype,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{etpcd,jdbcType=VARCHAR}, 
+      #{etpnm,jdbcType=VARCHAR}, #{etpshortnm,jdbcType=VARCHAR}, #{etplawer,jdbcType=VARCHAR}, 
+      #{lawertel,jdbcType=VARCHAR}, #{etpsafer,jdbcType=VARCHAR}, #{safertel,jdbcType=VARCHAR}, 
+      #{adminEmpid,jdbcType=VARCHAR}, #{ownertraffic,jdbcType=VARCHAR}, #{ownertransport,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{disporder,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, 
       #{isdeleted,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
       #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
       #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.ccttic.entity.employee.EssEmployee">
-    insert into ess_employee
+  <insert id="insertSelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    insert into ess_enterprise
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="empcd != null">
-        empCd,
+      <if test="orgId != null">
+        org_id,
       </if>
-      <if test="empnm != null">
-        empNm,
+      <if test="etpcd != null">
+        etpCd,
       </if>
-      <if test="empno != null">
-        empNo,
+      <if test="etpnm != null">
+        etpNm,
       </if>
-      <if test="duty != null">
-        duty,
+      <if test="etpshortnm != null">
+        etpshortNm,
       </if>
-      <if test="empgender != null">
-        empGender,
+      <if test="etplawer != null">
+        etpLawer,
       </if>
-      <if test="phone != null">
-        phone,
+      <if test="lawertel != null">
+        lawerTel,
       </if>
-      <if test="mobile != null">
-        mobile,
+      <if test="etpsafer != null">
+        etpSafer,
       </if>
-      <if test="entrydate != null">
-        entryDate,
+      <if test="safertel != null">
+        saferTel,
       </if>
-      <if test="leavedate != null">
-        leaveDate,
+      <if test="adminEmpid != null">
+        admin_empid,
       </if>
-      <if test="account != null">
-        account,
+      <if test="ownertraffic != null">
+        ownerTraffic,
       </if>
-      <if test="password != null">
-        password,
+      <if test="ownertransport != null">
+        ownerTransport,
       </if>
-      <if test="empstatus != null">
-        empStatus,
+      <if test="remark != null">
+        remark,
       </if>
-      <if test="emptype != null">
-        empType,
+      <if test="disporder != null">
+        dispOrder,
       </if>
       <if test="version != null">
         version,
@@ -214,44 +214,44 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="empcd != null">
-        #{empcd,jdbcType=VARCHAR},
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
       </if>
-      <if test="empnm != null">
-        #{empnm,jdbcType=VARCHAR},
+      <if test="etpcd != null">
+        #{etpcd,jdbcType=VARCHAR},
       </if>
-      <if test="empno != null">
-        #{empno,jdbcType=VARCHAR},
+      <if test="etpnm != null">
+        #{etpnm,jdbcType=VARCHAR},
       </if>
-      <if test="duty != null">
-        #{duty,jdbcType=VARCHAR},
+      <if test="etpshortnm != null">
+        #{etpshortnm,jdbcType=VARCHAR},
       </if>
-      <if test="empgender != null">
-        #{empgender,jdbcType=VARCHAR},
+      <if test="etplawer != null">
+        #{etplawer,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
+      <if test="lawertel != null">
+        #{lawertel,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
+      <if test="etpsafer != null">
+        #{etpsafer,jdbcType=VARCHAR},
       </if>
-      <if test="entrydate != null">
-        #{entrydate,jdbcType=DATE},
+      <if test="safertel != null">
+        #{safertel,jdbcType=VARCHAR},
       </if>
-      <if test="leavedate != null">
-        #{leavedate,jdbcType=DATE},
+      <if test="adminEmpid != null">
+        #{adminEmpid,jdbcType=VARCHAR},
       </if>
-      <if test="account != null">
-        #{account,jdbcType=VARCHAR},
+      <if test="ownertraffic != null">
+        #{ownertraffic,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="ownertransport != null">
+        #{ownertransport,jdbcType=VARCHAR},
       </if>
-      <if test="empstatus != null">
-        #{empstatus,jdbcType=VARCHAR},
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="emptype != null">
-        #{emptype,jdbcType=VARCHAR},
+      <if test="disporder != null">
+        #{disporder,jdbcType=INTEGER},
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
@@ -282,56 +282,56 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ccttic.entity.employee.EssEmployeeExample" resultType="java.lang.Long">
-    select count(*) from ess_employee
+  <select id="countByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample" resultType="java.lang.Long">
+    select count(*) from ess_enterprise
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ess_employee
+    update ess_enterprise
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.empcd != null">
-        empCd = #{record.empcd,jdbcType=VARCHAR},
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=VARCHAR},
       </if>
-      <if test="record.empnm != null">
-        empNm = #{record.empnm,jdbcType=VARCHAR},
+      <if test="record.etpcd != null">
+        etpCd = #{record.etpcd,jdbcType=VARCHAR},
       </if>
-      <if test="record.empno != null">
-        empNo = #{record.empno,jdbcType=VARCHAR},
+      <if test="record.etpnm != null">
+        etpNm = #{record.etpnm,jdbcType=VARCHAR},
       </if>
-      <if test="record.duty != null">
-        duty = #{record.duty,jdbcType=VARCHAR},
+      <if test="record.etpshortnm != null">
+        etpshortNm = #{record.etpshortnm,jdbcType=VARCHAR},
       </if>
-      <if test="record.empgender != null">
-        empGender = #{record.empgender,jdbcType=VARCHAR},
+      <if test="record.etplawer != null">
+        etpLawer = #{record.etplawer,jdbcType=VARCHAR},
       </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
+      <if test="record.lawertel != null">
+        lawerTel = #{record.lawertel,jdbcType=VARCHAR},
       </if>
-      <if test="record.mobile != null">
-        mobile = #{record.mobile,jdbcType=VARCHAR},
+      <if test="record.etpsafer != null">
+        etpSafer = #{record.etpsafer,jdbcType=VARCHAR},
       </if>
-      <if test="record.entrydate != null">
-        entryDate = #{record.entrydate,jdbcType=DATE},
+      <if test="record.safertel != null">
+        saferTel = #{record.safertel,jdbcType=VARCHAR},
       </if>
-      <if test="record.leavedate != null">
-        leaveDate = #{record.leavedate,jdbcType=DATE},
+      <if test="record.adminEmpid != null">
+        admin_empid = #{record.adminEmpid,jdbcType=VARCHAR},
       </if>
-      <if test="record.account != null">
-        account = #{record.account,jdbcType=VARCHAR},
+      <if test="record.ownertraffic != null">
+        ownerTraffic = #{record.ownertraffic,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="record.ownertransport != null">
+        ownerTransport = #{record.ownertransport,jdbcType=VARCHAR},
       </if>
-      <if test="record.empstatus != null">
-        empStatus = #{record.empstatus,jdbcType=VARCHAR},
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.emptype != null">
-        empType = #{record.emptype,jdbcType=VARCHAR},
+      <if test="record.disporder != null">
+        dispOrder = #{record.disporder,jdbcType=INTEGER},
       </if>
       <if test="record.version != null">
         version = #{record.version,jdbcType=INTEGER},
@@ -366,21 +366,21 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ess_employee
+    update ess_enterprise
     set id = #{record.id,jdbcType=VARCHAR},
-      empCd = #{record.empcd,jdbcType=VARCHAR},
-      empNm = #{record.empnm,jdbcType=VARCHAR},
-      empNo = #{record.empno,jdbcType=VARCHAR},
-      duty = #{record.duty,jdbcType=VARCHAR},
-      empGender = #{record.empgender,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      entryDate = #{record.entrydate,jdbcType=DATE},
-      leaveDate = #{record.leavedate,jdbcType=DATE},
-      account = #{record.account,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      empStatus = #{record.empstatus,jdbcType=VARCHAR},
-      empType = #{record.emptype,jdbcType=VARCHAR},
+      org_id = #{record.orgId,jdbcType=VARCHAR},
+      etpCd = #{record.etpcd,jdbcType=VARCHAR},
+      etpNm = #{record.etpnm,jdbcType=VARCHAR},
+      etpshortNm = #{record.etpshortnm,jdbcType=VARCHAR},
+      etpLawer = #{record.etplawer,jdbcType=VARCHAR},
+      lawerTel = #{record.lawertel,jdbcType=VARCHAR},
+      etpSafer = #{record.etpsafer,jdbcType=VARCHAR},
+      saferTel = #{record.safertel,jdbcType=VARCHAR},
+      admin_empid = #{record.adminEmpid,jdbcType=VARCHAR},
+      ownerTraffic = #{record.ownertraffic,jdbcType=VARCHAR},
+      ownerTransport = #{record.ownertransport,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      dispOrder = #{record.disporder,jdbcType=INTEGER},
       version = #{record.version,jdbcType=INTEGER},
       isDeleted = #{record.isdeleted,jdbcType=BIT},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -394,47 +394,47 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.employee.EssEmployee">
-    update ess_employee
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    update ess_enterprise
     <set>
-      <if test="empcd != null">
-        empCd = #{empcd,jdbcType=VARCHAR},
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=VARCHAR},
       </if>
-      <if test="empnm != null">
-        empNm = #{empnm,jdbcType=VARCHAR},
+      <if test="etpcd != null">
+        etpCd = #{etpcd,jdbcType=VARCHAR},
       </if>
-      <if test="empno != null">
-        empNo = #{empno,jdbcType=VARCHAR},
+      <if test="etpnm != null">
+        etpNm = #{etpnm,jdbcType=VARCHAR},
       </if>
-      <if test="duty != null">
-        duty = #{duty,jdbcType=VARCHAR},
+      <if test="etpshortnm != null">
+        etpshortNm = #{etpshortnm,jdbcType=VARCHAR},
       </if>
-      <if test="empgender != null">
-        empGender = #{empgender,jdbcType=VARCHAR},
+      <if test="etplawer != null">
+        etpLawer = #{etplawer,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
+      <if test="lawertel != null">
+        lawerTel = #{lawertel,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null">
-        mobile = #{mobile,jdbcType=VARCHAR},
+      <if test="etpsafer != null">
+        etpSafer = #{etpsafer,jdbcType=VARCHAR},
       </if>
-      <if test="entrydate != null">
-        entryDate = #{entrydate,jdbcType=DATE},
+      <if test="safertel != null">
+        saferTel = #{safertel,jdbcType=VARCHAR},
       </if>
-      <if test="leavedate != null">
-        leaveDate = #{leavedate,jdbcType=DATE},
+      <if test="adminEmpid != null">
+        admin_empid = #{adminEmpid,jdbcType=VARCHAR},
       </if>
-      <if test="account != null">
-        account = #{account,jdbcType=VARCHAR},
+      <if test="ownertraffic != null">
+        ownerTraffic = #{ownertraffic,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+      <if test="ownertransport != null">
+        ownerTransport = #{ownertransport,jdbcType=VARCHAR},
       </if>
-      <if test="empstatus != null">
-        empStatus = #{empstatus,jdbcType=VARCHAR},
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="emptype != null">
-        empType = #{emptype,jdbcType=VARCHAR},
+      <if test="disporder != null">
+        dispOrder = #{disporder,jdbcType=INTEGER},
       </if>
       <if test="version != null">
         version = #{version,jdbcType=INTEGER},
@@ -466,21 +466,21 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.employee.EssEmployee">
-    update ess_employee
-    set empCd = #{empcd,jdbcType=VARCHAR},
-      empNm = #{empnm,jdbcType=VARCHAR},
-      empNo = #{empno,jdbcType=VARCHAR},
-      duty = #{duty,jdbcType=VARCHAR},
-      empGender = #{empgender,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      entryDate = #{entrydate,jdbcType=DATE},
-      leaveDate = #{leavedate,jdbcType=DATE},
-      account = #{account,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      empStatus = #{empstatus,jdbcType=VARCHAR},
-      empType = #{emptype,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    update ess_enterprise
+    set org_id = #{orgId,jdbcType=VARCHAR},
+      etpCd = #{etpcd,jdbcType=VARCHAR},
+      etpNm = #{etpnm,jdbcType=VARCHAR},
+      etpshortNm = #{etpshortnm,jdbcType=VARCHAR},
+      etpLawer = #{etplawer,jdbcType=VARCHAR},
+      lawerTel = #{lawertel,jdbcType=VARCHAR},
+      etpSafer = #{etpsafer,jdbcType=VARCHAR},
+      saferTel = #{safertel,jdbcType=VARCHAR},
+      admin_empid = #{adminEmpid,jdbcType=VARCHAR},
+      ownerTraffic = #{ownertraffic,jdbcType=VARCHAR},
+      ownerTransport = #{ownertransport,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      dispOrder = #{disporder,jdbcType=INTEGER},
       version = #{version,jdbcType=INTEGER},
       isDeleted = #{isdeleted,jdbcType=BIT},
       createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -492,40 +492,4 @@
       updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-	<select id="qryPostList"  parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployeeVo">
-	SELECT emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS orgNm,emp.empType AS emptype,emp.empNo AS empno,emp.account AS account,depart.depNm AS depNm FROM ess_employee_dept dept,ess_employee emp,ess_organization org ,ess_department depart WHERE
-	  org.orgCd =#{orgCd} AND dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND  org.orgCd=depart.org_id 
-	<if test="empNm != null and empNm != ''">
-			and emp.empNm like '%${empNm}%'
-		</if>
-			<if test="account != null and account != ''">
-			and emp.account =#{account}
-		</if>
-			<if test="depNm != null and depNm != ''">
-			and depart.id =#{depid}
-		</if>
-		order by emp.createTime DESC
-		
-		limit ${startRecord},${pageSize}
-	</select>
-	<select id="qryPostListCount"  parameterType="java.util.Map" resultType="java.lang.Long">
-	SELECT count(*) FROM ess_employee_dept dept,ess_employee emp,ess_organization org ,ess_department depart WHERE
-	  org.orgCd =#{orgCd} AND dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND  org.orgCd=depart.org_id 
-	<if test="empNm != null and empNm != ''">
-			and emp.empNm like '%${empNm}%'
-		</if>
-			<if test="account != null and account != ''">
-			and emp.account =#{account}
-		</if>
-			<if test="depNm != null and depNm != ''">
-			and depart.id =#{depid}
-		</if>
-	</select>
-	<select id="selectPostUnderEmp"  parameterType="java.lang.String" resultType="com.ccttic.entity.post.EssPost">
-	SELECT post.id AS id,post.postNm AS postnm FROM ess_post post,ess_employee_post eep WHERE post.id=eep.post_id AND eep.emp_id =#{id}
-	</select>
-	<delete id="delPostUnderEmp" parameterType="java.lang.String">
-	delete from ess_employee_post where emp_id = #{empId}
-	</delete>
 </mapper>

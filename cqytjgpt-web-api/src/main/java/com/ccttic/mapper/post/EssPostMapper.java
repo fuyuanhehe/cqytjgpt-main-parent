@@ -25,15 +25,19 @@ public interface EssPostMapper {
 
 	List<EssEmployee> getEmployeeByDep(Map<String, String> map)throws Exception;
 
-	int createpost(EssPostVo post);
+	int createpost(EssPostVo post)throws Exception;
 
-	void relatedPostAndEmp(EssEmployeePost eep);
+	void relatedPostAndEmp(EssEmployeePost eep)throws Exception;
 
-	void updatepost(EssPost post);
+	void updatepost(EssPost post)throws Exception;
 
-	List<EssEmployee> selectEmpUnderPost(@Param("id") String id);
+	List<EssEmployee> selectEmpUnderPost(@Param("id") String id)throws Exception;
 
-	void delEmpUnderPost(String id);
+	void delEmpUnderPost(String id)throws Exception;
+
+	void delpost(Map<String, String> map)throws Exception;
+
+	List<EssPost> selectPostUnderDep(Map<String, String> map)throws Exception;
 	
 	
 }

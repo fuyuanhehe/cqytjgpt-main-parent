@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
@@ -72,9 +74,9 @@ public class PostController {
 	}
 
 	@RequestMapping(value = "selectDepartment", method = RequestMethod.POST)
-	public ResponseMsg<List<Department>> selectDepartment(@RequestBody String depid) {
+	public ResponseMsg<List<Department>> selectDepartment(@RequestBody String orgid) {
 		ResponseMsg<List<Department>> rm = new ResponseMsg<>();
-		Map<String, String> map = JsonUtil.jsonToMap(depid);
+		Map<String, String> map = JsonUtil.jsonToMap(orgid);
 		try {
 			List<Department> list = postService.getDepartmentByOrg(map);
 			rm.setData(list);
@@ -114,16 +116,16 @@ public class PostController {
 	@RequestMapping(value = "addpost", method = RequestMethod.POST)
 	public ResponseMsg<String> addpost(@RequestBody EssPostVo post) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
-		System.out.println(post.getEmp().get(1).getId());
-		int i = postService.addpost(post);
-		if (i == 1) {
+		 try {
+			postService.addpost(post);
 			rm.setMessage("添加post数据成功");
 			rm.setStatus(0);
-		} else {
+		} catch (Exception e) {
+			e.printStackTrace();
 			rm.setMessage("添加post数据失败");
 			rm.setStatus(-1);
+			logger.info(e);
 		}
-
 		return rm;
 	}
 
@@ -131,15 +133,52 @@ public class PostController {
 	public ResponseMsg<String> updatepost(@RequestBody EssPostVo post) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
 
-		int i = postService.updatepost(post);
-		if (i == 1) {
-			rm.setMessage("添加post数据成功");
+		 try {
+			postService.updatepost(post);
+			rm.setMessage("修改post数据成功");
 			rm.setStatus(0);
-		} else {
-			rm.setMessage("添加post数据失败");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			rm.setMessage("修改post数据失败");
 			rm.setStatus(-1);
+			logger.info(e);
 		}
-
+		return rm;
+	}
+	@RequestMapping(value = "delpost", method = RequestMethod.POST)
+	public ResponseMsg<String> delpost(@RequestBody String postId) {
+		ResponseMsg<String> rm = new ResponseMsg<>();
+		Map<String, String> map = JsonUtil.jsonToMap(postId);
+		 try {
+			postService.delpost(map);
+			rm.setMessage("删除post数据成功");
+			rm.setStatus(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			rm.setMessage("删除post数据失败");
+			rm.setStatus(-1);
+			logger.info(e);
+		}
+		return rm;
+	}
+	@RequestMapping(value = "/selectPostUnderDep", method = { RequestMethod.GET, RequestMethod.POST })
+	public ResponseMsg<List<EssPost>> selectPostUnderDep(HttpServletRequest request,
+			@RequestBody String post ) {
+		ResponseMsg<List<EssPost>> rm = new ResponseMsg<List<EssPost>>();
+		Map<String, String> map = JsonUtil.jsonToMap(post);
+		
+		try {
+			List<EssPost> list = postService.selectPostUnderDep(map);
+				rm.setData(list);
+					rm.success("获得post数据成功");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			rm.fail("获得post数据失败");
+			logger.info(e);
+		}
 		return rm;
 	}
 

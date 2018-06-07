@@ -20,13 +20,13 @@
     <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
   </resultMap>
   <select id="qryPostListCount" parameterType="java.util.Map" resultType="java.lang.Long">
-	SELECT count(*) FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id
+	SELECT count(*) FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
 		<if test="postNm != null and postNm != ''">
 			and postNm like '%${postNm}%'
 		</if>
 	</select>
 	<select id="qryPostList" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPostVo">
-		SELECT post.id AS id,org.orgNm AS orgNm,depart.depNm AS depNm,post.postCd AS postCd,post.postNm AS postNm,post.description AS description FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id
+		SELECT post.id AS id,org.orgNm AS orgNm,depart.depNm AS depNm,post.postCd AS postCd,post.postNm AS postNm,post.description AS description FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
 		<if test="postNm != null and postNm != ''">
 			and post.postNm like '%${postNm}%'
 		</if>
@@ -65,5 +65,14 @@
 	
 	<select id="selectEmpUnderPost" parameterType="java.lang.String" resultType="com.ccttic.entity.employee.EssEmployee">
 	SELECT emp.* FROM ess_employee emp,ess_employee_post post WHERE emp.id = post.emp_id AND post.post_id=#{id}
+	</select>
+	<update id="delpost"  parameterType="java.util.Map" >
+	update set ess_post isDeleted=1 where  id=#{postId}
+	</update>
+		<select id="selectPostUnderdep"  parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPost">
+	SELECT id AS id,postNm AS postnm FROM ess_post  WHERE dep_id=#{depid} 
+		<if test="postNm != null and postNm != ''">
+			AND postNm like '%${postNm}%'
+		</if>
 	</select>
 </mapper>
