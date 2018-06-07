@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.mapper.VehiDangerMapper">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.VehiDanger">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="vehiNo" jdbcType="VARCHAR" property="vehino" />
+    <result column="vehiType" jdbcType="VARCHAR" property="vehitype" />
+    <result column="ownerEnterprise" jdbcType="VARCHAR" property="ownerenterprise" />
+    <result column="scrappedState" jdbcType="INTEGER" property="scrappedstate" />
+    <result column="illicitState" jdbcType="INTEGER" property="illicitstate" />
+    <result column="overdueExamineSate" jdbcType="INTEGER" property="overdueexaminesate" />
+    <result column="fullStudyState" jdbcType="INTEGER" property="fullstudystate" />
+    <result column="dangerType" jdbcType="VARCHAR" property="dangertype" />
+    <result column="ownerGener" jdbcType="VARCHAR" property="ownergener" />
+    <result column="ownerOrgId" jdbcType="VARCHAR" property="ownerorgid" />
+    <result column="vehicle_id" jdbcType="VARCHAR" property="vehicleId" />
+    <result column="dangerTime" jdbcType="VARCHAR" property="dangertime" />
+    <result column="correctTime" jdbcType="VARCHAR" property="correcttime" />
+    <result column="correctState" jdbcType="VARCHAR" property="correctstate" />
+    <result column="dangerDesc" jdbcType="VARCHAR" property="dangerdesc" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="isDeleted" jdbcType="BIT" property="isdeleted" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime" />
+    <result column="createBy" jdbcType="VARCHAR" property="createby" />
+    <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd" />
+    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
+    <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from vehi_danger
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ccttic.entity.VehiDanger">
+    insert into vehi_danger (id, vehiNo, vehiType, 
+      ownerEnterprise, scrappedState, illicitState, 
+      overdueExamineSate, fullStudyState, dangerType, 
+      ownerGener, ownerOrgId, vehicle_id, 
+      dangerTime, correctTime, correctState, 
+      dangerDesc, remark, version, 
+      isDeleted, createTime, updateTime, 
+      deleteTime, createBy, createDepCd, 
+      updateBy, updateDepCd)
+    values (#{id,jdbcType=VARCHAR}, #{vehino,jdbcType=VARCHAR}, #{vehitype,jdbcType=VARCHAR}, 
+      #{ownerenterprise,jdbcType=VARCHAR}, #{scrappedstate,jdbcType=INTEGER}, #{illicitstate,jdbcType=INTEGER}, 
+      #{overdueexaminesate,jdbcType=INTEGER}, #{fullstudystate,jdbcType=INTEGER}, #{dangertype,jdbcType=VARCHAR}, 
+      #{ownergener,jdbcType=VARCHAR}, #{ownerorgid,jdbcType=VARCHAR}, #{vehicleId,jdbcType=VARCHAR}, 
+      #{dangertime,jdbcType=VARCHAR}, #{correcttime,jdbcType=VARCHAR}, #{correctstate,jdbcType=VARCHAR}, 
+      #{dangerdesc,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{isdeleted,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
+      #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.VehiDanger">
+    update vehi_danger
+    set vehiNo = #{vehino,jdbcType=VARCHAR},
+      vehiType = #{vehitype,jdbcType=VARCHAR},
+      ownerEnterprise = #{ownerenterprise,jdbcType=VARCHAR},
+      scrappedState = #{scrappedstate,jdbcType=INTEGER},
+      illicitState = #{illicitstate,jdbcType=INTEGER},
+      overdueExamineSate = #{overdueexaminesate,jdbcType=INTEGER},
+      fullStudyState = #{fullstudystate,jdbcType=INTEGER},
+      dangerType = #{dangertype,jdbcType=VARCHAR},
+      ownerGener = #{ownergener,jdbcType=VARCHAR},
+      ownerOrgId = #{ownerorgid,jdbcType=VARCHAR},
+      vehicle_id = #{vehicleId,jdbcType=VARCHAR},
+      dangerTime = #{dangertime,jdbcType=VARCHAR},
+      correctTime = #{correcttime,jdbcType=VARCHAR},
+      correctState = #{correctstate,jdbcType=VARCHAR},
+      dangerDesc = #{dangerdesc,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      isDeleted = #{isdeleted,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=VARCHAR},
+      createDepCd = #{createdepcd,jdbcType=VARCHAR},
+      updateBy = #{updateby,jdbcType=VARCHAR},
+      updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, vehiNo, vehiType, ownerEnterprise, scrappedState, illicitState, overdueExamineSate, 
+    fullStudyState, dangerType, ownerGener, ownerOrgId, vehicle_id, dangerTime, correctTime, 
+    correctState, dangerDesc, remark, version, isDeleted, createTime, updateTime, deleteTime, 
+    createBy, createDepCd, updateBy, updateDepCd
+    from vehi_danger
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, vehiNo, vehiType, ownerEnterprise, scrappedState, illicitState, overdueExamineSate, 
+    fullStudyState, dangerType, ownerGener, ownerOrgId, vehicle_id, dangerTime, correctTime, 
+    correctState, dangerDesc, remark, version, isDeleted, createTime, updateTime, deleteTime, 
+    createBy, createDepCd, updateBy, updateDepCd
+    from vehi_danger
+  </select>
+</mapper>
