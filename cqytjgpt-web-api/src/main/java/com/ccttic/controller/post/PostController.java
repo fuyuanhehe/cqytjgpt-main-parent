@@ -50,7 +50,6 @@ public class PostController {
 			rm.setStatus(-1);
 			logger.info(e);
 		}
-
 		return rm;
 	}
 
