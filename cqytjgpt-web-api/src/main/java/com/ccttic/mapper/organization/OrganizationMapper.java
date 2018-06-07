@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.role.Area;
+import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 
 public interface OrganizationMapper {
@@ -28,7 +30,7 @@ public interface OrganizationMapper {
 	 * @return
 	 */
 
-	public Organization findOrgByOrgCd(@Param("orgCd") String orgCd);
+	public OrgEmpCombine findOrgByOrgCd(@Param("orgCd") String orgCd);
 	
 	/**
 	 * 创建组织机构
@@ -54,5 +56,11 @@ public interface OrganizationMapper {
 	 */
 	public void removeOrg(@Param("orgCd") String orgCd);
 
+	/**
+	 * 获取行政区域编码
+	 * @return
+	 */
+
+	public List<Area> getArea();
 	
 }

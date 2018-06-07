@@ -3,6 +3,8 @@ package com.ccttic.service.organization;
 import java.util.List;
 
 import com.ccttic.entity.common.exception.AppException;
+import com.ccttic.entity.role.Area;
+import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 
 public interface IOrganizationService {
@@ -28,7 +30,7 @@ public interface IOrganizationService {
 	 * @return
 	 * @throws AppException
 	 */
-	Organization findOrgByOrgCd(String orgCd) throws AppException;
+	OrgEmpCombine findOrgByOrgCd(String orgCd) throws AppException;
 	
 	/**
 	 * 创建组织机构
@@ -52,4 +54,12 @@ public interface IOrganizationService {
 	 * @throws AppException
 	 */
 	void removeOrg(String orgCd,String orgType) throws AppException;
+	
+	/**
+	 * 获取行政区域编码
+	 * @param orgCd
+	 * @return
+	 * @throws AppException
+	 */
+	List<Area> getArea() throws AppException;
 }

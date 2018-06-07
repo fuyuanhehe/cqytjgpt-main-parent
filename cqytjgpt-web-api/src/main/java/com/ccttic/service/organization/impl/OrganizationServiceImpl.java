@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.common.exception.DeleteRefusedException;
+import com.ccttic.entity.role.Area;
+import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.mapper.organization.DepartmentMapper;
 import com.ccttic.mapper.organization.OrganizationMapper;
@@ -33,7 +35,7 @@ public class OrganizationServiceImpl implements IOrganizationService{
 	}
 
 	@Override
-	public Organization findOrgByOrgCd(String orgCd) throws AppException {
+	public OrgEmpCombine findOrgByOrgCd(String orgCd) throws AppException {
 		return mapper.findOrgByOrgCd(orgCd);
 	}
 
@@ -73,6 +75,11 @@ public class OrganizationServiceImpl implements IOrganizationService{
 		}
 		
 		mapper.removeOrg(orgCd);
+	}
+
+	@Override
+	public List<Area> getArea() throws AppException {
+		return mapper.getArea();
 	}
 
 }

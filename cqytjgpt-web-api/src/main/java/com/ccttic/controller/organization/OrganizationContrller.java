@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.common.exception.AppException;
+import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
+import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.service.organization.IDepartmentService;
 import com.ccttic.service.organization.IOrganizationService;
@@ -24,26 +26,27 @@ import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
-
 /**
- * 功能说明：     组织机构信息Contrller
+ * 功能说明： 组织机构信息Contrller
+ * 
  * @author admin
  *
  */
 @RestController
 @RequestMapping("/organization")
 public class OrganizationContrller implements Serializable {
-	
+
 	private static final long serialVersionUID = -7767353326548858542L;
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private IOrganizationService organizationService;
-	
+
 	@Autowired
 	private IDepartmentService departmentService;
-	
+
 	/**
 	 * 获取机构头
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/findHeadOrg", produces = "text/plain;charset=UTF-8")
@@ -62,10 +65,10 @@ public class OrganizationContrller implements Serializable {
 			map.put("msg", "获取信息失败！");
 			logger.error(e.getMessage());
 		}
-		
+
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
 	/**
 	 * 取得当前节点的下级节点
 	 * 
@@ -91,10 +94,12 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
 	/**
 	 * 根据机构orgCd取得组织信息
-	 * @param orgCd 机构code
+	 * 
+	 * @param orgCd
+	 *            机构code
 	 * @return
 	 */
 	@RequestMapping(value = "/findOrgByOrgCd", produces = "text/plain;charset=UTF-8")
@@ -102,7 +107,7 @@ public class OrganizationContrller implements Serializable {
 	public String findOrgByOrgCd(String orgCd) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Organization findOrg = organizationService.findOrgByOrgCd(orgCd);
+			OrgEmpCombine findOrg = organizationService.findOrgByOrgCd(orgCd);
 			if (!ObjectHelper.isEmpty(findOrg)) {
 				map.put("data", findOrg);
 				map.put("result", 0);
@@ -115,7 +120,7 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
 	/**
 	 * 创建机构
 	 * 
@@ -140,9 +145,10 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
 	/**
 	 * 修改机构
+	 * 
 	 * @param orgDto
 	 *            机构属性
 	 * @return
@@ -163,8 +169,7 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
-	
+
 	/**
 	 * 删除机构
 	 * 
@@ -174,10 +179,10 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/removeOrg", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String removeOrg(String orgCd,String orgType) {
+	public String removeOrg(String orgCd, String orgType) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			organizationService.removeOrg(orgCd,orgType);
+			organizationService.removeOrg(orgCd, orgType);
 			map.put("result", 0);
 			map.put("msg", "删除成功！");
 		} catch (AppException e) {
@@ -187,18 +192,20 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
 	/**
 	 * 根据机构orgCd取得部门管理信息
-	 * @param orgCd 机构code
+	 * 
+	 * @param orgCd
+	 *            机构code
 	 * @return
 	 */
 	@RequestMapping(value = "/findOrgDepartment", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String findOrgDepartment(PageRequest page, Department tment,String orgCd) {
+	public String findOrgDepartment(PageRequest page, Department tment, String orgCd) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Page<Map<String, Object>> pager  = departmentService.findOrgDepartmentList(page, tment, orgCd);
+			Page<Map<String, Object>> pager = departmentService.findOrgDepartmentList(page, tment, orgCd);
 			map.put("data", pager.getRecords());
 			map.put("total", pager.getTotalRows());
 			map.put("result", 0);
@@ -210,16 +217,18 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
 	/**
 	 * 新增部门
-	 * @param orgCd 机构编码
+	 * 
+	 * @param orgCd
+	 *            机构编码
 	 * @param ment
 	 * @return
 	 */
-	@RequestMapping(value = "/saveDepartment", method=RequestMethod.POST)
+	@RequestMapping(value = "/saveDepartment", method = RequestMethod.POST)
 	@ResponseBody
-	public String saveDepartment (@RequestBody Department ment) {
+	public String saveDepartment(@RequestBody Department ment) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String id = RandomHelper.uuid();
@@ -234,15 +243,16 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
 	/**
 	 * 修改部门
+	 * 
 	 * @param ment
 	 * @return
 	 */
 	@RequestMapping(value = "/editDepartment", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String editDepartment (Department ment) {
+	public String editDepartment(Department ment) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			ment = departmentService.modifyMent(ment);
@@ -256,10 +266,10 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
-	
+
 	/**
-	 *  删除部门
+	 * 删除部门
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -277,19 +287,20 @@ public class OrganizationContrller implements Serializable {
 			logger.error(e.getMessage());
 		}
 		return ObjectHelper.objectToJson(map);
-		
-		
+
 	}
-	
+
 	/**
 	 * 新增企业
-	 * @param orgCd 机构编码
+	 * 
+	 * @param orgCd
+	 *            机构编码
 	 * @param rise
 	 * @return
 	 */
-	@RequestMapping(value = "/saveEnterprise",method=RequestMethod.POST)
+	@RequestMapping(value = "/saveEnterprise", method = RequestMethod.POST)
 	@ResponseBody
-	public String saveEnterprise (@RequestBody Enterprise rise) {
+	public String saveEnterprise(@RequestBody Enterprise rise) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String id = RandomHelper.uuid();
@@ -304,5 +315,27 @@ public class OrganizationContrller implements Serializable {
 		}
 		return ObjectHelper.objectToJson(map);
 	}
-	
+
+	/**
+	 * 获取行政区域编码
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/getArea", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String getArea() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<Area> area = organizationService.getArea();
+			map.put("data", area);
+			map.put("result", 0);
+			map.put("msg", "获取信息成功！");
+		} catch (AppException e) {
+			map.put("result", -1);
+			map.put("msg", "获取信息失败！");
+			logger.error(e.getMessage());
+		}
+		return ObjectHelper.objectToJson(map);
+	}
+
 }
