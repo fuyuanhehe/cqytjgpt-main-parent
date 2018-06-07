@@ -1,7 +1,8 @@
 package com.ccttic.mapper;
 
-import com.ccttic.entity.VehiDanger;
 import java.util.List;
+
+import com.ccttic.entity.danger.VehiDanger;
 
 public interface VehiDangerMapper {
     int deleteByPrimaryKey(String id);

@@ -1,7 +1,8 @@
 package com.ccttic.mapper;
 
-import com.ccttic.entity.DrDanger;
 import java.util.List;
+
+import com.ccttic.entity.danger.DrDanger;
 
 public interface DrDangerMapper {
     int deleteByPrimaryKey(String id);
