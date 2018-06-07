@@ -7,8 +7,8 @@
     <artifactId>cqytjgpt-main-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>cqytjpt-screen-api</artifactId>
-  <name>cqytjpt-screen-api</name>
+  <artifactId>cqytjgpt-screen-api</artifactId>
+  <name>cqytjgpt-screen-api</name>
   <description>源头监管大屏监管webapi</description>
   <properties>
   		<com.alibaba.version>1.1.9</com.alibaba.version>

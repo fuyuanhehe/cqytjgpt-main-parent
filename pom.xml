@@ -34,7 +34,8 @@
         <module>cqytjgpt-all-domain</module>
         <!-- 工具类 -->
         <module>cqytjgpt-common-tools</module>
-    <module>cqytjgpt-web-api</module>
+    	<!-- 大屏api -->
+    	<module>cqytjgpt-screen-api</module>
   </modules>
 
     <properties>
