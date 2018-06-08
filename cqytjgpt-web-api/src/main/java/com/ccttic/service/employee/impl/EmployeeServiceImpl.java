@@ -19,15 +19,15 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeDept;
 import com.ccttic.entity.employee.EssEmployeePost;
 import com.ccttic.entity.employee.EssEmployeeVo;
-import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
-import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.RoleEmp;
+import com.ccttic.entity.role.vo.Model_menus;
 import com.ccttic.mapper.employee.EmployeeMapper;
 import com.ccttic.mapper.employee.EssEmployeeMapper;
 import com.ccttic.mapper.post.EssPostMapper;
+import com.ccttic.mapper.role.RoleMenuMapper;
 import com.ccttic.service.employee.IEmployeeService;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
@@ -51,7 +51,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private EssEmployeeMapper empMapper;
 	@Autowired
 	private EssPostMapper postMapper;
-	
+	@Autowired
+	private RoleMenuMapper roleMapper;
 	
 
 	/*
@@ -104,10 +105,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			orgs.add(org);
 		}
 		emp.setOrgs(orgs);
-		// 员工能使用的菜单
-		List<ResMenu> menus;
-		// 员工角色
-		List<Role> roles;
+		// 员工能使用的菜单,员工角色
+		List<Model_menus> menus =roleMapper.seMenusByEid(emp.getId());
+		emp.setMenus(menus);
 
 		return emp;
 
