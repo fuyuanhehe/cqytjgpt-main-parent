@@ -1,14 +1,8 @@
 package com.ccttic.controller.attachment;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
