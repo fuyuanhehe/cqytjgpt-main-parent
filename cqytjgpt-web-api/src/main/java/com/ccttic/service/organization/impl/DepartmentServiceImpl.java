@@ -43,7 +43,12 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	@Override
 	public Department createMent(Department ment, String id) throws AppException {
 		ment.setId(id);
-		ment.setOrgId(ment.getOrgCd());
+		if (null!=ment.getOrgCd()) { // 增加机构下的部门
+			ment.setOrgId(ment.getOrgCd());
+		}
+		if (null!=ment.getEptId()) { // 增加企业下的部门
+			ment.setEptId(ment.getEptId());
+		}
 		mapper.createMent(ment);
 		return ment;
 	}
