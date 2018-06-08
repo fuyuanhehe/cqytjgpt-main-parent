@@ -78,7 +78,7 @@ public class FastDfsServiceImpl implements FastDfsService {
 		atta.setId(RandomHelper.uuid());
 		atta.setAttachmentNm(file.getOriginalFilename());
 		atta.setAttachmentPath(storePath.getPath());
-		atta.setAttachementGroup(storePath.getGroup());
+		atta.setAttachmentGroup(storePath.getGroup());
 		atta.setCreateNm(employee.getEmpNm());
 		atta.setCreateBy(employee.getEmpCd());
 		atta.setUploadTime(new Date());
@@ -96,7 +96,7 @@ public class FastDfsServiceImpl implements FastDfsService {
 	public Attachment downloadFile(String attachmentId) {
 		Attachment atta = attachmentMapper.findAttachmentById(attachmentId);
 		DownloadByteArray callback = new DownloadByteArray();
-		atta.setFileBytes(storageClient.downloadFile(atta.getAttachementGroup(), atta.getAttachmentPath(),callback));
+		atta.setFileBytes(storageClient.downloadFile(atta.getAttachmentGroup(), atta.getAttachmentPath(),callback));
 		return atta;
 	}
 

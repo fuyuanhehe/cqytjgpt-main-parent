@@ -140,5 +140,5 @@ public class AttachmentController implements Serializable {
 		headers.setContentDispositionFormData("attachment",atta.getAttachmentNm());
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(atta.getFileBytes(),headers,HttpStatus.OK);
-	}	
+	}		
 }
