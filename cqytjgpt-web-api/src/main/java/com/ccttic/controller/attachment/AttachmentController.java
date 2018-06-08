@@ -118,7 +118,7 @@ public class AttachmentController implements Serializable {
 	 * @return JSON
 	 */
 	@RequestMapping(value="/upload",method= {RequestMethod.GET,RequestMethod.POST})
-	@OperLogging(content="上传附件")
+	//@OperLogging(content="上传附件")
 	public ResponseMsg<Attachment> uploadAttachment(MultipartFile uploadFile, @ModelAttribute(Const.USER) Employee emp) {
 		ResponseMsg<Attachment> resp = new ResponseMsg<Attachment>();
 		try {
@@ -133,7 +133,7 @@ public class AttachmentController implements Serializable {
 	}
 	
 	@RequestMapping(value="/download",method= {RequestMethod.GET,RequestMethod.POST})
-	@OperLogging(content="下载附件")
+	//@OperLogging(content="下载附件")
 	public ResponseEntity<byte[]> downloadAttachment(String attachmentId){
 		HttpHeaders headers = new HttpHeaders();
 		Attachment atta = attachmentService.downloadFile(attachmentId);
