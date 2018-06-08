@@ -52,6 +52,10 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	private String state;
 	// 备注
 	private String remark;
+	// 违法开始时间
+	private String startTime;
+	// 违法结束时间
+	private String endTime;
 
 	public VehiIllicit() {
 		super();
@@ -60,7 +64,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	public VehiIllicit(String vehiNo, String vehiNoType, String usage, String ownership, String owner, String adress,
 			String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime, String illicitScore,
 			String illicitAmount, String illicitAdress, String illicit, String illicitDesc, String pickDepartment,
-			String pickDepartmentDesc, String state, String remark) {
+			String pickDepartmentDesc, String state, String remark, String startTime, String endTime) {
 		super();
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
@@ -81,6 +85,8 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.pickDepartmentDesc = pickDepartmentDesc;
 		this.state = state;
 		this.remark = remark;
+		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 
 	public String getVehiNo() {
@@ -233,6 +239,22 @@ public class VehiIllicit extends BaseBean implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 }
