@@ -1,6 +1,7 @@
 package com.ccttic.entity.attchment;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 
@@ -17,7 +18,7 @@ public class Attachment implements Serializable {
 	//附件ID
 	private String id;
 	//资料类别
-	private Integer attachmentType;
+	private Integer attachmentType = 2;
 	//资料类别
 	private String attachmentTypeStr;
 	//附件名称
@@ -25,7 +26,7 @@ public class Attachment implements Serializable {
 	//附件路径
 	private String attachmentPath;
 	//附件分组
-	private String attachementGroup;
+	private String attachmentGroup;
 	//上传时间
 	private Date uploadTime;
 	//删除时间
@@ -36,78 +37,104 @@ public class Attachment implements Serializable {
 	private String createNm;
 	
 	private byte[] fileBytes;
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public Integer getAttachmentType() {
 		return attachmentType;
 	}
+
 	public void setAttachmentType(Integer attachmentType) {
 		this.attachmentType = attachmentType;
 	}
+
 	public String getAttachmentTypeStr() {
 		return attachmentTypeStr;
 	}
+
 	public void setAttachmentTypeStr(String attachmentTypeStr) {
 		this.attachmentTypeStr = attachmentTypeStr;
 	}
+
 	public String getAttachmentNm() {
 		return attachmentNm;
 	}
+
 	public void setAttachmentNm(String attachmentNm) {
 		this.attachmentNm = attachmentNm;
 	}
+
 	public String getAttachmentPath() {
 		return attachmentPath;
 	}
+
 	public void setAttachmentPath(String attachmentPath) {
 		this.attachmentPath = attachmentPath;
 	}
+
+	public String getAttachmentGroup() {
+		return attachmentGroup;
+	}
+
+	public void setAttachmentGroup(String attachmentGroup) {
+		this.attachmentGroup = attachmentGroup;
+	}
+
 	public Date getUploadTime() {
 		return uploadTime;
 	}
+
 	public void setUploadTime(Date uploadTime) {
 		this.uploadTime = uploadTime;
 	}
+
 	public Date getDeleteTime() {
 		return deleteTime;
 	}
+
 	public void setDeleteTime(Date deleteTime) {
 		this.deleteTime = deleteTime;
 	}
+
 	public String getCreateBy() {
 		return createBy;
 	}
+
 	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
 	}
+
 	public String getCreateNm() {
 		return createNm;
 	}
+
 	public void setCreateNm(String createNm) {
 		this.createNm = createNm;
 	}
-	public String getAttachementGroup() {
-		return attachementGroup;
-	}
-	public void setAttachementGroup(String attachementGroup) {
-		this.attachementGroup = attachementGroup;
-	}
+
 	public byte[] getFileBytes() {
 		return fileBytes;
 	}
+
 	public void setFileBytes(byte[] fileBytes) {
 		this.fileBytes = fileBytes;
 	}
+
 	@Override
 	public String toString() {
 		return "Attachment [id=" + id + ", attachmentType=" + attachmentType + ", attachmentTypeStr="
 				+ attachmentTypeStr + ", attachmentNm=" + attachmentNm + ", attachmentPath=" + attachmentPath
-				+ ", attachementGroup=" + attachementGroup + ", uploadTime=" + uploadTime + ", deleteTime=" + deleteTime
-				+ ", createBy=" + createBy + ", createNm=" + createNm + "]";
+				+ ", attachmentGroup=" + attachmentGroup + ", uploadTime=" + uploadTime + ", deleteTime=" + deleteTime
+				+ ", createBy=" + createBy + ", createNm=" + createNm + ", fileBytes=" + Arrays.toString(fileBytes)
+				+ "]";
 	}
+	
+
 }
 	

@@ -1,8 +1,14 @@
 package com.ccttic.controller.attachment;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +124,7 @@ public class AttachmentController implements Serializable {
 	 * @return JSON
 	 */
 	@RequestMapping(value="/upload",method= {RequestMethod.GET,RequestMethod.POST})
-	//@OperLogging(content="上传附件")
+	@OperLogging(content="上传附件")
 	public ResponseMsg<Attachment> uploadAttachment(MultipartFile uploadFile, @ModelAttribute(Const.USER) Employee emp) {
 		ResponseMsg<Attachment> resp = new ResponseMsg<Attachment>();
 		try {
@@ -133,12 +139,12 @@ public class AttachmentController implements Serializable {
 	}
 	
 	@RequestMapping(value="/download",method= {RequestMethod.GET,RequestMethod.POST})
-	//@OperLogging(content="下载附件")
+	@OperLogging(content="下载附件")
 	public ResponseEntity<byte[]> downloadAttachment(String attachmentId){
 		HttpHeaders headers = new HttpHeaders();
 		Attachment atta = attachmentService.downloadFile(attachmentId);
 		headers.setContentDispositionFormData("attachment",atta.getAttachmentNm());
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(atta.getFileBytes(),headers,HttpStatus.OK);
-	}	
+	}		
 }

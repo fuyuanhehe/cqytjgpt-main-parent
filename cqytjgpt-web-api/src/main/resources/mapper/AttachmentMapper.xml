@@ -22,8 +22,8 @@
 
     <!-- 上传附件信息-->
 	<insert id="uploadAttachment" parameterType="com.ccttic.entity.attchment.Attachment">
-		INSERT INTO attachment(id,attachmentCd,attachmentNm,uploadTime,createBy,createNm)
-     	   VALUES(#{id},#{attachmentCd},#{attachmentNm},#{uploadTime},#{createBy},#{createNm})
+		INSERT INTO attachment(id,attachmentNm,attachmentGroup,attachmentPath,attachmentType,uploadTime,createBy,createNm)
+     	   VALUES(#{id},#{attachmentNm},#{attachmentGroup},#{attachmentPath},#{attachmentType},#{uploadTime},#{createBy},#{createNm})
 	</insert>
     
     <update id="removeAttachment" parameterType="java.util.Map">
