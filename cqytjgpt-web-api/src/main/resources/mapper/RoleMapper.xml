@@ -4,24 +4,16 @@
 	<!-- 自定义返回结果集 -->
 	<resultMap id="roleMap" type="com.ccttic.entity.role.Role">
 		<id property="id" column="id" javaType="java.lang.String"></id>
-		<result property="roleCd" column="roleCd"
-			javaType="java.lang.String"></result>
-		<result property="roleNm" column="roleNm"
-			javaType="java.lang.String"></result>
-		<result property="description" column="description"
-			javaType="java.lang.String"></result>
-		<result property="isDefault" column="isDefault"
-			javaType="java.lang.Boolean"></result>
-		<result property="empIds" column="empIds"
-			javaType="java.lang.String"></result>
-		<result property="empCds" column="empCds"
-			javaType="java.lang.String"></result>
-		<result property="empNms" column="empNms"
-			javaType="java.lang.String"></result>
+		<result property="roleCd" column="roleCd" javaType="java.lang.String"></result>
+		<result property="roleNm" column="roleNm" javaType="java.lang.String"></result>
+		<result property="description" column="description" javaType="java.lang.String"></result>
+		<result property="isDefault" column="isDefault" javaType="java.lang.Boolean"></result>
+		<result property="empIds" column="empIds" javaType="java.lang.String"></result>
+		<result property="empCds" column="empCds" javaType="java.lang.String"></result>
+		<result property="empNms" column="empNms" javaType="java.lang.String"></result>
 	</resultMap>
 	<!-- 根据条件获取角色信息 -->
-	<select id="pagerRole" parameterType="java.util.Map"
-		resultMap="roleMap">
+	<select id="pagerRole" parameterType="java.util.Map" resultMap="roleMap">
 		select * from ess_role where 1=1
 		<if test="roleCd != null">
 			and roleCd like '%${roleCd}%'
@@ -35,8 +27,7 @@
 		order by roleCd asc limit ${startRecord},${pageSize}
 	</select>
 	<!-- 根据条件获取角色信息总记录数 -->
-	<select id="countRole" parameterType="java.util.Map"
-		resultType="long">
+	<select id="countRole" parameterType="java.util.Map" resultType="long">
 		select count(*) from ess_role where 1=1
 		<if test="roleCd != null">
 			and roleCd like '%${roleCd}%'
@@ -60,8 +51,7 @@
 		select * from ess_role where id=#{id}
 	</select>
 	<!-- 修改角色 -->
-	<update id="modifyRole"
-		parameterType="com.ccttic.entity.role.Role">
+	<update id="modifyRole" parameterType="com.ccttic.entity.role.Role">
 		update ess_role set
 		roleCd=#{role.roleCd},roleNm=#{role.roleNm}
 		,description=#{role.description},version=#{role.version} where
@@ -90,8 +80,7 @@
 
 	</insert>
 	<!-- 添加角色 -->
-	<insert id="addRoless"
-		parameterType="com.ccttic.entity.role.Roles">
+	<insert id="addRoless" parameterType="com.ccttic.entity.role.Roles">
 		insert into
 		ess_role(id,roleCd,roleNm,description) values
 		(#{id},#{roleCd},#{roleNm},#{description})
@@ -107,13 +96,15 @@
 		r.roleNm,
 		r.description,
 		GROUP_CONCAT(e.empNm, e.account) AS empNms,
-		GROUP_CONCAT(e.id) AS emp_id
-		
+		GROUP_CONCAT(e.id) AS
+		emp_id
+
 		FROM
 		ess_role r
 		LEFT JOIN ess_employee_role re ON r.id =
 		re.role_id
-		LEFT JOIN ess_employee e ON re.emp_id = e.id
+		LEFT JOIN
+		ess_employee e ON re.emp_id = e.id
 		WHERE 1 = 1
 		<if test="roleNm!=null and roleNm!='' ">
 			and r.roleNm like '%${roleNm}%'
@@ -123,7 +114,7 @@
 		</if>
 
 		GROUP BY
-			r.id limit ${startRecord},${pageSize}
+		r.id limit ${startRecord},${pageSize}
 	</select>
 
 	<!-- 根据条件查询总记录数目 -->
@@ -146,11 +137,12 @@
 
 	<!-- 根据ID修改角色 -->
 
-	<update id="updateRoleById"
-		parameterType="com.ccttic.entity.role.Roles">
+	<update id="updateRoleById" parameterType="com.ccttic.entity.role.Roles">
 
-		UPDATE ess_role SET roleCd =
-		#{roleCd},roleNm=#{roleNm},description=#{description} WHERE id = #{id}
+		UPDATE ess_role SET
+		roleCd =
+		#{roleCd},roleNm=#{roleNm},description=#{description} WHERE id
+		= #{id}
 
 	</update>
 	<!-- 删除角色关联公员工根据ID -->
@@ -160,5 +152,14 @@
 		ess_employee_role WHERE role_id = #{role_id}
 
 	</delete>
+
+	<select id="seRoleByEmpId" resultType="com.ccttic.entity.role.Role_Emp"
+		parameterType="java.lang.String">
+
+		SELECT role_id from ess_employee_role WHERE emp_id =
+		#{emp_id}
+
+	</select>
+
 
 </mapper>	

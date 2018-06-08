@@ -10,10 +10,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ccttic.controller.role.RoleMenuController;
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.ModelByRole;
+import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 
 import com.ccttic.mapper.role.RoleEmpMapper;
@@ -174,13 +177,13 @@ public class RoleServiceImpl implements IRoleService {
 
 		for (Roles role : records) {
 			List<String> list = new ArrayList<>();
-			
+
 			String [] array = role.getEmp_id().split(",");
-			
+
 			for (int i = 0; i < array.length; i++) {
 				list.add(array[i]);
 			}
-			
+
 			role.setEmporIds(list);  
 			role.setEmp_id("");
 
@@ -224,6 +227,27 @@ public class RoleServiceImpl implements IRoleService {
 		mapper.addRoleEmp(roless);
 
 
+	}
+
+	@Override
+	public ModelByRole seRoleByEmpId(String emp_id) {
+		// TODO Auto-generated method stub		
+		Role_Emp roleids = mapper.seRoleByEmpId(emp_id);
+
+		List<Model_MenuVo> data = rmMapper.seMenuByRoleId(roleids.getRole_id());
+
+		ModelByRole byRole = new ModelByRole();
+
+		List<Model_MenuVo> models = new ArrayList<>();
+
+		for (Model_MenuVo model : data) {			
+			byRole.setRoleNm(model.getRoleNm());
+			models.add(model);
+			model.setRoleNm("");
+		}
+		byRole.setMenus(models);
+
+		return byRole;
 	}
 
 

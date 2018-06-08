@@ -3,19 +3,19 @@ package com.ccttic.controller.role;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.Model_RmsVo;
+import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.service.role.IRoleMenuService;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
@@ -26,11 +26,12 @@ import com.ccttic.util.page.PageRequest;
 @RestController
 @RequestMapping("/menus")
 public class RoleMenuController {
+	private  Logger logger = Logger.getLogger(this.getClass());
+
 
 	@Autowired
 	private IRoleMenuService MenService;
 
-	private final Logger logger = LoggerFactory.getLogger(RoleMenuController.class);
 	/**
 	 * 功能说明： 条件角色，菜单分页
 	 * @param roleNm 角色名字
@@ -40,7 +41,7 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@GetMapping("/loadMenuPages")
-	public ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,Roles roles) {
+	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,Roles roles) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
 		try {
@@ -63,13 +64,12 @@ public class RoleMenuController {
 		} catch (Exception e) {
 			resp.setMessage("查询角色菜单分页失败！");
 			resp.setStatus(-1);
-			logger.error("查询角色菜单分页失败！",e);
+			logger.error("查询角色菜单分页失败！"+roles,e);
 		}
 
 		return resp;
 
 	}
-
 	/**
 	 * 功能说明：修改角色菜单
 	 * @param roleId 角色id，多个用,隔开
@@ -78,7 +78,7 @@ public class RoleMenuController {
 	 * @date  2018年6月4日
 	 */
 	@OperLogging(operType = 1)
-	@GetMapping("/updateMenuByRole")
+	@PostMapping("/updateMenuByRole")
 	public ResponseMsg<String> addMenu(Roles roles){
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		try {
@@ -129,27 +129,13 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@GetMapping("/seAllMenu")
-	public ResponseMsg<Model_RmsVo> seAllMenu(){
-		ResponseMsg<Model_RmsVo> resp = new ResponseMsg<>();
+	public ResponseMsg<List<ResMenu>> seAllMenu(){
+		ResponseMsg<List<ResMenu>> resp = new ResponseMsg<>();
 
 		try {
-			Model_RmsVo model = new Model_RmsVo();
-
 			List<ResMenu> data = MenService.seAllMenu();
 
-			List<String> list = new ArrayList<>();
-			List<String> listnum = new ArrayList<>();
-			if(!ObjectHelper.isEmpty(data)){			
-				for (ResMenu menu : data) {
-					list.add(menu.getId());
-					listnum.add(menu.getLabel());
-
-				}
-
-			}
-			model.setEmp_Id(list);
-			model.setEmpNms(listnum);
-			resp.setData(model);
+			resp.setData(data);
 			resp.setMessage("菜单查询成功！");
 			resp.setStatus(0);			
 
@@ -159,11 +145,8 @@ public class RoleMenuController {
 			logger.error("菜单查询失败！",e);
 		}
 
-
-
 		return resp;
 	}
-
 	/**
 	 * 功能说明：查询员工所有的id，名称
 	 * @param 
@@ -172,28 +155,12 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@GetMapping("/seAllEmp")
-	public ResponseMsg<Model_RmsVo> seAllEmp(){
-		ResponseMsg<Model_RmsVo> resp = new ResponseMsg<>();
-         
+	public ResponseMsg<empModelVo> seAllEmp(){
+		ResponseMsg<empModelVo>  resp = new ResponseMsg<>();
+
 		try {
-			Model_RmsVo model = new Model_RmsVo();
-
-			List<EssEmployee> data = MenService.seAllEmp();
-
-			List<String> list = new ArrayList<>();
-			List<String> listnum = new ArrayList<>();
-			if(!ObjectHelper.isEmpty(data)){			
-				for (EssEmployee menu : data) {
-				list.add(menu.getId());
-				listnum.add(menu.getEmpnm());
-					
-
-				}
-
-			}
-			model.setAllMenuIds(list);
-			model.setAllMenus(listnum);
-			resp.setData(model);
+			empModelVo data = MenService.seAllEmp();
+			resp.setData(data);
 			resp.setMessage("员工查询成功！");
 			resp.setStatus(0);			
 
@@ -202,8 +169,6 @@ public class RoleMenuController {
 			resp.setStatus(-1);	
 			logger.error("员工查询失败！",e);
 		}
-		
-
 
 		return resp;
 	}

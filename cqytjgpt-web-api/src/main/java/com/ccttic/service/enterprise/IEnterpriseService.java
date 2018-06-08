@@ -11,19 +11,19 @@ public interface IEnterpriseService {
 	 * @param map
 	 * @return
 	 */
-	public EssEnterprise selectEnterpriseById(Map<String, String> map);
+	public Map<String,Object> selectEnterpriseById(Map<String, String> map);
 	/**
 	 * 修改企业信息
 	 * @param map
 	 * @return
 	 */
-	public int modifyEnterpriseById(EssEnterprise essEnterprise);
+	public void modifyEnterpriseById(EssEnterprise essEnterprise) throws Exception;
 	/**
 	 * 删除企业
 	 * @param map
 	 * @return
 	 */
-	public int delEnterpriseById(EssEnterprise essEnterprise);
+	public int delEnterpriseById(EssEnterprise essEnterprise) throws Exception;
 	
 
 }

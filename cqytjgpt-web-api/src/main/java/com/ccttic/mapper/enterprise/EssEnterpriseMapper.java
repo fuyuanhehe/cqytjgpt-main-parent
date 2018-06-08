@@ -27,4 +27,6 @@ public interface EssEnterpriseMapper {
     int updateByPrimaryKeySelective(EssEnterprise record);
 
     int updateByPrimaryKey(EssEnterprise record);
+
+	int hasemp(String id);
 }

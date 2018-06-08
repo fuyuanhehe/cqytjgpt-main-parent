@@ -9,6 +9,16 @@
 		<result property="version" column="version" javaType="java.lang.Integer"></result>
 	</resultMap>
 
+	<resultMap id="rolesmap" type="com.ccttic.entity.role.Role">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="roleCd" column="roleCd" javaType="java.lang.String"></result>
+		<result property="roleNm" column="roleNm" javaType="java.lang.String"></result>
+		<result property="description" column="description" javaType="java.lang.String"></result>
+		<result property="isDefault" column="isDefault" javaType="java.lang.Boolean"></result>
+		<result property="empIds" column="empIds" javaType="java.lang.String"></result>
+		<result property="empCds" column="empCds" javaType="java.lang.String"></result>
+		<result property="empNms" column="empNms" javaType="java.lang.String"></result>
+	</resultMap>
 	<!-- 自定义返回结果集 -->
 	<resultMap id="allRoleMenuList" type="com.ccttic.entity.role.vo.RoleMenuVo">
 		<result property="roleCd" column="roleCd" javaType="java.lang.String"></result>
@@ -16,6 +26,7 @@
 		<result property="menu_id" column="menu_id" javaType="java.lang.String"></result>
 		<result property="path" column="path" javaType="java.lang.String"></result>
 	</resultMap>
+
 	<!-- 通过角色ID删除角色菜单关系表 -->
 	<delete id="deleteRoleMenuByRoleId" parameterType="java.lang.String">
 		delete from
@@ -110,18 +121,58 @@
 	<!-- 查询所有菜单 -->
 	<select id="seAllMenu" resultType="com.ccttic.entity.employee.ResMenu">
 
-
-		SELECT id,label FROM res_menu
+		SELECT
+		id,resource,label,groupresource,sortorder,icon,description,description,ismenu,hierarchy
+		FROM res_menu
 
 	</select>
 	<!-- 查询所有员工 -->
 	<select id="seAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
-
 		SELECT
-		id,
-		empNm as empnm
+		GROUP_CONCAT(e.id) AS id,
+		GROUP_CONCAT(e.empNm) AS empnm
 		FROM
-		ess_employee
+		ess_employee e
+	</select>
+
+	<!-- 角色查询对应菜单 -->
+	<select id="seMenuByRoleId" resultType="com.ccttic.entity.role.vo.Model_MenuVo"
+		parameterType="java.lang.String">
+		SELECT
+		r.roleNm,
+
+		m.*
+		FROM
+		ess_role r
+		LEFT JOIN ess_role_menu
+		rm ON r.id = rm.role_id
+		LEFT JOIN
+		res_menu m ON rm.menu_id = m.id
+		WHERE
+		r.id = #{roleId}
+
+
+	</select>
+
+	<select id="seMenusByEid" resultType="com.ccttic.entity.role.vo.Model_menus"
+		parameterType="java.lang.String">
+		SELECT
+		r.id,
+		r.roleCd,
+		r.roleNm,
+		r.roleNm,
+		m.*
+		FROM
+		ess_role r
+		LEFT JOIN ess_employee_role re ON r.id = re.role_id
+		LEFT JOIN
+		ess_employee e ON re.emp_id = e.id
+		LEFT JOIN ess_role_menu rm ON
+		rm.role_id = r.id
+		LEFT JOIN res_menu m ON rm.menu_id = m.id
+		WHERE
+		e.id =
+		#{emp_id}
 
 	</select>
 

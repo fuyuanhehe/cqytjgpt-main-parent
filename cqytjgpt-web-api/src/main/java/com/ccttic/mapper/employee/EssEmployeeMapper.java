@@ -5,10 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.EssEmployeeDept;
 import com.ccttic.entity.employee.EssEmployeeExample;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.post.EssPost;
+import com.ccttic.entity.role.Department;
+import com.ccttic.entity.role.Organization;
 
 public interface EssEmployeeMapper {
     long countByExample(EssEmployeeExample example);
@@ -42,6 +46,16 @@ public interface EssEmployeeMapper {
 	void delPostUnderEmp(String empId);
 
 	void modifyPassword(Map<String, String> map);
+
+	List<Department> selectDepUnderEmp(String id);
+
+	Organization selectOrgByDepId(String id);
+
+	EmployeeVo findEmployeeByAccount(String account);
+	
+	void relatedDepAndEmp(EssEmployeeDept essEmployeeDept);
+
+	void delEmpUnderDep(EssEmployeeDept dept);
 	
 	
 }

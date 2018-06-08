@@ -9,6 +9,8 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.Model_MenuVo;
+import com.ccttic.entity.role.vo.Model_menus;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 
 
@@ -76,6 +78,16 @@ public interface RoleMenuMapper {
 	 * @param 
 	 * @return
 	 */
-	public List<EssEmployee> seAllEmp();
+	public EssEmployee seAllEmp();
 	
+	/**
+	 * 根据角色id查询对应的菜单
+	 * @param 
+	 * @return
+	 */
+	
+	 public List<Model_MenuVo> seMenuByRoleId(@Param("roleId") String roleId);
+	
+	 // 登陆需要
+	 public List<Model_menus> seMenusByEid(@Param("emp_id") String emp_id);
 }
