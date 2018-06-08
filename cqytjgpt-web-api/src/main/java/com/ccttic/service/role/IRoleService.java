@@ -3,10 +3,13 @@ package com.ccttic.service.role;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.ModelByRole;
+import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 import com.ccttic.util.page.Page;
@@ -86,5 +89,9 @@ public interface IRoleService {
 	 */
 	public void updateEssRole(Roles roles);
 		
-			
+	/**
+	 * 通过员工ID获取角色
+	 * @param roles
+	 */
+	public ModelByRole seRoleByEmpId(String emp_id);		
 }

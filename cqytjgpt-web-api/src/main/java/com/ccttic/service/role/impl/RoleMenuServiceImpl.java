@@ -13,7 +13,9 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
+import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.mapper.role.RoleMenuMapper;
 import com.ccttic.service.role.IRoleMenuService;
 import com.ccttic.util.common.ObjectHelper;
@@ -26,7 +28,7 @@ import com.ccttic.util.page.Pageable;
 功能说明：     功能权限功能
 @version  1.0.0
 @date  
-*/
+ */
 
 public class RoleMenuServiceImpl implements IRoleMenuService {
 
@@ -56,7 +58,7 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		Map<String, Object> params = new HashMap<String, Object>();
 
 		List<Model_RmsVo> modellist = new ArrayList<>();
-	
+
 		String roleids = roles.getRoleId();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
@@ -72,20 +74,20 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 			List<String> listnm = new ArrayList<>();
 
 			List<String> listenm = new ArrayList<>();
-			
+
 			demol.setRoleId(man.getRoleId());
 			demol.setRoleCd(man.getRoleCd());
 			demol.setRoleNm(man.getRoleNm());
 			demol.setDescription(man.getDescription());
-            
+
 			/*String [] string3 = man.getEmpNms().split(",");
 			for (int i = 0; i < string3.length; i++) {
 				listenm.add(string3[i]);
 			} */ 
 			demol.setEmpName(man.getEmpNms());
-			
-		//	listenm.add( man.getEmpNms());
-												
+
+			//	listenm.add( man.getEmpNms());
+
 			String [] string = man.getMenuIds().split(",");
 			for (int i = 0; i < string.length; i++) {
 				list.add(string[i]);
@@ -123,15 +125,40 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		Mapper.deletesRoleMenuById(roleId);
 
 	}
-	@Override
-	public List<EssEmployee> seAllEmp() {
-		// TODO Auto-generated method stub
-		return Mapper.seAllEmp();
-	}
+
 	@Override
 	public List<ResMenu> seAllMenu() {
 		// TODO Auto-generated method stub
 		return Mapper.seAllMenu();
+	}
+	@Override
+	public List<Model_MenuVo> seMenuByRoleId(String roleId) {
+		// TODO Auto-generated method stub
+		return Mapper.seMenuByRoleId(roleId);
+	}
+	@Override
+	public empModelVo seAllEmp() {
+		// TODO Auto-generated method stub
+		EssEmployee data = Mapper.seAllEmp();
+		List<String> listid = new ArrayList<>();
+
+		List<String> listenm = new ArrayList<>();  
+
+		empModelVo modelVo = new empModelVo();
+		
+		String [] arr = data.getId().split(",");
+
+		String [] array = data.getEmpnm().split(",");
+
+         for (int i = 0; i < array.length; i++) {
+			 listid.add(arr[i]);
+			 listenm.add(array[i]);
+		}
+          
+         modelVo.setEmpId(listid);
+         modelVo.setEmpNm(listenm);
+
+		return modelVo;
 	}
 
 

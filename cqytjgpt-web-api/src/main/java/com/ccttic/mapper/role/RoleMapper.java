@@ -95,5 +95,10 @@ public interface RoleMapper {
 	 * @param roles
 	 */
 	public int updateRoleById(Roles roles);
-
+	/**
+	 * 通过员工ID获取角色
+	 * @param roles
+	 */
+	public Role_Emp seRoleByEmpId(@Param("emp_id") String emp_id);
+	
 }

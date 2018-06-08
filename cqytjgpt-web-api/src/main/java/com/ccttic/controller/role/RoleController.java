@@ -3,16 +3,17 @@ package com.ccttic.controller.role;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.service.role.IRoleService;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
@@ -23,11 +24,11 @@ import com.ccttic.util.page.PageRequest;
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
+	private Logger logger = Logger.getLogger(this.getClass());
 
 	@Autowired
 	private IRoleService  Roleservice;
 
-	private final Logger logger = LoggerFactory.getLogger(RoleController.class);
 	/**
 	 * 功能说明：  通过ID删除角色信息
 	 * @param id 角色的ID
@@ -36,7 +37,7 @@ public class RoleController {
 	 * 
 	 */ 
 	@OperLogging(operType = 2)
-	@GetMapping(value="deleteRoleById")
+	@PostMapping(value="deleteRoleById")
 	public ResponseMsg<String> deleteById(String id) {
 
 		ResponseMsg<String> resp = new ResponseMsg<>();
@@ -52,8 +53,7 @@ public class RoleController {
 		} catch (Exception e) {
 			resp.setStatus(-1);
 			resp.setMessage("删除角色失败!");				
-			logger.error("删除角色失败!");
-
+			logger.error("删除角色失败!",e);
 
 		}
 		return resp;
@@ -70,8 +70,8 @@ public class RoleController {
 	 * @return
 	 * @date  2018年5月31日
 	 */
-	@OperLogging(operType = 0)
-	@GetMapping(value="addRole_Emp")
+	@OperLogging(operType = 0,content="增加角色关联员工")
+	@PostMapping(value="addRole_Emp")
 	public ResponseMsg<String> addRole_Emp(Roles rolty) {
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		if(ObjectHelper.isNotEmpty(rolty)) {
@@ -81,9 +81,9 @@ public class RoleController {
 			//员工ID
 			String str = rolty.getEmp_id();
 			String [] strs = str.split(",");
-			
-		//	List<String> str = rolty.getEmp_id();
-		//	String [] strs = (String[]) str.toArray();
+
+			//	List<String> str = rolty.getEmp_id();
+			//	String [] strs = (String[]) str.toArray();
 
 			for(int i =0 ; i<strs.length; i++) {
 				//循环添加角色关联员工
@@ -125,7 +125,7 @@ public class RoleController {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
 			Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
-			resp.setMessage("根据条件查询角色列表成功！");
+			resp.setMessage("(根据条件)查询角色列表成功！");
 			resp.setStatus(0);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
@@ -138,7 +138,6 @@ public class RoleController {
 		return resp;  
 	}
 
-
 	/**
 	 * 功能说明：  修改角色和关联的员工
 	 * @param roleCd 角色编码
@@ -149,7 +148,7 @@ public class RoleController {
 	 * @date  2018年6月1日
 	 */
 	@OperLogging(operType = 1)
-	@GetMapping("/updateEssRole")
+	@PostMapping("/updateEssRole")
 	public ResponseMsg<List<Roles>> updateEssRole(Roles roles){
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 
@@ -165,11 +164,28 @@ public class RoleController {
 			logger.error("修改角色关联员工成功失败",e);
 		}
 
-
 		return resp;
 
 	}	
 
+	@OperLogging(operType = 3)
+	@GetMapping(value="getRoleMenuByEmpid")
+	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(String emp_id){
+		ResponseMsg<ModelByRole> resp = new ResponseMsg<>();
 
+		try {
+			resp.setMessage("根据员工ID查询角色菜单成功!");
+			resp.setStatus(0);
+			resp.setData(Roleservice.seRoleByEmpId(emp_id) );
+
+		} catch (Exception e) {
+			resp.setMessage("根据员工ID查询角色菜单失败!");
+			resp.setStatus(-1);
+			logger.error("根据员工ID查询角色菜单失败!",e);
+		}
+
+
+		return resp;
+	}
 
 }
