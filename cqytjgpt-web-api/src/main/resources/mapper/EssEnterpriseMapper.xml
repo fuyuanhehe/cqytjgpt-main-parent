@@ -492,4 +492,7 @@
       updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="hasemp" parameterType="java.lang.String" resultType="java.lang.Integer">
+  SELECT count(*) FROM ess_department dept,ess_employee_dept dep WHERE dept.id = dep.dep_id AND dept.ept_id =#{id}
+  </select>
 </mapper>

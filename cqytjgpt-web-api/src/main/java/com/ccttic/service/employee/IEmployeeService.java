@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.employee.Employee;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.role.RoleEmp;
@@ -35,7 +36,7 @@ public interface IEmployeeService {
 	 * @param account
 	 * @return
 	 */
-	public Employee findEmployeeByAccount(String account);
+	public EmployeeVo findEmployeeByAccount(String account);
 	
 	/**
 	 * 用户登录
@@ -109,7 +110,7 @@ public interface IEmployeeService {
 	 */
 	public void modifyPassword(EssEmployee emp) throws Exception;
 	
-	public void delEmployee(List<EssEmployee> emps) throws Exception;
+	public void delEmployee(EssEmployeeVo emp) throws Exception;
 
 
 }

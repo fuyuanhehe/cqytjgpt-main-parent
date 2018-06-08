@@ -1,5 +1,6 @@
 package com.ccttic.service.employee.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ccttic.entity.common.exception.AppException;
+import com.ccttic.entity.employee.EmpCategoryEnum;
 import com.ccttic.entity.employee.Employee;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.EssEmployeeDept;
 import com.ccttic.entity.employee.EssEmployeePost;
 import com.ccttic.entity.employee.EssEmployeeVo;
+import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.post.EssPost;
+import com.ccttic.entity.role.Department;
+import com.ccttic.entity.role.Organization;
+import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.mapper.employee.EmployeeMapper;
 import com.ccttic.mapper.employee.EssEmployeeMapper;
@@ -43,6 +51,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private EssEmployeeMapper empMapper;
 	@Autowired
 	private EssPostMapper postMapper;
+	
+	
 
 	/*
 	 * (非 Javadoc)
@@ -78,9 +88,29 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	 */
 
 	@Override
-	public Employee findEmployeeByAccount(String account) {
+	public EmployeeVo findEmployeeByAccount(String account) {
 
-		return mapper.findEmployeeByAccount(account);
+		EmployeeVo emp = empMapper.findEmployeeByAccount(account);
+		// 员工所在岗位
+		List<EssPost> posts = empMapper.selectPostUnderEmp(emp.getId());
+		emp.setPosts(posts);
+		// 员工所在部门
+		List<Department> deps = empMapper.selectDepUnderEmp(emp.getId());
+		emp.setDeps(deps);
+		// 员工所在组织
+		List<Organization> orgs = new ArrayList<>();
+		for (Department department : deps) {
+			Organization org = empMapper.selectOrgByDepId(department.getId());
+			orgs.add(org);
+		}
+		emp.setOrgs(orgs);
+		// 员工能使用的菜单
+		List<ResMenu> menus;
+		// 员工角色
+		List<Role> roles;
+
+		return emp;
+
 	}
 
 	/*
@@ -153,18 +183,24 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		String empid = RandomHelper.uuid();
 		EssEmployee employee = emp;
 		employee.setId(empid);
-			empMapper.insert(employee);
-			for (int i = 0; i < emp.getPost().size(); i++) {
-				String postId = emp.getPost().get(i).getId();
-				String uid = RandomHelper.uuid();
-				EssEmployeePost eep = new EssEmployeePost();
-				eep.setEmpId(empid);
-				eep.setId(uid);
-				eep.setVersion(1);
-				eep.setPostId(postId);
-				postMapper.relatedPostAndEmp(eep);
+		employee.setEmpcd(empid);
+		empMapper.insert(employee);
+		EssEmployeeDept dept = new EssEmployeeDept();
+		dept.setDepId(emp.getDepid());
+		dept.setEmpId(empid);
+		dept.setVersion(1);
+		dept.setId(RandomHelper.uuid());
+		if(employee.getEmptype()==EmpCategoryEnum.ADMIN.name())
+		for (int i = 0; i < emp.getPost().size(); i++) {
+			String postId = emp.getPost().get(i).getId();
+			EssEmployeePost eep = new EssEmployeePost();
+			eep.setEmpId(empid);
+			eep.setId(RandomHelper.uuid());
+			eep.setVersion(1);
+			eep.setPostId(postId);
+			postMapper.relatedPostAndEmp(eep);
 
-			}
+		}
 	}
 
 	/*
@@ -182,21 +218,21 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public void editEmployee(EssEmployeeVo emp) throws Exception{
+	public void editEmployee(EssEmployeeVo emp) throws Exception {
 		EssEmployee employee = emp;
-			empMapper.updateByPrimaryKeySelective(employee);
-			empMapper.delPostUnderEmp(emp.getId());
-			for (int i = 0; i < emp.getPost().size(); i++) {
-				String postId = emp.getPost().get(i).getId();
-				String uid = RandomHelper.uuid();
-				EssEmployeePost eep = new EssEmployeePost();
-				eep.setEmpId(emp.getId());
-				eep.setId(uid);
-				eep.setVersion(1);
-				eep.setPostId(postId);
-				postMapper.relatedPostAndEmp(eep);
+		empMapper.updateByPrimaryKeySelective(employee);
+		empMapper.delPostUnderEmp(emp.getId());
+		for (int i = 0; i < emp.getPost().size(); i++) {
+			String postId = emp.getPost().get(i).getId();
+			String uid = RandomHelper.uuid();
+			EssEmployeePost eep = new EssEmployeePost();
+			eep.setEmpId(emp.getId());
+			eep.setId(uid);
+			eep.setVersion(1);
+			eep.setPostId(postId);
+			postMapper.relatedPostAndEmp(eep);
 
-			}
+		}
 	}
 
 	/*
@@ -243,19 +279,21 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public void modifyPassword(EssEmployee emp) throws Exception{
-		 empMapper.updateByPrimaryKey(emp);
+	public void modifyPassword(EssEmployee emp) throws Exception {
+		empMapper.updateByPrimaryKeySelective(emp);
 	}
 
 	@Override
 	@Transactional
-	public void delEmployee(List<EssEmployee> emps)  throws Exception{
-		
-			for (EssEmployee emp : emps) {
-				emp.setIsdeleted(true);
-				empMapper.delPostUnderEmp(emp.getId());		
-				empMapper.updateByPrimaryKey(emp);
-			}
+	public void delEmployee(EssEmployeeVo emp) throws Exception {
+
+		empMapper.delPostUnderEmp(emp.getId());
+		EssEmployeeDept dept = new EssEmployeeDept();
+		dept.setDepId(emp.getDepid());
+		dept.setEmpId(emp.getId());
+		empMapper.delEmpUnderDep(dept);
+		empMapper.updateByPrimaryKeySelective(emp);
+
 	}
 
 }

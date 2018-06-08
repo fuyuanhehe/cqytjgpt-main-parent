@@ -1,5 +1,6 @@
 package com.ccttic.controller.employee;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -211,11 +212,19 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "/delEmployee", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody String emp) {
-		List<EssEmployee> list = JsonUtil.jsonToList(emp);
+	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody String str) {
+		List<LinkedHashMap<String, String>> list =JsonUtil.jsonToList(str);	
 		ResponseMsg<String> rm = new ResponseMsg<String>();
+		
 		try {
-			employeeService.delEmployee(list);
+			for (LinkedHashMap<String, String> map : list) {
+				EssEmployeeVo emp = new EssEmployeeVo();
+				emp.setId(map.get("id"));
+				emp.setDepid(map.get("depId"));
+				emp.setIsdeleted(true);
+				employeeService.delEmployee(emp);
+			}
+			
 			rm.success("删除Employee成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -523,9 +523,27 @@
 		</if>
 	</select>
 	<select id="selectPostUnderEmp"  parameterType="java.lang.String" resultType="com.ccttic.entity.post.EssPost">
-	SELECT post.id AS id,post.postNm AS postnm FROM ess_post post,ess_employee_post eep WHERE post.id=eep.post_id AND eep.emp_id =#{id}
+	SELECT post.* FROM ess_post post,ess_employee_post eep WHERE post.id=eep.post_id AND eep.emp_id =#{id}
 	</select>
 	<delete id="delPostUnderEmp" parameterType="java.lang.String">
 	delete from ess_employee_post where emp_id = #{empId}
+	</delete>
+	
+	<select id="selectDepUnderEmp"  parameterType="java.lang.String" resultType="com.ccttic.entity.role.Department">
+	SELECT dep.* FROM ess_department dep,ess_employee_dept dept WHERE dep.id = dept.dep_id AND dept.emp_id=#{id}
+	</select>
+	
+	<select id="selectOrgByDepId"  parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
+	SELECT org.* FROM ess_organization org,ess_department dep WHERE org.id =dep.org_id AND dep.id = #{id}
+	</select>
+	
+	<select id="findEmployeeByAccount"  parameterType="java.lang.String" resultType="com.ccttic.entity.employee.EmployeeVo">
+	select emp.* from ess_employee emp  where  emp.account=#{account} and (emp.isDeleted = 0 or emp.isDeleted is null)
+	</select>
+	<insert id="relatedDepAndEmp"  parameterType="com.ccttic.entity.employee.EssEmployeeDept" >
+	insert into ess_employee_dept (id,version,emp_id,dep_id) value(#{id},#{version},#{empId},#{depId})
+	</insert>
+	<delete id="delEmpUnderDep"  parameterType="com.ccttic.entity.employee.EssEmployeeDept" >
+	delete from ess_employee_dept where emp_id=#{empId} and dep_id=#{depId}
 	</delete>
 </mapper>
