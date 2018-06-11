@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
@@ -37,7 +38,7 @@ public class RoleController {
 	 * 
 	 */ 
 	@OperLogging(operType = 2)
-	@PostMapping(value="deleteRoleById")
+	@RequestMapping(value="/deleteRoleById",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String> deleteById(String id) {
 
 		ResponseMsg<String> resp = new ResponseMsg<>();
@@ -71,7 +72,7 @@ public class RoleController {
 	 * @date  2018年5月31日
 	 */
 	@OperLogging(operType = 0,content="增加角色关联员工")
-	@PostMapping(value="addRole_Emp")
+	@RequestMapping(value="/addRole_Emp",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String> addRole_Emp(Roles rolty) {
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		if(ObjectHelper.isNotEmpty(rolty)) {
@@ -120,7 +121,7 @@ public class RoleController {
 	 * @date  2018年6月1日
 	 */
 	@OperLogging(operType = 3)
-	@GetMapping("/loadRolePages")
+	@RequestMapping(value="/loadRolePages",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,Roles roles)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
@@ -148,7 +149,7 @@ public class RoleController {
 	 * @date  2018年6月1日
 	 */
 	@OperLogging(operType = 1)
-	@PostMapping("/updateEssRole")
+	@RequestMapping(value="/updateEssRole",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<Roles>> updateEssRole(Roles roles){
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 
@@ -169,7 +170,7 @@ public class RoleController {
 	}	
 
 	@OperLogging(operType = 3)
-	@GetMapping(value="getRoleMenuByEmpid")
+	@RequestMapping(value="/getRoleMenuByEmpid",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(String emp_id){
 		ResponseMsg<ModelByRole> resp = new ResponseMsg<>();
 

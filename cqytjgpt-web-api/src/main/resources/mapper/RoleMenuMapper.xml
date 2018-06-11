@@ -139,8 +139,7 @@
 	<select id="seMenuByRoleId" resultType="com.ccttic.entity.role.vo.Model_MenuVo"
 		parameterType="java.lang.String">
 		SELECT
-		r.roleNm,
-
+		r.*,
 		m.*
 		FROM
 		ess_role r

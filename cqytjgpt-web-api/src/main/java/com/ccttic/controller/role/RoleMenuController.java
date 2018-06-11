@@ -1,19 +1,25 @@
 package com.ccttic.controller.role;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.entity.common.beans.ResponseMsg;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.MenuModels;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.service.role.IRoleMenuService;
@@ -40,8 +46,8 @@ public class RoleMenuController {
 	 * @date  2018年6月4日
 	 */
 	@OperLogging(operType = 3)
-	@GetMapping("/loadMenuPages")
-	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,Roles roles) {
+	@RequestMapping(value="/loadMenuPages",method={RequestMethod.POST,RequestMethod.GET})
+	public  ResponseMsg<List<Model_RmsVo>> loadRolePages( PageRequest page,@RequestBody Roles roles) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
 		try {
@@ -78,7 +84,8 @@ public class RoleMenuController {
 	 * @date  2018年6月4日
 	 */
 	@OperLogging(operType = 1)
-	@PostMapping("/updateMenuByRole")
+//	@PostMapping("/updateMenuByRole")
+	@RequestMapping(value="/updateMenuByRole",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String> addMenu(Roles roles){
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		try {
@@ -128,7 +135,7 @@ public class RoleMenuController {
 	 * @date  2018年6月6日
 	 */
 	@OperLogging(operType = 3)
-	@GetMapping("/seAllMenu")
+	@RequestMapping(value="/seAllMenu",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<ResMenu>> seAllMenu(){
 		ResponseMsg<List<ResMenu>> resp = new ResponseMsg<>();
 
@@ -154,7 +161,7 @@ public class RoleMenuController {
 	 * @date  2018年6月6日
 	 */
 	@OperLogging(operType = 3)
-	@GetMapping("/seAllEmp")
+	@RequestMapping(value="/seAllEmp",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<empModelVo> seAllEmp(){
 		ResponseMsg<empModelVo>  resp = new ResponseMsg<>();
 
@@ -173,5 +180,10 @@ public class RoleMenuController {
 		return resp;
 	}
 
-
+	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
+    public EmployeeVo getTreeMenus(@RequestBody String emp_id){
+    	
+	  return	MenService.seRole_MenuById(emp_id);
+    } 
+	
 }

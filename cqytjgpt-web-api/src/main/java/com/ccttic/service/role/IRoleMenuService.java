@@ -1,13 +1,16 @@
 package com.ccttic.service.role;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.MenuModels;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
@@ -74,4 +77,7 @@ public interface IRoleMenuService {
 	 */
 		
 	 public List<Model_MenuVo> seMenuByRoleId( String roleId);
+	 
+	 // 员工id查询角色，菜单
+	 public EmployeeVo seRole_MenuById(String emp_id);
 }

@@ -152,7 +152,7 @@
 		ess_employee_role WHERE role_id = #{role_id}
 
 	</delete>
-
+     <!--员工ID获取角色  -->
 	<select id="seRoleByEmpId" resultType="com.ccttic.entity.role.Role_Emp"
 		parameterType="java.lang.String">
 
@@ -160,6 +160,8 @@
 		#{emp_id}
 
 	</select>
+
+     
 
 
 </mapper>	
