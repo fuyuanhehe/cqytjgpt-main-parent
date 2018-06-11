@@ -11,4 +11,10 @@
     <artifactId>cqytjgpt-all-domain</artifactId>
     <description>存放所有的实体类</description>
 
+    <dependencies>
+    	<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-jta-narayana</artifactId>
+    	</dependency>
+    </dependencies>
 </project>

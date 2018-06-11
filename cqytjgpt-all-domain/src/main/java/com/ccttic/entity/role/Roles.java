@@ -2,7 +2,7 @@ package com.ccttic.entity.role;
 
 import java.util.List;
 
-public class Roles {
+public class Roles {	
 
 	/**
 	 * 	自定义角色员工菜单关联实体
