@@ -17,7 +17,7 @@ public class MailController {
 	
     private Logger logger = LoggerFactory.getLogger(MailController.class);
 	
-	@Autowired  
+/*	@Autowired  
 	JavaMailSender jms;  
 	
 	@Value("spring.mail.username")
@@ -41,5 +41,5 @@ public class MailController {
 			resp.setData("邮件发送失败！");
 		}
 		return resp;
-	}
+	}*/
 }
