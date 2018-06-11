@@ -35,12 +35,10 @@ public class VehiIllicitContrller implements Serializable{
 	 */
 	@RequestMapping(value = "/qryVehiIllicitList", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String qryVehiIllicitList (PageRequest page, VehiIllicit vehiIllicit) {
+	public String qryVehiIllicitList (PageRequest page, VehiIllicit vehiIllicit,String mgrEnterpriseId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// 企业id 调用接口获取企业id TODO
-		String entId = ""; 
 		try {
-			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page, vehiIllicit, entId);
+			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page, vehiIllicit, mgrEnterpriseId);
 			map.put("data", pager.getRecords());
 			map.put("total", pager.getTotalRows());
 			map.put("result", 0);

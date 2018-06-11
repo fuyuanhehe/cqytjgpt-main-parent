@@ -14,12 +14,12 @@ public class Vehicle extends BaseBean implements Serializable {
 	private static final long serialVersionUID = -3732047563152491217L;
 	// 机动车号牌
 	private String vehiNo;
-	// 号牌种类
+	// 号牌种类 
 	private String vehiNoType;
 	// 车辆种类
 	private String vehiType;
 	// 使用性质
-	private String usage;
+	private String nature;
 	// 机动车所属企业
 	private String ownership;
 	// 所有人
@@ -67,7 +67,7 @@ public class Vehicle extends BaseBean implements Serializable {
 		super();
 	}
 
-	public Vehicle(String vehiNo, String vehiNoType, String vehiType, String usage, String ownership, String owner,
+	public Vehicle(String vehiNo, String vehiNoType, String vehiType, String nature, String ownership, String owner,
 			String telphone, String mobilephone, String adress, String permitCar, String firstReciveTime,
 			String mgrDepart, String mgrDepartAreaId, String areaNm, String mgrEnterpriseId, String etpNm,
 			String nextExamineTime, String effectStartTime, String effectEndTime, String examineEffectEndTime,
@@ -76,7 +76,7 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
 		this.vehiType = vehiType;
-		this.usage = usage;
+		this.nature = nature;
 		this.ownership = ownership;
 		this.owner = owner;
 		this.telphone = telphone;
@@ -140,12 +140,12 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.vehiType = vehiType;
 	}
 
-	public String getUsage() {
-		return usage;
+	public String getNature() {
+		return nature;
 	}
 
-	public void setUsage(String usage) {
-		this.usage = usage;
+	public void setNature(String nature) {
+		this.nature = nature;
 	}
 
 	public String getOwnership() {

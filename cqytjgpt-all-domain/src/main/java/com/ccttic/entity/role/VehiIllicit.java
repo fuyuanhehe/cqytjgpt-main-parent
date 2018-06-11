@@ -19,7 +19,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	// 号牌种类
 	private String vehiNoType;
 	// 使用性质
-	private String usage;
+	private String nature;
 	// 机动车所属企业
 	private String ownership;
 	// 所有人
@@ -52,6 +52,8 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	private String state;
 	// 备注
 	private String remark;
+	// 企业中文名
+	private String etpNm;
 	// 违法开始时间
 	private String startTime;
 	// 违法结束时间
@@ -61,14 +63,14 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		super();
 	}
 
-	public VehiIllicit(String vehiNo, String vehiNoType, String usage, String ownership, String owner, String adress,
+	public VehiIllicit(String vehiNo, String vehiNoType, String nature, String ownership, String owner, String adress,
 			String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime, String illicitScore,
 			String illicitAmount, String illicitAdress, String illicit, String illicitDesc, String pickDepartment,
-			String pickDepartmentDesc, String state, String remark, String startTime, String endTime) {
+			String pickDepartmentDesc, String state, String remark, String etpNm, String startTime, String endTime) {
 		super();
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
-		this.usage = usage;
+		this.nature = nature;
 		this.ownership = ownership;
 		this.owner = owner;
 		this.adress = adress;
@@ -85,6 +87,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.pickDepartmentDesc = pickDepartmentDesc;
 		this.state = state;
 		this.remark = remark;
+		this.etpNm = etpNm;
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
@@ -105,12 +108,12 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.vehiNoType = vehiNoType;
 	}
 
-	public String getUsage() {
-		return usage;
+	public String getNature() {
+		return nature;
 	}
 
-	public void setUsage(String usage) {
-		this.usage = usage;
+	public void setNature(String nature) {
+		this.nature = nature;
 	}
 
 	public String getOwnership() {
@@ -255,6 +258,14 @@ public class VehiIllicit extends BaseBean implements Serializable {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getEtpNm() {
+		return etpNm;
+	}
+
+	public void setEtpNm(String etpNm) {
+		this.etpNm = etpNm;
 	}
 
 }
