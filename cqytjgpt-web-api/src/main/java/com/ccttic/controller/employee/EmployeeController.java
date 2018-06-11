@@ -25,6 +25,7 @@ import com.ccttic.service.employee.IEmployeeService;
 import com.ccttic.util.auth.AuthServiceFeign;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
+import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -58,8 +59,7 @@ public class EmployeeController {
 	 */
 	// @Logger(content = "${}", remark = "用户登录", operType = 1)
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<String> login(HttpServletRequest request, @RequestParam String username,
-			@RequestParam String password, @RequestParam String picCode) {
+	public ResponseMsg<String> login(HttpServletRequest request, @RequestBody EmployeeVo empVo) {
 		ResponseMsg<String> response = new ResponseMsg<String>();
 
 		try {
@@ -70,19 +70,19 @@ public class EmployeeController {
 				logger.error("获取session中的验证码失败");
 				return response;
 			}
-			if (ObjectHelper.isEmpty(picCode) || !picCodeCache.toString().equalsIgnoreCase(picCode)) {
+			if (ObjectHelper.isEmpty(empVo.getPicCode()) || !picCodeCache.toString().equalsIgnoreCase(empVo.getPicCode())) {
 				logger.error("验证码输入错误");
 				response.fail("验证码输入错误");
 				return response;
 			}
-			Employee employee = employeeService.login(username, password);
-
+			Employee employee = employeeService.login(empVo.getAccount(), empVo.getPassword());
 			if (employee == null) {
 				response.fail("用户名或密码错误!");
 				return response;
 			}
 
-			String tokenValue = authFeign.getAccessToken(username, password, "password", "ccttic1");
+			String md5pasword = MD5.sign(empVo.getAccount(), empVo.getPassword(), "utf-8");
+			String tokenValue = authFeign.getAccessToken(empVo.getAccount(), md5pasword, "password", "ccttic1");
 			if (ObjectHelper.isEmpty(tokenValue)) {
 				response.fail("获取访问token失败");
 				return response;
