@@ -66,15 +66,30 @@ public class FastDfsServiceImpl implements FastDfsService {
 	 * @throws IOException
 	 */
 	@Transactional
-	public Attachment uploadFile(MultipartFile file,Employee employee) throws IOException {
+	public Attachment uploadFile(MultipartFile file,Employee employee,Integer fileType) throws IOException {
 		// Metadata
 		Set<MataData> metaDataSet = new HashSet<MataData>();
 		metaDataSet.add(new MataData("Author", "cqytjg"));
 		String now = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
 		metaDataSet.add(new MataData("CreateDate", now));
-		StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
-				FilenameUtils.getExtension(file.getOriginalFilename()), metaDataSet);
 		Attachment atta = new Attachment();
+		StorePath storePath = null;
+		if(fileType == null){
+			fileType = 0;
+		}
+		if(Attachment.ATTACH_TYPE_IMG.intValue() == fileType){
+			atta.setAttachmentType(Attachment.ATTACH_TYPE_IMG);
+			storePath = storageClient.uploadImageAndCrtThumbImage(file.getInputStream(), file.getSize(),
+					FilenameUtils.getExtension(file.getOriginalFilename()), metaDataSet);  //缩略图生成
+		}else if(Attachment.ATTACH_TYPE_VIDEO.intValue() == fileType){
+			atta.setAttachmentType(Attachment.ATTACH_TYPE_VIDEO);
+			storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
+					FilenameUtils.getExtension(file.getOriginalFilename()), metaDataSet);
+		}else{
+			atta.setAttachmentType(Attachment.ATTACH_TYPE_FILE);
+			storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
+					FilenameUtils.getExtension(file.getOriginalFilename()), metaDataSet);
+		}
 		atta.setId(RandomHelper.uuid());
 		atta.setAttachmentNm(file.getOriginalFilename());
 		atta.setAttachmentPath(storePath.getPath());
@@ -85,7 +100,7 @@ public class FastDfsServiceImpl implements FastDfsService {
 		attachmentMapper.uploadAttachment(atta);
 		return atta;
 	}
-
+	
 	/**
 	 * 下文件
 	 * 
@@ -114,5 +129,4 @@ public class FastDfsServiceImpl implements FastDfsService {
 		storageClient.deleteFile(storePath.getGroup(), storePath.getPath());
 		attachmentMapper.removeAttachment(attachmentId);
 	}
-
 }

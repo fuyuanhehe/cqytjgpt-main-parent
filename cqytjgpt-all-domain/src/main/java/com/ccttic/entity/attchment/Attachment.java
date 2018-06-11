@@ -15,10 +15,27 @@ import java.util.Date;
 
 public class Attachment implements Serializable {
 	private static final long serialVersionUID = 2725950871498794398L;
+	
+	/**
+	 * 普通文件
+	 */
+	public static final Integer ATTACH_TYPE_FILE = 0;
+	
+	/**
+	 * 图片类型
+	 */
+	public static final Integer ATTACH_TYPE_IMG = 1;
+	
+	/**
+	 * 视频问
+	 */
+	public static final Integer ATTACH_TYPE_VIDEO = 1;
+
 	//附件ID
 	private String id;
 	//资料类别
-	private Integer attachmentType = 2;
+	//附件类型 0 文件 1图片 
+	private Integer attachmentType = 0;
 	//资料类别
 	private String attachmentTypeStr;
 	//附件名称

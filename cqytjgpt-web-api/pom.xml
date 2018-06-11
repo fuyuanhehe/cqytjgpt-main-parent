@@ -128,12 +128,18 @@
         </dependency>
 		<!-- redis end -->
 		
-		<!-- fastfds -->
+		<!-- 文件服务器fastfds -->
 		<dependency>
 		    <groupId>com.github.tobato</groupId>
 		    <artifactId>fastdfs-client</artifactId>
 		    <version>${com.fastdfs.client.version}</version>
 		</dependency>
+		
+		 <!-- 支持发送邮件 -->  
+        <dependency>  
+            <groupId>org.springframework.boot</groupId>  
+            <artifactId>spring-boot-starter-mail</artifactId>  
+        </dependency>  
 	</dependencies>
 
 	<build>
