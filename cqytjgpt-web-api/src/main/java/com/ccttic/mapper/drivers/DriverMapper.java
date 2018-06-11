@@ -3,7 +3,11 @@ package com.ccttic.mapper.drivers;
 import java.util.List;
 
 import com.ccttic.entity.drivers.Driver;
+import com.ccttic.entity.drivers.dr_illicit;
 import com.ccttic.entity.drivers.vo.DriverVo;
+import com.ccttic.entity.drivers.vo.DriverillicitVo;
+
+import feign.Param;
 
 public interface DriverMapper {
 	int deleteByPrimaryKey(String id);
@@ -27,5 +31,9 @@ public interface DriverMapper {
 	//分页数量
 	long sePageCount(DriverVo driverVo);
 	
+	///查询驾驶人违法记录
+	DriverillicitVo seDrillicitByDriverId(@Param("driverid")String driverid);
+	
+	List<DriverillicitVo> seDr_illicitPages(DriverillicitVo driverillicitVo);
 	
 }

@@ -188,5 +188,31 @@ public class DESHelper {
 		System.out.println(DESHelper.getInstance().decrypt(DESHelper.getInstance().encrypt("123456")));
 
 	}
+	
+	/**
+	 * 加密字符串
+	 * 
+	 * @param ms
+	 *            -加密密钥
+	 * @param str
+	 *            -加密字符串
+	 * @return String -加密后的字符串
+	 * @throws Exception
+	 */
+	public static String str2HexStr(String ms, String str) {
+		if (ms == null || ms.equals("") || str == null) {
+			return str;
+		}
+		char[] chars = ms.toCharArray();
+		StringBuilder sb = new StringBuilder();
+		byte[] bs = str.getBytes();
+		for (int i = 0; i < bs.length; ++i) {
+			int bit = (bs[i] & 0xF0) >> 4;
+			sb.append(chars[bit]);
+			bit = bs[i] & 0xF;
+			sb.append(chars[bit]);
+		}
+		return sb.toString();
+	}
 
 }

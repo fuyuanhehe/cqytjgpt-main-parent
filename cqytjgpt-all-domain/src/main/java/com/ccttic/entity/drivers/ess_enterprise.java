@@ -1,7 +1,7 @@
 package com.ccttic.entity.drivers;
 
 import java.util.Date;
-
+//企业基本信息实体
 public class ess_enterprise {
     /** 主键ID*/
     private String id;

@@ -1,7 +1,7 @@
 package com.ccttic.entity.drivers;
 
 import java.util.Date;
-
+//行政区域表实体
 public class ess_area {
     /** 主键id*/
     private String id;
