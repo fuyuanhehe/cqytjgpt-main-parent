@@ -21,78 +21,75 @@ public class EmployeeVo extends EssEmployee {
 	private  MenuModels menus; 
 	//验证码
 	private String picCode;
-	
-   public EmployeeVo() {
-	// TODO Auto-generated constructor stub
-}
 
-   
-public String getPicCode() {
-	return picCode;
-}
+      public EmployeeVo() {
+		// TODO Auto-generated constructor stub
+	}
 
+	public EmployeeVo(List<EssPost> posts, List<Department> deps, List<Organization> orgs,
+			List<RoleModels> models, MenuModels menus, String picCode) {
+		super();
+		this.posts = posts;
+		this.deps = deps;
+		this.orgs = orgs;
+		this.models = models;
+		this.menus = menus;
+		this.picCode = picCode;
+	}
 
-public void setPicCode(String picCode) {
-	this.picCode = picCode;
-}
+	@Override
+	public String toString() {
+		return "EmployeeVo [posts=" + posts + ", deps=" + deps + ", orgs=" + orgs + ", models="
+				+ models + ", menus=" + menus + ", picCode=" + picCode + "]";
+	}
 
+	public List<EssPost> getPosts() {
+		return posts;
+	}
 
-public EmployeeVo(List<EssPost> posts, List<Department> deps, List<Organization> orgs,
-		List<RoleModels> models, MenuModels menus) {
-	super();
-	this.posts = posts;
-	this.deps = deps;
-	this.orgs = orgs;
-	this.models = models;
-	this.menus = menus;
-}
+	public void setPosts(List<EssPost> posts) {
+		this.posts = posts;
+	}
 
-@Override
-public String toString() {
-	return "EmployeeVo [posts=" + posts + ", deps=" + deps + ", orgs=" + orgs + ", models=" + models
-			+ ", menus=" + menus + "]";
-}
+	public List<Department> getDeps() {
+		return deps;
+	}
 
-public List<EssPost> getPosts() {
-	return posts;
-}
+	public void setDeps(List<Department> deps) {
+		this.deps = deps;
+	}
 
-public void setPosts(List<EssPost> posts) {
-	this.posts = posts;
-}
+	public List<Organization> getOrgs() {
+		return orgs;
+	}
 
-public List<Department> getDeps() {
-	return deps;
-}
+	public void setOrgs(List<Organization> orgs) {
+		this.orgs = orgs;
+	}
 
-public void setDeps(List<Department> deps) {
-	this.deps = deps;
-}
+	public List<RoleModels> getModels() {
+		return models;
+	}
 
-public List<Organization> getOrgs() {
-	return orgs;
-}
+	public void setModels(List<RoleModels> models) {
+		this.models = models;
+	}
 
-public void setOrgs(List<Organization> orgs) {
-	this.orgs = orgs;
-}
+	public MenuModels getMenus() {
+		return menus;
+	}
 
-public List<RoleModels> getModels() {
-	return models;
-}
+	public void setMenus(MenuModels menus) {
+		this.menus = menus;
+	}
 
-public void setModels(List<RoleModels> models) {
-	this.models = models;
-}
+	public String getPicCode() {
+		return picCode;
+	}
 
-public MenuModels getMenus() {
-	return menus;
-}
-
-public void setMenus(MenuModels menus) {
-	this.menus = menus;
-}
-   
-   
+	public void setPicCode(String picCode) {
+		this.picCode = picCode;
+	}
+      
 
 }
