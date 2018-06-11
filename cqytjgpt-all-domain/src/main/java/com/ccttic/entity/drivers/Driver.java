@@ -1,7 +1,7 @@
 package com.ccttic.entity.drivers;
 
 import java.util.Date;
-
+//驾驶员实体
 public class Driver {
     /** 主键ID*/
     private String id;

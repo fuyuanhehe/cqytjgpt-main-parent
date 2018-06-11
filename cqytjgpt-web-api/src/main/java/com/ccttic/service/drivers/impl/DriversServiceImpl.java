@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccttic.entity.drivers.vo.DriverVo;
+import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.mapper.drivers.DriverMapper;
 import com.ccttic.service.drivers.DriversService;
 import com.ccttic.util.common.ObjectHelper;
@@ -56,6 +57,12 @@ public class DriversServiceImpl implements DriversService {
 		pager.setRecords(data);
 
 		return pager;
+	}
+
+	@Override
+	public DriverillicitVo seDrillicitByDriverId(String driverid) {
+		// TODO Auto-generated method stub
+		return mapper.seDrillicitByDriverId(driverid);
 	}
 
 }
