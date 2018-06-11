@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
@@ -28,12 +29,12 @@ public class VehicleServiceImpl implements IVehicleService {
 	private VehicleMapper mapper;// 司机基础信息
 
 	@Override
-	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle vehicle, String entId) throws AppException {
+	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle vehicle) throws AppException {
 		Page<Vehicle> pager = new PageImpl<Vehicle>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("entId", entId);
+		params.put("entId", vehicle.getMgrEnterpriseId()); // 企业id
 		params.put("mgrDepartAreaId", vehicle.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehicle.getVehiNo()); // 车牌号
 		params.put("vehiNoType", vehicle.getVehiNoType()); // 车牌种类
@@ -75,13 +76,13 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public Map<String, Object> saveVehicle(String vehiNo, String vehiType) throws AppException {
+	public Map<String, Object> saveVehicle(String vehiNo, String vehiNoType) throws AppException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int cet = 0;
 		String gather = "";
 		// 拆分车牌号
 		String[] vehiNoGather = vehiNo.split(",");
-		String[] vehiTypeGather = vehiType.split(",");
+		String[] vehiNoTypeGather = vehiNoType.split(",");
 		// 数组转集合
 		List<String> list = Arrays.asList(vehiNoGather);
 		List<String> arrList = new ArrayList<String>(list);
@@ -91,7 +92,7 @@ public class VehicleServiceImpl implements IVehicleService {
 			String uuid = RandomHelper.uuid();
 			params.put("id", uuid);
 			params.put("vehiNo", arrList.get(i));
-			params.put("vehiType", vehiTypeGather[0]);
+			params.put("vehiNoType", vehiNoTypeGather[0]);
 			// 判断车牌号是否重复
 			if (mapper.qryOneVehiNo(arrList.get(i)) != null) {
 				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + vehiNoGather[i] + "]已存在！");
@@ -109,8 +110,65 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public void modifVehicle(Vehicle vehicle) throws AppException {
+	public void modifVehicle(XMLCar xmlCar) throws AppException {
+		Vehicle vehicle = new Vehicle();
+		vehicle.setVehiNo(xmlCar.getHphm());
+		vehicle.setOwner(xmlCar.getSyr());// 所有人
+		vehicle.setEffectStartTime(xmlCar.getCcdjrq());// 初次登记日期
+		vehicle.setEffectEndTime(xmlCar.getYxqz());// 有效结束时间
+		String state = stateConvert(xmlCar);
+		vehicle.setState(state); // 状态
 		mapper.modifVehicle(vehicle);
 	}
 
+	public static String stateConvert(XMLCar car) {
+		String state = "";
+		if (car.getZt().equals("违法未处理")) {
+			state = "G";
+			return state;
+		} else if (car.getZt().equals("正常")) {
+			state = "A";
+			return state;
+		} else if (car.getZt().equals("锁定")) {
+			state = "O";
+			return state;
+		} else if (car.getZt().equals("事故逃逸")) {
+			state = "N";
+			return state;
+		} else if (car.getZt().equals("达到报废标准")) {
+			state = "M";
+			return state;
+		} else if (car.getZt().equals("扣留")) {
+			state = "L";
+			return state;
+		} else if (car.getZt().equals("查封")) {
+			state = "K";
+			return state;
+		} else if (car.getZt().equals("嫌疑车")) {
+			state = "J";
+			return state;
+		} else if (car.getZt().equals("停驶")) {
+			state = "D";
+			return state;
+		} else if (car.getZt().equals("注销")) {
+			state = "E";
+			return state;
+		} else if (car.getZt().equals("海关监管")) {
+			state = "H";
+			return state;
+		} else if (car.getZt().equals("被盗抢")) {
+			state = "C";
+			return state;
+		} else if (car.getZt().equals("转出")) {
+			state = "B";
+			return state;
+		} else if (car.getZt().equals("达到报废标准公告牌证作废")) {
+			state = "P";
+			return state;
+		} else if (car.getZt().equals("逾期未检验")) {
+			state = "Q";
+			return state;
+		}
+		return state;
+	}
 }
