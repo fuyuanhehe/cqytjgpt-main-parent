@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.drivers.vo.DriverVo;
+import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.service.drivers.DriversService;
 import com.ccttic.util.logger.annotation.OperLogging;
 import com.ccttic.util.page.Page;
@@ -39,5 +40,30 @@ public class DriversController {
 
 		return resp;
 	}
+
+	@OperLogging(operType = 3,content="驾驶员违法信息")
+	@GetMapping(value="seDrillicitByDriverId")
+	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(String driverid){
+		ResponseMsg<DriverillicitVo> resp = new ResponseMsg<DriverillicitVo>();
+		try {
+			DriverillicitVo data = service.seDrillicitByDriverId(driverid);
+			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setStatus(0);
+			resp.setData(data);
+
+		} catch (Exception e) {
+			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setStatus(0);
+			logger.error("查询驾驶员违法信息失败",e);
+		}
+
+		return resp;
+	}
+
+
+
+
+
+
 
 }
