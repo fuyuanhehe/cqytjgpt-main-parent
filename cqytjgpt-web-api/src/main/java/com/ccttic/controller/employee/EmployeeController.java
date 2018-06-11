@@ -73,7 +73,7 @@ public class EmployeeController {
 			if (ObjectHelper.isEmpty(empVo.getPicCode()) || !picCodeCache.toString().equalsIgnoreCase(empVo.getPicCode())) {
 				logger.error("验证码输入错误");
 				response.fail("验证码输入错误");
-				return response;
+				return response; 
 			}
 			Employee employee = employeeService.login(empVo.getAccount(), empVo.getPassword());
 			if (employee == null) {
