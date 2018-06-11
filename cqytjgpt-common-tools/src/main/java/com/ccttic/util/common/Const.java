@@ -35,4 +35,25 @@ public class Const {
 	 * resmenu表中系统根菜单
 	 */
 	public static final String ROOT = "Root";
+	
+	
+//***************************日常监管菜单 start************************************************************
+	/**
+	 * 日常监管 一级菜单
+	 */
+	public static final String DAY_SUPERVISE="day-supervise";
+		/**
+		 * 车辆监管 二级菜单
+		 */
+		public static final String CAR_SUPERVISE="car-supervise";
+		
+			/**
+			 * 车辆信息（基本信息） 三级菜单
+			 */
+			public static final String CAR_BASE_INFO="car-base-info";
+				/**
+				 * 添加车辆 四级菜单
+				 */
+				public static final String ADD_CAR="add-car";
+//***************************日常监管菜单 end**************************************************************			
 }
