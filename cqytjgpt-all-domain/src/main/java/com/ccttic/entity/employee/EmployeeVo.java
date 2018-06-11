@@ -19,7 +19,7 @@ public class EmployeeVo extends EssEmployee {
 	private List<RoleModels> models;
 	// 员工能使用的菜单
 	private  MenuModels menus; 
-	//验证码
+	//验证码 
 	private String picCode;
 
       public EmployeeVo() {
