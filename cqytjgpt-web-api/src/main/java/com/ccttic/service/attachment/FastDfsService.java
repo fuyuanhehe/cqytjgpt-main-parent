@@ -31,10 +31,11 @@ public interface FastDfsService {
     /**
      * 上传文件
      * @param file 文件对象
+     * @param fileType 文件类型  0 文件  1图片 2视频
      * @return 文件访问地址
      * @throws IOException
      */
-    public Attachment uploadFile(MultipartFile file,Employee employee) throws Exception;
+    public Attachment uploadFile(MultipartFile file,Employee employee,Integer fileType) throws Exception;
     
 	/**
 	 * 下文件

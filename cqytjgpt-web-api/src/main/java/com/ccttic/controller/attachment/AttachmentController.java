@@ -119,10 +119,10 @@ public class AttachmentController implements Serializable {
 	 */
 	@RequestMapping(value="/upload",method= {RequestMethod.GET,RequestMethod.POST})
 	@OperLogging(content="上传附件")
-	public ResponseMsg<Attachment> uploadAttachment(MultipartFile uploadFile, @ModelAttribute(Const.USER) Employee emp) {
+	public ResponseMsg<Attachment> uploadAttachment(MultipartFile uploadFile, @ModelAttribute(Const.USER) Employee emp, Integer fileType) {
 		ResponseMsg<Attachment> resp = new ResponseMsg<Attachment>();
 		try {
-			Attachment att = attachmentService.uploadFile(uploadFile, emp);
+			Attachment att = attachmentService.uploadFile(uploadFile, emp,fileType);
 			resp.success("上传附件成功");
 			resp.setData(att);
 		} catch (Exception e) {
@@ -132,6 +132,11 @@ public class AttachmentController implements Serializable {
 		return resp;
 	}
 	
+	/**
+	 * 附件下载
+	 * @param attachmentId
+	 * @return
+	 */
 	@RequestMapping(value="/download",method= {RequestMethod.GET,RequestMethod.POST})
 	@OperLogging(content="下载附件")
 	public ResponseEntity<byte[]> downloadAttachment(String attachmentId){
