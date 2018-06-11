@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.service.employee.IEmployeeService;
@@ -102,20 +103,22 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<Employee> employeeInfo(HttpServletRequest request, String useranme,
+	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request, String useranme,
 			@ModelAttribute(Const.USER) Employee emp) {
-		ResponseMsg<Employee> response = new ResponseMsg<Employee>();
-		Object employee = request.getSession(true).getAttribute(Const.USER);
-		if (employee == null) {
-			employee = employeeService.findEmployeeByAccount(useranme);
-		}
+		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
+//		Object employee = request.getSession(true).getAttribute(Const.USER);
+//		if (employee == null) {
+//			employee = employeeService.findEmployeeByAccount(useranme);
+//		}
 
+		EmployeeVo employee = employeeService.findEmployeeByAccount(useranme);
+		
 		if (employee == null) {
 			response.fail("获取用户信息失败!");
 			return response;
 		}
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
-		response.setData((Employee) employee);
+		response.setData((EmployeeVo) employee);
 
 		return response;
 	}
