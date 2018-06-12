@@ -14,7 +14,7 @@ public class EssEnterprise {
     private String orgId;
 
     /**
-     * 企业编码
+     * 企业组织机构编码
      */
     private String etpcd;
 
@@ -62,6 +62,31 @@ public class EssEnterprise {
      * 所属运管所
      */
     private String ownertransport;
+
+    /**
+     * 企业地址
+     */
+    private String etpadress;
+
+    /**
+     * 企业注册地址
+     */
+    private String etpregadress;
+
+    /**
+     * 企业电话
+     */
+    private String etptel;
+
+    /**
+     * 企业关联附件id，企业营业执照
+     */
+    private String attachmentId;
+
+    /**
+     * 审核状态 -1 审核未通过 0待审核 1审核通过
+     */
+    private Integer state;
 
     /**
      * 备注
@@ -151,16 +176,16 @@ public class EssEnterprise {
     }
 
     /**
-     * 企业编码
-     * @return etpCd 企业编码
+     * 企业组织机构编码
+     * @return etpCd 企业组织机构编码
      */
     public String getEtpcd() {
         return etpcd;
     }
 
     /**
-     * 企业编码
-     * @param etpcd 企业编码
+     * 企业组织机构编码
+     * @param etpcd 企业组织机构编码
      */
     public void setEtpcd(String etpcd) {
         this.etpcd = etpcd;
@@ -308,6 +333,86 @@ public class EssEnterprise {
      */
     public void setOwnertransport(String ownertransport) {
         this.ownertransport = ownertransport;
+    }
+
+    /**
+     * 企业地址
+     * @return etpAdress 企业地址
+     */
+    public String getEtpadress() {
+        return etpadress;
+    }
+
+    /**
+     * 企业地址
+     * @param etpadress 企业地址
+     */
+    public void setEtpadress(String etpadress) {
+        this.etpadress = etpadress;
+    }
+
+    /**
+     * 企业注册地址
+     * @return etpRegAdress 企业注册地址
+     */
+    public String getEtpregadress() {
+        return etpregadress;
+    }
+
+    /**
+     * 企业注册地址
+     * @param etpregadress 企业注册地址
+     */
+    public void setEtpregadress(String etpregadress) {
+        this.etpregadress = etpregadress;
+    }
+
+    /**
+     * 企业电话
+     * @return etpTel 企业电话
+     */
+    public String getEtptel() {
+        return etptel;
+    }
+
+    /**
+     * 企业电话
+     * @param etptel 企业电话
+     */
+    public void setEtptel(String etptel) {
+        this.etptel = etptel;
+    }
+
+    /**
+     * 企业关联附件id，企业营业执照
+     * @return attachment_id 企业关联附件id，企业营业执照
+     */
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    /**
+     * 企业关联附件id，企业营业执照
+     * @param attachmentId 企业关联附件id，企业营业执照
+     */
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
+
+    /**
+     * 审核状态 -1 审核未通过 0待审核 1审核通过
+     * @return state 审核状态 -1 审核未通过 0待审核 1审核通过
+     */
+    public Integer getState() {
+        return state;
+    }
+
+    /**
+     * 审核状态 -1 审核未通过 0待审核 1审核通过
+     * @param state 审核状态 -1 审核未通过 0待审核 1审核通过
+     */
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     /**

@@ -957,6 +957,346 @@ public class EssEnterpriseExample {
             return (Criteria) this;
         }
 
+        public Criteria andEtpadressIsNull() {
+            addCriterion("etpAdress is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressIsNotNull() {
+            addCriterion("etpAdress is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressEqualTo(String value) {
+            addCriterion("etpAdress =", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressNotEqualTo(String value) {
+            addCriterion("etpAdress <>", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressGreaterThan(String value) {
+            addCriterion("etpAdress >", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressGreaterThanOrEqualTo(String value) {
+            addCriterion("etpAdress >=", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressLessThan(String value) {
+            addCriterion("etpAdress <", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressLessThanOrEqualTo(String value) {
+            addCriterion("etpAdress <=", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressLike(String value) {
+            addCriterion("etpAdress like", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressNotLike(String value) {
+            addCriterion("etpAdress not like", value, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressIn(List<String> values) {
+            addCriterion("etpAdress in", values, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressNotIn(List<String> values) {
+            addCriterion("etpAdress not in", values, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressBetween(String value1, String value2) {
+            addCriterion("etpAdress between", value1, value2, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpadressNotBetween(String value1, String value2) {
+            addCriterion("etpAdress not between", value1, value2, "etpadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressIsNull() {
+            addCriterion("etpRegAdress is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressIsNotNull() {
+            addCriterion("etpRegAdress is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressEqualTo(String value) {
+            addCriterion("etpRegAdress =", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressNotEqualTo(String value) {
+            addCriterion("etpRegAdress <>", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressGreaterThan(String value) {
+            addCriterion("etpRegAdress >", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressGreaterThanOrEqualTo(String value) {
+            addCriterion("etpRegAdress >=", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressLessThan(String value) {
+            addCriterion("etpRegAdress <", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressLessThanOrEqualTo(String value) {
+            addCriterion("etpRegAdress <=", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressLike(String value) {
+            addCriterion("etpRegAdress like", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressNotLike(String value) {
+            addCriterion("etpRegAdress not like", value, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressIn(List<String> values) {
+            addCriterion("etpRegAdress in", values, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressNotIn(List<String> values) {
+            addCriterion("etpRegAdress not in", values, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressBetween(String value1, String value2) {
+            addCriterion("etpRegAdress between", value1, value2, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtpregadressNotBetween(String value1, String value2) {
+            addCriterion("etpRegAdress not between", value1, value2, "etpregadress");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelIsNull() {
+            addCriterion("etpTel is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelIsNotNull() {
+            addCriterion("etpTel is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelEqualTo(String value) {
+            addCriterion("etpTel =", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelNotEqualTo(String value) {
+            addCriterion("etpTel <>", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelGreaterThan(String value) {
+            addCriterion("etpTel >", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelGreaterThanOrEqualTo(String value) {
+            addCriterion("etpTel >=", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelLessThan(String value) {
+            addCriterion("etpTel <", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelLessThanOrEqualTo(String value) {
+            addCriterion("etpTel <=", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelLike(String value) {
+            addCriterion("etpTel like", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelNotLike(String value) {
+            addCriterion("etpTel not like", value, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelIn(List<String> values) {
+            addCriterion("etpTel in", values, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelNotIn(List<String> values) {
+            addCriterion("etpTel not in", values, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelBetween(String value1, String value2) {
+            addCriterion("etpTel between", value1, value2, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andEtptelNotBetween(String value1, String value2) {
+            addCriterion("etpTel not between", value1, value2, "etptel");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdIsNull() {
+            addCriterion("attachment_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdIsNotNull() {
+            addCriterion("attachment_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdEqualTo(String value) {
+            addCriterion("attachment_id =", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdNotEqualTo(String value) {
+            addCriterion("attachment_id <>", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdGreaterThan(String value) {
+            addCriterion("attachment_id >", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdGreaterThanOrEqualTo(String value) {
+            addCriterion("attachment_id >=", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdLessThan(String value) {
+            addCriterion("attachment_id <", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdLessThanOrEqualTo(String value) {
+            addCriterion("attachment_id <=", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdLike(String value) {
+            addCriterion("attachment_id like", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdNotLike(String value) {
+            addCriterion("attachment_id not like", value, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdIn(List<String> values) {
+            addCriterion("attachment_id in", values, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdNotIn(List<String> values) {
+            addCriterion("attachment_id not in", values, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdBetween(String value1, String value2) {
+            addCriterion("attachment_id between", value1, value2, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttachmentIdNotBetween(String value1, String value2) {
+            addCriterion("attachment_id not between", value1, value2, "attachmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNull() {
+            addCriterion("state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNotNull() {
+            addCriterion("state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateEqualTo(Integer value) {
+            addCriterion("state =", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotEqualTo(Integer value) {
+            addCriterion("state <>", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThan(Integer value) {
+            addCriterion("state >", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("state >=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThan(Integer value) {
+            addCriterion("state <", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThanOrEqualTo(Integer value) {
+            addCriterion("state <=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIn(List<Integer> values) {
+            addCriterion("state in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotIn(List<Integer> values) {
+            addCriterion("state not in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateBetween(Integer value1, Integer value2) {
+            addCriterion("state between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("state not between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;
