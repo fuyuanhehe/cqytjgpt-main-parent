@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.core.annotation.Resource;
+import com.ccttic.core.annotation.ResourceScan;
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
@@ -21,6 +23,7 @@ import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.service.organization.IDepartmentService;
 import com.ccttic.service.organization.IOrganizationService;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
@@ -51,6 +54,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/findHeadOrg", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String findAllOrg() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -78,6 +84,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/findNextNode", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.GET_NEXT_NODE, name = "获取下级节点",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String findNextNode(String orgCd) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -104,6 +113,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/findOrgByOrgCd", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.GET_ORGANIZATION, name = "获取组织信息",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String findOrgByOrgCd(String orgCd) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -130,6 +142,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/saveOrg", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ORGANIZATION, name = "创建组织",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String saveOrg(Organization org) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -155,6 +170,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/editOrg", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_ORGANIZATION, name = "修改组织",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String editOrg(Organization org) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -179,6 +197,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/removeOrg", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ORGANIZATION, name = "删除组织",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String removeOrg(String orgCd, String orgType) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -202,6 +223,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/findOrgDepartment", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.GET_DEPARTMENT, name = "获取部门信息",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String findOrgDepartment(PageRequest page, Department tment, String orgCd) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -228,6 +252,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/saveDepartment", method = RequestMethod.POST)
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_DEPARTMENT, name = "创建部门",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String saveDepartment(@RequestBody Department ment) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -252,6 +279,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/editDepartment", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_DEPARTMENT, name = "修改部门",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String editDepartment(Department ment) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -275,6 +305,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/removeDepartment", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_DEPARTMENT, name = "删除部门",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String removeDepartment(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -300,6 +333,9 @@ public class OrganizationContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/saveEnterprise", method = RequestMethod.POST)
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ENTERPRISE, name = "创建企业",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String saveEnterprise(@RequestBody Enterprise rise) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {

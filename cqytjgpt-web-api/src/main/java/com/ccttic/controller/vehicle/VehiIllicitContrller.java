@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.core.annotation.Resource;
+import com.ccttic.core.annotation.ResourceScan;
 import com.ccttic.entity.common.exception.AppException;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.service.vehicle.IVehiIllicitService;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -35,6 +38,9 @@ public class VehiIllicitContrller implements Serializable{
 	 */
 	@RequestMapping(value = "/qryVehiIllicitList", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.CAR_ILLICIT_INFO, name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
+			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public String qryVehiIllicitList (PageRequest page, VehiIllicit vehiIllicit,String mgrEnterpriseId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -60,6 +66,10 @@ public class VehiIllicitContrller implements Serializable{
 	 */
 	@RequestMapping(value = "/qryOneVehiIllicit", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.ILLICIT_PARTICULARS, name = "违法详情",  hierarchy = 4, isMenue = false, pcd = Const.CAR_ILLICIT_INFO)
+    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/qryVehiIllicitList", name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
+    		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+    		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public String qryOneVehiIllicit (String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<String, Object>();
