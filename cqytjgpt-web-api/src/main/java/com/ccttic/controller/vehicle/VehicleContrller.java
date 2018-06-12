@@ -76,7 +76,7 @@ public class VehicleContrller implements Serializable {
 	@RequestMapping(value = "/saveVehicle", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_CAR, name = "新增车辆",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
-    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
+    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public String saveVehicle(String vehiNo, String vehiNoType) {
@@ -110,7 +110,7 @@ public class VehicleContrller implements Serializable {
 	@RequestMapping(value = "/modifVehicle", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_CAR, name = "修改车辆",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
-    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
+    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public String modifVehicle(String vehiNoType, String vehiNo) {
@@ -150,7 +150,7 @@ public class VehicleContrller implements Serializable {
 	@RequestMapping(value = "/qryOneVehicle", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.PARTICULARS_INFO, name = "车辆详情",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
-    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
+    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public String qryOneVehicle(String id) {
@@ -179,7 +179,7 @@ public class VehicleContrller implements Serializable {
 	@RequestMapping(value = "/qryOneVehiIllicit", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.ILLICIT_INFO, name = "违法信息",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
-    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
+    , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public String qryOneVehiIllicit(PageRequest page, VehiIllicit vehiIllicit, String id) {
