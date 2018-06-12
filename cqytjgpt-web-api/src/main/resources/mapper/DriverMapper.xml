@@ -208,6 +208,8 @@
 		limit ${startRecord},${pageSize}
 
 	</select>
-
+	<select id="selectAllDriver" resultType="com.ccttic.entity.drivers.Driver">
+	select id,idcard from driver
+	</select>
 
 </mapper>

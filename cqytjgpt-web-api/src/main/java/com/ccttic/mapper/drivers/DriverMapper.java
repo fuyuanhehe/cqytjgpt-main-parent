@@ -37,4 +37,6 @@ public interface DriverMapper {
 
 	public List<DriverillicitVo> seDr_illicitPages(Map<String, Object> params);
 
+	public List<Driver> selectAllDriver();
+
 }
