@@ -85,8 +85,9 @@ public interface RoleMenuMapper {
 	 * @param 
 	 * @return
 	 */
-	
-	 public List<Model_MenuVo> seMenuByRoleId(@Param("roleId") String roleId);
+	 public List<Model_MenuVo> seMenuByRoleIds(@Param("roleId") String roleId);
+	 
+	 public List<Model_MenuVo> seMenuByRoleId(@Param("roleId") String[] roleId);
 	
 	 // 登陆需要
 	 public List<Model_menus> seMenusByEid(@Param("emp_id") String emp_id);

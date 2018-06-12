@@ -1,28 +1,25 @@
 package com.ccttic.controller.role;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.entity.common.beans.ResponseMsg;
-import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
-import com.ccttic.entity.role.vo.MenuModels;
+import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.service.role.IRoleMenuService;
+import com.ccttic.util.common.MenuTreeUtil;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.logger.annotation.OperLogging;
@@ -84,7 +81,7 @@ public class RoleMenuController {
 	 * @date  2018年6月4日
 	 */
 	@OperLogging(operType = 1)
-//	@PostMapping("/updateMenuByRole")
+	//	@PostMapping("/updateMenuByRole")
 	@RequestMapping(value="/updateMenuByRole",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String> addMenu(Roles roles){
 		ResponseMsg<String> resp = new ResponseMsg<>();
@@ -180,10 +177,19 @@ public class RoleMenuController {
 		return resp;
 	}
 
-	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
-    public EmployeeVo getTreeMenus(@RequestBody String emp_id){
-    	
-	  return	MenService.seRole_MenuById(emp_id);
-    } 
-	
+/*	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
+	public List<Object> getTreeMenus(String emp_id){
+
+		List<MenuVo>  data = MenService.seRole_MenuById(emp_id);
+
+		MenuTreeUtil menuTree = new MenuTreeUtil();  
+
+		List<Object> menuList = menuTree.menuList(data);
+
+		return menuList;
+		
+	} */
+
+
+
 }

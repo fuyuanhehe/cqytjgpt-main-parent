@@ -232,12 +232,18 @@ public class RoleServiceImpl implements IRoleService {
 	@Override
 	public ModelByRole seRoleByEmpId(String emp_id) {
 		// TODO Auto-generated method stub		
-		Role_Emp roleids = mapper.seRoleByEmpId(emp_id);
-
-		List<Model_MenuVo> data = rmMapper.seMenuByRoleId(roleids.getRole_id());
+		List<Role_Emp> roleids = mapper.seRoleByEmpId(emp_id);
+            
+		      String ar[] = new String[roleids.size()];
+		     for (int i = 0; i < roleids.size(); i++) {
+		    	 Role_Emp mEmp = roleids.get(i);
+		    	  ar[i] = mEmp.getRole_id();
+			}
+		
+		List<Model_MenuVo> data = rmMapper.seMenuByRoleId(ar);
 
 		ModelByRole byRole = new ModelByRole();
-
+         
 		List<Model_MenuVo> models = new ArrayList<>();
 
 		for (Model_MenuVo model : data) {			

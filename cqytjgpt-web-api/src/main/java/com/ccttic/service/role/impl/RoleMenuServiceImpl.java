@@ -2,35 +2,30 @@ package com.ccttic.service.role.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.RoleModels;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
-import com.ccttic.entity.role.vo.MenuModels;
+import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.mapper.role.RoleMapper;
 import com.ccttic.mapper.role.RoleMenuMapper;
 import com.ccttic.service.role.IRoleMenuService;
+import com.ccttic.util.common.MenuTreeUtil;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
-
+import com.ccttic.entity.employee.EmployeeVo;
 
 /**
 功能说明：     功能权限功能
@@ -142,10 +137,12 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		return Mapper.seAllMenu();
 	}
 	@Override
-	public List<Model_MenuVo> seMenuByRoleId(String roleId) {
+	public List<Model_MenuVo> seMenuByRoleIds(String roleId) {
 		// TODO Auto-generated method stub
-		return Mapper.seMenuByRoleId(roleId);
+		return Mapper.seMenuByRoleIds(roleId);
 	}
+
+
 	@Override
 	public empModelVo seAllEmp() {
 		// TODO Auto-generated method stub
@@ -171,19 +168,28 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		return modelVo;
 	}
 	@Override
-	@GetMapping(value="seRole_MenuById")	
-	public EmployeeVo seRole_MenuById(String emp_id) {
-		Role_Emp role_Emp = roleMapper.seRoleByEmpId(emp_id);
+	public EmployeeVo  seRole_MenuById(String emp_id) {
 
-		List<Model_MenuVo> menu = Mapper.seMenuByRoleId(role_Emp.getRole_id())  ;
-		//角色
 		List<RoleModels> list = new ArrayList<>();
+		//多个角色ID
+		List<Role_Emp> role_Emp = roleMapper.seRoleByEmpId(emp_id);
+		String arrs [] = new String[role_Emp.size()];
+		//多个角色
+		for (int i = 0; i < role_Emp.size(); i++) {
+			Role_Emp ss = role_Emp.get(i);
+			arrs[i] = ss.getRole_id();
+		} 
+		// 通过角色ID获取菜单
+		List<Model_MenuVo> menu = Mapper.seMenuByRoleId(arrs)  ;
+		// 不重复的角色
+		List<RoleModels> roleModels = new ArrayList<>();
+		String str = "" ;
 		//菜单
-		List<MenuModels> mList = new ArrayList<>();
+		List<MenuVo> mList = new ArrayList<>();
 
 		for (Model_MenuVo mm : menu) {
 			RoleModels models = new RoleModels();
-			MenuModels mun = new MenuModels();
+			MenuVo mun = new MenuVo();
 			models.setRoleId(mm.getRoleId());
 			models.setRoleCd(mm.getRoleCd());
 			models.setRoleNm(mm.getRoleNm());
@@ -193,93 +199,28 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 			mun.setType(mm.getIsmenu());
 			mun.setCen(mm.getHierarchy());
 			mun.setId(mm.getResource());
-			mun.setIds(mm.getGroupresource());
+			mun.setpId(mm.getGroupresource());
 			list.add(models);
 			mList.add(mun);
 		}
-		Set<RoleModels> roles = new HashSet<>(list);
-              
-		for (MenuModels roleModels : mList) {
-			System.out.println(roleModels);
+		for (int i = 0; i < list.size(); i++) {
+			RoleModels ar = list.get(i);
+
+			if(i==0|| str!=ar.getRoleId()){
+
+				roleModels.add(ar);   
+			}  
+			str = ar.getRoleId();
 		}
-		return  null;
-		
+		MenuTreeUtil menuTree = new MenuTreeUtil(); 
+		List<Object> menuList = menuTree.menuList(mList);
+		EmployeeVo emp = new EmployeeVo();
+		emp.setModels(roleModels); 
+		emp.setMenus(menuList);
+
+		return  emp;
+
 	}
 
-	private void getTree(List<MenuModels> list,Map<MenuModels, Object> map){
-
-		if(map.isEmpty()){
-
-			for(int i=0;i<list.size();){
-				MenuModels now = list.get(i);
-				// 一级菜单
-				if(now.getCen() == 0){
-					map.put(now, null);
-					list.remove(i);
-				}else{
-					i++;
-				}
-			}
-
-			if(!map.isEmpty()){
-				getTree(list,map);
-			}
-		}else{
-			Map<MenuModels, Object> save;
-			for(MenuModels up:map.keySet()){
-				save = new HashMap<MenuModels, Object>();
-				for(int i=0;i<list.size();){
-					MenuModels now = list.get(i);
-
-					if(now.getIds().equals(up.getId())){
-						save.put(now, null);
-						list.remove(i);
-					}else{
-						i++;
-					}
-				}
-
-				if(!save.isEmpty()){
-					map.put(up, save);
-					getTree(list,map);
-				}
-			}
-		}
-	}
-
-
-	public MenuModels se(List<MenuModels> ss){
-		// 一级目录
-		MenuModels deMo = new MenuModels();
-
-		//除了一级目录其他的菜单
-		List<MenuModels> list = new ArrayList<>();
-
-		
-
-		List<MenuModels> main = new ArrayList<>();
-
-		for (MenuModels m : ss) {
-			if (m.getCen()==0) {
-				deMo = m;
-			}
-			list.add(m);
-		}		
-
-		for (MenuModels min : list) {
-			List<MenuModels> lis = new ArrayList<>();
-			for (MenuModels m1 : list) {
-				if(min.getId().equals(m1.getIds()) ){
-					lis.add(m1);
-				}
-
-			}					
-			min.setChildren(lis);
-			main.add(min);
-		}
-
-		deMo.setChildren(main);
-		return deMo;
-	} 
 
 }

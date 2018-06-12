@@ -32,6 +32,7 @@ import com.ccttic.mapper.post.EssPostMapper;
 import com.ccttic.mapper.role.RoleMapper;
 import com.ccttic.mapper.role.RoleMenuMapper;
 import com.ccttic.service.employee.IEmployeeService;
+import com.ccttic.service.role.IRoleMenuService;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
@@ -55,9 +56,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Autowired
 	private EssPostMapper postMapper;
 	@Autowired
-	private RoleMenuMapper menuMapper;
-	@Autowired
-	private RoleMapper roleMapper;
+	private IRoleMenuService service;
 
 
 	/*
@@ -111,11 +110,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 		emp.setOrgs(orgs);
 		// 员工能使用的菜单,员工角色
-		Role_Emp role_Emp = roleMapper.seRoleByEmpId(account);
-		List<Model_MenuVo> menu = menuMapper.seMenuByRoleId(role_Emp.getRole_id())  ;
-		/*List<Model_menus> menus =roleMapper.seMenusByEid(emp.getId());
-		emp.setMenus(menus);*/
-
+		EmployeeVo datas = service.seRole_MenuById(emp.getId());
+		emp.setMenus(datas.getMenus());
+		emp.setModels(datas.getModels());
 		return emp;
 
 	}
@@ -198,16 +195,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		dept.setVersion(1);
 		dept.setId(RandomHelper.uuid());
 		if(employee.getEmptype()==EmpCategoryEnum.ADMIN.name())
-		for (int i = 0; i < emp.getPost().size(); i++) {
-			String postId = emp.getPost().get(i).getId();
-			EssEmployeePost eep = new EssEmployeePost();
-			eep.setEmpId(empid);
-			eep.setId(RandomHelper.uuid());
-			eep.setVersion(1);
-			eep.setPostId(postId);
-			postMapper.relatedPostAndEmp(eep);
+			for (int i = 0; i < emp.getPost().size(); i++) {
+				String postId = emp.getPost().get(i).getId();
+				EssEmployeePost eep = new EssEmployeePost();
+				eep.setEmpId(empid);
+				eep.setId(RandomHelper.uuid());
+				eep.setVersion(1);
+				eep.setPostId(postId);
+				postMapper.relatedPostAndEmp(eep);
 
-		}
+			}
 	}
 
 	/*

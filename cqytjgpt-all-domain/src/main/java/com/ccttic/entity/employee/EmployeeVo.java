@@ -1,12 +1,10 @@
 package com.ccttic.entity.employee;
 
 import java.util.List;
-
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.RoleModels;
-import com.ccttic.entity.role.vo.MenuModels;
 
 public class EmployeeVo extends EssEmployee {
 	// 员工所在岗位
@@ -18,7 +16,7 @@ public class EmployeeVo extends EssEmployee {
 	// 角色
 	private List<RoleModels> models;
 	// 员工能使用的菜单
-	private  MenuModels menus; 
+	private  List<Object> menus; 
 	//验证码 
 	private String picCode;
 
@@ -27,7 +25,7 @@ public class EmployeeVo extends EssEmployee {
 	}
 
 	public EmployeeVo(List<EssPost> posts, List<Department> deps, List<Organization> orgs,
-			List<RoleModels> models, MenuModels menus, String picCode) {
+			List<RoleModels> models, List<Object> menus, String picCode) {
 		super();
 		this.posts = posts;
 		this.deps = deps;
@@ -35,12 +33,6 @@ public class EmployeeVo extends EssEmployee {
 		this.models = models;
 		this.menus = menus;
 		this.picCode = picCode;
-	}
-
-	@Override
-	public String toString() {
-		return "EmployeeVo [posts=" + posts + ", deps=" + deps + ", orgs=" + orgs + ", models="
-				+ models + ", menus=" + menus + ", picCode=" + picCode + "]";
 	}
 
 	public List<EssPost> getPosts() {
@@ -75,11 +67,11 @@ public class EmployeeVo extends EssEmployee {
 		this.models = models;
 	}
 
-	public MenuModels getMenus() {
+	public List<Object> getMenus() {
 		return menus;
 	}
 
-	public void setMenus(MenuModels menus) {
+	public void setMenus(List<Object> menus) {
 		this.menus = menus;
 	}
 
@@ -90,6 +82,12 @@ public class EmployeeVo extends EssEmployee {
 	public void setPicCode(String picCode) {
 		this.picCode = picCode;
 	}
-      
+
+	@Override
+	public String toString() {
+		return "EmployeeVo [posts=" + posts + ", deps=" + deps + ", orgs=" + orgs + ", models="
+				+ models + ", menus=" + menus + ", picCode=" + picCode + "]";
+	}
+
 
 }

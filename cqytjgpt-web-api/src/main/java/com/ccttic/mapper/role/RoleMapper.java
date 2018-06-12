@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.Model_MenuVo;
 
 /**
    功能说明：      MyBatis角色映射
@@ -99,6 +100,9 @@ public interface RoleMapper {
 	 * 通过员工ID获取角色
 	 * @param roles
 	 */
-	public Role_Emp seRoleByEmpId(@Param("emp_id") String emp_id);
+	public List<Role_Emp> seRoleByEmpId(@Param("emp_id") String emp_id);
+	
+	
+	
 	
 }
