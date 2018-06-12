@@ -13,8 +13,6 @@ import com.ccttic.entity.BaseBean;
 public class Organization extends BaseBean implements Serializable{
 
 	private static final long serialVersionUID = -2447025603755403233L;
-	// id
-	private String id;
 	// 组织机构代码
 	private String orgCd;
 	// 组织机构名称
@@ -42,10 +40,9 @@ public class Organization extends BaseBean implements Serializable{
 		super();
 	}
 
-	public Organization(String id, String orgCd, String orgNm, String shortNm, String remark,String areaCode, Integer dispOrder,
+	public Organization(String orgCd, String orgNm, String shortNm, String remark,String areaCode, Integer dispOrder,
 			String orgType, String superOrgId, String superOrgCd, String superOrgNm, String superOrgType) {
 		super();
-		this.id = id;
 		this.orgCd = orgCd;
 		this.orgNm = orgNm;
 		this.shortNm = shortNm;
@@ -57,16 +54,6 @@ public class Organization extends BaseBean implements Serializable{
 		this.superOrgCd = superOrgCd;
 		this.superOrgNm = superOrgNm;
 		this.superOrgType = superOrgType;
-	}
-
-
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getOrgCd() {

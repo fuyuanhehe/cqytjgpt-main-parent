@@ -2,16 +2,16 @@ package com.ccttic.entity.role;
 
 import java.io.Serializable;
 
+import com.ccttic.entity.BaseBean;
+
 /**
 功能说明：     企业基本信息
 @author  admin
 @see  com.ccttic.entity.role.Enterprise.java
 @date  2018年5月30日
 */
-public class Enterprise implements Serializable{
+public class Enterprise extends BaseBean implements Serializable{
 	private static final long serialVersionUID = -8991984368056005329L;
-	// id 
-	private String id;
 	// 机构编码
 	private String orgCd;
 	// 所属机构Id
@@ -44,11 +44,10 @@ public class Enterprise implements Serializable{
 	}
 
 
-	public Enterprise(String id, String orgCd, String orgId, String etpCd, String etpNm, String etpshortNm,
+	public Enterprise(String orgCd, String orgId, String etpCd, String etpNm, String etpshortNm,
 			String etpLawer, String lawerTel, String etpSafer, String saferTel, String ownerTraffic,
 			String ownerTransport, int dispOrder, String remark) {
 		super();
-		this.id = id;
 		this.orgCd = orgCd;
 		this.orgId = orgId;
 		this.etpCd = etpCd;
@@ -62,16 +61,6 @@ public class Enterprise implements Serializable{
 		this.ownerTransport = ownerTransport;
 		this.dispOrder = dispOrder;
 		this.remark = remark;
-	}
-
-
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getOrgId() {
