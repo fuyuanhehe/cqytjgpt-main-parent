@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.mapper.DrDangerMapper">
-  <resultMap id="BaseResultMap" type="com.ccttic.entity.DrDanger">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.danger.DrDanger">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="driverName" jdbcType="VARCHAR" property="drivername" />
     <result column="driverIdcard" jdbcType="VARCHAR" property="driveridcard" />
     <result column="dangerType" jdbcType="VARCHAR" property="dangertype" />
-    <result column="ownerGener" jdbcType="VARCHAR" property="ownergener" />
+    <result column="ownerGener" jdbcType="VARCHAR" property="ownergener" /> 
     <result column="ownerOrgId" jdbcType="VARCHAR" property="ownerorgid" />
     <result column="dangerTime" jdbcType="VARCHAR" property="dangertime" />
     <result column="correctTime" jdbcType="VARCHAR" property="correcttime" />
@@ -29,11 +29,200 @@
     <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
     <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
   </resultMap>
+  
+   
+  <!-- 发现数查询模块 -->
+  <select id="countIntoNum" resultType="int">
+  	select count(1) intoNum from driver
+  </select>
+  
+  <select id="countDriverDangerNum" resultType="int">
+   select count(1) from dr_danger
+  </select>
+  
+  <select id="countWarnNum" resultType="map">
+  	select d.dangerType,count(1) warnNum from dr_danger d GROUP BY d.dangerType
+  </select>
+  <!-- 查询隐患问题分布 -->
+  <select id="distributionDangerForDriver" resultType="map" parameterType="map">
+ 	<if test='date=="year"'>
+      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.createTime) = year(now()) 
+      union all
+      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.createTime) = year(now()) 
+      union all
+      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.createTime) = year(now()) 
+      union all
+      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.createTime) = year(now()) 
+      union all
+      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.createTime) = year(now())
+ 	</if>
+ 	<if test='date=="month"'>
+
+      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+      union all
+      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+      union all
+      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+      union all
+      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+      union all
+      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+
+ 	</if>
+ 	<if test='date=="season"'>
+      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+      union all
+      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+      union all
+      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+      union all
+      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+      union all
+      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+ 	</if>
+  </select>
+  <!-- 隐患治理情况 -->
+  <select id="countNoHandleDriver" resultType="int">
+ 	select count(1) from dr_danger
+  </select>
+  <!-- 治理结果趋势 -->
+  <select id="resultDangerForDriver" resultType="map" >
+select
+    sum(case when month(d.createTime)=1 then 1 else 0 end) 一, 
+    sum(case when month(d.createTime)=2 then 1 else 0 end) 二,
+    sum(case when month(d.createTime)=3 then 1 else 0 end) 三,
+    sum(case when month(d.createTime)=4 then 1 else 0 end) 四,
+    sum(case when month(d.createTime)=5 then 1 else 0 end) 五,
+    sum(case when month(d.createTime)=6 then 1 else 0 end) 六,
+    sum(case when month(d.createTime)=7 then 1 else 0 end) 七,
+    sum(case when month(d.createTime)=8 then 1 else 0 end) 八,
+    sum(case when month(d.createTime)=9 then 1 else 0 end) 九,
+    sum(case when month(d.createTime)=10 then 1 else 0 end) 十,
+    sum(case when month(d.createTime)=11 then 1 else 0 end) 十一,
+    sum(case when month(d.createTime)=12 then 1 else 0 end) 十二
+from dr_danger d where year(d.createTime) = year(now())
+  </select>
+  <!-- 各区隐患详情查询 -->
+  <select id="areaDangerInfo" resultType="map" >
+ 	SELECT
+	e.orgNm,
+	(
+		SELECT
+			count(1)
+		FROM
+			dr_danger d
+		WHERE
+			d.ownerOrgId = e.id
+	) driverDangers,
+	(
+		SELECT
+			count(1)
+		FROM
+			vehi_danger d
+		WHERE
+			d.ownerOrgId = e.id
+	) carDangers,(select carDangers+driverDangers) total
+FROM
+	ess_organization e
+GROUP BY
+	e.orgNm
+ORDER BY 
+	total
+DESC
+  </select>
+  <!-- 通报驾驶员信息 -->
+  <select id="noticeDangerDriver" resultMap="BaseResultMap" parameterType="map">
+ 	SELECT
+	d.id,
+	d.driverIdcard,
+	d.driverName,
+	d.illicitState,
+	d.failureState,
+	d.overdueProofState,
+	d.overdueExamineState,
+	d.fullStudyState
+FROM
+	dr_danger d
+LIMIT  #{top,jdbcType=VARCHAR},1
+  </select>
+  <!-- 各区隐患排行 -->
+  <select id="areaDangersTop" resultType="map">
+	SELECT
+	e.orgNm,
+	(
+		SELECT
+			count(1)
+		FROM
+			dr_danger d
+		WHERE
+			d.ownerOrgId = e.id
+	) driverDangers,
+	(
+		SELECT
+			count(1)
+		FROM
+			vehi_danger d
+		WHERE
+			d.ownerOrgId = e.id
+	) carDangers,(select carDangers+driverDangers) total
+FROM
+	ess_organization e
+GROUP BY
+	e.orgNm
+ORDER BY 
+	total
+DESC
+  </select>
+  <!-- 根据分所查询各区的驾驶员隐患数 -->
+  <!-- 当月 -->
+  <select id="findMonthAreaDangerByOrgId" resultType="map" parameterType="map">
+	SELECT
+	orgNm,
+	(
+		SELECT
+			count(1)
+		FROM
+			dr_danger
+		WHERE
+			e.id = ownerOrgId
+		AND YEAR (now()) = YEAR (createTime)
+		AND MONTH (now()) = MONTH (createTime)
+	) driverDangers
+FROM
+	ess_organization e
+WHERE
+	e.superOrg_id = #{orgId,jdbcType=VARCHAR}
+GROUP BY
+	e.orgNm
+  </select>
+  <!-- 上月 -->
+  <select id="findPreMonthAreaDangerByOrgId" resultType="map"  parameterType="map">
+	SELECT
+	orgNm,
+	(
+		SELECT
+			count(1)
+		FROM
+			dr_danger
+		WHERE
+			e.id = ownerOrgId
+		AND YEAR (now()) = YEAR (createTime)
+		AND MONTH (now())-1 = MONTH (createTime)
+	) driverDangers
+FROM
+	ess_organization e
+WHERE
+	e.superOrg_id = #{orgId,jdbcType=VARCHAR}
+GROUP BY
+	e.orgNm
+  </select>
+ 
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from dr_danger
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.ccttic.entity.DrDanger">
+  <insert id="insert" parameterType="com.ccttic.entity.danger.DrDanger">
     insert into dr_danger (id, driverName, driverIdcard, 
       dangerType, ownerGener, ownerOrgId, 
       dangerTime, correctTime, correctState, 
@@ -53,7 +242,7 @@
       #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
       #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.DrDanger">
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.danger.DrDanger">
     update dr_danger
     set driverName = #{drivername,jdbcType=VARCHAR},
       driverIdcard = #{driveridcard,jdbcType=VARCHAR},
