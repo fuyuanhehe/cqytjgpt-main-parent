@@ -41,7 +41,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 机动车隐患发现情况
+	/**
+	 *  机动车隐患发现情况
+	 */
 	@RequestMapping("findDangerForCar")
 	public ResponseMsg<Map<String, Object>> findDangerForCar() {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
@@ -56,7 +58,10 @@ public class ScreenController {
 		return response;
 	}
 
-	// 驾驶员隐患问题分布情况
+	/**
+	 *  驾驶员隐患问题分布情况
+	 * @param dateMap year年 season季 month月
+	 */
 	@RequestMapping("distributionDangerForDriver")
 	public ResponseMsg<List<Map<String, Object>>> distributionDangerForDriver(@RequestBody Map<String, Object> dateMap) {
 		ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
@@ -72,7 +77,10 @@ public class ScreenController {
 		return response;
 	}
 
-	// 机动车隐患问题分布情况
+	/**
+	 *  机动车隐患问题分布情况
+	 * @param dateMap year年 season季 month月
+	 */
 	@RequestMapping("distributionDangerForCar")
 	public ResponseMsg<List<Map<String, Object>>> distributionDangerForCar(@RequestBody Map<String, Object> dateMap) {
 		ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
@@ -90,7 +98,9 @@ public class ScreenController {
 	
 	}
 
-	// 驾驶员隐患治理结果分析
+	/**
+	 *  驾驶员隐患治理结果分析
+	 */
 	@RequestMapping("handleDangerForDriver")
 	public ResponseMsg<Map<String, Object>> handleDangerForDriver() {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
@@ -105,7 +115,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 机动车隐患治理结果分析
+	/**
+	 *  机动车隐患治理结果分析
+	 */
 	@RequestMapping("handleDangerForCar")
 	public ResponseMsg<Map<String, Object>> handleDangerForCar() {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
@@ -121,7 +133,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 驾驶员整治效果趋势分析
+	/**
+	 *  驾驶员整治效果趋势分析
+	 */
 	@RequestMapping("resultDangerForDriver")
 	public ResponseMsg<Map<String, Object>> resultDangerForDriver() {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
@@ -137,7 +151,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 机动车整治效果趋势分析
+	/**
+	 *  机动车整治效果趋势分析
+	 */
 	@RequestMapping("resultDangerForCar")
 	public ResponseMsg<Map<String, Object>> resultDangerForCar() {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
@@ -153,7 +169,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 分区隐患信息
+	/**
+	 *  分区隐患信息
+	 */
 	@RequestMapping("areaDangerInfo")
 	public ResponseMsg<List<Map<String, Object>>> areaDangerInfo() {
 		ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
@@ -171,7 +189,10 @@ public class ScreenController {
 
 
 
-	// 隐患驾驶员通报
+	/**
+	 *  隐患驾驶员通报
+	 * @param map top 第几条 
+	 */
 	@RequestMapping("noticeDangerForDriver")
 	public ResponseMsg<DrDanger> noticeDangerForDriver(@RequestBody Map map) {
 		ResponseMsg<DrDanger> response = new ResponseMsg<DrDanger>();
@@ -187,7 +208,10 @@ public class ScreenController {
 		return response;
 	}
 
-	// 机动车通报
+	/**
+	 *  机动车通报
+	 * @param map top 第几条 
+	 */
 	@RequestMapping("noticeDangerForCar")
 	public ResponseMsg<VehiDanger> noticeDangerForCar(@RequestBody Map map) {
 		ResponseMsg<VehiDanger> response = new ResponseMsg<VehiDanger>();
@@ -203,7 +227,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 各区隐患排名
+	/**
+	 *  各区隐患排名
+	 */
 	@RequestMapping("areaDangersTop")
 	public ResponseMsg<List<Map<String, Object>>> areaDangersTop() {
 		ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
@@ -219,7 +245,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 各区驾驶员隐患占比
+	/**
+	 *  各区驾驶员隐患占比
+	 */
 	@RequestMapping("ratioDangerForDriver")
 	public ResponseMsg<List<Map<String, Object>>> ratioDangerForDriver() {
 		ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
@@ -235,7 +263,9 @@ public class ScreenController {
 		return response;
 	}
 
-	// 各区机动车隐患占比
+	/**
+	 *  各区机动车隐患占比
+	 */
 	@RequestMapping("ratioDangerForCar")
 	public ResponseMsg<List<Map<String, Object>>> ratioDangerForCar() {
 		ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
@@ -251,7 +281,10 @@ public class ScreenController {
 		return response;
 	}
 
-	// 各分所驾驶员治理情况
+	/**
+	 *  各分所驾驶员治理情况
+	 * @param map orgId 分所id
+	 */
 	@RequestMapping("deptDangerForDriver")
 	public ResponseMsg<Map<String, Object>> deptDangerForDriver(@RequestBody Map<String,Object> map) {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
@@ -269,7 +302,10 @@ public class ScreenController {
 		return response;
 	}
 
-	// 各分所机动车治理情况
+	/**
+	 *  各分所机动车治理情况
+	 * @param map orgId 分所id
+	 */
 	@RequestMapping("deptDangerForCar")
 	public ResponseMsg<Map<String, Object>> deptDangerForCar(@RequestBody Map<String,Object> map) {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
