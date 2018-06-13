@@ -3,6 +3,7 @@ package com.ccttic.service.enterprise;
 import java.util.Map;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 
 public interface IEnterpriseService {
 
@@ -24,6 +25,18 @@ public interface IEnterpriseService {
 	 * @return
 	 */
 	public int delEnterpriseById(EssEnterprise essEnterprise) throws Exception;
+	
+	/**
+	 * 
+	    * @Title: registerEnterpries  
+	    * @Description: 企业注册 
+	    * @param @param vo
+	    * @param @return
+	    * @param @throws Exception    参数  
+	    * @return int    返回类型  
+	    * @throws
+	 */
+	public int registerEnterpries(EnterpriseVo vo)throws Exception;
 	
 
 }

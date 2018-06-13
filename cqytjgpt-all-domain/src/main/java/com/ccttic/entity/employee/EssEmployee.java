@@ -7,7 +7,6 @@ public class EssEmployee {
      * 主键ID
      */
     private String id;
-    
 
     /**
      * 员工代码
@@ -43,6 +42,11 @@ public class EssEmployee {
      * 移动电话
      */
     private String mobile;
+
+    /**
+     * 注册邮箱，可通知用
+     */
+    private String email;
 
     /**
      * 入职日期
@@ -132,7 +136,7 @@ public class EssEmployee {
      * @param id 主键ID
      */
     public void setId(String id) {
-        this.id = id;
+        this.id = id == null ? null : id.trim();
     }
 
     /**
@@ -148,7 +152,7 @@ public class EssEmployee {
      * @param empcd 员工代码
      */
     public void setEmpcd(String empcd) {
-        this.empcd = empcd;
+        this.empcd = empcd == null ? null : empcd.trim();
     }
 
     /**
@@ -164,7 +168,7 @@ public class EssEmployee {
      * @param empnm 员工姓名
      */
     public void setEmpnm(String empnm) {
-        this.empnm = empnm;
+        this.empnm = empnm == null ? null : empnm.trim();
     }
 
     /**
@@ -180,7 +184,7 @@ public class EssEmployee {
      * @param empno 工号
      */
     public void setEmpno(String empno) {
-        this.empno = empno;
+        this.empno = empno == null ? null : empno.trim();
     }
 
     /**
@@ -196,7 +200,7 @@ public class EssEmployee {
      * @param duty 职务
      */
     public void setDuty(String duty) {
-        this.duty = duty;
+        this.duty = duty == null ? null : duty.trim();
     }
 
     /**
@@ -212,7 +216,7 @@ public class EssEmployee {
      * @param empgender 性别
      */
     public void setEmpgender(String empgender) {
-        this.empgender = empgender;
+        this.empgender = empgender == null ? null : empgender.trim();
     }
 
     /**
@@ -228,7 +232,7 @@ public class EssEmployee {
      * @param phone 联系电话
      */
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = phone == null ? null : phone.trim();
     }
 
     /**
@@ -244,7 +248,23 @@ public class EssEmployee {
      * @param mobile 移动电话
      */
     public void setMobile(String mobile) {
-        this.mobile = mobile;
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    /**
+     * 注册邮箱，可通知用
+     * @return email 注册邮箱，可通知用
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 注册邮箱，可通知用
+     * @param email 注册邮箱，可通知用
+     */
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     /**
@@ -292,7 +312,7 @@ public class EssEmployee {
      * @param account 用户账号
      */
     public void setAccount(String account) {
-        this.account = account;
+        this.account = account == null ? null : account.trim();
     }
 
     /**
@@ -308,7 +328,7 @@ public class EssEmployee {
      * @param password 用户密码
      */
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     /**
@@ -324,7 +344,7 @@ public class EssEmployee {
      * @param empstatus 员工状态
      */
     public void setEmpstatus(String empstatus) {
-        this.empstatus = empstatus;
+        this.empstatus = empstatus == null ? null : empstatus.trim();
     }
 
     /**
@@ -340,7 +360,7 @@ public class EssEmployee {
      * @param emptype 员工类型
      */
     public void setEmptype(String emptype) {
-        this.emptype = emptype;
+        this.emptype = emptype == null ? null : emptype.trim();
     }
 
     /**
@@ -436,7 +456,7 @@ public class EssEmployee {
      * @param createby 创建人编码
      */
     public void setCreateby(String createby) {
-        this.createby = createby;
+        this.createby = createby == null ? null : createby.trim();
     }
 
     /**
@@ -452,7 +472,7 @@ public class EssEmployee {
      * @param createdepcd 创建人机构编码
      */
     public void setCreatedepcd(String createdepcd) {
-        this.createdepcd = createdepcd;
+        this.createdepcd = createdepcd == null ? null : createdepcd.trim();
     }
 
     /**
@@ -468,7 +488,7 @@ public class EssEmployee {
      * @param updateby 修改人编码
      */
     public void setUpdateby(String updateby) {
-        this.updateby = updateby;
+        this.updateby = updateby == null ? null : updateby.trim();
     }
 
     /**
@@ -484,11 +504,6 @@ public class EssEmployee {
      * @param updatedepcd 修改人机构编码
      */
     public void setUpdatedepcd(String updatedepcd) {
-        this.updatedepcd = updatedepcd;
+        this.updatedepcd = updatedepcd == null ? null : updatedepcd.trim();
     }
-    
-    public EssEmployee() {
-		// TODO Auto-generated constructor stub
-	}
-    
 }

@@ -62,7 +62,7 @@
      <columnOverride column="ITEM_NAME" javaType="com.rls.rm.batch.common.enm.QuotaDimension" typeHandler="com.rls.rm.batch.plugin.mybatis.StringEnumTypeHandler"/>
     </table>  -->
   
-     <table tableName="res_menu"> 
+     <table tableName="ess_employee"> 
      </table>
   </context>
 </generatorConfiguration>
