@@ -60,34 +60,24 @@
 		r.id AS roleId,
 		r.roleNm,
 		GROUP_CONCAT(e.empNm, e.account) AS
-		empNms,
-		GROUP_CONCAT(m.label) as menuLabels,
-		GROUP_CONCAT(m.id) AS
-		menuIds
+		empNms
 		FROM
 		ess_role r
-		LEFT JOIN
-		ess_employee_role re ON r.id =
+		LEFT JOIN ess_employee_role re ON r.id =
 		re.role_id
-		LEFT JOIN ess_employee e ON
-		re.emp_id = e.id
+		LEFT JOIN ess_employee e ON re.emp_id = e.id
 		LEFT JOIN
 		ess_role_menu rm ON rm.role_id = r.id
-		LEFT
-		JOIN (SELECT
-		m.id,
-		m.label
-		FROM
-		res_menu m
-		) m
-		ON rm.menu_id
-		= m.id where 1 = 1
-
+		LEFT JOIN res_menu m ON
+		rm.menu_id = m.id
+		where 1 = 1
 		<!-- <if test="roleId!=null and roleId!='' "> and r.id = #{roleId} </if> -->
 		<if test="roleNm!=null and roleNm!='' ">
 			and r.roleNm like '%${roleNm}%'
 		</if>
-
+		<if test="roleId!=null and roleId!='' ">
+			and r.id = #{roleId}
+		</if>
 		GROUP BY
 		r.id limit ${startRecord},${pageSize}
 	</select>
@@ -100,7 +90,9 @@
 		where 1 = 1
 
 		<!-- <if test="roleId!=null and roleId!='' "> and id = #{roleId} </if> -->
-
+		<if test="roleId!=null and roleId!='' ">
+			and id = #{roleId}
+		</if>
 		<if test="roleNm!=null and roleNm!='' ">
 
 			and roleNm like '%${roleNm}%'
@@ -134,21 +126,27 @@
 		FROM
 		ess_employee e
 	</select>
-<!-- 角色查询对应菜单 -->
+	<!-- 角色查询对应菜单 -->
 	<select id="seMenuByRoleIds" resultType="com.ccttic.entity.role.vo.Model_MenuVo"
 		parameterType="java.lang.String">
 		SELECT
-		r.*,
+		r.id as roleId,
+		r.roleCd,
+		r.roleNm,
+		r.description,
 		m.*
 		FROM
 		ess_role r
 		LEFT JOIN ess_role_menu
-		rm ON r.id = rm.role_id
-		LEFT JOIN
+		rm ON
+		r.id = rm.role_id
+		LEFT
+		JOIN
 		res_menu m ON rm.menu_id = m.id
 		WHERE
-		r.id  = #{roleId}
-		
+		r.id =
+		#{roleId}
+
 	</select>
 
 
@@ -156,16 +154,21 @@
 	<select id="seMenuByRoleId" resultType="com.ccttic.entity.role.vo.Model_MenuVo"
 		parameterType="java.lang.String">
 		SELECT
-		r.*,
+		r.id as roleId,
+		r.roleCd,
+		r.roleNm,
+		r.description,
 		m.*
 		FROM
 		ess_role r
 		LEFT JOIN ess_role_menu
 		rm ON r.id = rm.role_id
-		LEFT JOIN
-		res_menu m ON rm.menu_id = m.id
+		LEFT
+		JOIN
+		res_menu m ON
+		rm.menu_id = m.id
 		WHERE
-		r.id   in
+		r.id in
 		<foreach item="roleId" collection="array" open="(" separator=","
 			close=")">
 			#{roleId}

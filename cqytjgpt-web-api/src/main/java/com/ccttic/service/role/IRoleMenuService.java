@@ -64,7 +64,7 @@ public interface IRoleMenuService {
 	 * @return
 	 */
 	
-	public List<ResMenu> seAllMenu();
+	public List<MenuVo> seAllMenu();
 	
 	/**
 	 * 根据角色id查询对应的菜单

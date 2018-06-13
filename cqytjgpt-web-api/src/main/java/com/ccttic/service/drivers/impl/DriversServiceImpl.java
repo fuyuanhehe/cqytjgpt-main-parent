@@ -36,24 +36,24 @@ public class DriversServiceImpl implements DriversService {
 		params.put("idcard", driverVo.getIdcard());
 		params.put("permicar", driverVo.getPermicar());
 		params.put("id", ids);
-		List<DriverVo> data = mapper.seDriverPage(driverVo);
+		List<DriverVo> data = mapper.seDriverPage(params);
 		if(ObjectHelper.isEmpty(ids)){
 			List<DriverVo> list = new ArrayList<>();   	   
 			for (DriverVo driver : data) {
-              driver.setAdress("");
-              driver.setMgrdepart("");
-              driver.setTelphone("");
-              driver.setScoretotal("");
-              driver.setExamineeffectendtime("");
-              driver.setEffectendtime("");
-              driver.setEffectstarttime("");
-             list.add(driver);
+				driver.setAdress("");
+				driver.setMgrdepart("");
+				driver.setTelphone("");
+				driver.setScoretotal("");
+				driver.setExamineeffectendtime("");
+				driver.setEffectendtime("");
+				driver.setEffectstarttime("");
+				list.add(driver);
 			}
-			pager.setTotalRows( mapper.sePageCount(driverVo));
+			pager.setTotalRows( mapper.sePageCount(params));
 			pager.setRecords(list);
 		}    
 
-		pager.setTotalRows( mapper.sePageCount(driverVo));
+		pager.setTotalRows( mapper.sePageCount(params));
 		pager.setRecords(data);
 
 		return pager;
@@ -64,5 +64,28 @@ public class DriversServiceImpl implements DriversService {
 		// TODO Auto-generated method stub
 		return mapper.seDrillicitByDriverId(driverid);
 	}
+
+	@Override
+	public Page<DriverillicitVo> getDriverPages(Pageable page, DriverillicitVo driver) {
+		Page<DriverillicitVo> pager = new PageImpl<DriverillicitVo>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		params.put("driverid", driver.getId());
+		params.put("name", driver.getName());
+		params.put("etpNm", driver.getEtpNm());
+		params.put("areaNm", driver.getAreaNm());
+		params.put("illicitadress", driver.getIllicitadress());
+		params.put("illicit", driver.getIllicit());
+		List<DriverillicitVo> data = mapper.seDr_illicitPages(params);
+		long count = mapper.getDriverPageCount(params);
+
+		pager.setRecords(data);
+		pager.setTotalRows(count);
+
+		return pager;
+	}
+
+
 
 }

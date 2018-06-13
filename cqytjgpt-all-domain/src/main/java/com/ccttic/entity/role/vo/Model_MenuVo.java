@@ -219,6 +219,7 @@ public class Model_MenuVo {
 		this.hierarchy = hierarchy;
 	}
 
+
 	
 
 

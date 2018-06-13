@@ -3,8 +3,8 @@ package com.ccttic.controller.drivers;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.entity.common.beans.ResponseMsg;
 import com.ccttic.entity.drivers.vo.DriverVo;
@@ -15,7 +15,7 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
 @RestController
-@RequestMapping(value="drvers")
+@RequestMapping(value="/drvers")
 public class DriversController {
 
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -23,7 +23,7 @@ public class DriversController {
 	private DriversService service;
 
 	@OperLogging(operType = 3,content="驾驶员信息分页")
-	@GetMapping
+	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<DriverVo>> seDriverPages(PageRequest page,DriverVo driverVo){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
@@ -42,7 +42,7 @@ public class DriversController {
 	}
 
 	@OperLogging(operType = 3,content="驾驶员违法信息")
-	@GetMapping(value="seDrillicitByDriverId")
+	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(String driverid){
 		ResponseMsg<DriverillicitVo> resp = new ResponseMsg<DriverillicitVo>();
 		try {
@@ -59,8 +59,25 @@ public class DriversController {
 
 		return resp;
 	}
+	@OperLogging(operType = 3,content="驾驶员违法信息分页")
+	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(PageRequest page,DriverillicitVo driver){
+		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 
+		try {
+			Page<DriverillicitVo> data = service.getDriverPages(page, driver);
+			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setStatus(0);
+			resp.setData(data.getRecords());  
+			resp.setTotal(data.getTotalRows().intValue());
+		} catch (Exception e) {
+			resp.setMessage("查询驾驶员违法信息失败！");
+			resp.setStatus(-1);
+			logger.error("查询驾驶员违法信息失败！"+driver,e);
+		}
 
+		return resp;
+	}
 
 
 

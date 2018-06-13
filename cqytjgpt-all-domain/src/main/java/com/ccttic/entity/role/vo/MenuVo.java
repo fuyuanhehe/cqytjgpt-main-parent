@@ -2,6 +2,8 @@ package com.ccttic.entity.role.vo;
 // 树形菜单Vo
 
 public class MenuVo {
+	//菜单Id
+	private String menuId;
 	//自己ID
 	private String id;
 	//父id
@@ -18,8 +20,10 @@ public class MenuVo {
 	public MenuVo() {
 	}
 
-	public MenuVo(String id, String pId, String title, String type, String url, Integer cen) {
+	public MenuVo(String menuId, String id, String pId, String title, String type, String url,
+			Integer cen) {
 		super();
+		this.menuId = menuId;
 		this.id = id;
 		this.pId = pId;
 		this.title = title;
@@ -30,8 +34,16 @@ public class MenuVo {
 
 	@Override
 	public String toString() {
-		return "MenuVo [id=" + id + ", pId=" + pId + ", title=" + title + ", type=" + type
-				+ ", url=" + url + ", cen=" + cen + "]";
+		return "MenuVo [menuId=" + menuId + ", id=" + id + ", pId=" + pId + ", title=" + title
+				+ ", type=" + type + ", url=" + url + ", cen=" + cen + "]";
+	}
+
+	public String getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
 	}
 
 	public String getId() {
@@ -82,7 +94,8 @@ public class MenuVo {
 		this.cen = cen;
 	}
 
-
+	
+	
 
 
 
