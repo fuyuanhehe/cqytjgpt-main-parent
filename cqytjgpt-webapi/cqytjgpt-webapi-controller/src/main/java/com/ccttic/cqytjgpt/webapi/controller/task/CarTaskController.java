@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 
 @RestController
-@RequestMapping("/carSerivce")
+@RequestMapping("/carService")
 public class CarTaskController{
 	
 	private ITaskCarService service;
