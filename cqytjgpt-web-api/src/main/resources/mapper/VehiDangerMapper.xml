@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rls.rm.batch.domain.mapper.VehiDangerMapper">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.role.VehiDanger">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="vehiNo" jdbcType="VARCHAR" property="vehino" />
+    <result column="vehiType" jdbcType="VARCHAR" property="vehitype" />
+    <result column="ownerEnterprise" jdbcType="VARCHAR" property="ownerenterprise" />
+    <result column="scrappedState" jdbcType="INTEGER" property="scrappedstate" />
+    <result column="illicitState" jdbcType="INTEGER" property="illicitstate" />
+    <result column="overdueExamineState" jdbcType="INTEGER" property="overdueexaminestate" />
+    <result column="failureState" jdbcType="INTEGER" property="failurestate" />
+    <result column="dangerType" jdbcType="VARCHAR" property="dangertype" />
+    <result column="ownerGener" jdbcType="VARCHAR" property="ownergener" />
+    <result column="ownerOrgId" jdbcType="VARCHAR" property="ownerorgid" />
+    <result column="vehicle_id" jdbcType="VARCHAR" property="vehicleId" />
+    <result column="dangerTime" jdbcType="VARCHAR" property="dangertime" />
+    <result column="correctTime" jdbcType="VARCHAR" property="correcttime" />
+    <result column="correctState" jdbcType="VARCHAR" property="correctstate" />
+    <result column="dangerDesc" jdbcType="VARCHAR" property="dangerdesc" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="isDeleted" jdbcType="BIT" property="isdeleted" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime" />
+    <result column="createBy" jdbcType="VARCHAR" property="createby" />
+    <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd" />
+    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
+    <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vehiNo, vehiType, ownerEnterprise, scrappedState, illicitState, overdueExamineState, 
+    failureState, dangerType, ownerGener, ownerOrgId, vehicle_id, dangerTime, correctTime, 
+    correctState, dangerDesc, remark, version, isDeleted, createTime, updateTime, deleteTime, 
+    createBy, createDepCd, updateBy, updateDepCd
+  </sql>
+  <select id="selectByExample" parameterType="com.ccttic.entity.role.VehiDangerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehi_danger
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehi_danger
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from vehi_danger
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.role.VehiDangerExample">
+    delete from vehi_danger
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ccttic.entity.role.VehiDanger">
+    insert into vehi_danger (id, vehiNo, vehiType, 
+      ownerEnterprise, scrappedState, illicitState, 
+      overdueExamineState, failureState, dangerType, 
+      ownerGener, ownerOrgId, vehicle_id, 
+      dangerTime, correctTime, correctState, 
+      dangerDesc, remark, version, 
+      isDeleted, createTime, updateTime, 
+      deleteTime, createBy, createDepCd, 
+      updateBy, updateDepCd)
+    values (#{id,jdbcType=VARCHAR}, #{vehino,jdbcType=VARCHAR}, #{vehitype,jdbcType=VARCHAR}, 
+      #{ownerenterprise,jdbcType=VARCHAR}, #{scrappedstate,jdbcType=INTEGER}, #{illicitstate,jdbcType=INTEGER}, 
+      #{overdueexaminestate,jdbcType=INTEGER}, #{failurestate,jdbcType=INTEGER}, #{dangertype,jdbcType=VARCHAR}, 
+      #{ownergener,jdbcType=VARCHAR}, #{ownerorgid,jdbcType=VARCHAR}, #{vehicleId,jdbcType=VARCHAR}, 
+      #{dangertime,jdbcType=VARCHAR}, #{correcttime,jdbcType=VARCHAR}, #{correctstate,jdbcType=VARCHAR}, 
+      #{dangerdesc,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{isdeleted,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
+      #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ccttic.entity.role.VehiDanger">
+    insert into vehi_danger
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vehino != null">
+        vehiNo,
+      </if>
+      <if test="vehitype != null">
+        vehiType,
+      </if>
+      <if test="ownerenterprise != null">
+        ownerEnterprise,
+      </if>
+      <if test="scrappedstate != null">
+        scrappedState,
+      </if>
+      <if test="illicitstate != null">
+        illicitState,
+      </if>
+      <if test="overdueexaminestate != null">
+        overdueExamineState,
+      </if>
+      <if test="failurestate != null">
+        failureState,
+      </if>
+      <if test="dangertype != null">
+        dangerType,
+      </if>
+      <if test="ownergener != null">
+        ownerGener,
+      </if>
+      <if test="ownerorgid != null">
+        ownerOrgId,
+      </if>
+      <if test="vehicleId != null">
+        vehicle_id,
+      </if>
+      <if test="dangertime != null">
+        dangerTime,
+      </if>
+      <if test="correcttime != null">
+        correctTime,
+      </if>
+      <if test="correctstate != null">
+        correctState,
+      </if>
+      <if test="dangerdesc != null">
+        dangerDesc,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="isdeleted != null">
+        isDeleted,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="deletetime != null">
+        deleteTime,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="createdepcd != null">
+        createDepCd,
+      </if>
+      <if test="updateby != null">
+        updateBy,
+      </if>
+      <if test="updatedepcd != null">
+        updateDepCd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="vehino != null">
+        #{vehino,jdbcType=VARCHAR},
+      </if>
+      <if test="vehitype != null">
+        #{vehitype,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerenterprise != null">
+        #{ownerenterprise,jdbcType=VARCHAR},
+      </if>
+      <if test="scrappedstate != null">
+        #{scrappedstate,jdbcType=INTEGER},
+      </if>
+      <if test="illicitstate != null">
+        #{illicitstate,jdbcType=INTEGER},
+      </if>
+      <if test="overdueexaminestate != null">
+        #{overdueexaminestate,jdbcType=INTEGER},
+      </if>
+      <if test="failurestate != null">
+        #{failurestate,jdbcType=INTEGER},
+      </if>
+      <if test="dangertype != null">
+        #{dangertype,jdbcType=VARCHAR},
+      </if>
+      <if test="ownergener != null">
+        #{ownergener,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerorgid != null">
+        #{ownerorgid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=VARCHAR},
+      </if>
+      <if test="dangertime != null">
+        #{dangertime,jdbcType=VARCHAR},
+      </if>
+      <if test="correcttime != null">
+        #{correcttime,jdbcType=VARCHAR},
+      </if>
+      <if test="correctstate != null">
+        #{correctstate,jdbcType=VARCHAR},
+      </if>
+      <if test="dangerdesc != null">
+        #{dangerdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        #{isdeleted,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletetime != null">
+        #{deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdepcd != null">
+        #{createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedepcd != null">
+        #{updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ccttic.entity.role.VehiDangerExample" resultType="java.lang.Long">
+    select count(*) from vehi_danger
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehi_danger
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehino != null">
+        vehiNo = #{record.vehino,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehitype != null">
+        vehiType = #{record.vehitype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerenterprise != null">
+        ownerEnterprise = #{record.ownerenterprise,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scrappedstate != null">
+        scrappedState = #{record.scrappedstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.illicitstate != null">
+        illicitState = #{record.illicitstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.overdueexaminestate != null">
+        overdueExamineState = #{record.overdueexaminestate,jdbcType=INTEGER},
+      </if>
+      <if test="record.failurestate != null">
+        failureState = #{record.failurestate,jdbcType=INTEGER},
+      </if>
+      <if test="record.dangertype != null">
+        dangerType = #{record.dangertype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownergener != null">
+        ownerGener = #{record.ownergener,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerorgid != null">
+        ownerOrgId = #{record.ownerorgid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicle_id = #{record.vehicleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dangertime != null">
+        dangerTime = #{record.dangertime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.correcttime != null">
+        correctTime = #{record.correcttime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.correctstate != null">
+        correctState = #{record.correctstate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dangerdesc != null">
+        dangerDesc = #{record.dangerdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdeleted != null">
+        isDeleted = #{record.isdeleted,jdbcType=BIT},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deletetime != null">
+        deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        createBy = #{record.createby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdepcd != null">
+        createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateby != null">
+        updateBy = #{record.updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedepcd != null">
+        updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehi_danger
+    set id = #{record.id,jdbcType=VARCHAR},
+      vehiNo = #{record.vehino,jdbcType=VARCHAR},
+      vehiType = #{record.vehitype,jdbcType=VARCHAR},
+      ownerEnterprise = #{record.ownerenterprise,jdbcType=VARCHAR},
+      scrappedState = #{record.scrappedstate,jdbcType=INTEGER},
+      illicitState = #{record.illicitstate,jdbcType=INTEGER},
+      overdueExamineState = #{record.overdueexaminestate,jdbcType=INTEGER},
+      failureState = #{record.failurestate,jdbcType=INTEGER},
+      dangerType = #{record.dangertype,jdbcType=VARCHAR},
+      ownerGener = #{record.ownergener,jdbcType=VARCHAR},
+      ownerOrgId = #{record.ownerorgid,jdbcType=VARCHAR},
+      vehicle_id = #{record.vehicleId,jdbcType=VARCHAR},
+      dangerTime = #{record.dangertime,jdbcType=VARCHAR},
+      correctTime = #{record.correcttime,jdbcType=VARCHAR},
+      correctState = #{record.correctstate,jdbcType=VARCHAR},
+      dangerDesc = #{record.dangerdesc,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=INTEGER},
+      isDeleted = #{record.isdeleted,jdbcType=BIT},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
+      createBy = #{record.createby,jdbcType=VARCHAR},
+      createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
+      updateBy = #{record.updateby,jdbcType=VARCHAR},
+      updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.role.VehiDanger">
+    update vehi_danger
+    <set>
+      <if test="vehino != null">
+        vehiNo = #{vehino,jdbcType=VARCHAR},
+      </if>
+      <if test="vehitype != null">
+        vehiType = #{vehitype,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerenterprise != null">
+        ownerEnterprise = #{ownerenterprise,jdbcType=VARCHAR},
+      </if>
+      <if test="scrappedstate != null">
+        scrappedState = #{scrappedstate,jdbcType=INTEGER},
+      </if>
+      <if test="illicitstate != null">
+        illicitState = #{illicitstate,jdbcType=INTEGER},
+      </if>
+      <if test="overdueexaminestate != null">
+        overdueExamineState = #{overdueexaminestate,jdbcType=INTEGER},
+      </if>
+      <if test="failurestate != null">
+        failureState = #{failurestate,jdbcType=INTEGER},
+      </if>
+      <if test="dangertype != null">
+        dangerType = #{dangertype,jdbcType=VARCHAR},
+      </if>
+      <if test="ownergener != null">
+        ownerGener = #{ownergener,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerorgid != null">
+        ownerOrgId = #{ownerorgid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleId != null">
+        vehicle_id = #{vehicleId,jdbcType=VARCHAR},
+      </if>
+      <if test="dangertime != null">
+        dangerTime = #{dangertime,jdbcType=VARCHAR},
+      </if>
+      <if test="correcttime != null">
+        correctTime = #{correcttime,jdbcType=VARCHAR},
+      </if>
+      <if test="correctstate != null">
+        correctState = #{correctstate,jdbcType=VARCHAR},
+      </if>
+      <if test="dangerdesc != null">
+        dangerDesc = #{dangerdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        isDeleted = #{isdeleted,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletetime != null">
+        deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdepcd != null">
+        createDepCd = #{createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        updateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedepcd != null">
+        updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.role.VehiDanger">
+    update vehi_danger
+    set vehiNo = #{vehino,jdbcType=VARCHAR},
+      vehiType = #{vehitype,jdbcType=VARCHAR},
+      ownerEnterprise = #{ownerenterprise,jdbcType=VARCHAR},
+      scrappedState = #{scrappedstate,jdbcType=INTEGER},
+      illicitState = #{illicitstate,jdbcType=INTEGER},
+      overdueExamineState = #{overdueexaminestate,jdbcType=INTEGER},
+      failureState = #{failurestate,jdbcType=INTEGER},
+      dangerType = #{dangertype,jdbcType=VARCHAR},
+      ownerGener = #{ownergener,jdbcType=VARCHAR},
+      ownerOrgId = #{ownerorgid,jdbcType=VARCHAR},
+      vehicle_id = #{vehicleId,jdbcType=VARCHAR},
+      dangerTime = #{dangertime,jdbcType=VARCHAR},
+      correctTime = #{correcttime,jdbcType=VARCHAR},
+      correctState = #{correctstate,jdbcType=VARCHAR},
+      dangerDesc = #{dangerdesc,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      isDeleted = #{isdeleted,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=VARCHAR},
+      createDepCd = #{createdepcd,jdbcType=VARCHAR},
+      updateBy = #{updateby,jdbcType=VARCHAR},
+      updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

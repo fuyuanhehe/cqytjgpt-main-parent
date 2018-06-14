@@ -80,4 +80,6 @@ public interface VehicleMapper {
 	 * @throws AppException
 	 */
 	public int modifVehicle(Vehicle vehicle) throws AppException;
+	//获取所有车辆
+	public List<Vehicle> getAllCar();
 }

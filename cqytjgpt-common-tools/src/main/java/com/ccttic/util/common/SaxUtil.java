@@ -15,6 +15,7 @@ import org.dom4j.Element;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.drivers.XMLDriver;
 import com.ccttic.entity.illegalprocess.XMLIllegalProcess;
+import com.ccttic.entity.illegalprocess.XMLPendingPayment;
 
 
 public class SaxUtil {
@@ -117,7 +118,7 @@ public class SaxUtil {
 
 	
 
-	public static Map<Object, Object> saxIIllegalProcess(String xml) {
+	public static Map<Object, Object> saxIIllegalProcess(String xml) throws Exception{
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		List<XMLIllegalProcess> list = new ArrayList<XMLIllegalProcess>();
 		Document doc = null;
@@ -179,5 +180,65 @@ public class SaxUtil {
 		}
 		return map;
 	}
-
+	public static Map<String, Object> readStringXmlOut(String xml) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<XMLPendingPayment> list = new ArrayList<XMLPendingPayment>();
+		XMLPendingPayment pendingPayment = null;
+		Document doc = null;
+		try {
+			// 将字符串转为XML
+			doc = DocumentHelper.parseText(xml);
+			// 获取根节点
+			Element rootElt = doc.getRootElement();
+			// 获取根节点下的子节点head
+			Iterator <Element> headElt = rootElt.elementIterator("head");
+			while (headElt.hasNext()) {
+				Element headEle = (Element) headElt.next();
+				String code = headEle.elementTextTrim("code");
+				map.put("code", code);
+				String message = headEle.elementTextTrim("message");
+				map.put("message", message);
+				// 获取head节点下的子节点body
+				Iterator <Element> iterss = headEle.elementIterator("body");
+				// 遍历body节点
+				while (iterss.hasNext()) {
+					Element recordEless = (Element) iterss.next();
+					// 获取子节点body下的子节点drv
+					Iterator <Element> itersElIterator = recordEless.elementIterator("vio");
+					// 遍历Header节点下的Response节点
+					while (itersElIterator.hasNext()) {
+						Element itemEle = (Element) itersElIterator.next();
+						// 拿到body下的子节点drv下的字节点sfzmhm的值
+						pendingPayment = new XMLPendingPayment();
+						//获取，补全信息
+						pendingPayment.setCljgmc(itemEle.elementTextTrim("cljgmc"));
+						pendingPayment.setWfdz(itemEle.elementTextTrim("wfdz"));
+						pendingPayment.setWfsj(itemEle.elementTextTrim("wfsj"));
+						pendingPayment.setWfxw(itemEle.elementTextTrim("wfxw"));
+						pendingPayment.setJdslb(itemEle.elementTextTrim("jdslb"));
+						pendingPayment.setJdsbh(itemEle.elementTextTrim("jdsbh"));
+						pendingPayment.setDsr(itemEle.elementTextTrim("dsr"));
+						pendingPayment.setJszh(itemEle.elementTextTrim("jszh"));
+						pendingPayment.setHpzl(itemEle.elementTextTrim("hpzl"));
+						pendingPayment.setHphm(itemEle.elementTextTrim("hphm"));
+						pendingPayment.setClsj(itemEle.elementTextTrim("clsj"));
+						pendingPayment.setFkje(itemEle.elementTextTrim("fkje"));
+						pendingPayment.setWfjfs(itemEle.elementTextTrim("wfjfs"));
+						pendingPayment.setZnj(itemEle.elementTextTrim("znj"));
+						pendingPayment.setClbj(itemEle.elementTextTrim("clbj"));
+						pendingPayment.setJkbj(itemEle.elementTextTrim("jkbj"));
+						//添加到list
+						list.add(pendingPayment);
+					}
+					map.put("pendingpayment", list);
+				}
+			}
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 }

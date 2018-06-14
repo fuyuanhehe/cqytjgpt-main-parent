@@ -27,6 +27,8 @@ public interface EssEnterpriseMapper {
     int updateByPrimaryKeySelective(EssEnterprise record);
 
     int updateByPrimaryKey(EssEnterprise record);
-    
+    //查看企业下是否还有员工
     int hasemp(String id);
+    //通过企业id查询组织名
+    String selectOrgNmbyId(String id);
 }
