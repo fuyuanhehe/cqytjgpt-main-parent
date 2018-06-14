@@ -1,8 +1,11 @@
 package com.ccttic.entity.post;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class EssPost {
+import com.ccttic.entity.BaseBean;
+
+public class EssPost extends BaseBean implements Serializable{
+	private static final long serialVersionUID = -8349678655503842856L;
     /**
      * 主键ID
      */
@@ -38,50 +41,6 @@ public class EssPost {
      */
     private Boolean isdefault;
 
-    /**
-     * 版本号
-     */
-    private Integer version;
-
-    /**
-     * 是否删除
-     */
-    private Boolean isdeleted;
-
-    /**
-     * 创建时间
-     */
-    private Date createtime;
-
-    /**
-     * 修改时间
-     */
-    private Date updatetime;
-
-    /**
-     * 删除时间
-     */
-    private Date deletetime;
-
-    /**
-     * 创建人编码
-     */
-    private String createby;
-
-    /**
-     * 创建人机构编码
-     */
-    private String createdepcd;
-
-    /**
-     * 修改人编码
-     */
-    private String updateby;
-
-    /**
-     * 修改人机构编码
-     */
-    private String updatedepcd;
 
     /**
      * 主键ID
@@ -193,149 +152,5 @@ public class EssPost {
      */
     public void setIsdefault(Boolean isdefault) {
         this.isdefault = isdefault;
-    }
-
-    /**
-     * 版本号
-     * @return version 版本号
-     */
-    public Integer getVersion() {
-        return version;
-    }
-
-    /**
-     * 版本号
-     * @param version 版本号
-     */
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    /**
-     * 是否删除
-     * @return isDeleted 是否删除
-     */
-    public Boolean getIsdeleted() {
-        return isdeleted;
-    }
-
-    /**
-     * 是否删除
-     * @param isdeleted 是否删除
-     */
-    public void setIsdeleted(Boolean isdeleted) {
-        this.isdeleted = isdeleted;
-    }
-
-    /**
-     * 创建时间
-     * @return createTime 创建时间
-     */
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    /**
-     * 创建时间
-     * @param createtime 创建时间
-     */
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    /**
-     * 修改时间
-     * @return updateTime 修改时间
-     */
-    public Date getUpdatetime() {
-        return updatetime;
-    }
-
-    /**
-     * 修改时间
-     * @param updatetime 修改时间
-     */
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
-
-    /**
-     * 删除时间
-     * @return deleteTime 删除时间
-     */
-    public Date getDeletetime() {
-        return deletetime;
-    }
-
-    /**
-     * 删除时间
-     * @param deletetime 删除时间
-     */
-    public void setDeletetime(Date deletetime) {
-        this.deletetime = deletetime;
-    }
-
-    /**
-     * 创建人编码
-     * @return createBy 创建人编码
-     */
-    public String getCreateby() {
-        return createby;
-    }
-
-    /**
-     * 创建人编码
-     * @param createby 创建人编码
-     */
-    public void setCreateby(String createby) {
-        this.createby = createby;
-    }
-
-    /**
-     * 创建人机构编码
-     * @return createDepCd 创建人机构编码
-     */
-    public String getCreatedepcd() {
-        return createdepcd;
-    }
-
-    /**
-     * 创建人机构编码
-     * @param createdepcd 创建人机构编码
-     */
-    public void setCreatedepcd(String createdepcd) {
-        this.createdepcd = createdepcd;
-    }
-
-    /**
-     * 修改人编码
-     * @return updateBy 修改人编码
-     */
-    public String getUpdateby() {
-        return updateby;
-    }
-
-    /**
-     * 修改人编码
-     * @param updateby 修改人编码
-     */
-    public void setUpdateby(String updateby) {
-        this.updateby = updateby;
-    }
-
-    /**
-     * 修改人机构编码
-     * @return updateDepCd 修改人机构编码
-     */
-    public String getUpdatedepcd() {
-        return updatedepcd;
-    }
-
-    /**
-     * 修改人机构编码
-     * @param updatedepcd 修改人机构编码
-     */
-    public void setUpdatedepcd(String updatedepcd) {
-        this.updatedepcd = updatedepcd;
     }
 }
