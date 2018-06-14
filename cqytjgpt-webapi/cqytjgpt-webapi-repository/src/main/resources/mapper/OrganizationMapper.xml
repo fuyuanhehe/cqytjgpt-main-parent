@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper">
+	<resultMap type="com.ccttic.entity.role.Organization" id="Organization">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="orgCd" column="orgCd" javaType="java.lang.String"></result>
+		<result property="orgNm" column="orgNm" javaType="java.lang.String"></result>
+		<result property="shortNm" column="shortNm" javaType="java.lang.String"></result>
+		<result property="remark" column="remark" javaType="java.lang.String"></result>
+		<result property="areaCode" column="area_id" javaType="java.lang.String"></result>
+		<result property="superOrgId" column="superOrg_id" javaType="java.lang.String"></result>
+		<result property="superOrgCd" column="superOrgCd" javaType="java.lang.String"></result>
+		<result property="superOrgNm" column="superOrgNm" javaType="java.lang.String"></result>
+		<result property="superOrgType" column="superOrgType" javaType="java.lang.String"></result>
+		<result property="orgType" column="orgType" javaType="java.lang.String"></result>
+	</resultMap>
+	<!-- 获取树头 -->
+	<select id="getHeadOrg" resultMap="Organization">
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType 
+		 	from ess_organization org where (org.isDeleted is null or org.isDeleted = 0) and org.orgType='HEAD'
+	</select>
+	<!-- 通过机构编码获取子机构(下级) -->
+	<select id="findNextNode" parameterType="java.lang.String" resultMap="Organization">
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			org.dispOrder as dispOrder,org.superOrg_id as superOrgId,parentOrg.orgCd as superOrgCd,
+			parentOrg.orgNm as superOrgNm,parentOrg.orgType as superOrgType,org.orgType as orgType 
+			from ess_organization org left join ess_organization parentOrg on org.superOrg_id = parentOrg.id 
+			where (org.isDeleted is null or org.isDeleted = 0) and parentOrg.orgCd=#{orgCd} 
+			order by org.dispOrder asc
+	</select>
+
+	<!-- 通过机构编码获取该机构信息 -->
+	<select id="findOrgByOrgCd" parameterType="java.lang.String" resultType="com.ccttic.entity.role.OrgEmpCombine">
+		select org.id,org.orgCd,org.orgNm,org.shortNm,org.orgType,org.area_id as areaId,org.superOrg_id as superOrgId,org.admin_empid as adminEmpid,
+			 emp.account,emp.password,emp.empNm,emp.empCd,emp.empNo,emp.duty,emp.empGender,emp.mobile
+			from ess_organization org LEFT JOIN ess_employee emp ON emp.id=org.admin_empid
+			where (org.isDeleted is null or org.isDeleted = 0) and org.orgCd=#{orgCd}
+	</select>
+	
+	<!-- 创建组织机构-->
+	<insert id="createOrg" parameterType="com.ccttic.entity.role.Organization">
+		insert into ess_organization(id,orgCd,orgNm,shortNm,remark,area_id,dispOrder,orgType) values 
+			(#{org.id},#{org.orgCd},#{org.orgNm},#{org.shortNm},#{org.remark},#{org.areaCode},#{org.dispOrder},#{org.orgType})
+	</insert>
+
+	<!-- 创建子组织机构-->
+	<insert id="createChildOrg" parameterType="com.ccttic.entity.role.Organization">
+		insert into ess_organization(id,orgCd,orgNm,shortNm,remark,area_id,dispOrder,superOrg_id,orgType) values 
+			(#{org.id},#{org.orgCd},#{org.orgNm},#{org.shortNm},#{org.remark},#{org.areaCode},#{org.dispOrder},#{org.superOrgId},#{org.orgType})
+	</insert>
+
+	<!-- 修改组织机构 -->
+	<update id="editOrg" parameterType="com.ccttic.entity.role.Organization">
+		update ess_organization set orgNm=#{org.orgNm}, shortNm=#{org.shortNm},remark=#{org.remark},area_id=#{org.areaCode}, dispOrder=#{org.dispOrder}, orgType=#{org.orgType}  where orgCd=#{org.orgCd}
+	</update>
+
+	<!-- 删除组织机构 -->
+	<update id="removeOrg" parameterType="java.lang.String">
+		update ess_organization set isDeleted = 1,deleteTime=now() where orgCd=#{orgCd}
+	</update>
+
+	<!-- 获取行政区域编码 -->
+	<select id="getArea" resultType="com.ccttic.entity.role.Area">
+		select id,areaCd,areaNm,shortNm,remark from ess_area area where (area.isDeleted is null or area.isDeleted = 0) 
+	</select>
+
+
+</mapper>

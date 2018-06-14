@@ -36,6 +36,7 @@
         <module>cqytjgpt-common-tools</module>
     	<!-- 大屏api -->
     	<module>cqytjgpt-screen-api</module>
+    <module>cqytjgpt-webapi</module>
   </modules>
 
     <properties>

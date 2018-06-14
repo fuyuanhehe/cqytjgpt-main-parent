@@ -5,12 +5,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.ActuatorMetricWriter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccttic.entity.common.beans.ResponseMsg;
+import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.service.IScreenService;

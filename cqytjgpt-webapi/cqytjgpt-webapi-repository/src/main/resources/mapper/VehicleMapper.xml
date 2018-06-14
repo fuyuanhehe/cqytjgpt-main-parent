@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper">
+	<resultMap type="com.ccttic.entity.role.Vehicle" id="Vehicle">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="vehiNo" column="vehiNo" javaType="java.lang.String"></result>
+		<result property="vehiNoType" column="vehiNoType" javaType="java.lang.String"></result>
+		<result property="vehiType" column="vehiType" javaType="java.lang.String"></result>
+		<result property="nature" column="nature" javaType="java.lang.String"></result>
+		<result property="ownership" column="ownership" javaType="java.lang.String"></result>
+		<result property="owner" column="owner" javaType="java.lang.String"></result>
+		<result property="telphone" column="telphone" javaType="java.lang.String"></result>
+		<result property="mobilephone" column="mobilephone" javaType="java.lang.String"></result>
+		<result property="adress" column="adress" javaType="java.lang.String"></result>
+		<result property="permitCar" column="permitCar" javaType="java.lang.String"></result>
+		<result property="firstReciveTime" column="firstReciveTime" javaType="java.lang.String"></result>
+		<result property="mgrDepart" column="mgrDepart" javaType="java.lang.String"></result>
+		<result property="mgrDepartAreaId" column="mgrDepartAreaId" javaType="java.lang.String"></result>
+		<result property="mgrEnterpriseId" column="mgrEnterpriseId" javaType="java.lang.String"></result>
+		<result property="nextExamineTime" column="nextExamineTime" javaType="java.lang.String"></result>
+		<result property="effectStartTime" column="effectStartTime" javaType="java.lang.String"></result>
+		<result property="effectEndTime" column="effectEndTime" javaType="java.lang.String"></result>
+		<result property="examineEffectEndTime" column="examineEffectEndTime" javaType="java.lang.String"></result>
+		<result property="scoreTotal" column="scoreTotal" javaType="java.lang.String"></result>
+		<result property="state" column="state" javaType="java.lang.String"></result>
+		<result property="remark" column="remark" javaType="java.lang.String"></result>
+	</resultMap>
+	<!-- 新增车牌号和车辆类型 -->
+	<insert id="saveVehicle" parameterType="java.util.Map">
+		insert into vehicle(id,vehiNo,vehiNoType) values 
+			(#{id},#{vehiNo},#{vehiNoType})
+	</insert>
+	
+	<!--  -->
+	<update id="modifVehicle" parameterType="com.ccttic.entity.role.Vehicle" >
+		update vehicle set
+		<if test="nature != null and nature != ''">
+			nature = #{nature},
+		</if>
+		<if test="ownership != null and ownership != ''">
+			ownership = #{ownership},
+		</if>
+		<if test="owner != null and owner != ''">
+			owner = #{owner},
+		</if>
+		<if test="telphone != null and telphone != ''">
+			telphone = #{telphone},
+		</if>
+		<if test="mobilephone != null and mobilephone != ''">
+			mobilephone = #{mobilephone},
+		</if>
+		<if test="adress != null and adress != ''">
+			adress = #{adress},
+		</if>
+		<if test="permitCar != null and permitCar != ''">
+			permitCar = #{permitCar},
+		</if>
+		<if test="firstReciveTime != null and firstReciveTime != ''">
+			firstReciveTime = #{firstReciveTime},
+		</if>
+		<if test="mgrDepart != null and mgrDepart != ''">
+			mgrDepart = #{mgrDepart},
+		</if>
+		<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+			mgrDepartAreaId = #{mgrDepartAreaId},
+		</if>
+		<if test="mgrEnterpriseId != null and mgrEnterpriseId != ''">
+			mgrEnterpriseId = #{mgrEnterpriseId},
+		</if>
+		<if test="nextExamineTime != null and nextExamineTime != ''">
+			nextExamineTime = #{nextExamineTime},
+		</if>
+		<if test="effectStartTime != null and effectStartTime != ''">
+			effectStartTime = #{effectStartTime},
+		</if>
+		<if test="effectEndTime != null and effectEndTime != ''">
+			effectEndTime = #{effectEndTime},
+		</if>
+		<if test="examineEffectEndTime != null and examineEffectEndTime != ''">
+			examineEffectEndTime = #{examineEffectEndTime},
+		</if>
+		<if test="scoreTotal != null and scoreTotal != ''">
+			scoreTotal = #{scoreTotal},
+		</if>
+		<if test="state != null and state != ''">
+			state = #{state},
+		</if>
+		<if test="remark != null and remark != ''">
+			remark = #{remark},
+		</if>
+		vehiNo=#{vehiNo}
+		where vehiNo=#{vehiNo}
+	
+	</update>
+	
+	
+	
+	<!-- 根据车牌号获取车辆 -->
+	<select id="qryOneVehiNo" parameterType="java.lang.String" resultMap="Vehicle">
+		SELECT * FROM vehicle WHERE vehiNo =#{vehiNo}
+	</select>
+	
+	<!-- 根据企业编码获取车辆基础信息 -->
+	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="Vehicle">
+		SELECT ve.id,ve.vehiNo,ve.vehiNoType,ve.vehiType,ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
+			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
+			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,ve.state,area.areaNm,ise.etpNm 
+			 FROM (
+				SELECT * FROM vehicle  WHERE mgrEnterpriseId=#{entId}
+			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+				and mgrDepartAreaId = #{mgrDepartAreaId}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and vehiNo = #{vehiNo}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and vehiNo = #{vehiNo}
+			</if>
+			<if test="vehiNoType != null and vehiNoType != ''">
+				and vehiNoType = #{vehiNoType}
+			</if>
+			<if test="vehiType != null and vehiType != ''">
+				and vehiType = #{vehiType}
+			</if>
+			<if test="state != null and state != ''">
+				and state = #{state}
+			</if>
+			<if test="effectStartTime != null and effectStartTime != ''">
+				and left(effectStartTime,10) &gt;= #{effectStartTime}
+			</if>
+			<if test="effectEndTime != null and effectEndTime != ''">
+				and left(effectEndTime,10) &lt;= #{effectEndTime}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				and left(firstReciveTime,10) &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				and left(firstReciveTime,10) &lt;= #{endTime}
+			</if>
+			)ve 
+			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
+			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 
+			
+			order by ve.firstReciveTime desc
+			
+			limit ${startRecord},${pageSize}
+	</select>
+	
+	<!-- 根据企业编码获取车辆基础信息条数 -->
+	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from vehicle where 1=1 and mgrEnterpriseId=#{entId}
+	</select>
+	
+	<!-- 根据id获取指定车辆基础详情信息 -->
+	<select id="qryOneVehicle" parameterType="java.util.Map" resultMap="Vehicle">
+		SELECT ve.id,ve.vehiNo,ve.vehiNoType,ve.vehiType,ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
+			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
+			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,ve.state,area.areaNm,ise.etpNm 
+			 FROM (
+				SELECT * FROM vehicle  WHERE id=#{id}
+			)ve 
+			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
+			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 
+	</select>
+	
+	<!-- 根据id获取指定车辆的违法信息 -->
+	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
+		SELECT cit.id,cit.vehiNo,cit.vehiNoType,cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
+			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
+			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,cit.state,cit.remark,ess.etpNm
+		FROM 
+		(
+			SELECT * FROM vehi_illlcit  WHERE vehicle_id=#{id}
+		) cit
+		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
+		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+		LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
+		limit ${startRecord},${pageSize}
+	</select>
+	
+	<!-- 根据id获取指定车辆的违法信息条数-->
+	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from vehi_illlcit where 1=1 and vehicle_id=#{id}
+	</select>
+	
+	
+</mapper>
