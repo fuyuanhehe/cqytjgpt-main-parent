@@ -52,7 +52,27 @@
 
 	<!-- 修改组织机构 -->
 	<update id="editOrg" parameterType="com.ccttic.entity.role.Organization">
-		update ess_organization set orgNm=#{org.orgNm}, shortNm=#{org.shortNm},remark=#{org.remark},area_id=#{org.areaCode}, dispOrder=#{org.dispOrder}, orgType=#{org.orgType}  where orgCd=#{org.orgCd}
+		update ess_organization set  
+			<if test="org.orgNm != null and org.orgNm != ''">
+				orgNm = #{org.orgNm},
+			</if>
+			<if test="org.shortNm != null and org.shortNm != ''">
+				shortNm = #{org.shortNm},
+			</if>
+			<if test="org.remark != null and org.remark != ''">
+				remark = #{org.remark},
+			</if>
+			<if test="org.areaCode != null and org.areaCode != ''">
+				areaCode = #{org.areaCode},
+			</if>
+			<if test="org.dispOrder != null and org.dispOrder != ''">
+				dispOrder = #{org.dispOrder},
+			</if>
+			<if test="org.orgType != null and org.orgType != ''">
+				orgType = #{org.orgType}
+			</if>
+			 orgCd=#{org.orgCd}
+		where orgCd=#{org.orgCd}
 	</update>
 
 	<!-- 删除组织机构 -->
