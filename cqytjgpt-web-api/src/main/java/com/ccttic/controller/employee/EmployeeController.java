@@ -79,7 +79,7 @@ public class EmployeeController {
 			if (employee == null) {
 				response.fail("用户名或密码错误!");
 				return response;
-			}
+			} 
 
 			String md5pasword = MD5.sign(empVo.getAccount(), empVo.getPassword(), "utf-8");
 			String tokenValue = authFeign.getAccessToken(empVo.getAccount(), empVo.getPassword(), "password", "ccttic1");
