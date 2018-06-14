@@ -8,8 +8,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -26,7 +24,6 @@ import com.ccttic.util.web.CCtticWebUtils;
 /**
  * 说明：日志切面配置
  */
-@Component
 public class LoggerAspect {
     // 日志
     private Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
@@ -37,7 +34,6 @@ public class LoggerAspect {
     // 网关中必须将用户姓名写入request域，USER_NAME_TOKEN 就是key
     public static final String USER_NAME_TOKEN = "authentication_name";
 
-    @Autowired
     // 默认会抛异常的 userOperLoggerService
     private UserOperLoggerService userOperLoggerService;
 
