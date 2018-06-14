@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -228,47 +227,5 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		}        
 		return list;       
 	}	
-	public static void main(String[] args) {
-		List<MenuVo> list	= new ArrayList<>();
-		MenuVo m = new MenuVo();
-		m.setId("Root");
-		m.setpId("0");
-		MenuVo m1 = new MenuVo();
-		m1.setId("2");
-		m1.setpId("Root");
-
-		MenuVo m2 = new MenuVo();
-		m2.setId("3");
-		m2.setpId("2");
-		MenuVo m3 = new MenuVo();
-
-		m3.setId("33");
-		m3.setpId("3");
-
-		MenuVo m4 = new MenuVo();
-		m4.setId("44");
-		m4.setpId("3");
-
-		MenuVo m5 = new MenuVo();
-		m5.setId("55");
-		m5.setpId("33");
-
-		list.add(m);
-		list.add(m1);
-		list.add(m2);
-		list.add(m3);
-		list.add(m4);
-		list.add(m5);
-		MenuTreeUtil menuTree = new MenuTreeUtil(); 
-
-		for (MenuVo menuVo : list) {
-			System.out.println(menuVo);
-		}
-
-		List<Object> menuList = menuTree.menuList(list); 
-		System.out.println(menuList);
-
-
-	}
 
 }

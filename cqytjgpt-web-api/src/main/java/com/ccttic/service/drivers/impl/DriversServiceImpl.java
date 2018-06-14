@@ -5,14 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.mapper.drivers.DriverMapper;
 import com.ccttic.service.drivers.DriversService;
 import com.ccttic.util.common.ObjectHelper;
+import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
@@ -84,6 +88,16 @@ public class DriversServiceImpl implements DriversService {
 		pager.setTotalRows(count);
 
 		return pager;
+	}
+
+	@Override
+	@Transactional
+	public void insertSelective(List<Driver> driver) {
+		for (Driver driver2 : driver) {
+			driver2.setId(RandomHelper.uuid());
+		}
+		mapper.insertSelective(driver);
+
 	}
 
 

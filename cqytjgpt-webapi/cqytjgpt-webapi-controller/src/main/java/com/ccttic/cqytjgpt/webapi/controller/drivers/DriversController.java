@@ -1,7 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.controller.drivers;
 
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.util.annotation.OperLogging;
@@ -81,8 +81,21 @@ public class DriversController {
 		return resp;
 	}
 
+	@OperLogging(operType = 0,content="增加驾驶人")
+	@RequestMapping(value="/insertDriver",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<String> insertDriver(List<Driver> driver){
+		ResponseMsg<String> resp = new ResponseMsg<>();
 
+		try {
+			service.insertSelective(driver);
+			resp.setMessage("新增驾驶员成功");
+			resp.setStatus(0);
+		} catch (Exception e) {
+			resp.setMessage("新增驾驶员失败");
+			resp.setStatus(-1);
+			logger.error("新增驾驶员失败"+driver,e);
 
-
-
+		}
+		return resp;
+	}
 }

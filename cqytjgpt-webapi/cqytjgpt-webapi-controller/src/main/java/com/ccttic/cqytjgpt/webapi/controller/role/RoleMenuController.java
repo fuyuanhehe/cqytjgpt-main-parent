@@ -2,13 +2,11 @@ package com.ccttic.cqytjgpt.webapi.controller.role;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -123,7 +121,9 @@ public class RoleMenuController {
 		ResponseMsg<List<Object>> resp = new ResponseMsg<>();
 
 		try {
-			 List<MenuVo> data = MenService.seAllMenu();
+
+			List<MenuVo> data = MenService.seAllMenu();
+
 			MenuTreeUtil menuTree = new MenuTreeUtil(); 
 			List<Object> menuList = menuTree.menuList(data);
 			resp.setData(menuList);
@@ -165,14 +165,20 @@ public class RoleMenuController {
 	}
 
 	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
-	public EmployeeVo getTreeMenus(String emp_id){
+	public ResponseMsg<EmployeeVo> getTreeMenus(String emp_id){
+		ResponseMsg<EmployeeVo>  resp = new ResponseMsg<>();
 
-		EmployeeVo data = MenService.seRole_MenuById(emp_id);
+		try { 
+			EmployeeVo data = MenService.seRole_MenuById(emp_id);
+			resp.setData(data);
+			resp.setMessage("员工查询成功！");
+			resp.setStatus(0);	
+		} catch (Exception e) {
+			resp.setMessage("员工查询失败！");
+			resp.setStatus(0);
+			logger.error("员工查询失败！",e);
+		}
 
-		return data;
-
+		return resp;
 	} 
-
-
-
 }

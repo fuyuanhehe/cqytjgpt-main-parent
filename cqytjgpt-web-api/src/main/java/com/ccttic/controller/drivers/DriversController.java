@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.entity.common.beans.ResponseMsg;
+import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.service.drivers.DriversService;
@@ -78,8 +79,23 @@ public class DriversController {
 
 		return resp;
 	}
+	@OperLogging(operType = 0,content="增加驾驶人")
+	@RequestMapping(value="/insertDriver",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<String> insertDriver(List<Driver> driver){
+		ResponseMsg<String> resp = new ResponseMsg<>();
 
+		try {
+			service.insertSelective(driver);
+			resp.setMessage("新增驾驶员成功");
+			resp.setStatus(0);
+		} catch (Exception e) {
+			resp.setMessage("新增驾驶员失败");
+			resp.setStatus(-1);
+			logger.error("新增驾驶员失败"+driver,e);
 
+		}
+		return resp;
+	}
 
 
 

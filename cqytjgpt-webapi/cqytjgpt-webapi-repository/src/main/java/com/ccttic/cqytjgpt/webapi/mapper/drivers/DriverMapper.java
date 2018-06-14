@@ -26,11 +26,12 @@ public interface DriverMapper {
 
 	//驾驶人违法分页
 	public List<DriverillicitVo> seDr_illicitPages(Map<String, Object> params);
+	
 	//分页总数
 	public long getDriverPageCount(Map<String, Object> params);
 
-
-
+	// 增加
+	public int insertSelective(List<Driver> driver);
+	
 	public List<Driver> selectAllDriver();
-
 }

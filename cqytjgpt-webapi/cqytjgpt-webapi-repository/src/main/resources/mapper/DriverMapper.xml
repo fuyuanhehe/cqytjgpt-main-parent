@@ -41,6 +41,18 @@
 		createTime, updateTime,
 		deleteTime, createBy, createDepCd, updateBy, updateDepCd
 	</sql>
+
+	<!--增加驾驶员 -->
+	<insert id="insertSelective" parameterType="java.util.List">
+		insert into driver idcard values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			( #{item.id}, #{item.idcard} )
+		</foreach>
+
+	</insert>
+
+	<!-- 驾驶员分页 -->
 	<select id="seDriverPage" resultType="com.ccttic.entity.drivers.vo.DriverVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -99,6 +111,7 @@
 		</if>
 		limit ${startRecord},${pageSize}
 	</select>
+	<!-- 驾驶人分页总数 -->
 	<select id="sePageCount" resultType="long">
 		SELECT
 		COUNT(d.id)
@@ -240,16 +253,10 @@
 		<if test="illicit!=null and illicit!='' ">
 			and dl.illicit = #{illicit}
 		</if>
-
 	</select>
-
-
-
-
 
 	<select id="selectAllDriver" resultType="com.ccttic.entity.drivers.Driver">
 		select id,idcard from
 		driver
 	</select>
-
 </mapper>
