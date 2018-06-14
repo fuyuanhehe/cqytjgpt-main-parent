@@ -1,6 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.service.taskcar;
 
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +23,11 @@ import com.ccttic.entity.illegal.VehiIllicitExample;
 import com.ccttic.entity.illegalprocess.XMLIllegalProcess;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+
 @Service
 public class TaskCarService implements ITaskCarService {
 	private Logger logger = LoggerFactory.getLogger(TaskCarService.class);
-	
+
 	@Autowired
 	private IIllegalProcessService illegalProcessService;
 	@Autowired
@@ -35,19 +38,22 @@ public class TaskCarService implements ITaskCarService {
 	private EssEnterpriseMapper essEnterpriseMapper;
 	@Autowired
 	private VehiDangerMapper vehiDangerMapper;
+
 	@Override
-	public void addCarIllega()  throws Exception{
+	public void addCarIllega() throws Exception {
 		VehiIllicit vehiIllicit = null;
 		List<Vehicle> vehicles = vehicleMapper.getAllCar();
 		for (Vehicle vehicle : vehicles) {
-			if (vehicle.getVehiNo() != null || vehicle.getVehiNo() != ""||vehicle.getVehiNoType() != null || vehicle.getVehiNoType() != "") {
+			if (vehicle.getVehiNo() != null || vehicle.getVehiNo() != "" || vehicle.getVehiNoType() != null
+					|| vehicle.getVehiNoType() != "") {
 
-
-				Map<Object, Object> map = illegalProcessService.getIIllegalProcess("04", "04Q21", "<hphm>渝" + vehicle.getVehiNo()  + "</hphm><hpzl>" + vehicle.getVehiNoType() + "</hpzl>");
+				Map<Object, Object> map = illegalProcessService.getIIllegalProcess("04", "04Q21",
+						"<hphm>渝" + vehicle.getVehiNo() + "</hphm><hpzl>" + vehicle.getVehiNoType() + "</hpzl>");
 				@SuppressWarnings("unchecked")
 				List<XMLIllegalProcess> list = (List<XMLIllegalProcess>) map.get("illegalprocess");
 				VehiIllicitExample example = new VehiIllicitExample();
-				example.createCriteria().andVehinoEqualTo(vehicle.getVehiNo()).andVehinotypeEqualTo(vehicle.getVehiNoType());
+				example.createCriteria().andVehinoEqualTo(vehicle.getVehiNo())
+						.andVehinotypeEqualTo(vehicle.getVehiNoType());
 				List<VehiIllicit> VehiIllicit = vehiIllicitMapper.selectByExample(example);
 				for (int i = 0; i < VehiIllicit.size(); i++) {
 					int x = 0;
@@ -90,19 +96,20 @@ public class TaskCarService implements ITaskCarService {
 			}
 		}
 
-		
 	}
 
 	@Override
-	public void addCarDanger()  throws Exception{
+	public void addCarDanger() throws Exception {
 		VehiDanger vr = null;
 		List<Vehicle> vehicles = vehicleMapper.getAllCar();
 		for (Vehicle vehicle : vehicles) {
 			vr = new VehiDanger();
-			String hphm = URLDecoder.decode(vehicle.getVehiNo()+vehicle.getVehiNoType(),"UTF-8");
+			String hphm = URLDecoder.decode(vehicle.getVehiNo() + vehicle.getVehiNoType(), "UTF-8");
 			vr.setId(hphm);
 			vr.setVehino(vehicle.getVehiNo());
 			vr.setVehitype(vehicle.getVehiNoType());
+			SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
+			vr.setDangertime(sdf.format(new Date()));
 			String enterpriseid = vehicle.getMgrEnterpriseId();
 			String orgNm = essEnterpriseMapper.selectOrgNmbyId(enterpriseid);
 			EssEnterprise etp = essEnterpriseMapper.selectByPrimaryKey(enterpriseid);
@@ -112,13 +119,16 @@ public class TaskCarService implements ITaskCarService {
 			vr.setIllicitstate(vehicle.getState() == "G" ? 1 : 0);
 			vr.setOverdueexaminestate(vehicle.getState() == "Q" ? 1 : 0);
 			vr.setFailureState(vehicle.getState() == "I" ? 1 : 0);
-			if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate() + vr.getFailureState() == 0) {
+			if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate()
+					+ vr.getFailureState() == 0) {
 				vr.setDangertype("0");
-			} else if (vr.getIllicitstate()==1 && vr.getScrappedstate() + vr.getOverdueexaminestate() + vr.getFailureState() == 0) {
+			} else if (vr.getIllicitstate() == 1
+					&& vr.getScrappedstate() + vr.getOverdueexaminestate() + vr.getFailureState() == 0) {
 				vr.setDangertype("3");
-			} else if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate() ==0&& vr.getFailureState() == 1) {
+			} else if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate() == 0
+					&& vr.getFailureState() == 1) {
 				vr.setDangertype("2");
-			} else if( vr.getScrappedstate()==1 || vr.getOverdueexaminestate() == 1){
+			} else if (vr.getScrappedstate() == 1 || vr.getOverdueexaminestate() == 1) {
 				vr.setDangertype("1");
 			}
 
@@ -130,6 +140,5 @@ public class TaskCarService implements ITaskCarService {
 		}
 
 	}
-		
 
 }

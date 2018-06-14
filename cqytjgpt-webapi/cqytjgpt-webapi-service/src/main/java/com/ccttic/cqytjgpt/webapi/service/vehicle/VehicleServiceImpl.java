@@ -16,7 +16,6 @@ import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiBaseinfoMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.car.XMLCar;
-import com.ccttic.entity.role.VehiBaseinfo;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.util.common.RandomHelper;
@@ -177,19 +176,4 @@ public class VehicleServiceImpl implements IVehicleService {
 		return state;
 	}
 	
-	@Override
-	public List<VehiBaseinfo> getVehiBaseinfoList() {
-		return infoMapper.qryVehiBaseinfoList();
-	}
-
-	@Override
-	public String getArea(String code) {
-		return infoMapper.getArea(code);
-	}
-
-	@Override
-	public void saveVehi(Vehicle vehicle) {
-		// TODO Auto-generated method stub
-		infoMapper.saveVehi(vehicle);
-	}
 }

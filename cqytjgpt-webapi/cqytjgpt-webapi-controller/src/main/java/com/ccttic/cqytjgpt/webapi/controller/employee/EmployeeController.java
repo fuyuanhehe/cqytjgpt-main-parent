@@ -223,7 +223,7 @@ public class EmployeeController {
 				EssEmployeeVo emp = new EssEmployeeVo();
 				emp.setId(map.get("id"));
 				emp.setDepid(map.get("depId"));
-				emp.setIsdeleted(true);
+				emp.setIsDeleted(true);
 				employeeService.delEmployee(emp);
 			}
 			

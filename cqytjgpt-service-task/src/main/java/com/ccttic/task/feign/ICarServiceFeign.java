@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface ICarServiceFeign{
 
 	@RequestMapping("/carService/addCarIllega")
-	void addCarIllega();
+	public void addCarIllega();
 	
 	@RequestMapping("/carService/addCarDanger")
-	void addCarDanger();
+	public void addCarDanger();
 }
