@@ -2,6 +2,7 @@ package com.ccttic.mapper.drivers;
 
 import java.util.List;
 import java.util.Map;
+
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
@@ -28,8 +29,7 @@ public interface DriverMapper {
 	//分页总数
 	public long getDriverPageCount(Map<String, Object> params);
 
-
-
-	public List<Driver> selectAllDriver();
+	// 增加
+	public int insertSelective(List<Driver> driver);
 
 }
