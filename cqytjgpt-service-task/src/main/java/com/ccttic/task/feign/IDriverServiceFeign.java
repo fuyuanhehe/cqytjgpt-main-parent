@@ -3,15 +3,13 @@ package com.ccttic.task.feign;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ccttic.cqytjgpt.webapi.interfaces.taskdriver.ITaskDriverService;
-
-@FeignClient(name="cqytjgpt-web-api")
-public interface IDriverServiceFeign extends ITaskDriverService {
+@FeignClient(name="cqytjgpt-webapi")
+public interface IDriverServiceFeign {
 	
-	@RequestMapping("/addDriverIllega")
+	@RequestMapping("/driverService/addDriverIllega")
 	public void addDriveIllega();
 	
-	@RequestMapping("/addDriverDanger")
+	@RequestMapping("/driverService/addDriverDanger")
 	public void addDriverDanger();
 
 }

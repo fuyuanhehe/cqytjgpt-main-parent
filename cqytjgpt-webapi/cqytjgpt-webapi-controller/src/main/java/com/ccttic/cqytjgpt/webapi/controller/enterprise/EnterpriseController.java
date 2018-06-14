@@ -24,6 +24,11 @@ public class EnterpriseController {
 	@Autowired
 	private IEnterpriseService enterpriseService;
 
+	/**查询企业详情
+	 * @param request
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/selectEnterprise", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<Map<String, Object>> selectEnterprise(HttpServletRequest request, @RequestBody String id) {
 		ResponseMsg<Map<String, Object>> rm = new ResponseMsg<Map<String, Object>>();
@@ -42,6 +47,11 @@ public class EnterpriseController {
 		return rm;
 	}
 
+	/**修改企业
+	 * @param request
+	 * @param essEnterprise
+	 * @return
+	 */
 	@RequestMapping(value = "/modifyEnterprise", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<String> modifyEnterprise(HttpServletRequest request, @RequestBody EssEnterprise essEnterprise) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
@@ -58,6 +68,11 @@ public class EnterpriseController {
 		return rm;
 	}
 
+	/**删除企业
+	 * @param request
+	 * @param essEnterprise
+	 * @return
+	 */
 	@RequestMapping(value = "/delEnterprise", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<String> delEnterprise(HttpServletRequest request, @RequestBody EssEnterprise essEnterprise) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();

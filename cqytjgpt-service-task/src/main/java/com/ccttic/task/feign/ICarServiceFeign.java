@@ -3,10 +3,8 @@ package com.ccttic.task.feign;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
-
-@FeignClient(name="cqytjgpt-web-api")
-public interface ICarServiceFeign extends ITaskCarService{
+@FeignClient(name="cqytjgpt-webapi")
+public interface ICarServiceFeign{
 
 	@RequestMapping("/carService/addCarIllega")
 	void addCarIllega();

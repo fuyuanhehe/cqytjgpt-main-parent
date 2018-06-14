@@ -21,13 +21,14 @@ public class DriverDangerTask extends AbstractTask{
 	//启动时间
 	@Override
 	public String getCronStr() {
-		return "0/30 * * * * ?";
+		return "30 * * * * ?";
 	}
 	//执行方法
 	@Override
 	protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
 
 		feign.addDriveIllega();
+		feign.addDriverDanger();
 	}
 
 }
