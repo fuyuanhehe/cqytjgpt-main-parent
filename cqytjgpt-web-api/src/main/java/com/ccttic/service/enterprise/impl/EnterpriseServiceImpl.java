@@ -67,11 +67,30 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	@Override
 	@Transactional
 	public int registerEnterpries(EnterpriseVo vo) throws Exception {
-		// 第一步，向employee表 添加账叼
+		// 第一步，向employee表 添加账号
 		EssEmployee employee = new EssEmployee();
 		employee.setId(RandomHelper.uuid());
 		employee.setEmpstatus(EssEmployeeStatus.START.getValue());
+		employee.setEmail(vo.getEmail());
+		employee.setAccount(vo.getAccount());
+		employee.setPassword(vo.getPassword());
+		employeeMapper.insertSelective(employee);
 		
+		// 第二步，添加企业信息
+		EssEnterprise en = new EssEnterprise();
+		en.setAdminEmpid(employee.getId());
+		en.setAttachmentId(vo.getAttachmentId());
+		en.setEtpnm(vo.getEtpnm()); // 企业名称
+		en.setOwnertransport(vo.getOwnertransport()); // 所属区域
+		en.setEtpadress(vo.getEtpadress()); // 企业地址
+		en.setEtptel(vo.getEtptel()); // 企业电话
+		en.setEtpsafer(vo.getEtpsafer());// 安全责任人
+		en.setSafertel(vo.getSafertel()); //责任人电话
+		en.setEtplawer(vo.getEtplawer()); //法人
+		en.setLawertel(vo.getLawertel()); //法人电话
+		en.setOrgId(vo.getOrgId()); // 企业组织机构代码
+		en.setEtpregadress(vo.getEtpregadress());// 企业注册地址
+		enterpriseMapper.insertSelective(en);
 		return 0;
 	}
 }

@@ -1,11 +1,14 @@
 package com.ccttic.cqytjgpt.webapi.mapper.enterprise;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.EssEnterpriseExample;
+import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.util.exception.AppException;
 
 public interface EssEnterpriseMapper {
     long countByExample(EssEnterpriseExample example);
@@ -33,4 +36,23 @@ public interface EssEnterpriseMapper {
     int hasemp(String id);
     //通过企业id查询组织名
     String selectOrgNmbyId(String id);
+    
+    /**
+	 * 根据条件获取企业信息
+	 * 
+	 * @param params
+	 * @return
+	 * @throws AppException
+	 */
+	public List<EssEnterprise> qryEnterpriseList(Map<String, Object> params) throws AppException;
+	
+	/**
+	 * 
+	 * 根据条件获取企业信息总记录数
+	 * 
+	 * @param params
+	 * @return
+	 * @throws AppException
+	 */
+	public int qryEnterpriseCount(Map<String, Object> params) throws AppException;
 }

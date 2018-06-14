@@ -1,9 +1,12 @@
 package com.ccttic.service.vehicle;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.exception.AppException;
+import com.ccttic.entity.role.Area;
+import com.ccttic.entity.role.VehiBaseinfo;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.util.page.Page;
@@ -18,7 +21,7 @@ public interface IVehicleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle driver) throws AppException;
+	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle vehicle) throws AppException;
 	
 	/**
 	 * 获取指定车辆基础信息
@@ -53,4 +56,11 @@ public interface IVehicleService {
 	public void modifVehicle(XMLCar xmlCar) throws AppException;
 	
 	
+	//--------------------------------------------------------------
+	
+	public List<VehiBaseinfo> getVehiBaseinfoList();
+	
+	public String getArea(String code);
+	
+	public void saveVehi(Vehicle vehicle);
 }
