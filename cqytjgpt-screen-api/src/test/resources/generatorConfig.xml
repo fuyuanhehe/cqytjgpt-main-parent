@@ -49,7 +49,7 @@
     <!-- 生成的映射文件报名和位置 -->  
     <sqlMapGenerator targetPackage="com.ccttic.entity" targetProject="cqytjpt-screen-api/src/test/java" />
     <!-- 生成DAO的包名和位置 -->
-    <javaClientGenerator targetPackage="com.ccttic.mapper" targetProject="cqytjpt-screen-api/src/test/java" type="XMLMAPPER" />
+    <javaClientGenerator targetPackage="com.ccttic.cqytjgpt.webapi.mapper" targetProject="cqytjpt-screen-api/src/test/java" type="XMLMAPPER" />
     <!-- 要生成的那些表(更改tableName 和domainObjectName 就可以了) -->
     
 

@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.enterprise.EssEnterprise">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="etpCd" jdbcType="VARCHAR" property="etpcd" />
+    <result column="etpNm" jdbcType="VARCHAR" property="etpnm" />
+    <result column="etpshortNm" jdbcType="VARCHAR" property="etpshortnm" />
+    <result column="etpLawer" jdbcType="VARCHAR" property="etplawer" />
+    <result column="lawerTel" jdbcType="VARCHAR" property="lawertel" />
+    <result column="etpSafer" jdbcType="VARCHAR" property="etpsafer" />
+    <result column="saferTel" jdbcType="VARCHAR" property="safertel" />
+    <result column="admin_empid" jdbcType="VARCHAR" property="adminEmpid" />
+    <result column="ownerTraffic" jdbcType="VARCHAR" property="ownertraffic" />
+    <result column="ownerTransport" jdbcType="VARCHAR" property="ownertransport" />
+    <result column="etpAdress" jdbcType="VARCHAR" property="etpadress" />
+    <result column="etpRegAdress" jdbcType="VARCHAR" property="etpregadress" />
+    <result column="etpTel" jdbcType="VARCHAR" property="etptel" />
+    <result column="attachment_id" jdbcType="VARCHAR" property="attachmentId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="dispOrder" jdbcType="INTEGER" property="disporder" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="isDeleted" jdbcType="BIT" property="isdeleted" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime" />
+    <result column="createBy" jdbcType="VARCHAR" property="createby" />
+    <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd" />
+    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
+    <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, org_id, etpCd, etpNm, etpshortNm, etpLawer, lawerTel, etpSafer, saferTel, admin_empid, 
+    ownerTraffic, ownerTransport, etpAdress, etpRegAdress, etpTel, attachment_id, state, 
+    remark, dispOrder, version, isDeleted, createTime, updateTime, deleteTime, createBy, 
+    createDepCd, updateBy, updateDepCd
+  </sql>
+  <select id="selectByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ess_enterprise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ess_enterprise
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ess_enterprise
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample">
+    delete from ess_enterprise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    insert into ess_enterprise (id, org_id, etpCd, 
+      etpNm, etpshortNm, etpLawer, 
+      lawerTel, etpSafer, saferTel, 
+      admin_empid, ownerTraffic, ownerTransport, 
+      etpAdress, etpRegAdress, etpTel, 
+      attachment_id, state, remark, 
+      dispOrder, version, isDeleted, 
+      createTime, updateTime, deleteTime, 
+      createBy, createDepCd, updateBy, 
+      updateDepCd)
+    values (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{etpcd,jdbcType=VARCHAR}, 
+      #{etpnm,jdbcType=VARCHAR}, #{etpshortnm,jdbcType=VARCHAR}, #{etplawer,jdbcType=VARCHAR}, 
+      #{lawertel,jdbcType=VARCHAR}, #{etpsafer,jdbcType=VARCHAR}, #{safertel,jdbcType=VARCHAR}, 
+      #{adminEmpid,jdbcType=VARCHAR}, #{ownertraffic,jdbcType=VARCHAR}, #{ownertransport,jdbcType=VARCHAR}, 
+      #{etpadress,jdbcType=VARCHAR}, #{etpregadress,jdbcType=VARCHAR}, #{etptel,jdbcType=VARCHAR}, 
+      #{attachmentId,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{disporder,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{isdeleted,jdbcType=BIT}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{deletetime,jdbcType=TIMESTAMP}, 
+      #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR}, 
+      #{updatedepcd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    insert into ess_enterprise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="etpcd != null">
+        etpCd,
+      </if>
+      <if test="etpnm != null">
+        etpNm,
+      </if>
+      <if test="etpshortnm != null">
+        etpshortNm,
+      </if>
+      <if test="etplawer != null">
+        etpLawer,
+      </if>
+      <if test="lawertel != null">
+        lawerTel,
+      </if>
+      <if test="etpsafer != null">
+        etpSafer,
+      </if>
+      <if test="safertel != null">
+        saferTel,
+      </if>
+      <if test="adminEmpid != null">
+        admin_empid,
+      </if>
+      <if test="ownertraffic != null">
+        ownerTraffic,
+      </if>
+      <if test="ownertransport != null">
+        ownerTransport,
+      </if>
+      <if test="etpadress != null">
+        etpAdress,
+      </if>
+      <if test="etpregadress != null">
+        etpRegAdress,
+      </if>
+      <if test="etptel != null">
+        etpTel,
+      </if>
+      <if test="attachmentId != null">
+        attachment_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="disporder != null">
+        dispOrder,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="isdeleted != null">
+        isDeleted,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="deletetime != null">
+        deleteTime,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="createdepcd != null">
+        createDepCd,
+      </if>
+      <if test="updateby != null">
+        updateBy,
+      </if>
+      <if test="updatedepcd != null">
+        updateDepCd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="etpcd != null">
+        #{etpcd,jdbcType=VARCHAR},
+      </if>
+      <if test="etpnm != null">
+        #{etpnm,jdbcType=VARCHAR},
+      </if>
+      <if test="etpshortnm != null">
+        #{etpshortnm,jdbcType=VARCHAR},
+      </if>
+      <if test="etplawer != null">
+        #{etplawer,jdbcType=VARCHAR},
+      </if>
+      <if test="lawertel != null">
+        #{lawertel,jdbcType=VARCHAR},
+      </if>
+      <if test="etpsafer != null">
+        #{etpsafer,jdbcType=VARCHAR},
+      </if>
+      <if test="safertel != null">
+        #{safertel,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmpid != null">
+        #{adminEmpid,jdbcType=VARCHAR},
+      </if>
+      <if test="ownertraffic != null">
+        #{ownertraffic,jdbcType=VARCHAR},
+      </if>
+      <if test="ownertransport != null">
+        #{ownertransport,jdbcType=VARCHAR},
+      </if>
+      <if test="etpadress != null">
+        #{etpadress,jdbcType=VARCHAR},
+      </if>
+      <if test="etpregadress != null">
+        #{etpregadress,jdbcType=VARCHAR},
+      </if>
+      <if test="etptel != null">
+        #{etptel,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId != null">
+        #{attachmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disporder != null">
+        #{disporder,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        #{isdeleted,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletetime != null">
+        #{deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdepcd != null">
+        #{createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedepcd != null">
+        #{updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample" resultType="java.lang.Long">
+    select count(*) from ess_enterprise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ess_enterprise
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etpcd != null">
+        etpCd = #{record.etpcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etpnm != null">
+        etpNm = #{record.etpnm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etpshortnm != null">
+        etpshortNm = #{record.etpshortnm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etplawer != null">
+        etpLawer = #{record.etplawer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lawertel != null">
+        lawerTel = #{record.lawertel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etpsafer != null">
+        etpSafer = #{record.etpsafer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.safertel != null">
+        saferTel = #{record.safertel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminEmpid != null">
+        admin_empid = #{record.adminEmpid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownertraffic != null">
+        ownerTraffic = #{record.ownertraffic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownertransport != null">
+        ownerTransport = #{record.ownertransport,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etpadress != null">
+        etpAdress = #{record.etpadress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etpregadress != null">
+        etpRegAdress = #{record.etpregadress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etptel != null">
+        etpTel = #{record.etptel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachmentId != null">
+        attachment_id = #{record.attachmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.disporder != null">
+        dispOrder = #{record.disporder,jdbcType=INTEGER},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdeleted != null">
+        isDeleted = #{record.isdeleted,jdbcType=BIT},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deletetime != null">
+        deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        createBy = #{record.createby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdepcd != null">
+        createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateby != null">
+        updateBy = #{record.updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedepcd != null">
+        updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ess_enterprise
+    set id = #{record.id,jdbcType=VARCHAR},
+      org_id = #{record.orgId,jdbcType=VARCHAR},
+      etpCd = #{record.etpcd,jdbcType=VARCHAR},
+      etpNm = #{record.etpnm,jdbcType=VARCHAR},
+      etpshortNm = #{record.etpshortnm,jdbcType=VARCHAR},
+      etpLawer = #{record.etplawer,jdbcType=VARCHAR},
+      lawerTel = #{record.lawertel,jdbcType=VARCHAR},
+      etpSafer = #{record.etpsafer,jdbcType=VARCHAR},
+      saferTel = #{record.safertel,jdbcType=VARCHAR},
+      admin_empid = #{record.adminEmpid,jdbcType=VARCHAR},
+      ownerTraffic = #{record.ownertraffic,jdbcType=VARCHAR},
+      ownerTransport = #{record.ownertransport,jdbcType=VARCHAR},
+      etpAdress = #{record.etpadress,jdbcType=VARCHAR},
+      etpRegAdress = #{record.etpregadress,jdbcType=VARCHAR},
+      etpTel = #{record.etptel,jdbcType=VARCHAR},
+      attachment_id = #{record.attachmentId,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      dispOrder = #{record.disporder,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=INTEGER},
+      isDeleted = #{record.isdeleted,jdbcType=BIT},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
+      createBy = #{record.createby,jdbcType=VARCHAR},
+      createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
+      updateBy = #{record.updateby,jdbcType=VARCHAR},
+      updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    update ess_enterprise
+    <set>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="etpcd != null">
+        etpCd = #{etpcd,jdbcType=VARCHAR},
+      </if>
+      <if test="etpnm != null">
+        etpNm = #{etpnm,jdbcType=VARCHAR},
+      </if>
+      <if test="etpshortnm != null">
+        etpshortNm = #{etpshortnm,jdbcType=VARCHAR},
+      </if>
+      <if test="etplawer != null">
+        etpLawer = #{etplawer,jdbcType=VARCHAR},
+      </if>
+      <if test="lawertel != null">
+        lawerTel = #{lawertel,jdbcType=VARCHAR},
+      </if>
+      <if test="etpsafer != null">
+        etpSafer = #{etpsafer,jdbcType=VARCHAR},
+      </if>
+      <if test="safertel != null">
+        saferTel = #{safertel,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmpid != null">
+        admin_empid = #{adminEmpid,jdbcType=VARCHAR},
+      </if>
+      <if test="ownertraffic != null">
+        ownerTraffic = #{ownertraffic,jdbcType=VARCHAR},
+      </if>
+      <if test="ownertransport != null">
+        ownerTransport = #{ownertransport,jdbcType=VARCHAR},
+      </if>
+      <if test="etpadress != null">
+        etpAdress = #{etpadress,jdbcType=VARCHAR},
+      </if>
+      <if test="etpregadress != null">
+        etpRegAdress = #{etpregadress,jdbcType=VARCHAR},
+      </if>
+      <if test="etptel != null">
+        etpTel = #{etptel,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId != null">
+        attachment_id = #{attachmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disporder != null">
+        dispOrder = #{disporder,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isdeleted != null">
+        isDeleted = #{isdeleted,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletetime != null">
+        deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdepcd != null">
+        createDepCd = #{createdepcd,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        updateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedepcd != null">
+        updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+    update ess_enterprise
+    set org_id = #{orgId,jdbcType=VARCHAR},
+      etpCd = #{etpcd,jdbcType=VARCHAR},
+      etpNm = #{etpnm,jdbcType=VARCHAR},
+      etpshortNm = #{etpshortnm,jdbcType=VARCHAR},
+      etpLawer = #{etplawer,jdbcType=VARCHAR},
+      lawerTel = #{lawertel,jdbcType=VARCHAR},
+      etpSafer = #{etpsafer,jdbcType=VARCHAR},
+      saferTel = #{safertel,jdbcType=VARCHAR},
+      admin_empid = #{adminEmpid,jdbcType=VARCHAR},
+      ownerTraffic = #{ownertraffic,jdbcType=VARCHAR},
+      ownerTransport = #{ownertransport,jdbcType=VARCHAR},
+      etpAdress = #{etpadress,jdbcType=VARCHAR},
+      etpRegAdress = #{etpregadress,jdbcType=VARCHAR},
+      etpTel = #{etptel,jdbcType=VARCHAR},
+      attachment_id = #{attachmentId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      dispOrder = #{disporder,jdbcType=INTEGER},
+      version = #{version,jdbcType=INTEGER},
+      isDeleted = #{isdeleted,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=VARCHAR},
+      createDepCd = #{createdepcd,jdbcType=VARCHAR},
+      updateBy = #{updateby,jdbcType=VARCHAR},
+      updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="hasemp" parameterType="java.lang.String" resultType="java.lang.Integer">
+  SELECT count(*) FROM ess_department dept,ess_employee_dept dep WHERE dept.id = dep.dep_id AND dept.ept_id =#{id}
+  </select>
+</mapper>
