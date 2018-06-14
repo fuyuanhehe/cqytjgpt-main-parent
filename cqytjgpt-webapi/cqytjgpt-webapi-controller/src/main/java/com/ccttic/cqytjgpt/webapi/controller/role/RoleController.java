@@ -2,13 +2,11 @@ package com.ccttic.cqytjgpt.webapi.controller.role;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.role.Role_Emp;

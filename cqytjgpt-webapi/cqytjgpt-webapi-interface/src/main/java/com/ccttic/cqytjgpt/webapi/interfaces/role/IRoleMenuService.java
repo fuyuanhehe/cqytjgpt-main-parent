@@ -1,11 +1,10 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.role;
 
 import java.util.List;
-
 import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
@@ -63,7 +62,7 @@ public interface IRoleMenuService {
 	 * @return
 	 */
 	
-	public List<ResMenu> seAllMenu();
+	public List<MenuVo> seAllMenu();
 	
 	/**
 	 * 根据角色id查询对应的菜单

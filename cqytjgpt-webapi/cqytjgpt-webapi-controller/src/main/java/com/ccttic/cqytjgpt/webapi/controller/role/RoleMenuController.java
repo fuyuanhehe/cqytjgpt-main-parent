@@ -2,23 +2,21 @@ package com.ccttic.cqytjgpt.webapi.controller.role;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.entity.common.ResponseMsg;
-import com.ccttic.entity.employee.ResMenu;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.util.annotation.OperLogging;
-import com.ccttic.util.common.ObjectHelper;
+import com.ccttic.util.common.MenuTreeUtil;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -41,21 +39,10 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/loadMenuPages",method={RequestMethod.POST,RequestMethod.GET})
-	public  ResponseMsg<List<Model_RmsVo>> loadRolePages( PageRequest page,@RequestBody Roles roles) {
+	public  ResponseMsg<List<Model_RmsVo>> loadRolePages( PageRequest page,Roles roles) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
 		try {
-			String roleIds = roles.getRoleId();
-
-			if(!(ObjectHelper.isEmpty(roleIds))) {
-				Page<Model_RmsVo> pager = this.MenService.getRoleMenuPages(page,roles);
-				resp.setMessage("查询角色菜单成功！");
-				resp.setStatus(0);
-				resp.setData(pager.getRecords());
-				resp.setTotal(pager.getTotalRows().intValue());
-				return resp;
-			}
-
 			Page<Model_RmsVo> pager = this.MenService.getRoleMenuPages(page,roles);
 			resp.setMessage("查询角色菜单分页成功！");
 			resp.setStatus(0);
@@ -130,13 +117,14 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/seAllMenu",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<ResMenu>> seAllMenu(){
-		ResponseMsg<List<ResMenu>> resp = new ResponseMsg<>();
+	public ResponseMsg<List<Object>> seAllMenu(){
+		ResponseMsg<List<Object>> resp = new ResponseMsg<>();
 
 		try {
-			List<ResMenu> data = MenService.seAllMenu();
-
-			resp.setData(data);
+			List<MenuVo> data = MenService.seAllMenu();
+			MenuTreeUtil menuTree = new MenuTreeUtil(); 
+			List<Object> menuList = menuTree.menuList(data);
+			resp.setData(menuList);
 			resp.setMessage("菜单查询成功！");
 			resp.setStatus(0);			
 
@@ -174,18 +162,24 @@ public class RoleMenuController {
 		return resp;
 	}
 
-/*	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
-	public List<Object> getTreeMenus(String emp_id){
+	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<EmployeeVo> getTreeMenus(String emp_id){
+		ResponseMsg<EmployeeVo>  resp = new ResponseMsg<>();
 
-		List<MenuVo>  data = MenService.seRole_MenuById(emp_id);
+		try { 
+			EmployeeVo data = MenService.seRole_MenuById(emp_id);
+			resp.setData(data);
+			resp.setMessage("员工查询成功！");
+			resp.setStatus(0);	
+		} catch (Exception e) {
+			resp.setMessage("员工查询失败！");
+			resp.setStatus(0);
+			logger.error("员工查询失败！",e);
+		}
 
-		MenuTreeUtil menuTree = new MenuTreeUtil();  
+		return resp;
 
-		List<Object> menuList = menuTree.menuList(data);
-
-		return menuList;
-		
-	} */
+	} 
 
 
 
