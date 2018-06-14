@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rls.rm.batch.domain.mapper.VehiDangerMapper">
-  <resultMap id="BaseResultMap" type="com.ccttic.entity.role.VehiDanger">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.danger.VehiDanger">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="vehiNo" jdbcType="VARCHAR" property="vehino" />
     <result column="vehiType" jdbcType="VARCHAR" property="vehitype" />
@@ -93,7 +93,7 @@
     correctState, dangerDesc, remark, version, isDeleted, createTime, updateTime, deleteTime, 
     createBy, createDepCd, updateBy, updateDepCd
   </sql>
-  <select id="selectByExample" parameterType="com.ccttic.entity.role.VehiDangerExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ccttic.entity.danger.VehiDangerExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -117,13 +117,13 @@
     delete from vehi_danger
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ccttic.entity.role.VehiDangerExample">
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.danger.VehiDangerExample">
     delete from vehi_danger
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ccttic.entity.role.VehiDanger">
+  <insert id="insert" parameterType="com.ccttic.entity.danger.VehiDanger">
     insert into vehi_danger (id, vehiNo, vehiType, 
       ownerEnterprise, scrappedState, illicitState, 
       overdueExamineState, failureState, dangerType, 
@@ -143,7 +143,7 @@
       #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
       #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.ccttic.entity.role.VehiDanger">
+  <insert id="insertSelective" parameterType="com.ccttic.entity.danger.VehiDanger">
     insert into vehi_danger
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -306,7 +306,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ccttic.entity.role.VehiDangerExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ccttic.entity.danger.VehiDangerExample" resultType="java.lang.Long">
     select count(*) from vehi_danger
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -430,7 +430,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.role.VehiDanger">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.danger.VehiDanger">
     update vehi_danger
     <set>
       <if test="vehino != null">
@@ -511,7 +511,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.role.VehiDanger">
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.danger.VehiDanger">
     update vehi_danger
     set vehiNo = #{vehino,jdbcType=VARCHAR},
       vehiType = #{vehitype,jdbcType=VARCHAR},
