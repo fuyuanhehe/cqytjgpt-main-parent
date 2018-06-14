@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.ActuatorMetricWriter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,12 +89,11 @@ public class ScreenController {
 			List<Map<String,Object>> map = screenService.distributionDangerForCar(dateMap);
 			response.setData(map);
 			response.success("机动车隐患问题分布情况查询成功");
-			return response;
 		} catch (Exception e) {
 			log.error("机动车隐患问题分布情况查询失败"+e.getMessage());
 			response.fail("机动车隐患问题分布情况查询失败"+e.getMessage());
-			return response;
 		}
+		return response;
 	
 	}
 
@@ -193,7 +193,7 @@ public class ScreenController {
 	 * @param map top 第几条 
 	 */
 	@RequestMapping("noticeDangerForDriver")
-	public ResponseMsg<DrDanger> noticeDangerForDriver(@RequestBody Map map) {
+	public ResponseMsg<DrDanger> noticeDangerForDriver(@RequestBody Map<String,Object> map) {
 		ResponseMsg<DrDanger> response = new ResponseMsg<DrDanger>();
 		try {
 			log.info("开始查询隐患驾驶员通报");
@@ -212,7 +212,7 @@ public class ScreenController {
 	 * @param map top 第几条 
 	 */
 	@RequestMapping("noticeDangerForCar")
-	public ResponseMsg<VehiDanger> noticeDangerForCar(@RequestBody Map map) {
+	public ResponseMsg<VehiDanger> noticeDangerForCar(@RequestBody Map<String,Object> map) {
 		ResponseMsg<VehiDanger> response = new ResponseMsg<VehiDanger>();
 		try {
 			log.info("开始查询隐患机动车通报");
