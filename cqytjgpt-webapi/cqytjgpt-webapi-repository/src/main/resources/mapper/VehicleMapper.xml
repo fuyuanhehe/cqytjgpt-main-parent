@@ -182,6 +182,9 @@
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from vehi_illicit where 1=1 and vehicle_id=#{id}
 	</select>
-	
+	<!-- 获取所有车辆-->
+	<select id="getAllCar" resultType="com.ccttic.entity.role.Vehicle">
+		select * from vehicle
+	</select>
 	
 </mapper>
