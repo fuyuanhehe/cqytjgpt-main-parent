@@ -256,7 +256,7 @@
 	</select>
 
 	<select id="selectAllDriver" resultType="com.ccttic.entity.drivers.Driver">
-		select id,idcard from
+		select * from
 		driver
 	</select>
 </mapper>
