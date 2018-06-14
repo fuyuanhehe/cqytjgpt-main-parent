@@ -100,6 +100,15 @@ public class EssEnterprise extends BaseBean implements Serializable{
      * 显示顺序
      */
     private Integer disporder;
+    
+    // 提交开始时间
+    private String referStartTime;
+    // 提交结束时间
+    private String referEndTime;
+    // 审核开始时间
+    private String checkStartTime;
+    // 审核结束时间
+    private String checkEndTime;
 
   
 
@@ -406,6 +415,38 @@ public class EssEnterprise extends BaseBean implements Serializable{
     public void setDisporder(Integer disporder) {
         this.disporder = disporder;
     }
+
+	public String getReferStartTime() {
+		return referStartTime;
+	}
+
+	public void setReferStartTime(String referStartTime) {
+		this.referStartTime = referStartTime;
+	}
+
+	public String getReferEndTime() {
+		return referEndTime;
+	}
+
+	public void setReferEndTime(String referEndTime) {
+		this.referEndTime = referEndTime;
+	}
+
+	public String getCheckStartTime() {
+		return checkStartTime;
+	}
+
+	public void setCheckStartTime(String checkStartTime) {
+		this.checkStartTime = checkStartTime;
+	}
+
+	public String getCheckEndTime() {
+		return checkEndTime;
+	}
+
+	public void setCheckEndTime(String checkEndTime) {
+		this.checkEndTime = checkEndTime;
+	}
 
  
 }
