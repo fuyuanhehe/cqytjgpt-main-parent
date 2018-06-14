@@ -24,7 +24,6 @@ public class IllegalprocessServiceImpl implements IIllegalProcessService {
 	private Logger logger = Logger.getLogger(this.getClass());
 
 	@Autowired
-	
 	private WebServiceFeign ws;
 
 

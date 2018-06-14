@@ -17,7 +17,4 @@ public interface IQueryCarService {
 		 * @throws Exception
 		 */
 		public XMLCar selectCarByHpzlHphm(String hpzl,String hphm)throws Exception;
-
-		
-	
 }

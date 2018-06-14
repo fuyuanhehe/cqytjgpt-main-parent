@@ -36,12 +36,12 @@ public class VehiDanger {
     /**
      * 逾期喂验审核状态 1是，2否
      */
-    private Integer overdueexaminesate;
+    private Integer overdueexaminestate;
 
     /**
      * 事故处理状态 1是，2否
      */
-    private Integer fullstudystate;
+    private Integer failureState;
 
     /**
      * 预警等级 1,2,3
@@ -233,32 +233,32 @@ public class VehiDanger {
      * 逾期喂验审核状态 1是，2否
      * @return overdueExamineSate 逾期喂验审核状态 1是，2否
      */
-    public Integer getOverdueexaminesate() {
-        return overdueexaminesate;
+    public Integer getOverdueexaminestate() {
+        return overdueexaminestate;
     }
 
     /**
      * 逾期喂验审核状态 1是，2否
      * @param overdueexaminesate 逾期喂验审核状态 1是，2否
      */
-    public void setOverdueexaminesate(Integer overdueexaminesate) {
-        this.overdueexaminesate = overdueexaminesate;
+    public void setOverdueexaminestate(Integer overdueexaminestate) {
+        this.overdueexaminestate = overdueexaminestate;
     }
 
     /**
      * 事故处理状态 1是，2否
      * @return fullStudyState 事故处理状态 1是，2否
      */
-    public Integer getFullstudystate() {
-        return fullstudystate;
+    public Integer getFailureState() {
+        return failureState;
     }
 
     /**
      * 事故处理状态 1是，2否
      * @param fullstudystate 事故处理状态 1是，2否
      */
-    public void setFullstudystate(Integer fullstudystate) {
-        this.fullstudystate = fullstudystate;
+    public void setFailureState(Integer failureState) {
+        this.failureState = failureState;
     }
 
     /**
