@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.attchment.Attachment;
+import com.ccttic.util.exception.AppException;
 
 
 /**

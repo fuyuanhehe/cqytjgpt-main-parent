@@ -22,8 +22,7 @@
         <module>cqytjgpt-service-auth</module>
         <!-- 分布式任务 -->
         <module>cqytjgpt-service-task</module>
-        <!-- 基本的web模块 -->
-        <module>cqytjgpt-web-api</module>
+        <!-- <module>cqytjgpt-web-api</module> -->
         <!-- config client pom -->
         <module>cqytjgpt-basic-config-pom</module>
         <!-- zipkin pom -->
@@ -36,7 +35,8 @@
         <module>cqytjgpt-common-tools</module>
     	<!-- 大屏api -->
     	<module>cqytjgpt-screen-api</module>
-    <module>cqytjgpt-webapi</module>
+    	<!-- 基本的web模块 -->
+    	<module>cqytjgpt-webapi</module>
   </modules>
 
     <properties>

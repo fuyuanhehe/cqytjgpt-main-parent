@@ -4,7 +4,7 @@
 
 	<!-- 根据企业编码获取车辆违法信息条数 -->
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from vehi_illlcit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
+		select count(1) from vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
 						WHERE ve.mgrEnterpriseId=#{entId}
 	</select>
 	
@@ -13,7 +13,7 @@
 		SELECT cit.id,cit.vehiNo,cit.vehiNoType,cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
 			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
 			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,cit.state,cit.remark,ess.etpNm
-				FROM vehi_illlcit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+				FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
 				WHERE ess.id=#{mgrEnterpriseId}
 				<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
@@ -56,7 +56,7 @@
 			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
 			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,cit.state,cit.remark,ess.etpNm
 				FROM (
-						SELECT * FROM vehi_illlcit  WHERE id=#{id}
+						SELECT * FROM vehi_illicit  WHERE id=#{id}
 					 ) cit  
 				LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id

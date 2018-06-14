@@ -11,7 +11,10 @@ import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.enums.EssEmployeeStatus;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.util.common.RandomHelper;
 
 @Service
 public class EnterpriseServiceImpl implements IEnterpriseService {
@@ -50,4 +53,25 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 			return i;
 	
 }
+
+	  
+	    /* (非 Javadoc)  
+	    *   
+	    *   
+	    * @param vo
+	    * @return
+	    * @throws Exception  
+	    * @see com.ccttic.service.enterprise.IEnterpriseService#registerEnterpries(com.ccttic.entity.enterprise.vo.EnterpriseVo)  
+	    */  
+	    
+	@Override
+	@Transactional
+	public int registerEnterpries(EnterpriseVo vo) throws Exception {
+		// 第一步，向employee表 添加账叼
+		EssEmployee employee = new EssEmployee();
+		employee.setId(RandomHelper.uuid());
+		employee.setEmpstatus(EssEmployeeStatus.START.getValue());
+		
+		return 0;
+	}
 }

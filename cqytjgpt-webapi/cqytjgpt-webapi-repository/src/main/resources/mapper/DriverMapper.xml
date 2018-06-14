@@ -41,7 +41,6 @@
 		createTime, updateTime,
 		deleteTime, createBy, createDepCd, updateBy, updateDepCd
 	</sql>
-	
 	<select id="seDriverPage" resultType="com.ccttic.entity.drivers.vo.DriverVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -90,12 +89,11 @@
 		<if test="mobilephone!=null and mobilephone!='' ">
 			and d.mobilephone = #{mobilephone}
 		</if>
-		<if test="fiString!=null and fiString!='' and laString!=null laString!='' ">
+		<if test="fiString!=null and fiString!=''  ">
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
-		<if
-			test="fistShString!=null and fistShString!='' and laShString!=null laShString!='' ">
+		<if test="fistShString!=null and fistShString!='' ">
 			and d.fistShString BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
@@ -135,12 +133,11 @@
 		<if test="mobilephone!=null and mobilephone!='' ">
 			and d.mobilephone = #{mobilephone}
 		</if>
-		<if test="fiString!=null and fiString!='' and laString!=null laString!='' ">
+		<if test="fiString!=null and fiString!='' ">
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
-		<if
-			test="fistShString!=null and fistShString!='' and laShString!=null laShString!='' ">
+		<if test="fistShString!=null and fistShString!='' ">
 			and d.fistShString BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
@@ -171,24 +168,26 @@
 		parameterType="java.util.Map">
 		SELECT
 		d.id,
-		d.`name`,
+		d.name,
 		a.areaNm,
 		en.etpNm,
 		dl.illicitTime,
 		dl.illicitAdress,
 		dl.illicitScore,
 		dl.illicitAmount,
-		dl.illicit #
+		dl.illicit
 		FROM
 		driver d
-		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId = en.id
+		LEFT JOIN
+		ess_enterprise en ON d.mgrEnterpriseId = en.id
 		LEFT
-		JOIN ess_area a ON d.mgrDepartAreaId = a.id
+		JOIN ess_area a ON
+		d.mgrDepartAreaId = a.id
 		LEFT JOIN dr_illicit dl ON
 		d.id = dl.driver_id
 		where 1 = 1
 		<if test="driverid!=null and driverid!= '' ">
-			d.id = #{driverid}
+			and d.id = #{driverid}
 		</if>
 		<if test="name!=null and name!='' ">
 			and d.name = #{name}
@@ -205,11 +204,52 @@
 		<if test="illicit!=null and illicit!='' ">
 			and dl.illicit = #{illicit}
 		</if>
-		limit ${startRecord},${pageSize}
+
+		limit ${startRecord} , ${pageSize}
 
 	</select>
+	<!-- 驾驶人违法分页总数 -->
+	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
+		SELECT
+		count(d.id)
+		FROM
+		driver d
+		LEFT JOIN ess_enterprise en ON
+		d.mgrEnterpriseId = en.id
+		LEFT
+		JOIN ess_area a ON d.mgrDepartAreaId =
+		a.id
+		LEFT JOIN dr_illicit dl ON
+		d.id = dl.driver_id
+		where 1 = 1
+		<if test="driverid!=null and driverid!= '' ">
+			and d.id = #{driverid}
+		</if>
+		<if test="name!=null and name!='' ">
+			and d.name = #{name}
+		</if>
+		<if test="etpNm!=null and etpNm!='' ">
+			and en.etpNm = #{etpNm}
+		</if>
+		<if test="areaNm!=null and areaNm!='' ">
+			and a.areaNm = #{areaNm}
+		</if>
+		<if test="illicitadress!=null and illicitadress!='' ">
+			and dl.illicitadress = #{illicitadress}
+		</if>
+		<if test="illicit!=null and illicit!='' ">
+			and dl.illicit = #{illicit}
+		</if>
+
+	</select>
+
+
+
+
+
 	<select id="selectAllDriver" resultType="com.ccttic.entity.drivers.Driver">
-	select id,idcard from driver
+		select id,idcard from
+		driver
 	</select>
 
 </mapper>

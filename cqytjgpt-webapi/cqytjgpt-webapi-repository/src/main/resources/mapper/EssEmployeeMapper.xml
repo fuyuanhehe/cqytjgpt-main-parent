@@ -10,6 +10,7 @@
     <result column="empGender" jdbcType="VARCHAR" property="empgender" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="entryDate" jdbcType="DATE" property="entrydate" />
     <result column="leaveDate" jdbcType="DATE" property="leavedate" />
     <result column="account" jdbcType="VARCHAR" property="account" />
@@ -85,9 +86,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, empCd, empNm, empNo, duty, empGender, phone, mobile, entryDate, leaveDate, account, 
-    password, empStatus, empType, version, isDeleted, createTime, updateTime, deleteTime, 
-    createBy, createDepCd, updateBy, updateDepCd
+    id, empCd, empNm, empNo, duty, empGender, phone, mobile, email, entryDate, leaveDate, 
+    account, password, empStatus, empType, version, isDeleted, createTime, updateTime, 
+    deleteTime, createBy, createDepCd, updateBy, updateDepCd
   </sql>
   <select id="selectByExample" parameterType="com.ccttic.entity.employee.EssEmployeeExample" resultMap="BaseResultMap">
     select
@@ -122,20 +123,22 @@
   <insert id="insert" parameterType="com.ccttic.entity.employee.EssEmployee">
     insert into ess_employee (id, empCd, empNm, 
       empNo, duty, empGender, 
-      phone, mobile, entryDate, 
-      leaveDate, account, password, 
-      empStatus, empType, version, 
-      isDeleted, createTime, updateTime, 
-      deleteTime, createBy, createDepCd, 
-      updateBy, updateDepCd)
+      phone, mobile, email, 
+      entryDate, leaveDate, account, 
+      password, empStatus, empType, 
+      version, isDeleted, createTime, 
+      updateTime, deleteTime, createBy, 
+      createDepCd, updateBy, updateDepCd
+      )
     values (#{id,jdbcType=VARCHAR}, #{empcd,jdbcType=VARCHAR}, #{empnm,jdbcType=VARCHAR}, 
       #{empno,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, #{empgender,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{entrydate,jdbcType=DATE}, 
-      #{leavedate,jdbcType=DATE}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{empstatus,jdbcType=VARCHAR}, #{emptype,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
-      #{isdeleted,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
-      #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
-      #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{entrydate,jdbcType=DATE}, #{leavedate,jdbcType=DATE}, #{account,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{empstatus,jdbcType=VARCHAR}, #{emptype,jdbcType=VARCHAR}, 
+      #{version,jdbcType=INTEGER}, #{isdeleted,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, 
+      #{createdepcd,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ccttic.entity.employee.EssEmployee">
     insert into ess_employee
@@ -163,6 +166,9 @@
       </if>
       <if test="mobile != null">
         mobile,
+      </if>
+      <if test="email != null">
+        email,
       </if>
       <if test="entrydate != null">
         entryDate,
@@ -234,6 +240,9 @@
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="entrydate != null">
         #{entrydate,jdbcType=DATE},
@@ -315,6 +324,9 @@
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
       <if test="record.entrydate != null">
         entryDate = #{record.entrydate,jdbcType=DATE},
       </if>
@@ -375,6 +387,7 @@
       empGender = #{record.empgender,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
       entryDate = #{record.entrydate,jdbcType=DATE},
       leaveDate = #{record.leavedate,jdbcType=DATE},
       account = #{record.account,jdbcType=VARCHAR},
@@ -417,6 +430,9 @@
       </if>
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="entrydate != null">
         entryDate = #{entrydate,jdbcType=DATE},
@@ -475,6 +491,7 @@
       empGender = #{empgender,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
       entryDate = #{entrydate,jdbcType=DATE},
       leaveDate = #{leavedate,jdbcType=DATE},
       account = #{account,jdbcType=VARCHAR},
@@ -493,7 +510,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
-	<select id="qryPostList"  parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployeeVo">
+  	<select id="qryPostList"  parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployeeVo">
 	SELECT emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS orgNm,emp.empType AS emptype,emp.empNo AS empno,emp.account AS account,depart.depNm AS depNm FROM ess_employee_dept dept,ess_employee emp,ess_organization org ,ess_department depart WHERE
 	  org.orgCd =#{orgCd} AND dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND  org.orgCd=depart.org_id 
 	<if test="empNm != null and empNm != ''">

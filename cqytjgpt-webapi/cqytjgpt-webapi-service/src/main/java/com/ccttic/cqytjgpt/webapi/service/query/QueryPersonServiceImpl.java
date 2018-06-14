@@ -2,7 +2,8 @@ package com.ccttic.cqytjgpt.webapi.service.query;
 
 import java.net.URLEncoder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,12 @@ import com.ccttic.util.constant.CommonConstant;
  */
 @Service
 public class QueryPersonServiceImpl implements IQueryPersonService {
+	
+	private Logger logger = LoggerFactory.getLogger(QueryPersonServiceImpl.class);
+
 	@Autowired
 	private WebServiceFeign ws;
 
-	private Logger logger = Logger.getLogger(getClass());
 
 	@Override
 	public XMLDriver QueryPersonByIDCard(String IDCard) throws Exception {

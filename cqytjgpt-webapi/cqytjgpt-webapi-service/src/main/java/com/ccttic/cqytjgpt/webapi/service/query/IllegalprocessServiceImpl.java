@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,9 @@ import com.ccttic.util.constant.CommonConstant;
 @Service
 public class IllegalprocessServiceImpl implements IIllegalProcessService {
 
-
-	private Logger logger = Logger.getLogger(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(IllegalprocessServiceImpl.class);
 
 	@Autowired
-	
 	private WebServiceFeign ws;
 
 
@@ -50,7 +50,7 @@ public class IllegalprocessServiceImpl implements IIllegalProcessService {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.info(e);
+			logger.info("服务器异常,请稍后再试",e);
 			map.put("code", "0");
 			map.put("message", "服务器异常,请稍后再试");
 		}

@@ -29,8 +29,6 @@ import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
-
-
 /**
  * 功能说明： 组织机构信息Contrller
  * 

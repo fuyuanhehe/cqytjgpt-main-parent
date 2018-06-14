@@ -25,7 +25,6 @@ import com.ccttic.util.page.Pageable;
 
 @Service
 public class VehicleServiceImpl implements IVehicleService {
-	
 	private Logger logger = LoggerFactory.getLogger(VehicleServiceImpl.class);
 	@Resource
 	private VehicleMapper mapper;// 司机基础信息

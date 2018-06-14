@@ -1,6 +1,5 @@
 package com.ccttic.task.taskexecute;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.ccttic.task.feign.IDriverServiceFeign;
 import com.ccttic.task.runer.AbstractTask;
-@MapperScan("com.ccttic.task.mapper")
+
 @Component
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution

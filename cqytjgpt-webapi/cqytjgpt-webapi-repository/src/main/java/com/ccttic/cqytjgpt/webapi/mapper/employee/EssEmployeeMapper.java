@@ -36,7 +36,7 @@ public interface EssEmployeeMapper {
     int updateByPrimaryKeySelective(EssEmployee record);
 
     int updateByPrimaryKey(EssEmployee record);
-
+    
 	long qryPostListCount(Map<String, String> params);
 
 	List<EssEmployeeVo> qryPostList(Map<String, String> params);
@@ -56,6 +56,5 @@ public interface EssEmployeeMapper {
 	void relatedDepAndEmp(EssEmployeeDept essEmployeeDept);
 
 	void delEmpUnderDep(EssEmployeeDept dept);
-	
 	
 }

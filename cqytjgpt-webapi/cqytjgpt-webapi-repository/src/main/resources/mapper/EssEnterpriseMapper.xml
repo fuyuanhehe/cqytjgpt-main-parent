@@ -575,4 +575,7 @@
   <select id="hasemp" parameterType="java.lang.String" resultType="java.lang.Integer">
   SELECT count(*) FROM ess_department dept,ess_employee_dept dep WHERE dept.id = dep.dep_id AND dept.ept_id =#{id}
   </select>
+  <select id="selectOrgNmbyId" parameterType="java.lang.String" resultType="java.lang.String">
+ SELECT org.orgNm FROM ess_organization org,ess_enterprise ept WHERE org.id = ept.org_id AND ept.id =#{id}
+  </select>
 </mapper>

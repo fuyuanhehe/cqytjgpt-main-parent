@@ -2,7 +2,8 @@ package com.ccttic.cqytjgpt.webapi.service.query;
 
 import java.net.URLEncoder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,8 @@ import com.ccttic.util.constant.CommonConstant;
 
 @Service
 public class QueryCarServiceImpl implements IQueryCarService {
-	private Logger logger = Logger.getLogger(getClass());
+	private Logger logger = LoggerFactory.getLogger(QueryCarServiceImpl.class);
+	
 	@Autowired
 	private WebServiceFeign ws;
 
