@@ -164,12 +164,7 @@ public class RoleController {
 		return resp;
 
 	}	
-	/**
-	 * 功能说明：  修改角色和关联的员工
-	 * @param emp_id 员工id
-	 * @return
-	 * @date  2018年6月1日
-	 */
+
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/getRoleMenuByEmpid",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(String emp_id){
