@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>cqytjgpt-main-parent</artifactId>
 		<groupId>com.ccttic.framework</groupId>
@@ -9,6 +8,14 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cqytjgpt-screen-api</artifactId>
     <description>源头监管大屏监管webapi</description>
+     <packaging>pom</packaging>
+  <modules>
+    <module>cqytjgpt-screen-controller</module>
+    <module>cqytjgpt-screen-interface</module>
+    <module>cqytjgpt-screen-repository</module>
+    <module>cqytjgpt-screen-service</module>
+     <module>cqytjgpt-screen-client</module>
+  </modules>
     <properties>
   		<com.alibaba.version>1.1.9</com.alibaba.version>
 		<org.mybatis.version>1.3.1</org.mybatis.version>
@@ -107,4 +114,5 @@
 			</plugin>
 		</plugins>
 	</build>
+  
 </project>

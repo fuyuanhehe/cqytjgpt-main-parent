@@ -1,0 +1,20 @@
+package com.ccttic.cqytjgpt.screen;
+
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
+
+@EnableCircuitBreaker
+@EnableDiscoveryClient
+@SpringBootApplication
+@EnableFeignClients
+@MapperScan("com.ccttic.cqytjgpt.screen.mapper")
+public class ScreenWebAPIApplication {
+    public static void main( String[] args ){
+    	 new SpringApplicationBuilder(ScreenWebAPIApplication.class).web(true).run(args);    }
+}
