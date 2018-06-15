@@ -15,6 +15,9 @@ import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
+/*
+ *功能说明 : 驾驶员，违法记录
+ */
 
 @RestController
 @RequestMapping(value="/drvers")
@@ -24,6 +27,20 @@ public class DriversController {
 	@Autowired
 	private DriversService service;
 
+	/**
+	 * 功能说明：  修改角色和关联的员工
+	 * @param etpNm 所属企业
+	 * @param areaNm 所属区域
+	 * @param name 驾驶人名称
+	 * @param idcard 身份证号码
+	 * @param permiCar 准驾车型
+	 * @param id 驾驶人主键ID
+	 * @param mobilephone 手机号码*
+	 * @param fiString,laString 初次领证时间,最后领证时间
+	 * @param fistShString,laShString 初次审核时期,最后审核时期
+	 * @return
+	 * @date  2018年6月15日
+	 */
 	@OperLogging(operType = 3,content="驾驶员信息分页")
 	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<DriverVo>> seDriverPages(PageRequest page,DriverVo driverVo){
@@ -42,7 +59,11 @@ public class DriversController {
 
 		return resp;
 	}
-
+	/**
+	 * 功能说明：  修改角色和关联的员工
+	 * @param driverid 驾驶人主键ID
+	 * @date  2018年6月15日
+	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息")
 	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(String driverid){
@@ -61,6 +82,18 @@ public class DriversController {
 
 		return resp;
 	}
+	/**
+	 * 功能说明：  驾驶人违法记录分页
+	 * @param driverid 驾驶员ID
+	 * @param name 驾驶员名字
+	 * @param etpNm 所属区域
+	 * @param areaNm 所属企业
+	 * @param illicitadress 违法地址
+	 * @param illicit 违法行为
+	 * @param fiString,laString 初次违法时间,最后违法时间
+	 * @return
+	 * @date  2018年6月15日
+	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息分页")
 	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(PageRequest page,DriverillicitVo driver){
@@ -80,7 +113,12 @@ public class DriversController {
 
 		return resp;
 	}
-
+	/**
+	 * 功能说明：  修改角色和关联的员工
+	 * @param idcard 驾驶员身份证
+	 * @return
+	 * @date  2018年6月15日
+	 */
 	@OperLogging(operType = 0,content="增加驾驶人")
 	@RequestMapping(value="/insertDriver",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String> insertDriver(List<Driver> driver){

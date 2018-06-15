@@ -44,7 +44,7 @@
 
 	<!--增加驾驶员 -->
 	<insert id="insertSelective" parameterType="java.util.List">
-		insert into driver idcard values
+		insert into driver id,idcard values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
 			( #{item.id}, #{item.idcard} )
