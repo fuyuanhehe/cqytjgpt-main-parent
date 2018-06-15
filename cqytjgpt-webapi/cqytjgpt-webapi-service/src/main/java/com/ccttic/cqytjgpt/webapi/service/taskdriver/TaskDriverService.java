@@ -21,7 +21,6 @@ import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.illegal.DrIllicit;
 import com.ccttic.entity.illegal.DrIllicitExample;
 import com.ccttic.entity.illegalprocess.XMLPendingPayment;
-import com.ccttic.util.common.ObjectHelper;
 
 @Service
 @Transactional

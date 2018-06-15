@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
-import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.illegal.VehiIllicitExample;
@@ -26,12 +23,9 @@ import com.ccttic.entity.role.Vehicle;
 
 @Service
 public class TaskCarService implements ITaskCarService {
-	private Logger logger = LoggerFactory.getLogger(TaskCarService.class);
 
 	@Autowired
 	private IIllegalProcessService illegalProcessService;
-	@Autowired
-	private VehicleMapper vehicleMapper;
 	@Autowired
 	private VehiIllicitMapper vehiIllicitMapper;
 	@Autowired
