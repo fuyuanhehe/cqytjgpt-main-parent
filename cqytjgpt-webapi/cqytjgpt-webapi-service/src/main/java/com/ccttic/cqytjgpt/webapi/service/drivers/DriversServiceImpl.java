@@ -103,4 +103,10 @@ public class DriversServiceImpl implements DriversService {
 		mapper.insertSelective(driver);
 
 	}
+
+	@Override
+	public List<Driver> getAllDriver() {
+
+		return mapper.selectAllDriver();
+	}
 }

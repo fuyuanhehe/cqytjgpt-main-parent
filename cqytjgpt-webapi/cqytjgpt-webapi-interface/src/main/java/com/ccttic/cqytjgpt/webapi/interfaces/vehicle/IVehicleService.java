@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.vehicle;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.car.XMLCar;
@@ -51,5 +52,7 @@ public interface IVehicleService {
 	 * @throws AppException
 	 */
 	public void modifVehicle(XMLCar xmlCar) throws AppException;
+	
+	public List<Vehicle> getAllVehicle();
 	
 }

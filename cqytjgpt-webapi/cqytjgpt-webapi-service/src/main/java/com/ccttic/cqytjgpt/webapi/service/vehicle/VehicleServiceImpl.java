@@ -172,5 +172,11 @@ public class VehicleServiceImpl implements IVehicleService {
 		}
 		return state;
 	}
+
+	@Override
+	public List<Vehicle> getAllVehicle() {
+		
+		return mapper.getAllCar();
+	}
 	
 }

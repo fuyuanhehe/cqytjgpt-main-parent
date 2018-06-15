@@ -3,7 +3,8 @@ package com.ccttic.cqytjgpt.screen.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,8 @@ import com.ccttic.entity.danger.VehiDanger;
 @RequestMapping("/screen")
 public class ScreenController {
 	
-	private Logger log = Logger.getLogger(this.getClass());
+	private Logger log =  LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private IScreenService screenService;
 	// 驾驶人隐患发现情况

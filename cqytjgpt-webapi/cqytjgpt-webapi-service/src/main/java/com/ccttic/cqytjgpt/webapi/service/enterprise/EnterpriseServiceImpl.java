@@ -51,7 +51,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	public int delEnterpriseById(EssEnterprise essEnterprise) throws Exception {
 		int i = enterpriseMapper.hasemp(essEnterprise.getId());
 		if (i == 0) {
-			essEnterprise.setIsDeleted(true);
+			essEnterprise.setIsdeleted(true);
 			enterpriseMapper.updateByPrimaryKeySelective(essEnterprise);
 			return i;
 		}
@@ -87,7 +87,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		employee.setAccount(vo.getAccount());
 		employee.setPassword(vo.getPassword());
 		employee.setEmpnm(vo.getEtplawer());
-		employee.setCreateTime(new Date());
+		employee.setCreatetime(new Date());
 		i = employeeMapper.insertSelective(employee);
 
 		// 第二步，添加企业信息
@@ -105,7 +105,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		en.setLawertel(vo.getLawertel()); // 法人电话
 		en.setOrgId(vo.getOrgId()); // 企业组织机构代码
 		en.setEtpregadress(vo.getEtpregadress());// 企业注册地址
-		en.setCreateTime(new Date());
+		en.setCreatetime(new Date());
 		i = enterpriseMapper.insertSelective(en);
 		return i;
 	}
