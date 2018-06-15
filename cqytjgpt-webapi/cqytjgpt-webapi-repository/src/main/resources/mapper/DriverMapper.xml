@@ -44,7 +44,7 @@
 
 	<!--增加驾驶员 -->
 	<insert id="insertSelective" parameterType="java.util.List">
-		insert into driver idcard values
+		insert into driver id,idcard values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
 			( #{item.id}, #{item.idcard} )
@@ -217,6 +217,9 @@
 		<if test="illicit!=null and illicit!='' ">
 			and dl.illicit = #{illicit}
 		</if>
+		<if test="laString!=null and laString!='' ">
+			and dl.illicitTime BETWEEN #{fiString} and #{laString}
+		</if>
 
 		limit ${startRecord} , ${pageSize}
 
@@ -252,6 +255,9 @@
 		</if>
 		<if test="illicit!=null and illicit!='' ">
 			and dl.illicit = #{illicit}
+		</if>
+		<if test="laString!=null and laString!='' ">
+			and dl.illicitTime BETWEEN #{fiString} and #{laString}
 		</if>
 	</select>
 
