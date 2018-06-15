@@ -6,7 +6,7 @@ server:
 
 spring:
   application:
-    name: cqytjgpt-web-api
+    name: cqytjgpt-webapi
   profiles:
     active: dev # 配置文件选择开发环境
   cloud:

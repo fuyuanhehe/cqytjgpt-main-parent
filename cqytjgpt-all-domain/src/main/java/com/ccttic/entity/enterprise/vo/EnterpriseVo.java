@@ -22,6 +22,11 @@ import com.ccttic.entity.enterprise.EssEnterprise;
 
 public class EnterpriseVo extends EssEnterprise {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String account;
 	
 	private String password;

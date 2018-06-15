@@ -32,6 +32,8 @@ import com.ccttic.util.page.PageRequest;
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleContrller implements Serializable {
+	
+	
 
 	private static final long serialVersionUID = -2422516254972777732L;
 	private Logger logger = Logger.getLogger(this.getClass());

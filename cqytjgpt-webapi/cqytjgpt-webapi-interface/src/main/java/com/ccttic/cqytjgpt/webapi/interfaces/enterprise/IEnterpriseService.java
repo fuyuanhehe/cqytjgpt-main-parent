@@ -4,6 +4,9 @@ import java.util.Map;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.util.exception.AppException;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.Pageable;
 
 public interface IEnterpriseService {
 
@@ -37,6 +40,15 @@ public interface IEnterpriseService {
 	    * @throws
 	 */
 	public int registerEnterpries(EnterpriseVo vo)throws Exception;
+	
+	/**
+	 * 根据条件获取企业信息
+	 * @param page
+	 * @param vo
+	 * @return
+	 * @throws AppException
+	 */
+	public Page<EssEnterprise> qryEssEnterpriseList(Pageable page, EssEnterprise vo) throws AppException;
 	
 
 }

@@ -1,5 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.service.taskdriver;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ import com.ccttic.entity.illegalprocess.XMLPendingPayment;
 @Transactional
 public class TaskDriverService implements ITaskDriverService {
 	private Logger logger = LoggerFactory.getLogger(TaskDriverService.class);
+	@Autowired
 	private IPendingPaymentService service;
 	@Autowired
 	private DriverMapper driverMapper;
@@ -104,6 +107,8 @@ public class TaskDriverService implements ITaskDriverService {
 			dr.setId(driver.getIdcard());
 			dr.setDrivername(driver.getName());
 			dr.setDriveridcard(driver.getIdcard());
+			SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
+			dr.setDangertime(sdf.format(new Date()));
 			String enterpriseid = driver.getMgrenterpriseid();
 			String orgNm = essEnterpriseMapper.selectOrgNmbyId(enterpriseid);
 			dr.setOwnerorgid(orgNm);

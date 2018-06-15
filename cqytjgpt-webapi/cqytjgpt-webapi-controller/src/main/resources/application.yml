@@ -71,7 +71,7 @@ eureka:
 security:
   oauth2:
     resource:
-      id: cqytjgpt-web-api
+      id: cqytjgpt-webapi
       user-info-uri: http://localhost:10001/user
       prefer-token-info: false       
 

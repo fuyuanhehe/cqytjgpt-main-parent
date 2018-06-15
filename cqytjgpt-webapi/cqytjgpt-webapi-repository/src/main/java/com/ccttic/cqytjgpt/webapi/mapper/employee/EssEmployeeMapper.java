@@ -37,24 +37,55 @@ public interface EssEmployeeMapper {
 
     int updateByPrimaryKey(EssEmployee record);
     
+	/**分页查询员工总数
+	 * @param params
+	 * @return
+	 */
 	long qryPostListCount(Map<String, String> params);
 
+	/**分页查询员工
+	 * @param params
+	 * @return
+	 */
 	List<EssEmployeeVo> qryPostList(Map<String, String> params);
 
+	/**查询员工下的岗位
+	 * @param id
+	 * @return
+	 */
 	List<EssPost> selectPostUnderEmp(String id);
 
+	/**删除员工下的岗位
+	 * @param empId
+	 */
 	void delPostUnderEmp(String empId);
 
-	void modifyPassword(Map<String, String> map);
-
+	/**查询员工下的部门
+	 * @param id
+	 * @return
+	 */
 	List<Department> selectDepUnderEmp(String id);
 
+	/**通过部门id获取组织
+	 * @param id
+	 * @return
+	 */
 	Organization selectOrgByDepId(String id);
 
+	/**通过用户账号获取用户详情
+	 * @param account
+	 * @return
+	 */
 	EmployeeVo findEmployeeByAccount(String account);
 	
+	/**关联部门和员工
+	 * @param essEmployeeDept
+	 */
 	void relatedDepAndEmp(EssEmployeeDept essEmployeeDept);
 
+	/**删除部门下的员工
+	 * @param dept
+	 */
 	void delEmpUnderDep(EssEmployeeDept dept);
 	
 }

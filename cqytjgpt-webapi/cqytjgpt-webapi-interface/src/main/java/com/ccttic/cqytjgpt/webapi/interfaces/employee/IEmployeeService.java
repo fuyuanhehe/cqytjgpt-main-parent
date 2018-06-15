@@ -110,6 +110,10 @@ public interface IEmployeeService {
 	 */
 	public void modifyPassword(EssEmployee emp) throws Exception;
 	
+	/**删除员工
+	 * @param emp
+	 * @throws Exception
+	 */
 	public void delEmployee(EssEmployeeVo emp) throws Exception;
 
 

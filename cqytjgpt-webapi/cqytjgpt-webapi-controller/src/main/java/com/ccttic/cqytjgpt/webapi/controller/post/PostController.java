@@ -33,6 +33,13 @@ public class PostController {
 	@Autowired
 	private IPostService postService;
 
+	/**分页查询岗位
+	 * @param request
+	 * @param response
+	 * @param page
+	 * @param post
+	 * @return
+	 */
 	@RequestMapping(value = "selectPost", method = RequestMethod.POST)
 	public ResponseMsg<Page<EssPostVo>> selectPost(ServletRequest request, ServletResponse response, PageRequest page,
 			@RequestBody EssPostVo post) {
@@ -52,7 +59,12 @@ public class PostController {
 		}
 		return rm;
 	}
-
+	
+	/**获取所有组织
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "selectAllOrganization", method = RequestMethod.POST)
 	public ResponseMsg<List<Organization>> selectAllOrganization(ServletRequest request, ServletResponse response) {
 		ResponseMsg<List<Organization>> rm = new ResponseMsg<>();
@@ -72,6 +84,10 @@ public class PostController {
 		return rm;
 	}
 
+	/**查询部门
+	 * @param orgid
+	 * @return
+	 */
 	@RequestMapping(value = "selectDepartment", method = RequestMethod.POST)
 	public ResponseMsg<List<Department>> selectDepartment(@RequestBody String orgid) {
 		ResponseMsg<List<Department>> rm = new ResponseMsg<>();
@@ -92,6 +108,10 @@ public class PostController {
 		return rm;
 	}
 
+	/**查询员工
+	 * @param depid
+	 * @return
+	 */
 	@RequestMapping(value = "selectEmployeeByDep", method = RequestMethod.POST)
 	public ResponseMsg<List<EssEmployee>> selectEmployee(@RequestBody String depid) {
 		ResponseMsg<List<EssEmployee>> rm = new ResponseMsg<>();
@@ -112,6 +132,10 @@ public class PostController {
 		return rm;
 	}
 
+	/**添加岗位
+	 * @param post
+	 * @return
+	 */
 	@RequestMapping(value = "addpost", method = RequestMethod.POST)
 	public ResponseMsg<String> addpost(@RequestBody EssPostVo post) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
@@ -145,6 +169,10 @@ public class PostController {
 		}
 		return rm;
 	}
+	/**删除岗位
+	 * @param postId
+	 * @return
+	 */
 	@RequestMapping(value = "delpost", method = RequestMethod.POST)
 	public ResponseMsg<String> delpost(@RequestBody String postId) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
@@ -162,6 +190,11 @@ public class PostController {
 		}
 		return rm;
 	}
+	/**查询部门下的岗位
+	 * @param request
+	 * @param post
+	 * @return
+	 */
 	@RequestMapping(value = "/selectPostUnderDep", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<List<EssPost>> selectPostUnderDep(HttpServletRequest request,
 			@RequestBody String post ) {

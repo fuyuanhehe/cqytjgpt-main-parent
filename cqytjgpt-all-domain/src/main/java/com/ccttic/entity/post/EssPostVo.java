@@ -5,6 +5,10 @@ import java.util.List;
 import com.ccttic.entity.employee.EssEmployee;
 
 public class EssPostVo extends EssPost {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//组织名
 	private String orgNm;
 	//部门名

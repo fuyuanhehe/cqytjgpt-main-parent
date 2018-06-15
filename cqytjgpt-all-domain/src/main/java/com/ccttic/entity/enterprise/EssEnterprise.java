@@ -1,8 +1,11 @@
 package com.ccttic.entity.enterprise;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class EssEnterprise {
+import com.ccttic.entity.BaseBean;
+
+public class EssEnterprise extends BaseBean implements Serializable{
+	private static final long serialVersionUID = -8349678655503842856L;
     /**
      * 主键ID
      */
@@ -97,51 +100,17 @@ public class EssEnterprise {
      * 显示顺序
      */
     private Integer disporder;
+    
+    // 提交开始时间
+    private String referStartTime;
+    // 提交结束时间
+    private String referEndTime;
+    // 审核开始时间
+    private String checkStartTime;
+    // 审核结束时间
+    private String checkEndTime;
 
-    /**
-     * 版本号
-     */
-    private Integer version;
-
-    /**
-     * 是否删除
-     */
-    private Boolean isdeleted;
-
-    /**
-     * 创建时间
-     */
-    private Date createtime;
-
-    /**
-     * 修改时间
-     */
-    private Date updatetime;
-
-    /**
-     * 删除时间
-     */
-    private Date deletetime;
-
-    /**
-     * 创建人编码
-     */
-    private String createby;
-
-    /**
-     * 创建人部门编码
-     */
-    private String createdepcd;
-
-    /**
-     * 修改人编码
-     */
-    private String updateby;
-
-    /**
-     * 修改人部门编码
-     */
-    private String updatedepcd;
+  
 
     /**
      * 主键ID
@@ -447,147 +416,37 @@ public class EssEnterprise {
         this.disporder = disporder;
     }
 
-    /**
-     * 版本号
-     * @return version 版本号
-     */
-    public Integer getVersion() {
-        return version;
-    }
+	public String getReferStartTime() {
+		return referStartTime;
+	}
 
-    /**
-     * 版本号
-     * @param version 版本号
-     */
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
+	public void setReferStartTime(String referStartTime) {
+		this.referStartTime = referStartTime;
+	}
 
-    /**
-     * 是否删除
-     * @return isDeleted 是否删除
-     */
-    public Boolean getIsdeleted() {
-        return isdeleted;
-    }
+	public String getReferEndTime() {
+		return referEndTime;
+	}
 
-    /**
-     * 是否删除
-     * @param isdeleted 是否删除
-     */
-    public void setIsdeleted(Boolean isdeleted) {
-        this.isdeleted = isdeleted;
-    }
+	public void setReferEndTime(String referEndTime) {
+		this.referEndTime = referEndTime;
+	}
 
-    /**
-     * 创建时间
-     * @return createTime 创建时间
-     */
-    public Date getCreatetime() {
-        return createtime;
-    }
+	public String getCheckStartTime() {
+		return checkStartTime;
+	}
 
-    /**
-     * 创建时间
-     * @param createtime 创建时间
-     */
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+	public void setCheckStartTime(String checkStartTime) {
+		this.checkStartTime = checkStartTime;
+	}
 
-    /**
-     * 修改时间
-     * @return updateTime 修改时间
-     */
-    public Date getUpdatetime() {
-        return updatetime;
-    }
+	public String getCheckEndTime() {
+		return checkEndTime;
+	}
 
-    /**
-     * 修改时间
-     * @param updatetime 修改时间
-     */
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
+	public void setCheckEndTime(String checkEndTime) {
+		this.checkEndTime = checkEndTime;
+	}
 
-    /**
-     * 删除时间
-     * @return deleteTime 删除时间
-     */
-    public Date getDeletetime() {
-        return deletetime;
-    }
-
-    /**
-     * 删除时间
-     * @param deletetime 删除时间
-     */
-    public void setDeletetime(Date deletetime) {
-        this.deletetime = deletetime;
-    }
-
-    /**
-     * 创建人编码
-     * @return createBy 创建人编码
-     */
-    public String getCreateby() {
-        return createby;
-    }
-
-    /**
-     * 创建人编码
-     * @param createby 创建人编码
-     */
-    public void setCreateby(String createby) {
-        this.createby = createby;
-    }
-
-    /**
-     * 创建人部门编码
-     * @return createDepCd 创建人部门编码
-     */
-    public String getCreatedepcd() {
-        return createdepcd;
-    }
-
-    /**
-     * 创建人部门编码
-     * @param createdepcd 创建人部门编码
-     */
-    public void setCreatedepcd(String createdepcd) {
-        this.createdepcd = createdepcd;
-    }
-
-    /**
-     * 修改人编码
-     * @return updateBy 修改人编码
-     */
-    public String getUpdateby() {
-        return updateby;
-    }
-
-    /**
-     * 修改人编码
-     * @param updateby 修改人编码
-     */
-    public void setUpdateby(String updateby) {
-        this.updateby = updateby;
-    }
-
-    /**
-     * 修改人部门编码
-     * @return updateDepCd 修改人部门编码
-     */
-    public String getUpdatedepcd() {
-        return updatedepcd;
-    }
-
-    /**
-     * 修改人部门编码
-     * @param updatedepcd 修改人部门编码
-     */
-    public void setUpdatedepcd(String updatedepcd) {
-        this.updatedepcd = updatedepcd;
-    }
+ 
 }

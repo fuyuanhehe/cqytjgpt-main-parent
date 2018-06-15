@@ -17,6 +17,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import com.ccttic.util.common.RandomHelper;
+
 @Component
 public class SchedulerRuner implements ApplicationRunner, ApplicationContextAware {
 
@@ -38,7 +40,7 @@ public class SchedulerRuner implements ApplicationRunner, ApplicationContextAwar
 			String taskGroup = task.getTaskGroup();  //任务分组
 			String taskName= task.getTaskName();
 			if(StringUtils.isEmpty(taskName)){
-				taskName = "TK_" + clazz ;    
+				taskName = "TK_" + clazz+RandomHelper.uuid() ;    
 			}
 			// 创建任务
 			JobDetail jobDetail = JobBuilder.newJob(task.getClass()).withIdentity(taskName, taskGroup).build();

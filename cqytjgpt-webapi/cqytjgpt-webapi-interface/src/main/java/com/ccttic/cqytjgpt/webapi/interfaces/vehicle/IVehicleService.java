@@ -52,5 +52,4 @@ public interface IVehicleService {
 	 */
 	public void modifVehicle(XMLCar xmlCar) throws AppException;
 	
-	
 }

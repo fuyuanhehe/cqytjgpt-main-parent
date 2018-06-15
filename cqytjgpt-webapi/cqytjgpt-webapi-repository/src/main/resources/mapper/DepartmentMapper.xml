@@ -31,7 +31,26 @@
 
 	<!-- 修改部门 -->
 	<update id="modifyMent" parameterType="com.ccttic.entity.role.Department">
-		update ess_department set depCd=#{ment.depCd},depNm=#{ment.depNm}, depShortNm=#{ment.depShortNm},depDuty=#{ment.depDuty}, remark=#{ment.remark}, dispOrder=#{ment.dispOrder}
+		update ess_department set 
+		  	<if test="ment.depCd != null and ment.depCd != ''">
+				nature = #{ment.depCd},
+			</if>
+		  	<if test="ment.depNm != null and ment.depNm != ''">
+				depNm = #{ment.depNm},
+			</if>
+		  	<if test="ment.depShortNm != null and ment.depShortNm != ''">
+				depShortNm = #{ment.depShortNm},
+			</if>
+		  	<if test="ment.depDuty != null and ment.depDuty != ''">
+				depDuty = #{ment.depDuty},
+			</if>
+		  	<if test="ment.remark != null and ment.remark != ''">
+				remark = #{ment.remark},
+			</if>
+		  	<if test="ment.dispOrder != null and ment.dispOrder != ''">
+				dispOrder = #{ment.dispOrder}
+			</if>
+			id=#{ment.id}
 		  where id=#{ment.id}
 	</update>
 	

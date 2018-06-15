@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.exception.AppException;
+import com.ccttic.entity.role.VehiBaseinfo;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.mapper.vehicle.VehiBaseinfoMapper;
 import com.ccttic.mapper.vehicle.VehicleMapper;
 import com.ccttic.service.vehicle.IVehicleService;
 import com.ccttic.util.common.RandomHelper;
@@ -27,6 +29,8 @@ public class VehicleServiceImpl implements IVehicleService {
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Resource
 	private VehicleMapper mapper;// 司机基础信息
+	@Resource
+	private VehiBaseinfoMapper infoMapper;
 
 	@Override
 	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle vehicle) throws AppException {
@@ -170,5 +174,21 @@ public class VehicleServiceImpl implements IVehicleService {
 			return state;
 		}
 		return state;
+	}
+
+	@Override
+	public List<VehiBaseinfo> getVehiBaseinfoList() {
+		return infoMapper.qryVehiBaseinfoList();
+	}
+
+	@Override
+	public String getArea(String code) {
+		return infoMapper.getArea(code);
+	}
+
+	@Override
+	public void saveVehi(Vehicle vehicle) {
+		// TODO Auto-generated method stub
+		infoMapper.saveVehi(vehicle);
 	}
 }

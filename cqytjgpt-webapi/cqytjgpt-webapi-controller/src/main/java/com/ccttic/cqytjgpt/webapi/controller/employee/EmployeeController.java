@@ -121,7 +121,7 @@ public class EmployeeController {
 
 		return response;
 	}
-
+    //分页显示所有员工
 	@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(HttpServletRequest request, PageRequest page,
 			@RequestBody EssEmployeeVo emp) {
@@ -223,7 +223,7 @@ public class EmployeeController {
 				EssEmployeeVo emp = new EssEmployeeVo();
 				emp.setId(map.get("id"));
 				emp.setDepid(map.get("depId"));
-				emp.setIsdeleted(true);
+				emp.setIsDeleted(true);
 				employeeService.delEmployee(emp);
 			}
 			
