@@ -78,23 +78,40 @@
 			<version>${com.alibaba.version}</version>
 		</dependency>
 		
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        
         <!-- eureka client -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-       
-        <dependency>
-            <groupId>com.ccttic.framework</groupId>
-            <artifactId>cqytjgpt-basic-config-pom</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>pom</type>
-        </dependency>
-   
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
+        
+		<!-- 熔断器 和 hystrix stream （Rabbit） -->
+		<dependency>
+			<groupId>com.ccttic.framework</groupId>
+			<artifactId>cqytjgpt-basic-hystrix-pom</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>pom</type>
+		</dependency>
+	
+		<!-- 配置中心客户端依赖，集成总线刷新配置（Rabbit） -->
+		<dependency>
+			<groupId>com.ccttic.framework</groupId>
+			<artifactId>cqytjgpt-basic-config-pom</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>pom</type>
+		</dependency>
+	
+		<!-- zipkin 依赖（Rabbit发送信息） -->
+		<dependency>
+			<groupId>com.ccttic.framework</groupId>
+			<artifactId>cqytjgpt-basic-zipkin-pom</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>pom</type>
+		</dependency>
     </dependencies>
     <build>
         <plugins>
