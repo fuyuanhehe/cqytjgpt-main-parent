@@ -30,4 +30,6 @@ public interface DriversService {
 
 	// 增加驾驶员
 	public void insertSelective(List<Driver> driver);
+	
+	public List<Driver> getAllDriver();
 }

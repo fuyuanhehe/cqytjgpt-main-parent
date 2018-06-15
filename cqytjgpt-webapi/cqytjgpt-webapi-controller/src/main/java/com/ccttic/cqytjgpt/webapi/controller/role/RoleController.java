@@ -17,7 +17,9 @@ import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
-
+/*
+ * 功能说明：角色业务操作
+ */
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
@@ -78,9 +80,6 @@ public class RoleController {
 			//员工ID
 			String str = rolty.getEmp_id();
 			String [] strs = str.split(",");
-
-			//	List<String> str = rolty.getEmp_id();
-			//	String [] strs = (String[]) str.toArray();
 
 			for(int i =0 ; i<strs.length; i++) {
 				//循环添加角色关联员工
@@ -164,7 +163,12 @@ public class RoleController {
 		return resp;
 
 	}	
-
+	/**
+	 * 功能说明：  修改角色和关联的员工
+	 * @param emp_id 员工id
+	 * @return
+	 * @date  2018年6月1日
+	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/getRoleMenuByEmpid",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(String emp_id){

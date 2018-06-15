@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
-import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.illegal.VehiIllicitExample;
@@ -26,12 +23,9 @@ import com.ccttic.entity.role.Vehicle;
 
 @Service
 public class TaskCarService implements ITaskCarService {
-	private Logger logger = LoggerFactory.getLogger(TaskCarService.class);
 
 	@Autowired
 	private IIllegalProcessService illegalProcessService;
-	@Autowired
-	private VehicleMapper vehicleMapper;
 	@Autowired
 	private VehiIllicitMapper vehiIllicitMapper;
 	@Autowired
@@ -40,10 +34,8 @@ public class TaskCarService implements ITaskCarService {
 	private VehiDangerMapper vehiDangerMapper;
 
 	@Override
-	public void addCarIllega() throws Exception {
+	public void addCarIllega(Vehicle vehicle) throws Exception {
 		VehiIllicit vehiIllicit = null;
-		List<Vehicle> vehicles = vehicleMapper.getAllCar();
-		for (Vehicle vehicle : vehicles) {
 			if (vehicle.getVehiNo() != null || vehicle.getVehiNo() != "" || vehicle.getVehiNoType() != null
 					|| vehicle.getVehiNoType() != "") {
 
@@ -91,19 +83,14 @@ public class TaskCarService implements ITaskCarService {
 						vehiIllicitMapper.insertSelective(vehiIllicit);
 					}
 				}
-			} else {
-				logger.info("id为" + vehicle.getId() + "没有添加成功");
-			}
+			
 		}
 
 	}
 
 	@Override
-	public void addCarDanger() throws Exception {
-		VehiDanger vr = null;
-		List<Vehicle> vehicles = vehicleMapper.getAllCar();
-		for (Vehicle vehicle : vehicles) {
-			vr = new VehiDanger();
+	public void addCarDanger(Vehicle vehicle) throws Exception {
+		VehiDanger vr = new VehiDanger();
 			String hphm = URLDecoder.decode(vehicle.getVehiNo() + vehicle.getVehiNoType(), "UTF-8");
 			vr.setId(hphm);
 			vr.setVehino(vehicle.getVehiNo());
@@ -115,10 +102,10 @@ public class TaskCarService implements ITaskCarService {
 			EssEnterprise etp = essEnterpriseMapper.selectByPrimaryKey(enterpriseid);
 			vr.setOwnerorgid(orgNm);
 			vr.setOwnerenterprise(etp.getEtpnm());
-			vr.setScrappedstate(vehicle.getState() == "M" ? 1 : 0);
-			vr.setIllicitstate(vehicle.getState() == "G" ? 1 : 0);
-			vr.setOverdueexaminestate(vehicle.getState() == "Q" ? 1 : 0);
-			vr.setFailureState(vehicle.getState() == "I" ? 1 : 0);
+			vr.setScrappedstate("M".equals(vehicle.getState()) ? 1 : 0);
+			vr.setIllicitstate("G".equals(vehicle.getState()) ? 1 : 0);
+			vr.setOverdueexaminestate("Q".equals(vehicle.getState()) ? 1 : 0);
+			vr.setFailureState("I".equals(vehicle.getState()) ? 1 : 0);
 			if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate()
 					+ vr.getFailureState() == 0) {
 				vr.setDangertype("0");
@@ -138,7 +125,5 @@ public class TaskCarService implements ITaskCarService {
 				vehiDangerMapper.insertSelective(vr);
 			}
 		}
-
-	}
 
 }

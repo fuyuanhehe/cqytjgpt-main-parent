@@ -1,9 +1,11 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.taskdriver;
 
+import com.ccttic.entity.drivers.Driver;
+
 public interface ITaskDriverService {
 	
-	void addDriveIllega()  throws Exception;
+	void addDriveIllega(Driver driver)  throws Exception;
 	
-	void addDriverDanger()  throws Exception;
+	void addDriverDanger(Driver driver)  throws Exception;
 
 }

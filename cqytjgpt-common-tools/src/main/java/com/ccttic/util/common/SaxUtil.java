@@ -211,22 +211,22 @@ public class SaxUtil {
 						// 拿到body下的子节点drv下的字节点sfzmhm的值
 						pendingPayment = new XMLPendingPayment();
 						//获取，补全信息
-						pendingPayment.setCljgmc(itemEle.elementTextTrim("cljgmc"));
-						pendingPayment.setWfdz(itemEle.elementTextTrim("wfdz"));
-						pendingPayment.setWfsj(itemEle.elementTextTrim("wfsj"));
-						pendingPayment.setWfxw(itemEle.elementTextTrim("wfxw"));
-						pendingPayment.setJdslb(itemEle.elementTextTrim("jdslb"));
-						pendingPayment.setJdsbh(itemEle.elementTextTrim("jdsbh"));
-						pendingPayment.setDsr(itemEle.elementTextTrim("dsr"));
-						pendingPayment.setJszh(itemEle.elementTextTrim("jszh"));
-						pendingPayment.setHpzl(itemEle.elementTextTrim("hpzl"));
-						pendingPayment.setHphm(itemEle.elementTextTrim("hphm"));
-						pendingPayment.setClsj(itemEle.elementTextTrim("clsj"));
-						pendingPayment.setFkje(itemEle.elementTextTrim("fkje"));
-						pendingPayment.setWfjfs(itemEle.elementTextTrim("wfjfs"));
-						pendingPayment.setZnj(itemEle.elementTextTrim("znj"));
-						pendingPayment.setClbj(itemEle.elementTextTrim("clbj"));
-						pendingPayment.setJkbj(itemEle.elementTextTrim("jkbj"));
+						pendingPayment.setCljgmc(URLDecoder.decode(itemEle.elementTextTrim("cljgmc"),"UTF-8"));
+						pendingPayment.setWfdz(URLDecoder.decode(itemEle.elementTextTrim("wfdz"),"UTF-8"));
+						pendingPayment.setWfsj(URLDecoder.decode(itemEle.elementTextTrim("wfsj"),"UTF-8"));
+						pendingPayment.setWfxw(URLDecoder.decode(itemEle.elementTextTrim("wfxw"),"UTF-8"));
+						pendingPayment.setJdslb(URLDecoder.decode(itemEle.elementTextTrim("jdslb"),"UTF-8"));
+						pendingPayment.setJdsbh(URLDecoder.decode(itemEle.elementTextTrim("jdsbh"),"UTF-8"));
+						pendingPayment.setDsr(URLDecoder.decode(itemEle.elementTextTrim("dsr"),"UTF-8"));
+						pendingPayment.setJszh(URLDecoder.decode(itemEle.elementTextTrim("jszh"),"UTF-8"));
+						pendingPayment.setHpzl(URLDecoder.decode(itemEle.elementTextTrim("hpzl"),"UTF-8"));
+						pendingPayment.setHphm(URLDecoder.decode(itemEle.elementTextTrim("hphm"),"UTF-8"));
+						pendingPayment.setClsj(URLDecoder.decode(itemEle.elementTextTrim("clsj"),"UTF-8"));
+						pendingPayment.setFkje(URLDecoder.decode(itemEle.elementTextTrim("fkje"),"UTF-8"));
+						pendingPayment.setWfjfs(URLDecoder.decode(itemEle.elementTextTrim("wfjfs"),"UTF-8"));
+						pendingPayment.setZnj(URLDecoder.decode(itemEle.elementTextTrim("znj"),"UTF-8"));
+						pendingPayment.setClbj(URLDecoder.decode(itemEle.elementTextTrim("clbj"),"UTF-8"));
+						pendingPayment.setJkbj(URLDecoder.decode(itemEle.elementTextTrim("jkbj"),"UTF-8"));
 						//添加到list
 						list.add(pendingPayment);
 					}

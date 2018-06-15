@@ -37,6 +37,10 @@ public class DriversServiceImpl implements DriversService {
 		params.put("idcard", driverVo.getIdcard());
 		params.put("permicar", driverVo.getPermicar());
 		params.put("id", ids);
+		params.put("fiString", driverVo.getFiString());
+		params.put("laString", driverVo.getLaString());
+		params.put("fistShString", driverVo.getFistShString());
+		params.put("laShString", driverVo.getLaShString());
 		List<DriverVo> data = mapper.seDriverPage(params);
 		if(ObjectHelper.isEmpty(ids)){
 			List<DriverVo> list = new ArrayList<>();   	   
@@ -78,6 +82,8 @@ public class DriversServiceImpl implements DriversService {
 		params.put("areaNm", driver.getAreaNm());
 		params.put("illicitadress", driver.getIllicitadress());
 		params.put("illicit", driver.getIllicit());
+		params.put("fiString", driver.getFiString());
+		params.put("laString", driver.getLaString());
 		List<DriverillicitVo> data = mapper.seDr_illicitPages(params);
 		long count = mapper.getDriverPageCount(params);
 
@@ -96,5 +102,11 @@ public class DriversServiceImpl implements DriversService {
 		}
 		mapper.insertSelective(driver);
 
+	}
+
+	@Override
+	public List<Driver> getAllDriver() {
+
+		return mapper.selectAllDriver();
 	}
 }
