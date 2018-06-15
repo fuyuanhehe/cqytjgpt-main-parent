@@ -17,32 +17,50 @@ public abstract class BaseBean {
 	public static final boolean NOTDELETE = false;
 	//主键ID
 	protected String id;
-	//版本号
-	private Integer version;
-	//记录是否逻辑删除 。true 已删除，false 未删除
-	private Boolean isDeleted = false;
-	//新增时间
-	private Date createTime;
-	//修改时间
-	private Date updateTime;
-	//删除时间
-	private Date deleteTime;
-	//创建人
-	private String createBy;
-	//创建人名称
-	private String createByNm;
-	//创建人部门编码
-	private String createDepCd;
-	//创建人机构名称
-	private String createDepNm;
-	//修改人
-	private String updateBy;
-	//修改人名称
-	private String updateByNm;
-	//修改人部门编码
-	private String updateDepCd;
-	//修改人部门名称
-	private String updateDepNm;
+	 /**
+     * 版本号
+     */
+    private Integer version;
+
+    /**
+     * 是否删除
+     */
+    private Boolean isdeleted = false;
+
+    /**
+     * 创建时间
+     */
+    private Date createtime;
+
+    /**
+     * 修改时间
+     */
+    private Date updatetime;
+
+    /**
+     * 删除时间
+     */
+    private Date deletetime;
+
+    /**
+     * 创建人编码
+     */
+    private String createby;
+
+    /**
+     * 创建人部门编码
+     */
+    private String createdepcd;
+
+    /**
+     * 修改人编码
+     */
+    private String updateby;
+
+    /**
+     * 修改人部门编码
+     */
+    private String updatedepcd;
 
 
 
@@ -76,157 +94,85 @@ public abstract class BaseBean {
 		this.version = version;
 	}
 
-	/**
-	 * @return the isDeleted
-	 */
-	public Boolean getIsDeleted() {
-		return isDeleted;
-	}
 
-	/**
-	 * @param isDeleted the isDeleted to set
-	 */
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
-	/**
-	 * @return the createTime
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	/**
-	 * @param createTime the createTime to set
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	/**
-	 * @return the updateTime
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	/**
-	 * @param updateTime the updateTime to set
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	/**
-	 * @return the deleteTime
-	 */
-	public Date getDeleteTime() {
-		return deleteTime;
-	}
-
-	/**
-	 * @param deleteTime the deleteTime to set
-	 */
-	public void setDeleteTime(Date deleteTime) {
-		this.deleteTime = deleteTime;
-	}
-
-	/**
-	 * @return the createBy
-	 */
-	public String getCreateBy() {
-		return createBy;
-	}
-
-	/**
-	 * @param createBy the createBy to set
-	 */
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
+	public Boolean getIsdeleted() {
+		return isdeleted;
 	}
 
 
-	/**
-	 * @return the updateBy
-	 */
-	public String getUpdateBy() {
-		return updateBy;
-	}
-
-	/**
-	 * @param updateBy the updateBy to set
-	 */
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
+	public void setIsdeleted(Boolean isdeleted) {
+		this.isdeleted = isdeleted;
 	}
 
 
-	/**
-	 * @return the createByNm
-	 */
-	public String getCreateByNm() {
-		return createByNm;
-	}
-
-	/**
-	 * @param createByNm the createByNm to set
-	 */
-	public void setCreateByNm(String createByNm) {
-		this.createByNm = createByNm;
-	}
-
-	/**
-	 * @return the updateByNm
-	 */
-	public String getUpdateByNm() {
-		return updateByNm;
-	}
-
-	/**
-	 * @param updateByNm the updateByNm to set
-	 */
-	public void setUpdateByNm(String updateByNm) {
-		this.updateByNm = updateByNm;
+	public Date getCreatetime() {
+		return createtime;
 	}
 
 
-	public String getCreateDepCd() {
-		return createDepCd;
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
 
 
-	public void setCreateDepCd(String createDepCd) {
-		this.createDepCd = createDepCd;
+	public Date getUpdatetime() {
+		return updatetime;
 	}
 
 
-	public String getCreateDepNm() {
-		return createDepNm;
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
 	}
 
 
-	public void setCreateDepNm(String createDepNm) {
-		this.createDepNm = createDepNm;
+	public Date getDeletetime() {
+		return deletetime;
 	}
 
 
-	public String getUpdateDepCd() {
-		return updateDepCd;
+	public void setDeletetime(Date deletetime) {
+		this.deletetime = deletetime;
 	}
 
 
-	public void setUpdateDepCd(String updateDepCd) {
-		this.updateDepCd = updateDepCd;
+	public String getCreateby() {
+		return createby;
 	}
 
 
-	public String getUpdateDepNm() {
-		return updateDepNm;
+	public void setCreateby(String createby) {
+		this.createby = createby;
 	}
 
 
-	public void setUpdateDepNm(String updateDepNm) {
-		this.updateDepNm = updateDepNm;
+	public String getCreatedepcd() {
+		return createdepcd;
 	}
+
+
+	public void setCreatedepcd(String createdepcd) {
+		this.createdepcd = createdepcd;
+	}
+
+
+	public String getUpdateby() {
+		return updateby;
+	}
+
+
+	public void setUpdateby(String updateby) {
+		this.updateby = updateby;
+	}
+
+
+	public String getUpdatedepcd() {
+		return updatedepcd;
+	}
+
+
+	public void setUpdatedepcd(String updatedepcd) {
+		this.updatedepcd = updatedepcd;
+	}
+
+
 }
