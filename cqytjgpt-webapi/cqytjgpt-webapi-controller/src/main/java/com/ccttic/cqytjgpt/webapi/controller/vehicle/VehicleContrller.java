@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.PageVehicle;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -48,14 +50,17 @@ public class VehicleContrller implements Serializable {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/qryVehicleList", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/qryVehicleList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String qryVehicleList(@RequestBody PageRequest page, @RequestBody Vehicle vehicle) {
+	public String qryVehicleList(@RequestBody  PageVehicle vehicle) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			PageRequest page = new PageRequest();
+			page.setPage(vehicle.getPage());
+			page.setRows(vehicle.getRows());
 			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle);
 			map.put("data", pager.getRecords());
 			map.put("total", pager.getTotalRows());
