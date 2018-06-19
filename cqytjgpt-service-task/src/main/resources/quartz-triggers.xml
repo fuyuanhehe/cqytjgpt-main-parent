@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd 
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd">
+      
+    <!-- Quartz 公共配置 开始 -->
+    <!-- 自定义Facotory 定时任务纳入 spring 容器管理 -->
+    <bean name="customJobFactory" class="com.ccttic.task.config.CustomJobFactory"/>
+    
+    <!-- Quartz Factory 配置-->
+    <bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+        <property name="jobFactory">
+        	<ref bean="customJobFactory"/>
+        </property>
+        <property name="configLocation" value="classpath:quartz.yml" />       
+        <property name="triggers">  
+            <list>
+            	<ref bean="carTrigger"/>
+            </list>
+        </property>  
+    </bean>  
+    <!-- Quartz 功能配置结束 -->
+    
+    <!-- Quartz 定时任务配置开始 -->
+    <!-- 定时车辆 xxx 开始 -->
+    <!-- JOB上下文 -->
+    <bean id="carJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ccttic.task.execute.DriverDangerTask"/>
+        <property name="durability" value="true" />    
+        <property name="requestsRecovery" value="true" />
+    </bean>
+    
+    <!-- 定时触发器 -->
+    <bean id="carTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="carJob" />    
+        <property name="cronExpression">
+           <!-- 每周三凌晨4分钟 -->
+           <value>0 0 4 ? * WED</value>
+        </property>  
+    </bean>
+    <!-- 定时车辆 xxx   结束  -->
+    <!-- Quartz 定时任务配置借宿 -->
+</beans>
