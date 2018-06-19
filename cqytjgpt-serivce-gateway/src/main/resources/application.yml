@@ -38,7 +38,7 @@ zuul:
   routes:
     cqytjgpt-web-api:
       path: /web/**
-      serviceId: cqytjgpt-web-api
+      serviceId: cqytjgpt-webapi
       sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token
   
     cqytjgpt-screen-api:
