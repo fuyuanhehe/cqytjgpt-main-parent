@@ -2,7 +2,7 @@ info:
   description: 重庆交巡警源头监管项目service-task
 
 server:
-  port: 12001
+  port: 12002
 
 spring:
   application:
