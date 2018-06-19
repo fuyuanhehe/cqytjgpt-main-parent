@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
+import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiBaseinfoMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
@@ -28,6 +29,8 @@ public class VehicleServiceImpl implements IVehicleService {
 	private Logger logger = LoggerFactory.getLogger(VehicleServiceImpl.class);
 	@Resource
 	private VehicleMapper mapper;// 司机基础信息
+	@Resource
+	private VehiBaseinfoMapper infoMapper;// 司机基础信息
 
 	@Override
 	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle vehicle) throws AppException {
@@ -61,12 +64,12 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, String id) throws AppException {
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("id", id);
+		params.put("id", vehiIllicit.getId());
 		long totolRols = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 
@@ -172,11 +175,12 @@ public class VehicleServiceImpl implements IVehicleService {
 		}
 		return state;
 	}
-
+	
 	@Override
 	public List<Vehicle> getAllVehicle() {
 		
 		return mapper.getAllCar();
 	}
+	
 	
 }

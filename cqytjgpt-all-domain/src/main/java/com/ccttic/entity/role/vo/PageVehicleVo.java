@@ -2,15 +2,15 @@ package com.ccttic.entity.role.vo;
 
 import com.ccttic.entity.role.Vehicle;
 
-public class PageVehicle extends Vehicle {
+public class PageVehicleVo extends Vehicle {
 	private static final long serialVersionUID = -5701790298734958591L;
 	private int page = 1;
 	private int rows = 10;
 	
-	public PageVehicle() {
+	public PageVehicleVo() {
 		super();
 	}
-	public PageVehicle(int page, int rows) {
+	public PageVehicleVo(int page, int rows) {
 		super();
 		this.page = page;
 		this.rows = rows;

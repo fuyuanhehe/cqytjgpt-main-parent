@@ -38,7 +38,7 @@ public interface IVehicleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, String id) throws AppException;
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit) throws AppException;
 	
 	/**
 	 * 新增车牌号和车辆类型
