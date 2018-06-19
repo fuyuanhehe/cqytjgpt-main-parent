@@ -40,6 +40,11 @@ zuul:
       path: /web/**
       serviceId: cqytjgpt-web-api
       sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token
+  
+    cqytjgpt-screen-api:
+      path: /manager/**
+      serviceId: cqytjgpt-screen-api
+      sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token      
 
 # 手动POST刷新配置需要关闭安全策略
 management:
