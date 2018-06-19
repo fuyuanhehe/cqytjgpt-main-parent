@@ -3,9 +3,10 @@ org:
     scheduler:
       instanceName: cqytjptScheduler  
       instanceId: AUTO 
+      skipUpdateCheck: true
     threadPool:
       class: org.quartz.simpl.SimpleThreadPool
-      threadCount: 10
+      threadCount: 2
       threadPriority: 5
       threadsInheritContextClassLoaderOfInitializingThread: true
     jobStore:
@@ -14,5 +15,13 @@ org:
       driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
       tablePrefix: QRTZ_
       maxMisfiresToHandleAtATime: 10
+      useProperties: false
       isClustered: true 
       clusterCheckinInterval: 20000
+      maxMisfiresToHandleAtATime: 1
+      misfireThreshold: 120000
+      txIsolationLevelSerializable: false
+    plugin:
+      shutdownHook: 
+        class: org.quartz.plugins.management.ShutdownHookPlugin
+      cleanShutdown: true
