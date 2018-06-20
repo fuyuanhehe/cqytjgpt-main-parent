@@ -8,18 +8,46 @@ import com.ccttic.entity.BaseBean;
  *
  */
 public class Message extends BaseBean{
-	private String id;      //id
 	
-	private String sendfrom;  //发送邮件
+	/**
+	 * 短信
+	 */
+	public static final Integer MSG_TYPE_0 = 0;
 	
-	private String sendTo;  //接收邮件
+	/**
+	 * 邮件
+	 */
+	public static final Integer MSG_TYPE_1 = 1;
 	
-	private String title;   //标题
+	/**
+	 * 其他
+	 */
+	public static final Integer MSG_TYPE_2 = 2;
 	
-	private String content; //邮件内容
+	/**
+	 * 未发送
+	 */
+	public static final Integer STATE_0 = 0;
 	
-	private String state;  // -1 发送失败 0未发送 1已发送
+	/**
+	 * 已发送
+	 */
+	public static final Integer STATE_1 = 1;
 	
+	private String id;         //id
+	
+	private Integer msgType;   //消息类型
+	
+	private String sendFrom;   //发送邮件
+	
+	private String sendTo;     //接收邮件
+	
+	private String title;      //标题
+	
+	private String content;    //邮件内容
+	
+	private Integer state;     // 0未发送 1已发送
+
 	public String getId() {
 		return id;
 	}
@@ -28,12 +56,20 @@ public class Message extends BaseBean{
 		this.id = id;
 	}
 
-	public String getSendfrom() {
-		return sendfrom;
+	public Integer getMsgType() {
+		return msgType;
 	}
 
-	public void setSendfrom(String sendfrom) {
-		this.sendfrom = sendfrom;
+	public void setMsgType(Integer msgType) {
+		this.msgType = msgType;
+	}
+
+	public String getSendFrom() {
+		return sendFrom;
+	}
+
+	public void setSendFrom(String sendFrom) {
+		this.sendFrom = sendFrom;
 	}
 
 	public String getSendTo() {
@@ -60,17 +96,11 @@ public class Message extends BaseBean{
 		this.content = content;
 	}
 
-	public String getState() {
+	public Integer getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(Integer state) {
 		this.state = state;
-	}
-
-	@Override
-	public String toString() {
-		return "Message [id=" + id + ", sendfrom=" + sendfrom + ", sendTo=" + sendTo + ", title=" + title + ", content="
-				+ content + ", state=" + state + "]";
 	}
 }
