@@ -44,7 +44,7 @@ public class VehiDanger extends BaseBean implements Serializable{
     /**
      * 事故处理状态 1是，2否
      */
-    private Integer failureState;
+    private Integer failurestate;
 
     /**
      * 预警等级 1,2,3
@@ -208,16 +208,16 @@ public class VehiDanger extends BaseBean implements Serializable{
      * 事故处理状态 1是，2否
      * @return fullStudyState 事故处理状态 1是，2否
      */
-    public Integer getFailureState() {
-        return failureState;
+    public Integer getFailurestate() {
+        return failurestate;
     }
 
     /**
      * 事故处理状态 1是，2否
      * @param fullstudystate 事故处理状态 1是，2否
      */
-    public void setFailureState(Integer failureState) {
-        this.failureState = failureState;
+    public void setFailurestate(Integer failurestate) {
+        this.failurestate = failurestate;
     }
 
     /**
