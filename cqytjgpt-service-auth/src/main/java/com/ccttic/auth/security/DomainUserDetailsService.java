@@ -17,10 +17,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.ccttic.auth.common.exception.AppException;
-import com.ccttic.auth.model.Employee;
-import com.ccttic.auth.model.RoleEmp;
 import com.ccttic.auth.service.IEmployeeService;
+import com.ccttic.entity.employee.Employee;
+import com.ccttic.entity.role.RoleEmp;
+import com.ccttic.util.exception.AppException;
 
 
 

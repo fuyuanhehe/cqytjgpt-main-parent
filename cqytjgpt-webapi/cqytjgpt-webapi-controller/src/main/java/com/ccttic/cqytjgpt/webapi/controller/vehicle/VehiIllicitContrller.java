@@ -76,10 +76,10 @@ public class VehiIllicitContrller implements Serializable{
     , prsc = {@Resource( cd = Const.CAR_ILLICIT_INFO, url="/vehiIllicit/qryVehiIllicitList", name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneVehiIllicit (@RequestBody String id) {
+	public String qryOneVehiIllicit (@RequestBody VehiIllicit ve) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
+		params.put("id", ve.getId());
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
 			map.put("data", vehiIllicit);

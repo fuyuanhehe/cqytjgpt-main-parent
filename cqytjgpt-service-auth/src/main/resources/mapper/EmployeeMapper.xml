@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.auth.mapper.EmployeeMapper">
 	<!-- 自定义返回结果集 -->
-	<resultMap id="empMap" type="com.ccttic.auth.model.Employee">
+	<resultMap id="empMap" type="com.ccttic.entity.employee.Employee">
 		<id property="id" column="id" javaType="java.lang.String"></id>
 		<result property="empCd" column="empCd" javaType="java.lang.String"></result>
 		<result property="empNm" column="empNm" javaType="java.lang.String"></result>
@@ -17,125 +17,10 @@
 		<result property="password" column="password" javaType="java.lang.String"></result>
 		<result property="empStatus" column="empStatus" javaType="java.lang.String"></result>
 		<result property="empType" column="empType" javaType="java.lang.String"></result>
-
 	</resultMap>
-	<!-- 分页查询人员 -->
-	<select id="pagerEmployee" parameterType="java.util.Map" resultMap="empMap">
-		select distinct emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp 		
-		<if test="postCd != null">
-			left join ess_employee_post emppost on emp.id = emppost.emp_id left join ess_post post on emppost.post_id = post.id 
-		</if>		
-			left join ess_organization org on org.id = emp.org_id where 1=1 
-		<if test="postCd != null">
-			and post.postCd in (${postCd})
-		</if>
-		<if test="orgCd != null">
-			and org.orgCd in (${orgCd}) 
-		</if> 	
-		<if test="empNm != null">			
-			and emp.empNm like '%${empNm}%'
-		</if>
-		<if test="account != null">
-			and emp.account = #{account}
-		</if>
-		and (emp.isDeleted = 0 or emp.isDeleted is null) order by org.orgCd asc	limit ${startRecord},${pageSize}
-	</select>
-	<!-- 获取人员总记录数 -->
-	<select id="counEmployee" parameterType="java.util.Map" resultType="long">
-		select count(distinct(emp.id)) from ess_employee emp 
-		<if test="postCd != null">
-			left join ess_employee_post emppost on emp.id = emppost.emp_id left join ess_post post on emppost.post_id = post.id 
-		</if>		
-			left join ess_organization org on org.id = emp.org_id where 1=1 
-		<if test="postCd != null">
-			and post.postCd in (${postCd})
-		</if>
-		<if test="orgCd != null">
-			and org.orgCd in (${orgCd}) 
-		</if> 	
-		<if test="empNm != null">			
-			and emp.empNm like '%${empNm}%'
-		</if>
-		<if test="account != null">
-			and emp.account = #{account}
-		</if>
-		and (emp.isDeleted = 0 or emp.isDeleted is null) 
-	</select>
-	<!-- 员工升迁为指定机构指定类型的员工 -->
-	<update id="promotion" parameterType="java.lang.String">
-		update ess_employee as _emp set _emp.empType = #{empType},_emp.org_id=(select id from ess_organization as _org where _org.orgCd = #{orgCd}) where _emp.empCd = #{empCd}
-	</update>
-	<!-- 根据机构查找董事长、领导、总经理-->
-	<select id="findCompanyLeaders" parameterType="java.util.Map" resultMap="empMap">
-		select distinct emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp 
-		left join ess_organization org on org.id = emp.org_id where emp.empType = #{empType} 
-		<if test="orgCd != null">
-			and org.orgCd =#{orgCd} 
-		</if> 	
-		and (emp.isDeleted = 0 or emp.isDeleted is null) order by org.orgCd asc
-	</select>
 	
-	<!-- 指定人员是否是其他公司董事长 -->
-	<select id="isOtherCompanyChairman" parameterType="java.lang.String" resultType="long">
-		select count(*) from ess_organization org where org.chairman_id = #{empId} and (org.orgType = 'HEAD' or org.orgType = 'SUB')
-			and org.orgCd != #{orgCd} and (org.isDeleted = 0 or org.isDeleted is null)
-	</select>
-	<!-- 指定人员是否是其他公司总经理 -->
-	<select id="isOtherCompanyGeneralManager" parameterType="java.lang.String" resultType="long">
-		select count(*) from ess_organization org where org.generalManager_id = #{empId} and (org.orgType = 'HEAD' or org.orgType = 'SUB' or org.orgType = 'BRANCH')
-			and org.orgCd != #{orgCd} and (org.isDeleted = 0 or org.isDeleted is null)
-	</select>
-	<!-- 指定人员是否是其他机构分管领导-->
-	<select id="isOtherCompanyLeadership" parameterType="java.lang.String" resultType="long">
-		select count(*) from ess_organization org where org.leadership_id = #{empId} and  org.orgType != 'HEAD' and org.orgCd != #{orgCd} and (org.isDeleted = 0 or org.isDeleted is null)
-	</select>
-	<!-- 指定人员是否是其他部门主管 -->
-	<select id="isOtherDeptManager" parameterType="java.lang.String" resultType="long">
-		select count(*) from ess_organization org where org.manager_id = #{empId} and org.orgType = 'DEPARTMENT' and org.orgCd != #{orgCd} and (org.isDeleted = 0 or org.isDeleted is null)
-	</select>
-	<!-- 指定人员是否是其他部门副主管-->
-	<select id="isOtherDeptDeputy" parameterType="java.lang.String" resultType="long">
-		select count(*) from ess_organization org where org.deptDeputy_id = #{empId} and org.orgType = 'DEPARTMENT' and org.orgCd != #{orgCd} and (org.isDeleted = 0 or org.isDeleted is null)
-	</select>
-	<!-- 通过人员ID获取人员信息-->
-	<select id="findEmployeeById" parameterType="java.lang.String" resultMap="empMap">
-		select emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp left join ess_organization org on emp.org_id = org.id where  emp.id=#{id}
-	</select>
 	<!-- 通过人员account获取人员信息-->
 	<select id="findEmployeeByAccount" parameterType="java.lang.String" resultMap="empMap">
 		select emp.* from ess_employee emp  where  emp.account=#{account} and (emp.isDeleted = 0 or emp.isDeleted is null)
 	</select>
-	<!-- 通过人员编号获取人员信息 -->
-	<select id="findEmployeeByEmpCd" parameterType="java.lang.String" resultMap="empMap">
-		select emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp left join ess_organization org on emp.org_id = org.id where  emp.empCd=#{empCd}
-	</select>
-	<!-- 通过员工ID判断是否为领导 -->
-	<select id="isManagement" parameterType="java.lang.String" resultType="long">
-		select count(id) as id from ess_organization  where (generalManager_id = #{empId} or leadership_id = #{empId} or manager_id = #{empId} or chairman_id = #{empId} or deptDeputy_id = #{empId}) and (isDeleted = 0 or isDeleted is null)
-	</select>
-	<!-- 用户登录-->
-	<select id="login" parameterType="java.lang.String" resultMap="empMap">
-		 select emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp left join ess_organization org on emp.org_id = org.id where account=#{account} and password=#{password} and (emp.isDeleted = 0 or emp.isDeleted is null)
-	</select>
-	<!-- 该组织机构是包含人员-->
-	<select id="findEmployeesByOrgCd" parameterType="java.lang.String" resultMap="empMap">
-		 select emp.*,org.id as orgId, org.orgCd as orgCd, org.orgNm as orgNm from ess_employee emp left join ess_organization org on emp.org_id = org.id where org.orgCd=#{orgCd} and (emp.isDeleted = 0 or emp.isDeleted is null)
-	</select>
-	<!-- 增加用户 -->
-	<insert id="addEmployee" parameterType="com.ccttic.auth.model.Employee">
-		insert into ess_employee (id, empCd,empNo,empNm,duty,empGender,phone,mobile,account,password,empStatus,empType,org_id) values 
-		(#{emp.id},#{emp.empCd},#{emp.empNo},#{emp.empNm},#{emp.duty},#{emp.empGender},#{emp.phone},#{emp.mobile},#{emp.account},#{emp.password},#{emp.empStatus},#{emp.empType},#{emp.orgId})
-	</insert>
-	<!-- 修改用户 -->
-	<update id="editEmployee" parameterType="com.ccttic.auth.model.Employee">
-		update ess_employee set empNo=#{emp.empNo},empNm=#{emp.empNm},duty=#{emp.duty},empGender=#{emp.empGender},phone=#{emp.phone},mobile=#{emp.mobile},account=#{emp.account},empStatus=#{emp.empStatus},empType=#{emp.empType},org_id=#{emp.orgId} where empCd = #{emp.empCd}
-	</update>
-	<!-- 通过员工编号逻辑删除员工信息 -->
-	<update id="removeEmployee" parameterType="java.lang.String">
-		update ess_employee set isDeleted=1,deleteTime=now() where empCd = #{empCd}
-	</update>
-	<!-- 密码设置-->
-	<update id="setPassword" parameterType="com.ccttic.auth.model.Employee">
-		update ess_employee set password=#{emp.password} where empCd = #{emp.empCd}
-	</update>
 </mapper>	
