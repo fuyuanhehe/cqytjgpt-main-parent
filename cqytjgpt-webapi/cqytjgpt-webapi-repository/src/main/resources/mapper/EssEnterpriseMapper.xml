@@ -581,6 +581,25 @@
   <!-- 获取企业信息总条数 -->
   <select id="qryEnterpriseCount" parameterType="java.util.Map" resultType="java.lang.Integer">
   	SELECT COUNT(1) FROM ess_enterprise WHERE 1=1
+  		<if test="etpnm != null and etpnm != ''">
+			and etpNm = #{etpnm}
+		</if>
+  		<if test="state != null and state != ''">
+			and state = #{state}
+		</if>
+  		<if test="referStartTime != null and referStartTime != ''">
+			and left(createTime,10) &gt;= #{referStartTime}
+		</if>
+  		<if test="referEndTime != null and referEndTime != ''">
+			and left(createTime,10) &lt;= #{referEndTime}
+		</if>
+		
+		<if test="checkStartTime != null and checkStartTime != ''">
+			and left(updateTime,10) &gt;= #{checkStartTime}
+		</if>
+  		<if test="checkEndTime != null and checkEndTime != ''">
+			and left(updateTime,10) &lt;= #{checkEndTime}
+		</if>
   </select>
   <!-- 根据条件获取企业信息-->
   <select id="qryEnterpriseList" parameterType="java.util.Map" resultType="com.ccttic.entity.enterprise.EssEnterprise">

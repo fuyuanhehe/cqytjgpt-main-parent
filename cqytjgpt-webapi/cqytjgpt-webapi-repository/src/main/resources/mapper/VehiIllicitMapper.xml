@@ -591,6 +591,33 @@
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
 						WHERE ve.mgrEnterpriseId=#{entId}
+				<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+					and mgrDepartAreaId = #{mgrDepartAreaId}
+				</if>
+				<if test="vehiNo != null and vehiNo != ''">
+					and vehiNo = #{vehiNo}
+				</if>
+				<if test="etpNm != null and etpNm != ''">
+					and etpNm = #{etpNm}
+				</if>
+				<if test="illicit != null and illicit != ''">
+					and illicit = #{illicit}
+				</if>
+				<if test="state != null and state != ''">
+					and state = #{state}
+				</if>
+				<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
+					and pickDepartmentDesc = #{pickDepartmentDesc}
+				</if>
+				<if test="vehiNoType != null and vehiNoType != ''">
+					and vehiNoType = #{vehiNoType}
+				</if>
+				<if test="startTime != null and startTime != ''">
+					and left(illicitTime,10) &gt;= #{startTime}
+				</if>
+				<if test="endTime != null and endTime != ''">
+					and left(illicitTime,10) &lt;= #{endTime}
+				</if>
 	</select>
 	
 	<!-- 根据条件获取车辆的违法信息 -->
@@ -600,35 +627,35 @@
 			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,cit.state,cit.remark,ess.etpNm
 				FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-				WHERE ess.id=#{mgrEnterpriseId}
+				WHERE ess.id=#{entId}
 				<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
-					and cit.mgrDepartAreaId = #{mgrDepartAreaId}
+					and mgrDepartAreaId = #{mgrDepartAreaId}
 				</if>
 				<if test="vehiNo != null and vehiNo != ''">
-					and cit.vehiNo = #{vehiNo}
+					and vehiNo = #{vehiNo}
 				</if>
 				<if test="etpNm != null and etpNm != ''">
-					and ess.etpNm = #{etpNm}
+					and etpNm = #{etpNm}
 				</if>
 				<if test="illicit != null and illicit != ''">
-					and cit.illicit = #{illicit}
+					and illicit = #{illicit}
 				</if>
 				<if test="state != null and state != ''">
-					and cit.state = #{state}
+					and state = #{state}
 				</if>
 				<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-					and cit.pickDepartmentDesc = #{pickDepartmentDesc}
+					and pickDepartmentDesc = #{pickDepartmentDesc}
 				</if>
 				<if test="vehiNoType != null and vehiNoType != ''">
-					and cit.vehiNoType = #{vehiNoType}
+					and vehiNoType = #{vehiNoType}
 				</if>
 				<if test="startTime != null and startTime != ''">
-					and left(cit.illicitTime,10) &gt;= #{startTime}
+					and left(illicitTime,10) &gt;= #{startTime}
 				</if>
 				<if test="endTime != null and endTime != ''">
-					and left(cit.illicitTime,10) &lt;= #{endTime}
+					and left(illicitTime,10) &lt;= #{endTime}
 				</if>
-				order by cit.illicitTime desc
+				order by illicitTime desc
 			
 				limit ${startRecord},${pageSize}
 	</select>
