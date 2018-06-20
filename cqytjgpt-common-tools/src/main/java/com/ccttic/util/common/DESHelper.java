@@ -183,11 +183,6 @@ public class DESHelper {
 		return new String(decrypt(hexStr2ByteArr(strIn.trim())));
 	}
 
-	public static void main(String[] args) throws Exception {
-		System.out.println(DESHelper.getInstance().encrypt("123456"));
-		System.out.println(DESHelper.getInstance().decrypt(DESHelper.getInstance().encrypt("123456")));
-
-	}
 	
 	/**
 	 * 加密字符串
@@ -214,5 +209,4 @@ public class DESHelper {
 		}
 		return sb.toString();
 	}
-
 }
