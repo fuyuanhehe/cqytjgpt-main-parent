@@ -255,8 +255,21 @@
 		</if>
 	</select>
 
-	<select id="selectAllDriver" resultType="com.ccttic.entity.drivers.Driver">
-		select * from
-		driver
+	 <!-- 一对多查询关联  -->
+     <resultMap type="com.ccttic.entity.drivers.vo.DriverIllegal" id="slist">
+         <!-- 实体类属性对应数据库的主键字段，不然主键会查不到 -->
+         <id property="id" column="id"/>
+         <!-- 用collection标签 ,也是实体类属性要对应数据库字段-->
+         <collection property="drIllicits" column="id"
+         select="com.ccttic.cqytjgpt.webapi.mapper.drivers.DriverMapper.selectByDriverId">
+         </collection>    
+     </resultMap>
+
+	<!-- 根据学习类型查询学习文档信息 -->
+	<select id="selectAllDriver" 	resultMap="slist">
+		select * from driver
 	</select>
+	<select id="selectByDriverId" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.DrIllicit">
+  	select * from dr_illicit where driver_id = #{driverId}
+  </select>
 </mapper>
