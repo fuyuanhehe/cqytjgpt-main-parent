@@ -88,10 +88,10 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_NEXT_NODE, name = "获取下级节点",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
     , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String findNextNode(@RequestBody String orgCd) {
+	public String findNextNode(@RequestBody Organization org) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			List<Organization> list = organizationService.findNextNode(orgCd);
+			List<Organization> list = organizationService.findNextNode(org.getOrgCd());
 			if (!ObjectHelper.isEmpty(list)) {
 				map.put("data", list);
 				map.put("result", 0);
@@ -117,10 +117,10 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_ORGANIZATION, name = "获取组织信息",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
     , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String findOrgByOrgCd(@RequestBody String orgCd) {
+	public String findOrgByOrgCd(@RequestBody Organization org) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			OrgEmpCombine findOrg = organizationService.findOrgByOrgCd(orgCd);
+			OrgEmpCombine findOrg = organizationService.findOrgByOrgCd(org.getOrgCd());
 			if (!ObjectHelper.isEmpty(findOrg)) {
 				map.put("data", findOrg);
 				map.put("result", 0);
@@ -312,10 +312,10 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_DEPARTMENT, name = "删除部门",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
     , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String removeDepartment(@RequestBody String id) {
+	public String removeDepartment(@RequestBody Department ment) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			departmentService.removeMent(id);
+			departmentService.removeMent(ment.getId());
 			map.put("result", 0);
 			map.put("msg", "删除成功！");
 		} catch (AppException e) {

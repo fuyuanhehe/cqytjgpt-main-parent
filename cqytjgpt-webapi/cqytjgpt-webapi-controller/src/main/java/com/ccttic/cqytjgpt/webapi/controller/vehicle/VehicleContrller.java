@@ -162,10 +162,10 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneVehicle(@RequestBody String id) {
+	public String qryOneVehicle(@RequestBody Vehicle ve) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
+		params.put("id", ve.getId());
 		try {
 			Vehicle vehicle = vehicleService.qryOneVehicle(params);
 			map.put("data", vehicle);
