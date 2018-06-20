@@ -1,16 +1,17 @@
 package com.ccttic.entity.role.vo;
 
-import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.Department;
 
-public class PageVehicle extends Vehicle {
-	private static final long serialVersionUID = -5701790298734958591L;
+public class PageDepartmentVo extends Department{
+
+	private static final long serialVersionUID = -7359523300252354980L;
 	private int page = 1;
 	private int rows = 10;
 	
-	public PageVehicle() {
+	public PageDepartmentVo() {
 		super();
 	}
-	public PageVehicle(int page, int rows) {
+	public PageDepartmentVo(int page, int rows) {
 		super();
 		this.page = page;
 		this.rows = rows;
@@ -27,6 +28,5 @@ public class PageVehicle extends Vehicle {
 	public void setRows(int rows) {
 		this.rows = rows;
 	}
-	
 	
 }

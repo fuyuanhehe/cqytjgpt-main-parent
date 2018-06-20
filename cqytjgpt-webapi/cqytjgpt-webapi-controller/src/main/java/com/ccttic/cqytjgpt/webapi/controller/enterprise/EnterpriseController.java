@@ -17,6 +17,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.entity.enterprise.vo.PageEssEnterpriseVo;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
@@ -108,11 +109,14 @@ public class EnterpriseController {
 	 * @param vo
 	 * @return
 	 */
-	@RequestMapping(value = "/qryEnterpriesList", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/qryEnterpriesList", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public String qryEnterpriesList(PageRequest page, EssEnterprise vo) {
+	public String qryEnterpriesList(@RequestBody PageEssEnterpriseVo vo) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			PageRequest page = new PageRequest();
+			page.setPage(vo.getPage());
+			page.setRows(vo.getRows());
 			Page<EssEnterprise> pager = enterpriseService.qryEssEnterpriseList(page, vo);
 			map.put("data", pager.getRecords());
 			map.put("total", pager.getTotalRows());

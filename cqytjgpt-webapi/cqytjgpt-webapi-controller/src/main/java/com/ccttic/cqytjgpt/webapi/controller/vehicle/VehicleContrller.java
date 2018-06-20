@@ -17,7 +17,8 @@ import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
-import com.ccttic.entity.role.vo.PageVehicle;
+import com.ccttic.entity.role.vo.PageVehiIllicitVo;
+import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -55,7 +56,7 @@ public class VehicleContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String qryVehicleList(@RequestBody  PageVehicle vehicle) {
+	public String qryVehicleList(@RequestBody  PageVehicleVo vehicle) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			PageRequest page = new PageRequest();
@@ -81,16 +82,16 @@ public class VehicleContrller implements Serializable {
 	 * @param vehiType
 	 * @return
 	 */
-	@RequestMapping(value = "/saveVehicle", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/saveVehicle", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_CAR, name = "新增车辆",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String saveVehicle(String vehiNo, String vehiNoType) {
+	public String saveVehicle(@RequestBody Vehicle vehicle) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Map<String, Object> maps = vehicleService.saveVehicle(vehiNo, vehiNoType);
+			Map<String, Object> maps = vehicleService.saveVehicle(vehicle.getVehiNo(), vehicle.getVehiNoType());
 			if ((int) maps.get("cet") == 1) {
 				map.put("result", 0);
 				map.put("msg", maps.get("gather") + "其他添加成功！");
@@ -115,18 +116,18 @@ public class VehicleContrller implements Serializable {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/modifVehicle", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/modifVehicle", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_CAR, name = "修改车辆",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String modifVehicle(String vehiNoType, String vehiNo) {
+	public String modifVehicle(@RequestBody Vehicle vehicle) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 拆分车牌号
-		String[] vehiNoGather = vehiNo.split(",");
+		String[] vehiNoGather =vehicle.getVehiNo().split(",");
 		// 号牌种类
-		String[] vehiNoTypeGather = vehiNoType.split(",");
+		String[] vehiNoTypeGather = vehicle.getVehiNoType().split(",");
 		// 循环把车牌号和车辆类型装入集合
 		for (int i = 0; i < vehiNoGather.length; i++) {
 			try {
@@ -155,13 +156,13 @@ public class VehicleContrller implements Serializable {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/qryOneVehicle", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/qryOneVehicle", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.PARTICULARS_INFO, name = "车辆详情",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneVehicle(String id) {
+	public String qryOneVehicle(@RequestBody String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
@@ -184,16 +185,19 @@ public class VehicleContrller implements Serializable {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/qryOneVehiIllicit", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/qryOneVehiIllicit", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.ILLICIT_INFO, name = "违法信息",  hierarchy = 4, isMenue = false, pcd = Const.CAR_BASE_INFO)
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneVehiIllicit(PageRequest page, VehiIllicit vehiIllicit, String id) {
+	public String qryOneVehiIllicit(@RequestBody PageVehiIllicitVo vehiIllicit) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Page<VehiIllicit> pager = vehicleService.qryVehiIllicitList(page, vehiIllicit, id);
+			PageRequest page = new PageRequest();
+			page.setPage(vehiIllicit.getPage());
+			page.setRows(vehiIllicit.getRows());
+			Page<VehiIllicit> pager = vehicleService.qryVehiIllicitList(page, vehiIllicit);
 			map.put("data", pager.getRecords());
 			map.put("total", pager.getTotalRows());
 			map.put("result", 0);

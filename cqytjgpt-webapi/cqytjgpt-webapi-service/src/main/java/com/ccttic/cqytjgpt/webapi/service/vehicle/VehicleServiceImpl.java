@@ -61,12 +61,12 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, String id) throws AppException {
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("id", id);
+		params.put("id", vehiIllicit.getId());
 		long totolRols = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 
@@ -172,11 +172,12 @@ public class VehicleServiceImpl implements IVehicleService {
 		}
 		return state;
 	}
-
+	
 	@Override
 	public List<Vehicle> getAllVehicle() {
 		
 		return mapper.getAllCar();
 	}
+	
 	
 }
