@@ -1,8 +1,8 @@
 package com.ccttic.entity.drivers;
 
-import java.util.Date;
+import com.ccttic.entity.BaseBean;
 //驾驶员实体
-public class Driver {
+public class Driver extends BaseBean{
     /** 主键ID*/
     private String id;
 
@@ -55,36 +55,7 @@ public class Driver {
     /** 状态*/
     private String state;
 
-    /** 备注*/
-    private String remark;
-
-    /** 版本号*/
-    private Integer version;
-
-    /** 是否删除*/
-    private Byte isdelete;
-
-    /** 创建时间*/
-    private Date createtime;
-
-    /** 修改时间*/
-    private Date updatetime;
-
-    /** 删除时间*/
-    private Date deletetime;
-
-    /** 创建人编码*/
-    private String createby;
-
-    /** 创建人部门编码*/
-    private String createdepcd;
-
-    /** 修改人编码*/
-    private String updateby;
-
-    /** 修改人部门编码*/
-    private String updatedepcd;
-
+  
     public String getId() {
         return id;
     }
@@ -221,96 +192,10 @@ public class Driver {
         this.state = state == null ? null : state.trim();
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Byte getIsdelete() {
-        return isdelete;
-    }
-
-    public void setIsdelete(Byte isdelete) {
-        this.isdelete = isdelete;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public Date getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
-
-    public Date getDeletetime() {
-        return deletetime;
-    }
-
-    public void setDeletetime(Date deletetime) {
-        this.deletetime = deletetime;
-    }
-
-    public String getCreateby() {
-        return createby;
-    }
-
-    public void setCreateby(String createby) {
-        this.createby = createby == null ? null : createby.trim();
-    }
-
-    public String getCreatedepcd() {
-        return createdepcd;
-    }
-
-    public void setCreatedepcd(String createdepcd) {
-        this.createdepcd = createdepcd == null ? null : createdepcd.trim();
-    }
-
-    public String getUpdateby() {
-        return updateby;
-    }
-
-    public void setUpdateby(String updateby) {
-        this.updateby = updateby == null ? null : updateby.trim();
-    }
-
-    public String getUpdatedepcd() {
-        return updatedepcd;
-    }
-
-    public void setUpdatedepcd(String updatedepcd) {
-        this.updatedepcd = updatedepcd == null ? null : updatedepcd.trim();
-    }
-    public Driver() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Driver(String id, String name, String idcard, String telphone, String mobilephone,
-			String adress, String permicar, String firstrecivetime, String mgrdepart,
-			String mgrdepartareaid, String mgrenterpriseid, String nextexaminetime,
-			String effectstarttime, String effectendtime, String examineeffectendtime,
-			String scoretotal, String state, String remark, Integer version, Byte isdelete,
-			Date createtime, Date updatetime, Date deletetime, String createby, String createdepcd,
-			String updateby, String updatedepcd) {
+	public Driver(String id, String name, String idcard, String telphone, String mobilephone, String adress,
+			String permicar, String firstrecivetime, String mgrdepart, String mgrdepartareaid, String mgrenterpriseid,
+			String nextexaminetime, String effectstarttime, String effectendtime, String examineeffectendtime,
+			String scoretotal, String state) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -329,32 +214,11 @@ public class Driver {
 		this.examineeffectendtime = examineeffectendtime;
 		this.scoretotal = scoretotal;
 		this.state = state;
-		this.remark = remark;
-		this.version = version;
-		this.isdelete = isdelete;
-		this.createtime = createtime;
-		this.updatetime = updatetime;
-		this.deletetime = deletetime;
-		this.createby = createby;
-		this.createdepcd = createdepcd;
-		this.updateby = updateby;
-		this.updatedepcd = updatedepcd;
 	}
 
-	@Override
-	public String toString() {
-		return "Driver [id=" + id + ", name=" + name + ", idcard=" + idcard + ", telphone="
-				+ telphone + ", mobilephone=" + mobilephone + ", adress=" + adress + ", permicar="
-				+ permicar + ", firstrecivetime=" + firstrecivetime + ", mgrdepart=" + mgrdepart
-				+ ", mgrdepartareaid=" + mgrdepartareaid + ", mgrenterpriseid=" + mgrenterpriseid
-				+ ", nextexaminetime=" + nextexaminetime + ", effectstarttime=" + effectstarttime
-				+ ", effectendtime=" + effectendtime + ", examineeffectendtime="
-				+ examineeffectendtime + ", scoretotal=" + scoretotal + ", state=" + state
-				+ ", remark=" + remark + ", version=" + version + ", isdelete=" + isdelete
-				+ ", createtime=" + createtime + ", updatetime=" + updatetime + ", deletetime="
-				+ deletetime + ", createby=" + createby + ", createdepcd=" + createdepcd
-				+ ", updateby=" + updateby + ", updatedepcd=" + updatedepcd + "]";
-	}
-    
+	public Driver() {
+		super();
+		// TODO Auto-generated constructor stub
+	}   
     
 }
