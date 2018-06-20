@@ -220,6 +220,7 @@ public class VehiDanger extends BaseBean implements Serializable{
         this.failurestate = failurestate;
     }
 
+    
     /**
      * 预警等级 1,2,3
      * @return dangerType 预警等级 1,2,3
