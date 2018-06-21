@@ -5,6 +5,10 @@ import java.util.List;
 import com.ccttic.entity.post.EssPost;
 
 public class EssEmployeeVo extends EssEmployee {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//部门名
 	private String depNm;
 	//部门id
@@ -15,6 +19,20 @@ public class EssEmployeeVo extends EssEmployee {
 	private String orgCd;
 	//岗位
 	private List<EssPost> post;
+	private int page = 1;
+	private int rows = 10;
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getRows() {
+		return rows;
+	}
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
 	public String getDepNm() {
 		return depNm;
 	}

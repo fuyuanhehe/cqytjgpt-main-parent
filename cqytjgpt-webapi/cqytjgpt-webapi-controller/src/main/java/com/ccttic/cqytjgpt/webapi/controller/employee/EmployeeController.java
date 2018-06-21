@@ -123,10 +123,14 @@ public class EmployeeController {
 	}
     //分页显示所有员工
 	@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(HttpServletRequest request, PageRequest page,
+	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(HttpServletRequest request,
 			@RequestBody EssEmployeeVo emp) {
 		ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
 		try {
+			
+			PageRequest page = new PageRequest();
+			page.setPage(emp.getPage());
+			page.setRows(emp.getRows());
 			Page<EssEmployeeVo> pager = employeeService.selectEmployee(page, emp);
 
 			rm.setData(pager);
