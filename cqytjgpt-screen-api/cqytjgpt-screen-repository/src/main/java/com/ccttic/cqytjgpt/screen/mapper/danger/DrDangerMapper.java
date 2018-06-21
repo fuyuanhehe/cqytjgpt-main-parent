@@ -30,7 +30,7 @@ public interface DrDangerMapper {
 
 	List<Map<String, Object>> areaDangerInfo();
 
-	DrDanger noticeDangerDriver(Map map);
+    Map<String,Object> noticeDangerDriver(Map map);
 
 	List<Map<String, Object>> areaDangersTop();
 

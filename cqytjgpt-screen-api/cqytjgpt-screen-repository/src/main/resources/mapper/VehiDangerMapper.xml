@@ -94,21 +94,26 @@ select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.over
 	from vehi_danger d where year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1) and dangerType !=0
   </select>
   <!-- 通报机动车信息 -->
-  <select id="noticeDangerCar" resultMap="BaseResultMap" parameterType="map">
+  <select id="noticeDangerCar" resultType="map" parameterType="map">
  SELECT
 	d.id,
-	d.vehiNo,
-	d.vehiType,
-	d.ownerEnterprise,
-	d.scrappedState,
-	d.illicitState,
-	d.failureState,
-	d.overdueExamineState,
-	d.dangerType
+	d.vehino,
+	d.vehitype,
+	d.ownerenterprise,
+	d.scrappedstate,
+	d.illicitstate,
+	d.failurestate,
+	d.overdueexaminestate,
+  d.dangertime,
+	d.dangertype,
+	(select count(1) from vehi_danger where dangerType =1 and (isDeleted is null or isDeleted !=1)) totalnum
 FROM
 	vehi_danger d
 	WHERE
-	d.dangerType !=0 and (d.isDeleted is null or d.isDeleted != 1)
+	d.dangerType = 1 and (d.isDeleted is null or d.isDeleted != 1) 
+ORDER BY 
+  d.dangerTime
+desc
 LIMIT  #{top,jdbcType=VARCHAR},1
   </select>
   <!-- 根据分所查询各区的驾驶员隐患数 -->

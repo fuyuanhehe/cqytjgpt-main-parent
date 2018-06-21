@@ -27,6 +27,24 @@ public class ScreenController {
 	
 	@Autowired
 	private IScreenService screenService;
+	
+	
+	   // 查询分所
+		@RequestMapping("findPlace")
+		public ResponseMsg<List<Map<String, Object>>> findPlace() {
+			ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
+			try {
+				List<Map<String,Object>> list = screenService.findPlace();
+				response.setData(list);
+				response.success("分所信息查询成功");
+			} catch (Exception e) {
+				log.error("分所信息查询失败"+e.getMessage());
+				response.fail("分所信息查询失败"+e.getMessage());
+			}
+			return response;
+		}
+	
+	
 	// 驾驶人隐患发现情况
 	@RequestMapping("findDangerForDriver")
 	public ResponseMsg<Map<String, Object>> findDangerForDriver() {
@@ -194,11 +212,11 @@ public class ScreenController {
 	 * @param map top 第几条 
 	 */
 	@RequestMapping("noticeDangerForDriver")
-	public ResponseMsg<DrDanger> noticeDangerForDriver(@RequestBody Map<String,Object> map) {
-		ResponseMsg<DrDanger> response = new ResponseMsg<DrDanger>();
-		try {
+	public ResponseMsg<Map<String,Object>> noticeDangerForDriver(@RequestBody Map<String,Object> map) {
+		ResponseMsg<Map<String,Object>> response = new ResponseMsg<Map<String,Object>>();
+		try {  
 			log.info("开始查询隐患驾驶员通报");
-			DrDanger driver = screenService.noticeDangerForDriver(map);
+			Map<String,Object> driver = screenService.noticeDangerForDriver(map);
 			response.setData(driver);
 			response.success("隐患驾驶员通报查询成功");
 		} catch (Exception e) {
@@ -213,11 +231,11 @@ public class ScreenController {
 	 * @param map top 第几条 
 	 */
 	@RequestMapping("noticeDangerForCar")
-	public ResponseMsg<VehiDanger> noticeDangerForCar(@RequestBody Map<String,Object> map) {
-		ResponseMsg<VehiDanger> response = new ResponseMsg<VehiDanger>();
+	public ResponseMsg< Map<String,Object>> noticeDangerForCar(@RequestBody Map<String,Object> map) {
+		ResponseMsg< Map<String,Object>> response = new ResponseMsg< Map<String,Object>>();
 		try {
 			log.info("开始查询隐患机动车通报");
-			VehiDanger vehiDanger = screenService.noticeDangerForCar(map);
+			 Map<String,Object> vehiDanger = screenService.noticeDangerForCar(map);
 			response.setData(vehiDanger);
 			response.success("隐患机动车通报查询成功");
 		} catch (Exception e) {

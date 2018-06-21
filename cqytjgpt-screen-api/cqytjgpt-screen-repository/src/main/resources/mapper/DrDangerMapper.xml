@@ -30,7 +30,10 @@
     <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
   </resultMap>
   
-   
+   <select id="findPlace" resultType="map">
+select id,orgNm from ess_organization e where e.area_id is null and superOrg_id is not null  
+</select>
+  
   <!-- 发现数查询模块 -->
   <select id="countIntoNum" resultType="int">
   	select count(1) intoNum from driver where (isDelete is null or isDelete !=1)  
@@ -131,21 +134,26 @@ ORDER BY
 DESC
   </select>
   <!-- 通报驾驶员信息 -->
-  <select id="noticeDangerDriver" resultMap="BaseResultMap" parameterType="map">
+  <select id="noticeDangerDriver" resultType="map" parameterType="map">
 SELECT
 	d.id,
-	d.driverIdcard,
-	d.driverName,
-	d.illicitState,
-	d.failureState,
-	d.overdueProofState,
-	d.overdueExamineState,
-	d.fullStudyState,
-	d.dangerType
+	d.driveridcard,
+	d.drivername,
+	d.illicitstate,
+	d.failurestate,
+	d.overdueproofstate,
+	d.overdueexaminestate,
+	d.fullstudystate,
+    d.dangertime,
+	d.dangertype,
+  (select count(1) from dr_danger where dangerType =1 and (isDeleted is null or isDeleted !=1)) totalnum
 FROM
 	dr_danger d 
 WHERE 
-	(d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
+	(d.isDeleted is null or d.isDeleted !=1) and d.dangerType = 1
+ORDER BY
+  d.dangerTime 
+desc
 LIMIT  #{top,jdbcType=VARCHAR},1
   </select>
   <!-- 各区隐患排行 -->

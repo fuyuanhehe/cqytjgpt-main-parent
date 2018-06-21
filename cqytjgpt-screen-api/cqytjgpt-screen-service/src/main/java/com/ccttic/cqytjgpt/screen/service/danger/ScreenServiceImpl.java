@@ -14,7 +14,7 @@ import com.ccttic.cqytjgpt.screen.mapper.danger.VehiDangerMapper;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.VehiDanger;
 
-@SuppressWarnings("all")
+@SuppressWarnings("all") 
 @Service
 public class ScreenServiceImpl implements IScreenService{
 	@Autowired
@@ -36,7 +36,7 @@ public class ScreenServiceImpl implements IScreenService{
 		map.put("warnList", warnList);
 		return map;
 	}
-
+	
 	@Override
 	public Map<String, Object> findDangerForCar() {
 		Map map = new HashMap();
@@ -111,16 +111,16 @@ public class ScreenServiceImpl implements IScreenService{
 	}
 
 	@Override
-	public DrDanger noticeDangerForDriver(Map map) {
+	public  Map<String,Object> noticeDangerForDriver(Map map) {
 		// 查询通报隐患驾驶员
-		DrDanger dangerDriver = drDangerMapper.noticeDangerDriver(map);
+		 Map<String,Object> dangerDriver = drDangerMapper.noticeDangerDriver(map);
 		return dangerDriver;
 	}
 
 	@Override
-	public VehiDanger noticeDangerForCar(Map map) {
+	public  Map<String,Object> noticeDangerForCar(Map map) {
 		// 查询通报隐患驾驶员
-		VehiDanger dangerCar = vehiDangerMapper.noticeDangerCar(map);
+		 Map<String,Object> dangerCar = vehiDangerMapper.noticeDangerCar(map);
 		return dangerCar;
 	}
 	/**
@@ -169,6 +169,12 @@ public class ScreenServiceImpl implements IScreenService{
 		theMap.put("本月", areaMonthCarDangerList);
 		theMap.put("上月", areaPreMonthCarDangerList);
 		return theMap;
+	}
+
+	@Override
+	public List<Map<String, Object>> findPlace() {
+		
+		return vehiDangerMapper.findPlace();
 	}
 
 	

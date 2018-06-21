@@ -7,6 +7,11 @@ import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.VehiDanger;
 
 public interface IScreenService {
+	    /**
+	     * 查询分所名称id接口
+	     * @return
+	     */
+	    public List<Map<String,Object>> findPlace();
 		/**
 		 *  驾驶人隐患发现情况
 		 */
@@ -58,13 +63,13 @@ public interface IScreenService {
 		 *  隐患驾驶员通报
 		 * @param map 条数 top 
 		 */
-		public DrDanger noticeDangerForDriver(Map map);
+		public  Map<String,Object> noticeDangerForDriver(Map map);
 
 		/**
 		 *  隐患机动车通报
 		 * @param map 条数 top 
 		 */
-		public VehiDanger noticeDangerForCar(Map map) ;
+		public  Map<String,Object> noticeDangerForCar(Map map) ;
 
 		/**
 		 *  各区隐患排名

@@ -29,10 +29,12 @@ public interface VehiDangerMapper {
 
 	Map<String, Object> resultDangerForCar();
 
-	VehiDanger noticeDangerCar(Map map);
+	 Map<String,Object> noticeDangerCar(Map map);
 
 
 	List<Map<String, Object>> findMonthAreaDangerByOrgId(Map<String, Object> map);
 
 	List<Map<String, Object>> findPreMonthAreaDangerByOrgId(Map<String, Object> map);
+
+	List<Map<String, Object>> findPlace();
 }
