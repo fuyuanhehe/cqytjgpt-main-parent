@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.drivers.Driver;
+import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
@@ -34,7 +35,7 @@ public interface DriverMapper {
 	// 增加
 	public int insertSelective(List<Driver> driver);
 	
-	public List<Driver> selectAllDriver();
+	public List<DriverIllegal> selectAllDriver();
 	
 	// 企业基本信息
 	public List<EnterprisethenVo> queryEnterprisePage(Map<String, Object> params);
