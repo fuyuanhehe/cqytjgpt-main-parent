@@ -540,4 +540,58 @@
       updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+   <insert id="insertBatch" parameterType="java.util.List">
+    insert into vehi_danger (id, vehiNo, vehiType, 
+      ownerEnterprise, scrappedState, illicitState, 
+      overdueExamineState, failureState, dangerType, 
+      ownerGener, ownerOrgId, vehicle_id, 
+      dangerTime, correctTime, correctState, 
+      dangerDesc, remark, version, 
+      isDeleted, createTime, updateTime, 
+      deleteTime, createBy, createDepCd, 
+      updateBy, updateDepCd)
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=VARCHAR}, #{item.vehino,jdbcType=VARCHAR}, #{item.vehitype,jdbcType=VARCHAR}, 
+      #{item.ownerenterprise,jdbcType=VARCHAR}, #{item.scrappedstate,jdbcType=INTEGER}, #{item.illicitstate,jdbcType=INTEGER}, 
+      #{item.overdueexaminestate,jdbcType=INTEGER}, #{item.failurestate,jdbcType=INTEGER}, #{item.dangertype,jdbcType=VARCHAR}, 
+      #{item.ownergener,jdbcType=VARCHAR}, #{item.ownerorgid,jdbcType=VARCHAR}, #{item.vehicleId,jdbcType=VARCHAR}, 
+      #{item.dangertime,jdbcType=VARCHAR}, #{item.correcttime,jdbcType=VARCHAR}, #{item.correctstate,jdbcType=VARCHAR}, 
+      #{item.dangerdesc,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.version,jdbcType=INTEGER}, 
+      #{item.isdeleted,jdbcType=BIT}, #{item.createtime,jdbcType=TIMESTAMP}, #{item.updatetime,jdbcType=TIMESTAMP}, 
+      #{item.deletetime,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR}, #{item.createdepcd,jdbcType=VARCHAR}, 
+      #{item.updateby,jdbcType=VARCHAR}, #{item.updatedepcd,jdbcType=VARCHAR})
+      </foreach>
+  </insert>
+  <update id="updateBatch" parameterType="java.util.List">
+  <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+    update vehi_danger
+    set vehiNo = #{item.vehino,jdbcType=VARCHAR},
+      vehiType = #{item.vehitype,jdbcType=VARCHAR},
+      ownerEnterprise = #{item.ownerenterprise,jdbcType=VARCHAR},
+      scrappedState = #{item.scrappedstate,jdbcType=INTEGER},
+      illicitState = #{item.illicitstate,jdbcType=INTEGER},
+      overdueExamineState = #{item.overdueexaminestate,jdbcType=INTEGER},
+      failureState = #{item.failurestate,jdbcType=INTEGER},
+      dangerType = #{item.dangertype,jdbcType=VARCHAR},
+      ownerGener = #{item.ownergener,jdbcType=VARCHAR},
+      ownerOrgId = #{item.ownerorgid,jdbcType=VARCHAR},
+      vehicle_id = #{item.vehicleId,jdbcType=VARCHAR},
+      dangerTime = #{item.dangertime,jdbcType=VARCHAR},
+      correctTime = #{item.correcttime,jdbcType=VARCHAR},
+      correctState = #{item.correctstate,jdbcType=VARCHAR},
+      dangerDesc = #{item.dangerdesc,jdbcType=VARCHAR},
+      remark = #{item.remark,jdbcType=VARCHAR},
+      version = #{item.version,jdbcType=INTEGER},
+      isDeleted = #{item.isdeleted,jdbcType=BIT},
+      createTime = #{item.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{item.updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{item.deletetime,jdbcType=TIMESTAMP},
+      createBy = #{item.createby,jdbcType=VARCHAR},
+      createDepCd = #{item.createdepcd,jdbcType=VARCHAR},
+      updateBy = #{item.updateby,jdbcType=VARCHAR},
+      updateDepCd = #{item.updatedepcd,jdbcType=VARCHAR}
+    where id = #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
 </mapper>

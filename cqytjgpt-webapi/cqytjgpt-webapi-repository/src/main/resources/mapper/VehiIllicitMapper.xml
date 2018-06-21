@@ -673,5 +673,63 @@
 				LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
 	</select>
-  
+	<update id="updateBatch" parameterType="java.util.List">
+	<foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+    update vehi_illicit
+    set vehiNo = #{item.vehino,jdbcType=VARCHAR},
+      vehiNoType = #{item.vehinotype,jdbcType=VARCHAR},
+      nature = #{item.nature,jdbcType=VARCHAR},
+      ownership = #{item.ownership,jdbcType=VARCHAR},
+      owner = #{item.owner,jdbcType=VARCHAR},
+      adress = #{item.adress,jdbcType=VARCHAR},
+      mgrDepart = #{item.mgrdepart,jdbcType=VARCHAR},
+      mgrDepartAreaId = #{item.mgrdepartareaid,jdbcType=VARCHAR},
+      vehicle_id = #{item.vehicleId,jdbcType=VARCHAR},
+      illicitTime = #{item.illicittime,jdbcType=VARCHAR},
+      illicitScore = #{item.illicitscore,jdbcType=VARCHAR},
+      illicitAmount = #{item.illicitamount,jdbcType=VARCHAR},
+      illicitAdress = #{item.illicitadress,jdbcType=VARCHAR},
+      illicit = #{item.illicit,jdbcType=VARCHAR},
+      illicitDesc = #{item.illicitdesc,jdbcType=VARCHAR},
+      pickDepartment = #{item.pickdepartment,jdbcType=VARCHAR},
+      pickDepartmentDesc = #{item.pickdepartmentdesc,jdbcType=VARCHAR},
+      state = #{item.state,jdbcType=VARCHAR},
+      remark = #{item.remark,jdbcType=VARCHAR},
+      version = #{item.version,jdbcType=INTEGER},
+      isDeleted = #{item.isdeleted,jdbcType=BIT},
+      createTime = #{item.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{item.updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{item.deletetime,jdbcType=TIMESTAMP},
+      createBy = #{item.createby,jdbcType=VARCHAR},
+      createDepCd = #{item.createdepcd,jdbcType=VARCHAR},
+      updateBy = #{item.updateby,jdbcType=VARCHAR},
+      updateDepCd = #{item.updatedepcd,jdbcType=VARCHAR}
+    where id = #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into vehi_illicit (id, vehiNo, vehiNoType, 
+      nature, ownership, owner, 
+      adress, mgrDepart, mgrDepartAreaId, 
+      vehicle_id, illicitTime, illicitScore, 
+      illicitAmount, illicitAdress, illicit, 
+      illicitDesc, pickDepartment, pickDepartmentDesc, 
+      state, remark, version, 
+      isDeleted, createTime, updateTime, 
+      deleteTime, createBy, createDepCd, 
+      updateBy, updateDepCd)
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=VARCHAR}, #{item.vehino,jdbcType=VARCHAR}, #{item.vehinotype,jdbcType=VARCHAR}, 
+      #{item.nature,jdbcType=VARCHAR}, #{item.ownership,jdbcType=VARCHAR}, #{item.owner,jdbcType=VARCHAR}, 
+      #{item.adress,jdbcType=VARCHAR}, #{item.mgrdepart,jdbcType=VARCHAR}, #{item.mgrdepartareaid,jdbcType=VARCHAR}, 
+      #{item.vehicleId,jdbcType=VARCHAR}, #{item.illicittime,jdbcType=VARCHAR}, #{item.illicitscore,jdbcType=VARCHAR}, 
+      #{item.illicitamount,jdbcType=VARCHAR}, #{item.illicitadress,jdbcType=VARCHAR}, #{item.illicit,jdbcType=VARCHAR}, 
+      #{item.illicitdesc,jdbcType=VARCHAR}, #{item.pickdepartment,jdbcType=VARCHAR}, #{item.pickdepartmentdesc,jdbcType=VARCHAR}, 
+      #{item.state,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.version,jdbcType=INTEGER}, 
+      #{item.isdeleted,jdbcType=BIT}, #{item.createtime,jdbcType=TIMESTAMP}, #{item.updatetime,jdbcType=TIMESTAMP}, 
+      #{item.deletetime,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR}, #{item.createdepcd,jdbcType=VARCHAR}, 
+      #{item.updateby,jdbcType=VARCHAR}, #{item.updatedepcd,jdbcType=VARCHAR})
+      </foreach>
+  </insert>
 </mapper>

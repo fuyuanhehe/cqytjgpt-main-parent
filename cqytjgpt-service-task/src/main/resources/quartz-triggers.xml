@@ -20,13 +20,40 @@
         <property name="configLocation" value="classpath:quartz.yml" />       
         <property name="triggers">  
             <list>
-            	<ref bean="carTrigger"/>
+            	<ref bean="carIllegalTrigger"/>
+            	<ref bean="carDangerTrigger"/>
+            	<ref bean="driverIllegalTrigger"/>
+            	<ref bean="driverDangerTrigger"/>
             </list>
         </property>  
     </bean>  
     <!-- Quartz 功能配置结束 -->
     
     <!-- Quartz 定时任务配置开始 -->
+    <!-- 定时车辆 xxx 开始 -->
+    <!-- JOB上下文 -->
+    <bean id="carJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ccttic.task.execute.DriverDangerTask"/>
+        <property name="durability" value="true" />    
+        <property name="requestsRecovery" value="true" />
+    </bean>
+     <!-- Quartz 定时任务配置开始 -->
+    <!-- 定时车辆 xxx 开始 -->
+    <!-- JOB上下文 -->
+    <bean id="carJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ccttic.task.execute.DriverDangerTask"/>
+        <property name="durability" value="true" />    
+        <property name="requestsRecovery" value="true" />
+    </bean>
+     <!-- Quartz 定时任务配置开始 -->
+    <!-- 定时车辆 xxx 开始 -->
+    <!-- JOB上下文 -->
+    <bean id="carJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ccttic.task.execute.DriverDangerTask"/>
+        <property name="durability" value="true" />    
+        <property name="requestsRecovery" value="true" />
+    </bean>
+     <!-- Quartz 定时任务配置开始 -->
     <!-- 定时车辆 xxx 开始 -->
     <!-- JOB上下文 -->
     <bean id="carJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">

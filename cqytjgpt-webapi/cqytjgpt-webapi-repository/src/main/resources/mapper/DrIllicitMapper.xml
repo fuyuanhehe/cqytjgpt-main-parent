@@ -587,4 +587,64 @@
       updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+    <update id="updateBatch" parameterType="java.util.List">
+     <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+    update dr_illicit
+    set name = #{item.name,jdbcType=VARCHAR},
+      idcard = #{item.idcard,jdbcType=VARCHAR},
+      permitCar = #{item.permitcar,jdbcType=VARCHAR},
+      mgrDepart = #{item.mgrdepart,jdbcType=VARCHAR},
+      mgrDepartAreaId = #{item.mgrdepartareaid,jdbcType=VARCHAR},
+      driver_id = #{item.driverId,jdbcType=VARCHAR},
+      scoreTotal = #{item.scoretotal,jdbcType=VARCHAR},
+      state = #{item.state,jdbcType=VARCHAR},
+      vehiNo = #{item.vehino,jdbcType=VARCHAR},
+      vehiNoType = #{item.vehinotype,jdbcType=VARCHAR},
+      illicitTime = #{item.illicittime,jdbcType=VARCHAR},
+      illicitScore = #{item.illicitscore,jdbcType=VARCHAR},
+      illicitAmount = #{item.illicitamount,jdbcType=VARCHAR},
+      illicitAdress = #{item.illicitadress,jdbcType=VARCHAR},
+      illicit = #{item.illicit,jdbcType=VARCHAR},
+      illicitDesc = #{item.illicitdesc,jdbcType=VARCHAR},
+      pickDepartment = #{item.pickdepartment,jdbcType=VARCHAR},
+      pickDepartmentDesc = #{item.pickdepartmentdesc,jdbcType=VARCHAR},
+      remark = #{item.remark,jdbcType=VARCHAR},
+      version = #{item.version,jdbcType=INTEGER},
+      isDeleted = #{item.isdeleted,jdbcType=BIT},
+      createTime = #{item.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{item.updatetime,jdbcType=TIMESTAMP},
+      deleteTime = #{item.deletetime,jdbcType=TIMESTAMP},
+      createBy = #{item.createby,jdbcType=VARCHAR},
+      createDepCd = #{item.createdepcd,jdbcType=VARCHAR},
+      updateBy = #{item.updateby,jdbcType=VARCHAR},
+      updateDepCd = #{item.updatedepcd,jdbcType=VARCHAR}
+    where id = #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into dr_illicit (id, name, idcard, 
+      permitCar, mgrDepart, mgrDepartAreaId, 
+      driver_id, scoreTotal, state, 
+      vehiNo, vehiNoType, illicitTime, 
+      illicitScore, illicitAmount, illicitAdress, 
+      illicit, illicitDesc, pickDepartment, 
+      pickDepartmentDesc, remark, version, 
+      isDeleted, createTime, updateTime, 
+      deleteTime, createBy, createDepCd, 
+      updateBy, updateDepCd)
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.idcard,jdbcType=VARCHAR}, 
+      #{item.permitcar,jdbcType=VARCHAR}, #{item.mgrdepart,jdbcType=VARCHAR}, #{item.mgrdepartareaid,jdbcType=VARCHAR}, 
+      #{item.driverId,jdbcType=VARCHAR}, #{item.scoretotal,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, 
+      #{item.vehino,jdbcType=VARCHAR}, #{item.vehinotype,jdbcType=VARCHAR}, #{item.illicittime,jdbcType=VARCHAR}, 
+      #{item.illicitscore,jdbcType=VARCHAR}, #{item.illicitamount,jdbcType=VARCHAR}, #{item.illicitadress,jdbcType=VARCHAR}, 
+      #{item.illicit,jdbcType=VARCHAR}, #{item.illicitdesc,jdbcType=VARCHAR}, #{item.pickdepartment,jdbcType=VARCHAR}, 
+      #{item.pickdepartmentdesc,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.version,jdbcType=INTEGER}, 
+      #{item.isdeleted,jdbcType=BIT}, #{item.createtime,jdbcType=TIMESTAMP}, #{item.updatetime,jdbcType=TIMESTAMP}, 
+      #{item.deletetime,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR}, #{item.createdepcd,jdbcType=VARCHAR}, 
+      #{item.updateby,jdbcType=VARCHAR}, #{item.updatedepcd,jdbcType=VARCHAR})
+      </foreach>
+  </insert>
 </mapper>

@@ -267,9 +267,9 @@
 
 	<!-- 根据学习类型查询学习文档信息 -->
 	<select id="selectAllDriver" 	resultMap="slist">
-		select * from driver
+		select * from driver where isDeleted = 0 or isDeleted is null
 	</select>
 	<select id="selectByDriverId" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.DrIllicit">
-  	select * from dr_illicit where driver_id = #{driverId}
+  	select * from dr_illicit where driver_id = #{driverId} and (isDeleted = 0 or isDeleted is null)
   </select>
 </mapper>

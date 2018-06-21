@@ -212,9 +212,22 @@
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from vehi_illicit where 1=1 and vehicle_id=#{id}
 	</select>
-	<!-- 获取所有车辆-->
-	<select id="getAllCar" resultType="com.ccttic.entity.role.Vehicle">
-		select * from vehicle
+	 <!-- 一对多查询关联  -->
+     <resultMap type="com.ccttic.entity.role.vo.VehicleIllegal" id="slist">
+         <!-- 实体类属性对应数据库的主键字段，不然主键会查不到 -->
+         <id property="id" column="id"/>
+         <!-- 用collection标签 ,也是实体类属性要对应数据库字段-->
+         <collection property="vehiIllicits" column="id"
+         select="com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper.selectByVehicleId">
+         </collection>    
+     </resultMap>
+
+	<!-- 根据学习类型查询学习文档信息 -->
+	<select id="getAllCar" 	resultMap="slist">
+		select * from vehicle where isDeleted = 0 or isDeleted is null
 	</select>
+	<select id="selectByVehicleId" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.VehiIllicit">
+  	select * from vehi_illicit where vehicle_id = #{vehicleId} and (isDeleted = 0 or isDeleted is null)
+  </select>
 	
 </mapper>
