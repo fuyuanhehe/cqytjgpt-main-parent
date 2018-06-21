@@ -10,6 +10,7 @@ import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.illegal.VehiIllicit;
+
 @Service
 public class CarBatchImpl implements ICarBatch {
 	@Autowired

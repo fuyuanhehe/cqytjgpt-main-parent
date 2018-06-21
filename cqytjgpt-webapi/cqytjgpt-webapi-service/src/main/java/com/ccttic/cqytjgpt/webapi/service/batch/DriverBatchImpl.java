@@ -15,6 +15,7 @@ public class DriverBatchImpl implements IDriverBatch {
 	private DrIllicitMapper drIllicitMapper;
 	@Autowired
 	private DrDangerMapper drDangerMapper;
+
 	@Override
 	public void addDriverIllegal(List<DrIllicit> list) {
 		drIllicitMapper.insertBatch(list);
