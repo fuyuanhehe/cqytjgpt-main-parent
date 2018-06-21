@@ -14,6 +14,7 @@ import com.ccttic.entity.illegal.DrIllicit;
 public class DriverBatchImpl implements IDriverBatch {
 	@Autowired
 	private DrIllicitMapper drIllicitMapper;
+	
 	@Autowired
 	private DrDangerMapper drDangerMapper;
 
