@@ -33,7 +33,7 @@ public class CarTaskController {
 		Map<String, Object> result = null;
 		List<VehiIllicit> insert = new ArrayList<>();
 		List<VehiIllicit> update = new ArrayList<>();
-		List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
+	    List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
 		for (VehicleIllegal vehicle : vehicles) {
 			try {
 				result = taskCarService.getCarIllega(vehicle);
@@ -47,7 +47,9 @@ public class CarTaskController {
 				insert.add((VehiIllicit) (result.get("insert")));
 			}
 		}
+		if(insert.size()>0)
 		carBatch.addCarIllegal(insert);
+		if(update.size()>0)
 		carBatch.updateCarIllegal(update);
 	}
 
@@ -70,7 +72,9 @@ public class CarTaskController {
 				insert.add((VehiDanger) (result.get("insert")));
 			}
 		}
+		if(insert.size()>0)
 		carBatch.addCarDanger(insert);
+		if(update.size()>0)
 		carBatch.updateCarDanger(update);
 	}
 }

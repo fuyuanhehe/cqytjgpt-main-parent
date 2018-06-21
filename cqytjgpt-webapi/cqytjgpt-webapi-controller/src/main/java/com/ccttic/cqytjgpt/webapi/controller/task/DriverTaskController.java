@@ -49,7 +49,9 @@ class DriverTaskController {
 				insert.add((DrIllicit) (result.get("insert")));
 			}
 		}
+		if(insert.size()>0)
 		driverBatch.addDriverIllegal(insert);
+		if(update.size()>0)
 		driverBatch.updateDriverIllegal(update);
 	}
 
@@ -72,7 +74,9 @@ class DriverTaskController {
 				insert.add((DrDanger) (result.get("insert")));
 			}
 		}
+		if(insert.size()>0)
 		driverBatch.addDriverDanger(insert);
+		if(update.size()>0)
 		driverBatch.updateDriverDanger(update);
 	}
 

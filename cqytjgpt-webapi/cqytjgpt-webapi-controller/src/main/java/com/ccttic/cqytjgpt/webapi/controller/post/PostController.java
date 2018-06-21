@@ -47,10 +47,14 @@ public class PostController {
 	@ResourceScan(rsc = @Resource(cd = Const.POST_MANAGEMENT, name = "岗位主页",  hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE)
     , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/post/selectPost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Page<EssPostVo>> selectPost(ServletRequest request, ServletResponse response, PageRequest page,
+	public ResponseMsg<Page<EssPostVo>> selectPost(ServletRequest request, ServletResponse response,
 			@RequestBody EssPostVo post) {
 		ResponseMsg<Page<EssPostVo>> rm = new ResponseMsg<>();
 		try {
+			PageRequest page = new PageRequest();
+			page.setPage(post.getPage());
+			page.setRows(post.getRows());
+			
 			Page<EssPostVo> pager = postService.selectPost(page, post);
 
 			rm.setData(pager);

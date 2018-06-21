@@ -67,14 +67,14 @@
         <property name="jobDetail" ref="carIllegalJob" />    
         <property name="cronExpression">
            <!-- 每周三凌晨4分钟 -->
-           <value>0 0 4 ? * WED</value>
+           <value>0 0 4 ? * Thur</value>
         </property>  
     </bean>
     <bean id="carDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="carDangerJob" />    
         <property name="cronExpression">
            <!-- 每周三凌晨4分钟 -->
-           <value>0 0 4 ? * WED</value>
+           <value>0 51 11 ? * Thur</value>
         </property>  
     </bean>
     <bean id="driverIllegalTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
@@ -88,7 +88,7 @@
         <property name="jobDetail" ref="driverDangerJob" />    
         <property name="cronExpression">
            <!-- 每周三凌晨4分钟 -->
-           <value>0 0 4 ? * WED</value>
+           <value>0 51 11 ? * Thur</value>
         </property>  
     </bean>
     <!-- 定时车辆 xxx   结束  -->
