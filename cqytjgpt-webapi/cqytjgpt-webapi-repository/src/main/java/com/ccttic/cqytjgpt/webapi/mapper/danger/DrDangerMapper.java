@@ -46,6 +46,7 @@ public interface DrDangerMapper {
 	/**批量添加驾驶人预警
 	 * @param list
 	 */
+	
 	public void insertBatch(List<DrDanger> list);
 	/**批量修改驾驶人预警
 	 * @param list
