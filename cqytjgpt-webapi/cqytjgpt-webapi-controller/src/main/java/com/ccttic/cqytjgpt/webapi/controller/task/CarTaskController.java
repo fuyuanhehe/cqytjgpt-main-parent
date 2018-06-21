@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.batch.ICarBatch;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.danger.VehiDanger;
@@ -24,6 +25,8 @@ public class CarTaskController {
 	private IVehicleService vehicleService;
 	@Autowired
 	private ITaskCarService taskCarService;
+	@Autowired
+	private ICarBatch carBatch;
 
 	@RequestMapping("/addCarIllega")
 	public void addCarIllega() {
@@ -44,6 +47,8 @@ public class CarTaskController {
 				insert.add((VehiIllicit) (result.get("insert")));
 			}
 		}
+		carBatch.addCarIllegal(insert);
+		carBatch.updateCarIllegal(update);
 	}
 
 	@RequestMapping("/addCarDanger")
@@ -65,5 +70,7 @@ public class CarTaskController {
 				insert.add((VehiDanger) (result.get("insert")));
 			}
 		}
+		carBatch.addCarDanger(insert);
+		carBatch.updateCarDanger(update);
 	}
 }

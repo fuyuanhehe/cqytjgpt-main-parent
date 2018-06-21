@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.batch.IDriverBatch;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskdriver.ITaskDriverService;
 import com.ccttic.entity.danger.DrDanger;
@@ -24,6 +25,8 @@ class DriverTaskController {
 	private DriversService driversService;
 	@Autowired
 	private ITaskDriverService taskDriverService;
+	@Autowired
+	private IDriverBatch driverBatch;
 
 	@RequestMapping("/addDriverIllega")
 	public void addDriverIllega() {
@@ -46,6 +49,8 @@ class DriverTaskController {
 				insert.add((DrIllicit) (result.get("insert")));
 			}
 		}
+		driverBatch.addDriverIllegal(insert);
+		driverBatch.updateDriverIllegal(update);
 	}
 
 	@RequestMapping("/addDriverDanger")
@@ -67,7 +72,8 @@ class DriverTaskController {
 				insert.add((DrDanger) (result.get("insert")));
 			}
 		}
-
+		driverBatch.addDriverDanger(insert);
+		driverBatch.updateDriverDanger(update);
 	}
 
 }
