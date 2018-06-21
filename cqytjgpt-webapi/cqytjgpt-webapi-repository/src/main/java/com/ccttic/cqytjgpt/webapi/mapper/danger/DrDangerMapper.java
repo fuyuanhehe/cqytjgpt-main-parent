@@ -50,5 +50,5 @@ public interface DrDangerMapper {
 	/**批量修改驾驶人预警
 	 * @param list
 	 */
-	public void ipdateBatch(List<DrDanger> list);
+	public void updateBatch(List<DrDanger> list);
 }
