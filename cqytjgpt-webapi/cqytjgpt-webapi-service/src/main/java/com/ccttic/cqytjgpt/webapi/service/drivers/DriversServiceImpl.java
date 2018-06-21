@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.mapper.drivers.DriverMapper;
 import com.ccttic.entity.drivers.Driver;
-import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
+import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
@@ -106,8 +106,25 @@ public class DriversServiceImpl implements DriversService {
 	}
 
 	@Override
-	public List<DriverIllegal> getAllDriver() {
+	public List<Driver> getAllDriver() {
 
 		return mapper.selectAllDriver();
+	}
+
+	@Override
+	public Page<EnterprisethenVo> queryEnterprisePage(Pageable page,
+			EnterprisethenVo enterprisethenVo) {
+		Page<EnterprisethenVo> pager = new PageImpl<EnterprisethenVo>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+        params.put("id", enterprisethenVo.getId());
+        params.put("etpNm", enterprisethenVo.getEtpnm());
+        params.put("ownerTraffic", enterprisethenVo.getOwnertraffic());
+        params.put("ownerTransport", enterprisethenVo.getOwnertransport());
+        pager.setRecords(mapper.queryEnterprisePage(params));
+		pager.setTotalRows(mapper.queryEnterprisePageCount(params));
+		
+		return pager;
 	}
 }

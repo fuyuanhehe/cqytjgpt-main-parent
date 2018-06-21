@@ -6,10 +6,9 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.drivers.Driver;
-import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
-import com.ccttic.entity.illegal.DrIllicit;
+import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 
 public interface DriverMapper {
 
@@ -35,8 +34,11 @@ public interface DriverMapper {
 	// 增加
 	public int insertSelective(List<Driver> driver);
 	
-	public List<DriverIllegal> selectAllDriver();
+	public List<Driver> selectAllDriver();
 	
-    //通过车辆id获取违章信息
-    List<DrIllicit> selectByDriverId(String driverId); 
+	// 企业基本信息
+	public List<EnterprisethenVo> queryEnterprisePage(Map<String, Object> params);
+	//分页总数
+	public long queryEnterprisePageCount(Map<String, Object> params);
+	
 }

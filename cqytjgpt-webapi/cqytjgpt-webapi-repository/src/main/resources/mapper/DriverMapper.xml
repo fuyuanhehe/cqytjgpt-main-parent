@@ -176,7 +176,7 @@
 		where d.id = #{driverid}
 
 	</select>
-      <!--驾驶人违法信息条件分页 -->
+	<!--驾驶人违法信息条件分页 -->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -255,21 +255,84 @@
 		</if>
 	</select>
 
-	 <!-- 一对多查询关联  -->
-     <resultMap type="com.ccttic.entity.drivers.vo.DriverIllegal" id="slist">
-         <!-- 实体类属性对应数据库的主键字段，不然主键会查不到 -->
-         <id property="id" column="id"/>
-         <!-- 用collection标签 ,也是实体类属性要对应数据库字段-->
-         <collection property="drIllicits" column="id"
-         select="com.ccttic.cqytjgpt.webapi.mapper.drivers.DriverMapper.selectByDriverId">
-         </collection>    
-     </resultMap>
-
-	<!-- 根据学习类型查询学习文档信息 -->
-	<select id="selectAllDriver" 	resultMap="slist">
-		select * from driver where isDeleted = 0 or isDeleted is null
+	<select id="selectAllDriver" resultType="com.ccttic.entity.drivers.Driver">
+		select * from
+		driver
 	</select>
-	<select id="selectByDriverId" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.DrIllicit">
-  	select * from dr_illicit where driver_id = #{driverId} and (isDeleted = 0 or isDeleted is null)
-  </select>
+	<!-- 企业监管借口 -->
+
+	<!-- 企业信息基本信息分页接口 -->
+	<select id="queryEnterprisePage" resultType="com.ccttic.entity.drivers.vo.EnterprisethenVo"
+		parameterType="java.util.Map">
+		SELECT
+		en.id,
+		eo.orgNm,
+		en.etpNm,
+		en.etpshortNm,
+		en.etpLawer,
+		en.lawerTel,
+		en.etpSafer,
+		en.saferTel,
+		en.ownerTraffic,
+		en.ownerTransport,
+		en.state,
+		en.etpTel,
+		en.etpAdress,
+		en.remark,
+		a.areaNm
+		FROM
+		ess_enterprise en
+		LEFT
+		JOIN ess_organization eo ON en.org_id = eo.id
+		LEFT JOIN ess_area a ON
+		eo.area_id = a.id
+		where 1 = 1
+		<if test="id!= null and id!='' ">
+			en.id = #{id}
+		</if>
+		<if test="etpNm!= null and etpNm!='' ">
+			en.etpNm = #{etpNm}
+		</if>
+		<if test="ownerTraffic!= null and ownerTraffic!='' ">
+			en.ownerTraffic = #{ownerTraffic}
+		</if>
+		<if test="ownerTransport!= null and ownerTransport!='' ">
+			en.ownerTransport = #{ownerTransport}
+		</if>
+		limit ${startRecord} , ${pageSize}
+
+	</select>
+
+	<select id="queryEnterprisePageCount" resultType="long"
+		parameterType="java.util.Map">
+		SELECT
+		COUNT(en.id)
+		FROM
+		ess_enterprise en
+		LEFT
+		JOIN ess_organization eo ON
+		en.org_id = eo.id
+		LEFT JOIN ess_area a ON
+		eo.area_id = a.id
+		where 1 = 1
+		<if test="id!= null and id!='' ">
+			en.id = #{id}
+		</if>
+		<if test="etpNm!= null and etpNm!='' ">
+			en.etpNm = #{etpNm}
+		</if>
+		<if test="ownerTraffic!= null and ownerTraffic!='' ">
+			en.ownerTraffic = #{ownerTraffic}
+		</if>
+		<if test="ownerTransport!= null and ownerTransport!='' ">
+			en.ownerTransport = #{ownerTransport}
+		</if>
+
+	</select>
+     <!--企业信息记录分页  -->
+    <!--   <select id="query">
+      
+      
+      </select> -->
+
 </mapper>
