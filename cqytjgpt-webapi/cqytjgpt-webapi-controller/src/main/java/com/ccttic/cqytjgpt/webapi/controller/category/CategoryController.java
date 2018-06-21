@@ -13,8 +13,10 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.category.ICategoryService;
@@ -23,6 +25,7 @@ import com.ccttic.entity.category.CategoryAttr;
 import com.ccttic.entity.category.vo.TreeCategoryBean;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.util.annotation.OperLogging;
+import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
 
 @RestController
@@ -214,5 +217,27 @@ public class CategoryController implements Serializable {
 		
 		// 页面返回数据
 		return resp;
+	}
+	
+	/**
+	 * 根据条件获取数据字典数据
+	 * @return
+	 * @throws AppException
+	 */
+	@RequestMapping(value="/findCategoryAttr",method= {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public String findCategoryAttr(@RequestBody CategoryAttr attr){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<CategoryAttr> categoryAttrs = categoryService.findCategoryAttrsByCd(attr);
+			map.put("data", categoryAttrs);
+			map.put("result", 0);
+			map.put("msg", "获取信息成功！");
+		} catch (Exception e) {
+			map.put("result", -1);
+			map.put("msg", "获取信息失败！");
+			logger.error(e.getMessage());
+		}
+		return ObjectHelper.objectToJson(map);
 	}
 }

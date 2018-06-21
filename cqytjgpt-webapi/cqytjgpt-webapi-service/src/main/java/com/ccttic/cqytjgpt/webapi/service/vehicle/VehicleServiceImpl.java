@@ -118,59 +118,52 @@ public class VehicleServiceImpl implements IVehicleService {
 		vehicle.setOwner(xmlCar.getSyr());// 所有人
 		vehicle.setEffectStartTime(xmlCar.getCcdjrq());// 初次登记日期
 		vehicle.setEffectEndTime(xmlCar.getYxqz());// 有效结束时间
-		String state = stateConvert(xmlCar);
+		String state = null;
+		if (null != xmlCar.getZt()) {
+			state = stateConvert(xmlCar.getZt());
+		}
+		
 		vehicle.setState(state); // 状态
 		mapper.modifVehicle(vehicle);
 	}
 
-	public static String stateConvert(XMLCar car) {
+	public static String stateConvert(String zt) {
 		String state = "";
-		if (car.getZt().equals("违法未处理")) {
-			state = "G";
-			return state;
-		} else if (car.getZt().equals("正常")) {
-			state = "A";
-			return state;
-		} else if (car.getZt().equals("锁定")) {
-			state = "O";
-			return state;
-		} else if (car.getZt().equals("事故逃逸")) {
-			state = "N";
-			return state;
-		} else if (car.getZt().equals("达到报废标准")) {
-			state = "M";
-			return state;
-		} else if (car.getZt().equals("扣留")) {
-			state = "L";
-			return state;
-		} else if (car.getZt().equals("查封")) {
-			state = "K";
-			return state;
-		} else if (car.getZt().equals("嫌疑车")) {
-			state = "J";
-			return state;
-		} else if (car.getZt().equals("停驶")) {
-			state = "D";
-			return state;
-		} else if (car.getZt().equals("注销")) {
-			state = "E";
-			return state;
-		} else if (car.getZt().equals("海关监管")) {
-			state = "H";
-			return state;
-		} else if (car.getZt().equals("被盗抢")) {
-			state = "C";
-			return state;
-		} else if (car.getZt().equals("转出")) {
-			state = "B";
-			return state;
-		} else if (car.getZt().equals("达到报废标准公告牌证作废")) {
-			state = "P";
-			return state;
-		} else if (car.getZt().equals("逾期未检验")) {
-			state = "Q";
-			return state;
+		String [] stait = zt.split(",");
+		for (int i = 0; i < stait.length; i++) {
+			if (stait[i].equals("违法未处理")) {
+				state += ",G";
+			} else if (stait[i].equals("正常")) {
+				state += ",A";
+			} else if (stait[i].equals("锁定")) {
+				state += ",O";
+			} else if (stait[i].equals("事故逃逸")) {
+				state += ",N";
+			} else if (stait[i].equals("达到报废标准")) {
+				state += ",M";
+			} else if (stait[i].equals("扣留")) {
+				state += ",L";
+			} else if (stait[i].equals("查封")) {
+				state += ",K";
+			} else if (stait[i].equals("嫌疑车")) {
+				state += ",J";
+			} else if (stait[i].equals("停驶")) {
+				state += ",D";
+			} else if (stait[i].equals("注销")) {
+				state += ",E";
+			} else if (stait[i].equals("海关监管")) {
+				state += ",H";
+			} else if (stait[i].equals("被盗抢")) {
+				state += ",C";
+			} else if (stait[i].equals("转出")) {
+				state += ",B";
+			} else if (stait[i].equals("达到报废标准公告牌证作废")) {
+				state += ",P";
+			} else if (stait[i].equals("逾期未检验")) {
+				state += ",Q";
+			}
 		}
+		state = state.substring(1);
 		return state;
 	}
 	
@@ -179,6 +172,6 @@ public class VehicleServiceImpl implements IVehicleService {
 		
 		return mapper.getAllCar();
 	}
-	
+
 	
 }
