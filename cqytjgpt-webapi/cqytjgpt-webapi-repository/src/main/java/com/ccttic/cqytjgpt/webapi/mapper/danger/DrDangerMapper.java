@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.danger.DrDanger;
+import com.ccttic.entity.danger.VehiDanger;
 
 public interface DrDangerMapper {
 	
@@ -41,4 +42,13 @@ public interface DrDangerMapper {
 
 	List<Map<String, Object>> findMonthAreaDangerByOrgId(Map<String, Object> map);
 	List<Map<String, Object>> findPreMonthAreaDangerByOrgId(Map<String, Object> map);
+	
+	/**批量添加驾驶人预警
+	 * @param list
+	 */
+	public void insertBatch(List<DrDanger> list);
+	/**批量修改驾驶人预警
+	 * @param list
+	 */
+	public void ipdateBatch(List<DrDanger> list);
 }

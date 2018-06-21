@@ -21,7 +21,6 @@ public class DriverDangerTask extends QuartzJobBean{
 	//执行方法
 	@Override
 	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
-		feign.addDriveIllega();
 		feign.addDriverDanger();
 	}
 }

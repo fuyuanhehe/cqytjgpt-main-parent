@@ -59,4 +59,13 @@ public interface VehiIllicitMapper {
 	 * @throws AppException
 	 */
 	public VehiIllicit qryOneVehiIllicit(Map<String, Object> params) throws AppException;
+	/**批量添加车辆违法记录
+	 * @param list
+	 */
+	public void insertBatch(List<com.ccttic.entity.illegal.VehiIllicit> list);
+	
+	/**批量修改车辆违法记录
+	 * @param list
+	 */
+	public void updateBatch(List<com.ccttic.entity.illegal.VehiIllicit> list);
 }

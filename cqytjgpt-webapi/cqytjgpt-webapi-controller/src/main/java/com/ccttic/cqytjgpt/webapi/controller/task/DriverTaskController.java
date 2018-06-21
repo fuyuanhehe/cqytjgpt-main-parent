@@ -1,6 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.controller.task;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskdriver.ITaskDriverService;
-import com.ccttic.entity.drivers.Driver;
+import com.ccttic.entity.danger.DrDanger;
+import com.ccttic.entity.drivers.vo.DriverIllegal;
+import com.ccttic.entity.illegal.DrIllicit;
 
 @RestController
 @RequestMapping("/driverService")
@@ -22,29 +26,45 @@ class DriverTaskController {
 	private ITaskDriverService taskDriverService;
 
 	@RequestMapping("/addDriverIllega")
-	public void addDriveIllega() {
-
-		List<Driver> drivers = driversService.getAllDriver();
-		for (Driver driver : drivers) {
+	public void addDriverIllega() {
+		Map<String, Object> result = null;
+		List<DrIllicit> insert = new ArrayList<>();
+		List<DrIllicit> update = new ArrayList<>();
+		List<DriverIllegal> drivers = driversService.getAllDriver();
+		for (DriverIllegal driver : drivers) {
 
 			try {
-				taskDriverService.addDriveIllega(driver);
+				result = taskDriverService.getDriveIllega(driver);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				logger.info(e.getMessage());
+			}
+			if (result.get("update") != null) {
+				update.add((DrIllicit) (result.get("update")));
+			}
+			if (result.get("insert") != null) {
+				insert.add((DrIllicit) (result.get("insert")));
 			}
 		}
 	}
 
 	@RequestMapping("/addDriverDanger")
 	public void addDriverDanger() {
-		List<Driver> drivers = driversService.getAllDriver();
-		for (Driver driver : drivers) {
+		Map<String, Object> result = null;
+		List<DrDanger> insert = new ArrayList<>();
+		List<DrDanger> update = new ArrayList<>();
+		List<DriverIllegal> drivers = driversService.getAllDriver();
+		for (DriverIllegal driver : drivers) {
 			try {
-				taskDriverService.addDriverDanger(driver);
+				result = taskDriverService.getDriverDanger(driver);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				logger.info(e.getMessage());
+			}
+			if (result.get("update") != null) {
+				update.add((DrDanger) (result.get("update")));
+			}
+			if (result.get("insert") != null) {
+				insert.add((DrDanger) (result.get("insert")));
 			}
 		}
 

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.util.exception.AppException;
 
 
@@ -81,5 +82,7 @@ public interface VehicleMapper {
 	 */
 	public int modifVehicle(Vehicle vehicle) throws AppException;
 	//获取所有车辆
-	public List<Vehicle> getAllCar();
+	public List<VehicleIllegal> getAllCar();
+	//根据车辆id获取数据库违章信息
+	List<VehiIllicit>selectByVehicleId(String vehicleId);
 }

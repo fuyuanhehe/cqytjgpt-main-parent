@@ -21,6 +21,9 @@ import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
+import com.ccttic.util.annotation.Resource;
+import com.ccttic.util.annotation.ResourceScan;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -41,6 +44,9 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "selectPost", method = RequestMethod.POST)
+	@ResourceScan(rsc = @Resource(cd = Const.POST_MANAGEMENT, name = "岗位主页",  hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/post/selectPost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<Page<EssPostVo>> selectPost(ServletRequest request, ServletResponse response, PageRequest page,
 			@RequestBody EssPostVo post) {
 		ResponseMsg<Page<EssPostVo>> rm = new ResponseMsg<>();
@@ -51,8 +57,6 @@ public class PostController {
 			rm.setMessage("获取post数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-
 			rm.setMessage("获取post数据失败");
 			rm.setStatus(-1);
 			logger.info(e);
@@ -74,7 +78,7 @@ public class PostController {
 			rm.setMessage("获取Organization数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 
 			rm.setMessage("获取Organization数据失败");
 			rm.setStatus(-1);
@@ -98,7 +102,7 @@ public class PostController {
 			rm.setMessage("获取department数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 
 			rm.setMessage("获取department数据失败");
 			rm.setStatus(-1);
@@ -122,7 +126,6 @@ public class PostController {
 			rm.setMessage("获取Employee数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 
 			rm.setMessage("获取Employee数据失败");
 			rm.setStatus(-1);
@@ -161,7 +164,6 @@ public class PostController {
 			rm.setMessage("修改post数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			rm.setMessage("修改post数据失败");
 			rm.setStatus(-1);
@@ -182,7 +184,6 @@ public class PostController {
 			rm.setMessage("删除post数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			rm.setMessage("删除post数据失败");
 			rm.setStatus(-1);
@@ -206,7 +207,6 @@ public class PostController {
 				rm.setData(list);
 					rm.success("获得post数据成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			rm.fail("获得post数据失败");
 			logger.info(e);

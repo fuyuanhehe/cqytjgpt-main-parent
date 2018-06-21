@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.mapper.drivers.DriverMapper;
 import com.ccttic.entity.drivers.Driver;
+import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.util.common.ObjectHelper;
@@ -105,7 +106,7 @@ public class DriversServiceImpl implements DriversService {
 	}
 
 	@Override
-	public List<Driver> getAllDriver() {
+	public List<DriverIllegal> getAllDriver() {
 
 		return mapper.selectAllDriver();
 	}

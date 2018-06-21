@@ -89,6 +89,9 @@ public class Const {
 			 */
 			public static final String ORGANIZATION_SUPERVISE="organization-supervise";
 			
+			
+			
+			
 				/**
 				 * 获取树头 三级菜单
 				 */
@@ -133,7 +136,63 @@ public class Const {
 				 * 创建企业 三级菜单
 				 */
 				public static final String ADD_ENTERPRISE="add_enterprise";
-			
+				/**
+				 * 查询企业 三级菜单
+				 */
+				public static final String SELECT_ENTERPRISE="select_enterprise";
+				/**
+				 * 修改企业 三级菜单
+				 */
+				public static final String MODIFY_ENTERPRISE="modify_enterprise";
+				/**
+				 * 删除企业 三级菜单
+				 */
+				public static final String DELETE_ENTERPRISE="delete_enterprise";
+				
+				/**
+				 * 组织员工管理 三级菜单
+				 */
+			    public static final String EMPLOYEE_MANAGEMENT = "employee-management";
+			    
+			    /**
+			     * 添加员工
+			     */
+			    public static final String ADD_EMPLOYEE = "add-employee";
+			    
+			    /**
+			     * 修改员工
+			     */
+			    public static final String MODIFY_EMPLOYEE ="modify-employee";
+			    
+			    /**
+			     * 删除员工
+			     */
+			    public static final String DELETE_EMPLOYEE = "delete-employee";
+			    
+		/**
+		  * 岗位管理 二级菜单
+		  */
+		   public static final String POST_MANAGEMENT = "post-management";
+		   			
+			   /**
+		   		 * 查询岗位 三级菜单
+		   		 */
+	   			public static final String SELECT_POST = "select-post";
+		   		/**
+		   		 * 添加岗位 三级菜单
+		   		 */
+		   		public static final String ADD_POST = "add-post";
+		   		
+		   		/**
+		   		 * 修改岗位 三级菜单
+		   		 */
+		   		public static final String MODIFY_POST = "modify-post";
+		   		
+		   		/**
+		   		 * 添加岗位 三级菜单
+		   		 */
+		   		public static final String DELETE_POST = "delete-post";
+		   
 			
 		
 //***************************系统管理菜单 end************************************************************
