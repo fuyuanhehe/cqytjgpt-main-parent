@@ -32,67 +32,66 @@
   
    <!-- 发现数查询模块 -->
   <select id="countIntoNum" resultType="int">
-  	select count(1) intoNum from vehicle
+  	select count(1) intoNum from vehicle where (isDeleted is null or isDeleted !=1)
   </select>
   
   <select id="countCarDangerNum" resultType="int">
-   select count(1) from vehi_danger
+      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0
   </select>
   
   <select id="countWarnNum" resultType="map">
-  	select v.dangerType,count(1) warnNum from vehi_danger v GROUP BY v.dangerType
+  	select v.dangerType,count(1) warnNum from vehi_danger v where v.dangerType !=0 and (v.isDeleted is null or v.isDeleted !=1) GROUP BY v.dangerType 
   </select>
   <!-- 机动车隐患分布情况 -->
    <select id="distributionDangerForCar" resultType="map" parameterType="map">
  	<if test='date=="year"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.createTime) = year(now()) 
+select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1) 
 union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.createTime) = year(now()) 
+select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.createTime) = year(now()) 
+select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.createTime) = year(now()) 
-
+select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1)
  	</if>
  	<if test='date=="month"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.createTime) = year(now()) and month(d.createTime) = month(now())
+select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.createTime) = year(now()) and month(d.createTime) = month(now())
+select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.createTime) = year(now()) and month(d.createTime) = month(now())
+select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.createTime) = year(now()) and month(d.createTime) = month(now())
+select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
  	</if>
  	<if test='date=="season"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
 union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
 union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
 union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
  	</if>
   </select>
   <!-- 隐患治理情况 -->
   <select id="countNoHandleCar" resultType="int">
- 	select count(1) from vehi_danger
+ 	select count(1) from vehi_danger where dangerType !=0 and (isDeleted is null or isDeleted !=1)
   </select>
    <!-- 治理结果趋势 -->
   <select id="resultDangerForCar" resultType="map" >
-select
-    sum(case when month(d.createTime)=1 then 1 else 0 end) 一, 
-    sum(case when month(d.createTime)=2 then 1 else 0 end) 二,
-    sum(case when month(d.createTime)=3 then 1 else 0 end) 三,
-    sum(case when month(d.createTime)=4 then 1 else 0 end) 四,
-    sum(case when month(d.createTime)=5 then 1 else 0 end) 五,
-    sum(case when month(d.createTime)=6 then 1 else 0 end) 六,
-    sum(case when month(d.createTime)=7 then 1 else 0 end) 七,
-    sum(case when month(d.createTime)=8 then 1 else 0 end) 八,
-    sum(case when month(d.createTime)=9 then 1 else 0 end) 九,
-    sum(case when month(d.createTime)=10 then 1 else 0 end) 十,
-    sum(case when month(d.createTime)=11 then 1 else 0 end) 十一,
-    sum(case when month(d.createTime)=12 then 1 else 0 end) 十二
-from vehi_danger d where year(d.createTime) = year(now())
+	select
+	    sum(case when month(d.dangerTime)=1 then 1 else 0 end) 一, 
+	    sum(case when month(d.dangerTime)=2 then 1 else 0 end) 二,
+	    sum(case when month(d.dangerTime)=3 then 1 else 0 end) 三,
+	    sum(case when month(d.dangerTime)=4 then 1 else 0 end) 四,
+	    sum(case when month(d.dangerTime)=5 then 1 else 0 end) 五,
+	    sum(case when month(d.dangerTime)=6 then 1 else 0 end) 六,
+	    sum(case when month(d.dangerTime)=7 then 1 else 0 end) 七,
+	    sum(case when month(d.dangerTime)=8 then 1 else 0 end) 八,
+	    sum(case when month(d.dangerTime)=9 then 1 else 0 end) 九,
+	    sum(case when month(d.dangerTime)=10 then 1 else 0 end) 十,
+	    sum(case when month(d.dangerTime)=11 then 1 else 0 end) 十一,
+	    sum(case when month(d.dangerTime)=12 then 1 else 0 end) 十二
+	from vehi_danger d where year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1) and dangerType !=0
   </select>
   <!-- 通报机动车信息 -->
   <select id="noticeDangerCar" resultMap="BaseResultMap" parameterType="map">
@@ -104,9 +103,12 @@ from vehi_danger d where year(d.createTime) = year(now())
 	d.scrappedState,
 	d.illicitState,
 	d.failureState,
-	d.overdueExamineState
+	d.overdueExamineState,
+	d.dangerType
 FROM
 	vehi_danger d
+	WHERE
+	d.dangerType !=0 and (d.isDeleted is null or d.isDeleted != 1)
 LIMIT  #{top,jdbcType=VARCHAR},1
   </select>
   <!-- 根据分所查询各区的驾驶员隐患数 -->
@@ -121,20 +123,21 @@ LIMIT  #{top,jdbcType=VARCHAR},1
 			vehi_danger
 		WHERE
 			e.id = ownerOrgId
-		AND YEAR (now()) = YEAR (createTime)
-		AND MONTH (now()) = MONTH (createTime)
-	) driverDangers
+		AND (isDeleted is null or isDeleted !=1)
+        AND dangerType !=0
+		AND YEAR (now()) = YEAR (dangerTime)
+		AND MONTH (now()) = MONTH (dangerTime)
+	) carDangers
 FROM
 	ess_organization e
 WHERE
-	e.superOrg_id = #{orgId,jdbcType=VARCHAR}
+	e.superOrg_id = #{orgId,jdbcType=VARCHAR}  and (e.isDeleted is null or e.isDeleted != 1)
 GROUP BY
 	e.orgNm
   </select>
   <!-- 上月 -->
   <select id="findPreMonthAreaDangerByOrgId" resultType="map">
-  	
-	SELECT
+  SELECT
 	orgNm,
 	(
 		SELECT
@@ -143,13 +146,15 @@ GROUP BY
 			vehi_danger
 		WHERE
 			e.id = ownerOrgId
-		AND YEAR (now()) = YEAR (createTime)
-		AND MONTH (now())-1 = MONTH (createTime)
-	) driverDangers
+		AND (isDeleted is null or isDeleted !=1)
+        AND dangerType !=0
+		AND YEAR (now()) = YEAR (dangerTime)
+		AND MONTH (now())-1 = MONTH (dangerTime)
+	) carDangers
 FROM
 	ess_organization e
 WHERE
-	e.superOrg_id = #{orgId,jdbcType=VARCHAR}
+	e.superOrg_id = #{orgId,jdbcType=VARCHAR}  and (e.isDeleted is null or e.isDeleted != 1)
 GROUP BY
 	e.orgNm
   </select>
