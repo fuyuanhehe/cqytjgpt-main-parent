@@ -2,6 +2,7 @@ package com.ccttic.cqytjgpt.webapi.service.taskdriver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,8 @@ import com.ccttic.cqytjgpt.webapi.mapper.drillicit.DrIllicitMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.drivers.Driver;
+import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.illegal.DrIllicit;
-import com.ccttic.entity.illegal.DrIllicitExample;
 import com.ccttic.entity.illegalprocess.XMLPendingPayment;
 
 @Service
@@ -36,7 +37,8 @@ public class TaskDriverService implements ITaskDriverService {
 	private DrDangerMapper drDangerMapper;
 
 	@Override
-	public void addDriveIllega(Driver driver) throws Exception {
+	public Map<String, Object> getDriveIllega(DriverIllegal driver) throws Exception {
+		Map<String, Object> result = new HashMap<>();
 		DrIllicit dr = null;
 		XMLPendingPayment pendingPayment = null;
 		if (driver.getIdcard() != null || driver.getIdcard() != "") {
@@ -47,18 +49,19 @@ public class TaskDriverService implements ITaskDriverService {
 			@SuppressWarnings("unchecked")
 			List<XMLPendingPayment> list = (List<XMLPendingPayment>) map.get("pendingpayment");
 			logger.info(list.toString());
-			DrIllicitExample example = new DrIllicitExample();
-			example.createCriteria().andIdcardEqualTo(driver.getIdcard());
-			List<DrIllicit> DrIllicit = drIllicitMapper.selectByExample(example);
-			for (int i = 0; i < DrIllicit.size(); i++) {
+
+			for (int i = 0; i < driver.getDrIllicits().size(); i++) {
 				int x = 0;
 				for (int j = 0; j < list.size(); j++) {
-					if (DrIllicit.get(i).getId().equals(list.get(j).getJdsbh())) {
+					if (driver.getDrIllicits().get(i).getId().equals(list.get(j).getJdsbh())) {
 						x++;
 					}
 				}
 				if (x == 0) {
-					drIllicitMapper.deleteByPrimaryKey(DrIllicit.get(i).getId());
+					dr = new DrIllicit();
+					dr.setIsdeleted(true);
+					dr.setId(driver.getDrIllicits().get(i).getId());
+					drIllicitMapper.updateByPrimaryKeySelective(dr);
 				}
 			}
 			for (XMLPendingPayment xmlPendingPayment : list) {
@@ -82,16 +85,18 @@ public class TaskDriverService implements ITaskDriverService {
 				dr.setIllicit(xmlPendingPayment.getWfxw());
 				dr.setPickdepartmentdesc(xmlPendingPayment.getCljgmc());
 				if (drIllicitMapper.selectByPrimaryKey(dr.getId()) != null) {
-					drIllicitMapper.updateByPrimaryKeySelective(dr);
+					result.put("update", dr);
 				} else {
-					drIllicitMapper.insertSelective(dr);
+					result.put("insert", dr);
 				}
 			}
 		}
+		return result;
 	}
 
 	@Override
-	public void addDriverDanger(Driver driver) throws Exception {
+	public Map<String, Object> getDriverDanger(Driver driver) throws Exception {
+		Map<String, Object> result = new HashMap<>();
 		DrDanger dr = new DrDanger();
 		dr.setId(driver.getIdcard());
 		dr.setDrivername(driver.getName());
@@ -104,7 +109,7 @@ public class TaskDriverService implements ITaskDriverService {
 		dr.setIllicitstate("H".equals(driver.getState()) ? 1 : 0);
 		dr.setFailurestate("I".equals(driver.getState()) ? 1 : 0);
 		dr.setOverdueproofstate("M".equals(driver.getState()) ? 1 : 0);
-		dr.setOverdueexaminestate("S".equals(driver.getState())  ? 1 : 0);
+		dr.setOverdueexaminestate("S".equals(driver.getState()) ? 1 : 0);
 		dr.setFullstudystate(0);
 		if (dr.getIllicitstate() + dr.getFailurestate() + dr.getOverdueexaminestate() + dr.getOverdueproofstate()
 				+ dr.getFullstudystate() == 0) {
@@ -120,9 +125,10 @@ public class TaskDriverService implements ITaskDriverService {
 		}
 
 		if (drDangerMapper.selectByPrimaryKey(driver.getIdcard()) != null) {
-			drDangerMapper.updateByPrimaryKey(dr);
+			result.put("update", dr);
 		} else {
-			drDangerMapper.insertSelective(dr);
+			result.put("insert", dr);
 		}
+		return result;
 	}
 }

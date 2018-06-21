@@ -17,6 +17,7 @@ import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -174,7 +175,7 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 	
 	@Override
-	public List<Vehicle> getAllVehicle() {
+	public List<VehicleIllegal> getAllVehicle() {
 		
 		return mapper.getAllCar();
 	}

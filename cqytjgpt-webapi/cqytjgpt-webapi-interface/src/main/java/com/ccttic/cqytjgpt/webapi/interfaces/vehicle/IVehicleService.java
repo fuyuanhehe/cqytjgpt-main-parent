@@ -6,6 +6,7 @@ import java.util.Map;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
@@ -53,6 +54,6 @@ public interface IVehicleService {
 	 */
 	public void modifVehicle(XMLCar xmlCar) throws AppException;
 	
-	public List<Vehicle> getAllVehicle();
+	public List<VehicleIllegal> getAllVehicle();
 	
 }
