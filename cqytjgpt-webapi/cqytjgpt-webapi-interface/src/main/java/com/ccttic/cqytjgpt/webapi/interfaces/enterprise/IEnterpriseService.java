@@ -50,5 +50,5 @@ public interface IEnterpriseService {
 	 */
 	public Page<EssEnterprise> qryEssEnterpriseList(Pageable page, EssEnterprise vo) throws AppException;
 	
-
+	public EssEnterprise getEssEnterprise(String id)throws Exception;
 }

@@ -25,6 +25,10 @@ public class Const {
 	 * 从sesssion中获取用户的的key
 	 */
 	final public static String USER = "USER";
+	/**
+	 * 从sesssion中获取企业的的key
+	 */
+	final public static String ENT = "ENT";
 	
 	/**
 	 * 从session中获取登录验证面的key

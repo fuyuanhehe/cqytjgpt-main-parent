@@ -629,5 +629,7 @@
 		limit ${startRecord},${pageSize}
   </select>
   
-  
+  <select id="getEssEnterprise" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.EssEnterprise">
+ 	SELECT * FROM ess_enterprise WHERE admin_empid=#{id};
+  </select>
 </mapper>

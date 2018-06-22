@@ -130,6 +130,12 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 
 		return pager;
 	}
+
+	@Override
+	public EssEnterprise getEssEnterprise(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return enterpriseMapper.getEssEnterprise(id);
+	}
 	
 	
 }

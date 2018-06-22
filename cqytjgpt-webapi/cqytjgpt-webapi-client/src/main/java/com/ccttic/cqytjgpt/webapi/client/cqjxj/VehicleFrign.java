@@ -33,4 +33,12 @@ public interface VehicleFrign {
 	public String vehicleInfo(@RequestParam(value = "token") String token,@RequestParam(value = "vehiNo") String vehiNo
 			);
 	
+	/**
+     * 这里@requestMapping里指定的路径就是lkywjxj-service工程里的里的/lkywjxj-service/admin/qryCarOnlinePosition路径
+     * @return
+     */
+	@RequestMapping(method=RequestMethod.POST,value="/lkywjxj-service/admin/qryCarOnlinePosition")
+	public String vehicleInfoList(@RequestParam(value = "token") String token
+			,@RequestParam(value = "flag") String flag,@RequestParam(value = "fenceCd") String fenceCd);
+	
 }

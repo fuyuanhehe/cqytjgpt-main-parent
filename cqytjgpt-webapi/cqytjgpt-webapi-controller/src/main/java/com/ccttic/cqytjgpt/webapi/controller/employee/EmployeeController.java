@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +13,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.ObjectHelper;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
@@ -47,6 +52,8 @@ public class EmployeeController {
 
 	@Autowired
 	private IEmployeeService employeeService;
+	@Autowired
+	private IEnterpriseService enterpriseService;
 
 	@Autowired
 	private AuthServiceFeign authFeign;
@@ -87,7 +94,9 @@ public class EmployeeController {
 				response.fail("获取访问token失败");
 				return response;
 			}
+			EssEnterprise rise=enterpriseService.getEssEnterprise(employee.getId());
 			request.getSession(true).setAttribute(Const.USER, employee);
+			request.getSession(true).setAttribute(Const.ENT, rise);
 			response.setStatus(ResponseMsg.STATUS_SUCCES);
 			JSON json = JSON.parseObject(tokenValue);
 			response.setData(json);
@@ -105,19 +114,25 @@ public class EmployeeController {
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request,
-			@ModelAttribute(Const.USER) Employee emp) {
+			@ModelAttribute(Const.USER) Employee emp,@RequestParam String access_token) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
-//		Object employee = request.getSession(true).getAttribute(Const.USER);
-//		if (employee == null) {
-//			employee = employeeService.findEmployeeByAccount(useranme);
-//		}
+		String username=null;
+		if (emp == null) {
+			username=JWTUtil.getUsername(access_token);
+		}else{
+			if(!StringUtils.isEmpty(emp.getAccount())){
+				username = emp.getAccount();
+			}
+		}
+	
 
-		EmployeeVo employee = employeeService.findEmployeeByAccount(emp.getAccount());
+		EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 		
 		if (employee == null) {
 			response.fail("获取用户信息失败!");
 			return response;
 		}
+//		request.getSession(true).setAttribute(Const.ENT, employee); TODO
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);
 

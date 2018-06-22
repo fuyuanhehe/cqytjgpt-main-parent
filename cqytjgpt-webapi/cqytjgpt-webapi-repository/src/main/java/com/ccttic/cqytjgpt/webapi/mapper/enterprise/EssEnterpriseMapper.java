@@ -55,4 +55,6 @@ public interface EssEnterpriseMapper {
 	 * @throws AppException
 	 */
 	public int qryEnterpriseCount(Map<String, Object> params) throws AppException;
+	
+	public EssEnterprise getEssEnterprise(String id)throws Exception;
 }

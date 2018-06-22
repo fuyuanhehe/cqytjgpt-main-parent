@@ -361,7 +361,7 @@ public class OrganizationContrller implements Serializable {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/getArea", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/getArea",method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public String getArea() {
 		Map<String, Object> map = new HashMap<String, Object>();
