@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.entity.common.ResponseMsg;
@@ -58,8 +59,8 @@ public class EmployeeController {
 	 */
 	// @Logger(content = "${}", remark = "用户登录", operType = 1)
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<String> login(HttpServletRequest request, @RequestBody EmployeeVo empVo) {
-		ResponseMsg<String> response = new ResponseMsg<String>();
+	public ResponseMsg<JSON> login(HttpServletRequest request, @RequestBody EmployeeVo empVo) {
+		ResponseMsg<JSON> response = new ResponseMsg<JSON>();
 
 		try {
 
@@ -88,7 +89,8 @@ public class EmployeeController {
 			}
 			request.getSession(true).setAttribute(Const.USER, employee);
 			response.setStatus(ResponseMsg.STATUS_SUCCES);
-			response.setData(tokenValue);
+			JSON json = JSON.parseObject(tokenValue);
+			response.setData(json);
 		} catch (Exception e) {
 			response.fail("登录失败");
 			logger.error("登录失败:", e);
