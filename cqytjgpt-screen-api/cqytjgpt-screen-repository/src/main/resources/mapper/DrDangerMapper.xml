@@ -30,21 +30,27 @@
     <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
   </resultMap>
   
-   <select id="findPlace" resultType="map">
-select id,orgNm from ess_organization e where e.area_id is null and superOrg_id is not null  
-</select>
+   <select id="allDriver" resultType="map">
+       select count(1) allDriver from driver where  (isDelete is null or isDelete !=1)
+    </select>
+   <select id="allCar" resultType="map">
+        select count(1) allCar from vehicle where  (isDeleted is null or isDeleted !=1)
+   </select>
+   <select id="findPlace" resultType="map"> 
+        select * from ess_organization e where e.area_id is null and e.superOrg_id is not null order by e.dispOrder ASC
+   </select>
   
   <!-- 发现数查询模块 -->
   <select id="countIntoNum" resultType="int">
-  	select count(1) intoNum from driver where (isDelete is null or isDelete !=1)  
+  	select count(1) intoNum from driver where (isDelete is null or isDelete !=1) and month(firstReciveTime)=month(now())
   	</select>
   
   <select id="countDriverDangerNum" resultType="int">
-   select count(1) from dr_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0
+   select count(1) from dr_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0 and month(dangerTime)=month(now())
   </select>
   
   <select id="countWarnNum" resultType="map">
-  	select d.dangerType,count(1) warnNum from dr_danger d where d.dangerType !=0 and (d.isDeleted is null or d.isDeleted !=1) GROUP BY d.dangerType 
+  	select d.dangerType,count(1) warnNum from dr_danger d where d.dangerType !=0 and (d.isDeleted is null or d.isDeleted !=1) and month(dangerTime)=month(now()) GROUP BY d.dangerType 
   </select>
   <!-- 查询隐患问题分布 -->
   <select id="distributionDangerForDriver" resultType="map" parameterType="map">
@@ -84,7 +90,7 @@ select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullSt
   </select>
   <!-- 隐患治理情况 -->
   <select id="countNoHandleDriver" resultType="int">
- 		select count(1) from dr_danger where (isDeleted is null or isDeleted !=1)  and dangerType !=0
+     select count(1) from dr_danger where (isDeleted is null or isDeleted !=1)  and dangerType !=0 and month(now())=month(dangerTime)
   </select>
   <!-- 治理结果趋势 -->
   <select id="resultDangerForDriver" resultType="map" >
@@ -166,15 +172,15 @@ LIMIT  #{top,jdbcType=VARCHAR},1
 		FROM
 			dr_danger d
 		WHERE
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now())=month(dangerTime)
 	) driverDangers,
 	(
 		SELECT
 			count(1)
 		FROM
 			vehi_danger d
-		WHERE
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
+		WHERE 
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now())=month(dangerTime)
 	) carDangers,(select carDangers+driverDangers) total
 FROM
 	ess_organization e

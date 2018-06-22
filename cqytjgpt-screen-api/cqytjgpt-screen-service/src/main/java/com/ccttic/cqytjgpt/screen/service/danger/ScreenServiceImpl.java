@@ -174,7 +174,18 @@ public class ScreenServiceImpl implements IScreenService{
 	@Override
 	public List<Map<String, Object>> findPlace() {
 		
-		return vehiDangerMapper.findPlace();
+		return drDangerMapper.findPlace();
+	}
+
+	@Override
+	public Map<String, Object> allDriver() {
+		
+		return drDangerMapper.allDriver();
+	}
+
+	@Override
+	public Map<String, Object> allCar() {
+		return drDangerMapper.allCar();
 	}
 
 	

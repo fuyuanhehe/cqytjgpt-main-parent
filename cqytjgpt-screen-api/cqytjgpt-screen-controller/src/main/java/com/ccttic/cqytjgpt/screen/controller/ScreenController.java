@@ -29,6 +29,35 @@ public class ScreenController {
 	private IScreenService screenService;
 	
 	
+	// 查询全市接入驾驶员
+			@RequestMapping("allDriver")
+			public ResponseMsg<Map<String, Object>> allDriver() {
+				ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
+				try {
+					Map<String,Object> map = screenService.allDriver();
+					response.setData(map);
+					response.success("全市接入驾驶员查询成功");
+				} catch (Exception e) {
+					log.error("全市接入驾驶员查询失败"+e.getMessage());
+					response.fail("全市接入驾驶员查询失败"+e.getMessage());
+				}
+				return response;
+			}
+			// 查询全市接入机动车
+				@RequestMapping("allCar")
+			public ResponseMsg<Map<String, Object>> allCar() {
+				ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
+				try {
+					Map<String,Object> map = screenService.allCar();
+					response.setData(map);
+					response.success("全市接入机动车查询成功");
+				} catch (Exception e) {
+					log.error("全市接入机动车查询失败"+e.getMessage());
+					response.fail("全市接入机动车查询失败"+e.getMessage());
+				}
+				return response;
+				}
+						
 	   // 查询分所
 		@RequestMapping("findPlace")
 		public ResponseMsg<List<Map<String, Object>>> findPlace() {

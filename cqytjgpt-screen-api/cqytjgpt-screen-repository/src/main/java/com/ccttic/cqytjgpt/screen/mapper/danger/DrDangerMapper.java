@@ -36,4 +36,10 @@ public interface DrDangerMapper {
 
 	List<Map<String, Object>> findMonthAreaDangerByOrgId(Map<String, Object> map);
 	List<Map<String, Object>> findPreMonthAreaDangerByOrgId(Map<String, Object> map);
+
+	Map<String, Object> allDriver();
+
+	Map<String, Object> allCar();
+
+	List<Map<String, Object>> findPlace();
 }

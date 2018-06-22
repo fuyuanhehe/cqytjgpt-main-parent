@@ -36,5 +36,5 @@ public interface VehiDangerMapper {
 
 	List<Map<String, Object>> findPreMonthAreaDangerByOrgId(Map<String, Object> map);
 
-	List<Map<String, Object>> findPlace();
+
 }

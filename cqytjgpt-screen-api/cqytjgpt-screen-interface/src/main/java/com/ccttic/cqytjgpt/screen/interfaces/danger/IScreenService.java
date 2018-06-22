@@ -8,8 +8,15 @@ import com.ccttic.entity.danger.VehiDanger;
 
 public interface IScreenService {
 	    /**
+	     * 查询全市驾驶员接入数
+	     */
+	    public Map<String,Object> allDriver();
+	    /**
+	     * 查询全市机动车接入数
+	     */
+	    public Map<String,Object> allCar();
+	    /**
 	     * 查询分所名称id接口
-	     * @return
 	     */
 	    public List<Map<String,Object>> findPlace();
 		/**

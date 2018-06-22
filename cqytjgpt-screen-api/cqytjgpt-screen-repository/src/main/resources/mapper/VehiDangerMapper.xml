@@ -32,15 +32,15 @@
   
    <!-- 发现数查询模块 -->
   <select id="countIntoNum" resultType="int">
-  	select count(1) intoNum from vehicle where (isDeleted is null or isDeleted !=1)
+  	select count(1) intoNum from vehicle where (isDeleted is null or isDeleted !=1) and month(now())= month(firstReciveTime)
   </select>
   
   <select id="countCarDangerNum" resultType="int">
-      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0
+      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0 and month(now())= month(dangerTime)
   </select>
   
   <select id="countWarnNum" resultType="map">
-  	select v.dangerType,count(1) warnNum from vehi_danger v where v.dangerType !=0 and (v.isDeleted is null or v.isDeleted !=1) GROUP BY v.dangerType 
+  	select v.dangerType,count(1) warnNum from vehi_danger v where v.dangerType !=0 and (v.isDeleted is null or v.isDeleted !=1) and month(now())= month(dangerTime) GROUP BY v.dangerType 
   </select>
   <!-- 机动车隐患分布情况 -->
    <select id="distributionDangerForCar" resultType="map" parameterType="map">
@@ -74,7 +74,7 @@ select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.over
   </select>
   <!-- 隐患治理情况 -->
   <select id="countNoHandleCar" resultType="int">
- 	select count(1) from vehi_danger where dangerType !=0 and (isDeleted is null or isDeleted !=1)
+ 	select count(1) from vehi_danger where dangerType !=0 and (isDeleted is null or isDeleted !=1) and month(now())= month(dangerTime)
   </select>
    <!-- 治理结果趋势 -->
   <select id="resultDangerForCar" resultType="map" >
