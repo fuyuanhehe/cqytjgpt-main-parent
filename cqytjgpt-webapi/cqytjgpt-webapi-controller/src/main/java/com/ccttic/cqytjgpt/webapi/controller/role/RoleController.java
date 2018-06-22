@@ -72,7 +72,7 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 0,content="增加角色关联员工")
 	@RequestMapping(value="/addRole_Emp",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<String> addRole_Emp(@RequestBody Roles rolty) {
+	public ResponseMsg<String> addRole_Emp(@RequestBody(required = false) Roles rolty) {
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		if(ObjectHelper.isNotEmpty(rolty)) {
 			// 角色ID
@@ -118,7 +118,7 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 3,content="查询角色所属的菜单")
 	@RequestMapping(value="/loadRolePages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,@RequestBody Roles roles)  {
+	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,@RequestBody(required = false) Roles roles)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
 			Page<Roles> pager = this.Roleservice.seAllRole(page,roles);

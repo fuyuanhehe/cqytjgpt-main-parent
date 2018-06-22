@@ -45,7 +45,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员信息分页")
 	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverVo>> seDriverPages(PageRequest page,@RequestBody DriverVo driverVo){
+	public ResponseMsg<List<DriverVo>> seDriverPages(PageRequest page,@RequestBody(required = false) DriverVo driverVo){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
 			Page<DriverVo> data = service.seDriverPage(page, driverVo);
@@ -67,7 +67,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息")
 	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(@RequestBody dr_illicit driverid){
+	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(@RequestBody(required = false) dr_illicit driverid){
 		ResponseMsg<DriverillicitVo> resp = new ResponseMsg<DriverillicitVo>();
 		try {
 			DriverillicitVo data = service.seDrillicitByDriverId(driverid.getDriverId());
@@ -97,7 +97,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息分页")
 	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(PageRequest page,@RequestBody DriverillicitVo driver){
+	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(PageRequest page,@RequestBody(required = false) DriverillicitVo driver){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 
 		try {
@@ -148,7 +148,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 0,content="企业基本信息分页")
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(PageRequest page,@RequestBody EnterprisethenVo enterprisethenVo){
+	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(PageRequest page,@RequestBody(required = false) EnterprisethenVo enterprisethenVo){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
 
 		try {

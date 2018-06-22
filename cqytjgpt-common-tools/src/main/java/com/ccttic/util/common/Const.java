@@ -207,7 +207,30 @@ public class Const {
 		   		 */
 		   		public static final String DELETE_POST = "delete-post";
 		   
-			
-		
+		/**
+		* 角色管理 二级菜单
+	    * */
+		 public static final String ROLE_MANAGE = "role-manage";	 
+		       /**
+		        * 查询角色三级菜单
+		        */
+		       public static final String QUERY_ROLE = "query-role";
+		         /*
+		          * 增加角色三级菜单
+		          */
+		       public static final String ADD_ROLE = "add-role";
+		       /*
+		        * 修改角色 三级
+		        */
+		       public static final String UPDATE_ROLE = "update-role";
+		       /**
+				* 功能权限管理 二级菜单
+			    * */
+		 public static final String MENU_MANAGE = "menu-manage";    
+		       /**
+	          * 修改权限三级菜单
+	          */
+	           public static final String UPDATE_MENU = "update-menu";
+		       
 //***************************系统管理菜单 end************************************************************
 }

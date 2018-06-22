@@ -40,7 +40,7 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/loadMenuPages",method={RequestMethod.POST,RequestMethod.GET})
-	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,@RequestBody Roles roles) {
+	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,@RequestBody(required = false) Roles roles) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
 		try {
@@ -166,7 +166,7 @@ public class RoleMenuController {
 	}
 // emp_id
 	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<EmployeeVo> getTreeMenus(@RequestBody Roles roles){
+	public ResponseMsg<EmployeeVo> getTreeMenus(@RequestBody(required = false) Roles roles){
 		ResponseMsg<EmployeeVo>  resp = new ResponseMsg<>();
 
 		try { 
