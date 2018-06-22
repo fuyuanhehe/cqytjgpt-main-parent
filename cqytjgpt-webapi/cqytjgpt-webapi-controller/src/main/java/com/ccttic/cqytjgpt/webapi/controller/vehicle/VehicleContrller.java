@@ -12,16 +12,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.InputVehiVo;
 import com.ccttic.entity.role.vo.PageVehiIllicitVo;
 import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
+import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -45,7 +48,9 @@ public class VehicleContrller implements Serializable {
 	private IVehicleService vehicleService;
 	@Autowired
 	private IQueryCarService queryCarService;
-
+	
+	@Autowired
+	private VehicleFrign frign;
 	/**
 	 * 根据条件获取车辆基本信息
 	 * 
@@ -210,4 +215,46 @@ public class VehicleContrller implements Serializable {
 		return ObjectHelper.objectToJson(map);
 	}
 
+	/**
+	 * 根据条件获取车辆历史轨迹信息 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/qryOneHistoryTrack", method = {RequestMethod.POST,RequestMethod.GET})
+	@ResponseBody
+	public String qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
+		String account = "admin";
+		String password = "123456";
+		String user = frign.login(account, password);
+		Map<String, String> maparray = JsonUtil.jsonToMap(user);
+		String data = ObjectHelper.objectToJson(maparray.get("data"));
+		Map<String, String> map = JsonUtil.jsonToMap(data);
+		String token =map.get("token");
+		String s = frign.queryData(token, "渝"+vo.getVehiNo(), vo.getStartDate(), vo.getEndDate());
+		
+		return s;
+	}
+	
+	/**
+	 * 根据条件获取车辆历史轨迹信息 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/qryOneVehicleInfo", method = {RequestMethod.POST,RequestMethod.GET})
+	@ResponseBody
+	public String qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
+		String account = "admin";
+		String password = "123456";
+		String user = frign.login(account, password);
+		Map<String, String> maparray = JsonUtil.jsonToMap(user);
+		String data = ObjectHelper.objectToJson(maparray.get("data"));
+		Map<String, String> map = JsonUtil.jsonToMap(data);
+		String token =map.get("token");
+		String s = frign.vehicleInfo(token, "渝"+vo.getVehiNo());
+		
+		return s;
+	}
+	
 }
