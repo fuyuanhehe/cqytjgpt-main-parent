@@ -1,7 +1,5 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,33 +76,26 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public Map<String, Object> saveVehicle(String vehiNo, String vehiNoType) throws AppException {
+	public Map<String, Object> saveVehicle(List<Map<String, String>> listMap) throws AppException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int cet = 0;
-		String gather = "";
-		// 拆分车牌号
-		String[] vehiNoGather = vehiNo.split(",");
-		String[] vehiNoTypeGather = vehiNoType.split(",");
-		// 数组转集合
-		List<String> list = Arrays.asList(vehiNoGather);
-		List<String> arrList = new ArrayList<String>(list);
-		// 循环把车牌号和车辆类型装入集合
-		for (int i = 0; i < arrList.size(); i++) {
+		String gather="";
+		for (int i = 0; i < listMap.size(); i++) {
+			Map<String, String> mapVe = listMap.get(i);
 			Map<String, Object> params = new HashMap<String, Object>();
 			String uuid = RandomHelper.uuid();
 			params.put("id", uuid);
-			params.put("vehiNo", arrList.get(i));
-			params.put("vehiNoType", vehiNoTypeGather[0]);
-			// 判断车牌号是否重复
-			if (mapper.qryOneVehiNo(arrList.get(i)) != null) {
-				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + vehiNoGather[i] + "]已存在！");
-				gather = gather+ "车牌号[" + vehiNoGather[i] + "]已存在！";
+			params.put("vehiNo", mapVe.get("vehiNo"));
+			params.put("vehiNoType", mapVe.get("vehiNoType"));
+			params.put("carTypeName", mapVe.get("carTypeName"));
+			if (mapper.qryOneVehiNo(listMap.get(i).get("vehiNo")) != null) {
+				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + listMap.get(i).get("vehiNo") + "]已存在！");
+				gather = gather+ "车牌号[" + listMap.get(i).get("vehiNo") + "]已存在！";
 				cet = 1;
 				continue;
 			}
 			// 入库
 			mapper.saveVehicle(params);
-			
 		}
 		map.put("cet", cet);
 		map.put("gather", gather);

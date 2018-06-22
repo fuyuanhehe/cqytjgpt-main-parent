@@ -45,7 +45,7 @@ public interface IVehicleService {
 	 * 新增车牌号和车辆类型
 	 * @throws AppException
 	 */
-	public Map<String, Object> saveVehicle(String vehiNo,String vehiNoType) throws AppException;
+	public Map<String, Object> saveVehicle(List<Map<String, String>> listMap) throws AppException;
 	
 	/**
 	 * 修改车辆基础信息（补全信息）

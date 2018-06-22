@@ -27,8 +27,8 @@
 	</resultMap>
 	<!-- 新增车牌号和车辆类型 -->
 	<insert id="saveVehicle" parameterType="java.util.Map">
-		insert into vehicle(id,vehiNo,vehiNoType) values 
-			(#{id},#{vehiNo},#{vehiNoType})
+		insert into vehicle(id,vehiNo,vehiNoType,vehiType) values 
+			(#{id},#{vehiNo},#{vehiNoType},#{carTypeName})
 	</insert>
 	
 	<!--  -->

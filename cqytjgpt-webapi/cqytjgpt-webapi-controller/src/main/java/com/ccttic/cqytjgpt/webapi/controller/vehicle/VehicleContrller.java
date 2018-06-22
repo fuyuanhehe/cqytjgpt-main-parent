@@ -2,6 +2,7 @@ package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
@@ -40,6 +42,7 @@ import com.ccttic.util.page.PageRequest;
  */
 @RestController
 @RequestMapping("/vehicle")
+@SessionAttributes(Const.ENT)
 public class VehicleContrller implements Serializable {
 	
 	private String token = null; 
@@ -69,6 +72,7 @@ public class VehicleContrller implements Serializable {
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
+			vehicle.setMgrEnterpriseId(ent.getId());
 			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle);
 			map.put("data", pager.getRecords());
 			map.put("total", pager.getTotalRows());
@@ -95,10 +99,10 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String saveVehicle(@RequestBody Vehicle vehicle) {
+	public String saveVehicle(@RequestBody List<Map<String, String>> listMap) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Map<String, Object> maps = vehicleService.saveVehicle(vehicle.getVehiNo(), vehicle.getVehiNoType());
+			Map<String, Object> maps = vehicleService.saveVehicle(listMap);
 			if ((int) maps.get("cet") == 1) {
 				map.put("result", 0);
 				map.put("msg", maps.get("gather") + "其他添加成功！");
@@ -129,20 +133,16 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String modifVehicle(@RequestBody Vehicle vehicle) {
+	public String modifVehicle(@RequestBody List<Map<String, String>> listMap) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// 拆分车牌号
-		String[] vehiNoGather =vehicle.getVehiNo().split(",");
-		// 号牌种类
-		String[] vehiNoTypeGather = vehicle.getVehiNoType().split(",");
-		// 循环把车牌号和车辆类型装入集合
-		for (int i = 0; i < vehiNoGather.length; i++) {
+		for (int i = 0; i < listMap.size(); i++) {
+			Map<String, String> mapVe = listMap.get(i);
 			try {
 				// Vehicle vehicle = new Vehicle();
 				// vehicle.setVehiNo(vehiNoGather[i]);
 				// vehicle.setVehiType(vehiTypeGather[0]);
 				// 调用接口获取车辆基础信息
-				XMLCar xmlCar = queryCarService.selectCarByHpzlHphm(vehiNoTypeGather[0], vehiNoGather[i]);
+				XMLCar xmlCar = queryCarService.selectCarByHpzlHphm(mapVe.get("vehiNoType"), mapVe.get("vehiNo"));
 				// 根据车牌号修改车辆基础信息
 				vehicleService.modifVehicle(xmlCar);
 				map.put("result", 0);
