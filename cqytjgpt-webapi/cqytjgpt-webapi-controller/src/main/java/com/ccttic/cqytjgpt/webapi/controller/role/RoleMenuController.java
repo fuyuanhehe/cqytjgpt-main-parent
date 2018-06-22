@@ -164,13 +164,13 @@ public class RoleMenuController {
 
 		return resp;
 	}
-// emp_id
+	// emp_id
 	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<EmployeeVo> getTreeMenus(@RequestBody(required = false) Roles roles){
+	public ResponseMsg<EmployeeVo> getTreeMenus(String emp_id){
 		ResponseMsg<EmployeeVo>  resp = new ResponseMsg<>();
 
 		try { 
-			EmployeeVo data = MenService.seRole_MenuById(roles.getEmp_id());
+			EmployeeVo data = MenService.seRole_MenuById(emp_id);
 			resp.setData(data);
 			resp.setMessage("员工查询成功！");
 			resp.setStatus(0);	

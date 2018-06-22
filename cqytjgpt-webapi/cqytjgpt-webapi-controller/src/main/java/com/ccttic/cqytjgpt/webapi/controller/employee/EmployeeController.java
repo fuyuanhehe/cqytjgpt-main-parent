@@ -104,7 +104,7 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request, String useranme,
+	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request,
 			@ModelAttribute(Const.USER) Employee emp) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
 //		Object employee = request.getSession(true).getAttribute(Const.USER);
@@ -112,7 +112,7 @@ public class EmployeeController {
 //			employee = employeeService.findEmployeeByAccount(useranme);
 //		}
 
-		EmployeeVo employee = employeeService.findEmployeeByAccount(useranme);
+		EmployeeVo employee = employeeService.findEmployeeByAccount(emp.getAccount());
 		
 		if (employee == null) {
 			response.fail("获取用户信息失败!");

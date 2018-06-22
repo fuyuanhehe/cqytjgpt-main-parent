@@ -220,6 +220,11 @@ public class Const {
 		          */
 		       public static final String ADD_ROLE = "add-role";
 		       /*
+		        * 删除角色 三级
+		        */
+		       public static final String DELETE_ROLE = "delete-role";
+		       
+		       /*
 		        * 修改角色 三级
 		        */
 		       public static final String UPDATE_ROLE = "update-role";

@@ -14,6 +14,9 @@ import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.util.annotation.OperLogging;
+import com.ccttic.util.annotation.Resource;
+import com.ccttic.util.annotation.ResourceScan;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
@@ -38,6 +41,9 @@ public class RoleController {
 	 */ 
 	@OperLogging(operType = 2)
 	@RequestMapping(value="/deleteRoleById",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ROLE, name = "删除角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
+			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> deleteById(@RequestBody Roles roles) {
 
 		ResponseMsg<String> resp = new ResponseMsg<>();
