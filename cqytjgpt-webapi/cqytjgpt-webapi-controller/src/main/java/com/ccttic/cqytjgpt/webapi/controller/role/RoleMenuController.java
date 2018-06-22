@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +40,7 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/loadMenuPages",method={RequestMethod.POST,RequestMethod.GET})
-	public  ResponseMsg<List<Model_RmsVo>> loadRolePages( PageRequest page,Roles roles) {
+	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,@RequestBody Roles roles) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
 		try {
@@ -67,7 +68,7 @@ public class RoleMenuController {
 	@OperLogging(operType = 1)
 	//	@PostMapping("/updateMenuByRole")
 	@RequestMapping(value="/updateMenuByRole",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<String> addMenu(Roles roles){
+	public ResponseMsg<String> addMenu(@RequestBody Roles roles){
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		try {
 			// List<String> menuId = roles.getMenuIds();     
@@ -163,13 +164,13 @@ public class RoleMenuController {
 
 		return resp;
 	}
-
+// emp_id
 	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<EmployeeVo> getTreeMenus(String emp_id){
+	public ResponseMsg<EmployeeVo> getTreeMenus(@RequestBody Roles roles){
 		ResponseMsg<EmployeeVo>  resp = new ResponseMsg<>();
 
 		try { 
-			EmployeeVo data = MenService.seRole_MenuById(emp_id);
+			EmployeeVo data = MenService.seRole_MenuById(roles.getEmp_id());
 			resp.setData(data);
 			resp.setMessage("员工查询成功！");
 			resp.setStatus(0);	

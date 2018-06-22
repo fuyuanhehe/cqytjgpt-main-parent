@@ -3,13 +3,14 @@ package com.ccttic.cqytjgpt.webapi.controller.drivers;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.drivers.Driver;
+import com.ccttic.entity.drivers.dr_illicit;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
@@ -44,7 +45,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员信息分页")
 	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverVo>> seDriverPages(PageRequest page,DriverVo driverVo){
+	public ResponseMsg<List<DriverVo>> seDriverPages(PageRequest page,@RequestBody DriverVo driverVo){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
 			Page<DriverVo> data = service.seDriverPage(page, driverVo);
@@ -61,16 +62,15 @@ public class DriversController {
 		return resp;
 	}
 	/**
-	 * 功能说明：  修改角色和关联的员工
-	 * @param driverid 驾驶人主键ID
+	 * @param driverId 驾驶人主键ID
 	 * @date  2018年6月15日
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息")
 	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(String driverid){
+	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(@RequestBody dr_illicit driverid){
 		ResponseMsg<DriverillicitVo> resp = new ResponseMsg<DriverillicitVo>();
 		try {
-			DriverillicitVo data = service.seDrillicitByDriverId(driverid);
+			DriverillicitVo data = service.seDrillicitByDriverId(driverid.getDriverId());
 			resp.setMessage("查询驾驶员违法信息成功！");
 			resp.setStatus(0);
 			resp.setData(data);
@@ -97,7 +97,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息分页")
 	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(PageRequest page,DriverillicitVo driver){
+	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(PageRequest page,@RequestBody DriverillicitVo driver){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 
 		try {
@@ -122,7 +122,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 0,content="增加驾驶人")
 	@RequestMapping(value="/insertDriver",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<String> insertDriver(List<Driver> driver){
+	public ResponseMsg<String> insertDriver(@RequestBody List<Driver> driver){
 		ResponseMsg<String> resp = new ResponseMsg<>();
 
 		try {
@@ -148,7 +148,7 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 0,content="企业基本信息分页")
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(PageRequest page,EnterprisethenVo enterprisethenVo){
+	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(PageRequest page,@RequestBody EnterprisethenVo enterprisethenVo){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
 
 		try {

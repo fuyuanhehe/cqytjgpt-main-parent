@@ -10,6 +10,9 @@ import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.vehiclesVo;
+
+import liquibase.changelog.filter.LabelChangeSetFilter;
 
 public interface DriverMapper {
 
@@ -42,4 +45,9 @@ public interface DriverMapper {
 	//分页总数
 	public long queryEnterprisePageCount(Map<String, Object> params);
 	
+	
+	//<!--企业信息记录分页 -->
+	public List<vehiclesVo> queryVehiclespage(Map<String, Object> params);
+	
+	public long queryVehiclespageCount(Map<String, Object> params);
 }
