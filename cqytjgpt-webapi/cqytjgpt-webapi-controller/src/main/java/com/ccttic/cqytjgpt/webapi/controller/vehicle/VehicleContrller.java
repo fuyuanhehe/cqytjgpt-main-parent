@@ -40,7 +40,7 @@ import com.ccttic.util.page.PageRequest;
 @RequestMapping("/vehicle")
 public class VehicleContrller implements Serializable {
 	
-	
+	private String token = null; 
 
 	private static final long serialVersionUID = -2422516254972777732L;
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -224,20 +224,16 @@ public class VehicleContrller implements Serializable {
 	@RequestMapping(value = "/qryOneHistoryTrack", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public String qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
-		String account = "admin";
-		String password = "123456";
-		String user = frign.login(account, password);
-		Map<String, String> maparray = JsonUtil.jsonToMap(user);
-		String data = ObjectHelper.objectToJson(maparray.get("data"));
-		Map<String, String> map = JsonUtil.jsonToMap(data);
-		String token =map.get("token");
+		if (token==null) {
+			token = getToken();
+		}
 		String s = frign.queryData(token, "渝"+vo.getVehiNo(), vo.getStartDate(), vo.getEndDate());
 		
 		return s;
 	}
 	
 	/**
-	 * 根据条件获取车辆历史轨迹信息 
+	 * 根据条件获取车辆信息
 	 * 
 	 * @param id
 	 * @return
@@ -245,6 +241,20 @@ public class VehicleContrller implements Serializable {
 	@RequestMapping(value = "/qryOneVehicleInfo", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public String qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
+		
+		if (token==null) {
+			token = getToken();
+		}
+		String s = frign.vehicleInfo(token, "渝"+vo.getVehiNo());
+		
+		return s;
+	}
+	
+	/**
+	 * 调用交巡警登录接口获取token
+	 * @return
+	 */
+	public String getToken(){
 		String account = "admin";
 		String password = "123456";
 		String user = frign.login(account, password);
@@ -252,9 +262,6 @@ public class VehicleContrller implements Serializable {
 		String data = ObjectHelper.objectToJson(maparray.get("data"));
 		Map<String, String> map = JsonUtil.jsonToMap(data);
 		String token =map.get("token");
-		String s = frign.vehicleInfo(token, "渝"+vo.getVehiNo());
-		
-		return s;
+		return token;
 	}
-	
 }
