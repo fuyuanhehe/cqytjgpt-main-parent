@@ -56,6 +56,11 @@ public class Const {
 			 */
 			public static final String CAR_ILLICIT_INFO="car-illicit-info";
 			
+			/**
+			 * 动态监管 三级菜单
+			 */
+			public static final String CAR_TRACK="car_track";
+			
 				/**
 				 * 添加车辆 四级菜单
 				 */
@@ -76,6 +81,15 @@ public class Const {
 				 * 违法详情 四级菜单
 				 */
 				public static final String ILLICIT_PARTICULARS="illicit-particulars";
+				/**
+				 * 轨迹查询 四级菜单
+				 */
+				public static final String CAR_HISTORY_TRACK="car_history_track";
+				/**
+				 * 车辆信息查询 四级菜单
+				 */
+				public static final String CAR_HISTORY_INFO="car_history_info";
+				
 				
 //***************************日常监管菜单 end************************************************************
 				
