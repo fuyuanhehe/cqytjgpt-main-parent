@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,14 +38,14 @@ public class RoleController {
 	 */ 
 	@OperLogging(operType = 2)
 	@RequestMapping(value="/deleteRoleById",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<String> deleteById(String id) {
+	public ResponseMsg<String> deleteById(@RequestBody Roles roles) {
 
 		ResponseMsg<String> resp = new ResponseMsg<>();
 
 		try {
 
-			if( !(ObjectHelper.isEmpty(id)) ) {		
-				Roleservice.deleteRole(id);
+			if( !(ObjectHelper.isEmpty(roles.getId())) ) {		
+				Roleservice.deleteRole(roles.getId());
 				resp.setStatus(0);
 				resp.setMessage("删除角色成功!");
 
@@ -71,7 +72,7 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 0,content="增加角色关联员工")
 	@RequestMapping(value="/addRole_Emp",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<String> addRole_Emp(Roles rolty) {
+	public ResponseMsg<String> addRole_Emp(@RequestBody Roles rolty) {
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		if(ObjectHelper.isNotEmpty(rolty)) {
 			// 角色ID
@@ -115,9 +116,9 @@ public class RoleController {
 	 * @return 
 	 * @date  2018年6月1日
 	 */
-	@OperLogging(operType = 3)
+	@OperLogging(operType = 3,content="查询角色所属的菜单")
 	@RequestMapping(value="/loadRolePages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,Roles roles)  {
+	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,@RequestBody Roles roles)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
 			Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
@@ -145,7 +146,7 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 1)
 	@RequestMapping(value="/updateEssRole",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<Roles>> updateEssRole(Roles roles){
+	public ResponseMsg<List<Roles>> updateEssRole(@RequestBody Roles roles){
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 
 		try {
@@ -171,13 +172,13 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/getRoleMenuByEmpid",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(String emp_id){
+	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(@RequestBody Roles roles){
 		ResponseMsg<ModelByRole> resp = new ResponseMsg<>();
 
 		try {
 			resp.setMessage("根据员工ID查询角色菜单成功!");
 			resp.setStatus(0);
-			resp.setData(Roleservice.seRoleByEmpId(emp_id) );
+			resp.setData(Roleservice.seRoleByEmpId(roles.getEmp_id()) );
 
 		} catch (Exception e) {
 			resp.setMessage("根据员工ID查询角色菜单失败!");
