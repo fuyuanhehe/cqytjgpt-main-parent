@@ -17,8 +17,8 @@ import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.illegal.VehiIllicit;
 import com.ccttic.entity.illegalprocess.XMLIllegalProcess;
-import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 
@@ -45,44 +45,47 @@ public class TaskCarService implements ITaskCarService {
 					"<hphm>渝" + vehicle.getVehiNo() + "</hphm><hpzl>" + vehicle.getVehiNoType() + "</hpzl>");
 			@SuppressWarnings("unchecked")
 			List<XMLIllegalProcess> list = (List<XMLIllegalProcess>) map.get("illegalprocess");
-
-			for (int i = 0; i < vehicle.getVehiIllicits().size(); i++) {
-				int x = 0;
-				for (int j = 0; j < list.size(); j++) {
-					if (vehicle.getVehiIllicits().get(i).getId().equals(list.get(j).getXh())) {
-						x++;
+			if (vehicle.getVehiIllicits() != null && vehicle.getVehiIllicits().size() > 0) {
+				for (int i = 0; i < vehicle.getVehiIllicits().size(); i++) {
+					int x = 0;
+					for (int j = 0; j < list.size(); j++) {
+						if (vehicle.getVehiIllicits().get(i).getId().equals(list.get(j).getXh())) {
+							x++;
+						}
 					}
-				}
-				if (x == 0) {
-					vehiIllicit = new VehiIllicit();
-					vehiIllicit.setIsdeleted(true);
-					vehiIllicit.setId(vehicle.getVehiIllicits().get(i).getId());
-					vehiIllicitMapper.updateByPrimaryKeySelective(vehiIllicit);
+					if (x == 0) {
+						vehiIllicit = new VehiIllicit();
+						vehiIllicit.setIsdeleted(true);
+						vehiIllicit.setId(vehicle.getVehiIllicits().get(i).getId());
+						vehiIllicitMapper.updateByPrimaryKeySelective(vehiIllicit);
+					}
 				}
 			}
 			for (XMLIllegalProcess xml : list) {
 
 				vehiIllicit = new VehiIllicit();
 				vehiIllicit.setId(xml.getXh());
-				vehiIllicit.setVehiNo(vehicle.getVehiNo());
-				vehiIllicit.setVehiNoType(vehicle.getVehiNoType());
+				vehiIllicit.setVehino(vehicle.getVehiNo());
+				vehiIllicit.setVehinotype(vehicle.getVehiNoType());
 				vehiIllicit.setNature(vehicle.getNature());
 				vehiIllicit.setOwnership(vehicle.getOwnership());
 				vehiIllicit.setOwner(vehicle.getOwner());
-				vehiIllicit.setMgrDepartAreaId(vehicle.getMgrDepartAreaId());
-				vehiIllicit.setMgrDepart(vehicle.getMgrDepart());
+				vehiIllicit.setMgrdepartareaid(vehicle.getMgrDepartAreaId());
+				vehiIllicit.setMgrdepart(vehicle.getMgrDepart());
 				vehiIllicit.setVehicleId(vehicle.getId());
 				vehiIllicit.setState(vehicle.getState());
-				vehiIllicit.setIllicitTime(xml.getWfsj());
-				vehiIllicit.setIllicitScore(xml.getWfjfs());
-				vehiIllicit.setIllicitAmount(xml.getFkje());
-				vehiIllicit.setIllicitAdress(xml.getWfdz());
+				vehiIllicit.setIllicittime(xml.getWfsj());
+				vehiIllicit.setIllicitscore(xml.getWfjfs());
+				vehiIllicit.setIllicitamount(xml.getFkje());
+				vehiIllicit.setIllicitadress(xml.getWfdz());
 				vehiIllicit.setIllicit(xml.getWfxw());
-				vehiIllicit.setPickDepartmentDesc(xml.getCjjgmc());
+				vehiIllicit.setPickdepartmentdesc(xml.getCjjgmc());
 				if (vehiIllicitMapper.selectByPrimaryKey(vehiIllicit.getId()) != null) {
 					result.put("update", vehiIllicit);
+					result.put("insert", null);
 				} else {
 					result.put("insert", vehiIllicit);
+					result.put("update", null);
 				}
 			}
 
@@ -106,10 +109,14 @@ public class TaskCarService implements ITaskCarService {
 		EssEnterprise etp = essEnterpriseMapper.selectByPrimaryKey(enterpriseid);
 		vr.setOwnerorgid(orgNm);
 		vr.setOwnerenterprise(etp == null ? null : etp.getEtpnm());
-		vr.setScrappedstate("M".equals(vehicle.getState()) ? 1 : 0);
-		vr.setIllicitstate("G".equals(vehicle.getState()) ? 1 : 0);
-		vr.setOverdueexaminestate("Q".equals(vehicle.getState()) ? 1 : 0);
-		vr.setFailurestate("I".equals(vehicle.getState()) ? 1 : 0);
+		String[] strs = vehicle.getState().split(",");
+		for (String string : strs) {
+			vr.setScrappedstate("M".equals(string) ? 1 : 0);
+			vr.setIllicitstate("G".equals(string) ? 1 : 0);
+			vr.setOverdueexaminestate("Q".equals(string) ? 1 : 0);
+			vr.setFailurestate("I".equals(string) ? 1 : 0);
+		}
+
 		if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate() + vr.getFailurestate() == 0) {
 			vr.setDangertype("0");
 		} else if (vr.getIllicitstate() == 1
@@ -124,8 +131,10 @@ public class TaskCarService implements ITaskCarService {
 
 		if (vehiDangerMapper.selectByPrimaryKey(hphm) != null) {
 			map.put("update", vr);
+			map.put("insert", null);
 		} else {
 			map.put("insert", vr);
+			map.put("update", null);
 		}
 		return map;
 	}

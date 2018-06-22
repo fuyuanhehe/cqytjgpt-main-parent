@@ -41,7 +41,7 @@
 		from param_category_attr where categoryCd=#{categoryCd} order by attrCd
 	</select>
 	<select id="findCategoryAttrsByCd" parameterType="com.ccttic.entity.category.CategoryAttr" resultMap="categoryAttrMap">
-		select * from param_category_attr where categorycd=#{categoryCd} order by attrCd 
+		select id,categoryCd,attrCd,attrNm,actualval from param_category_attr where categorycd in (${categoryCd}) order by attrCd 
 	</select>
 	<select id="findCategoryAttrNmByCd" parameterType="com.ccttic.entity.category.CategoryAttr" resultMap="categoryAttrMap">
 		select * from param_category_attr where categorycd=#{categoryCd} and attrcd=#{attrCd}

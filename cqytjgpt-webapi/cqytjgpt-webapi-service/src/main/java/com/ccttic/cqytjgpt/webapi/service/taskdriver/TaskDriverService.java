@@ -50,18 +50,20 @@ public class TaskDriverService implements ITaskDriverService {
 			List<XMLPendingPayment> list = (List<XMLPendingPayment>) map.get("pendingpayment");
 			logger.info(list.toString());
 
-			for (int i = 0; i < driver.getDrIllicits().size(); i++) {
-				int x = 0;
-				for (int j = 0; j < list.size(); j++) {
-					if (driver.getDrIllicits().get(i).getId().equals(list.get(j).getJdsbh())) {
-						x++;
+			if (driver.getDrIllicits() != null && driver.getDrIllicits().size() > 0) {
+				for (int i = 0; i < driver.getDrIllicits().size(); i++) {
+					int x = 0;
+					for (int j = 0; j < list.size(); j++) {
+						if (driver.getDrIllicits().get(i).getId().equals(list.get(j).getJdsbh())) {
+							x++;
+						}
 					}
-				}
-				if (x == 0) {
-					dr = new DrIllicit();
-					dr.setIsdeleted(true);
-					dr.setId(driver.getDrIllicits().get(i).getId());
-					drIllicitMapper.updateByPrimaryKeySelective(dr);
+					if (x == 0) {
+						dr = new DrIllicit();
+						dr.setIsdeleted(true);
+						dr.setId(driver.getDrIllicits().get(i).getId());
+						drIllicitMapper.updateByPrimaryKeySelective(dr);
+					}
 				}
 			}
 			for (XMLPendingPayment xmlPendingPayment : list) {
@@ -86,8 +88,10 @@ public class TaskDriverService implements ITaskDriverService {
 				dr.setPickdepartmentdesc(xmlPendingPayment.getCljgmc());
 				if (drIllicitMapper.selectByPrimaryKey(dr.getId()) != null) {
 					result.put("update", dr);
+					result.put("insert", null);
 				} else {
 					result.put("insert", dr);
+					result.put("update", null);
 				}
 			}
 		}
@@ -106,10 +110,13 @@ public class TaskDriverService implements ITaskDriverService {
 		String enterpriseid = driver.getMgrenterpriseid();
 		String orgNm = essEnterpriseMapper.selectOrgNmbyId(enterpriseid);
 		dr.setOwnerorgid(orgNm);
-		dr.setIllicitstate("H".equals(driver.getState()) ? 1 : 0);
-		dr.setFailurestate("I".equals(driver.getState()) ? 1 : 0);
-		dr.setOverdueproofstate("M".equals(driver.getState()) ? 1 : 0);
-		dr.setOverdueexaminestate("S".equals(driver.getState()) ? 1 : 0);
+		String[] strs = driver.getState().split(",");
+		for (String string : strs) {
+		dr.setIllicitstate("H".equals(string) ? 1 : 0);
+		dr.setFailurestate("I".equals(string) ? 1 : 0);
+		dr.setOverdueproofstate("M".equals(string) ? 1 : 0);
+		dr.setOverdueexaminestate("S".equals(string) ? 1 : 0);
+		}
 		dr.setFullstudystate(0);
 		if (dr.getIllicitstate() + dr.getFailurestate() + dr.getOverdueexaminestate() + dr.getOverdueproofstate()
 				+ dr.getFullstudystate() == 0) {
@@ -126,8 +133,10 @@ public class TaskDriverService implements ITaskDriverService {
 
 		if (drDangerMapper.selectByPrimaryKey(driver.getIdcard()) != null) {
 			result.put("update", dr);
+			result.put("insert", null);
 		} else {
 			result.put("insert", dr);
+			result.put("update", null);
 		}
 		return result;
 	}

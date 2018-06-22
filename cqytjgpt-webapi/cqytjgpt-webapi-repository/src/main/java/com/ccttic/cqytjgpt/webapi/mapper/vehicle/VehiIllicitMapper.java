@@ -28,7 +28,7 @@ public interface VehiIllicitMapper {
 
 	    int updateByExample(@Param("record") VehiIllicit record, @Param("example") VehiIllicitExample example);
 
-	    int updateByPrimaryKeySelective(VehiIllicit record);
+	    int updateByPrimaryKeySelective(com.ccttic.entity.illegal.VehiIllicit record);
 
 	    int updateByPrimaryKey(VehiIllicit record);
 	

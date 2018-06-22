@@ -8,6 +8,7 @@ import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
+import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
 
@@ -33,4 +34,7 @@ public interface DriversService {
 	public void insertSelective(List<Driver> driver);
 	
 	public List<DriverIllegal> getAllDriver();
+	
+	// 企业信息分页
+	Page<EnterprisethenVo> queryEnterprisePage(Pageable page,EnterprisethenVo enterprisethenVo);
 }

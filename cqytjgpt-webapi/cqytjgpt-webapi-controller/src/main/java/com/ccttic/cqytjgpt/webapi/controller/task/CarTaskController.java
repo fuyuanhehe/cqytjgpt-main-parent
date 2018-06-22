@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.batch.ICarBatch;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.danger.VehiDanger;
@@ -24,13 +25,15 @@ public class CarTaskController {
 	private IVehicleService vehicleService;
 	@Autowired
 	private ITaskCarService taskCarService;
+	@Autowired
+	private ICarBatch carBatch;
 
 	@RequestMapping("/addCarIllega")
 	public void addCarIllega() {
 		Map<String, Object> result = null;
 		List<VehiIllicit> insert = new ArrayList<>();
 		List<VehiIllicit> update = new ArrayList<>();
-		List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
+	    List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
 		for (VehicleIllegal vehicle : vehicles) {
 			try {
 				result = taskCarService.getCarIllega(vehicle);
@@ -44,6 +47,10 @@ public class CarTaskController {
 				insert.add((VehiIllicit) (result.get("insert")));
 			}
 		}
+		if(insert.size()>0)
+		carBatch.addCarIllegal(insert);
+		if(update.size()>0)
+		carBatch.updateCarIllegal(update);
 	}
 
 	@RequestMapping("/addCarDanger")
@@ -65,5 +72,9 @@ public class CarTaskController {
 				insert.add((VehiDanger) (result.get("insert")));
 			}
 		}
+		if(insert.size()>0)
+		carBatch.addCarDanger(insert);
+		if(update.size()>0)
+		carBatch.updateCarDanger(update);
 	}
 }

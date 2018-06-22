@@ -12,6 +12,7 @@ import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
+import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -136,4 +137,33 @@ public class DriversController {
 		}
 		return resp;
 	}
+	/**
+	 * 功能说明：  企业基本信息分页，详情
+	 * @param id 企业id
+	 * @param etpNm 企业名字
+	 * @param ownerTraffic 交警大队
+	 * @param ownerTransport 运管所
+	 * @return 
+	 * @date  2018年6月20日
+	 */
+	@OperLogging(operType = 0,content="企业基本信息分页")
+	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(PageRequest page,EnterprisethenVo enterprisethenVo){
+		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
+
+		try {
+			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, enterprisethenVo);
+			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setStatus(0);
+			resp.setData(data.getRecords());  
+			resp.setTotal(data.getTotalRows().intValue());
+		} catch (Exception e) {
+			resp.setMessage("查询驾驶员违法信息失败！");
+			resp.setStatus(0);
+			logger.error("查询驾驶员违法信息失败！",e);
+		}
+
+		return resp;
+	}
+
 }
