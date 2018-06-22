@@ -12,8 +12,6 @@ import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 
-import liquibase.changelog.filter.LabelChangeSetFilter;
-
 public interface DriverMapper {
 
 	/**
