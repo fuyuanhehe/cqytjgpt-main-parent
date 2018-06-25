@@ -12,6 +12,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.rolesPage;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
@@ -129,10 +130,13 @@ public class RoleController {
 	@ResourceScan(rsc = @Resource(cd = Const.QUERY_ROLE, name = "查询角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
 			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,@RequestBody(required = false) Roles roles)  {
+	public ResponseMsg<List<Roles>> loadRolePages(@RequestBody(required = false) rolesPage tment)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
-			Page<Roles> pager = this.Roleservice.seAllRole(page,roles);
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			Page<Roles> pager = this.Roleservice.seAllRole(page,tment);
 			resp.setMessage("(根据条件)查询角色列表成功！");
 			resp.setStatus(0);
 			resp.setData(pager.getRecords());
