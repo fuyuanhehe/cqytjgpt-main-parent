@@ -1,7 +1,6 @@
 # 设置项目的info信息
 info:
   description: 重庆交巡警源头监管项目服务注册中心
-  author: wl(atva725@qq.com)
 
 # 设置服务端口号
 server:
