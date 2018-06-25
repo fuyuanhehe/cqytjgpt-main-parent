@@ -12,7 +12,6 @@ import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
-import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
@@ -78,6 +77,9 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 0,content="增加角色关联员工")
 	@RequestMapping(value="/addRole_Emp",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE, name = "增加角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
+			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addRole_Emp(@RequestBody(required = false) Roles rolty) {
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		if(ObjectHelper.isNotEmpty(rolty)) {
@@ -119,11 +121,14 @@ public class RoleController {
 	 * 功能说明： 条件角色和关联的员工分页
 	 * @param roles roleNm 角色名称,筛选
 	 * @param roles roleId 角色ID,获得具体角色信息
-	 * @return 
+	 * @return 	
 	 * @date  2018年6月1日
 	 */
-	@OperLogging(operType = 3,content="查询角色所属的菜单")
+	@OperLogging(operType = 3,content="查询角色所属的人员")
 	@RequestMapping(value="/loadRolePages",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.QUERY_ROLE, name = "查询角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
+			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<List<Roles>> loadRolePages(PageRequest page,@RequestBody(required = false) Roles roles)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
@@ -152,6 +157,9 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 1)
 	@RequestMapping(value="/updateEssRole",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.UPDATE_ROLE, name = "修改角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
+			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<List<Roles>> updateEssRole(@RequestBody Roles roles){
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 
@@ -171,13 +179,16 @@ public class RoleController {
 
 	}	
 	/**
-	 * 功能说明：  修改角色和关联的员工
+	 * 功能说明： 
 	 * @param emp_id 员工id
 	 * @return
-	 * @date  2018年6月1日
+	 * @date  2018年6s月1日
 	 */
-	@OperLogging(operType = 3)
+	/*@OperLogging(operType = 3)
 	@RequestMapping(value="/getRoleMenuByEmpid",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE, name = "增加角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
+			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(@RequestBody Roles roles){
 		ResponseMsg<ModelByRole> resp = new ResponseMsg<>();
 
@@ -194,6 +205,6 @@ public class RoleController {
 
 
 		return resp;
-	}
+	}*/
 
 }

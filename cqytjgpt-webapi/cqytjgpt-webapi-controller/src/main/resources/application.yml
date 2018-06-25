@@ -71,8 +71,6 @@ fdfs:
     max-total: 153
     #获取连接时的最大等待毫秒数100
     max-wait-millis: 102
-
-
 eureka:
   client:
     healthcheck:
@@ -89,16 +87,6 @@ security:
 management:
   security:
     enabled: false
----
-spring:
-  profiles: dev
-  sleuth:
-    sampler:
-      percentage: 1 # 开发环境，收集所有链路的日志
-    enabled: true
-  zipkin:
-    sender:
-      type: rabbit
       
 hystrix:
   command:

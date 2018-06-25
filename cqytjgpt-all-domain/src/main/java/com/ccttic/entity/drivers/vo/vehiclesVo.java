@@ -25,17 +25,10 @@ public class vehiclesVo {
 	private Integer scrappedState;
 	//违法处理状态
 	private Integer illicitState;
-	//总数量
-	private Integer vecount;
-	//正常数量
-	private Integer zInteger;
 	//区域
 	private String orgNm;
-
-
-	public vehiclesVo(String orgNm) {
-		super();
-		this.orgNm = orgNm;
+    
+    public vehiclesVo() {
 	}
 
 	public String getOrgNm() {
@@ -46,13 +39,15 @@ public class vehiclesVo {
 		this.orgNm = orgNm;
 	}
 
-	public vehiclesVo() {
+	public vehiclesVo(String orgNm) {
+		super();
+		this.orgNm = orgNm;
 	}
 
 	public vehiclesVo(String id, String etpNm, String vehiNo, String nature, String vehiType,
 			String effectStartTime, String effectEndTime, Date updateTime,
 			Integer overdueExamineState, Integer scrappedState, Integer illicitState,
-			Integer vecount, Integer zInteger) {
+			String orgNm) {
 		super();
 		this.id = id;
 		this.etpNm = etpNm;
@@ -65,13 +60,15 @@ public class vehiclesVo {
 		this.overdueExamineState = overdueExamineState;
 		this.scrappedState = scrappedState;
 		this.illicitState = illicitState;
-		this.vecount = vecount;
-		this.zInteger = zInteger;
 	}
 
 	@Override
 	public String toString() {
-		return "vehiclesVo [orgNm=" + orgNm + "]";
+		return "vehiclesVo [id=" + id + ", etpNm=" + etpNm + ", vehiNo=" + vehiNo + ", nature="
+				+ nature + ", vehiType=" + vehiType + ", effectStartTime=" + effectStartTime
+				+ ", effectEndTime=" + effectEndTime + ", updateTime=" + updateTime
+				+ ", overdueExamineState=" + overdueExamineState + ", scrappedState="
+				+ scrappedState + ", illicitState=" + illicitState + "]";
 	}
 
 	public String getId() {
@@ -162,25 +159,6 @@ public class vehiclesVo {
 		this.illicitState = illicitState;
 	}
 
-	public Integer getVecount() {
-		return vecount;
-	}
-
-	public void setVecount(Integer vecount) {
-		this.vecount = vecount;
-	}
-
-	public Integer getzInteger() {
-		return zInteger;
-	}
-
-	public void setzInteger(Integer zInteger) {
-		this.zInteger = zInteger;
-	}
-
-
-
-
-
+    
 
 }

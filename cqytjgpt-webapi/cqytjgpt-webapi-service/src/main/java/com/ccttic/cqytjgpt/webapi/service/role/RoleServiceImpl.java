@@ -172,11 +172,12 @@ public class RoleServiceImpl implements IRoleService {
 
 		for (Roles role : records) {
 			List<String> list = new ArrayList<>();
-
-			String [] array = role.getEmp_id().split(",");
-
-			for (int i = 0; i < array.length; i++) {
-				list.add(array[i]);
+			String rid = role.getEmp_id();
+			if(!rid.equals("")){
+				String [] array = rid.split(","); 
+				for (int i = 0; i < array.length; i++) {
+					list.add(array[i]);
+				}
 			}
 
 			role.setEmporIds(list);  
@@ -228,17 +229,17 @@ public class RoleServiceImpl implements IRoleService {
 	public ModelByRole seRoleByEmpId(String emp_id) {
 		// TODO Auto-generated method stub		
 		List<Role_Emp> roleids = mapper.seRoleByEmpId(emp_id);
-            
-		      String ar[] = new String[roleids.size()];
-		     for (int i = 0; i < roleids.size(); i++) {
-		    	 Role_Emp mEmp = roleids.get(i);
-		    	  ar[i] = mEmp.getRole_id();
-			}
-		
+
+		String ar[] = new String[roleids.size()];
+		for (int i = 0; i < roleids.size(); i++) {
+			Role_Emp mEmp = roleids.get(i);
+			ar[i] = mEmp.getRole_id();
+		}
+
 		List<Model_MenuVo> data = rmMapper.seMenuByRoleId(ar);
 
 		ModelByRole byRole = new ModelByRole();
-         
+
 		List<Model_MenuVo> models = new ArrayList<>();
 
 		for (Model_MenuVo model : data) {			

@@ -13,21 +13,6 @@ spring:
       force: true
       force-request: true
       force-response: true
-hystrix:
-  command:
-    default:
-      execution:
-        timeout:
-          enabled: true
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
-ribbon:
-  ReadTimeout: 30000
-  ConnectTimeout: 30000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 2
-  OkToRetryOnAllOperations: true
    
 # 配置路由
 zuul:
@@ -54,16 +39,19 @@ management:
 # 设置logback.xml地址
 logging:
   config: classpath:logback.xml
----
-spring:
-  profiles: dev
-  sleuth:
-    sampler:
-      percentage: 1 # 开发环境，收集所有链路的日志
-
----
-spring:
-  profiles: prod
-  sleuth:
-    sampler:
-      percentage: 0.1 # 开发环境，收集所有链路的日志
+  
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true

@@ -32,7 +32,7 @@
   
    <!-- 发现数查询模块 -->
   <select id="countIntoNum" resultType="int">
-  	select count(1) intoNum from vehicle where (isDeleted is null or isDeleted !=1) and month(now())= month(firstReciveTime)
+  	select count(1) intoNum from vehicle where (isDeleted is null or isDeleted !=1)
   </select>
   
   <select id="countCarDangerNum" resultType="int">

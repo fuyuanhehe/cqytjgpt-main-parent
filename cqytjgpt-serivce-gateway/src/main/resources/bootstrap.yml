@@ -7,8 +7,6 @@ server:
 spring:
   application:
     name: cqytjgpt-serivce-gateway
-  profiles:
-    active: dev # 配置文件选择开发环境
   cloud:
     config:
       enabled: true
@@ -17,7 +15,6 @@ spring:
         service-id: cqytjgpt-eureka-config
       fail-fast: true
       label: master
-      profile: dev # 开发环境
 
 # 设置eureka行为
 eureka:
