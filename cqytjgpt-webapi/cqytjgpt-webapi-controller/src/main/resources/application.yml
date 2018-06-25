@@ -99,5 +99,5 @@ hystrix:
             timeoutInMilliseconds: 60000      
 #全局配置    
 ribbon:
-  ReadTimeout: 60000 #请求连接超时 单位毫秒
-  ConnectTimeout: 60000 #请求处理超时 单位毫秒        
+  ReadTimeout: 30000 #请求连接超时 单位毫秒
+  ConnectTimeout: 30000 #请求处理超时 单位毫秒        
