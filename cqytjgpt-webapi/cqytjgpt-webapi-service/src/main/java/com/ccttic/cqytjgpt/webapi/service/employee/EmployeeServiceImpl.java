@@ -184,7 +184,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employee.setEmpcd(empid);
 		employee.setEmptype(emp.getEmptype());
 		empMapper.insert(employee);
-
 		EssEmployeeDept dept = new EssEmployeeDept();
 		dept.setDepId(emp.getDepid());
 		dept.setEmpId(empid);
