@@ -266,10 +266,10 @@
 		</collection>
 	</resultMap>
 
-	<!-- 根据学习类型查询学习文档信息 -->
+	
 	<select id="selectAllDriver" resultMap="slist">
 		select * from driver
-		where isDeleted = 0 or isDeleted is null
+		where isDelete = 0 or isDelete is null
 	</select>
 	<select id="selectByDriverId" parameterType="java.lang.String"
 		resultType="com.ccttic.entity.illegal.DrIllicit">

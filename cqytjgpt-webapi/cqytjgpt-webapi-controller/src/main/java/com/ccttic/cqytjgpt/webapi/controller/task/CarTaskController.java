@@ -55,6 +55,7 @@ public class CarTaskController {
 
 	@RequestMapping("/addCarDanger")
 	public void addCarDanger() {
+		
 		Map<String, Object> result = null;
 		List<VehiDanger> insert = new ArrayList<>();
 		List<VehiDanger> update = new ArrayList<>();
