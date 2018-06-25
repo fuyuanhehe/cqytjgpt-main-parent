@@ -72,6 +72,7 @@ public class CarTaskController {
 				insert.add((VehiDanger) (result.get("insert")));
 			}
 		}
+		
 		if(insert.size()>0)
 		carBatch.addCarDanger(insert);
 		if(update.size()>0)
