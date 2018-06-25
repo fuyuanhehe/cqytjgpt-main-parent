@@ -42,7 +42,7 @@
   
   <!-- 发现数查询模块 -->
   <select id="countIntoNum" resultType="int">
-  	select count(1) intoNum from driver where (isDelete is null or isDelete !=1) and month(firstReciveTime)=month(now())
+  	select count(1) intoNum from driver where (isDelete is null or isDelete !=1)
   	</select>
   
   <select id="countDriverDangerNum" resultType="int">
@@ -168,8 +168,6 @@ FROM
 	(e.isDeleted is null or e.isDeleted !=1)  and e.area_id is not null 
 GROUP BY
 	e.orgNm
-
-
   </select>
   <!-- 通报驾驶员信息 -->
   <select id="noticeDangerDriver" resultType="map" parameterType="map">
