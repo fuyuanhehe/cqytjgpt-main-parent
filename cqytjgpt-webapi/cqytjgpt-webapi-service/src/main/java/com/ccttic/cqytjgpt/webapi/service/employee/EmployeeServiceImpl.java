@@ -53,7 +53,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Autowired
 	private IRoleMenuService service;
 
-
 	/*
 	 * (非 Javadoc)
 	 * 
@@ -184,22 +183,23 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employee.setId(empid);
 		employee.setEmpcd(empid);
 		empMapper.insert(employee);
+
 		EssEmployeeDept dept = new EssEmployeeDept();
 		dept.setDepId(emp.getDepid());
 		dept.setEmpId(empid);
 		dept.setVersion(1);
 		dept.setId(RandomHelper.uuid());
-		if(employee.getEmptype()==EmpCategoryEnum.ADMIN.name())
-			for (int i = 0; i < emp.getPost().size(); i++) {
-				String postId = emp.getPost().get(i).getId();
-				EssEmployeePost eep = new EssEmployeePost();
-				eep.setEmpId(empid);
-				eep.setId(RandomHelper.uuid());
-				eep.setVersion(1);
-				eep.setPostId(postId);
-				postMapper.relatedPostAndEmp(eep);
+		empMapper.relatedDepAndEmp(dept);
+		for (int i = 0; i < emp.getPost().size(); i++) {
+			String postId = emp.getPost().get(i).getId();
+			EssEmployeePost eep = new EssEmployeePost();
+			eep.setEmpId(empid);
+			eep.setId(RandomHelper.uuid());
+			eep.setVersion(1);
+			eep.setPostId(postId);
+			postMapper.relatedPostAndEmp(eep);
 
-			}
+		}
 	}
 
 	/*
