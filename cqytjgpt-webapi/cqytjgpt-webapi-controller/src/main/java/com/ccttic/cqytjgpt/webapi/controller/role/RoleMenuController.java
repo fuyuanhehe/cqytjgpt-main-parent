@@ -16,6 +16,7 @@ import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
+import com.ccttic.entity.role.vo.rolesPage;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
@@ -46,11 +47,14 @@ public class RoleMenuController {
 	@ResourceScan(rsc = @Resource(cd = Const.QUERY_MENU, name = "查询菜单", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
 			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,@RequestBody(required = false) Roles roles) {
+	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(@RequestBody(required = false) rolesPage tment) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
 		try {
-			Page<Model_RmsVo> pager = this.MenService.getRoleMenuPages(page,roles);
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			Page<Model_RmsVo> pager = this.MenService.getRoleMenuPages(page,tment);
 			resp.setMessage("查询角色菜单分页成功！");
 			resp.setStatus(0);
 			resp.setData(pager.getRecords());
@@ -58,7 +62,7 @@ public class RoleMenuController {
 		} catch (Exception e) {
 			resp.setMessage("查询角色菜单分页失败！");
 			resp.setStatus(-1);
-			logger.error("查询角色菜单分页失败！"+roles,e);
+			logger.error("查询角色菜单分页失败！",e);
 		}
 
 		return resp;
@@ -151,12 +155,12 @@ public class RoleMenuController {
 
 		return resp;
 	}
-	/**
+/*	*//**
 	 * 功能说明：查询员工所有的id，名称
 	 * @param 
 	 * @return 
 	 * @date  2018年6月6日
-	 */
+	 *//*
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/seAllEmp",method={RequestMethod.POST,RequestMethod.GET})
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ROLE, name = "删除角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
@@ -178,7 +182,7 @@ public class RoleMenuController {
 		}
 
 		return resp;
-	}
+	}*/
 	// emp_id
 	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<EmployeeVo> getTreeMenus(String emp_id){

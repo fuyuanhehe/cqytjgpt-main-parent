@@ -40,6 +40,13 @@ management:
 logging:
   config: classpath:logback.xml
   
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true
+  
 hystrix:
   command:
     default:
@@ -49,9 +56,3 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 60000
-ribbon:
-  ReadTimeout: 30000
-  ConnectTimeout: 30000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 2
-  OkToRetryOnAllOperations: true

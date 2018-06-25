@@ -86,7 +86,12 @@ security:
 # 手动POST刷新配置需要关闭安全策略
 management:
   security:
-    enabled: false
+    enabled: false      
+    
+#全局配置    
+ribbon:
+  ReadTimeout: 20000 #请求连接超时 单位毫秒
+  ConnectTimeout: 20000 #请求处理超时 单位毫秒 
       
 hystrix:
   command:
@@ -96,8 +101,4 @@ hystrix:
           enabled: true
         isolation:
           thread:
-            timeoutInMilliseconds: 60000      
-#全局配置    
-ribbon:
-  ReadTimeout: 60000 #请求连接超时 单位毫秒
-  ConnectTimeout: 60000 #请求处理超时 单位毫秒        
+            timeoutInMilliseconds: 60000

@@ -12,9 +12,13 @@ import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.dr_illicit;
 import com.ccttic.entity.drivers.vo.DriverVo;
+import com.ccttic.entity.drivers.vo.DriverVoPage;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
+import com.ccttic.entity.drivers.vo.DriverillicitVoPage;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.EnterprisethenVoPage;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
+import com.ccttic.entity.drivers.vo.vehiclesVoPage;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.page.Page;
@@ -47,10 +51,13 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员信息分页")
 	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverVo>> seDriverPages(PageRequest page,@RequestBody(required = false) DriverVo driverVo){
+	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
-			Page<DriverVo> data = service.seDriverPage(page, driverVo);
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			Page<DriverVo> data = service.seDriverPage(page, tment);
 			resp.setMessage("查询驾驶员信息分页成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());
@@ -58,7 +65,7 @@ public class DriversController {
 		} catch (Exception e) {
 			resp.setMessage("查询驾驶员信息分页失败！");
 			resp.setStatus(0);
-			logger.error("查询驾驶员信息分页失败！"+driverVo,e);
+			logger.error("查询驾驶员信息分页失败！",e);
 		}
 
 		return resp;
@@ -99,11 +106,14 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息分页")
 	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(PageRequest page,@RequestBody(required = false) DriverillicitVo driver){
+	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(@RequestBody(required = false) DriverillicitVoPage tment){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 
 		try {
-			Page<DriverillicitVo> data = service.getDriverPages(page, driver);
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			Page<DriverillicitVo> data = service.getDriverPages(page, tment);
 			resp.setMessage("查询驾驶员违法信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
@@ -111,7 +121,7 @@ public class DriversController {
 		} catch (Exception e) {
 			resp.setMessage("查询驾驶员违法信息失败！");
 			resp.setStatus(-1);
-			logger.error("查询驾驶员违法信息失败！"+driver,e);
+			logger.error("查询驾驶员违法信息失败！",e);
 		}
 
 		return resp;
@@ -150,11 +160,14 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 0,content="企业基本信息分页")
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(PageRequest page,@RequestBody(required = false) EnterprisethenVo enterprisethenVo){
+	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
 
 		try {
-			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, enterprisethenVo);
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
 			resp.setMessage("查询驾驶员违法信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
@@ -198,11 +211,14 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 0)
 	@RequestMapping(value="/queryVehiclespage",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<vehiclesVo>>queryVehiclespage(PageRequest page,@RequestBody vehiclesVo vehiclesVo){
+	public ResponseMsg<List<vehiclesVo>>queryVehiclespage(@RequestBody vehiclesVoPage tment){
 		ResponseMsg<List<vehiclesVo>> resp = new ResponseMsg<List<vehiclesVo>>();
 
 		try {
-			Page<vehiclesVo> data = service.queryVehiclespage(page, vehiclesVo);
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			Page<vehiclesVo> data = service.queryVehiclespage(page, tment);
 			resp.setData(data.getRecords());
 			resp.setMessage("查询企业机动车违法信息成功");
 			resp.setStatus(0);

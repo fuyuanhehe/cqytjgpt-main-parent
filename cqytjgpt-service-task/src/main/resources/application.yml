@@ -36,6 +36,11 @@ eureka:
 management:
   security:
     enabled: false
+    
+#全局配置    
+ribbon:
+  ReadTimeout: 20000 #请求连接超时 单位毫秒
+  ConnectTimeout: 20000 #请求处理超时 单位毫秒 
       
 hystrix:
   command:
@@ -45,9 +50,4 @@ hystrix:
           enabled: true
         isolation:
           thread:
-            timeoutInMilliseconds: 60000      
-#全局配置    
-ribbon:
-  ReadTimeout: 30000 #请求连接超时 单位毫秒
-  ConnectTimeout: 30000 #请求处理超时 单位毫秒
-      
+            timeoutInMilliseconds: 60000
