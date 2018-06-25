@@ -406,6 +406,10 @@
 			AND v.vehiNoType =#{vehiNoType}
 		</if>
 	</select>
-
-
+       <select id="seEmp" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployee">
+       select * from ess_employee limit ${startRecord} , ${pageSize}
+       </select>
+       <select id="seEmpCount" parameterType="java.util.Map" resultType="long">
+       select count(id) from ess_employee 
+       </select>
 </mapper>

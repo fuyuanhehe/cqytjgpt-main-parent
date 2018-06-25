@@ -240,6 +240,15 @@ public class Const {
 	          * 修改权限三级菜单
 	          */
 	           public static final String UPDATE_MENU = "update-menu";
-		       
+	           /*
+	            * 查询菜单 三级
+	            */
+	           public static final String QUERY_MENU = "query-menu";
+	           /*
+	            * 查询所有菜单树
+	            */
+	           public static final String QUERYALL_MENU = "queryall-menu";
+	           
+	           
 //***************************系统管理菜单 end************************************************************
 }

@@ -14,6 +14,8 @@ import com.ccttic.entity.drivers.dr_illicit;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.vehiclesVo;
+import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -161,6 +163,54 @@ public class DriversController {
 			resp.setMessage("查询驾驶员违法信息失败！");
 			resp.setStatus(0);
 			logger.error("查询驾驶员违法信息失败！",e);
+		}
+
+		return resp;
+	}
+
+	//测试查询
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/queryEmpPage",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<EssEmployee>> queryEmpPage(PageRequest page){
+		ResponseMsg<List<EssEmployee>> resp = new ResponseMsg<List<EssEmployee>>();
+
+		try {
+			Page<EssEmployee> data = service.queryEmpPage(page);
+			resp.setData(data.getRecords());
+			resp.setTotal(data.getTotalRows().intValue());
+			resp.setStatus(0);
+			resp.setMessage("员工查询成功");
+		} catch (Exception e) {
+			resp.setStatus(-1);
+			resp.setMessage("员工查询失败");
+			logger.error("员工查询失败",e);
+		}
+
+		return resp;
+	}
+	/**
+	 * 功能说明：  企业基本信息分页
+	 * @param orgNm 区域
+	 * @param etpNm 企业名字
+	 * @param vehiNoType 车辆种类
+	 * @return 
+	 * @date  2018年6月25日
+	 */
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/queryVehiclespage",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<vehiclesVo>>queryVehiclespage(PageRequest page,@RequestBody vehiclesVo vehiclesVo){
+		ResponseMsg<List<vehiclesVo>> resp = new ResponseMsg<List<vehiclesVo>>();
+
+		try {
+			Page<vehiclesVo> data = service.queryVehiclespage(page, vehiclesVo);
+			resp.setData(data.getRecords());
+			resp.setMessage("查询企业机动车违法信息成功");
+			resp.setStatus(0);
+            resp.setTotal(data.getTotalRows().intValue());
+		} catch (Exception e) {
+			resp.setMessage("查询企业机动车违法信息失败");
+			resp.setStatus(-1);
+			logger.error("查询企业机动车违法信息失败",e);
 		}
 
 		return resp;

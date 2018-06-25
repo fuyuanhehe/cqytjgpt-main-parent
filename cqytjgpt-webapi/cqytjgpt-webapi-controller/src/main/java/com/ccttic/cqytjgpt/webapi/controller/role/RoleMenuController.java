@@ -17,6 +17,9 @@ import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
 import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.util.annotation.OperLogging;
+import com.ccttic.util.annotation.Resource;
+import com.ccttic.util.annotation.ResourceScan;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.MenuTreeUtil;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
@@ -34,12 +37,15 @@ public class RoleMenuController {
 	/**
 	 * 功能说明： 条件角色，菜单分页
 	 * @param roleNm 角色名字
-	 * @param   
+	 * @param roleId  
 	 * @return 
 	 * @date  2018年6月4日
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/loadMenuPages",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.QUERY_MENU, name = "查询菜单", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
+			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(PageRequest page,@RequestBody(required = false) Roles roles) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
@@ -68,6 +74,9 @@ public class RoleMenuController {
 	@OperLogging(operType = 1)
 	//	@PostMapping("/updateMenuByRole")
 	@RequestMapping(value="/updateMenuByRole",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.UPDATE_MENU, name = "修改权限", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
+			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addMenu(@RequestBody Roles roles){
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		try {
@@ -118,6 +127,9 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/seAllMenu",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.QUERYALL_MENU, name = "查询菜单树", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
+			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<List<Object>> seAllMenu(){
 		ResponseMsg<List<Object>> resp = new ResponseMsg<>();
 
@@ -147,6 +159,9 @@ public class RoleMenuController {
 	 */
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/seAllEmp",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ROLE, name = "删除角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
+			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<empModelVo> seAllEmp(){
 		ResponseMsg<empModelVo>  resp = new ResponseMsg<>();
 

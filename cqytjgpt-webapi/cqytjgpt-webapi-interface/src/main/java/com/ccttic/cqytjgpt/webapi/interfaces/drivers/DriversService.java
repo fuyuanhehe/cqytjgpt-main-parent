@@ -9,6 +9,8 @@ import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.vehiclesVo;
+import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
 
@@ -37,4 +39,8 @@ public interface DriversService {
 	
 	// 企业信息分页
 	Page<EnterprisethenVo> queryEnterprisePage(Pageable page,EnterprisethenVo enterprisethenVo);
+	
+	Page<EssEmployee> queryEmpPage(Pageable page);
+	//<!--企业信息记录分页 -->
+	Page<vehiclesVo> queryVehiclespage(Pageable page,vehiclesVo vehiclesVo);
 }
