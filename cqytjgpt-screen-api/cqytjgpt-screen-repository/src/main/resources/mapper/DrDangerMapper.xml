@@ -111,33 +111,65 @@ from dr_danger d where year(d.dangerTime) = year(now()) and (isDeleted is null o
   </select>
   <!-- 各区隐患详情查询 -->
   <select id="areaDangerInfo" resultType="map" >
- SELECT
-	e.orgNm,
+SELECT
+	e.orgNm,(
+		SELECT
+			count(1)
+		FROM
+			driver d
+		WHERE
+			d.mgrDepartAreaId = e.area_id and (d.isDelete is null or d.isDelete !=1)
+	) drivers,
+(
+		SELECT
+			count(1)
+		FROM
+			vehicle v
+		WHERE
+			v.mgrDepartAreaId = e.area_id and (v.isDeleted is null or v.isDeleted !=1)
+	) cars,
 	(
 		SELECT
 			count(1)
 		FROM
 			dr_danger d
 		WHERE
-			d.ownerOrgId = e.id and  (isDeleted is null or isDeleted !=1) and d.dangerType !=0
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now()) = month(d.dangerTime)
+	) monthDriverDangers,
+	(
+		SELECT
+			count(1)
+		FROM
+			vehi_danger d
+		WHERE 
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now()) = month(d.dangerTime)
+	) monthCarDangers,
+(select monthDriverDangers+monthCarDangers) monthTotal,
+(
+		SELECT
+			count(1)
+		FROM
+			dr_danger d
+		WHERE
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 
 	) driverDangers,
 	(
 		SELECT
 			count(1)
 		FROM
 			vehi_danger d
-		WHERE
-			d.ownerOrgId = e.id and (isDeleted is null or isDeleted !=1) and d.dangerType !=0
-	) carDangers,(select carDangers+driverDangers) total
+		WHERE 
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 
+	) carDangers,
+(select driverDangers+carDangers) total
 FROM
 	ess_organization e
-WHERE
-	(e.isDeleted is null or e.isDeleted !=1)  and area_id is not null
+	WHERE
+	(e.isDeleted is null or e.isDeleted !=1)  and e.area_id is not null 
 GROUP BY
 	e.orgNm
-ORDER BY 
-	total
-DESC
+
+
   </select>
   <!-- 通报驾驶员信息 -->
   <select id="noticeDangerDriver" resultType="map" parameterType="map">
