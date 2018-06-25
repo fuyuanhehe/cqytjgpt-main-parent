@@ -225,6 +225,10 @@ public class VehicleContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/qryOneHistoryTrack", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.CAR_HISTORY_TRACK, name = "查询",  hierarchy = 4, isMenue = false, pcd = Const.CAR_TRACK)
+    , prsc = {@Resource( cd = Const.CAR_TRACK, url="/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
+    		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+    		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public String qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
 		if (token==null) {
 			token = getToken();
@@ -235,20 +239,44 @@ public class VehicleContrller implements Serializable {
 	}
 	
 	/**
-	 * 根据条件获取车辆信息
+	 * 根据车牌号获取车辆信息
 	 * 
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/qryOneVehicleInfo", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.CAR_HISTORY_INFO, name = "搜索",  hierarchy = 4, isMenue = false, pcd = Const.CAR_TRACK)
+    , prsc = {@Resource( cd = Const.CAR_TRACK, url="/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
+    		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+    		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public String qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
-		
 		if (token==null) {
 			token = getToken();
 		}
 		String s = frign.vehicleInfo(token, "渝"+vo.getVehiNo());
-		
+		return s;
+	}
+	
+	/**
+	 * 根据条件获取车辆信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@ResourceScan(rsc = @Resource(cd = Const.CAR_TRACK, name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
+			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@RequestMapping(value = "/qryOneVehicleInfoList", method = {RequestMethod.POST,RequestMethod.GET})
+	@ResponseBody
+	
+	public String qryOneVehicleInfoList() {
+		if (token==null) {
+			token = getToken();
+		}
+		String flag = "0";
+		String fenceCd="500000";
+		String s = frign.vehicleInfoList(token,flag,fenceCd);
 		return s;
 	}
 	
