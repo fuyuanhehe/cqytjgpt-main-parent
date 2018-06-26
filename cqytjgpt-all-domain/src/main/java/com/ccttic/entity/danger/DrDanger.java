@@ -6,10 +6,6 @@ import com.ccttic.entity.BaseBean;
 
 public class DrDanger extends BaseBean implements Serializable{
 	private static final long serialVersionUID = -8349678655503842856L;
-    /**
-     * 主键ID
-     */
-    private String id;
 
     /**
      * 驾驶人名称
@@ -91,23 +87,6 @@ public class DrDanger extends BaseBean implements Serializable{
      */
     private String remark;
 
-
-
-    /**
-     * 主键ID
-     * @return id 主键ID
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * 主键ID
-     * @param id 主键ID
-     */
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
 
     /**
      * 驾驶人名称
