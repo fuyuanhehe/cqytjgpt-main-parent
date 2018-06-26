@@ -117,10 +117,13 @@ html, body {
         html .map-container .dper-layer .dper-nav p, body .map-container .dper-layer .dper-nav p {
           font-weight: bold;
           font-size: 12px; }
-        html .map-container .dper-layer .dper-nav p:nth-child(2), body .map-container .dper-layer .dper-nav p:nth-child(2) {
+          html .map-container .dper-layer .dper-nav .mt-1, body .map-container .dper-layer .dper-nav .mt-1 {
           margin-top: 0; }
-        html .map-container .dper-layer .dper-nav p:nth-child(4), body .map-container .dper-layer .dper-nav p:nth-child(4) {
-          margin-bottom: 0; } }
+        html .map-container .dper-layer .dper-nav .mt-2, body .map-container .dper-layer .dper-nav .mt-2 {
+          margin-top: 0; }
+        html .map-container .dper-layer .dper-nav .mb-2, body .map-container .dper-layer .dper-nav .mb-2 {
+          margin-bottom: 0; }
+         }
     html .map-container .lg-img, body .map-container .lg-img {
       position: absolute;
       top: 0;
