@@ -1,7 +1,9 @@
 package com.ccttic.cqytjgpt.webapi.controller.employee;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -34,6 +37,8 @@ import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
+
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -162,6 +167,65 @@ public class EmployeeController {
 		}
 
 		return rm;
+	}
+	
+	@RequestMapping("/refreshtoken")
+	@ResponseBody
+	public ResponseMsg<Map<String , Object>> refreshToken(@RequestParam String refreshToken){
+		ResponseMsg<Map<String , Object>> result = new ResponseMsg<Map<String , Object>>();
+		if(StringUtils.isBlank(refreshToken)) {
+			result.fail("请输入refresh_token.");
+		}else {
+			try {
+				String grant_type="refresh_token";
+				String value=authFeign.getRefreshToken(refreshToken,grant_type);
+				Map<String , Object> map = new HashMap<String,Object>();
+				if(StringUtils.isNotBlank(value)) {
+					JSONObject resultJSON = JSONObject.fromObject(value);
+					String access_token = resultJSON.get("access_token").toString();
+					String refresh_token = resultJSON.get("refresh_token").toString();
+					int expires_in = Integer.parseInt(resultJSON.get("expires_in").toString());
+					map.put("access_token",access_token);
+					map.put("refresh_token",refresh_token);
+					map.put("expires_in",expires_in);
+				}
+				
+				result.success("刷新token成功");
+				result.setData(map);
+			} catch (Exception e) {
+				logger.info("刷新token失败");
+				e.printStackTrace();
+				result.setStatus(ResponseMsg.STATUS_FAIL);
+				String massage = e.getMessage();
+				if(StringUtils.isNotBlank(massage)) {
+					int a = massage.indexOf("{");
+					String str = massage.substring(a,massage.length());
+					JSONObject resultJSON = JSONObject.fromObject(str);
+					String errorMsg = resultJSON.get("error_description").toString();
+					result.setMessage("刷新token失败："+errorMsg);
+				}else {
+					result.setMessage("刷新token失败：系统异常");
+				}
+			}
+		}
+		return result;
+	}
+	
+	@RequestMapping("/destoryaccesstoken")
+	@ResponseBody
+	public ResponseMsg<String> destoryAccessToken(@RequestParam String accessToken){
+		ResponseMsg<String> result = new ResponseMsg<String>();
+		if(StringUtils.isBlank(accessToken)) {
+			result.fail("请输入token.");
+		}else {
+			String value=authFeign.destoryAccess_token(accessToken);
+			if("注销成功".equals(value)) {
+				result.success(value);
+			}else {
+				result.fail(value);
+			}
+		}	
+		return result;
 	}
 
 	/**
