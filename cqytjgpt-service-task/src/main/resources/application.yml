@@ -40,7 +40,10 @@ management:
 #全局配置    
 ribbon:
   ReadTimeout: 10000 #请求连接超时 单位毫秒
-  ConnectTimeout: 10000 #请求处理超时 单位毫秒 
+  ConnectTimeout: 10000 #请求处理超时 单位毫秒
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true 
       
 hystrix:
   command:
