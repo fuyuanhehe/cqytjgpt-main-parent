@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.enterprise;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
@@ -50,5 +51,5 @@ public interface IEnterpriseService {
 	 */
 	public Page<EssEnterprise> qryEssEnterpriseList(Pageable page, EssEnterprise vo) throws AppException;
 	
-	public EssEnterprise getEssEnterprise(String id)throws Exception;
+	public List<EssEnterprise> getEssEnterprise(String id)throws Exception;
 }

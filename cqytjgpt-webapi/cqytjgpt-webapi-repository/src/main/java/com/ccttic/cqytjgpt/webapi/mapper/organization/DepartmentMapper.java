@@ -34,7 +34,7 @@ public interface DepartmentMapper {
 	 * @return
 	 * @throws AppException
 	 */
-	public List<Map<String, Object>> qryDepartmentList(Map<String, Object> params) throws AppException;
+	public List<Department> qryDepartmentList(Map<String, Object> params) throws AppException;
 	
 	/**
 	 * 创建部门

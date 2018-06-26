@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
+import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
@@ -58,22 +59,19 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String findAllOrg() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<Organization> findAllOrg() {
+		ResponseMsg<Organization> resp = new ResponseMsg<Organization>();
 		try {
 			Organization headOrg = organizationService.getHeadOrg();
 			if (!ObjectHelper.isEmpty(headOrg)) {
-				map.put("data", headOrg);
-				map.put("result", 0);
-				map.put("msg", "获取信息成功！");
+				resp.setData(headOrg);
+				resp.success("获取信息成功！");
 			}
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+			resp.fail("获取信息失败！");
 			logger.error(e.getMessage());
 		}
-
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -83,26 +81,24 @@ public class OrganizationContrller implements Serializable {
 	 *            当前节点的code
 	 * @return 下级节点
 	 */
-	@RequestMapping(value = "/findNextNode", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/findNextNode", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.GET_NEXT_NODE, name = "获取下级节点",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.GET_NEXT_NODE, name = "获取下级节点", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String findNextNode(@RequestBody Organization org) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<List<Organization>> findNextNode(@RequestBody Organization org) {
+		ResponseMsg<List<Organization>> resp = new ResponseMsg<List<Organization>>();
 		try {
 			List<Organization> list = organizationService.findNextNode(org.getOrgCd());
 			if (!ObjectHelper.isEmpty(list)) {
-				map.put("data", list);
-				map.put("result", 0);
-				map.put("msg", "获取信息成功！");
+				resp.setData(list);
+				resp.success("获取信息成功！");
 			}
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+			resp.fail("获取信息失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -112,26 +108,26 @@ public class OrganizationContrller implements Serializable {
 	 *            机构code
 	 * @return
 	 */
-	@RequestMapping(value = "/findOrgByOrgCd", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/findOrgByOrgCd", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.GET_ORGANIZATION, name = "获取组织信息",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.GET_ORGANIZATION, name = "获取组织信息", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String findOrgByOrgCd(@RequestBody Organization org) {
+	public ResponseMsg<OrgEmpCombine> findOrgByOrgCd(@RequestBody Organization org) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		ResponseMsg<OrgEmpCombine> resp = new ResponseMsg<OrgEmpCombine>();
 		try {
 			OrgEmpCombine findOrg = organizationService.findOrgByOrgCd(org.getOrgCd());
 			if (!ObjectHelper.isEmpty(findOrg)) {
+				resp.setData(findOrg);
 				map.put("data", findOrg);
-				map.put("result", 0);
-				map.put("msg", "获取信息成功！");
+				resp.success("获取信息成功！");
 			}
-		} catch (Exception e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+		} catch (AppException e) {
+			resp.fail("获取信息失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -141,25 +137,23 @@ public class OrganizationContrller implements Serializable {
 	 *            机构属性
 	 * @return
 	 */
-	@RequestMapping(value = "/saveOrg", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/saveOrg", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.ADD_ORGANIZATION, name = "创建组织",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ORGANIZATION, name = "创建组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String saveOrg(@RequestBody Organization org) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<Organization> saveOrg(@RequestBody Organization org) {
+		ResponseMsg<Organization> resp = new ResponseMsg<Organization>();
 		try {
 			String id = RandomHelper.uuid();
 			org = organizationService.createOrg(org, id);
-			map.put("data", org);
-			map.put("result", 0);
-			map.put("msg", "添加成功！");
-		} catch (Exception e) {
-			map.put("result", -1);
-			map.put("msg", "添加失败！");
+			resp.setData(org);
+			resp.success("添加成功！");
+		} catch (AppException e) {
+		resp.fail("添加失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -169,24 +163,22 @@ public class OrganizationContrller implements Serializable {
 	 *            机构属性
 	 * @return
 	 */
-	@RequestMapping(value = "/editOrg", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/editOrg", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_ORGANIZATION, name = "修改组织",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_ORGANIZATION, name = "修改组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String editOrg(@RequestBody Organization org) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<Organization> editOrg(@RequestBody Organization org) {
+		ResponseMsg<Organization> resp = new ResponseMsg<Organization>();
 		try {
 			org = organizationService.editOrg(org);
-			map.put("data", org);
-			map.put("result", 0);
-			map.put("msg", "修改成功！");
+			resp.setData(org);
+			resp.success("修改成功！");
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "修改失败！");
+		resp.fail("修改失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -196,23 +188,21 @@ public class OrganizationContrller implements Serializable {
 	 *            当前节点的code
 	 * @return 下级节点
 	 */
-	@RequestMapping(value = "/removeOrg", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/removeOrg", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ORGANIZATION, name = "删除组织",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ORGANIZATION, name = "删除组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String removeOrg(@RequestBody Organization org) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<String> removeOrg(@RequestBody Organization org) {
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			organizationService.removeOrg(org.getOrgCd(), org.getOrgType());
-			map.put("result", 0);
-			map.put("msg", "删除成功！");
+			resp.success("删除成功！");
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "删除失败！");
+			resp.fail("删除失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -222,28 +212,26 @@ public class OrganizationContrller implements Serializable {
 	 *            机构code
 	 * @return
 	 */
-	@RequestMapping(value = "/findOrgDepartment", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/findOrgDepartment", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.GET_DEPARTMENT, name = "获取部门信息",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.GET_DEPARTMENT, name = "获取部门信息", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String findOrgDepartment(@RequestBody PageDepartmentVo tment) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<List<Department>>  findOrgDepartment(@RequestBody PageDepartmentVo tment) {
+		ResponseMsg<List<Department>> resp = new ResponseMsg<List<Department>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			Page<Map<String, Object>> pager = departmentService.findOrgDepartmentList(page, tment, tment.getOrgCd());
-			map.put("data", pager.getRecords());
-			map.put("total", pager.getTotalRows());
-			map.put("result", 0);
-			map.put("msg", "获取信息成功！");
+			Page<Department> pager = departmentService.findOrgDepartmentList(page, tment, tment.getOrgCd());
+			resp.setData(pager.getRecords());
+			resp.setTotal(pager.getTotalRows().intValue());
+			resp.success("查询成功！");
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+			resp.fail("查询失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -254,25 +242,23 @@ public class OrganizationContrller implements Serializable {
 	 * @param ment
 	 * @return
 	 */
-	@RequestMapping(value = "/saveDepartment", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/saveDepartment", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.ADD_DEPARTMENT, name = "创建部门",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_DEPARTMENT, name = "创建部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String saveDepartment(@RequestBody Department ment) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<Department> saveDepartment(@RequestBody Department ment) {
+		ResponseMsg<Department> resp = new ResponseMsg<Department>();
 		try {
 			String id = RandomHelper.uuid();
 			ment = departmentService.createMent(ment, id);
-			map.put("data", ment);
-			map.put("result", 0);
-			map.put("msg", "添加成功！");
+			resp.setData(ment);
+			resp.success("添加成功！");
 		} catch (Exception e) {
-			map.put("result", -1);
-			map.put("msg", "添加失败！");
+			resp.fail("添加失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -281,24 +267,22 @@ public class OrganizationContrller implements Serializable {
 	 * @param ment
 	 * @return
 	 */
-	@RequestMapping(value = "/editDepartment", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/editDepartment", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_DEPARTMENT, name = "修改部门",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_DEPARTMENT, name = "修改部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String editDepartment(@RequestBody Department ment) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<Department> editDepartment(@RequestBody Department ment) {
+		ResponseMsg<Department> resp = new ResponseMsg<Department>();
 		try {
 			ment = departmentService.modifyMent(ment);
-			map.put("data", ment);
-			map.put("result", 0);
-			map.put("msg", "修改成功！");
-		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "修改失败！");
+			resp.setData(ment);
+			resp.success("修改成功！");
+		} catch (Exception e) {
+			resp.fail("修改失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -307,23 +291,21 @@ public class OrganizationContrller implements Serializable {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/removeDepartment", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/removeDepartment", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.DELETE_DEPARTMENT, name = "删除部门",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_DEPARTMENT, name = "删除部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String removeDepartment(@RequestBody Department ment) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<String> removeDepartment(@RequestBody Department ment) {
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			departmentService.removeMent(ment.getId());
-			map.put("result", 0);
-			map.put("msg", "删除成功！");
-		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "删除失败！");
+			resp.success("删除成功！");
+		} catch (Exception e) {
+			resp.fail("删除失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 
 	}
 
@@ -335,25 +317,23 @@ public class OrganizationContrller implements Serializable {
 	 * @param rise
 	 * @return
 	 */
-	@RequestMapping(value = "/saveEnterprise", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/saveEnterprise", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	@ResourceScan(rsc = @Resource(cd = Const.ADD_ENTERPRISE, name = "创建企业",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ENTERPRISE, name = "创建企业", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String saveEnterprise(@RequestBody Enterprise rise) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<Enterprise> saveEnterprise(@RequestBody Enterprise rise) {
+		ResponseMsg<Enterprise> resp = new ResponseMsg<Enterprise>();
 		try {
 			String id = RandomHelper.uuid();
 			rise = departmentService.createRise(rise, id);
-			map.put("data", rise);
-			map.put("result", 0);
-			map.put("msg", "添加成功！");
+			resp.setData(rise);
+			resp.success("添加成功！");
 		} catch (Exception e) {
-			map.put("result", -1);
-			map.put("msg", "添加失败！");
+			resp.fail("添加失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -361,21 +341,19 @@ public class OrganizationContrller implements Serializable {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/getArea",method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/getArea", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public String getArea() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<List<Area>> getArea() {
+		ResponseMsg<List<Area>> resp = new ResponseMsg<List<Area>>();
 		try {
 			List<Area> area = organizationService.getArea();
-			map.put("data", area);
-			map.put("result", 0);
-			map.put("msg", "获取信息成功！");
-		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+			resp.setData(area);
+			resp.success("添加成功！");
+		} catch (Exception e) {
+			resp.fail("添加失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 }

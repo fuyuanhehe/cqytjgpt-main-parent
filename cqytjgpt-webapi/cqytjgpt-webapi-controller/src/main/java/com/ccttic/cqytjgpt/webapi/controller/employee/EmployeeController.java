@@ -99,7 +99,7 @@ public class EmployeeController {
 				response.fail("获取访问token失败");
 				return response;
 			}
-			EssEnterprise rise=enterpriseService.getEssEnterprise(employee.getId());
+			List<EssEnterprise> rise=enterpriseService.getEssEnterprise(employee.getId());
 			request.getSession(true).setAttribute(Const.USER, employee);
 			request.getSession(true).setAttribute(Const.ENT, rise);
 			response.setStatus(ResponseMsg.STATUS_SUCCES);

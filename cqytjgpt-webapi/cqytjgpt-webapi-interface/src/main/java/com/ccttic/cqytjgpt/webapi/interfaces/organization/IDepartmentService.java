@@ -1,7 +1,5 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.organization;
 
-import java.util.Map;
-
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 import com.ccttic.util.exception.AppException;
@@ -16,7 +14,7 @@ public interface IDepartmentService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<Map<String, Object>> findOrgDepartmentList(Pageable page, Department tment,String orgCd) throws AppException;
+	public Page<Department> findOrgDepartmentList(Pageable page, Department tment,String orgCd) throws AppException;
 	/**
 	 * 创建部门
 	 * @param ment

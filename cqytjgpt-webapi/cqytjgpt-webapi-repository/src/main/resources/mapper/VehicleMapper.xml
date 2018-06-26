@@ -27,8 +27,8 @@
 	</resultMap>
 	<!-- 新增车牌号和车辆类型 -->
 	<insert id="saveVehicle" parameterType="java.util.Map">
-		insert into vehicle(id,vehiNo,vehiNoType,vehiType) values 
-			(#{id},#{vehiNo},#{vehiNoType},#{carTypeName})
+		insert into vehicle(id,vehiNo,vehiNoType,vehiType,mgrEnterpriseId) values 
+			(#{id},#{vehiNo},#{vehiNoType},#{carTypeName},#{entId})
 	</insert>
 	
 	<!--  -->
@@ -114,7 +114,10 @@
 			 WHEN 'B' THEN '转出' WHEN 'P' THEN '达到报废标准公告牌证作废' WHEN 'Q' THEN '逾期未检验' 
 			 ELSE '其他' END  state,area.areaNm,ise.etpNm 
 			 FROM (
-				SELECT * FROM vehicle  WHERE mgrEnterpriseId=#{entId}
+				SELECT * FROM vehicle  WHERE mgrEnterpriseId in 
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 				and mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>
@@ -156,7 +159,10 @@
 	
 	<!-- 根据企业编码获取车辆基础信息条数 -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from vehicle where 1=1 and mgrEnterpriseId=#{entId}
+		select count(1) from vehicle where 1=1 and mgrEnterpriseId in 
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+		        #{item}  
+		    </foreach>  
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 				and mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>

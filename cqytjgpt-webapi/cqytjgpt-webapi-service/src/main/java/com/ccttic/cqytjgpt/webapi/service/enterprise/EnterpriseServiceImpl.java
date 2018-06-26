@@ -132,8 +132,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	}
 
 	@Override
-	public EssEnterprise getEssEnterprise(String id) throws Exception {
-		// TODO Auto-generated method stub
+	public List<EssEnterprise> getEssEnterprise(String id) throws Exception {
 		return enterpriseMapper.getEssEnterprise(id);
 	}
 	

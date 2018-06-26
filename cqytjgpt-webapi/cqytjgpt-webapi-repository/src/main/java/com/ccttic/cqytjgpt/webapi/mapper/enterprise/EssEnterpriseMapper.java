@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.EssEnterpriseExample;
-import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.util.exception.AppException;
 
 public interface EssEnterpriseMapper {
@@ -56,5 +55,5 @@ public interface EssEnterpriseMapper {
 	 */
 	public int qryEnterpriseCount(Map<String, Object> params) throws AppException;
 	
-	public EssEnterprise getEssEnterprise(String id)throws Exception;
+	public List<EssEnterprise> getEssEnterprise(String id)throws Exception;
 }

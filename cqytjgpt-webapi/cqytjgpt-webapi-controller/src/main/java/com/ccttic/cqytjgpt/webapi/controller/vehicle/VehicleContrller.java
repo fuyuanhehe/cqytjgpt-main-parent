@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
+import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
@@ -67,25 +69,28 @@ public class VehicleContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public String qryVehicleList(@RequestBody  PageVehicleVo vehicle,@ModelAttribute(Const.ENT) EssEnterprise ent) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
+		ResponseMsg<List<Vehicle>> resp = new ResponseMsg<List<Vehicle>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
-			vehicle.setMgrEnterpriseId(ent.getId());
+			List<String> list = new ArrayList<String>();
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			vehicle.setList(list);
 			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle);
-			map.put("data", pager.getRecords());
-			map.put("total", pager.getTotalRows());
-			map.put("result", 0);
-			map.put("msg", "获取信息成功！");
+			resp.setData(pager.getRecords());
+			resp.setTotal(pager.getTotalRows().intValue());
+			resp.success("查询成功！");
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
-			logger.error(e.getMessage());
+			resp.fail("查询失败！");
+			logger.error("查询失败！",e);
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
+	
 
 	/**
 	 * 新增车牌号和车辆类型到数据库
@@ -100,24 +105,21 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String saveVehicle(@RequestBody VehicleList listMap) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,@ModelAttribute(Const.ENT) EssEnterprise ent) {
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
-			Map<String, Object> maps = vehicleService.saveVehicle(listMap);
+			Map<String, Object> maps = vehicleService.saveVehicle(listMap,ent.getId());
 			if ((int) maps.get("cet") == 1) {
-				map.put("result", 0);
-				map.put("msg", maps.get("gather") + "其他添加成功！");
+				resp.success(maps.get("gather") + "其他添加成功！");
 			} else {
-				map.put("result", 0);
-				map.put("msg", "添加成功！");
+				resp.success("添加成功！");
 			}
 
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "添加失败！");
+			resp.fail("添加失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -134,29 +136,24 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String modifVehicle(@RequestBody VehicleList listMap) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<String> modifVehicle(@RequestBody VehicleList listMap) {
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 		List<Map<String, String>> maps = listMap.getListMap();
 		for (int i = 0; i < maps.size(); i++) {
 			Map<String, String> mapVe = maps.get(i);
 			try {
-				// Vehicle vehicle = new Vehicle();
-				// vehicle.setVehiNo(vehiNoGather[i]);
-				// vehicle.setVehiType(vehiTypeGather[0]);
 				// 调用接口获取车辆基础信息
 				XMLCar xmlCar = queryCarService.selectCarByHpzlHphm(mapVe.get("vehiNoType"), mapVe.get("vehiNo"));
 				// 根据车牌号修改车辆基础信息
 				vehicleService.modifVehicle(xmlCar);
-				map.put("result", 0);
-				map.put("msg", "修改成功！");
+				resp.success("修改成功！");
 			} catch (Exception e) {
-				map.put("result", -1);
-				map.put("msg", "修改失败！");
+				resp.fail("修改失败！");
 				logger.error(e.getMessage());
 			}
 		}
 
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -171,21 +168,19 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneVehicle(@RequestBody Vehicle ve) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<Vehicle> qryOneVehicle(@RequestBody Vehicle ve) {
+		ResponseMsg<Vehicle> resp = new ResponseMsg<Vehicle>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", ve.getId());
 		try {
 			Vehicle vehicle = vehicleService.qryOneVehicle(params);
-			map.put("data", vehicle);
-			map.put("result", 0);
-			map.put("msg", "获取信息成功！");
+			resp.setData(vehicle);
+			resp.success("查询成功！");
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+			resp.fail("查询失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -200,23 +195,21 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneVehiIllicit(@RequestBody PageVehiIllicitVo vehiIllicit) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<List<VehiIllicit>>  qryOneVehiIllicit(@RequestBody PageVehiIllicitVo vehiIllicit) {
+		ResponseMsg<List<VehiIllicit>>  resp = new ResponseMsg<List<VehiIllicit>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehiIllicit.getPage());
 			page.setRows(vehiIllicit.getRows());
 			Page<VehiIllicit> pager = vehicleService.qryVehiIllicitList(page, vehiIllicit);
-			map.put("data", pager.getRecords());
-			map.put("total", pager.getTotalRows());
-			map.put("result", 0);
-			map.put("msg", "获取信息成功！");
+			resp.setData(pager.getRecords());
+			resp.setTotal(pager.getTotalRows().intValue());
+			resp.success("查询成功！");
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+			resp.fail("查询失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 
 	/**
@@ -231,13 +224,16 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_TRACK, url="/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
+	public ResponseMsg<String> qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 		if (token==null) {
 			token = getToken();
 		}
 		String s = frign.queryData(token, "渝"+vo.getVehiNo(), vo.getStartDate(), vo.getEndDate());
+		resp.setData(s);
+		resp.success("查询成功！");
 		
-		return s;
+		return resp;
 	}
 	
 	/**
@@ -252,12 +248,15 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_TRACK, url="/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
+	public ResponseMsg<String> qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 		if (token==null) {
 			token = getToken();
 		}
 		String s = frign.vehicleInfo(token, "渝"+vo.getVehiNo());
-		return s;
+		resp.setData(s);
+		resp.success("查询成功！");
+		return resp;
 	}
 	
 	/**
@@ -272,14 +271,17 @@ public class VehicleContrller implements Serializable {
 	@RequestMapping(value = "/qryOneVehicleInfoList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	
-	public String qryOneVehicleInfoList() {
+	public ResponseMsg<String> qryOneVehicleInfoList() {
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 		if (token==null) {
 			token = getToken();
 		}
 		String flag = "0";
 		String fenceCd="500000";
 		String s = frign.vehicleInfoList(token,flag,fenceCd);
-		return s;
+		resp.setData(s);
+		resp.success("查询成功！");
+		return resp;
 	}
 	
 	/**
