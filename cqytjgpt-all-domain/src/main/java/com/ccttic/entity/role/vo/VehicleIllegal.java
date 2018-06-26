@@ -36,10 +36,10 @@ public class VehicleIllegal extends Vehicle {
 			String owner, String telphone, String mobilephone, String adress, String permitCar, String firstReciveTime,
 			String mgrDepart, String mgrDepartAreaId, String areaNm, String mgrEnterpriseId, String etpNm,
 			String nextExamineTime, String effectStartTime, String effectEndTime, String examineEffectEndTime,
-			String scoreTotal, String state, String remark, String startTime, String endTime) {
+			String scoreTotal, String state, String remark, String startTime, String endTime,List<String> list) {
 		super(vehiNo, vehiNoType,vehiNoTypeText, vehiType,vehiTypeText, nature, ownership, owner, telphone, mobilephone, adress, permitCar, firstReciveTime,
 				mgrDepart, mgrDepartAreaId, areaNm, mgrEnterpriseId, etpNm, nextExamineTime, effectStartTime, effectEndTime,
-				examineEffectEndTime, scoreTotal, state, remark, startTime, endTime);
+				examineEffectEndTime, scoreTotal, state, remark, startTime, endTime,list);
 		// TODO Auto-generated constructor stub
 	}
 	
