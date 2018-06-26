@@ -282,7 +282,7 @@ public class ScreenController {
 		ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
 		try {
 			log.info("开始查询各区隐患排行");
-			List<Map<String,Object>> topList = screenService.areaDangerInfo();
+			List<Map<String,Object>> topList = screenService.areaDangersTop();
 			response.setData(topList);
 			response.success("各区隐患排名查询成功");
 		} catch (Exception e) {
@@ -358,7 +358,7 @@ public class ScreenController {
 		ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
 		try {
 			log.info("开始查询各分所机动车治理情况");
-			Map<String,Object> tempMap =screenService.deptDangerForDriver(map);
+			Map<String,Object> tempMap =screenService.deptDangerForCar(map);
 			response.setData(tempMap);
 			response.success("各区机动车治理情况查询成功");
 		} catch (Exception e) { 
