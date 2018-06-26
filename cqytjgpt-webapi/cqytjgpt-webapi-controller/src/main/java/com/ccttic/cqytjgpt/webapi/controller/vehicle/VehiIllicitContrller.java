@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
 import com.ccttic.entity.common.ResponseMsg;
@@ -33,6 +35,7 @@ import com.ccttic.util.page.PageRequest;
  */
 @RestController
 @RequestMapping("/vehiIllicit")
+@SessionAttributes(Const.ENT)
 public class VehiIllicitContrller implements Serializable{
 	private static final long serialVersionUID = 4967775901502780928L;
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -47,13 +50,18 @@ public class VehiIllicitContrller implements Serializable{
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_ILLICIT_INFO, name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,@ModelAttribute(Const.ENT) EssEnterprise ent) {
+	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
 		ResponseMsg<List<VehiIllicit>> resp = new ResponseMsg<List<VehiIllicit>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehiIllicit.getPage());
 			page.setRows(vehiIllicit.getRows());
-			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page, vehiIllicit, ent.getId());
+			List<String> list = new ArrayList<String>();
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			
+			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page, vehiIllicit, list);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");

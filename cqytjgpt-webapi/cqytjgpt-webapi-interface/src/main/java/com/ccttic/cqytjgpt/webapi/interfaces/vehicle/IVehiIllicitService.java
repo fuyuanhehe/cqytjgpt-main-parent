@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.vehicle;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.role.VehiIllicit;
@@ -17,7 +18,7 @@ public interface IVehiIllicitService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, String entId) throws AppException;
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit,List<String> list) throws AppException;
 	
 	/**
 	 * 获取指定车辆违法信息

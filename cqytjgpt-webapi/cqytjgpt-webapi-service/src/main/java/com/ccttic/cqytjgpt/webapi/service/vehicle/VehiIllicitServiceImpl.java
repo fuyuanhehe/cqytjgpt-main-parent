@@ -21,12 +21,12 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService{
 	@Resource
 	private VehiIllicitMapper mapper;
 	@Override
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, String entId) throws AppException {
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit,List<String> list) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("entId", entId);
+		params.put("list", list);
 		params.put("mgrDepartAreaId", vehiIllicit.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehiIllicit.getVehiNo()); // 车牌号
 		params.put("ownership", vehiIllicit.getOwnership()); // 车所属企业
