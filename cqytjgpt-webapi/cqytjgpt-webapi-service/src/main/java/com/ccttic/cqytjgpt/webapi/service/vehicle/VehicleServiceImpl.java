@@ -16,6 +16,7 @@ import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.VehicleIllegal;
+import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -76,24 +77,26 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public Map<String, Object> saveVehicle(List<Map<String, String>> listMap) throws AppException {
+	public Map<String, Object> saveVehicle(VehicleList listMap) throws AppException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int cet = 0;
 		String gather="";
-		for (int i = 0; i < listMap.size(); i++) {
-			Map<String, String> mapVe = listMap.get(i);
+		List<Map<String, String>> maps = listMap.getListMap();
+		for (int i = 0; i < maps.size(); i++) {
+			Map<String, String> mapVe = maps.get(i);
 			Map<String, Object> params = new HashMap<String, Object>();
 			String uuid = RandomHelper.uuid();
 			params.put("id", uuid);
 			params.put("vehiNo", mapVe.get("vehiNo"));
 			params.put("vehiNoType", mapVe.get("vehiNoType"));
 			params.put("carTypeName", mapVe.get("carTypeName"));
-			if (mapper.qryOneVehiNo(listMap.get(i).get("vehiNo")) != null) {
-				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + listMap.get(i).get("vehiNo") + "]已存在！");
-				gather = gather+ "车牌号[" + listMap.get(i).get("vehiNo") + "]已存在！";
+			if (mapper.qryOneVehiNo(maps.get(i).get("vehiNo")) != null) {
+				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + maps.get(i).get("vehiNo") + "]已存在！");
+				gather = gather+ "车牌号[" + maps.get(i).get("vehiNo") + "]已存在！";
 				cet = 1;
 				continue;
 			}
+		
 			// 入库
 			mapper.saveVehicle(params);
 		}

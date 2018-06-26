@@ -25,6 +25,7 @@ import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.InputVehiVo;
 import com.ccttic.entity.role.vo.PageVehiIllicitVo;
 import com.ccttic.entity.role.vo.PageVehicleVo;
+import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -99,7 +100,7 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String saveVehicle(@RequestBody List<Map<String, String>> listMap) {
+	public String saveVehicle(@RequestBody VehicleList listMap) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Map<String, Object> maps = vehicleService.saveVehicle(listMap);
@@ -133,10 +134,11 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public String modifVehicle(@RequestBody List<Map<String, String>> listMap) {
+	public String modifVehicle(@RequestBody VehicleList listMap) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		for (int i = 0; i < listMap.size(); i++) {
-			Map<String, String> mapVe = listMap.get(i);
+		List<Map<String, String>> maps = listMap.getListMap();
+		for (int i = 0; i < maps.size(); i++) {
+			Map<String, String> mapVe = maps.get(i);
 			try {
 				// Vehicle vehicle = new Vehicle();
 				// vehicle.setVehiNo(vehiNoGather[i]);

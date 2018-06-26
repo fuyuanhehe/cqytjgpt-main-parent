@@ -103,8 +103,9 @@
 	<!-- 根据企业编码获取车辆基础信息 -->
 	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="Vehicle">
 		SELECT ve.id,ve.vehiNo,
-			 CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType as vehiNoTypeText,
-			 ve.vehiType,ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
+			 CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
+			 CASE ve.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiTypeText,ve.vehiType,
+			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
 			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,
 			 CASE ve.state WHEN 'G' THEN '违法未处理' WHEN 'A' THEN '正常' WHEN 'O' THEN '锁定' WHEN 'N' THEN '事故逃逸'
@@ -191,8 +192,9 @@
 	<!-- 根据id获取指定车辆基础详情信息 -->
 	<select id="qryOneVehicle" parameterType="java.util.Map" resultMap="Vehicle">
 		SELECT ve.id,ve.vehiNo,
-			CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType as vehiNoTypeText,
-			ve.vehiType,ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
+			CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
+			 CASE ve.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiTypeText,ve.vehiType,
+			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
 			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,
 			 CASE ve.state WHEN 'G' THEN '违法未处理' WHEN 'A' THEN '正常' WHEN 'O' THEN '锁定' WHEN 'N' THEN '事故逃逸'
@@ -211,7 +213,7 @@
 	<!-- 根据id获取指定车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
 		SELECT cit.id,cit.vehiNo,
-				CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType as vehiNoTypeText,
+			   CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
 			   cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
 			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
 			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,

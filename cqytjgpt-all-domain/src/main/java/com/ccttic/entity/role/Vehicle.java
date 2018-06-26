@@ -16,10 +16,10 @@ public class Vehicle extends BaseBean implements Serializable {
 	private String vehiNo;
 	// 号牌种类 
 	private String vehiNoType;
-	// 号牌种类 
 	private String vehiNoTypeText;
 	// 车辆种类
 	private String vehiType;
+	private String vehiTypeText;
 	// 使用性质
 	private String nature;
 	// 机动车所属企业
@@ -69,10 +69,10 @@ public class Vehicle extends BaseBean implements Serializable {
 		super();
 	}
 
-	public Vehicle(String vehiNo, String vehiNoType, String vehiNoTypeText, String vehiType, String nature,
-			String ownership, String owner, String telphone, String mobilephone, String adress, String permitCar,
-			String firstReciveTime, String mgrDepart, String mgrDepartAreaId, String areaNm, String mgrEnterpriseId,
-			String etpNm, String nextExamineTime, String effectStartTime, String effectEndTime,
+	public Vehicle(String vehiNo, String vehiNoType, String vehiNoTypeText, String vehiType, String vehiTypeText,
+			String nature, String ownership, String owner, String telphone, String mobilephone, String adress,
+			String permitCar, String firstReciveTime, String mgrDepart, String mgrDepartAreaId, String areaNm,
+			String mgrEnterpriseId, String etpNm, String nextExamineTime, String effectStartTime, String effectEndTime,
 			String examineEffectEndTime, String scoreTotal, String state, String remark, String startTime,
 			String endTime) {
 		super();
@@ -80,6 +80,7 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.vehiNoType = vehiNoType;
 		this.vehiNoTypeText = vehiNoTypeText;
 		this.vehiType = vehiType;
+		this.vehiTypeText = vehiTypeText;
 		this.nature = nature;
 		this.ownership = ownership;
 		this.owner = owner;
@@ -103,6 +104,8 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
+
+
 
 
 
@@ -312,6 +315,14 @@ public class Vehicle extends BaseBean implements Serializable {
 
 	public void setVehiNoTypeText(String vehiNoTypeText) {
 		this.vehiNoTypeText = vehiNoTypeText;
+	}
+
+	public String getVehiTypeText() {
+		return vehiTypeText;
+	}
+
+	public void setVehiTypeText(String vehiTypeText) {
+		this.vehiTypeText = vehiTypeText;
 	}
 
 }
