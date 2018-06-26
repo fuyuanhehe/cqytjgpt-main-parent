@@ -29,6 +29,7 @@ import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
+import com.ccttic.entity.employee.vo.TokenVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
@@ -169,16 +170,16 @@ public class EmployeeController {
 		return rm;
 	}
 	
-	@RequestMapping("/refreshtoken")
+	@RequestMapping(value = "/refreshtoken", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public ResponseMsg<Map<String , Object>> refreshToken(@RequestParam String refreshToken){
+	public ResponseMsg<Map<String , Object>> refreshToken(@RequestBody TokenVo vo){
 		ResponseMsg<Map<String , Object>> result = new ResponseMsg<Map<String , Object>>();
-		if(StringUtils.isBlank(refreshToken)) {
+		if(StringUtils.isBlank(vo.getRefreshToken())) {
 			result.fail("请输入refresh_token.");
 		}else {
 			try {
 				String grant_type="refresh_token";
-				String value=authFeign.getRefreshToken(refreshToken,grant_type);
+				String value=authFeign.getRefreshToken(vo.getRefreshToken(),grant_type);
 				Map<String , Object> map = new HashMap<String,Object>();
 				if(StringUtils.isNotBlank(value)) {
 					JSONObject resultJSON = JSONObject.fromObject(value);
