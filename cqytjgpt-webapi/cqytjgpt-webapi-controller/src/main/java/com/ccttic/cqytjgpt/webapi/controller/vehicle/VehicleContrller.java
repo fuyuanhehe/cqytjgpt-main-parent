@@ -105,10 +105,14 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,@ModelAttribute(Const.ENT) EssEnterprise ent) {
+	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
-			Map<String, Object> maps = vehicleService.saveVehicle(listMap,ent.getId());
+			String entId = "";
+			for (EssEnterprise essEnterprise : ent) {
+				entId=essEnterprise.getId();
+			}
+			Map<String, Object> maps = vehicleService.saveVehicle(listMap,entId);
 			if ((int) maps.get("cet") == 1) {
 				resp.success(maps.get("gather") + "其他添加成功！");
 			} else {
