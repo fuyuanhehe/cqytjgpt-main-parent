@@ -218,7 +218,7 @@ FROM
 	(e.isDeleted is null or e.isDeleted !=1)  and e.area_id is not null 
 GROUP BY
 	e.orgNm
-ORDER BY 
+ORDER BY   
 	total
 DESC
   </select>
