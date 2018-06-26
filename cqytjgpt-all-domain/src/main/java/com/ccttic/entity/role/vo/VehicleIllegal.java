@@ -32,12 +32,12 @@ public class VehicleIllegal extends Vehicle {
 		// TODO Auto-generated constructor stub
 	}
 
-	public VehicleIllegal(String vehiNo, String vehiNoType, String vehiType, String nature, String ownership,
+	public VehicleIllegal(String vehiNo, String vehiNoType,String vehiNoTypeText, String vehiType, String nature, String ownership,
 			String owner, String telphone, String mobilephone, String adress, String permitCar, String firstReciveTime,
 			String mgrDepart, String mgrDepartAreaId, String areaNm, String mgrEnterpriseId, String etpNm,
 			String nextExamineTime, String effectStartTime, String effectEndTime, String examineEffectEndTime,
 			String scoreTotal, String state, String remark, String startTime, String endTime) {
-		super(vehiNo, vehiNoType, vehiType, nature, ownership, owner, telphone, mobilephone, adress, permitCar, firstReciveTime,
+		super(vehiNo, vehiNoType,vehiNoTypeText, vehiType, nature, ownership, owner, telphone, mobilephone, adress, permitCar, firstReciveTime,
 				mgrDepart, mgrDepartAreaId, areaNm, mgrEnterpriseId, etpNm, nextExamineTime, effectStartTime, effectEndTime,
 				examineEffectEndTime, scoreTotal, state, remark, startTime, endTime);
 		// TODO Auto-generated constructor stub
