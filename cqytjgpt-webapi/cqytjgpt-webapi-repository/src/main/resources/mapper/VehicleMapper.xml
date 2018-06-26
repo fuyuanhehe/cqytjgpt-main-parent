@@ -133,10 +133,10 @@
 				and state = #{state}
 			</if>
 			<if test="effectStartTime != null and effectStartTime != ''">
-				and left(effectStartTime,10) &lt;= #{effectStartTime}
+				and (left(effectStartTime,10) = #{effectStartTime} or left(effectStartTime,10) &gt; #{effectStartTime})
 			</if>
 			<if test="effectEndTime != null and effectEndTime != ''">
-				and left(effectEndTime,10) &gt;= #{effectEndTime}
+				and (left(effectEndTime,10) = #{effectEndTime} or left(effectEndTime,10) &lt; #{effectEndTime})
 			</if>
 			<if test="startTime != null and startTime != ''">
 				and left(firstReciveTime,10) &gt;= #{startTime}
