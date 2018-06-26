@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地图</title>
+    <link rel="stylesheet" href="../static/utils/ryutils.css">                 <!-- 工具 -->
+    <link rel="stylesheet" href="../static/css/page.map.css">
+    <script src="./../static/js/vue.min.js"></script>                            <!-- vue引入 -->
+</head>
+<body>
+<div class="map-container" id="app-map">
+    <div class="map-box">
+        <svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;">
+            <symbol id="icon-guanbi" viewBox="0 0 1024 1024">
+                <path d="M911.288962 181.244924c14.772448-20.840654 12.988826-42.079374-3.744277-61.293995-17.198707-19.74981-42.419112-23.165606-65.629743-6.830569-14.780635 10.400884-27.313066 24.15105-40.215934 37.041638C707.012486 244.772796 612.484575 339.544253 511.503696 440.678628c-98.431823-98.715279-191.422727-192.017268-284.480146-285.253766-12.901845-12.925381-25.182542-26.724665-39.423895-38.007639-25.39539-20.11513-52.008514-19.170618-70.667479 1.678222-19.049868 21.289885-18.191314 44.509726-1.644453 66.470901 9.704013 12.879332 21.835308 23.988344 33.296337 35.473933 81.758072 81.909521 163.686013 163.652244 245.393943 245.610884 14.053064 14.100136 27.326369 28.981055 42.896996 45.563732-16.022928 17.017582-29.424146 31.971156-43.582611 46.170552-83.152838 83.386152-166.546154 166.532851-249.675456 249.945609-11.42726 11.465123-23.730471 22.757307-32.259728 36.259832-13.272281 21.012569-11.494799 42.966581 6.519484 61.168128 18.043958 18.226107 39.933501 20.219507 61.012585 6.866385 13.495362-8.547677 24.824385-20.804838 36.278251-32.249495C437.792904 657.93779 660.311861 435.392228 882.763278 212.782198 892.783493 202.75482 903.147538 192.731536 911.288962 181.244924z"></path>
+                <path d="M787.193643 715.642027c-31.527041-31.463596-61.791321-64.36903-95.130637-93.787036-31.108508-27.450189-74.723865-18.300808-82.604346 17.71957-3.64297 16.655332 2.656503 42.138726 14.223956 54.374398 66.745147 70.584592 136.295176 138.525983 205.279317 206.974935 6.983041 6.931876 15.847943 13.173021 25.015743 16.47523 33.417087 12.045337 67.941392-13.383822 66.329684-58.189284-5.336542-7.495718-14.013155-23.302729-26.050306-35.895535C859.295797 786.728038 823.022663 751.395322 787.193643 715.642027z"></path>
+            </symbol>
+        </svg>
+        <!-- cut-tab -->
+        <div class="map-cut-box">
+            <p class="align-center background-img-full text-overflow-e" ref="name" @click="map_tab_cut(index)"
+               v-for="(map,index) in cut_tab">
+                <span class="co-bl-c9c font-12"> {{ map.name }} </span>
+            </p>
+        </div>
+        <!-- map -->
+        <div class="map" dper-v id="map">
+            <!--<div class="map-no-data co-white font-38 malign-center-text align-center" v-if="no_data_map">暂时没有数据～～</div>-->
+        </div>
+    </div>
+    <!-- 浮动层 -->
+    <div class="dper-layer active-map" id="dper-layer"> <!--active-map-->
+        <svg class="icon shut-down" id="shut" aria-hidden="true">
+            <use xlink:href="#icon-guanbi"></use>
+        </svg>
+        <div class="dper-nav">
+            <!-- 标题 -->
+            <p class="place-name co-bl-7ff font-20 text-overflow-e" id="nav-title"></p>
+            <!-- 选择--title -->
+            <div class="nav-title dper-clear">
+                <p class="co-bl-00f font-18 text-overflow-e"><span class="malign-center-text align-center">驾驶人({{pop_data.new_add.nav1}})</span></p>
+                <p class="co-bl-00f font-18 text-overflow-e"><span class="malign-center-text align-center">机动车({{pop_data.new_add.nav2}})</span></p>
+                <p class="co-bl-00f font-18 text-overflow-e"><span class="malign-center-text align-center">企业({{pop_data.new_add.nav3}})</span></p>
+            </div>
+            <!-- public -->
+            <div class="nav-container dper-clear">
+                <!-- 本月 -->
+                <div class="cont-left fl public-cont">
+                    <p class="mt-2 co-bl-00f font-24 text-overflow-e">本月</p>
+                    <p class="mt-1 co-bl-00f font-18 text-overflow-e">隐患总量{{pop_data.nav.nav1}}个</p>
+                    <p class="co-bl-00f font-18 text-overflow-e">治理隐患{{pop_data.nav.nav2}}个</p>
+                    <p class="mb-1 co-bl-00f font-18 text-overflow-e">整治率{{pop_data.nav.nav3}}%</p>
+                    <p class="co-gr-0fc font-16 text-overflow-e public-inline" v-if="pro">驾驶人隐患预警{{pop_data.nav.nav4}}起</p>
+                    <p class="co-gr-0fc font-16 text-overflow-e public-inline" v-if="car">机动车隐患预警{{pop_data.nav.nav5}}起</p>
+                    <p class="co-gr-0fc font-16 text-overflow-e public-inline" v-if="enter">企业隐患预警{{pop_data.nav.nav6}}起</p>
+                </div>
+                <!-- 累计 -->
+                <div class="cont-right fr public-cont">
+                    <p class="mt-2 co-bl-00f font-24 text-overflow-e">累计</p>
+                    <p class="mt-1 co-bl-00f font-18 text-overflow-e">隐患总量{{pop_data.nav_place.nav1}}个</p>
+                    <p class="co-bl-00f font-18 text-overflow-e">治理隐患{{pop_data.nav_place.nav2}}个</p>
+                    <p class="mb-1 co-bl-00f font-18 text-overflow-e">整治率{{pop_data.nav_place.nav3}}%</p>
+                    <p class="co-gr-0fc font-16 text-overflow-e public-inline" v-if="pro">驾驶人隐患预警{{pop_data.nav_place.nav4}}起</p>
+                    <p class="co-gr-0fc font-16 text-overflow-e public-inline" v-if="car">机动车隐患预警{{pop_data.nav_place.nav5}}起</p>
+                    <p class="co-gr-0fc font-16 text-overflow-e public-inline" v-if="enter">企业隐患预警{{pop_data.nav_place.nav6}}起</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img class="active-map lg-img" src="./../static/assets/img/map/map-dit.png" id="lg-dit">
+</div>
+<script src="../static/config/index.js"></script>                                      <!-- 配置 -->
+<script src="../static/utils/jquery/jquery.min.js"></script>                           <!-- jQuery -->
+<script src="../static/utils/ryajax/index.js"></script>                                <!-- 数据请求（ryAjax） -->
+<script src="../static/js/autoview.js"></script>
+<script src="../static/utils/ryutils.js"></script>                                     <!-- 工具库 -->
+<script src="https://cdn.bootcss.com/echarts/2.2.7/echarts-all.js"></script>
+<script src="../static/js/app.map.js"></script>
+</body>
+</html>

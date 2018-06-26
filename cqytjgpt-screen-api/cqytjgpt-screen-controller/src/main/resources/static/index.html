@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>重庆市道路安全源头隐患运营平台</title>
+    <!-- 版本校验 -->
+    <script src="static/utils/versionCheck/browser.js"></script>
+    <script src="static/utils/versionCheck/ltie9.js"></script>
+    <!-- 三方CSS -->
+    <link rel="stylesheet" href="static/utils/reset/normalize.min.css">     <!-- 样式重置 -->
+    <link rel="stylesheet" href="static/utils/animate/animate.min.css">     <!-- CSS动画 -->
+    <link rel="stylesheet" href="static/utils/pace/pace.min.css">           <!-- 加载进度 -->
+    <!-- 千赞CSS -->
+    <link rel="stylesheet" href="static/utils/ryutils.css">                 <!-- 工具 -->
+    <link rel="stylesheet" href="static/css/app.css">                       <!-- 业务 -->
+    <script src="static/js/vue.min.js"></script>                            <!-- vue引入 -->
+</head>
+<body class="background-img-full">
+<!-- svg引入 -->
+<svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;">
+    <symbol id="icon-chuangkoufangda" viewBox="0 0 1024 1024">
+        <path d="M341.4682 569.1464H173.47993599999998c-61.7656 0-111.9918 50.2272-111.9918 111.9928v167.9872c0 61.7667 50.2262 111.9939 111.9918 111.9939h167.989248c61.738 0 111.9928-50.2272 111.9928-111.9939v-167.9872C453.461 619.3736 403.2061 569.1464 341.4682 569.1464zM397.4636 849.1264c0 30.8705-25.1269 55.9964-55.9954 55.9964H173.47993599999998c-30.8961 0-55.9954-25.1249-55.9954-55.9964v-167.9872c0-30.8695 25.0993-55.9985 55.9954-55.9985h167.989248c30.8685 0 55.9954 25.1279 55.9954 55.9985V849.1264zM529.2524 532.9459 761.4392 300.759v184.392704c0 15.4757 12.5225 27.9992 27.9982 27.9992 15.4481 0 27.9982-12.5235 27.9982-27.9992V233.16889600000002c0-15.4747-12.5501-27.9972-27.9982-27.9972H537.4545919999999c-15.4757 0-27.9982 12.5225-27.9982 27.9972 0 15.4757 12.5225 27.9982 27.9982 27.9982h184.392704L489.6604 493.355c-10.9363 10.9363-10.9363 28.6536 0 39.5909 5.4692 5.4682 12.6321 8.2022 19.796 8.2022C516.6193 541.1482 523.7832 538.4141 529.2524 532.9459zM845.4328 65.1817H173.47993599999998c-61.7656 0-111.9918 50.2272-111.9918 111.9928v307.97823999999997c0 15.4757 12.5225 27.9992 27.9982 27.9992 15.4481 0 27.9982-12.5235 27.9982-27.9992v-307.97823999999997c0-30.8695 25.0993-55.9964 55.9954-55.9964h671.952896c30.8695 0 55.9974 25.1279 55.9974 55.9964v671.952896c0 30.8705-25.1279 55.9964-55.9974 55.9964h-307.97823999999997c-15.4757 0-27.9982 12.5235-27.9982 27.9982 0 15.4767 12.5225 28.0003 27.9982 28.0003h307.97823999999997c61.738 0 111.9928-50.2272 111.9928-111.9939V177.17350399999998C957.4257 115.4079 907.1708 65.1817 845.4328 65.1817z"></path>
+    </symbol>
+    <symbol id="icon-guanbi" viewBox="0 0 1024 1024">
+        <path d="M911.288962 181.244924c14.772448-20.840654 12.988826-42.079374-3.744277-61.293995-17.198707-19.74981-42.419112-23.165606-65.629743-6.830569-14.780635 10.400884-27.313066 24.15105-40.215934 37.041638C707.012486 244.772796 612.484575 339.544253 511.503696 440.678628c-98.431823-98.715279-191.422727-192.017268-284.480146-285.253766-12.901845-12.925381-25.182542-26.724665-39.423895-38.007639-25.39539-20.11513-52.008514-19.170618-70.667479 1.678222-19.049868 21.289885-18.191314 44.509726-1.644453 66.470901 9.704013 12.879332 21.835308 23.988344 33.296337 35.473933 81.758072 81.909521 163.686013 163.652244 245.393943 245.610884 14.053064 14.100136 27.326369 28.981055 42.896996 45.563732-16.022928 17.017582-29.424146 31.971156-43.582611 46.170552-83.152838 83.386152-166.546154 166.532851-249.675456 249.945609-11.42726 11.465123-23.730471 22.757307-32.259728 36.259832-13.272281 21.012569-11.494799 42.966581 6.519484 61.168128 18.043958 18.226107 39.933501 20.219507 61.012585 6.866385 13.495362-8.547677 24.824385-20.804838 36.278251-32.249495C437.792904 657.93779 660.311861 435.392228 882.763278 212.782198 892.783493 202.75482 903.147538 192.731536 911.288962 181.244924z"></path>
+        <path d="M787.193643 715.642027c-31.527041-31.463596-61.791321-64.36903-95.130637-93.787036-31.108508-27.450189-74.723865-18.300808-82.604346 17.71957-3.64297 16.655332 2.656503 42.138726 14.223956 54.374398 66.745147 70.584592 136.295176 138.525983 205.279317 206.974935 6.983041 6.931876 15.847943 13.173021 25.015743 16.47523 33.417087 12.045337 67.941392-13.383822 66.329684-58.189284-5.336542-7.495718-14.013155-23.302729-26.050306-35.895535C859.295797 786.728038 823.022663 751.395322 787.193643 715.642027z"></path>
+    </symbol>
+    <symbol id="icon-arrow" viewBox="0 0 1152 1024">
+        <path d="M624.576 0 544.128 80.512 976.192 512.032 544.128 943.488 624.576 1024 1136.096 512.032Z"></path>
+    </symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 1152 1024">
+        <path d="M527.42399998 1024L607.87199997 943.488 175.80799998 511.968 607.87199997 80.512 527.42399998 0 15.90399998 511.968Z"></path>
+    </symbol>
+</svg>
+<!-- 重庆市道路安全源头隐患运营平台--title -->
+<div class="cq-road-title background-img-full dper-clear">
+    <!-- 重庆市公安局交通管理局 -->
+    <div class="second-title fl">
+        <span class="co-bl-6ff font-16 malign-left-center">重庆市公安局交通管理局</span>
+    </div>
+    <!-- 时间 -->
+    <div class="title-time-data fr">
+        <p class="co-bl-6ff font-12 malign-right-center text-overflow-e">
+            <span id="time-data" class="today-time"></span>
+            <span class="today-weather">天气：- 气温：-PM2.5指数：4</span>
+        </p>
+    </div>
+</div>
+<!-- 重庆市道路安全源头隐患运营平台--content -->
+<div class="cq-road-content dper-hide" id="app">
+    <!-- 容器 -->
+    <div class="cq-road-c-container dper-clear">
+        <!-- 左边 -->
+        <div class="cq-r-c-left public-width fl background-img-full">
+            <div :class="[
+                    {'city-hidden-box public-left-child-box bg-linear':index%4==0},
+                    {'hidden-problem-box public-left-child-box bg-linear':index%4==1},
+                    {'results-governance-box public-left-child-box bg-linear':index%4==2},
+                    {'whole-effect-box malign-bottom-center bg-linear':index%4==3},
+                    ]" v-for="(item,index) in all_data.title_item">
+                <div class="public-title background-img-full public-tl">
+                    <span class="co-bl-6ff font-20 font-weight align-center malign-center-text">{{item.name}}</span>
+                </div>
+                <!-- svg -->
+                <svg v-if="index%4==1" class="icon public-icon-width" @click="left_amp_click(0)" aria-hidden="true">
+                    <use xlink:href="#icon-chuangkoufangda"></use>
+                </svg>
+                <!-- cont-0 -->
+                <div class="city-h-cont dper-clear" v-if="index%4==0">
+                    <div class="c-h-c-child-box fl  background-img-full" :class="[
+                    {'malign-left-center':index%3==0},
+                    {'malign-center':index%3==1},
+                    {'malign-right-center':index%3==2}
+                    ]"
+                         v-for="(item,index) in all_data.left_first">
+                        <p class="co-bl-6ff font-16 title align-center text-overflow-e">{{item.name}}</p>
+                        <p class="co-bl-6ff font-12 text-overflow-e">接入数：<span class="number-move" ref="number"></span>{{item.val1}}
+                        </p>
+                        <p class="co-bl-6ff font-12 text-overflow-e">发现数：<span class="number-move" ref="number"></span>{{item.val2}}
+                        </p>
+                        <p class="co-or-e00 font-16 text-overflow-e">{{item.data.name1}}<span class="number-move"
+                                                                                              ref="number"></span>{{item.val2}}
+                        </p>
+                        <p class="co-ye-e00 font-16 text-overflow-e">{{item.data.name2}}<span class="number-move"
+                                                                                              ref="number"></span>{{item.val2}}
+                        </p>
+                        <p class="co-gr-fc0 font-16 text-overflow-e">{{item.data.name3}}<span class="number-move"
+                                                                                              ref="number"></span>{{item.val2}}
+                        </p>
+                    </div>
+                </div>
+                <!-- cont-1 -->
+                <div class="hidden-p-cont dper-clear public-bl" v-if="index%4==1">
+                    <div class="public-echarts-width fl" dper-v :id="'echats-pie' + index"
+                         v-for="(item,index) in [1,2,3]"></div>
+
+                </div>
+                <!-- 月季年-cut-btn -->
+                <div class="left-year-box public-tr" v-if="index%4==1">
+                    <div ref="year" @click="year_click(item,index)" class="cut-year public-cursor"
+                         v-for="(item,index) in all_data.data_year">
+                        <span class="font-16 malign-center-text align-center">{{item.name}}</span>
+                    </div>
+                </div>
+                <!-- cont-2 -->
+                <div class="results-g-cont public-bl" v-if="index%4==2">
+                    <p class="co-bl-7e5 font-16">本市组织重大整治活动<span class="font-30 co-pi-777">{{all_data.ana_data.sum_num || filtrer_empty(all_data.ana_data.sum_num)}}</span>次
+                        全市月均治理率 <span
+                                class="font-30 co-pi-777">{{all_data.ana_data.per_num || filtrer_empty(all_data.ana_data.per_num)}}</span>%
+                    </p>
+                    <div class="public-height dper-clear" :class="'results-list'+index"
+                         v-for="(item,index) in all_data.left_second">
+                        <div class="public-left background-img-full fl" :class="'bg'+index">
+                            <span class="co-bl-7e5 font-16 malign-center-text align-center">{{item.name}}</span>
+                        </div>
+                        <div class="public-right fr background-img-full" ref="father">
+                            <div class="public-progress background-img-full" ref="full" :class="'progress-bar' +index">
+                            </div>
+                            <div class="introduce-write-box public-tl">
+                                <div class="left-introduce malign-left-center co-white font-16 font-weight">
+                                    已处理{{item.num1}}
+                                </div>
+                                <div class="right-introduce malign-right-center co-pink-777 font-16 font-weight ">
+                                    未处理{{item.num2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- cont-3 -->
+                <div class="whole-e-cont public-bl" dper-v v-if="index%4==3" id="left-line">
+                </div>
+            </div>
+        </div>
+        <!-- 右边 -->
+        <div class="cq-r-c-right public-width fr background-img-full">
+            <!-- 各区县隐患&治安 -->
+            <div class="hidden-security-box dper-clear">
+                <!-- 各区县隐患情况排名 -->
+                <div class="hidden-box fl bg-linear public-right-width">
+                    <!-- 各区县隐患情况排名 -->
+                    <div class="public-title background-img-full public-tl">
+                        <span class="co-bl-6ff font-20 font-weight align-center malign-center-text">各区县隐患情况排名</span>
+                    </div>
+                    <!-- svg -->
+                    <svg class="icon public-icon-width" aria-hidden="true" @click="bar_click(0)">
+                        <use xlink:href="#icon-chuangkoufangda"></use>
+                    </svg>
+                    <!-- 隐患--echarts-bar -->
+                    <div class="hidden-echarts public-right-bar" dper-v id="right-bar-one"></div>
+                </div>
+                <!-- 各区县治理情况排名 -->
+                <div class="security-box fr bg-linear public-right-width">
+                    <!-- 各区县治理情况排名 -->
+                    <div class="public-title background-img-full public-tl">
+                        <span class="co-bl-6ff font-20 font-weight align-center malign-center-text">各区县治理情况排名</span>
+                    </div>
+                    <!-- svg -->
+                    <svg class="icon public-icon-width" aria-hidden="true" @click="bar_click(1)">
+                        <use xlink:href="#icon-chuangkoufangda"></use>
+                    </svg>
+                    <!-- 治理--echarts-bar -->
+                    <div class="security-echarts public-right-bar" dper-v id="right-bar-two"></div>
+                </div>
+            </div>
+            <div :class="[
+                    {'hidden-accounted-box bg-linear':index%2==0},
+                    {'governance-box malign-bottom-center bg-linear':index%2==1},
+                    ]" v-for="(right,index) in all_data.r_title_item">
+                <div class="public-title background-img-full public-tl">
+                    <span class="co-bl-6ff font-20 font-weight align-center malign-center-text">{{right.name}}</span>
+                </div>
+                <!-- svg -->
+                <svg v-if="index%2==0" @click="left_amp_click(1)" class="icon public-icon-width" aria-hidden="true">
+                    <use xlink:href="#icon-chuangkoufangda"></use>
+                </svg>
+                <div class="three-pie-box dper-clear public-bl" v-if="index%2==0">
+                    <div class="public-right-pie-box fl" dper-v :id="'r-pie'+index"
+                         v-for="(item,index) in [1,2,3]"></div>
+                </div>
+                <div class="right-cut-box dper-clear" v-if="index%2==1">
+                    <div class="public-cut cut-left fl" @click="all_data.dmv_data.show = !all_data.dmv_data.show">
+                        <span class="malign-left-center co-bl-6ff font-12 text-overflow-e"
+                              v-text="all_data.dmv_data.tab_text"></span>
+                        <img class="malign-right-center" ref="img1" src="./static/assets/img/arrow-down-icon.png"
+                             alt="">
+                    </div>
+                    <div class="public-cut cut-right fr" @click="all_data.pro_data.show = !all_data.pro_data.show">
+                        <span class="malign-left-center co-bl-6ff font-12 text-overflow-e"
+                              v-text="all_data.pro_data.tab_text"></span>
+                        <img class="malign-right-center" ref="img2" src="./static/assets/img/arrow-down-icon.png"
+                             alt="">
+                    </div>
+                    <!-- 车管所 -->
+                    <transition name="fade" v-chock="all_data.dmv_data.show">
+                        <div class="dmv-cut-box" v-show="all_data.dmv_data.show">
+                            <p class="font-12 public-cursor text-overflow-e"
+                               v-for="(item,index) in all_data.dmv_data.data" @click="dmv_tab(item,index)"
+                               v-text="item.name"></p>
+                        </div>
+                    </transition>
+                    <!-- 驾驶人 -->
+                    <transition name="fade" v-chock="all_data.pro_data.show">
+                        <div class="peo-cut-box" v-show="all_data.pro_data.show">
+                            <p class="font-12 public-cursor text-overflow-e"
+                               v-for="(item,index) in all_data.pro_data.data" v-text="item.name"
+                               @click="cut_por(item,index)"></p>
+                        </div>
+                    </transition>
+                </div>
+                <!-- echarts -->
+                <div class="right-end-bar-box public-bl" dper-v id="end-bar" v-if="index%2==1"></div>
+            </div>
+        </div>
+        <!-- 中间 -->
+        <div class="cq-r-c-center background-img-full">
+            <!-- 地图 -->
+            <div class="center-map-box bg-linear">
+                <!-- 全市接入驾驶员&全市接入机动车&全市监管企业 -->
+                <div class="left-title-box">
+                    <div class="public-map-left-title background-img-full " :class="[{'map-left-title-end':index%3==2}]"
+                         v-for="(item,index) in all_data.map_data.left_data">
+                        <p class="co-wh-3f9 font-16 text-overflow-e"
+                           :class="[
+                           {'malign-center-text':index%3==0},
+                           {'malign-center-text':index%3==1},
+                           {'malign-left-center':index%3==2}
+                           ]"
+                        >{{ item.name }}<span class="font-30 font-pragm-font " :style="'color:' + item.color"
+                                              ref="centerNumber"></span>{{ item.unit }}</p>
+                    </div>
+                </div>
+                <!-- map-echarts -->
+                <iframe id="content" ref="map"
+                        class="echarts-map public-bl"
+                        frameborder="no"
+                        border="0"
+                        marginwidth="0"
+                        marginheight="0"
+                        scrolling="no"
+                        allowtransparency="true"
+                        src="./pages/map.html"
+                >
+                </iframe>
+                <!--<div class="" id="map"></div>-->
+            </div>
+            <!-- 隐患大户信息通报 -->
+            <div class="hidden-large-box public-bl bg-linear">
+                <div class="public-title background-img-full public-tl">
+                    <span class="co-bl-6ff font-20 font-weight align-center malign-center-text">隐患大户信息通报</span>
+                </div>
+                <!-- wrap-list -->
+                <div class="hidden-wrap-list public-bl align-center">
+                    <!-- 隐患驾驶员 -->
+                    <div class="public-center-box public-cursor" @mouseover="peopel_over(0)"
+                         @mouseleave="peopel_leave(0)">
+                        <div class="title malign-top-center">
+                            <img class="left-btn malign-left-center public-cursor public-zl"
+                                 @click="hide_peopel_left(0)"
+                                 src="static/assets/img/center-btn-left.png" alt="">
+                            <img class="right-btn malign-right-center public-cursor public-zl"
+                                 @click="hide_peopel_right(0)"
+                                 src="static/assets/img/center-btn-right.png" alt="">
+                            <p class="malign-center-text align-center co-bl-6ff font-20 public-cursor"
+                               v-text="all_data.center_data.driver_title"></p>
+                        </div>
+                        <transition name="zoom">
+                            <div class="cont background-img-full public-bl" v-show="cut_var.label_p_r">
+                                <p class="other-name-box co-ye-501 align-left text-overflow-e font-12">
+                                    <span class="" v-text="all_data.center_data.driver_name"></span>
+                                    <span v-text="all_data.center_data.driver_sex"></span>
+                                </p>
+                                <p class="co-ye-501 align-left text-overflow-e center-onther-p font-12">
+                                    <span v-text="all_data.center_data.driver_num"></span>
+                                </p>
+                                <p class="text-overflow-e co-bl-6ff align-left center-onther-p font-12">违法未处理：<span
+                                        v-text="all_data.center_data.driver_yes1"></span></p>
+                                <p class="text-overflow-e co-bl-6ff align-left center-onther-p font-12">事故未处理：<span class=""
+                                                                                                    v-text="all_data.center_data.driver_yes2"></span>
+                                </p>
+                                <p class="text-overflow-e co-bl-6ff align-left center-onther-p font-12">逾期未换证：<span class=""
+                                                                                                    v-text="all_data.center_data.driver_yes3"></span>
+                                </p>
+                                <p class="text-overflow-e co-bl-6ff align-left center-onther-p font-12">逾期未审验：<span class=""
+                                                                                                    v-text="all_data.center_data.driver_no1"></span>
+                                </p>
+                                <p class="text-overflow-e co-bl-6ff align-left center-onther-p font-12">满分未学习：<span class=""
+                                                                                                    v-text="all_data.center_data.driver_no2"></span>
+                                </p>
+                                <p class="text-overflow-e co-ye-501 align-left center-onther-p font-16 font-weight">隐患等级：<span claas=""
+                                                                                                               v-text="all_data.center_data.driver_warning"></span>
+                                </p>
+                            </div>
+                        </transition>
+                    </div>
+                    <!-- 隐患机动车 -->
+                    <div class="public-center-box public-cursor" @mouseover="peopel_over(1)"
+                         @mouseleave="peopel_leave(1)">
+                        <div class="title malign-top-center">
+                            <img class="left-btn malign-left-center public-cursor public-zl" @click="hide_car_left"
+                                 src="static/assets/img/center-btn-left.png" alt="">
+                            <img class="right-btn malign-right-center public-cursor public-zl" @click="hide_car_right"
+                                 src="static/assets/img/center-btn-right.png" alt="">
+                            <p class="malign-center-text align-center co-bl-6ff font-20 public-cursor"
+                               v-text="all_data.center_data.vehicle_title"></p>
+                        </div>
+                        <transition name="fade">
+                            <div class="cont background-img-full public-bl" v-show="cut_var.label_c_r">
+                                <p class="other-name-box co-ye-501 align-left text-overflow-e font-12">
+                                    车牌号：<span class="" v-text="all_data.center_data.vehicle_name"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">车辆类型：<span
+                                        v-text="all_data.center_data.vehicle_car"></span></p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">所属企业：<span
+                                        class=""
+                                        v-text="all_data.center_data.vehicle_cararea"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">达到报废标准：<span
+                                        class="" v-text="all_data.center_data.vehicle_yes"></span></p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">违法未处理：<span
+                                        class=""
+                                        v-text="all_data.center_data.vehicle_no1"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">事故未处理：<span
+                                        class=""
+                                        v-text="all_data.center_data.vehicle_no2"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">逾期未检验：<span
+                                        class=""
+                                        v-text="all_data.center_data.vehicle_no3"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-ye-501 align-left font-16 font-weight">
+                                    隐患等级：<span claas="" v-text="all_data.center_data.vehicle_warning"></span></p>
+                            </div>
+                        </transition>
+                    </div>
+                    <!-- 隐患企业 -->
+                    <div class="public-center-box public-cursor" @mouseover="peopel_over(2)"
+                         @mouseleave="peopel_leave(2)">
+                        <div class="title malign-top-center">
+                            <img class="left-btn malign-left-center public-cursor public-zl" @click="hide_enter_left"
+                                 src="static/assets/img/center-btn-left.png" alt="">
+                            <img class="right-btn malign-right-center public-cursor public-zl" @click="hide_enter_right"
+                                 src="static/assets/img/center-btn-right.png" alt="">
+                            <p class="malign-center-text align-center co-bl-6ff font-20 public-cursor"
+                               v-text="all_data.center_data.enter_title"></p>
+                        </div>
+                        <transition name="zoom">
+                            <div class="cont background-img-full public-bl" v-show="cut_var.label_e_r">
+                                <p class="other-name-box co-ye-501 align-left text-overflow-e font-12">
+                                    企业名称：<span class="" v-text="all_data.center_data.enter_name"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">企业类型：<span
+                                        v-text="all_data.center_data.enter_enter"></span></p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">所属区域：<span
+                                        class=""
+                                        v-text="all_data.center_data.enter_area"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">车管所：<span
+                                        class=""
+                                        v-text="all_data.center_data.enter_dmv"></span>
+                                </p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">未落实安全监管：<span
+                                        class="" v-text="all_data.center_data.enter_num1"></span>次</p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">未开展安全教育：<span
+                                        class="" v-text="all_data.center_data.enter_num2"></span>次</p>
+                                <p class="text-overflow-e center-onther-p co-bl-6ff align-left font-12">隐患总预警次数：<span
+                                        class="" v-text="all_data.center_data.enter_num3"></span>次</p>
+                                <p class="text-overflow-e center-onther-p co-ye-501 align-left font-16 font-weight">
+                                    隐患等级：<span claas="" v-text="all_data.center_data.enter_warning"></span></p>
+                            </div>
+                        </transition>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹出框-left-pie -->
+    <transition name="fadeUp">
+        <div class="public-position public-big-pie" v-if="cut_var.left_pie">
+            <!-- 关闭按钮 -->
+            <svg class="icon shut-down" @click="left_shut_down" aria-hidden="true">
+                <use xlink:href="#icon-guanbi"></use>
+            </svg>
+            <!-- title -->
+            <div class="title malign-top-center background-img-full">
+                <img class="public-tl left-top" src="static/assets/img/ang/left-top.png" alt="">
+                <img class="public-tr" src="static/assets/img/ang/right-top.png" alt="">
+                <img class="public-br" src="static/assets/img/ang/right-bottom.png" alt="">
+                <img class="public-bl" src="static/assets/img/ang/left-bottom.png" alt="">
+                <span class="malign-center-text align-center font-20 co-bl-6ff text-overflow-e"
+                      v-text="all_data.cut_text.left_text_title"></span>
+            </div>
+            <!-- bottom-cut-line -->
+            <div class="bottom-cut-line malign-bottom-center" @mouseover="auto_left_clear"
+                 @mouseleave="auto_left_continue">
+                <div class="ver-cut-box malign-top-center public-cursor">
+                    <div class="ver-line malign-center-text">
+                        <div @click="dit_click(index)" ref="popDit" :class="[
+                            {'active public-bl-dit':index%3==0},
+                            {'public-bl-dit':index%3==1},
+                            {'public-bl-dit':index%3==2}
+                        ]" v-for="(item,index) in [1,2,3]"></div>
+                        <div class="move-line malign-center"></div>
+                    </div>
+                    <svg @click="left_cut_btn" class="icon public-btn lt-btn malign-left-center" aria-hidden="true">
+                        <use xlink:href="#icon-arrow-left"></use>
+                    </svg>
+                    <svg @click="right_cut_btn" class="icon public-btn rt-btn malign-right-center"
+                         aria-hidden="true">
+                        <use xlink:href="#icon-arrow"></use>
+                    </svg>
+                </div>
+                <!-- text-box -->
+                <div class="text-box font-16" :class="[
+                {'public-text public-tl':index%3==0},
+                {'public-text malign-top-center':index%3==1},
+                {'public-text public-tr':index%3==2}
+                ]"
+                     v-for="(item,index) in all_data.text_cut_box.left_text"
+                     :style="'color:'+item.color"> {{ item.name }}
+                </div>
+            </div>
+            <!-- echarts -->
+            <div class="big-echarts-box malign-center" ref="leftEBox">
+                <ul class="dper-clear" ref="leftF">
+                    <li class="fl" ref="leftE" v-for="(item,index) in [1,2,3]">
+                        <div class="pop-echarts-box"  :id="'leftpie' + index" ></div>
+                        <div class="left-no-data co-white font-42 align-center no-data-pie" v-if="cut_var.no_pie_data">
+                            暂时没有数据～～
+                        </div>
+                        <!-- 数据显示 -->
+                        <div class="pop-bar-data-show co-white font-24 malign-center-text align-center" ref="pop"><br></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </transition>
+    <!-- 弹出框-right-bar -->
+    <transition name="fadeDown">
+        <div class="public-position public-bar-cq" v-if="cut_var.right_bar">
+            <!-- 关闭按钮 -->
+            <svg class="icon shut-down" @click="pop_bar_shut" aria-hidden="true">
+                <use xlink:href="#icon-guanbi"></use>
+            </svg>
+            <!-- title -->
+            <div class="title malign-top-center background-img-full">
+                <img class="public-tl left-top" src="static/assets/img/ang/left-top.png" alt="">
+                <img class="public-tr" src="static/assets/img/ang/right-top.png" alt="">
+                <img class="public-br" src="static/assets/img/ang/right-bottom.png" alt="">
+                <img class="public-bl" src="static/assets/img/ang/left-bottom.png" alt="">
+                <span class="malign-center-text align-center font-20 co-bl-6ff text-overflow-e"
+                      v-text="all_data.cut_text.right_bar_1"></span>
+            </div>
+            <!-- echarts -->
+            <div class="big-bar-echarts-box public-bl" ref="scroll">
+                <div class="bar-echarts" ref="bar" dper-v id="right-bar">
+                    <div class="no_bar_data co-white font-38 align-center no-data-bar" v-if="cut_var.no_bar_data">
+                        暂时没有数据～～
+                    </div>
+                </div>
+            </div>
+            <!-- down-btn -->
+            <div class="down-icon-box public-bl background-img-auto" ref="imgicon">
+            </div>
+        </div>
+    </transition>
+</div>
+<!-- 三方JS -->
+<script src="static/config/index.js"></script>                                      <!-- 配置 -->
+<script src="static/utils/jquery/jquery.min.js"></script>                           <!-- jQuery -->
+<script src="static/utils/echarts/echarts.min.js"></script>                         <!-- echarts4.0.4引入 -->
+<script src="static/utils/pace/pace.min.js"></script>                               <!-- 加载进度 -->
+<!--<script src="static/js/china.js"></script>                                       &lt;!&ndash; 重庆地图 &ndash;&gt;-->
+<!-- 千赞JS -->
+<script src="static/js/autoview.js"></script>
+<script src="static/utils/yer/yer.min.js"></script>                                 <!-- 提示工具 -->
+<script>
+    // 提示工具全局配置
+    yer.prototype.options_global = {
+        style: 1
+    }
+</script>
+<script src="static/utils/ryajax/index.js"></script>                                <!-- 数据请求（ryAjax） -->
+<script src="static/utils/countUp/countUp.js"></script>
+<script src="static/utils/ryutils.js"></script>                                     <!-- 工具库 -->
+<script src="static/js/app.js"></script>                                             <!-- 业务 -->
+</body>
+</html>
