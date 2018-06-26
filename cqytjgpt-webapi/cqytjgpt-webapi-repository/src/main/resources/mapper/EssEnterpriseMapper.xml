@@ -187,7 +187,7 @@
         ownerTransport,
       </if>
       <if test="etpadress != null">
-        etpAdress,
+        etpadress,
       </if>
       <if test="etpregadress != null">
         etpRegAdress,

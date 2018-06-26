@@ -42,8 +42,8 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("state", vehicle.getState()); // 状态
 		params.put("effectStartTime", vehicle.getEffectStartTime()); // 有效开始时间
 		params.put("effectEndTime", vehicle.getEffectEndTime()); // 有效结束时间
-		params.put("startTime", vehicle.getEffectEndTime()); // 初次检验开始日期
-		params.put("endTime", vehicle.getEffectEndTime()); // 初次检验结束日期
+		params.put("startTime", vehicle.getStartTime()); // 初次检验开始日期
+		params.put("endTime", vehicle.getEndTime()); // 初次检验结束日期
 
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<Vehicle> records = mapper.qryVehicleList(params);

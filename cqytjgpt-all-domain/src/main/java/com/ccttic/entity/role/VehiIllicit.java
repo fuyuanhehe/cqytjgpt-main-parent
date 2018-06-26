@@ -18,6 +18,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	private String vehiNo;
 	// 号牌种类
 	private String vehiNoType;
+	private String vehiNoTypeText;
 	// 使用性质
 	private String nature;
 	// 机动车所属企业
@@ -63,13 +64,15 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		super();
 	}
 
-	public VehiIllicit(String vehiNo, String vehiNoType, String nature, String ownership, String owner, String adress,
-			String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime, String illicitScore,
-			String illicitAmount, String illicitAdress, String illicit, String illicitDesc, String pickDepartment,
-			String pickDepartmentDesc, String state, String remark, String etpNm, String startTime, String endTime) {
+	public VehiIllicit(String vehiNo, String vehiNoType, String vehiNoTypeText, String nature, String ownership,
+			String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime,
+			String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc,
+			String pickDepartment, String pickDepartmentDesc, String state, String remark, String etpNm,
+			String startTime, String endTime) {
 		super();
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
+		this.vehiNoTypeText = vehiNoTypeText;
 		this.nature = nature;
 		this.ownership = ownership;
 		this.owner = owner;
@@ -91,6 +94,8 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
+
+
 
 	public String getVehiNo() {
 		return vehiNo;
@@ -266,6 +271,14 @@ public class VehiIllicit extends BaseBean implements Serializable {
 
 	public void setEtpNm(String etpNm) {
 		this.etpNm = etpNm;
+	}
+
+	public String getVehiNoTypeText() {
+		return vehiNoTypeText;
+	}
+
+	public void setVehiNoTypeText(String vehiNoTypeText) {
+		this.vehiNoTypeText = vehiNoTypeText;
 	}
 
 }

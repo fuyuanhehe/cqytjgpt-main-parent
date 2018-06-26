@@ -623,7 +623,7 @@
 	<!-- 根据条件获取车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
 		SELECT cit.id,cit.vehiNo,
-				CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,
+				CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType as vehiNoTypeText,
 				cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
 			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
 			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,
@@ -673,7 +673,7 @@
 	<!-- 根据id获取指定车辆的违法信息 -->
 	<select id="qryOneVehiIllicit" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
 		SELECT cit.id,cit.vehiNo,
-				CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,
+				CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType as vehiNoTypeText,
 			   cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
 			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
 			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,

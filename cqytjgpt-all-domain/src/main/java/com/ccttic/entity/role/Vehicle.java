@@ -16,6 +16,8 @@ public class Vehicle extends BaseBean implements Serializable {
 	private String vehiNo;
 	// 号牌种类 
 	private String vehiNoType;
+	// 号牌种类 
+	private String vehiNoTypeText;
 	// 车辆种类
 	private String vehiType;
 	// 使用性质
@@ -67,14 +69,16 @@ public class Vehicle extends BaseBean implements Serializable {
 		super();
 	}
 
-	public Vehicle(String vehiNo, String vehiNoType, String vehiType, String nature, String ownership, String owner,
-			String telphone, String mobilephone, String adress, String permitCar, String firstReciveTime,
-			String mgrDepart, String mgrDepartAreaId, String areaNm, String mgrEnterpriseId, String etpNm,
-			String nextExamineTime, String effectStartTime, String effectEndTime, String examineEffectEndTime,
-			String scoreTotal, String state, String remark, String startTime, String endTime) {
+	public Vehicle(String vehiNo, String vehiNoType, String vehiNoTypeText, String vehiType, String nature,
+			String ownership, String owner, String telphone, String mobilephone, String adress, String permitCar,
+			String firstReciveTime, String mgrDepart, String mgrDepartAreaId, String areaNm, String mgrEnterpriseId,
+			String etpNm, String nextExamineTime, String effectStartTime, String effectEndTime,
+			String examineEffectEndTime, String scoreTotal, String state, String remark, String startTime,
+			String endTime) {
 		super();
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
+		this.vehiNoTypeText = vehiNoTypeText;
 		this.vehiType = vehiType;
 		this.nature = nature;
 		this.ownership = ownership;
@@ -99,6 +103,8 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
+
+
 
 	public String getEtpNm() {
 		return etpNm;
@@ -298,6 +304,14 @@ public class Vehicle extends BaseBean implements Serializable {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getVehiNoTypeText() {
+		return vehiNoTypeText;
+	}
+
+	public void setVehiNoTypeText(String vehiNoTypeText) {
+		this.vehiNoTypeText = vehiNoTypeText;
 	}
 
 }
