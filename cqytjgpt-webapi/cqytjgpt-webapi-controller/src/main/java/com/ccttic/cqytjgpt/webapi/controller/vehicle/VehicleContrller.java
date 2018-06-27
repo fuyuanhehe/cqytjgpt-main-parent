@@ -21,6 +21,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
@@ -69,14 +70,15 @@ public class VehicleContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
+	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,@ModelAttribute(Const.ENT) EmployeeVo vo) {
 		ResponseMsg<List<Vehicle>> resp = new ResponseMsg<List<Vehicle>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
 			List<String> list = new ArrayList<String>();
-			for (EssEnterprise essEnterprise : ent) {
+			List<EssEnterprise> essEnt = vo.getEnt();
+			for (EssEnterprise essEnterprise : essEnt) {
 				list.add(essEnterprise.getId());
 			}
 			vehicle.setList(list);
@@ -105,10 +107,11 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
+	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,@ModelAttribute(Const.ENT) EmployeeVo vo) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			String entId = "";
+			List<EssEnterprise> ent = vo.getEnt();
 			for (EssEnterprise essEnterprise : ent) {
 				entId=essEnterprise.getId();
 			}

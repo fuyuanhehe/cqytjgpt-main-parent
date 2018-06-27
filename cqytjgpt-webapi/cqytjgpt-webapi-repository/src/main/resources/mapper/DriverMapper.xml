@@ -140,9 +140,7 @@
 		<if test="id!=null and id!='' ">
 			and d.id = #{id}
 		</if>
-		<if test="id!=null and id!='' ">
-			and d.id = #{id}
-		</if>
+		<!-- <if test="id!=null and id!='' "> and d.id = #{id} </if> -->
 		<if test="mobilephone!=null and mobilephone!='' ">
 			and d.mobilephone = #{mobilephone}
 		</if>
@@ -156,7 +154,7 @@
 		</if>
 	</select>
 	<!--驾驶人违法记录 -->
-	<select id="seDrillicitByDriverId" parameterType="java.lang.String"
+	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
 		SELECT
 		d.`name`,
@@ -173,9 +171,27 @@
 		LEFT JOIN
 		ess_area a ON
 		d.mgrDepartAreaId = a.id
-		where d.id = #{driverid}
-
+		where d.id = #{id}
+		limit ${startRecord} , ${pageSize}
 	</select>
+		<select id="seDrillicitByDriverIdCount" parameterType="java.util.Map"
+		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
+		SELECT
+	    count(d.id)
+		<!-- 差处理部门 -->
+		FROM
+		driver d
+		LEFT JOIN
+		dr_illicit dl ON d.id = dl.driver_id
+		LEFT JOIN
+		ess_area a ON
+		d.mgrDepartAreaId = a.id
+		where d.id = #{id}
+	</select>
+	
+	
+	
+	
 	<!--驾驶人违法信息条件分页 -->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
@@ -200,7 +216,7 @@
 		d.id = dl.driver_id
 		where 1 = 1
 		<if test="driverid!=null and driverid!= '' ">
-			and d.id = #{driverid}
+			and d.id = #{id}
 		</if>
 		<if test="name!=null and name!='' ">
 			and d.name = #{name}
@@ -216,6 +232,10 @@
 		</if>
 		<if test="illicit!=null and illicit!='' ">
 			and dl.illicit = #{illicit}
+		</if>
+		<if test="fiString!=null and fiString!='' ">
+			and d.firstReciveTime BETWEEN #{fiString} and
+			laStrin#{laString}
 		</if>
 
 		limit ${startRecord} , ${pageSize}
@@ -253,6 +273,10 @@
 		<if test="illicit!=null and illicit!='' ">
 			and dl.illicit = #{illicit}
 		</if>
+		<if test="fiString!=null and fiString!='' ">
+			and d.firstReciveTime BETWEEN #{fiString} and
+			laStrin#{laString}
+		</if>
 	</select>
 
 	<!-- 一对多查询关联 -->
@@ -266,7 +290,7 @@
 		</collection>
 	</resultMap>
 
-	
+
 	<select id="selectAllDriver" resultMap="slist">
 		select * from driver
 		where isDelete = 0 or isDelete is null
@@ -386,17 +410,20 @@
 
 	</select>
 	<!-- 分页总数 -->
-	<select id="queryVehiclespageCount" resultType="long" parameterType="java.util.Map">
+	<select id="queryVehiclespageCount" resultType="long"
+		parameterType="java.util.Map">
 		SELECT
 		COUNT(e.id)
 		FROM
 		ess_organization o
-		LEFT JOIN ess_enterprise e ON o.id = e.org_id
+		LEFT JOIN ess_enterprise e ON
+		o.id = e.org_id
 		LEFT JOIN vehicle v ON e.id = v.mgrEnterpriseId
-		LEFT JOIN vehi_danger vd ON v.id = vd.vehicle_id
+		LEFT
+		JOIN vehi_danger vd ON v.id = vd.vehicle_id
 		WHERE
 		e.id != ''
-			<if test="orgNm!=null and orgNm!= '' ">
+		<if test="orgNm!=null and orgNm!= '' ">
 			AND o.orgNm =#{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!= '' ">
@@ -406,10 +433,12 @@
 			AND v.vehiNoType =#{vehiNoType}
 		</if>
 	</select>
-       <select id="seEmp" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployee">
-       select * from ess_employee limit ${startRecord} , ${pageSize}
-       </select>
-       <select id="seEmpCount" parameterType="java.util.Map" resultType="long">
-       select count(id) from ess_employee 
-       </select>
+	<select id="seEmp" parameterType="java.util.Map"
+		resultType="com.ccttic.entity.employee.EssEmployee">
+		select * from ess_employee limit ${startRecord} , ${pageSize}
+	</select>
+	<select id="seEmpCount" parameterType="java.util.Map"
+		resultType="long">
+		select count(id) from ess_employee
+	</select>
 </mapper>

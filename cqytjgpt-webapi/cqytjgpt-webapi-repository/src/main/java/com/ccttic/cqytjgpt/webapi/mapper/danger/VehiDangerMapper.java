@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.danger.VehiDanger;
-import com.ccttic.entity.role.VehiIllicit;
+import com.ccttic.util.exception.AppException;
 
 public interface VehiDangerMapper {
 	
@@ -49,4 +49,31 @@ public interface VehiDangerMapper {
 	 * @param list
 	 */
 	public void updateBatch(List<VehiDanger> list);
+	
+	/**
+	 * 根据条件查询车辆预警信息
+	 * @param page
+	 * @param ve
+	 * @return
+	 * @throws AppException
+	 */
+	public List<VehiDanger> qryVehicleList(Map<String, Object> params) throws AppException;
+	/**
+	 * 根据id查询车辆预警详情信息
+	 * @param params
+	 * @return
+	 * @throws AppException
+	 */
+	public VehiDanger qryOneVehicle(VehiDanger ve) throws AppException;
+	
+	/**
+	 * 
+	 * 根据条件获取车辆预警总记录数
+	 * 
+	 * @param params
+	 * @return
+	 * @throws AppException
+	 */
+	public int qryVehicleListCount(Map<String, Object> params) throws AppException;
+	
 }

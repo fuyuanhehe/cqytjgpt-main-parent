@@ -30,7 +30,6 @@ import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.employee.vo.TokenVo;
-import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.MD5;
@@ -100,9 +99,7 @@ public class EmployeeController {
 				response.fail("获取访问token失败");
 				return response;
 			}
-			List<EssEnterprise> rise=enterpriseService.getEssEnterprise(employee.getId());
 			request.getSession(true).setAttribute(Const.USER, employee);
-			request.getSession(true).setAttribute(Const.ENT, rise);
 			response.setStatus(ResponseMsg.STATUS_SUCCES);
 			JSON json = JSON.parseObject(tokenValue);
 			response.setData(json);
@@ -138,7 +135,7 @@ public class EmployeeController {
 			response.fail("获取用户信息失败!");
 			return response;
 		}
-//		request.getSession(true).setAttribute(Const.ENT, employee); TODO
+		request.getSession(true).setAttribute(Const.ENT, employee); 
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);
 

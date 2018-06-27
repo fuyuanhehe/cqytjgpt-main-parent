@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.vo.PageVehiIllicitVo;
@@ -50,13 +51,14 @@ public class VehiIllicitContrller implements Serializable{
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_ILLICIT_INFO, name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
+	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,@ModelAttribute(Const.ENT) EmployeeVo vo) {
 		ResponseMsg<List<VehiIllicit>> resp = new ResponseMsg<List<VehiIllicit>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehiIllicit.getPage());
 			page.setRows(vehiIllicit.getRows());
 			List<String> list = new ArrayList<String>();
+			List<EssEnterprise> ent = vo.getEnt();
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
 			}

@@ -25,7 +25,7 @@ public interface DriversService {
 	Page<DriverVo> seDriverPage(Pageable page,DriverVo driverVo);
 
 	///查询驾驶人违法记录
-	DriverillicitVo seDrillicitByDriverId(String driverid);
+	Page<DriverillicitVo> seDrillicitByDriverId(Pageable page,Driver driver);
 
 	
 	///查询驾驶人违法记录分页

@@ -756,4 +756,44 @@
 			#{item.id}
 		</foreach>
 	</update>
+	<!-- 根据条件查询记录 -->
+	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT danger.*,org.orgNm,
+			CASE danger.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '其他' END vehiNoTypeText
+			FROM vehi_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id
+			LEFT JOIN ess_area area ON org.area_id=area.id
+			LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id
+			WHERE vehi.mgrEnterpriseId in 
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+		 	<if test="areaId != null and areaId != ''">
+				and area.id = #{areaId}
+			</if>   
+			<if test="ownerenterprise != null and ownerenterprise != ''">
+				and ownerEnterprise = #{ownerenterprise}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and vehiNo = #{vehiNo}
+			</if>
+			<if test="dangertype != null and dangertype != ''">
+				and dangerType = #{dangertype}
+			</if>
+			<if test="correctstate != null and correctstate != ''">
+				and correctState = #{correctstate}
+			</if>
+	</select>
+	<!-- 根据条件统计条数 -->
+	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM vehi_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area area ON org.area_id=area.id
+				LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id WHERE vehi.mgrEnterpriseId in
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+	</select>
+	<!-- 根据id查询 -->
+	<select id="qryOneVehicle" parameterType="java.util.Map" resultMap="BaseResultMap">
+	
+	
+	</select>
 </mapper>
