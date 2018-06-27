@@ -1,10 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.controller.warning;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.ws.soap.Addressing;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,14 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningservice;
+import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.danger.vo.VehiDangerVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
-import com.ccttic.entity.role.Vehicle;
 import com.ccttic.util.common.Const;
-import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -48,21 +44,44 @@ public class WarningContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/qryVehicleList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public String getVehicleWarningList(@RequestBody VehiDangerVo vo,@ModelAttribute(Const.ENT) EssEnterprise ent) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<List<VehiDanger>> getVehicleWarningList(@RequestBody VehiDangerVo vo,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
+		ResponseMsg<List<VehiDanger>> resp = new ResponseMsg<List<VehiDanger>>();
 		PageRequest page = new PageRequest();
 		page.setPage(vo.getPage());
 		page.setRows(vo.getRows());
-		vo.setOwnerorgid(ent.getId());
+		List<String> list = new ArrayList<String>();
+		for (EssEnterprise essEnterprise : ent) {
+			list.add(essEnterprise.getId());
+		}
+		vo.setList(list);
 		try {
 			Page<VehiDanger> pager = warningservice.qryVehicleList(page, vo);
+			resp.setData(pager.getRecords());
+			resp.setTotal(pager.getTotalRows().intValue());
+			resp.success("查询成功！");
 		} catch (AppException e) {
-			e.printStackTrace();
+			resp.fail("查询失败！");
 		}
-		
-		
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 	
-	
+	/**
+	 * 根据条件获取车辆预警信息
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/getByIdVehicleWarning", method = {RequestMethod.POST,RequestMethod.GET})
+	@ResponseBody
+	public ResponseMsg<VehiDanger> getByIdVehicleWarning(@RequestBody VehiDangerVo vo) {
+		ResponseMsg<VehiDanger> resp = new ResponseMsg<VehiDanger>();
+		
+		try {
+			VehiDanger vehi = warningservice.qryOneVehicle(vo);
+			resp.setData(vehi);
+			resp.success("查询成功！");
+		} catch (AppException e) {
+			resp.fail("查询失败！");
+		}
+		return resp;
+	}
 }

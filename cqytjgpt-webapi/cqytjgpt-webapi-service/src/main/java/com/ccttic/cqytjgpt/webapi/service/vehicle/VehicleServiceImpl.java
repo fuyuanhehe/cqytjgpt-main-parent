@@ -91,6 +91,7 @@ public class VehicleServiceImpl implements IVehicleService {
 			params.put("vehiNo", mapVe.get("vehiNo"));
 			params.put("vehiNoType", mapVe.get("vehiNoType"));
 			params.put("carTypeName", mapVe.get("carTypeName"));
+			params.put("entId", entId);
 			if (mapper.qryOneVehiNo(maps.get(i).get("vehiNo")) != null) {
 				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + maps.get(i).get("vehiNo") + "]已存在！");
 				gather = gather+ "车牌号[" + maps.get(i).get("vehiNo") + "]已存在！";

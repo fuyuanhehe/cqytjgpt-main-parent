@@ -2,6 +2,7 @@ package com.ccttic.entity.employee;
 
 import java.util.List;
 
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
@@ -14,7 +15,7 @@ public class EmployeeVo extends EssEmployee {
 	// 员工所在部门
 	private List<Department> deps;
 	// 员工所在企业
-	private Enterprise ent;
+	private List<EssEnterprise> ent;
 	// 员工所在组织
 	private List<Organization> orgs;
 	// 角色
@@ -28,7 +29,7 @@ public class EmployeeVo extends EssEmployee {
 		// TODO Auto-generated constructor stub
 	}
 
-	public EmployeeVo(List<EssPost> posts, List<Department> deps, Enterprise ent, List<Organization> orgs,
+	public EmployeeVo(List<EssPost> posts, List<Department> deps, List<EssEnterprise> ent, List<Organization> orgs,
 			List<RoleModels> models, List<Object> menus, String picCode) {
 		super();
 		this.posts = posts;
@@ -39,6 +40,8 @@ public class EmployeeVo extends EssEmployee {
 		this.menus = menus;
 		this.picCode = picCode;
 	}
+
+
 
 
 
@@ -89,13 +92,12 @@ public class EmployeeVo extends EssEmployee {
 	public void setPicCode(String picCode) {
 		this.picCode = picCode;
 	}
-
 	
-	public Enterprise getEnt() {
+	public List<EssEnterprise> getEnt() {
 		return ent;
 	}
 
-	public void setEnt(Enterprise ent) {
+	public void setEnt(List<EssEnterprise> ent) {
 		this.ent = ent;
 	}
 
