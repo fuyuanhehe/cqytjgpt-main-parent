@@ -102,13 +102,14 @@ public class TaskDriverService implements ITaskDriverService {
 	public Map<String, Object> getDriverDanger(Driver driver) throws Exception {
 		Map<String, Object> result = new HashMap<>();
 		DrDanger dr = new DrDanger();
+		dr.setDriverId(driver.getId());
 		dr.setId(driver.getIdcard());
 		dr.setDrivername(driver.getName());
 		dr.setDriveridcard(driver.getIdcard());
 		SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		dr.setDangertime(sdf.format(new Date()));
 		String enterpriseid = driver.getMgrenterpriseid();
-		String orgNm = essEnterpriseMapper.selectOrgNmbyId(enterpriseid);
+		String orgNm = essEnterpriseMapper.selectOrgIdbyId(enterpriseid);
 		dr.setOwnerorgid(orgNm);
 		String[] strs = driver.getState().split(",");
 		for (String string : strs) {

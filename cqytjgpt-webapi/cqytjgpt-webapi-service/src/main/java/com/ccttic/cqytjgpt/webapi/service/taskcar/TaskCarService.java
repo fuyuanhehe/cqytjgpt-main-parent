@@ -98,16 +98,21 @@ public class TaskCarService implements ITaskCarService {
 	public Map<String, Object> getCarDanger(Vehicle vehicle) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		VehiDanger vr = new VehiDanger();
-		String hphm = URLDecoder.decode(vehicle.getVehiNo() + vehicle.getVehiNoType(), "UTF-8");
-		vr.setId(hphm);
+		
+		vr.setId(vehicle.getId());
 		vr.setVehino(vehicle.getVehiNo());
 		vr.setVehitype(vehicle.getVehiNoType());
 		SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		vr.setDangertime(sdf.format(new Date()));
 		String enterpriseid = vehicle.getMgrEnterpriseId();
-		String orgNm = essEnterpriseMapper.selectOrgNmbyId(enterpriseid);
+		if(enterpriseid==null||enterpriseid=="") {
+			map.put("insert", null);
+			map.put("update", null);
+			return map;
+		}
+		String orgId = essEnterpriseMapper.selectOrgIdbyId(enterpriseid);
 		EssEnterprise etp = essEnterpriseMapper.selectByPrimaryKey(enterpriseid);
-		vr.setOwnerorgid(orgNm);
+		vr.setOwnerorgid(orgId);
 		vr.setOwnerenterprise(etp == null ? null : etp.getEtpnm());
 		String[] strs = vehicle.getState().split(",");
 		for (String string : strs) {
@@ -129,7 +134,7 @@ public class TaskCarService implements ITaskCarService {
 			vr.setDangertype("1");
 		}
 
-		if (vehiDangerMapper.selectByPrimaryKey(hphm) != null) {
+		if (vehiDangerMapper.selectByPrimaryKey(vehicle.getId()) != null) {
 			map.put("update", vr);
 			map.put("insert", null);
 		} else {
