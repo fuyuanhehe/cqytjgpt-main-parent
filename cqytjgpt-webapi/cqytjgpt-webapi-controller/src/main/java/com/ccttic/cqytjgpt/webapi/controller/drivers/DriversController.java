@@ -3,10 +3,13 @@ package com.ccttic.cqytjgpt.webapi.controller.drivers;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.drivers.Driver;
@@ -20,7 +23,9 @@ import com.ccttic.entity.drivers.vo.EnterprisethenVoPage;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.drivers.vo.vehiclesVoPage;
 import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.annotation.OperLogging;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 /*
@@ -29,6 +34,7 @@ import com.ccttic.util.page.PageRequest;
 
 @RestController
 @RequestMapping(value="/drvers")
+@SessionAttributes(Const.ENT)
 public class DriversController {
 
 	private Logger logger = Logger.getLogger(this.getClass());
@@ -36,7 +42,6 @@ public class DriversController {
 	private DriversService service;
 
 	/**
-	 * 功能说明：  修改角色和关联的员工
 	 * @param etpNm 所属企业
 	 * @param areaNm 所属区域
 	 * @param name 驾驶人名称
@@ -76,14 +81,17 @@ public class DriversController {
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法信息")
 	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<DriverillicitVo> seDrillicitByDriverId(@RequestBody(required = false) dr_illicit driverid){
-		ResponseMsg<DriverillicitVo> resp = new ResponseMsg<DriverillicitVo>();
+	public ResponseMsg<List<DriverillicitVo>> seDrillicitByDriverId(@RequestBody(required = false) DriverVoPage tment){
+		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 		try {
-			DriverillicitVo data = service.seDrillicitByDriverId(driverid.getDriverId());
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
 			resp.setMessage("查询驾驶员违法信息成功！");
 			resp.setStatus(0);
-			resp.setData(data);
-
+			resp.setData(data.getRecords());
+			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
 			resp.setMessage("查询驾驶员违法信息成功！");
 			resp.setStatus(0);
@@ -222,7 +230,7 @@ public class DriversController {
 			resp.setData(data.getRecords());
 			resp.setMessage("查询企业机动车违法信息成功");
 			resp.setStatus(0);
-            resp.setTotal(data.getTotalRows().intValue());
+			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
 			resp.setMessage("查询企业机动车违法信息失败");
 			resp.setStatus(-1);
@@ -231,5 +239,14 @@ public class DriversController {
 
 		return resp;
 	}
+	@RequestMapping(value="/getEssEnterprise",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<EssEnterprise> getEssEnterprise(@ModelAttribute(Const.ENT)EssEnterprise enterprise){
+
+		ResponseMsg<EssEnterprise> resp = new ResponseMsg<>();
+
+		resp.setData(enterprise);
+		return resp;
+	}
+
 
 }

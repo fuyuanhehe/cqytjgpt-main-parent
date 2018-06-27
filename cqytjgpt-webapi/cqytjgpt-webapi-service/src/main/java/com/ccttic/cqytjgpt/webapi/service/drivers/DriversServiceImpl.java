@@ -66,9 +66,16 @@ public class DriversServiceImpl implements DriversService {
 	}
 
 	@Override
-	public DriverillicitVo seDrillicitByDriverId(String driverid) {
-		// TODO Auto-generated method stub
-		return mapper.seDrillicitByDriverId(driverid);
+	public Page<DriverillicitVo> seDrillicitByDriverId(Pageable page,Driver driver) {
+		Page<DriverillicitVo> pager = new PageImpl<DriverillicitVo>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		params.put("id", driver.getId());
+		pager.setRecords( mapper.seDrillicitByDriverId(params));
+		pager.setTotalRows(mapper.seDrillicitByDriverIdCount(params));
+		 
+		return pager;
 	}
 
 	@Override
@@ -77,7 +84,7 @@ public class DriversServiceImpl implements DriversService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("driverid", driver.getId());
+		params.put("id", driver.getId());
 		params.put("name", driver.getName());
 		params.put("etpNm", driver.getEtpNm());
 		params.put("areaNm", driver.getAreaNm());

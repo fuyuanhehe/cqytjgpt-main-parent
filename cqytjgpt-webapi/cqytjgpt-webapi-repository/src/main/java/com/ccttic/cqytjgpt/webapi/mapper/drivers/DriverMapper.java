@@ -2,9 +2,6 @@ package com.ccttic.cqytjgpt.webapi.mapper.drivers;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
@@ -20,9 +17,12 @@ public interface DriverMapper {
 	public long sePageCount(Map<String, Object> params);
 
 	///查询驾驶人违法记录
-	public	DriverillicitVo seDrillicitByDriverId(@Param("driverid")String driverid);
+	public	List<DriverillicitVo> seDrillicitByDriverId(Map<String, Object> params);
 
-
+   public long seDrillicitByDriverIdCount(Map<String, Object> params);
+	
+	
+	
 	//驾驶人违法分页
 	public List<DriverillicitVo> seDr_illicitPages(Map<String, Object> params);
 	
