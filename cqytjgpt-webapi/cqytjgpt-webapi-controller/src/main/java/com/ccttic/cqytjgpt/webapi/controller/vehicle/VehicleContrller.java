@@ -114,7 +114,7 @@ public class VehicleContrller implements Serializable {
 			}
 			Map<String, Object> maps = vehicleService.saveVehicle(listMap,entId);
 			if ((int) maps.get("cet") == 1) {
-				resp.success(maps.get("gather") + "其他添加成功！");
+				resp.fail(maps.get("gather") + "其他添加成功！");
 			} else {
 				resp.success("添加成功！");
 			}

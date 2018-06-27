@@ -226,18 +226,16 @@ public class CategoryController implements Serializable {
 	 */
 	@RequestMapping(value="/findCategoryAttr",method= {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public String findCategoryAttr(@RequestBody CategoryAttr attr){
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ResponseMsg<List<CategoryAttr>> findCategoryAttr(@RequestBody CategoryAttr attr){
+		ResponseMsg<List<CategoryAttr>> resp = new  ResponseMsg<List<CategoryAttr>>();
 		try {
 			List<CategoryAttr> categoryAttrs = categoryService.findCategoryAttrsByCd(attr);
-			map.put("data", categoryAttrs);
-			map.put("result", 0);
-			map.put("msg", "获取信息成功！");
+			resp.setData(categoryAttrs);
+			resp.success("获取信息成功！");
 		} catch (Exception e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
+			resp.fail("获取信息失败！");
 			logger.error(e.getMessage());
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 }
