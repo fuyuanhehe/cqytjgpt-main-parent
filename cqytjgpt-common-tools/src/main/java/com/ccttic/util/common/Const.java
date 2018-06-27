@@ -53,7 +53,7 @@ public class Const {
 		
 			/**
 			 * 车辆信息（基本信息） 三级菜单
-			 */
+			 */	
 			public static final String CAR_BASE_INFO="car-base-info";
 			/**
 			 * 违法信息（违法信息） 三级菜单
@@ -93,8 +93,39 @@ public class Const {
 				 * 车辆信息查询 四级菜单
 				 */
 				public static final String CAR_HISTORY_INFO="car_history_info";
-				
-				
+    
+	/*
+	 * 驾驶人监管二级
+	 */
+	public static final String DRIVER_INFORMATION = "Driver_information";		
+		 /*
+	      * 驾驶人信息-基本信息 三级
+	      */
+	        public static final String PERSONAL_INFORMATION = "personal_information";
+	   
+	         /*
+	           * 驾驶人信息-信息记录 三级
+	          */
+	        public static final String DRIVER_PER = "driver_per";
+			       /*
+			        * 新增驾驶人 四级
+			        */
+			     public static final String ADD_DRIVER = "add_driver";
+			     
+			     /*
+			        * 基本信息-个人  四级
+			        */
+			     public static final String BASIC_INFOR = "basic_infor";
+			      
+			     /*
+			      * 基本信息-违法记录 四级
+			      */
+			     public static final String ILLEGAL_RECORD = "illegal_record";
+			     /*
+			       * 驾驶人信息-信息记录-详情 四级
+			       */
+			     public static final String DRIVER_DETAILS = "driver_details";
+	 
 //***************************日常监管菜单 end************************************************************
 				
 //***************************系统管理菜单 start**********************************************************
