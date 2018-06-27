@@ -217,7 +217,7 @@ FROM
 	WHERE
 	(e.isDeleted is null or e.isDeleted !=1)  and e.area_id is not null 
 GROUP BY
-	e.orgNm
+	e.orgNm,e.id
 ORDER BY   
 	total
 DESC
