@@ -17,6 +17,10 @@ public class EssEmployeeVo extends EssEmployee {
 	private String orgNm;
 	//组织id
 	private String orgCd;
+	//企业id
+	private String eptId;
+	
+	
 	//岗位
 	private List<EssPost> post;
 	private int page = 1;
@@ -62,18 +66,28 @@ public class EssEmployeeVo extends EssEmployee {
 	}
 	public void setPost(List<EssPost> post) {
 		this.post = post;
+	}public String getEptId() {
+		return eptId;
 	}
-	public EssEmployeeVo(String depNm, String depid, String orgNm, String orgCd, List<EssPost> post) {
+	public void setEptId(String eptId) {
+		this.eptId = eptId;
+	}
+	public EssEmployeeVo(String depNm, String depid, String orgNm, String orgCd, String eptId, List<EssPost> post,
+			int page, int rows) {
 		super();
 		this.depNm = depNm;
 		this.depid = depid;
 		this.orgNm = orgNm;
 		this.orgCd = orgCd;
+		this.eptId = eptId;
 		this.post = post;
+		this.page = page;
+		this.rows = rows;
 	}
 	public EssEmployeeVo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 }
