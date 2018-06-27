@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.danger.DrDanger;
-import com.ccttic.entity.danger.VehiDanger;
+import com.ccttic.entity.danger.DrDangerVo;
 
 public interface DrDangerMapper {
 	
@@ -52,4 +52,17 @@ public interface DrDangerMapper {
 	 * @param list
 	 */
 	public void updateBatch(List<DrDanger> list);
+
+	/**根据条件查询预警
+	 * @param params
+	 * @return
+	 */
+	List<DrDangerVo> qryDriverList(Map<String, Object> params);
+
+	/**根据条件获取总条数
+	 * @param params
+	 * @return
+	 */
+	long qryDriverListCount(Map<String, Object> params);
+
 }

@@ -1,6 +1,5 @@
 package com.ccttic.cqytjgpt.webapi.service.taskcar;
 
-import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,11 +13,13 @@ import com.ccttic.cqytjgpt.webapi.interfaces.query.IIllegalProcessService;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.illegal.VehiIllicit;
 import com.ccttic.entity.illegalprocess.XMLIllegalProcess;
+import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 
@@ -33,6 +34,8 @@ public class TaskCarService implements ITaskCarService {
 	private EssEnterpriseMapper essEnterpriseMapper;
 	@Autowired
 	private VehiDangerMapper vehiDangerMapper;
+	@Autowired
+	private OrganizationMapper organizationMapper;
 
 	@Override
 	public Map<String, Object> getCarIllega(VehicleIllegal vehicle) throws Exception {
@@ -104,15 +107,17 @@ public class TaskCarService implements ITaskCarService {
 		vr.setVehitype(vehicle.getVehiNoType());
 		SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		vr.setDangertime(sdf.format(new Date()));
+		vr.setVehicleId(vehicle.getId());
 		String enterpriseid = vehicle.getMgrEnterpriseId();
 		if(enterpriseid==null||enterpriseid=="") {
 			map.put("insert", null);
 			map.put("update", null);
 			return map;
 		}
-		String orgId = essEnterpriseMapper.selectOrgIdbyId(enterpriseid);
+		Organization org = organizationMapper.findOrgByEptId(enterpriseid);
 		EssEnterprise etp = essEnterpriseMapper.selectByPrimaryKey(enterpriseid);
-		vr.setOwnerorgid(orgId);
+		vr.setOwnergener(org.getOrgNm());
+		vr.setOwnerorgid(org.getOrgCd());
 		vr.setOwnerenterprise(etp == null ? null : etp.getEtpnm());
 		String[] strs = vehicle.getState().split(",");
 		for (String string : strs) {

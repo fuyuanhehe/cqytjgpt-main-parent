@@ -37,7 +37,10 @@
 			from ess_organization org LEFT JOIN ess_employee emp ON emp.id=org.admin_empid
 			where (org.isDeleted is null or org.isDeleted = 0) and org.orgCd=#{orgCd}
 	</select>
-	
+	<!-- 通过企业id获取该机构信息 -->
+	<select id="findOrgByEptId" parameterType="java.lang.String" resultMap="Organization">
+		SELECT org.* FROM ess_organization org,ess_enterprise ept WHERE org.id=ept.org_id AND ept.id= #{id}
+	</select>
 	<!-- 创建组织机构-->
 	<insert id="createOrg" parameterType="com.ccttic.entity.role.Organization">
 		insert into ess_organization(id,orgCd,orgNm,shortNm,remark,area_id,dispOrder,orgType) values 

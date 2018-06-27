@@ -670,4 +670,70 @@ GROUP BY
             #{item.id}
         </foreach>
   </update>
+  
+  <!-- 根据条件查询记录 -->
+	<select id="qryDriverList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT danger.*,org.orgNm FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id 
+		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard WHERE dr.mgrEnterpriseId in
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
+		 	<if test="areaId != null and areaId != ''">
+				and area.id = #{areaId}
+			</if>   
+			<if test="ownerenterprise != null and ownerenterprise != ''">
+				and ownerEnterprise = #{ownerenterprise}
+			</if>
+			<if test="dangertype != null and dangertype != ''">
+				and dangerType = #{dangertype}
+			</if>
+			<if test="fullStudyState ==true ">
+				and fullStudyState = 1
+			</if>
+			<if test="illicitState ==true ">
+				and illicitState = 1
+			</if>
+			<if test="failureState ==true ">
+				and failureState = 1
+			</if>
+			<if test="overdueProofState ==true ">
+				and overdueProofState = 1
+			</if>
+			order by dangerType DESC
+		
+		limit ${startRecord},${pageSize}
+	</select>
+	<!-- 根据条件统计条数 -->
+	<select id="qryDriverListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT danger.*,org.orgNm FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id 
+		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard WHERE dr.mgrEnterpriseId in
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>
+			    <if test="areaId != null and areaId != ''">
+				and area.id = #{areaId}
+			</if>   
+			<if test="ownerenterprise != null and ownerenterprise != ''">
+				and ownerEnterprise = #{ownerenterprise}
+			</if>
+			<if test="dangertype != null and dangertype != ''">
+				and dangerType = #{dangertype}
+			</if>
+			<if test="fullStudyState ==true ">
+				and fullStudyState = 1
+			</if>
+			<if test="illicitState ==true ">
+				and illicitState = 1
+			</if>
+			<if test="failureState ==true ">
+				and failureState = 1
+			</if>
+			<if test="overdueProofState ==true ">
+				and overdueProofState = 1
+			</if>
+			order by dangerType DESC
+		
+		limit ${startRecord},${pageSize}  
+	</select>
+  
 </mapper>

@@ -70,7 +70,9 @@ public class PostServiceImpl implements IPostService {
 
 		String id = RandomHelper.uuid();
 		post.setId(id);
+		post.setPostcd(id);
 		postMapper.createpost(post);
+		if(post.getEmp()!=null) {
 		for (int i = 0; i < post.getEmp().size(); i++) {
 			String uid = RandomHelper.uuid();
 			EssEmployeePost eep = new EssEmployeePost();
@@ -80,6 +82,7 @@ public class PostServiceImpl implements IPostService {
 			eep.setPostId(id);
 			postMapper.relatedPostAndEmp(eep);
 		}
+	}
 	}
 
 	@Override

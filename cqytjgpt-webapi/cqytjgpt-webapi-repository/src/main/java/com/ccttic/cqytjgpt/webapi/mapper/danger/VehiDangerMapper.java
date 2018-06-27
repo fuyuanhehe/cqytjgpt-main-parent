@@ -75,5 +75,6 @@ public interface VehiDangerMapper {
 	 * @throws AppException
 	 */
 	public int qryVehicleListCount(Map<String, Object> params) throws AppException;
+
 	
 }

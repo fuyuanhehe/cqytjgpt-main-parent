@@ -17,11 +17,13 @@ import com.ccttic.cqytjgpt.webapi.interfaces.taskdriver.ITaskDriverService;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.drillicit.DrIllicitMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.illegal.DrIllicit;
 import com.ccttic.entity.illegalprocess.XMLPendingPayment;
+import com.ccttic.entity.role.Organization;
 
 @Service
 @Transactional
@@ -35,6 +37,8 @@ public class TaskDriverService implements ITaskDriverService {
 	private EssEnterpriseMapper essEnterpriseMapper;
 	@Autowired
 	private DrDangerMapper drDangerMapper;
+	@Autowired
+	private OrganizationMapper organizationMapper;
 
 	@Override
 	public Map<String, Object> getDriveIllega(DriverIllegal driver) throws Exception {
@@ -109,8 +113,10 @@ public class TaskDriverService implements ITaskDriverService {
 		SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		dr.setDangertime(sdf.format(new Date()));
 		String enterpriseid = driver.getMgrenterpriseid();
+		Organization org = organizationMapper.findOrgByEptId(enterpriseid);
 		String orgNm = essEnterpriseMapper.selectOrgIdbyId(enterpriseid);
 		dr.setOwnerorgid(orgNm);
+		dr.setOwnergener(org.getOrgNm());
 		String[] strs = driver.getState().split(",");
 		for (String string : strs) {
 		dr.setIllicitstate("H".equals(string) ? 1 : 0);

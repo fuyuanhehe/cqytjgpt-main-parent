@@ -63,4 +63,11 @@ public interface OrganizationMapper {
 
 	public List<Area> getArea();
 	
+	/**
+	 * 通过企业id获取组织信息
+	 * @param id
+	 * @return
+	 */
+	public Organization findOrgByEptId(@Param("id") String id);
+	
 }

@@ -60,20 +60,36 @@ public class CarTaskController {
 		List<VehiDanger> insert = new ArrayList<>();
 		List<VehiDanger> update = new ArrayList<>();
 		List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
+		int i = 0;
 		for (VehicleIllegal vehicle : vehicles) {
+			i++;
 			try {
 				result = taskCarService.getCarDanger(vehicle);
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 			}
+			
 			if (result.get("update") != null) {
 				update.add((VehiDanger) (result.get("update")));
-			}
-			if (result.get("insert") != null) {
+			}else if (result.get("insert") != null) {
 				insert.add((VehiDanger) (result.get("insert")));
 			}
 		}
 		
+		List<Integer> cf = new ArrayList<>();  
+		for (int a = 0; a < insert.size(); a ++) {
+			for (int j = a+1; j < insert.size()-a; j++) {
+				if(insert.get(a).getId().equals(insert.get(j).getId())) {
+					cf.add(a);
+					break;
+				}
+			}
+		}
+		for (Integer integer : cf) {
+			insert.remove((int)integer);
+		}
+		
+		System.out.println(i);
 		if(insert.size()>0)
 		carBatch.addCarDanger(insert);
 		if(update.size()>0)
