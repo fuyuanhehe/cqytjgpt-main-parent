@@ -15,6 +15,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.post.EssPostMapper;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -22,6 +23,7 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeDept;
 import com.ccttic.entity.employee.EssEmployeePost;
 import com.ccttic.entity.employee.EssEmployeeVo;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
@@ -48,6 +50,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private EmployeeMapper mapper;
 	@Autowired
 	private EssEmployeeMapper empMapper;
+	@Autowired
+	private EssEnterpriseMapper entMapper;
 	@Autowired
 	private EssPostMapper postMapper;
 	@Autowired
@@ -96,6 +100,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// 员工所在部门
 		List<Department> deps = empMapper.selectDepUnderEmp(emp.getId());
 		emp.setDeps(deps);
+		List<EssEnterprise> ent = entMapper.getEssEnterprise(emp.getId());
+		emp.setEnt(ent);
 		// 员工所在组织
 		List<Organization> orgs = new ArrayList<>();
 		for (Department department : deps) {

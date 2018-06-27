@@ -1,6 +1,9 @@
 package com.ccttic.entity.role;
 
-public class RoleModels {
+import java.io.Serializable;
+
+public class RoleModels implements Serializable{
+	private static final long serialVersionUID = -8175571392096447478L;
 	//角色ID
 	private String roleId ;
 	//角色编码

@@ -1,15 +1,16 @@
 package com.ccttic.entity.employee;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
-import com.ccttic.entity.role.Enterprise;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.RoleModels;
 
-public class EmployeeVo extends EssEmployee {
+public class EmployeeVo extends EssEmployee implements Serializable{
+	private static final long serialVersionUID = -4656386997456826076L;
 	// 员工所在岗位
 	private List<EssPost> posts;
 	// 员工所在部门
