@@ -71,8 +71,7 @@ public class WarningServiceImpl implements IWarningservice{
 	}
 
 	@Override
-	public DrDanger qryOneDriver(DrDanger dr) throws AppException {
-		
+	public DrDanger qryOneDriver(DrDanger dr) throws AppException {		
 		return drMapper.selectByPrimaryKey(dr.getId());
 	}
 
