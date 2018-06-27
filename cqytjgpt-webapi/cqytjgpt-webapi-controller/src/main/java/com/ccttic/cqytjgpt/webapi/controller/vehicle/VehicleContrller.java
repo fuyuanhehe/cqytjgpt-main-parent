@@ -152,7 +152,7 @@ public class VehicleContrller implements Serializable {
 				vehicleService.modifVehicle(xmlCar);
 				resp.success("修改成功！");
 			} catch (Exception e) {
-				resp.fail("修改失败！");
+				resp.fail("调用交巡警接口失败！");
 				logger.error(e.getMessage());
 			}
 		}
