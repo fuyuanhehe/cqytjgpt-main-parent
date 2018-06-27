@@ -15,20 +15,18 @@ import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
-import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.post.EssPostMapper;
-import com.ccttic.entity.employee.EmpCategoryEnum;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeDept;
 import com.ccttic.entity.employee.EssEmployeePost;
 import com.ccttic.entity.employee.EssEmployeeVo;
-import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.RoleEmp;
+import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -50,8 +48,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private EmployeeMapper mapper;
 	@Autowired
 	private EssEmployeeMapper empMapper;
-	@Autowired
-	private EssEnterpriseMapper enterpriseMapper;
 	@Autowired
 	private EssPostMapper postMapper;
 	@Autowired
@@ -97,9 +93,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// 员工所在岗位
 		List<EssPost> posts = empMapper.selectPostUnderEmp(emp.getId());
 		emp.setPosts(posts);
-		// 企业
-		List<EssEnterprise> ent=enterpriseMapper.getEssEnterprise(emp.getId());
-		emp.setEnt(ent);
 		// 员工所在部门
 		List<Department> deps = empMapper.selectDepUnderEmp(emp.getId());
 		emp.setDeps(deps);
@@ -190,6 +183,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employee.setId(empid);
 		employee.setEmpcd(empid);
 		employee.setEmptype(emp.getEmptype());
+		employee.setPassword(MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8"));
 		empMapper.insert(employee);
 		EssEmployeeDept dept = new EssEmployeeDept();
 		dept.setDepId(emp.getDepid());
@@ -269,6 +263,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		params.put("empNm", emp.getEmpnm());// 员工姓名
 		params.put("account", emp.getAccount());// 员工账号
 		params.put("depid", emp.getDepid());// 部门id
+		params.put("eptId", emp.getEptId());//企业id
 
 		long totolRols = empMapper.qryPostListCount(params);
 		List<EssEmployeeVo> records = empMapper.qryPostList(params);
