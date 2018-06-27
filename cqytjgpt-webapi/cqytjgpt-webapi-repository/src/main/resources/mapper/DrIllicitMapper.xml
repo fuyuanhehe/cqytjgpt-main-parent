@@ -589,38 +589,133 @@
   </update>
   
     <update id="updateBatch" parameterType="java.util.List">
-     <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
     update dr_illicit
-    set name = #{item.name,jdbcType=VARCHAR},
-      idcard = #{item.idcard,jdbcType=VARCHAR},
-      permitCar = #{item.permitcar,jdbcType=VARCHAR},
-      mgrDepart = #{item.mgrdepart,jdbcType=VARCHAR},
-      mgrDepartAreaId = #{item.mgrdepartareaid,jdbcType=VARCHAR},
-      driver_id = #{item.driverId,jdbcType=VARCHAR},
-      scoreTotal = #{item.scoretotal,jdbcType=VARCHAR},
-      state = #{item.state,jdbcType=VARCHAR},
-      vehiNo = #{item.vehino,jdbcType=VARCHAR},
-      vehiNoType = #{item.vehinotype,jdbcType=VARCHAR},
-      illicitTime = #{item.illicittime,jdbcType=VARCHAR},
-      illicitScore = #{item.illicitscore,jdbcType=VARCHAR},
-      illicitAmount = #{item.illicitamount,jdbcType=VARCHAR},
-      illicitAdress = #{item.illicitadress,jdbcType=VARCHAR},
-      illicit = #{item.illicit,jdbcType=VARCHAR},
-      illicitDesc = #{item.illicitdesc,jdbcType=VARCHAR},
-      pickDepartment = #{item.pickdepartment,jdbcType=VARCHAR},
-      pickDepartmentDesc = #{item.pickdepartmentdesc,jdbcType=VARCHAR},
-      remark = #{item.remark,jdbcType=VARCHAR},
-      version = #{item.version,jdbcType=INTEGER},
-      isDeleted = #{item.isdeleted,jdbcType=BIT},
-      createTime = #{item.createtime,jdbcType=TIMESTAMP},
-      updateTime = #{item.updatetime,jdbcType=TIMESTAMP},
-      deleteTime = #{item.deletetime,jdbcType=TIMESTAMP},
-      createBy = #{item.createby,jdbcType=VARCHAR},
-      createDepCd = #{item.createdepcd,jdbcType=VARCHAR},
-      updateBy = #{item.updateby,jdbcType=VARCHAR},
-      updateDepCd = #{item.updatedepcd,jdbcType=VARCHAR}
-    where id = #{item.id,jdbcType=VARCHAR}
-    </foreach>
+     <trim prefix="set" suffixOverrides=",">
+        <trim prefix="name = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.name != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.name,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="idcard = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.idcard != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.idcard,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="permitCar = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.permitcar != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.permitcar,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="mgrDepart = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.mgrdepart != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.mgrdepart,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="mgrDepartAreaId = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.mgrdepartareaid != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.mgrdepartareaid,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="driver_id = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.driverId != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.driverId,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="state = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.state != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.state,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="vehiNo = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.vehino != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.vehino,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="vehiNoType = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.vehinotype != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.vehinotype,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="illicitTime = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.illicittime != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicittime,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="illicitScore = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.illicitscore != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitscore,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="illicitAmount = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.illicitamount != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitamount,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="illicitAdress = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.illicitadress != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitadress,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="illicit = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.illicit != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicit,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+          <trim prefix="illicitDesc = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.illicitdesc != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitdesc,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+           <trim prefix="pickDepartment = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.pickdepartment != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.pickdepartment,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+           <trim prefix="pickDepartmentDesc = case" suffix="end,">
+            <foreach collection="list" item="item" index="index">
+                    <if test="item.pickdepartmentdesc != null">
+                       when id = #{item.id,jdbcType=VARCHAR} then #{item.pickdepartmentdesc,jdbcType=VARCHAR}
+                    </if>
+            </foreach>
+         </trim>
+    </trim>
+    
+   where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
   </update>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into dr_illicit (id, name, idcard, 
