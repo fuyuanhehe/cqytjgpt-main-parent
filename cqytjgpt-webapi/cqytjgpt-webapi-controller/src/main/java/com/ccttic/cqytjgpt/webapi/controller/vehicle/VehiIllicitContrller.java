@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,13 +52,14 @@ public class VehiIllicitContrller implements Serializable{
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_ILLICIT_INFO, name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,@ModelAttribute(Const.ENT) EmployeeVo vo) {
+	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,HttpServletRequest request) {
 		ResponseMsg<List<VehiIllicit>> resp = new ResponseMsg<List<VehiIllicit>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehiIllicit.getPage());
 			page.setRows(vehiIllicit.getRows());
 			List<String> list = new ArrayList<String>();
+			EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
 			List<EssEnterprise> ent = vo.getEnt();
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());

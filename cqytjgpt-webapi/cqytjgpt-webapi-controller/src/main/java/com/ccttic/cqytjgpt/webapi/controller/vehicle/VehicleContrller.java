@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -70,8 +71,9 @@ public class VehicleContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,@ModelAttribute(Const.ENT) EmployeeVo vo) {
+	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,HttpServletRequest request) {
 		ResponseMsg<List<Vehicle>> resp = new ResponseMsg<List<Vehicle>>();
+		 EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
@@ -107,10 +109,11 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,@ModelAttribute(Const.ENT) EmployeeVo vo) {
+	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,HttpServletRequest request) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			String entId = "";
+			EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
 			List<EssEnterprise> ent = vo.getEnt();
 			for (EssEnterprise essEnterprise : ent) {
 				entId=essEnterprise.getId();
@@ -277,14 +280,15 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value = "/qryOneVehicleInfoList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	
-	public ResponseMsg<String> qryOneVehicleInfoList() {
+	public ResponseMsg<String> qryOneVehicleInfoList(HttpServletRequest request) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		if (token==null) {
 			token = getToken();
 		}
-		String flag = "0";
 		String fenceCd="500000";
+//		
+		String flag = "0";
+		
 		String s = frign.vehicleInfoList(token,flag,fenceCd);
 		resp.setData(s);
 		resp.success("查询成功！");
