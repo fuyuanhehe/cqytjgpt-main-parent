@@ -34,7 +34,7 @@ public interface EssEnterpriseMapper {
     //查看企业下是否还有员工
     int hasemp(String id);
     //通过企业id查询组织名
-    String selectOrgNmbyId(String id);
+    String selectOrgIdbyId(String id);
     
     /**
 	 * 根据条件获取企业信息
