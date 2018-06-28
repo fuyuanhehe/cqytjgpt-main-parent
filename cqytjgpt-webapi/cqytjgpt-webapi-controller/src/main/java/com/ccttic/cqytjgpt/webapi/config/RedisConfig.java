@@ -27,26 +27,25 @@ public class RedisConfig {
     
     @Bean//将返回值 交给Spring托管
     @ConfigurationProperties(prefix="spring.redis")//从配置文件中获取spring.redis的配置  
-    public JedisPoolConfig getRedisConfig(){  
+    public JedisPoolConfig redisPool(){  
         JedisPoolConfig config = new JedisPoolConfig();  
         return config;  
     }  
       
     @Bean  
     @ConfigurationProperties(prefix="spring.redis")  
-    public JedisConnectionFactory getConnectionFactory(){  
+    public JedisConnectionFactory connectionFactory(JedisPoolConfig redisPool){  
         JedisConnectionFactory factory = new JedisConnectionFactory();  
-        JedisPoolConfig config = getRedisConfig();  
-        factory.setPoolConfig(config);  
+        factory.setPoolConfig(redisPool);  
         logger.info("JedisConnectionFactory bean init success.");  
         return factory;  
     }  
       
       
     @Bean  
-    public RedisTemplate<String, ?> getRedisTemplate(RedisConnectionFactory factory){  
+    public RedisTemplate<String, ?> getRedisTemplate(RedisConnectionFactory connectionFactory){  
         RedisTemplate<String,?> template = new RedisTemplate<>() ;
-        template.setConnectionFactory(factory);
+        template.setConnectionFactory(connectionFactory);
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();//Long类型不可以会出现异常信息;
         template.setKeySerializer(redisSerializer);
         Jackson2JsonRedisSerializer<?> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
