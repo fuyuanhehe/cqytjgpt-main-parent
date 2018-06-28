@@ -116,7 +116,7 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request,@RequestParam TokenVo vo) {
+	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request,@RequestBody TokenVo vo) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
 		Employee emp=	(Employee) request.getSession(true).getAttribute(Const.USER);
 		String username=null;
