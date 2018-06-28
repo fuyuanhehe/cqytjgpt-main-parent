@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.service.taskcar;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,11 @@ import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
+import com.ccttic.entity.danger.DangerEnums;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.illegal.VehiIllicit;
+import com.ccttic.entity.illegal.VehiIllicitExample;
 import com.ccttic.entity.illegalprocess.XMLIllegalProcess;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.Vehicle;
@@ -64,6 +67,8 @@ public class TaskCarService implements ITaskCarService {
 					}
 				}
 			}
+			List<VehiIllicit> update = new ArrayList<>();
+			List<VehiIllicit> insert = new ArrayList<>();
 			for (XMLIllegalProcess xml : list) {
 
 				vehiIllicit = new VehiIllicit();
@@ -84,13 +89,15 @@ public class TaskCarService implements ITaskCarService {
 				vehiIllicit.setIllicit(xml.getWfxw());
 				vehiIllicit.setPickdepartmentdesc(xml.getCjjgmc());
 				if (vehiIllicitMapper.selectByPrimaryKey(vehiIllicit.getId()) != null) {
-					result.put("update", vehiIllicit);
-					result.put("insert", null);
+					update.add(vehiIllicit);
+					
 				} else {
-					result.put("insert", vehiIllicit);
-					result.put("update", null);
+					insert.add(vehiIllicit);
+					
 				}
 			}
+			result.put("update", update.size()>0? update:null);
+			result.put("insert", insert.size()>0? insert:null);
 
 		}
 		return result;
@@ -101,7 +108,25 @@ public class TaskCarService implements ITaskCarService {
 	public Map<String, Object> getCarDanger(Vehicle vehicle) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		VehiDanger vr = new VehiDanger();
-		
+		Map<Object, Object> mapillegal = illegalProcessService.getIIllegalProcess("04", "04Q22",
+				"<hphm>渝" + vehicle.getVehiNo() + "</hphm><hpzl>" + vehicle.getVehiNoType() + "</hpzl>");
+		@SuppressWarnings("unchecked")
+		List<XMLIllegalProcess> listdoing = (List<XMLIllegalProcess>) mapillegal.get("illegalprocess");
+
+		VehiIllicitExample example = new VehiIllicitExample();
+		example.createCriteria().andVehinoEqualTo(vehicle.getVehiNo()).andVehinotypeEqualTo(vehicle.getVehiNoType())
+				.andIsdeletedEqualTo(false);
+
+		List<VehiIllicit> listwait = vehiIllicitMapper.selectByExample(example);
+
+		if (listwait.size() == 0 && listdoing.size() == 0) {
+			vr.setCorrectstate(DangerEnums.NORMAL.getValue());
+		} else if (listdoing.size() > 0 && listdoing.size() != 0) {
+			vr.setCorrectstate(DangerEnums.EXECUTING.getValue());
+		} else if (listwait.size() > 0 && listdoing.size() == 0) {
+			vr.setCorrectstate(DangerEnums.UNEXECUTED.getValue());
+		}
+
 		vr.setId(vehicle.getId());
 		vr.setVehino(vehicle.getVehiNo());
 		vr.setVehitype(vehicle.getVehiNoType());
@@ -109,7 +134,7 @@ public class TaskCarService implements ITaskCarService {
 		vr.setDangertime(sdf.format(new Date()));
 		vr.setVehicleId(vehicle.getId());
 		String enterpriseid = vehicle.getMgrEnterpriseId();
-		if(enterpriseid==null||enterpriseid=="") {
+		if (enterpriseid == null || enterpriseid == "") {
 			map.put("insert", null);
 			map.put("update", null);
 			return map;

@@ -56,7 +56,7 @@ public class WarningServiceImpl implements IWarningservice{
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("list", vo.getList()); // 企业id
-		params.put("areaId", vo.getAreaCd());// 区域
+		params.put("areaId", vo.getAreaId());// 区域
 		params.put("fullStudyState", vo.getFullstudystate()==1?true:false);
 		params.put("illicitState", vo.getIllicitstate()==1?true:false);
 		params.put("failureState", vo.getFailurestate()==1?true:false);

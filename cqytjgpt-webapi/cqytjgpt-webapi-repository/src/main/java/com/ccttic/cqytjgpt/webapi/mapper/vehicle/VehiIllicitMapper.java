@@ -20,9 +20,9 @@ public interface VehiIllicitMapper {
 
 	    int insertSelective(VehiIllicit record);
 
-	    List<VehiIllicit> selectByExample(VehiIllicitExample example);
+	    List<com.ccttic.entity.illegal.VehiIllicit> selectByExample(VehiIllicitExample example);
 
-	    VehiIllicit selectByPrimaryKey(String id);
+	    com.ccttic.entity.illegal.VehiIllicit selectByPrimaryKey(String id);
 
 	    int updateByExampleSelective(@Param("record") VehiIllicit record, @Param("example") VehiIllicitExample example);
 
