@@ -28,14 +28,17 @@ class DriverTaskController {
 	@Autowired
 	private IDriverBatch driverBatch;
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/addDriverIllega")
 	public void addDriverIllega() {
 		Map<String, Object> result = null;
 		List<DrIllicit> insert = new ArrayList<>();
 		List<DrIllicit> update = new ArrayList<>();
 		List<DriverIllegal> drivers = driversService.getAllDriver();
+		int i =0;
 		for (DriverIllegal driver : drivers) {
-
+			i++;
+			logger.info("第"+i+"条");
 			try {
 				result = taskDriverService.getDriveIllega(driver);
 			} catch (Exception e) {
@@ -43,10 +46,10 @@ class DriverTaskController {
 				logger.info(e.getMessage());
 			}
 			if (result.get("update") != null) {
-				update.add((DrIllicit) (result.get("update")));
+				update.addAll((List<DrIllicit>) (result.get("update")));
 			}
 			if (result.get("insert") != null) {
-				insert.add((DrIllicit) (result.get("insert")));
+				insert.addAll((List<DrIllicit>) (result.get("insert")));
 			}
 		}
 		if(insert.size()>0)
@@ -61,7 +64,10 @@ class DriverTaskController {
 		List<DrDanger> insert = new ArrayList<>();
 		List<DrDanger> update = new ArrayList<>();
 		List<DriverIllegal> drivers = driversService.getAllDriver();
+		int i =0;
 		for (DriverIllegal driver : drivers) {
+			i++;
+			logger.info("第"+i+"条");
 			try {
 				result = taskDriverService.getDriverDanger(driver);
 			} catch (Exception e) {

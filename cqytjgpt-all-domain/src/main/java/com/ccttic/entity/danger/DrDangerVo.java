@@ -13,7 +13,7 @@ public class DrDangerVo extends DrDanger {
 	private int page = 1;
 	private int rows = 10;
 	// 行政区域代码
-	private String areaCd;
+	private String areaId;
 	// 行政区域名称
 	private String areaNm;
 	
@@ -27,12 +27,12 @@ public class DrDangerVo extends DrDanger {
 		this.list = list;
 	}
 
-	public String getAreaCd() {
-		return areaCd;
+	public String getAreaId() {
+		return areaId;
 	}
 
-	public void setAreaCd(String areaCd) {
-		this.areaCd = areaCd;
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
 	}
 
 	public String getAreaNm() {

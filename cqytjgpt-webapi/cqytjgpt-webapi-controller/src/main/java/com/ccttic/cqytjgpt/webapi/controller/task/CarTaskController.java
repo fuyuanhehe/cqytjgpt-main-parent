@@ -28,23 +28,27 @@ public class CarTaskController {
 	@Autowired
 	private ICarBatch carBatch;
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/addCarIllega")
 	public void addCarIllega() {
 		Map<String, Object> result = null;
 		List<VehiIllicit> insert = new ArrayList<>();
 		List<VehiIllicit> update = new ArrayList<>();
 	    List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
+	    int i =0;
 		for (VehicleIllegal vehicle : vehicles) {
+			i++;
+			logger.info("第"+i+"条");
 			try {
 				result = taskCarService.getCarIllega(vehicle);
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 			}
 			if (result.get("update") != null) {
-				update.add((VehiIllicit) (result.get("update")));
+				update.addAll((List<VehiIllicit>) (result.get("update")));
 			}
 			if (result.get("insert") != null) {
-				insert.add((VehiIllicit) (result.get("insert")));
+				insert.addAll((List<VehiIllicit>) (result.get("insert")));
 			}
 		}
 		if(insert.size()>0)
@@ -63,6 +67,7 @@ public class CarTaskController {
 		int i = 0;
 		for (VehicleIllegal vehicle : vehicles) {
 			i++;
+			logger.info("第"+i+"条");
 			try {
 				result = taskCarService.getCarDanger(vehicle);
 			} catch (Exception e) {
@@ -89,7 +94,7 @@ public class CarTaskController {
 			insert.remove((int)integer);
 		}
 		
-		System.out.println(i);
+
 		if(insert.size()>0)
 		carBatch.addCarDanger(insert);
 		if(update.size()>0)
