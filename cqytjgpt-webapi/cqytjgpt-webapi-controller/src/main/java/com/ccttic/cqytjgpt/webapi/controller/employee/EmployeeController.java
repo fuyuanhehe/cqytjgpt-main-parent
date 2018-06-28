@@ -22,7 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
-import com.ccttic.cqytjgpt.webapi.service.redistool.RedisService;
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -62,7 +62,7 @@ public class EmployeeController {
 	@Autowired
 	private AuthServiceFeign authFeign;
 	@Autowired
-	private RedisService redisService;
+	private RedisService<EmployeeVo> redisService;
 
 	/**
 	 * 

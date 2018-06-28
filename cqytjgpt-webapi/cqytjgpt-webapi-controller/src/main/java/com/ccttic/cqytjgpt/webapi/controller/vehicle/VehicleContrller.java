@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -18,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
-import com.ccttic.cqytjgpt.webapi.service.redistool.RedisService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -66,7 +64,7 @@ public class VehicleContrller implements Serializable {
 	@Autowired
 	private IEmployeeService employeeService;
 	@Autowired
-	private RedisService redisService;
+	private RedisService<EmployeeVo> redisService;
 	@Autowired
 	private VehicleFrign frign;
 	/**
