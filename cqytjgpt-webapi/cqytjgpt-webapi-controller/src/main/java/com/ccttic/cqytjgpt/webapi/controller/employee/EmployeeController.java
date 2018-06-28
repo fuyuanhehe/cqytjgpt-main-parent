@@ -135,7 +135,9 @@ public class EmployeeController {
 			response.fail("获取用户信息失败!");
 			return response;
 		}
+		logger.info("-----------------放入开始！-----------------------");
 		request.getSession(true).setAttribute(Const.ENT, employee); 
+		logger.info("-----------------放入结束！-----------------------");
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);
 

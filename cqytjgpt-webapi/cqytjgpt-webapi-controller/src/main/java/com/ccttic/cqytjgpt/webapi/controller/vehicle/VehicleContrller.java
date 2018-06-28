@@ -73,7 +73,9 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,HttpServletRequest request) {
 		ResponseMsg<List<Vehicle>> resp = new ResponseMsg<List<Vehicle>>();
+		
 		 EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
+		 logger.info("vehicle/qryVehicleList----------------获取"+vo);
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
