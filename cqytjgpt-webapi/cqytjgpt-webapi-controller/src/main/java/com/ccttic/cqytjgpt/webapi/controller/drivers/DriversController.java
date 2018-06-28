@@ -1,6 +1,9 @@
 package com.ccttic.cqytjgpt.webapi.controller.drivers;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -240,11 +243,11 @@ public class DriversController {
 		return resp;
 	}
 	@RequestMapping(value="/getEssEnterprise",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<EssEnterprise> getEssEnterprise(@ModelAttribute(Const.ENT)EssEnterprise enterprise){
+	public ResponseMsg<EssEnterprise> getEssEnterprise(HttpServletRequest request/*@ModelAttribute(Const.ENT)EssEnterprise enterprise*/){
 
 		ResponseMsg<EssEnterprise> resp = new ResponseMsg<>();
 
-		resp.setData(enterprise);
+//		resp.setData(enterprise);
 		return resp;
 	}
 

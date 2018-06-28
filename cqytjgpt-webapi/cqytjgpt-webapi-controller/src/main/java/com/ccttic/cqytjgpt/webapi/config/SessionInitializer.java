@@ -1,8 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.config;
 
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
-
-import com.ccttic.cqytjgpt.webapi.config.SessionConfig;
+import org.springframework.stereotype.Component;
 /**
  * 
     * @ClassName: Config  
@@ -11,6 +10,8 @@ import com.ccttic.cqytjgpt.webapi.config.SessionConfig;
     * @date 2018年6月4日  
     *
  */
+
+@Component
 public class SessionInitializer extends AbstractHttpSessionApplicationInitializer { 
 
 	public SessionInitializer() {

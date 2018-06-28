@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +21,7 @@ import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.DrDangerVo;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.danger.vo.VehiDangerVo;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.exception.AppException;
@@ -46,11 +49,13 @@ public class WarningContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/qryVehicleList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public ResponseMsg<List<VehiDanger>> getVehicleWarningList(@RequestBody VehiDangerVo vo,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
+	public ResponseMsg<List<VehiDanger>> getVehicleWarningList(@RequestBody VehiDangerVo vo,HttpServletRequest request) {
 		ResponseMsg<List<VehiDanger>> resp = new ResponseMsg<List<VehiDanger>>();
 		PageRequest page = new PageRequest();
 		page.setPage(vo.getPage());
 		page.setRows(vo.getRows());
+		EmployeeVo emp = (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
+		List<EssEnterprise> ent = emp.getEnt();
 		List<String> list = new ArrayList<String>();
 		for (EssEnterprise essEnterprise : ent) {
 			list.add(essEnterprise.getId());
@@ -69,11 +74,13 @@ public class WarningContrller implements Serializable {
 	
 	@RequestMapping(value = "/qryDriverList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public ResponseMsg<Page<DrDangerVo>> getDriverWarningList(@RequestBody DrDangerVo vo,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
+	public ResponseMsg<Page<DrDangerVo>> getDriverWarningList(@RequestBody DrDangerVo vo,HttpServletRequest request) {
 		ResponseMsg<Page<DrDangerVo>> resp = new ResponseMsg<Page<DrDangerVo>>();
 		PageRequest page = new PageRequest();
 		page.setPage(vo.getPage());
 		page.setRows(vo.getRows());
+		EmployeeVo emp = (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
+		List<EssEnterprise> ent = emp.getEnt();
 		List<String> list = new ArrayList<String>();
 		for (EssEnterprise essEnterprise : ent) {
 			list.add(essEnterprise.getId());
