@@ -318,6 +318,7 @@ public class VehicleContrller implements Serializable {
 		if (null == vo) {
 			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 			//3. 更新redis里用户缓存
+			vo= employee;
 			redisService.set(username,employee, Const.USER_REDIS_LIVE);
 		}
 		String fenceCd=null;
