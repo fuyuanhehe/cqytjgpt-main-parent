@@ -116,12 +116,12 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request,@RequestParam String access_token) {
+	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request,@RequestBody TokenVo vo) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
 		Employee emp=	(Employee) request.getSession(true).getAttribute(Const.USER);
 		String username=null;
 		if (emp == null) {
-			username=JWTUtil.getUsername(access_token);
+			username=JWTUtil.getUsername(vo.getAccess_token());
 		}else{
 			if(!StringUtils.isEmpty(emp.getAccount())){
 				username = emp.getAccount();
