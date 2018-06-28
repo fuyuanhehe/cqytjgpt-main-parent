@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
@@ -302,8 +303,8 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value = "/qryOneVehicleInfoList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public ResponseMsg<String> qryOneVehicleInfoList(HttpServletRequest request,@RequestParam String access_token) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
+	public ResponseMsg<List<JSON>> qryOneVehicleInfoList(HttpServletRequest request,@RequestParam String access_token) {
+		ResponseMsg<List<JSON>> resp = new ResponseMsg<List<JSON>>();
 		 if(StringUtils.isEmpty(access_token)) {
 			 resp.fail("access_token 为空");
 			 return resp;
@@ -320,16 +321,13 @@ public class VehicleContrller implements Serializable {
 			redisService.set(username,employee, Const.USER_REDIS_LIVE);
 		}
 		String fenceCd=null;
+		List<JSON> list = new ArrayList<JSON>();
 		for( EssEnterprise ee:vo.getEnt()) {
-			 
-			 fenceCd=ee.getId();
-//					
-					
-					
-			//String s = frign.vehicleInfoList(token,0,fenceCd);
+			fenceCd=vehicleService.getfenceIdByEssid(ee.getId());
+			String s = frign.vehicleInfoList(token,"0",fenceCd);
+			list.add(JSON.parseObject(s)); 
 		}
-
-		//resp.setData(s);
+		resp.setData(list);
 		resp.success("查询成功！");
 		return resp;
 	}

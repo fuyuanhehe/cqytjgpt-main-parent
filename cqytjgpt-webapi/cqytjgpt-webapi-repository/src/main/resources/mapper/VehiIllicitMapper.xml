@@ -635,7 +635,10 @@
 			   ,cit.remark,ess.etpNm
 				FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-				WHERE ess.id=#{entId}
+				WHERE ess.id in
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    </foreach>  
 				<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 					and mgrDepartAreaId = #{mgrDepartAreaId}
 				</if>
