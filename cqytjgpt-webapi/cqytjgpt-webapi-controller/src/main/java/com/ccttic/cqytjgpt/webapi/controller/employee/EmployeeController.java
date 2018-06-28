@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ import net.sf.json.JSONObject;
  */
 @RestController
 @RequestMapping("/employee")
-@SessionAttributes(Const.USER)
+//@SessionAttributes(Const.USER)
 public class EmployeeController {
 
 	private Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -116,9 +117,9 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(HttpServletRequest request,@RequestBody TokenVo vo) {
+	public ResponseMsg<EmployeeVo> employeeInfo(HttpSession session,@RequestBody TokenVo vo) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
-		Employee emp=	(Employee) request.getSession(true).getAttribute(Const.USER);
+		Employee emp=	(Employee) session.getAttribute(Const.USER);
 		String username=null;
 		if (emp == null) {
 			username=JWTUtil.getUsername(vo.getAccess_token());
@@ -136,7 +137,7 @@ public class EmployeeController {
 			return response;
 		}
 		logger.info("-----------------放入开始！-----------------------");
-		request.getSession(true).setAttribute(Const.ENT, employee); 
+		session.setAttribute(Const.ENT, employee); 
 		logger.info("-----------------放入结束！-----------------------");
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);

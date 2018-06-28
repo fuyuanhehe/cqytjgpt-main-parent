@@ -24,11 +24,11 @@ public class Const {
 	/**
 	 * 从sesssion中获取用户的的key
 	 */
-	final public static String USER = "USER";
+	final public static String USER = "USER-uuser";
 	/**
 	 * 从sesssion中获取企业的的key
 	 */
-	final public static String ENT = "ENT";
+	final public static String ENT = "ENT-USER";
 	
 	/**
 	 * 从session中获取登录验证面的key

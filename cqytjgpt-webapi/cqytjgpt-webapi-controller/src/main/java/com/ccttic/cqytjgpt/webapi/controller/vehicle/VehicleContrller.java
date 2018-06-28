@@ -7,17 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
+import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
@@ -36,6 +39,7 @@ import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
@@ -47,7 +51,7 @@ import com.ccttic.util.page.PageRequest;
  */
 @RestController
 @RequestMapping("/vehicle")
-@SessionAttributes(Const.ENT)
+//@SessionAttributes(Const.ENT)
 public class VehicleContrller implements Serializable {
 	
 	private String token = null; 
@@ -58,6 +62,8 @@ public class VehicleContrller implements Serializable {
 	private IVehicleService vehicleService;
 	@Autowired
 	private IQueryCarService queryCarService;
+	@Autowired
+	private IEmployeeService employeeService;
 	
 	@Autowired
 	private VehicleFrign frign;
@@ -71,18 +77,25 @@ public class VehicleContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,HttpServletRequest request) {
+	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,HttpSession session,@RequestParam String access_token) {
 		ResponseMsg<List<Vehicle>> resp = new ResponseMsg<List<Vehicle>>();
-		
-		 EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
-		 logger.info("vehicle/qryVehicleList----------------获取"+vo);
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
 			List<String> list = new ArrayList<String>();
-			List<EssEnterprise> essEnt = vo.getEnt();
-			for (EssEnterprise essEnterprise : essEnt) {
+			List<EssEnterprise> ent = null;
+			String username =null;
+			EmployeeVo vo= (EmployeeVo) session.getAttribute(Const.ENT); 
+			logger.info("vehicle/qryVehicleList----------------获取"+vo);
+			if (null != vo) {
+				ent = vo.getEnt();
+			} else {
+				username=JWTUtil.getUsername(token);
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+			}
+			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
 			}
 			vehicle.setList(list);
@@ -115,7 +128,7 @@ public class VehicleContrller implements Serializable {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			String entId = "";
-			EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
+			EmployeeVo vo= (EmployeeVo) request.getSession().getAttribute(Const.ENT); 
 			List<EssEnterprise> ent = vo.getEnt();
 			for (EssEnterprise essEnterprise : ent) {
 				entId=essEnterprise.getId();
