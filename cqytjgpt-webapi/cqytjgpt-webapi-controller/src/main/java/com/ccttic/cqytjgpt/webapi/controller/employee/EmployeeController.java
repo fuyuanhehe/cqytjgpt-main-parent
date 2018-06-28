@@ -6,25 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
+import com.ccttic.cqytjgpt.webapi.service.redistool.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -63,6 +61,8 @@ public class EmployeeController {
 
 	@Autowired
 	private AuthServiceFeign authFeign;
+	@Autowired
+	private RedisService redisService;
 
 	/**
 	 * 
@@ -117,18 +117,14 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(HttpSession session,@RequestBody TokenVo vo) {
+	public ResponseMsg<EmployeeVo> employeeInfo(@RequestBody TokenVo vo,@RequestParam String access_token) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
-		Employee emp=	(Employee) session.getAttribute(Const.USER);
-		String username=null;
-		if (emp == null) {
-			username=JWTUtil.getUsername(vo.getAccess_token());
-		}else{
-			if(!StringUtils.isEmpty(emp.getAccount())){
-				username = emp.getAccount();
-			}
-		}
-	
+		
+		 if(StringUtils.isEmpty(access_token)) {
+			 response.fail("access_token 不能为空");
+			 return response;
+		 }
+		 String username=JWTUtil.getUsername(access_token);
 
 		EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 		
@@ -137,7 +133,7 @@ public class EmployeeController {
 			return response;
 		}
 		logger.info("-----------------放入开始！-----------------------");
-		session.setAttribute(Const.ENT, employee); 
+		redisService.set(username, employee, Const.USER_REDIS_LIVE);
 		logger.info("-----------------放入结束！-----------------------");
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);

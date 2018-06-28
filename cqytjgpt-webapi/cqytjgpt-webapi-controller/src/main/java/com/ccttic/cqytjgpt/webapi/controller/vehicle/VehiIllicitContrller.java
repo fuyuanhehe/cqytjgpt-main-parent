@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
+import com.ccttic.cqytjgpt.webapi.service.redistool.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
@@ -49,6 +51,8 @@ public class VehiIllicitContrller implements Serializable{
 	private IVehiIllicitService vehiIllicitService;
 	@Autowired
 	private IEmployeeService employeeService;
+	@Autowired
+	private RedisService redisService;
 	/**
 	 * 根据条件获取车辆违法信息
 	 * @return
@@ -65,15 +69,21 @@ public class VehiIllicitContrller implements Serializable{
 			page.setPage(vehiIllicit.getPage());
 			page.setRows(vehiIllicit.getRows());
 			List<String> list = new ArrayList<String>();
-			EmployeeVo vo= (EmployeeVo) session.getAttribute(Const.ENT); 
+			 if(StringUtils.isEmpty(access_token)) {
+				 resp.fail("access_token 不能为空");
+				 return resp;
+			 }
+			 String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username);
 			List<EssEnterprise> ent = null;
-			String username =null;
 			if (null != vo) {
 				ent = vo.getEnt();
 			} else {
-				username=JWTUtil.getUsername(access_token);
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 				ent=employee.getEnt();
+				redisService.set(username,employee,Const.USER_REDIS_LIVE);
 			}
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());

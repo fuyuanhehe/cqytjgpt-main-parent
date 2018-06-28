@@ -22,9 +22,13 @@ package com.ccttic.util.common;
 public class Const {
 	
 	/**
+	 * redis 里面的用户生存时间
+	 */
+	final public static long USER_REDIS_LIVE = 7200 ;
+	/**
 	 * 从sesssion中获取用户的的key
 	 */
-	final public static String USER = "USER-uuser";
+	final public static String USER = "USER";
 	/**
 	 * 从sesssion中获取企业的的key
 	 */

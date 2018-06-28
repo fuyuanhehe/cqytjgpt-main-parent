@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
+import com.ccttic.cqytjgpt.webapi.service.redistool.RedisService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -51,7 +53,6 @@ import com.ccttic.util.page.PageRequest;
  */
 @RestController
 @RequestMapping("/vehicle")
-//@SessionAttributes(Const.ENT)
 public class VehicleContrller implements Serializable {
 	
 	private String token = null; 
@@ -64,7 +65,8 @@ public class VehicleContrller implements Serializable {
 	private IQueryCarService queryCarService;
 	@Autowired
 	private IEmployeeService employeeService;
-	
+	@Autowired
+	private RedisService redisService;
 	@Autowired
 	private VehicleFrign frign;
 	/**
@@ -77,23 +79,30 @@ public class VehicleContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,HttpSession session,@RequestParam String access_token) {
+	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody  PageVehicleVo vehicle,@RequestParam String access_token) {
 		ResponseMsg<List<Vehicle>> resp = new ResponseMsg<List<Vehicle>>();
 		try {
+			 if(StringUtils.isEmpty(access_token)) {
+				 resp.fail("access_token 为空");
+				 return resp;
+			 }
+			
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
 			List<String> list = new ArrayList<String>();
 			List<EssEnterprise> ent = null;
-			String username =null;
-			EmployeeVo vo= (EmployeeVo) session.getAttribute(Const.ENT); 
-			logger.info("vehicle/qryVehicleList----------------获取"+vo);
+			String username =JWTUtil.getUsername(access_token);
+			// redis get data
+			EmployeeVo vo = (EmployeeVo)redisService.get(username); 
+			// 2. 判断REDIS是否为空
 			if (null != vo) {
 				ent = vo.getEnt();
 			} else {
-				username=JWTUtil.getUsername(token);
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 				ent=employee.getEnt();
+				//3. 更新redis里用户缓存
+				redisService.set(username,employee, Const.USER_REDIS_LIVE);
 			}
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
@@ -295,17 +304,34 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value = "/qryOneVehicleInfoList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
-	public ResponseMsg<String> qryOneVehicleInfoList(HttpServletRequest request) {
+	public ResponseMsg<String> qryOneVehicleInfoList(HttpServletRequest request,@RequestParam String access_token) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
+		 if(StringUtils.isEmpty(access_token)) {
+			 resp.fail("access_token 为空");
+			 return resp;
+		 }
+		 String username =JWTUtil.getUsername(access_token);
 		if (token==null) {
 			token = getToken();
 		}
-		String fenceCd="500000";
-//		
-		String flag = "0";
 		
-		String s = frign.vehicleInfoList(token,flag,fenceCd);
-		resp.setData(s);
+		EmployeeVo vo = (EmployeeVo)redisService.get(username); 
+		if (null == vo) {
+			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+			//3. 更新redis里用户缓存
+			redisService.set(username,employee, Const.USER_REDIS_LIVE);
+		}
+		String fenceCd=null;
+		for( EssEnterprise ee:vo.getEnt()) {
+			 
+			 fenceCd=ee.getId();
+//					
+					
+					
+			//String s = frign.vehicleInfoList(token,0,fenceCd);
+		}
+
+		//resp.setData(s);
 		resp.success("查询成功！");
 		return resp;
 	}
