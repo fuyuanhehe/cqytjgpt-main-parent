@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.drivers.vo.DriverInsert;
@@ -38,7 +37,7 @@ import com.ccttic.util.page.PageRequest;
 
 @RestController
 @RequestMapping(value="/drvers")
-@SessionAttributes(Const.ENT)
+//@SessionAttributes(Const.ENT)
 public class DriversController {
 
 	private Logger logger = Logger.getLogger(this.getClass());
