@@ -101,7 +101,7 @@
 	</select>
 	<!-- 根据企业id获取fenced -->
 	<select id="getfenceIdByEssid" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT * FROM ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id LEFT JOIN ess_area area ON area.id=org.area_id WHERE ent.id=#{id}
+		SELECT area.areaCd FROM ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id LEFT JOIN ess_area area ON area.id=org.area_id WHERE ent.id=#{id}
 	</select>
 	
 	<!-- 根据企业编码获取车辆基础信息 -->
