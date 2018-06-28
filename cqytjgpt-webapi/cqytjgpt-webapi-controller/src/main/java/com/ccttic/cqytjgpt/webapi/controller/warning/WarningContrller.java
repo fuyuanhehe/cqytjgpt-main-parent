@@ -67,7 +67,7 @@ public class WarningContrller implements Serializable {
 		return resp;
 	}
 	
-	@RequestMapping(value = "/getByIdVehicleWarning", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/qryDriverList", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public ResponseMsg<Page<DrDangerVo>> getDriverWarningList(@RequestBody DrDangerVo vo,@ModelAttribute(Const.ENT) List<EssEnterprise> ent) {
 		ResponseMsg<Page<DrDangerVo>> resp = new ResponseMsg<Page<DrDangerVo>>();
@@ -90,25 +90,25 @@ public class WarningContrller implements Serializable {
 		return resp;
 	}
 	
-//	/**
-//	 * 根据条件获取车辆预警信息
-//	 * 
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/getByIdDriverWarning", method = {RequestMethod.POST,RequestMethod.GET})
-//	@ResponseBody
-//	public ResponseMsg<VehiDanger> getByIdVehicleWarning(@RequestBody VehiDangerVo vo) {
-//		ResponseMsg<VehiDanger> resp = new ResponseMsg<VehiDanger>();
-//		
-//		try {
-//			VehiDanger vehi = warningservice.qryOneVehicle(vo);
-//			resp.setData(vehi);
-//			resp.success("查询成功！");
-//		} catch (AppException e) {
-//			resp.fail("查询失败！");
-//		}
-//		return resp;
-//	}
+	/**
+	 * 根据条件获取车辆预警信息
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/getByIdVehicleWarning", method = {RequestMethod.POST,RequestMethod.GET})
+	@ResponseBody
+	public ResponseMsg<VehiDanger> getByIdVehicleWarning(@RequestBody VehiDangerVo vo) {
+		ResponseMsg<VehiDanger> resp = new ResponseMsg<VehiDanger>();
+		
+		try {
+			VehiDanger vehi = warningservice.qryOneVehicle(vo);
+			resp.setData(vehi);
+			resp.success("查询成功！");
+		} catch (AppException e) {
+			resp.fail("查询失败！");
+		}
+		return resp;
+	}
 	
 	@RequestMapping(value = "/getByIdDriverWarning", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
