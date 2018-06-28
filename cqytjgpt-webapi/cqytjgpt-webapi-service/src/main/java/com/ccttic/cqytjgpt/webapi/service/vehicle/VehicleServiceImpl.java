@@ -169,5 +169,11 @@ public class VehicleServiceImpl implements IVehicleService {
 		return mapper.getAllCar();
 	}
 
+	@Override
+	public String getfenceIdByEssid(String id) {
+		
+		return mapper.getfenceIdByEssid(id);
+	}
+
 	
 }

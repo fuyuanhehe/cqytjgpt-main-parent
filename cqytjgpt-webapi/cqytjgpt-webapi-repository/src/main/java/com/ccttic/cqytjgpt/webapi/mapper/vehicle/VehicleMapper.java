@@ -85,4 +85,6 @@ public interface VehicleMapper {
 	public List<VehicleIllegal> getAllCar();
 	//根据车辆id获取数据库违章信息
 	List<VehiIllicit>selectByVehicleId(String vehicleId);
+
+	public String getfenceIdByEssid(String id);
 }

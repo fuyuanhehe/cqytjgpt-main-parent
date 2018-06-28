@@ -56,5 +56,7 @@ public interface IVehicleService {
 	public void modifVehicle(XMLCar xmlCar) throws AppException;
 	
 	public List<VehicleIllegal> getAllVehicle();
+
+	public String getfenceIdByEssid(String id);
 	
 }
