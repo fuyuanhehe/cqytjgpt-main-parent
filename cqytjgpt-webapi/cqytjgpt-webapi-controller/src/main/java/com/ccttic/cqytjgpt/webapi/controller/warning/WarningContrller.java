@@ -80,13 +80,14 @@ public class WarningContrller implements Serializable {
 		PageRequest page = new PageRequest();
 		page.setPage(vo.getPage());
 		page.setRows(vo.getRows());
-		EmployeeVo emp = (EmployeeVo) session.getAttribute(Const.ENT); 
-		List<EssEnterprise> ent = emp.getEnt();
-		List<String> list = new ArrayList<String>();
-		for (EssEnterprise essEnterprise : ent) {
-			list.add(essEnterprise.getId());
-		}
-		vo.setList(list);
+//		EmployeeVo emp = (EmployeeVo) session.getAttribute(Const.ENT); 
+//		List<EssEnterprise> ent = emp.getEnt();
+//		List<String> ent = vo.getList();
+//		List<String> list = new ArrayList<String>();
+//		for (EssEnterprise essEnterprise : ent) {
+//			list.add(essEnterprise.getId());
+//		}
+//		vo.setList(list);
 		try {
 			Page<DrDangerVo> pager = warningservice.qryDriverList(page, vo);
 			resp.setData(pager);
