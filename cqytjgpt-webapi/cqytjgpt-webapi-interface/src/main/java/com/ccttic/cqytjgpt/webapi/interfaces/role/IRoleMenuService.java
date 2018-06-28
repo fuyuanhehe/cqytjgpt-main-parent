@@ -4,10 +4,10 @@ import java.util.List;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
-import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
 
@@ -54,7 +54,7 @@ public interface IRoleMenuService {
  	 * @param 
  	 * @return
  	 */
- 	public empModelVo seAllEmp();
+ 	public List<EmpVo> seAllEmp();
  	
  	/**
 	 * 查询菜单id，名称

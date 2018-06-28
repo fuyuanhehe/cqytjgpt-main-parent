@@ -7,21 +7,19 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.cqytjgpt.webapi.mapper.role.RoleMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.role.RoleMenuMapper;
 import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.RoleModels;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
-import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.util.common.MenuTreeUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
@@ -137,28 +135,10 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 
 
 	@Override
-	public empModelVo seAllEmp() {
-		// TODO Auto-generated method stub
-		EssEmployee data = Mapper.seAllEmp();
-		List<String> listid = new ArrayList<>();
+	public List<EmpVo> seAllEmp() {
+		List<EmpVo> data = Mapper.seAllEmp();
 
-		List<String> listenm = new ArrayList<>();  
-
-		empModelVo modelVo = new empModelVo();
-
-		String [] arr = data.getId().split(",");
-
-		String [] array = data.getEmpnm().split(",");
-
-		for (int i = 0; i < array.length; i++) {
-			listid.add(arr[i]);
-			listenm.add(array[i]);
-		}
-
-		modelVo.setEmpId(listid);
-		modelVo.setEmpNm(listenm);
-
-		return modelVo;
+		return data;
 	}
 	@Override
 	public EmployeeVo  seRole_MenuById(String emp_id) {

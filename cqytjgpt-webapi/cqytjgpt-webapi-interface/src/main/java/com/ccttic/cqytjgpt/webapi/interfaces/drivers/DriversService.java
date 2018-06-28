@@ -3,9 +3,8 @@ package com.ccttic.cqytjgpt.webapi.interfaces.drivers;
 
 
 import java.util.List;
-
-import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
+import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
@@ -25,7 +24,7 @@ public interface DriversService {
 	Page<DriverVo> seDriverPage(Pageable page,DriverVo driverVo);
 
 	///查询驾驶人违法记录
-	Page<DriverillicitVo> seDrillicitByDriverId(Pageable page,Driver driver);
+	Page<DriverillicitVo> seDrillicitByDriverId(Pageable page,DriverVo driver);
 
 	
 	///查询驾驶人违法记录分页
@@ -33,7 +32,7 @@ public interface DriversService {
 
 
 	// 增加驾驶员
-	public void insertSelective(List<Driver> driver);
+	public void insertSelective(DriverInsert driver);
 	
 	public List<DriverIllegal> getAllDriver();
 	
@@ -43,4 +42,10 @@ public interface DriversService {
 	Page<EssEmployee> queryEmpPage(Pageable page);
 	//<!--企业信息记录分页 -->
 	Page<vehiclesVo> queryVehiclespage(Pageable page,vehiclesVo vehiclesVo);
+	
+	
+	
 }
+
+
+

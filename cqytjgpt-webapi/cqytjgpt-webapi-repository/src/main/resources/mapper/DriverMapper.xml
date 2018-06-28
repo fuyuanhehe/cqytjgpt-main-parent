@@ -44,7 +44,7 @@
 
 	<!--增加驾驶员 -->
 	<insert id="insertSelective" parameterType="java.util.List">
-		insert into driver id,idcard values
+		insert into driver (id,idcard) values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
 			( #{item.id}, #{item.idcard} )
@@ -109,6 +109,12 @@
 			and d.fistShString BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
+		and en.id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
 		limit ${startRecord},${pageSize}
 	</select>
 	<!-- 驾驶人分页总数 -->
@@ -152,12 +158,18 @@
 			and d.fistShString BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
+		and en.id in
+	<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
 	</select>
 	<!--驾驶人违法记录 -->
 	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
 		SELECT
-		d.`name`,
+		d.name,
 		a.areaNm,
 		dl.illicitTime,
 		dl.illicitAdress,
@@ -165,33 +177,41 @@
 		dl.illicitAmount
 		<!-- 差处理部门 -->
 		FROM
-		driver d
-		LEFT JOIN
-		dr_illicit dl ON d.id = dl.driver_id
-		LEFT JOIN
-		ess_area a ON
+		ess_enterprise e
+		LEFT JOIN driver d ON e.id = d.mgrEnterpriseId
+		LEFT JOIN dr_illicit dl ON d.id = dl.driver_id
+		LEFT JOIN ess_area a ON
 		d.mgrDepartAreaId = a.id
 		where d.id = #{id}
-		limit ${startRecord} , ${pageSize}
+		and e.id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
+		limit
+		${startRecord} , ${pageSize}
 	</select>
-		<select id="seDrillicitByDriverIdCount" parameterType="java.util.Map"
+	<select id="seDrillicitByDriverIdCount" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
 		SELECT
-	    count(d.id)
+		count(d.id)
 		<!-- 差处理部门 -->
 		FROM
-		driver d
-		LEFT JOIN
-		dr_illicit dl ON d.id = dl.driver_id
-		LEFT JOIN
-		ess_area a ON
+		ess_enterprise e
+		LEFT JOIN driver d ON e.id = d.mgrEnterpriseId
+		LEFT JOIN dr_illicit dl ON d.id = dl.driver_id
+		LEFT JOIN ess_area a ON
 		d.mgrDepartAreaId = a.id
 		where d.id = #{id}
+		and e.id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
 	</select>
-	
-	
-	
-	
+
 	<!--驾驶人违法信息条件分页 -->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
@@ -237,6 +257,11 @@
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
+		and en.id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
 
 		limit ${startRecord} , ${pageSize}
 
@@ -277,6 +302,12 @@
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
+		and en.id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
 	</select>
 
 	<!-- 一对多查询关联 -->
@@ -435,7 +466,8 @@
 	</select>
 	<select id="seEmp" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.employee.EssEmployee">
-		select * from ess_employee limit ${startRecord} , ${pageSize}
+		select id,empNm from ess_employee limit ${startRecord} ,
+		${pageSize}
 	</select>
 	<select id="seEmpCount" parameterType="java.util.Map"
 		resultType="long">

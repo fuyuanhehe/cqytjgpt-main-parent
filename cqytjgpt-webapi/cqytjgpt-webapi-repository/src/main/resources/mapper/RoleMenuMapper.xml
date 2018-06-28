@@ -49,7 +49,8 @@
 		SELECT
 		t1.roleCd,t1.roleNm,t1.menu_id,m.id,m.path from (SELECT
 		r.roleCd,r.roleNm,rm.menu_id FROM `ess_role` r , ess_role_menu rm
-		where r.id=rm.role_id and (r.isDeleted!=1 or r.isDeleted is null)) as t1,res_menu as m where
+		where r.id=rm.role_id and (r.isDeleted!=1 or r.isDeleted is null)) as
+		t1,res_menu as m where
 		t1.menu_id=m.id and m.path !=''
 	</select>
 
@@ -119,12 +120,12 @@
 
 	</select>
 	<!-- 查询所有员工 -->
-	<select id="seAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
+	<select id="seAllEmp" resultType="com.ccttic.entity.role.vo.EmpVo">
 		SELECT
-		GROUP_CONCAT(e.id) AS id,
-		GROUP_CONCAT(e.empNm) AS empnm
+		id,
+		empNm
 		FROM
-		ess_employee e
+		ess_employee 
 	</select>
 	<!-- 角色查询对应菜单 -->
 	<select id="seMenuByRoleIds" resultType="com.ccttic.entity.role.vo.Model_MenuVo"

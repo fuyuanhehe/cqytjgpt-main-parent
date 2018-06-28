@@ -9,6 +9,7 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_menus;
 import com.ccttic.entity.role.vo.RoleMenuVo;
@@ -78,7 +79,7 @@ public interface RoleMenuMapper {
 	 * @param 
 	 * @return
 	 */
-	public EssEmployee seAllEmp();
+	public List<EmpVo> seAllEmp();
 	
 	/**
 	 * 根据角色id查询对应的菜单

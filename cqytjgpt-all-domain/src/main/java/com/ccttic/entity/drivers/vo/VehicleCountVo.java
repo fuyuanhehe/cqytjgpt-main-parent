@@ -3,6 +3,8 @@ package com.ccttic.entity.drivers.vo;
 public class VehicleCountVo {
 	//企业名称
 	private String etpNm;
+	//车辆类型
+	private String type;
 	//总数车辆
 	private Integer vCount;
 	//正常车辆
@@ -17,10 +19,11 @@ public class VehicleCountVo {
 	public VehicleCountVo() {
 	}
 
-	public VehicleCountVo(String etpNm, Integer vCount, Integer zCount, Integer scraCount,
-			Integer overCount, Integer illicitCount) {
+	public VehicleCountVo(String etpNm, String type, Integer vCount, Integer zCount,
+			Integer scraCount, Integer overCount, Integer illicitCount) {
 		super();
 		this.etpNm = etpNm;
+		this.type = type;
 		this.vCount = vCount;
 		this.zCount = zCount;
 		this.scraCount = scraCount;
@@ -30,9 +33,9 @@ public class VehicleCountVo {
 
 	@Override
 	public String toString() {
-		return "VehicleCountVo [etpNm=" + etpNm + ", vCount=" + vCount + ", zCount=" + zCount
-				+ ", scraCount=" + scraCount + ", overCount=" + overCount + ", illicitCount="
-				+ illicitCount + "]";
+		return "VehicleCountVo [etpNm=" + etpNm + ", type=" + type + ", vCount=" + vCount
+				+ ", zCount=" + zCount + ", scraCount=" + scraCount + ", overCount=" + overCount
+				+ ", illicitCount=" + illicitCount + "]";
 	}
 
 	public String getEtpNm() {
@@ -41,6 +44,14 @@ public class VehicleCountVo {
 
 	public void setEtpNm(String etpNm) {
 		this.etpNm = etpNm;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Integer getvCount() {
@@ -82,7 +93,6 @@ public class VehicleCountVo {
 	public void setIllicitCount(Integer illicitCount) {
 		this.illicitCount = illicitCount;
 	}
-
 
 
 }

@@ -13,9 +13,9 @@ import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_RmsVo;
-import com.ccttic.entity.role.vo.empModelVo;
 import com.ccttic.entity.role.vo.rolesPage;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
@@ -155,22 +155,14 @@ public class RoleMenuController {
 
 		return resp;
 	}
-/*	*//**
-	 * 功能说明：查询员工所有的id，名称
-	 * @param 
-	 * @return 
-	 * @date  2018年6月6日
-	 *//*
+
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/seAllEmp",method={RequestMethod.POST,RequestMethod.GET})
-	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ROLE, name = "删除角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
-			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<empModelVo> seAllEmp(){
-		ResponseMsg<empModelVo>  resp = new ResponseMsg<>();
+	public ResponseMsg<List<EmpVo>> seAllEmp(){
+		ResponseMsg<List<EmpVo>>  resp = new ResponseMsg<>();
 
 		try {
-			empModelVo data = MenService.seAllEmp();
+			List<EmpVo> data = MenService.seAllEmp();
 			resp.setData(data);
 			resp.setMessage("员工查询成功！");
 			resp.setStatus(0);			
@@ -182,7 +174,7 @@ public class RoleMenuController {
 		}
 
 		return resp;
-	}*/
+	}
 	// emp_id
 	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<EmployeeVo> getTreeMenus(String emp_id){
