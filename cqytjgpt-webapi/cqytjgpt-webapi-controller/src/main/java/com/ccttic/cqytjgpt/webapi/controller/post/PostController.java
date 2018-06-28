@@ -44,8 +44,8 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "selectPost", method = RequestMethod.POST)
-	@ResourceScan(rsc = @Resource(cd = Const.POST_MANAGEMENT, name = "岗位主页",  hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE)
-    , prsc = {@Resource( cd = Const.ORGANIZATION_SUPERVISE, url="/post/selectPost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+	@ResourceScan(rsc = @Resource(cd = Const.SELECT_POST, name = "岗位主页",  hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.POST_MANAGEMENT, url="/post/selectPost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<Page<EssPostVo>> selectPost(ServletRequest request, ServletResponse response,
 			@RequestBody EssPostVo post) {
@@ -144,6 +144,9 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "addpost", method = RequestMethod.POST)
+	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_POST, name = "添加",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.POST_MANAGEMENT, url="/post/addpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addpost(@RequestBody EssPostVo post) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
 		 try {
@@ -160,6 +163,9 @@ public class PostController {
 	}
 
 	@RequestMapping(value = "updatepost", method = RequestMethod.POST)
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_POST, name = "修改岗位",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.POST_MANAGEMENT, url="/post/updatepost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> updatepost(@RequestBody EssPostVo post) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
 
@@ -180,6 +186,9 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "delpost", method = RequestMethod.POST)
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_POST, name = "删除岗位",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
+    , prsc = {@Resource( cd = Const.POST_MANAGEMENT, url="/post/delpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> delpost(@RequestBody String postId) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
 		Map<String, String> map = JsonUtil.jsonToMap(postId);

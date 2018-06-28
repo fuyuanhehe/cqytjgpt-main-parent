@@ -705,7 +705,7 @@ GROUP BY
 	</select>
 	<!-- 根据条件统计条数 -->
 	<select id="qryDriverListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		SELECT danger.*,org.orgNm FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id 
+		SELECT Count(1) FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id 
 		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard WHERE dr.mgrEnterpriseId in
 				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  

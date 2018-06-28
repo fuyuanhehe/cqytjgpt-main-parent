@@ -63,6 +63,6 @@ public interface DrDangerMapper {
 	 * @param params
 	 * @return
 	 */
-	long qryDriverListCount(Map<String, Object> params);
+	int qryDriverListCount(Map<String, Object> params);
 
 }

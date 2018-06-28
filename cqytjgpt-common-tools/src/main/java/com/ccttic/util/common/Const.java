@@ -205,7 +205,7 @@ public class Const {
 				/**
 				 * 组织员工管理 三级菜单
 				 */
-			    public static final String EMPLOYEE_MANAGEMENT = "employee-management";
+			    public static final String SELECT_EMPLOYEE = "employee-management";
 			    
 			    /**
 			     * 添加员工
@@ -254,16 +254,16 @@ public class Const {
 		        * 查询角色三级菜单
 		        */
 		       public static final String QUERY_ROLE = "query-role";
-		         /*
+		         /**
 		          * 增加角色三级菜单
 		          */
 		       public static final String ADD_ROLE = "add-role";
-		       /*
+		       /**
 		        * 删除角色 三级
 		        */
 		       public static final String DELETE_ROLE = "delete-role";
 		       
-		       /*
+		       /**
 		        * 修改角色 三级
 		        */
 		       public static final String UPDATE_ROLE = "update-role";
@@ -275,11 +275,11 @@ public class Const {
 	          * 修改权限三级菜单
 	          */
 	           public static final String UPDATE_MENU = "update-menu";
-	           /*
+	           /**
 	            * 查询菜单 三级
 	            */
 	           public static final String QUERY_MENU = "query-menu";
-	           /*
+	           /**
 	            * 查询所有菜单树
 	            */
 	           public static final String QUERYALL_MENU = "queryall-menu";

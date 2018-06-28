@@ -22,7 +22,7 @@ import com.ccttic.util.page.Pageable;
 public class WarningServiceImpl implements IWarningservice{
 	@Autowired
 	private VehiDangerMapper mapper;
-	
+	@Autowired
 	private DrDangerMapper drMapper;
 	@Override
 	public Page<VehiDanger> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException {

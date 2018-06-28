@@ -6,29 +6,33 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
-import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.employee.vo.TokenVo;
+import com.ccttic.util.annotation.Resource;
+import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.MD5;
@@ -61,8 +65,6 @@ public class EmployeeController {
 
 	@Autowired
 	private AuthServiceFeign authFeign;
-	@Autowired
-	private RedisService<EmployeeVo> redisService;
 
 	/**
 	 * 
@@ -117,14 +119,18 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(@RequestBody TokenVo vo,@RequestParam String access_token) {
+	public ResponseMsg<EmployeeVo> employeeInfo(HttpSession session,@RequestBody TokenVo vo) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
-		
-		 if(StringUtils.isEmpty(access_token)) {
-			 response.fail("access_token 不能为空");
-			 return response;
-		 }
-		 String username=JWTUtil.getUsername(access_token);
+		Employee emp=	(Employee) session.getAttribute(Const.USER);
+		String username=null;
+		if (emp == null) {
+			username=JWTUtil.getUsername(vo.getAccess_token());
+		}else{
+			if(!StringUtils.isEmpty(emp.getAccount())){
+				username = emp.getAccount();
+			}
+		}
+	
 
 		EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 		
@@ -133,7 +139,7 @@ public class EmployeeController {
 			return response;
 		}
 		logger.info("-----------------放入开始！-----------------------");
-		redisService.set(username, employee, Const.USER_REDIS_LIVE);
+		session.setAttribute(Const.ENT, employee); 
 		logger.info("-----------------放入结束！-----------------------");
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);
@@ -142,6 +148,9 @@ public class EmployeeController {
 	}
     //分页显示所有员工
 	@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(HttpServletRequest request,
 			@RequestBody EssEmployeeVo emp) {
 		ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
@@ -233,6 +242,9 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_EMPLOYEE, name = "添加员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/addEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
 
@@ -256,6 +268,9 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/editEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "修改员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/editEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> editEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
 
@@ -296,6 +311,9 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "/delEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "删除员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/delEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody String str) {
 		List<LinkedHashMap<String, String>> list =JsonUtil.jsonToList(str);	
 		ResponseMsg<String> rm = new ResponseMsg<String>();
