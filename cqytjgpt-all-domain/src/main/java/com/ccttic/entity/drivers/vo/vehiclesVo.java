@@ -1,6 +1,7 @@
 package com.ccttic.entity.drivers.vo;
 
 import java.util.Date;
+import java.util.List;
 //自定义企业信息记录实体
 public class vehiclesVo {
 	// 企业主键id
@@ -27,8 +28,24 @@ public class vehiclesVo {
 	private Integer illicitState;
 	//区域
 	private String orgNm;
-    
-    public vehiclesVo() {
+    //企业id
+	private List<String> qid;
+	
+	
+    public vehiclesVo(List<String> qid) {
+		super();
+		this.qid = qid;
+	}
+
+	public List<String> getQid() {
+		return qid;
+	}
+
+	public void setQid(List<String> qid) {
+		this.qid = qid;
+	}
+
+	public vehiclesVo() {
 	}
 
 	public String getOrgNm() {

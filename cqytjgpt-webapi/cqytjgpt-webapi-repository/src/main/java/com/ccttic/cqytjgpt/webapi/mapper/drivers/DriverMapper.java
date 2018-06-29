@@ -7,6 +7,7 @@ import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.employee.EssEmployee;
 
@@ -48,4 +49,9 @@ public interface DriverMapper {
 	
 	public List<EssEmployee> seEmp(Map<String, Object> params);
 	public long seEmpCount(Map<String, Object> params);
+	
+	
+	// 企业信息-信息记录
+	public List<vehiclesVo>getvehiclesCount(vehiclesVo vehiclesVo);
+	
 }

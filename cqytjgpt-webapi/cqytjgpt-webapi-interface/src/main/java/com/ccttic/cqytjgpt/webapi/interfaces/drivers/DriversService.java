@@ -8,6 +8,7 @@ import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.util.page.Page;
@@ -43,8 +44,8 @@ public interface DriversService {
 	//<!--企业信息记录分页 -->
 	Page<vehiclesVo> queryVehiclespage(Pageable page,vehiclesVo vehiclesVo);
 	
-	
-	
+	//企业信息-信息记录
+	public List<List<VehicleCountVo>> getvehiclesCount(vehiclesVo vehiclesVo);
 }
 
 

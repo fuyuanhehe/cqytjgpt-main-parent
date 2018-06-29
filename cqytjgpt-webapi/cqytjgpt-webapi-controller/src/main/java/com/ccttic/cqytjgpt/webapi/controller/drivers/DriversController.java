@@ -1,16 +1,20 @@
 package com.ccttic.cqytjgpt.webapi.controller.drivers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
+import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
@@ -29,6 +33,7 @@ import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 /*
@@ -38,12 +43,16 @@ import com.ccttic.util.page.PageRequest;
 @RestController
 @RequestMapping(value="/drvers")
 //@SessionAttributes(Const.ENT)
-public class DriversController {
+public class DriversController implements Serializable{
 
+	private static final long serialVersionUID = 1262917332392058333L;
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private DriversService service;
-
+	@Autowired
+	private IEmployeeService employeeService;
+	@Autowired
+	private RedisService<EmployeeVo> redisService;
 	/**
 	 * @param etpNm 所属企业
 	 * @param areaNm 所属区域
@@ -62,25 +71,32 @@ public class DriversController {
 			@Resource(cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,HttpServletRequest request){
+	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-
-			EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
-
-			if(vo.getEnt()!=null || vo.getEnt().size()>0){	
-				List<EssEnterprise> ent = vo.getEnt();
-				List<String> arr = new ArrayList<>();
-				 for (EssEnterprise list : ent) {
-					arr.add(list.getId());
-				}
-				
-				tment.setQid(arr);  
+			List<String> list = new ArrayList<String>();
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
 			}
-
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				ent = vo.getEnt();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				redisService.set(username,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			tment.setQid(list);
 			Page<DriverVo> data = service.seDriverPage(page, tment);
 			resp.setMessage("查询驾驶员信息分页成功！");
 			resp.setStatus(0);
@@ -104,23 +120,33 @@ public class DriversController {
 			@Resource( cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverillicitVo>> seDrillicitByDriverId(@RequestBody(required = false) DriverVoPage tment,HttpServletRequest request){
+	public ResponseMsg<List<DriverillicitVo>> seDrillicitByDriverId(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
-		
-			if(vo.getEnt()!=null || vo.getEnt().size()>0){
-				List<EssEnterprise> ent = vo.getEnt();
-				List<String> arr = new ArrayList<>();
-				 for (EssEnterprise list : ent) {
-					arr.add(list.getId());
-				}
-				
-				tment.setQid(arr);  
+
+			List<String> list = new ArrayList<String>();
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
 			}
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				ent = vo.getEnt();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				redisService.set(username,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			tment.setQid(list);
 
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
 			resp.setMessage("查询驾驶员违法信息成功！");
@@ -152,24 +178,33 @@ public class DriversController {
 			@Resource(cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(@RequestBody(required = false) DriverillicitVoPage tment,HttpServletRequest request){
+	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(@RequestBody(required = false) DriverillicitVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			EmployeeVo vo= (EmployeeVo) request.getSession(true).getAttribute(Const.ENT); 
-			
-			if(vo.getEnt()!=null || vo.getEnt().size()>0){
-				List<EssEnterprise> ent = vo.getEnt();
-				List<String> arr = new ArrayList<>();
-				 for (EssEnterprise list : ent) {
-					arr.add(list.getId());
-				}
-				
-				tment.setQid(arr);  
+			List<String> list = new ArrayList<String>();
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
 			}
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				ent = vo.getEnt();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				redisService.set(username,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			tment.setQid(list);
 
 			Page<DriverillicitVo> data = service.getDriverPages(page, tment);
 			resp.setMessage("查询驾驶员违法信息成功！");
@@ -296,22 +331,42 @@ public class DriversController {
 	}
 	//测试 session 数据
 	@RequestMapping(value="/getEssEnterprise",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<EssEnterprise> getEssEnterprise(@ModelAttribute(Const.ENT)EssEnterprise enterprise){
-		ResponseMsg<EssEnterprise> resp = new ResponseMsg<>();
-		resp.setData(enterprise);
+	public ResponseMsg<EmployeeVo> getEssEnterprise(@RequestParam String access_token){
+		ResponseMsg<EmployeeVo> resp = new ResponseMsg<>();
+		if(StringUtils.isEmpty(access_token)) {
+			resp.fail("access_token 不能为空");
+			return resp;
+		}
+		String username=JWTUtil.getUsername(access_token);
+		// 从redis获取用户信息 
+		EmployeeVo vo= (EmployeeVo)  redisService.get(username);
+		if (null != vo) {
+		} else {
+			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+			resp.setData(employee);
+			redisService.set(username,employee,Const.USER_REDIS_LIVE);
+		}
+		resp.setData(vo);
+
 		return resp;
 	}
 
 	// 企业信息-信息记录
 	@OperLogging(operType = 0)
-	@RequestMapping(value="/queryVehicle",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<VehicleCountVo>queryVehicle(@RequestBody vehiclesVoPage tment){
-		ResponseMsg<VehicleCountVo> resp = new ResponseMsg<>();
+	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<List<VehicleCountVo>>>getvehiclesCount(@RequestBody vehiclesVo vehiclesVo){
+		ResponseMsg<List<List<VehicleCountVo>>> resp = new ResponseMsg<>();
 
-
-
-		VehicleCountVo ve = new VehicleCountVo();
-
+		try {
+			List<List<VehicleCountVo>> data = service.getvehiclesCount(vehiclesVo);
+			resp.setData(data);    	
+			resp.setMessage("获取数据成功");
+			resp.setStatus(1);
+		} catch (Exception e) {
+			resp.setMessage("获取数据失败");
+			resp.setStatus(-1);	
+			logger.error("获取数据失败",e);
+		}
 
 		return resp;
 	}
