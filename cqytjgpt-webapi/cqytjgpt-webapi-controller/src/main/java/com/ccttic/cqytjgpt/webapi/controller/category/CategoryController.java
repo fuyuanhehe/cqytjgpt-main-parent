@@ -1,6 +1,5 @@
 package com.ccttic.cqytjgpt.webapi.controller.category;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,21 +24,17 @@ import com.ccttic.entity.category.CategoryAttr;
 import com.ccttic.entity.category.vo.TreeCategoryBean;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.util.annotation.OperLogging;
-import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
 
 @RestController
 @RequestMapping("/param")
-public class CategoryController implements Serializable {
-	
-	private static final long serialVersionUID = -1032335560287290997L;
+public class CategoryController  {
 
 	private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 	 
 	@Autowired
     private ICategoryService categoryService;
 	
-
 	/**
 	 * 获取数据字典树
 	 * @return

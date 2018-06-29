@@ -37,7 +37,7 @@ public interface FastDfsService {
      * @return 文件访问地址
      * @throws IOException
      */
-    public Attachment uploadFile(MultipartFile file,Employee employee,Integer fileType) throws Exception;
+    public Attachment uploadFile(MultipartFile file,Integer fileType) throws Exception;
     
 	/**
 	 * 下文件

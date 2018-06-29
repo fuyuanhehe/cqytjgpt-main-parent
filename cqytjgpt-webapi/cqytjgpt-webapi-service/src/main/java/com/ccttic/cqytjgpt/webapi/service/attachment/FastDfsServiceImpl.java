@@ -67,7 +67,7 @@ public class FastDfsServiceImpl implements FastDfsService {
 	 * @throws IOException
 	 */
 	@Transactional
-	public Attachment uploadFile(MultipartFile file,Employee employee,Integer fileType) throws IOException {
+	public Attachment uploadFile(MultipartFile file,Integer fileType) throws IOException {
 		// Metadata
 		Set<MataData> metaDataSet = new HashSet<MataData>();
 		metaDataSet.add(new MataData("Author", "cqytjg"));
@@ -95,8 +95,6 @@ public class FastDfsServiceImpl implements FastDfsService {
 		atta.setAttachmentNm(file.getOriginalFilename());
 		atta.setAttachmentPath(storePath.getPath());
 		atta.setAttachmentGroup(storePath.getGroup());
-		atta.setCreateNm(employee.getEmpNm());
-		atta.setCreateBy(employee.getEmpCd());
 		atta.setUploadTime(new Date());
 		attachmentMapper.uploadAttachment(atta);
 		return atta;
