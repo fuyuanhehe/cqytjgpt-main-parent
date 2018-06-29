@@ -1,7 +1,6 @@
 package com.ccttic.entity.role;
 
 import java.io.Serializable;
-import java.util.List;
 
 import com.ccttic.entity.BaseBean;
 
@@ -65,7 +64,7 @@ public class Vehicle extends BaseBean implements Serializable {
 	private String startTime;
 	// 初次检验结束日期
 	private String endTime;
-	private List<String> list;
+	
 	public Vehicle() {
 		super();
 	}
@@ -75,7 +74,7 @@ public class Vehicle extends BaseBean implements Serializable {
 			String permitCar, String firstReciveTime, String mgrDepart, String mgrDepartAreaId, String areaNm,
 			String mgrEnterpriseId, String etpNm, String nextExamineTime, String effectStartTime, String effectEndTime,
 			String examineEffectEndTime, String scoreTotal, String state, String remark, String startTime,
-			String endTime, List<String> list) {
+			String endTime) {
 		super();
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
@@ -104,8 +103,9 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.remark = remark;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.list = list;
 	}
+
+
 
 
 
@@ -327,14 +327,6 @@ public class Vehicle extends BaseBean implements Serializable {
 
 	public void setVehiTypeText(String vehiTypeText) {
 		this.vehiTypeText = vehiTypeText;
-	}
-
-	public List<String> getList() {
-		return list;
-	}
-
-	public void setList(List<String> list) {
-		this.list = list;
 	}
 
 }

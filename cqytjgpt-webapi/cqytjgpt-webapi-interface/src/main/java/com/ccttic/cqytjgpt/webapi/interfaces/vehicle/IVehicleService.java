@@ -6,6 +6,7 @@ import java.util.Map;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.util.exception.AppException;
@@ -21,7 +22,7 @@ public interface IVehicleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle driver) throws AppException;
+	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo driver) throws AppException;
 	
 	/**
 	 * 获取指定车辆基础信息
