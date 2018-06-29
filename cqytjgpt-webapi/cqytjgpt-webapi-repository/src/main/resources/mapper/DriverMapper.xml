@@ -159,7 +159,7 @@
 			#{laShString}
 		</if>
 		and en.id in
-	<foreach collection="list" index="index" item="item"
+		<foreach collection="list" index="index" item="item"
 			separator="," open="(" close=")">
 			#{item}
 		</foreach>
@@ -212,7 +212,7 @@
 
 	</select>
 
-	<!--驾驶人违法信息条件分页 -->
+	<!--驾驶人违法信息条件分页  驾驶人信息-信息记录-->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -266,7 +266,7 @@
 		limit ${startRecord} , ${pageSize}
 
 	</select>
-	<!-- 驾驶人违法分页总数 -->
+	<!-- 驾驶人违法分页总数   驾驶人信息-信息记录-->
 	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
 		SELECT
 		count(d.id)
@@ -473,4 +473,42 @@
 		resultType="long">
 		select count(id) from ess_employee
 	</select>
+<!-- 驾驶人信息-信息记录 -->
+	<select id="getvehiclesCount" resultType="com.ccttic.entity.drivers.vo.vehiclesVo" parameterType="java.util.Map">
+		SELECT
+		e.etpNm,
+		v.vehiNoType,
+		vd.overdueExamineState,
+		vd.scrappedState,
+		vd.illicitState
+		FROM
+		ess_organization o
+		LEFT JOIN ess_enterprise e ON
+		o.id = e.org_id
+		LEFT JOIN vehicle v ON e.id = v.mgrEnterpriseId
+		LEFT
+		JOIN vehi_danger vd ON v.id = vd.vehicle_id
+		WHERE
+		e.id != ''
+		<if test="orgNm!=null and orgNm!= '' ">
+			AND o.orgNm =#{orgNm}
+		</if>
+		<if test="etpNm!=null and etpNm!= '' ">
+			AND e.etpNm =#{etpNm}
+		</if>
+		<if test="vehiNoType!=null and vehiNoType!= '' ">
+			AND v.vehiNoType =#{vehiNoType}
+		</if>
+	    and e.id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
+
+
+	</select>
+
+
+
 </mapper>

@@ -172,4 +172,105 @@ public class DriversServiceImpl implements DriversService {
 		return pager;
 	}
 
+	@Override
+	public List<List<VehicleCountVo>> getvehiclesCount(vehiclesVo vehiclesVo) {
+		List<vehiclesVo> data = mapper.getvehiclesCount(vehiclesVo); 
+
+		List<List<VehicleCountVo>> lists = new ArrayList<>();
+
+		String empNm = "";
+		List<vehiclesVo> vehi = new ArrayList<>();
+		int count = 0;
+		for (vehiclesVo model : data) {
+			if(count==0){ 
+				empNm = model.getEtpNm();
+				vehi.add(model);  
+				count++;      
+				continue;
+			}
+			if(empNm.equals(model.getEtpNm()) ){
+				vehi.add(model);
+				continue;
+			}
+			empNm = model.getEtpNm();
+			try {
+				lists.add( getHiStory(vehi)  )	;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			vehi.clear();
+
+		}
+
+		return lists;
+	}
+
+	public static List<VehicleCountVo> getHiStory(List<vehiclesVo> list)throws Exception{
+		List<VehicleCountVo> vehilist = new ArrayList<>();
+		List<vehiclesVo> arrs = new ArrayList<>();
+		List<vehiclesVo> arrstwo = new ArrayList<>();
+		for (vehiclesVo vehi : list) {
+			if(vehi.getVehiType().equals("1")  || vehi.getVehiType().equals("01")){
+				arrs.add(vehi);
+				continue;
+			}
+			arrstwo.add(vehi);
+		}   
+		int ints = 0;
+		Integer vCount = 0;     //总数量
+		Integer scraCount = 0; //报废车辆
+		Integer overCount = 0 ; // 逾期
+		Integer illicitCount = 0 ; //违法未处理
+		VehicleCountVo  vahic = new VehicleCountVo();//车辆数目
+		for (vehiclesVo vehiclesVo : arrs) {
+			vCount ++; ints++;
+			if(vehiclesVo.getOverdueExamineState()==1 //逾期   
+					){ overCount ++; }
+			if(vehiclesVo.getScrappedState()==1 //报废
+					){ scraCount ++; }
+			if(vehiclesVo.getIllicitState()==1 //违法
+					){ illicitCount ++; } 
+			if(ints ==arrs.size()){ 
+				vahic.setEtpNm( vehiclesVo.getEtpNm()); 
+				vahic.setType( vehiclesVo.getVehiType()); 
+			}
+		}  
+		vahic.setvCount(vCount);
+		vahic.setzCount(vCount-scraCount);
+		vahic.setScraCount(overCount);
+		vahic.setOverCount(scraCount);
+		vahic.setIllicitCount(illicitCount);
+		// 循环下一个
+		int intss = 0;
+		Integer vCounts = 0;     //总数量
+		Integer scraCounts = 0; //报废车辆
+		Integer overCounts = 0 ; // 逾期
+		Integer illicitCounts = 0 ; //违法未处理
+		VehicleCountVo  vahics = new VehicleCountVo();//车辆数目
+		for (vehiclesVo vehiclesVo : arrstwo) {
+			vCounts ++; intss++;
+			if(vehiclesVo.getOverdueExamineState()==1 //逾期   
+					){ overCounts ++; }
+			if(vehiclesVo.getScrappedState()==1 //报废
+					){ scraCounts ++; }
+			if(vehiclesVo.getIllicitState()==1 //违法
+					){ illicitCounts ++; } 
+			if(intss ==arrs.size()){ 
+				vahics.setEtpNm( vehiclesVo.getEtpNm()); 
+				vahics.setType( vehiclesVo.getVehiType()); 
+			}
+		}
+		vahics.setvCount(vCounts);
+		vahics.setzCount(vCounts-scraCounts);
+		vahics.setScraCount(overCounts);
+		vahics.setOverCount(scraCounts);
+		vahics.setIllicitCount(illicitCounts);
+
+		vehilist.add(vahic);
+		vehilist.add(vahics);
+
+		return vehilist;
+	}
+
+
 }
