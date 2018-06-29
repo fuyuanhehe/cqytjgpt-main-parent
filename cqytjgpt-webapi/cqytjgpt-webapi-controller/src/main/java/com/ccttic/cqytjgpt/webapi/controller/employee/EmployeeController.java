@@ -127,7 +127,7 @@ public class EmployeeController {
 			 response.fail("access_token 不能为空");
 			 return response;
 		 }
-		 String username=JWTUtil.getUsername(access_token);
+		String username=JWTUtil.getUsername(access_token);
 	
 		EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 		
@@ -136,7 +136,7 @@ public class EmployeeController {
 			return response;
 		}
 		logger.info("-----------------放入开始！-----------------------");
-		redisService.set(username, employee,Const.USER_REDIS_LIVE);
+		redisService.set(username+Const.TOKEN, employee,Const.USER_REDIS_LIVE);
 		logger.info("-----------------放入结束！-----------------------");
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);

@@ -104,7 +104,7 @@ public class VehicleContrller implements Serializable {
 				ent=employee.getEnt();
 				empType = employee.getEmptype();
 				//3. 更新redis里用户缓存
-				redisService.set(username,employee, Const.USER_REDIS_LIVE);
+				redisService.set(username+Const.TOKEN,employee, Const.USER_REDIS_LIVE);
 			}
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
@@ -150,7 +150,7 @@ public class VehicleContrller implements Serializable {
 			if (null == vo) {
 				vo = employeeService.findEmployeeByAccount(username);
 				//3. 更新redis里用户缓存
-				redisService.set(username,vo, Const.USER_REDIS_LIVE);
+				redisService.set(username+Const.TOKEN,vo, Const.USER_REDIS_LIVE);
 			}
 
 			List<EssEnterprise> ent = vo.getEnt();
@@ -339,7 +339,7 @@ public class VehicleContrller implements Serializable {
 			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 			//3. 更新redis里用户缓存
 			vo= employee;
-			redisService.set(username,employee, Const.USER_REDIS_LIVE);
+			redisService.set(username+Const.TOKEN,employee, Const.USER_REDIS_LIVE);
 		}
 		String fenceCd=null;
 		List<JSON> list = new ArrayList<JSON>();

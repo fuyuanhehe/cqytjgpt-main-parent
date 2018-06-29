@@ -21,6 +21,8 @@ package com.ccttic.util.common;
 
 public class Const {
 	
+	
+	final public static String TOKEN = "TOKEN";
 	/**
 	 * redis 里面的用户生存时间
 	 */
