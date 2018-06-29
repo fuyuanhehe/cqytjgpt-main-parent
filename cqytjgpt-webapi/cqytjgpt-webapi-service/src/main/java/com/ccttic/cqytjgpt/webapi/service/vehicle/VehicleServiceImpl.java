@@ -15,6 +15,7 @@ import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.util.common.RandomHelper;
@@ -30,7 +31,7 @@ public class VehicleServiceImpl implements IVehicleService {
 	private VehicleMapper mapper;// 司机基础信息
 
 	@Override
-	public Page<Vehicle> qryVehicleList(Pageable page, Vehicle vehicle) throws AppException {
+	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo vehicle) throws AppException {
 		Page<Vehicle> pager = new PageImpl<Vehicle>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
@@ -46,6 +47,7 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("effectEndTime", vehicle.getEffectEndTime()); // 有效结束时间
 		params.put("startTime", vehicle.getStartTime()); // 初次检验开始日期
 		params.put("endTime", vehicle.getEndTime()); // 初次检验结束日期
+		params.put("empType", vehicle.getEmpType()); // 账号类型
 
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<Vehicle> records = mapper.qryVehicleList(params);

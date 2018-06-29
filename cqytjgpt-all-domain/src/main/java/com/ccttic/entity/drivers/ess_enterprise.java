@@ -255,4 +255,6 @@ public class ess_enterprise {
     public void setUpdatedepcd(String updatedepcd) {
         this.updatedepcd = updatedepcd == null ? null : updatedepcd.trim();
     }
+    public ess_enterprise() {
+	}
 }
