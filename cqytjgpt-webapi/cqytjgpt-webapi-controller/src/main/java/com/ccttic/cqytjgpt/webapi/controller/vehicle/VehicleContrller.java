@@ -132,15 +132,30 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_BASE_INFO, url="/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,HttpServletRequest request) {
+	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap,HttpServletRequest request,@RequestParam String access_token) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			String entId = "";
-			EmployeeVo vo= (EmployeeVo) request.getSession().getAttribute(Const.ENT); 
-			List<EssEnterprise> ent = vo.getEnt();
-			for (EssEnterprise essEnterprise : ent) {
-				entId=essEnterprise.getId();
+			 if(StringUtils.isEmpty(access_token)) {
+				 resp.fail("access_token 为空");
+				 return resp;
+			 }
+			String username =JWTUtil.getUsername(access_token);
+			EmployeeVo vo= (EmployeeVo) redisService.get(username); 
+			if (null == vo) {
+				vo = employeeService.findEmployeeByAccount(username);
+				//3. 更新redis里用户缓存
+				redisService.set(username,vo, Const.USER_REDIS_LIVE);
 			}
+
+			List<EssEnterprise> ent = vo.getEnt();
+			if(ent == null) {
+				resp.fail("该用户企业为null");
+				return resp;
+			}
+			// 默认只有一个 所以直接取list的第一条数据
+			entId=ent.get(0).getId();
+			
 			Map<String, Object> maps = vehicleService.saveVehicle(listMap,entId);
 			if ((int) maps.get("cet") == 1) {
 				resp.fail(maps.get("gather") + "其他添加成功！");
