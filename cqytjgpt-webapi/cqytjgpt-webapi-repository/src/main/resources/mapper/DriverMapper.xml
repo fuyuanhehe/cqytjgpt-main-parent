@@ -175,14 +175,14 @@
 		dl.illicitAdress,
 		dl.illicitScore,
 		dl.illicitAmount
-		<!-- 差处理部门 -->
+		
 		FROM
 		ess_enterprise e
 		LEFT JOIN driver d ON e.id = d.mgrEnterpriseId
 		LEFT JOIN dr_illicit dl ON d.id = dl.driver_id
 		LEFT JOIN ess_area a ON
-		d.mgrDepartAreaId = a.id
-		where d.id = #{id}
+		d.mgrDepartAreaId = a.id 
+		where d.id!='' and  d.id = #{id}
 		and e.id in
 		<foreach collection="list" index="index" item="item"
 			separator="," open="(" close=")">
@@ -193,17 +193,17 @@
 		${startRecord} , ${pageSize}
 	</select>
 	<select id="seDrillicitByDriverIdCount" parameterType="java.util.Map"
-		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
+		resultType="long">
 		SELECT
 		count(d.id)
-		<!-- 差处理部门 -->
+		
 		FROM
 		ess_enterprise e
 		LEFT JOIN driver d ON e.id = d.mgrEnterpriseId
 		LEFT JOIN dr_illicit dl ON d.id = dl.driver_id
 		LEFT JOIN ess_area a ON
 		d.mgrDepartAreaId = a.id
-		where d.id = #{id}
+		where d.id!='' and  d.id = #{id}
 		and e.id in
 		<foreach collection="list" index="index" item="item"
 			separator="," open="(" close=")">

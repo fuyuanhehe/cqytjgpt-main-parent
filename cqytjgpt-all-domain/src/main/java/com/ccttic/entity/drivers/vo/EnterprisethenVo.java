@@ -10,26 +10,33 @@ public abstract class EnterprisethenVo extends ess_enterprise{
 	// 所属行政辖划分
 	private String areaNm;
 	
+	private String state;
+	
+	private String etpTel;
+	
+	private String etpAdress;
 	
 	
 	public EnterprisethenVo() {
 	}
 
 
-
-	public EnterprisethenVo(String orgNm, String areaNm) {
+	public EnterprisethenVo(String orgNm, String areaNm, String state, String etpTel,
+			String etpAdress) {
 		super();
 		this.orgNm = orgNm;
 		this.areaNm = areaNm;
+		this.state = state;
+		this.etpTel = etpTel;
+		this.etpAdress = etpAdress;
 	}
-
 
 
 	@Override
 	public String toString() {
-		return "EnterprisethenVo [orgNm=" + orgNm + ", areaNm=" + areaNm + "]";
+		return "EnterprisethenVo [orgNm=" + orgNm + ", areaNm=" + areaNm + ", state=" + state
+				+ ", etpTel=" + etpTel + ", etpAdress=" + etpAdress + "]";
 	}
-
 
 
 	public String getOrgNm() {
@@ -37,11 +44,9 @@ public abstract class EnterprisethenVo extends ess_enterprise{
 	}
 
 
-
 	public void setOrgNm(String orgNm) {
 		this.orgNm = orgNm;
 	}
-
 
 
 	public String getAreaNm() {
@@ -49,11 +54,41 @@ public abstract class EnterprisethenVo extends ess_enterprise{
 	}
 
 
-
 	public void setAreaNm(String areaNm) {
 		this.areaNm = areaNm;
 	}
-	
+
+
+	public String getState() {
+		return state;
+	}
+
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+	public String getEtpTel() {
+		return etpTel;
+	}
+
+
+	public void setEtpTel(String etpTel) {
+		this.etpTel = etpTel;
+	}
+
+
+	public String getEtpAdress() {
+		return etpAdress;
+	}
+
+
+	public void setEtpAdress(String etpAdress) {
+		this.etpAdress = etpAdress;
+	}
+
+
 	
 	
 }

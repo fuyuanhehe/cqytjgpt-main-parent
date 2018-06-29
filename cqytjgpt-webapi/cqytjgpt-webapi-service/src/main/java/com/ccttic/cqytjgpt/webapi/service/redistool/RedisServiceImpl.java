@@ -22,13 +22,13 @@ public class RedisServiceImpl<T> implements RedisService <T> {
 	Logger logger = LoggerFactory.getLogger(RedisServiceImpl.class);
 
     @Autowired
-    private RedisTemplate<String,T> redisTemplate;
+    private RedisTemplate<Object,T> redisTemplate;
 
 	@Override
 	public boolean set(String key, T value) {
         boolean result = false;
         try {
-            ValueOperations<String, T> operations = redisTemplate.opsForValue();
+            ValueOperations<Object, T> operations = redisTemplate.opsForValue();
             operations.set(key, value);
             result = true;
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class RedisServiceImpl<T> implements RedisService <T> {
 	public boolean set(String key, T value, Long expireTime) {
         boolean result = false;
         try {
-            ValueOperations<String, T> operations = redisTemplate.opsForValue();
+            ValueOperations<Object, T> operations = redisTemplate.opsForValue();
             operations.set(key, value);
             redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
             result = true;
@@ -56,7 +56,7 @@ public class RedisServiceImpl<T> implements RedisService <T> {
         T result = null;
         
         try {
-			ValueOperations<String, T> operations = redisTemplate.opsForValue();
+			ValueOperations<Object, T> operations = redisTemplate.opsForValue();
       
 			result = operations.get(key);
 		} catch (Exception e) {
@@ -77,7 +77,7 @@ public class RedisServiceImpl<T> implements RedisService <T> {
 
 	@Override
 	public void removePattern(String pattern) {
-        Set<String> keys = redisTemplate.keys(pattern);
+        Set<Object> keys = redisTemplate.keys(pattern);
         if (keys.size() > 0)
             redisTemplate.delete(keys);
 	}
