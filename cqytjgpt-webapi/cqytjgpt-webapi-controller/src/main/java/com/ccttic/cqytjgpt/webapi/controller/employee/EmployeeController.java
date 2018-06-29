@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -65,7 +66,8 @@ public class EmployeeController {
 
 	@Autowired
 	private AuthServiceFeign authFeign;
-
+    @Autowired
+	private RedisService<EmployeeVo> redisService;
 	/**
 	 * 
 	 * @Title: login @Description: 用户登录获取access_token @param @param
@@ -119,19 +121,14 @@ public class EmployeeController {
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(HttpSession session,@RequestBody TokenVo vo) {
+	public ResponseMsg<EmployeeVo> employeeInfo(HttpSession session,@RequestParam String access_token) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
-		Employee emp=	(Employee) session.getAttribute(Const.USER);
-		String username=null;
-		if (emp == null) {
-			username=JWTUtil.getUsername(vo.getAccess_token());
-		}else{
-			if(!StringUtils.isEmpty(emp.getAccount())){
-				username = emp.getAccount();
-			}
-		}
+		 if(StringUtils.isEmpty(access_token)) {
+			 response.fail("access_token 不能为空");
+			 return response;
+		 }
+		 String username=JWTUtil.getUsername(access_token);
 	
-
 		EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 		
 		if (employee == null) {
@@ -139,7 +136,7 @@ public class EmployeeController {
 			return response;
 		}
 		logger.info("-----------------放入开始！-----------------------");
-		session.setAttribute(Const.ENT, employee); 
+		redisService.set(username, employee,Const.USER_REDIS_LIVE);
 		logger.info("-----------------放入结束！-----------------------");
 		response.setStatus(ResponseMsg.STATUS_SUCCES);
 		response.setData((EmployeeVo) employee);
