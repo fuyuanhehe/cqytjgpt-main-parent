@@ -170,10 +170,20 @@
 	
 	<!-- 根据企业编码获取车辆基础信息条数 -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from vehicle where 1=1 and mgrEnterpriseId in 
-			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-		        #{item}  
-		    </foreach>  
+		select count(1) from vehicle
+		 <choose>
+			 	<when test="empType == 'SUPERMAN'" >
+			 		WHERE 1=1
+			 	</when>
+			 	<otherwise>
+			 	 where 1=1 and mgrEnterpriseId in 
+					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    	</foreach>  
+			 	</otherwise>
+			 </choose>
+		
+		
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 				and mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>
