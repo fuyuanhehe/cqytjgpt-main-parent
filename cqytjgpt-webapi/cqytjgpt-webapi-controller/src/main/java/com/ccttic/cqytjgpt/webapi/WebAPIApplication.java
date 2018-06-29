@@ -18,7 +18,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @MapperScan("com.ccttic.cqytjgpt.webapi.mapper")
-//@EnableRedisHttpSession
 public class WebAPIApplication {
     public static void main(String [] args) {
    	 	SpringApplication.run(WebAPIApplication.class, args);
