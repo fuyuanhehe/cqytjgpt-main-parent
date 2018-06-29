@@ -6,8 +6,8 @@ spring:
     password: cqjxj123
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-#    url: jdbc:mysql://10.10.20.22:3306/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
-    url: jdbc:mysql://113.204.53.10:4604/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://10.10.20.22:3306/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
+#    url: jdbc:mysql://113.204.53.10:4604/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
 #    url: jdbc:mysql://localhost:3306/test?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: root
     password: ccttic!
