@@ -51,6 +51,8 @@
 			property="updateby" />
 		<result column="updateDepCd" jdbcType="VARCHAR"
 			property="updatedepcd" />
+		<result column="orgNm" jdbcType="VARCHAR"
+			property="orgNm" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
