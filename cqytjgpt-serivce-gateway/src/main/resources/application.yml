@@ -1,9 +1,9 @@
 spring:
-  rabbitmq:
-    host: 10.10.20.22
+  rabbitmq:     # 配置RabbitMQ
+    host: 10.10.20.21
     port: 5672
-    username: cqjxj
-    password: cqjxj123
+    username: guest
+    password: guest
   zipkin:
     sender:
       type: rabbit  # zipkin的数据发送方式，使用RabbitMQ

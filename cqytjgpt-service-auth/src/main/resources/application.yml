@@ -3,11 +3,11 @@ spring:
 #      host: 127.0.0.1
       host: 10.10.20.22 
 #      database: 2  
-  rabbitmq:   # 配置rabbitMQ
-    host: 10.10.20.22
+  rabbitmq:     # 配置RabbitMQ
+    host: 10.10.20.21
     port: 5672
-    username: cqjxj
-    password: cqjxj123
+    username: guest
+    password: guest
   datasource: # 配置数据源
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://10.10.20.22:3306/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8

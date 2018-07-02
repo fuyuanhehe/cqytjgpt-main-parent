@@ -2,10 +2,10 @@ spring:
   session:
     store-type: none  
   rabbitmq:     # 配置RabbitMQ
-    host: 10.10.20.22
+    host: 10.10.20.21
     port: 5672
-    username: cqjxj
-    password: cqjxj123
+    username: guest
+    password: guest
   datasource: # 配置数据源
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://10.10.20.22:3306/quartz?useSSL=false&useUnicode=true&characterEncoding=utf-8

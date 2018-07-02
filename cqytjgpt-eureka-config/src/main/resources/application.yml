@@ -24,11 +24,11 @@ spring:
           #uri: http://10.10.20.36/cttic/settingcenter.git
           #clone-on-start: true
           #force-pull: true
-  rabbitmq:
-    host: 10.10.20.22
+  rabbitmq:     # 配置RabbitMQ
+    host: 10.10.20.21
     port: 5672
-    username: cqjxj
-    password: cqjxj123
+    username: guest
+    password: guest
 
 # 设置eureka行为
 eureka:
