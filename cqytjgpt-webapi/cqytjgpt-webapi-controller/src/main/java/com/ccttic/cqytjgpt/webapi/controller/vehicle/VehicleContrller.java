@@ -277,13 +277,13 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_TRACK, url="/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<String> qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
+	public ResponseMsg<JSON> qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
+		ResponseMsg<JSON> resp = new ResponseMsg<JSON>();
 		if (token==null) {
 			token = getToken();
 		}
 		String s = frign.queryData(token, "渝"+vo.getVehiNo(), vo.getStartDate(), vo.getEndDate());
-		resp.setData(s);
+		resp.setData(JSON.parseObject(s));
 		resp.success("查询成功！");
 		
 		return resp;
