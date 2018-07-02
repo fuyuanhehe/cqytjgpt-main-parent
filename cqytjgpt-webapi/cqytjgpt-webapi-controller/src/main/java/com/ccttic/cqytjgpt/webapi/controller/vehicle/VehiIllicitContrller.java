@@ -74,7 +74,7 @@ public class VehiIllicitContrller implements Serializable{
 			 String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			
-			EmployeeVo vo= (EmployeeVo)  redisService.get(username);
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
 				ent = vo.getEnt();
