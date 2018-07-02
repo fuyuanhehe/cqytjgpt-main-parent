@@ -163,7 +163,7 @@
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
 			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 
 			
-			order by ve.firstReciveTime desc
+			order by ve.createTime desc
 			
 			limit ${startRecord},${pageSize}
 	</select>
@@ -257,6 +257,7 @@
 		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
 		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 		LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
+		ORDER BY illicitTime DESC
 		limit ${startRecord},${pageSize}
 	</select>
 	
