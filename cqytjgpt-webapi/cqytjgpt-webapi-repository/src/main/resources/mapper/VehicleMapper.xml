@@ -276,7 +276,7 @@
 
 	<!-- 根据学习类型查询学习文档信息 -->
 	<select id="getAllCar" 	resultMap="slist">
-		select * from vehicle_copy where isDeleted = 0 or isDeleted is null
+		select * from vehicle where isDeleted = 0 or isDeleted is null
 	</select>
 	<select id="selectByVehicleId" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.VehiIllicit">
   	select * from vehi_illicit where vehicle_id = #{vehicleId} and (isDeleted = 0 or isDeleted is null)
