@@ -319,7 +319,7 @@ public class EmployeeController {
 			for (LinkedHashMap<String, String> map : list) {
 				EssEmployeeVo emp = new EssEmployeeVo();
 				emp.setId(map.get("id"));
-				emp.setDepid(map.get("depId"));
+				emp.setDepid(map.get("depid"));
 				emp.setIsdeleted(true);
 				employeeService.delEmployee(emp);
 			}
