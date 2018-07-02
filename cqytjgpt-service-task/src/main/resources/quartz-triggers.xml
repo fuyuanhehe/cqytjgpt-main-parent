@@ -43,8 +43,8 @@
     <bean id="driverDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="driverDangerJob" />    
         <property name="cronExpression">
-           <!-- 每天12点启动 -->
-           <value>0 0 12 * * ?</value>
+           <!-- 每天22点启动 -->
+           <value>0 0 22 * * ?</value>
         </property>  
     </bean>
       <!-- 定时驾驶人预警  结束  -->
@@ -62,8 +62,8 @@
     <bean id="carDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="carDangerJob" />    
         <property name="cronExpression">
-            <!-- 每天12点启动 -->
-           <value>0 0 12 * * ?</value>
+            <!-- 每天22点启动 -->
+           <value>0 0 22 * * ?</value>
         </property>  
     </bean>
     <!-- 定时车辆预警  结束  -->
