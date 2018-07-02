@@ -262,7 +262,14 @@
 	
 	<!-- 根据id获取指定车辆的违法信息条数-->
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from vehi_illicit where 1=1 and vehicle_id=#{id}
+		SELECT COUNT(1)
+		FROM 
+		(
+			SELECT * FROM vehi_illicit  WHERE vehicle_id=#{id}
+		) cit
+		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
+		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+		LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
 	</select>
 	 <!-- 一对多查询关联  -->
      <resultMap type="com.ccttic.entity.role.vo.VehicleIllegal" id="slist">
