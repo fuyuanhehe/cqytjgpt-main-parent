@@ -711,7 +711,6 @@ GROUP BY
 				and danger.overdueProofState = 1
 			</if>
 			order by danger.dangerType DESC
-		
 		limit ${startRecord},${pageSize}
 	</select>
 	<!-- 根据条件统计条数 -->
