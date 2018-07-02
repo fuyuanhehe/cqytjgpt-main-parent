@@ -42,7 +42,6 @@ import com.ccttic.util.page.PageRequest;
 
 @RestController
 @RequestMapping(value="/drvers")
-//@SessionAttributes(Const.ENT)
 public class DriversController implements Serializable{
 
 	private static final long serialVersionUID = 1262917332392058333L;
@@ -116,6 +115,10 @@ public class DriversController implements Serializable{
 	}
 	
 	// 准假车型
+	@ResourceScan(rsc = @Resource(cd = Const.GET_PERMICAR, name = "获取所有准假车型",  hierarchy = 4, isMenue = false, pcd = Const.PERSONAL_INFORMATION)
+	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "驾驶人信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
+			@Resource( cd = Const.DRIVER_INFORMATION, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@OperLogging(operType = 0)
 	@RequestMapping(value="/getAllpermiCar",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<PermiCarsVo>>getAllpermiCar(){
@@ -141,9 +144,9 @@ public class DriversController implements Serializable{
 	 * @param id 驾驶人主键ID
 	 * @date  2018年6月15日
 	 */
-	@OperLogging(operType = 3,content="驾驶员违法信息")
+	@OperLogging(operType = 3,content="驾驶员违法记录")
 	@ResourceScan(rsc = @Resource(cd = Const.ILLICIT_INFO, name = "基本信息-违法记录",  hierarchy = 4, isMenue = false, pcd = Const.PERSONAL_INFORMATION)
-	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "车辆信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
+	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "驾驶人信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
 			@Resource( cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
@@ -260,8 +263,8 @@ public class DriversController implements Serializable{
 	 */
 	@OperLogging(operType = 0,content="增加驾驶人")
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_DRIVER, name = "新增驾驶人",  hierarchy = 4, isMenue = false, pcd = Const.PERSONAL_INFORMATION)
-	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "车辆信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
-			@Resource( cd = Const.DRIVER_INFORMATION, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "驾驶人信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
+			@Resource( cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/insertDriver",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String> insertDriver(@RequestBody DriverInsert driver){
