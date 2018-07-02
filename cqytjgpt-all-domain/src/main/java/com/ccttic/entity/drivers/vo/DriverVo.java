@@ -29,6 +29,13 @@ public class DriverVo  extends Driver{
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "DriverVo [areaNm=" + areaNm + ", etpNm=" + etpNm + ", fiString=" + fiString
+				+ ", laString=" + laString + ", fistShString=" + fistShString + ", laShString="
+				+ laShString + ", qid=" + qid + ", empType=" + empType + "]";
+	}
+
 	public DriverVo(String id, String name, String idcard, String telphone, String mobilephone,
 			String adress, String permicar, String firstrecivetime, String mgrdepart,
 			String mgrdepartareaid, String mgrenterpriseid, String nextexaminetime,
@@ -47,13 +54,6 @@ public class DriverVo  extends Driver{
 		this.laShString = laShString;
 		this.qid = qid;
 		this.empType = empType;
-	}
-
-	@Override
-	public String toString() {
-		return "DriverVo [areaNm=" + areaNm + ", etpNm=" + etpNm + ", fiString=" + fiString
-				+ ", laString=" + laString + ", fistShString=" + fistShString + ", laShString="
-				+ laShString + ", qid=" + qid + ", empType=" + empType + "]";
 	}
 
 	public String getAreaNm() {
@@ -119,8 +119,7 @@ public class DriverVo  extends Driver{
 	public void setEmpType(String empType) {
 		this.empType = empType;
 	}
-    
-    
+
     
     
 

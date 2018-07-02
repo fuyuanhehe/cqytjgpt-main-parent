@@ -674,15 +674,23 @@ GROUP BY
   <!-- 根据条件查询记录 -->
 	<select id="qryDriverList" parameterType="java.util.Map" resultMap="BaseResultMap">
 		SELECT danger.*,org.orgNm FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id 
-		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id  WHERE dr.mgrEnterpriseId in
-				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id  
+			<choose>
+			 	<when test="empType == 'SUPERMAN'" >
+			 		WHERE 1=1
+			 	</when>
+			 	<otherwise>
+			 	 where 1=1 and dr.mgrEnterpriseId in 
+					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
-			    </foreach>  
+			    	</foreach>  
+			 	</otherwise>
+			 </choose>
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
 			<if test="ownerenterprise != null and ownerenterprise != ''">
-				and ownerEnterprise = #{ownerenterprise}
+				and dr.mgrEnterpriseId = #{ownerenterprise}
 			</if>
 			<if test="dangertype != null and dangertype != ''">
 				and dangerType = #{dangertype}
@@ -706,10 +714,17 @@ GROUP BY
 	<!-- 根据条件统计条数 -->
 	<select id="qryDriverListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT Count(1) FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id 
-		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id  WHERE dr.mgrEnterpriseId in
-				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id  <choose>
+			 	<when test="empType == 'SUPERMAN'" >
+			 		WHERE 1=1
+			 	</when>
+			 	<otherwise>
+			 	 where 1=1 and dr.mgrEnterpriseId in 
+					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
-			    </foreach>
+			    	</foreach>  
+			 	</otherwise>
+			 </choose>
 			    <if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   

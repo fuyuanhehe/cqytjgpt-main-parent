@@ -66,4 +66,11 @@ public interface DepartmentMapper {
 	 * @return
 	 */
 	public List<DepartmentEnterpriseCombine> finByDepEmpId(@Param("id") String id);
+	
+	/**根据部门id查询该部门信息
+	 * @param id
+	 * @return
+	 */
+	public Department getDepartmentbyId(@Param("id") String id);
+	
 }

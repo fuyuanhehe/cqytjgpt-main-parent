@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningservice;
 import com.ccttic.entity.common.ResponseMsg;
@@ -51,6 +50,9 @@ public class WarningContrller implements Serializable {
 	@Autowired
 	private IWarningservice warningservice;
 
+	@Autowired
+	private IEnterpriseService enterpriseService;
+
 	/**
 	 * 根据条件获取车辆预警信息
 	 * 
@@ -58,20 +60,36 @@ public class WarningContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/qryVehicleList", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseMsg<List<VehiDanger>> getVehicleWarningList(@RequestBody VehiDangerVo vo, HttpSession session) {
+	public ResponseMsg<List<VehiDanger>> getVehicleWarningList(@RequestBody VehiDangerVo vdvo,
+			@RequestParam String access_token) {
 		ResponseMsg<List<VehiDanger>> resp = new ResponseMsg<List<VehiDanger>>();
 		PageRequest page = new PageRequest();
-		page.setPage(vo.getPage());
-		page.setRows(vo.getRows());
-		EmployeeVo emp = (EmployeeVo) session.getAttribute(Const.ENT);
-		List<EssEnterprise> ent = emp.getEnt();
+		page.setPage(vdvo.getPage());
+		page.setRows(vdvo.getRows());
 		List<String> list = new ArrayList<String>();
+		List<EssEnterprise> ent = null;
+		String empType = null;
+		String username =JWTUtil.getUsername(access_token);
+		// redis get data
+		EmployeeVo vo = (EmployeeVo)redisService.get(username); 
+		// 2. 判断REDIS是否为空
+		if (null != vo) {
+			ent = vo.getEnt();
+			empType = vo.getEmptype();
+		} else {
+			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+			ent=employee.getEnt();
+			empType = employee.getEmptype();
+			//3. 更新redis里用户缓存
+			redisService.set(username,employee, Const.USER_REDIS_LIVE);
+		}
 		for (EssEnterprise essEnterprise : ent) {
 			list.add(essEnterprise.getId());
 		}
-		vo.setList(list);
+		vdvo.setList(list);
+		vdvo.setEmpType(empType);
 		try {
-			Page<VehiDanger> pager = warningservice.qryVehicleList(page, vo);
+			Page<VehiDanger> pager = warningservice.qryVehicleList(page, vdvo);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");
@@ -83,34 +101,38 @@ public class WarningContrller implements Serializable {
 
 	@RequestMapping(value = "/qryDriverList", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseMsg<Page<DrDangerVo>> getDriverWarningList(@RequestBody DrDangerVo vo,
+	public ResponseMsg<Page<DrDangerVo>> getDriverWarningList(@RequestBody DrDangerVo drvo,
 			@RequestParam String access_token) {
 		ResponseMsg<Page<DrDangerVo>> resp = new ResponseMsg<Page<DrDangerVo>>();
 		PageRequest page = new PageRequest();
-		page.setPage(vo.getPage());
-		page.setRows(vo.getRows());
+		page.setPage(drvo.getPage());
+		page.setRows(drvo.getRows());
 
 		List<String> list = new ArrayList<String>();
 		List<EssEnterprise> ent = null;
-		String username = JWTUtil.getUsername(access_token);
+		String empType = null;
+		String username =JWTUtil.getUsername(access_token);
 		// redis get data
-		EmployeeVo emp = (EmployeeVo) redisService.get(username);
+		EmployeeVo vo = (EmployeeVo)redisService.get(username); 
 		// 2. 判断REDIS是否为空
-		if (null != emp) {
-			ent = emp.getEnt();
+		if (null != vo) {
+			ent = vo.getEnt();
+			empType = vo.getEmptype();
 		} else {
 			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-			ent = employee.getEnt();
-			// 3. 更新redis里用户缓存
-			redisService.set(username, employee, Const.USER_REDIS_LIVE);
+			ent=employee.getEnt();
+			empType = employee.getEmptype();
+			//3. 更新redis里用户缓存
+			redisService.set(username,employee, Const.USER_REDIS_LIVE);
 		}
 
 		for (EssEnterprise essEnterprise : ent) {
 			list.add(essEnterprise.getId());
 		}
-		vo.setList(list);
+		drvo.setList(list);
+		drvo.setEmpType(empType);
 		try {
-			Page<DrDangerVo> pager = warningservice.qryDriverList(page, vo);
+			Page<DrDangerVo> pager = warningservice.qryDriverList(page, drvo);
 			resp.setData(pager);
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");
@@ -152,6 +174,38 @@ public class WarningContrller implements Serializable {
 		} catch (AppException e) {
 			resp.fail("查询失败！");
 		}
+		return resp;
+	}
+
+	@RequestMapping(value = "/getEnterprise", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	public ResponseMsg<List<EssEnterprise>> getEnterprise(@RequestParam String access_token) {
+		ResponseMsg<List<EssEnterprise>> resp = new ResponseMsg<List<EssEnterprise>>();
+
+		List<EssEnterprise> ent = null;
+		String username = JWTUtil.getUsername(access_token);
+		// redis get data
+		EmployeeVo emp = (EmployeeVo) redisService.get(username);
+
+		try {
+			// 2. 判断REDIS是否为空
+			if (null != emp) {
+				ent = emp.getEnt();
+			} else {
+
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent = employee.getEnt();
+				// 3. 更新redis里用户缓存
+				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+				resp.setData(ent);
+				resp.success("获取企业列表成功");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			resp.fail("获取企业列表失败"+e);
+		}
+
 		return resp;
 	}
 }

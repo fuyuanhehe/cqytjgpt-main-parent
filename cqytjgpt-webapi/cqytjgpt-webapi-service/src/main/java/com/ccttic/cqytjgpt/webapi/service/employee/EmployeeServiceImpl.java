@@ -16,6 +16,8 @@ import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.DepartmentMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.post.EssPostMapper;
 import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -26,6 +28,7 @@ import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
+import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.util.common.MD5;
@@ -56,6 +59,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private EssPostMapper postMapper;
 	@Autowired
 	private IRoleMenuService service;
+	@Autowired
+	private DepartmentMapper departmentMapper;
+	@Autowired
+	private OrganizationMapper  organizationMapper;
+	
 
 	/*
 	 * (非 Javadoc)
@@ -228,6 +236,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		EssEmployee employee = emp;
 		empMapper.updateByPrimaryKeySelective(employee);
 		empMapper.delPostUnderEmp(emp.getId());
+		if(emp.getPost()!=null)
 		for (int i = 0; i < emp.getPost().size(); i++) {
 			String postId = emp.getPost().get(i).getId();
 			String uid = RandomHelper.uuid();
@@ -262,7 +271,29 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public Page<EssEmployeeVo> selectEmployee(Pageable page, EssEmployeeVo emp) throws Exception {
 		Page<EssEmployeeVo> pager = new PageImpl<EssEmployeeVo>(page);
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		Department dep =null;
+		List<String> orgs =null;
+		if(emp.getDes()!=null && emp.getDes().size()>0) {
+			dep =	departmentMapper.getDepartmentbyId(emp.getDes().get(0).getId());
+		}
+		if(dep.getOrgId()!=null && dep.getOrgId()!="") {
+			OrgEmpCombine org = organizationMapper.findOrgByOrgCd(dep.getOrgId());
+			String type =org.getOrgType();
+			if("0".equals(type)) {
+				 orgs =organizationMapper.getAllOrg();
+				 params.put("orgCd", orgs);// 组织id
+			}else if("1".equals(type)) {
+				orgs =organizationMapper.getLastOrg(org.getId());
+				orgs.add(org.getId());
+				params.put("orgCd", orgs);// 组织id
+			}
+			else{
+				params.put("orgCd", org.getId());// 组织id
+			}
+		}
+		
+		
 		params.put("pageSize", page.getRows() + "");
 		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
 		params.put("orgCd", emp.getOrgCd());// 组织id

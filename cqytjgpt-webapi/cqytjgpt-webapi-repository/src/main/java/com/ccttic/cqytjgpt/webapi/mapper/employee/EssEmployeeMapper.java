@@ -41,13 +41,13 @@ public interface EssEmployeeMapper {
 	 * @param params
 	 * @return
 	 */
-	long qryPostListCount(Map<String, String> params);
+	long qryPostListCount(Map<String, Object> params);
 
 	/**分页查询员工
 	 * @param params
 	 * @return
 	 */
-	List<EssEmployeeVo> qryPostList(Map<String, String> params);
+	List<EssEmployeeVo> qryPostList(Map<String, Object> params);
 
 	/**查询员工下的岗位
 	 * @param id

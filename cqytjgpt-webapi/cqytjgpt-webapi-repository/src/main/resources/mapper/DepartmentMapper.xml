@@ -75,7 +75,9 @@
 	 	AND (yee.isDeleted = 0 or yee.isDeleted is null)
 	</select>
 
-
+	<select id="getDepartmentbyId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Department">
+	select * from ess_department where id=#{id}
+	</select>
 
 
 
