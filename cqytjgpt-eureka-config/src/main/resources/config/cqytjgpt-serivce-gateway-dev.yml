@@ -1,0 +1,63 @@
+spring:
+  rabbitmq:     # 配置RabbitMQ
+    host: 10.10.20.21
+    port: 5672
+    username: guest
+    password: guest
+  zipkin:
+    sender:
+      type: rabbit  # zipkin的数据发送方式，使用RabbitMQ
+  http:
+    encoding:
+      charset: UTF-8    # 设置编码
+      force: true
+      force-request: true
+      force-response: true
+   
+# 配置路由
+zuul:
+  servlet-path: /zuul
+  retryable: true         # 开启重试
+  ignored-services: '*'   # 忽略所有的服务，必须访问配置过的路由
+  add-host-header: true
+  routes:
+    cqytjgpt-web-api:
+      path: /web/**
+      serviceId: cqytjgpt-webapi
+      sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token
+  
+    cqytjgpt-screen-api:
+      path: /manager/**
+      serviceId: cqytjgpt-screen-api
+      sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token      
+
+# 设置logback.xml地址
+logging:
+  config: classpath:logback.xml
+  
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true
+  
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 80000
+            
+# 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false
+    
+eureka:
+  client:
+    healthcheck:
+      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常

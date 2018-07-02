@@ -7,6 +7,8 @@ server:
 spring:
   application:
     name: cqytjgpt-webapi
+  profiles:
+    active: dev
   cloud:
     config:
       enabled: true
@@ -15,8 +17,7 @@ spring:
         service-id: cqytjgpt-eureka-config
       fail-fast: true
       label: master
-
-# 设置eureka行为
+      
 eureka:
   instance:
     instance-id: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}

@@ -26,17 +26,7 @@ spring:
       
 logging:
   config: classpath:logback.xml
-      
-eureka:
-  client:
-    healthcheck:
-      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
-      
-# 手动POST刷新配置需要关闭安全策略
-management:
-  security:
-    enabled: false
-    
+          
 #全局配置    
 ribbon:
   ReadTimeout: 10000 #请求连接超时 单位毫秒
@@ -54,3 +44,13 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 80000
+            
+# 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false
+                
+eureka:
+  client:
+    healthcheck:
+      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常

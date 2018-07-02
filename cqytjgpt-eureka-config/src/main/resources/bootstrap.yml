@@ -4,11 +4,6 @@ info:
 server:
   port: 9090
 
-# 关闭验证
-management:
-  security:
-    enabled: false
-
 spring:
   application:
     name: cqytjgpt-eureka-config
@@ -18,17 +13,19 @@ spring:
     config:
       server:
         native:
-          search-locations: file:/D:/cqytjgpt-config
-        #git:
-          #uri: file://D:/config # 注意文件夹必须是git仓库，并且提交了配置文件
-          #uri: http://10.10.20.36/cttic/settingcenter.git
-          #clone-on-start: true
-          #force-pull: true
+          search-locations: classpath:/config
+      profile: dev
   rabbitmq:     # 配置RabbitMQ
     host: 10.10.20.21
     port: 5672
     username: guest
     password: guest
+
+    # 关闭验证
+management:
+  security:
+    enabled: false
+
 
 # 设置eureka行为
 eureka:

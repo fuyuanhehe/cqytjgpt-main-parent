@@ -75,10 +75,6 @@ fdfs:
     max-total: 153
     #获取连接时的最大等待毫秒数100
     max-wait-millis: 102
-eureka:
-  client:
-    healthcheck:
-      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
 
 security:
   oauth2:
@@ -91,3 +87,8 @@ security:
 management:
   security:
     enabled: false
+    
+eureka:
+  client:
+    healthcheck:
+      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常

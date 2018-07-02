@@ -1,20 +1,19 @@
 spring:
-  redis:
-#      host: 127.0.0.1
-      host: 10.10.20.22 
-#      database: 2  
   rabbitmq:     # 配置RabbitMQ
     host: 10.10.20.21
     port: 5672
     username: guest
     password: guest
-  datasource: # 配置数据源
+  datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://10.10.20.22:3306/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
+#    url: jdbc:mysql://113.204.53.10:4604/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
+#    url: jdbc:mysql://localhost:3306/test?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: root
     password: ccttic!
+#    password: rootrootipnms
     driver-class-name: com.mysql.jdbc.Driver
-    initialization-mode: never
+    initialize: true
     druid:
       initial-size: 1
       max-active: 15
@@ -26,31 +25,27 @@ spring:
       test-on-return: false
       filters: stat,wall,log4j
       pool-prepared-statements: true
-# mybatis 配置
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
-  configuration:  # 配置懒加载机制
+  configuration: # 配置懒加载机制
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
     log-prefix: dao.
+
+logging:
+  config: classpath:logback.xml
 
 # 手动POST刷新配置需要关闭安全策略
 management:
   security:
     enabled: false
-
-#log 设置
-debug:
-  true
-logging:
-  level:
-    com:
-      ccttic:
-        auth:
-          trace
-  config: classpath:logback.xml
-  
-security:
-  oauth2:
-    resource:
-      filter-order: 3     
+    
+eureka:
+  instance:
+    instance-id: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8090/eureka/
+    healthcheck:
+      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常

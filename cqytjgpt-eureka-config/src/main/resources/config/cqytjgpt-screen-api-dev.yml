@@ -35,12 +35,17 @@ mybatis:
 logging:
   config: classpath:logback.xml
 
-eureka:
-  client:
-    healthcheck:
-      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
-    
 # 手动POST刷新配置需要关闭安全策略
 management:
   security:
     enabled: false
+    
+eureka:
+  instance:
+    instance-id: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8090/eureka/
+    healthcheck:
+      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
