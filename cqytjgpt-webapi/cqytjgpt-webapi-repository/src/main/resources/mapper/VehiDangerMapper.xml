@@ -779,30 +779,30 @@
 				and area.id = #{areaId}
 			</if>   
 			<if test="ownerenterprise != null and ownerenterprise != ''">
-				and ownerEnterprise = #{ownerenterprise}
+				and vehi.ownerEnterprise = #{ownerenterprise}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and vehiNo = #{vehiNo}
+				and danger.vehiNo = #{vehiNo}
 			</if>
 			<if test="dangertype != null and dangertype != ''">
-				and dangerType = #{dangertype}
+				and vehi.dangerType = #{dangertype}
 			</if>
 			<if test="correctstate != null and correctstate != ''">
-				and correctState = #{correctstate}
+				and vehi.correctState = #{correctstate}
 			</if>
 			<if test="scrappedState ==true ">
-				and scrappedState = 1
+				and vehi.scrappedState = 1
 			</if>
 			<if test="illicitState ==true ">
-				and illicitState = 1
+				and vehi.illicitState = 1
 			</if>
 			<if test="failureState ==true ">
-				and failureState = 1
+				and vehi.failureState = 1
 			</if>
 			<if test="overdueExamineState ==true ">
-				and overdueExamineState = 1
+				and vehi.overdueExamineState = 1
 			</if>
-			order by dangerType DESC
+			order by vehi.dangerType DESC
 		
 		limit ${startRecord},${pageSize}
 	</select>
@@ -825,28 +825,28 @@
 				and area.id = #{areaId}
 			</if>   
 			<if test="ownerenterprise != null and ownerenterprise != ''">
-				and ownerEnterprise = #{ownerenterprise}
+				and vehi.ownerEnterprise = #{ownerenterprise}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and vehiNo = #{vehiNo}
+				and vehi.vehiNo = #{vehiNo}
 			</if>
 			<if test="dangertype != null and dangertype != ''">
-				and dangerType = #{dangertype}
+				and vehi.dangerType = #{dangertype}
 			</if>
 			<if test="correctstate != null and correctstate != ''">
-				and correctState = #{correctstate}
+				and vehi.correctState = #{correctstate}
 			</if>
 				<if test="scrappedState ==true ">
-				and scrappedState = 1
+				and vehi.scrappedState = 1
 			</if>
 			<if test="illicitState ==true ">
-				and illicitState = 1
+				and vehi.illicitState = 1
 			</if>
 			<if test="failureState ==true ">
-				and failureState = 1
+				and vehi.failureState = 1
 			</if>
 			<if test="overdueExamineState ==true ">
-				and overdueExamineState = 1
+				and vehi.overdueExamineState = 1
 			</if>
 	</select>
 	<!-- 根据id查询 -->

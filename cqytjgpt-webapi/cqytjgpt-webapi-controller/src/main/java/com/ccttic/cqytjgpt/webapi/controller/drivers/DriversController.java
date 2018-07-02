@@ -73,15 +73,16 @@ public class DriversController implements Serializable{
 	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
 			List<String> list = new ArrayList<String>();
 			String empType = null;
-			if(StringUtils.isEmpty(access_token)) {
-				resp.fail("access_token 不能为空");
-				return resp;
-			}
+			
 			String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
@@ -293,13 +294,38 @@ public class DriversController implements Serializable{
 	 */
 	@OperLogging(operType = 0,content="企业基本信息分页")
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment){
+	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
 
 		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
+			List<String> list = new ArrayList<String>();
+			String empType = null;
+			
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				ent = vo.getEnt();
+				empType = vo.getEmptype();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				empType = employee.getEmptype();
+				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			tment.setQid(list);
+			tment.setEmpType(empType);
 			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
 			resp.setMessage("查询驾驶员违法信息成功！");
 			resp.setStatus(0);
@@ -344,13 +370,39 @@ public class DriversController implements Serializable{
 	 */
 	@OperLogging(operType = 0)
 	@RequestMapping(value="/queryVehiclespage",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<vehiclesVo>>queryVehiclespage(@RequestBody vehiclesVoPage tment){
+	public ResponseMsg<List<vehiclesVo>>queryVehiclespage(@RequestBody vehiclesVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<vehiclesVo>> resp = new ResponseMsg<List<vehiclesVo>>();
 
 		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
+			List<String> list = new ArrayList<String>();
+			String empType = null;
+			
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				ent = vo.getEnt();
+				empType = vo.getEmptype();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				empType = employee.getEmptype();
+				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			tment.setQid(list);
+			tment.setEmpType(empType);
+			
 			Page<vehiclesVo> data = service.queryVehiclespage(page, tment);
 			resp.setData(data.getRecords());
 			resp.setMessage("查询企业机动车违法信息成功");
@@ -364,34 +416,11 @@ public class DriversController implements Serializable{
 
 		return resp;
 	}
-	//测试 session 数据
-	@RequestMapping(value="/getEssEnterprise",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<EmployeeVo> getEssEnterprise(@RequestParam String access_token){
-		ResponseMsg<EmployeeVo> resp = new ResponseMsg<>();
-		resp.setMessage("GG");
-		if(StringUtils.isEmpty(access_token)) {
-			resp.fail("access_token 不能为空");
-			return resp;
-		}
-		String username=JWTUtil.getUsername(access_token);
-		// 从redis获取用户信息 
-		EmployeeVo vo= (EmployeeVo)  redisService.get(username);
-
-		if (null != vo) {
-			resp.setData(vo);
-			return resp;
-		} else {
-			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-			resp.setData(employee);
-			return resp;
-			//redisService.set(username,employee,Const.USER_REDIS_LIVE);
-		}
-	}
 
 	// 企业信息-信息记录
 	@OperLogging(operType = 0)
 	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<List<VehicleCountVo>>>getvehiclesCount(@RequestBody vehiclesVo vehiclesVo){
+	public ResponseMsg<List<List<VehicleCountVo>>>getvehiclesCount(@RequestBody vehiclesVo vehiclesVo,@RequestParam String access_token){
 		ResponseMsg<List<List<VehicleCountVo>>> resp = new ResponseMsg<>();
 
 		try {

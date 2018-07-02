@@ -47,6 +47,8 @@
 		permiCar
 		FROM
 		driver
+		WHERE
+		permiCar != ''
 	</select>
 
 
@@ -87,21 +89,19 @@
 		d.mgrDepartAreaId
 		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
 		en.id
-		WHERE
-		d.id != ''
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				and 1=1
+				where 1=1
 			</when>
 			<otherwise>
-				and en.id in
+				where en.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-
+		and d.id != ''
 		<if test="etpNm!=null and etpNm!='' ">
 			and en.etpNm = #{etpNm}
 		</if>
@@ -128,7 +128,7 @@
 			laStrin#{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and d.fistShString BETWEEN #{fistShString} and
+			and d.nextexaminetime BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
 
@@ -136,8 +136,7 @@
 	</select>
 	<!-- 驾驶人分页总数 -->
 	<select id="sePageCount" resultType="long">
-		<!-- SELECT COUNT(d.id) FROM driver d LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId 
-			= en.id LEFT JOIN ess_area a ON d.mgrDepartAreaId = a.id -->
+
 		SELECT
 		COUNT(d.id)
 		FROM
@@ -146,20 +145,21 @@
 		d.mgrDepartAreaId
 		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
 		en.id
-		WHERE
-		d.id != ''
+
+
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				and 1=1
+				where 1=1
 			</when>
 			<otherwise>
-				and en.id in
+				where en.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
+		and d.id != ''
 		<if test="etpNm!=null and etpNm!='' ">
 			and en.etpNm = #{etpNm}
 		</if>
@@ -178,7 +178,6 @@
 		<if test="id!=null and id!='' ">
 			and d.id = #{id}
 		</if>
-		<!-- <if test="id!=null and id!='' "> and d.id = #{id} </if> -->
 		<if test="mobilephone!=null and mobilephone!='' ">
 			and d.mobilephone = #{mobilephone}
 		</if>
@@ -187,7 +186,7 @@
 			laStrin#{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and d.fistShString BETWEEN #{fistShString} and
+			and d.nextexaminetime BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
 
@@ -211,21 +210,20 @@
 		dl.driver_id
 		LEFT JOIN ess_area a ON
 		d.mgrDepartAreaId = a.id
-		where
-		d.id!='' and d.id = #{id}
+
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				and 1=1
+				where 1=1
 			</when>
 			<otherwise>
-				and e.id in
+				where e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-
+		and d.id!='' and d.id = #{id}
 		limit
 		${startRecord} , ${pageSize}
 	</select>
@@ -242,21 +240,21 @@
 		LEFT
 		JOIN ess_area a ON
 		d.mgrDepartAreaId = a.id
-		where d.id!='' and d.id =
-		#{id}
+
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				and 1=1
+				where 1=1
 			</when>
 			<otherwise>
-				and e.id in
+				where e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-
+		and d.id!='' and d.id =
+		#{id}
 	</select>
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
@@ -419,7 +417,19 @@
 		JOIN ess_organization eo ON en.org_id = eo.id
 		LEFT JOIN ess_area a ON
 		eo.area_id = a.id
-		where 1 = 1
+
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where en.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
 		<if test="id!= null and id!='' ">
 			en.id = #{id}
 		</if>
@@ -447,7 +457,19 @@
 		en.org_id = eo.id
 		LEFT JOIN ess_area a ON
 		eo.area_id = a.id
-		where 1 = 1
+
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
 		<if test="id!= null and id!='' ">
 			en.id = #{id}
 		</if>
@@ -486,8 +508,19 @@
 		LEFT JOIN
 		vehi_danger vd ON
 		v.id = vd.vehicle_id
-		WHERE
-		e.id != ''
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+		and e.id != ''
 		<if test="orgNm!=null and orgNm!= '' ">
 			AND o.orgNm =#{orgNm}
 		</if>
@@ -512,8 +545,19 @@
 		LEFT JOIN vehicle v ON e.id = v.mgrEnterpriseId
 		LEFT
 		JOIN vehi_danger vd ON v.id = vd.vehicle_id
-		WHERE
-		e.id != ''
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+		and e.id != ''
 		<if test="orgNm!=null and orgNm!= '' ">
 			AND o.orgNm =#{orgNm}
 		</if>
@@ -549,8 +593,19 @@
 		LEFT JOIN vehicle v ON e.id = v.mgrEnterpriseId
 		LEFT
 		JOIN vehi_danger vd ON v.id = vd.vehicle_id
-		WHERE
-		e.id != ''
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+		 and e.id != ''
 		<if test="orgNm!=null and orgNm!= '' ">
 			AND o.orgNm =#{orgNm}
 		</if>

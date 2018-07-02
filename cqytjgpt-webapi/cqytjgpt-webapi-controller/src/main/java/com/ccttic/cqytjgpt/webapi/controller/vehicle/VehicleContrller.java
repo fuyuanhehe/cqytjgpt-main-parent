@@ -126,7 +126,7 @@ public class VehicleContrller implements Serializable {
 
 	/**
 	 * 新增车牌号和车辆类型到数据库
-	 * 
+	 * -----------------------------------这个接口可能要改，因为前端传递的机动车编号会有渝字-------------------------------
 	 * @param vehiNo
 	 * @param vehiType
 	 * @return
@@ -224,7 +224,9 @@ public class VehicleContrller implements Serializable {
 	public ResponseMsg<Vehicle> qryOneVehicle(@RequestBody Vehicle ve) {
 		ResponseMsg<Vehicle> resp = new ResponseMsg<Vehicle>();
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", ve.getId());
+		// 过滤掉车牌的前面一位
+		String vehiNo = ve.getVehiNo().substring(1, ve.getVehiNo().length());
+		params.put("vehiNo", vehiNo);
 		try {
 			Vehicle vehicle = vehicleService.qryOneVehicle(params);
 			resp.setData(vehicle);
@@ -264,10 +266,10 @@ public class VehicleContrller implements Serializable {
 		}
 		return resp;
 	}
-
+ 
 	/**
 	 * 根据条件获取车辆历史轨迹信息 
-	 * 
+	 * ----------------------------------这个接口的渝字 后期也要修改 因为前端统一要传----------------------------
 	 * @param id
 	 * @return
 	 */

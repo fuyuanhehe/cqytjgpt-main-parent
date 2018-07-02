@@ -148,10 +148,10 @@
 				and state = #{state}
 			</if>
 			<if test="effectStartTime != null and effectStartTime != ''">
-				and (left(effectStartTime,10) &gt;= #{effectStartTime})
+				and (left(examineEffectEndTime,10) &gt;= #{effectStartTime})
 			</if>
 			<if test="effectEndTime != null and effectEndTime != ''">
-				and (left(effectEndTime,10) &lt;= #{effectEndTime})
+				and (left(examineEffectEndTime,10) &lt;= #{effectEndTime})
 			</if>
 			<if test="startTime != null and startTime != ''">
 				and left(firstReciveTime,10) &gt;= #{startTime}
@@ -203,10 +203,10 @@
 				and state = #{state}
 			</if>
 			<if test="effectStartTime != null and effectStartTime != ''">
-				and left(effectStartTime,10) &gt;= #{effectStartTime}
+				and left(examineEffectEndTime,10) &gt;= #{effectStartTime}
 			</if>
 			<if test="effectEndTime != null and effectEndTime != ''">
-				and left(effectEndTime,10) &lt;= #{effectEndTime}
+				and left(examineEffectEndTime,10) &lt;= #{effectEndTime}
 			</if>
 			<if test="startTime != null and startTime != ''">
 				and left(firstReciveTime,10) &gt;= #{startTime}
@@ -231,7 +231,7 @@
 			 ELSE '其他' END  state
 			 ,area.areaNm,ise.etpNm 
 			 FROM (
-				SELECT * FROM vehicle  WHERE id=#{id}
+				SELECT * FROM vehicle  WHERE vehiNo=#{vehiNo}
 			)ve 
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
 			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 

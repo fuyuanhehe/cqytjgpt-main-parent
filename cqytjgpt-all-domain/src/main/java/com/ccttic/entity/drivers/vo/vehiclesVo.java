@@ -30,9 +30,18 @@ public class vehiclesVo {
 	private String orgNm;
     //企业id
 	private List<String> qid;
+	//账号类型
+	private String empType;
 	
-	
-    public vehiclesVo(List<String> qid) {
+    public String getEmpType() {
+		return empType;
+	}
+
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
+
+	public vehiclesVo(List<String> qid) {
 		super();
 		this.qid = qid;
 	}
