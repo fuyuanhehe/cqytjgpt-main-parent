@@ -50,6 +50,9 @@ public class PostController {
 	public ResponseMsg<Page<EssPostVo>> selectPost(ServletRequest request, ServletResponse response,
 			@RequestBody EssPostVo post) {
 		ResponseMsg<Page<EssPostVo>> rm = new ResponseMsg<>();
+		
+		
+		
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(post.getPage());

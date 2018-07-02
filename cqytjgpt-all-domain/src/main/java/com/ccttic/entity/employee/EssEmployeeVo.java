@@ -3,6 +3,7 @@ package com.ccttic.entity.employee;
 import java.util.List;
 
 import com.ccttic.entity.post.EssPost;
+import com.ccttic.entity.role.Department;
 
 public class EssEmployeeVo extends EssEmployee {
 	/**
@@ -19,10 +20,15 @@ public class EssEmployeeVo extends EssEmployee {
 	private String orgCd;
 	//企业id
 	private String eptId;
+	//用户类型
+	private String empType;
+	
 	
 	
 	//岗位
 	private List<EssPost> post;
+	//部门id
+	private List<Department> des;
 	private int page = 1;
 	private int rows = 10;
 	public int getPage() {
@@ -72,15 +78,29 @@ public class EssEmployeeVo extends EssEmployee {
 	public void setEptId(String eptId) {
 		this.eptId = eptId;
 	}
-	public EssEmployeeVo(String depNm, String depid, String orgNm, String orgCd, String eptId, List<EssPost> post,
-			int page, int rows) {
+	public String getEmpType() {
+		return empType;
+	}
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
+	public List<Department> getDes() {
+		return des;
+	}
+	public void setDes(List<Department> des) {
+		this.des = des;
+	}
+	public EssEmployeeVo(String depNm, String depid, String orgNm, String orgCd, String eptId, String empType,
+			List<EssPost> post, List<Department> des, int page, int rows) {
 		super();
 		this.depNm = depNm;
 		this.depid = depid;
 		this.orgNm = orgNm;
 		this.orgCd = orgCd;
 		this.eptId = eptId;
+		this.empType = empType;
 		this.post = post;
+		this.des = des;
 		this.page = page;
 		this.rows = rows;
 	}
@@ -88,6 +108,8 @@ public class EssEmployeeVo extends EssEmployee {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	
 	
 }

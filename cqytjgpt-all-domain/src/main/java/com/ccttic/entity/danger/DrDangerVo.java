@@ -16,8 +16,31 @@ public class DrDangerVo extends DrDanger {
 	private String areaId;
 	// 行政区域名称
 	private String areaNm;
+	//企业id
+	private String ownerenterprise;
 	
 	private List<String> list;
+	//用户类型
+	private String empType;
+	
+	
+
+
+	public String getEmpType() {
+		return empType;
+	}
+
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
+
+	public String getOwnerenterprise() {
+		return ownerenterprise;
+	}
+
+	public void setOwnerenterprise(String ownerenterprise) {
+		this.ownerenterprise = ownerenterprise;
+	}
 
 	public List<String> getList() {
 		return list;

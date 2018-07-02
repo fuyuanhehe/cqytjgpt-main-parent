@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.controller.employee;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +33,8 @@ import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.employee.vo.TokenVo;
+import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.role.Department;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -148,9 +151,34 @@ public class EmployeeController {
 	@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(HttpServletRequest request,
+	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token,
 			@RequestBody EssEmployeeVo emp) {
 		ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
+		
+		List<String> list = new ArrayList<String>();
+		List<EssEnterprise> ent = null;
+		String empType = null;
+		List<Department> deps = null;
+		String username =JWTUtil.getUsername(access_token);
+		// redis get data
+		EmployeeVo vo = (EmployeeVo)redisService.get(username); 
+		// 2. 判断REDIS是否为空
+		if (null != vo) {
+			ent = vo.getEnt();
+			empType = vo.getEmptype();
+			deps = vo.getDeps();
+		} else {
+			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+			ent=employee.getEnt();
+			empType = employee.getEmptype();
+			deps = employee.getDeps();
+			//3. 更新redis里用户缓存
+			redisService.set(username,employee, Const.USER_REDIS_LIVE);
+		}
+		
+		emp.setDes(deps);
+		emp.setEmpType(empType);
+		
 		try {
 			
 			PageRequest page = new PageRequest();
