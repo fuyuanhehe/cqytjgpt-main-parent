@@ -6,7 +6,7 @@ server:
 
 spring:
   application:
-    name: cqytjgpt-serivce-gateway
+    name: cqytjgpt-service-gateway
   profiles:
     active: dev
   cloud:
@@ -17,7 +17,6 @@ spring:
         service-id: cqytjgpt-eureka-config
       fail-fast: true
       label: master
-      
       
 eureka:
   instance:
