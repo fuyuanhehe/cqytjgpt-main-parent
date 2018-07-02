@@ -16,7 +16,7 @@ public interface IWarningservice {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<VehiDanger> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException;
+	public Page<VehiDangerVo> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException;
 	/**
 	 * 根据id查询车辆预警详情信息
 	 * @param params

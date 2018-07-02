@@ -60,9 +60,9 @@ public class WarningContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/qryVehicleList", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseMsg<List<VehiDanger>> getVehicleWarningList(@RequestBody VehiDangerVo vdvo,
+	public ResponseMsg<List<VehiDangerVo>> getVehicleWarningList(@RequestBody VehiDangerVo vdvo,
 			@RequestParam String access_token) {
-		ResponseMsg<List<VehiDanger>> resp = new ResponseMsg<List<VehiDanger>>();
+		ResponseMsg<List<VehiDangerVo>> resp = new ResponseMsg<List<VehiDangerVo>>();
 		PageRequest page = new PageRequest();
 		page.setPage(vdvo.getPage());
 		page.setRows(vdvo.getRows());
@@ -89,7 +89,7 @@ public class WarningContrller implements Serializable {
 		vdvo.setList(list);
 		vdvo.setEmpType(empType);
 		try {
-			Page<VehiDanger> pager = warningservice.qryVehicleList(page, vdvo);
+			Page<VehiDangerVo> pager = warningservice.qryVehicleList(page, vdvo);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");

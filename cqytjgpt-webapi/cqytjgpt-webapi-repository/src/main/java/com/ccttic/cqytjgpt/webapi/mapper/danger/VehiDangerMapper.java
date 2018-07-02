@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.danger.VehiDanger;
+import com.ccttic.entity.danger.vo.VehiDangerVo;
 import com.ccttic.util.exception.AppException;
 
 public interface VehiDangerMapper {
@@ -57,7 +58,7 @@ public interface VehiDangerMapper {
 	 * @return
 	 * @throws AppException
 	 */
-	public List<VehiDanger> qryVehicleList(Map<String, Object> params) throws AppException;
+	public List<VehiDangerVo> qryVehicleList(Map<String, Object> params) throws AppException;
 	/**
 	 * 根据id查询车辆预警详情信息
 	 * @param params

@@ -25,8 +25,8 @@ public class WarningServiceImpl implements IWarningservice{
 	@Autowired
 	private DrDangerMapper drMapper;
 	@Override
-	public Page<VehiDanger> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException {
-		Page<VehiDanger> pager = new PageImpl<VehiDanger>(page);
+	public Page<VehiDangerVo> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException {
+		Page<VehiDangerVo> pager = new PageImpl<VehiDangerVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
@@ -42,7 +42,7 @@ public class WarningServiceImpl implements IWarningservice{
 		params.put("failureState", ve.getFailurestate()==1?true:false);
 		params.put("overdueExamineState", ve.getOverdueexaminestate()==1?true:false);
 		long totolRols = mapper.qryVehicleListCount(params);
-		List<VehiDanger> records = mapper.qryVehicleList(params);
+		List<VehiDangerVo> records = mapper.qryVehicleList(params);
 		pager.setTotalRows(totolRols);
 		pager.setRecords(records);
 		return pager;
