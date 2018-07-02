@@ -73,15 +73,16 @@ public class DriversController implements Serializable{
 	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
 			List<String> list = new ArrayList<String>();
 			String empType = null;
-			if(StringUtils.isEmpty(access_token)) {
-				resp.fail("access_token 不能为空");
-				return resp;
-			}
+			
 			String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
