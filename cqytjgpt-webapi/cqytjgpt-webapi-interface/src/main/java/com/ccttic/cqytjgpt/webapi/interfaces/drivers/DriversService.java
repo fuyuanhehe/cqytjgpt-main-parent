@@ -8,6 +8,7 @@ import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.PermiCarsVo;
 import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.employee.EssEmployee;
@@ -26,7 +27,8 @@ public interface DriversService {
 
 	///查询驾驶人违法记录
 	Page<DriverillicitVo> seDrillicitByDriverId(Pageable page,DriverVo driver);
-
+       //准假车型
+	List<PermiCarsVo> getAllpermiCar();
 	
 	///查询驾驶人违法记录分页
 	Page<DriverillicitVo> getDriverPages(Pageable page,DriverillicitVo driverillicitVo);
