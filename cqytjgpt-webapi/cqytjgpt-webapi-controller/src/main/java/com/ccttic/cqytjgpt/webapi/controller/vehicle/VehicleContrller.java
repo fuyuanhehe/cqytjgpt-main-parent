@@ -266,10 +266,10 @@ public class VehicleContrller implements Serializable {
 		}
 		return resp;
 	}
-
+ 
 	/**
 	 * 根据条件获取车辆历史轨迹信息 
-	 * 
+	 * ----------------------------------这个接口的渝字 后期也要修改 因为前端统一要传----------------------------
 	 * @param id
 	 * @return
 	 */
