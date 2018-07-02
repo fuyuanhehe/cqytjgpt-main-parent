@@ -143,6 +143,8 @@ public class DriversServiceImpl implements DriversService {
 		params.put("etpNm", enterprisethenVo.getEtpnm());
 		params.put("ownerTraffic", enterprisethenVo.getOwnertraffic());
 		params.put("ownerTransport", enterprisethenVo.getOwnertransport());
+		params.put("list", enterprisethenVo.getQid());
+		params.put("empType", enterprisethenVo.getEmpType());
 		pager.setRecords(mapper.queryEnterprisePage(params));
 		pager.setTotalRows(mapper.queryEnterprisePageCount(params));
 
@@ -169,6 +171,8 @@ public class DriversServiceImpl implements DriversService {
 		params.put("orgNm", vehiclesVo.getOrgNm());
 		params.put("etpNm", vehiclesVo.getEtpNm());
 		params.put("vehiNoType", vehiclesVo.getVehiType());
+		params.put("list", vehiclesVo.getQid());
+		params.put("empType", vehiclesVo.getEmpType());
 		pager.setRecords(mapper.queryVehiclespage(params));
 		pager.setTotalRows(mapper.queryVehiclespageCount(params));
 

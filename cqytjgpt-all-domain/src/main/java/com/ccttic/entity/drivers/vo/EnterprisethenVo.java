@@ -1,6 +1,8 @@
 package com.ccttic.entity.drivers.vo;
 
 
+import java.util.List;
+
 import com.ccttic.entity.drivers.ess_enterprise;
 // 企业自定义实体
 public abstract class EnterprisethenVo extends ess_enterprise{
@@ -16,7 +18,31 @@ public abstract class EnterprisethenVo extends ess_enterprise{
 	
 	private String etpAdress;
 	
+	private List<String> qid;
 	
+	private String empType;
+	
+	
+	public List<String> getQid() {
+		return qid;
+	}
+
+
+	public void setQid(List<String> qid) {
+		this.qid = qid;
+	}
+
+
+	public String getEmpType() {
+		return empType;
+	}
+
+
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
+
+
 	public EnterprisethenVo() {
 	}
 
