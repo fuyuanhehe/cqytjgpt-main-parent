@@ -12,6 +12,7 @@ public class VehiDangerVo extends VehiDanger{
 	private List<String> list;
 	private String areaId;
 	private String empType;
+	private String orgNm;
 	
 	public VehiDangerVo() {
 		super();
@@ -53,8 +54,6 @@ public class VehiDangerVo extends VehiDanger{
 		this.areaId = areaId;
 	}
 
-	
-
 	public String getEmpType() {
 		return empType;
 	}
@@ -62,5 +61,14 @@ public class VehiDangerVo extends VehiDanger{
 	public void setEmpType(String empType) {
 		this.empType = empType;
 	}
+
+	public String getOrgNm() {
+		return orgNm;
+	}
+
+	public void setOrgNm(String orgNm) {
+		this.orgNm = orgNm;
+	}
+	
 	
 }
