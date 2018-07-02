@@ -41,6 +41,14 @@
 		createTime, updateTime,
 		deleteTime, createBy, createDepCd, updateBy, updateDepCd
 	</sql>
+	<!-- 获取所有准假车型 -->
+	<select id="getAllpermiCar" resultType="com.ccttic.entity.drivers.vo.PermiCarsVo">
+		SELECT
+		permiCar
+		FROM
+		driver
+	</select>
+
 
 	<!--增加驾驶员 -->
 	<insert id="insertSelective" parameterType="java.util.List">
@@ -74,12 +82,26 @@
 		d.effectStartTime,
 		d.effectEndTime
 		FROM
-		driver d
-		LEFT JOIN ess_enterprise en ON
-		d.mgrEnterpriseId = en.id
-		LEFT JOIN ess_area a ON d.mgrDepartAreaId =
-		a.id
-		where 1 = 1
+		ess_area a
+		LEFT JOIN driver d ON a.id =
+		d.mgrDepartAreaId
+		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
+		en.id
+		WHERE
+		d.id != ''
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				and 1=1
+			</when>
+			<otherwise>
+				and en.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+
 		<if test="etpNm!=null and etpNm!='' ">
 			and en.etpNm = #{etpNm}
 		</if>
@@ -109,25 +131,35 @@
 			and d.fistShString BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
-		and en.id in
-		<foreach collection="list" index="index" item="item"
-			separator="," open="(" close=")">
-			#{item}
-		</foreach>
 
 		limit ${startRecord},${pageSize}
 	</select>
 	<!-- 驾驶人分页总数 -->
 	<select id="sePageCount" resultType="long">
+		<!-- SELECT COUNT(d.id) FROM driver d LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId 
+			= en.id LEFT JOIN ess_area a ON d.mgrDepartAreaId = a.id -->
 		SELECT
 		COUNT(d.id)
 		FROM
-		driver d
-		LEFT JOIN ess_enterprise en ON
-		d.mgrEnterpriseId = en.id
-		LEFT JOIN ess_area a ON d.mgrDepartAreaId =
-		a.id
-		where 1 = 1
+		ess_area a
+		LEFT JOIN driver d ON a.id =
+		d.mgrDepartAreaId
+		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
+		en.id
+		WHERE
+		d.id != ''
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				and 1=1
+			</when>
+			<otherwise>
+				and en.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
 		<if test="etpNm!=null and etpNm!='' ">
 			and en.etpNm = #{etpNm}
 		</if>
@@ -158,11 +190,6 @@
 			and d.fistShString BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
-		and en.id in
-		<foreach collection="list" index="index" item="item"
-			separator="," open="(" close=")">
-			#{item}
-		</foreach>
 
 	</select>
 	<!--驾驶人违法记录 -->
@@ -175,19 +202,29 @@
 		dl.illicitAdress,
 		dl.illicitScore,
 		dl.illicitAmount
-		
 		FROM
 		ess_enterprise e
-		LEFT JOIN driver d ON e.id = d.mgrEnterpriseId
-		LEFT JOIN dr_illicit dl ON d.id = dl.driver_id
+		LEFT JOIN driver d
+		ON e.id = d.mgrEnterpriseId
+		LEFT
+		JOIN dr_illicit dl ON d.id =
+		dl.driver_id
 		LEFT JOIN ess_area a ON
-		d.mgrDepartAreaId = a.id 
-		where d.id!='' and  d.id = #{id}
-		and e.id in
-		<foreach collection="list" index="index" item="item"
-			separator="," open="(" close=")">
-			#{item}
-		</foreach>
+		d.mgrDepartAreaId = a.id
+		where
+		d.id!='' and d.id = #{id}
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				and 1=1
+			</when>
+			<otherwise>
+				and e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
 
 		limit
 		${startRecord} , ${pageSize}
@@ -196,23 +233,33 @@
 		resultType="long">
 		SELECT
 		count(d.id)
-		
 		FROM
 		ess_enterprise e
-		LEFT JOIN driver d ON e.id = d.mgrEnterpriseId
-		LEFT JOIN dr_illicit dl ON d.id = dl.driver_id
-		LEFT JOIN ess_area a ON
+		LEFT JOIN driver d ON e.id =
+		d.mgrEnterpriseId
+		LEFT
+		JOIN dr_illicit dl ON d.id = dl.driver_id
+		LEFT
+		JOIN ess_area a ON
 		d.mgrDepartAreaId = a.id
-		where d.id!='' and  d.id = #{id}
-		and e.id in
-		<foreach collection="list" index="index" item="item"
-			separator="," open="(" close=")">
-			#{item}
-		</foreach>
+		where d.id!='' and d.id =
+		#{id}
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				and 1=1
+			</when>
+			<otherwise>
+				and e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
 
 	</select>
 
-	<!--驾驶人违法信息条件分页  驾驶人信息-信息记录-->
+	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -234,7 +281,18 @@
 		d.mgrDepartAreaId = a.id
 		LEFT JOIN dr_illicit dl ON
 		d.id = dl.driver_id
-		where 1 = 1
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				WHERE 1=1
+			</when>
+			<otherwise>
+				WHERE en.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
 		<if test="driverid!=null and driverid!= '' ">
 			and d.id = #{id}
 		</if>
@@ -257,16 +315,12 @@
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
-		and en.id in
-		<foreach collection="list" index="index" item="item"
-			separator="," open="(" close=")">
-			#{item}
-		</foreach>
+
 
 		limit ${startRecord} , ${pageSize}
 
 	</select>
-	<!-- 驾驶人违法分页总数   驾驶人信息-信息记录-->
+	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
 	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
 		SELECT
 		count(d.id)
@@ -279,7 +333,18 @@
 		a.id
 		LEFT JOIN dr_illicit dl ON
 		d.id = dl.driver_id
-		where 1 = 1
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				WHERE 1=1
+			</when>
+			<otherwise>
+				WHERE en.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
 		<if test="driverid!=null and driverid!= '' ">
 			and d.id = #{driverid}
 		</if>
@@ -302,11 +367,6 @@
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
-		and en.id in
-		<foreach collection="list" index="index" item="item"
-			separator="," open="(" close=")">
-			#{item}
-		</foreach>
 
 	</select>
 
@@ -473,8 +533,9 @@
 		resultType="long">
 		select count(id) from ess_employee
 	</select>
-<!-- 驾驶人信息-信息记录 -->
-	<select id="getvehiclesCount" resultType="com.ccttic.entity.drivers.vo.vehiclesVo" parameterType="java.util.Map">
+	<!-- 驾驶人信息-信息记录 -->
+	<select id="getvehiclesCount" resultType="com.ccttic.entity.drivers.vo.vehiclesVo"
+		parameterType="java.util.Map">
 		SELECT
 		e.etpNm,
 		v.vehiNoType,
@@ -499,7 +560,7 @@
 		<if test="vehiNoType!=null and vehiNoType!= '' ">
 			AND v.vehiNoType =#{vehiNoType}
 		</if>
-	    and e.id in
+		and e.id in
 		<foreach collection="list" index="index" item="item"
 			separator="," open="(" close=")">
 			#{item}

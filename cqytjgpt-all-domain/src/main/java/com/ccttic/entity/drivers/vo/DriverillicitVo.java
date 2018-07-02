@@ -21,6 +21,18 @@ public class DriverillicitVo extends dr_illicit{
 	private String laString;
    //企业id
    private List<String> qid;
+   
+   private String empType;
+   
+   
+   
+   
+	public String getEmpType() {
+	return empType;
+}
+public void setEmpType(String empType) {
+	this.empType = empType;
+}
 	public DriverillicitVo() {
 		// TODO Auto-generated constructor stub
 	}

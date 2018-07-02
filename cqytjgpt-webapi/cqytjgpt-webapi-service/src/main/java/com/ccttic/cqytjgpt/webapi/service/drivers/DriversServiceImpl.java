@@ -15,6 +15,7 @@ import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
+import com.ccttic.entity.drivers.vo.PermiCarsVo;
 import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.employee.EssEmployee;
@@ -46,7 +47,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("fistShString", driverVo.getFistShString());
 		params.put("laShString", driverVo.getLaShString());
 		params.put("list", driverVo.getQid());
-
+		params.put("empType", driverVo.getEmpType()); // 账号类型
 		List<DriverVo> data = mapper.seDriverPage(params);
 		/*		if(ObjectHelper.isEmpty(ids)){
 			List<DriverVo> list = new ArrayList<>();   	   
@@ -78,6 +79,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("id", driver.getId());
 		params.put("list", driver.getQid());
+		params.put("empType", driver.getEmpType()); // 账号类型
 		pager.setRecords( mapper.seDrillicitByDriverId(params));
 		pager.setTotalRows(mapper.seDrillicitByDriverIdCount(params));
 
@@ -99,6 +101,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("fiString", driver.getFiString());
 		params.put("laString", driver.getLaString());
 		params.put("list", driver.getQid());
+		params.put("empType", driver.getEmpType()); // 账号类型
 		List<DriverillicitVo> data = mapper.seDr_illicitPages(params);
 		long count = mapper.getDriverPageCount(params);
 
@@ -270,6 +273,11 @@ public class DriversServiceImpl implements DriversService {
 		vehilist.add(vahics);
 
 		return vehilist;
+	}
+
+	@Override
+	public List<PermiCarsVo> getAllpermiCar() {
+		return mapper.getAllpermiCar();
 	}
 
 
