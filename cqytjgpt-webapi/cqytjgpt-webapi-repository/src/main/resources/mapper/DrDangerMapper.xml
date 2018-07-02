@@ -692,22 +692,25 @@ GROUP BY
 			<if test="ownerenterprise != null and ownerenterprise != ''">
 				and dr.mgrEnterpriseId = #{ownerenterprise}
 			</if>
+			<if test="dangertype == null and dangertype == ''">
+				and danger.dangerType != 0
+			</if>
 			<if test="dangertype != null and dangertype != ''">
-				and dangerType = #{dangertype}
+				and danger.dangerType = #{dangertype}
 			</if>
 			<if test="fullStudyState ==true ">
-				and fullStudyState = 1
+				and danger.fullStudyState = 1
 			</if>
 			<if test="illicitState ==true ">
-				and illicitState = 1
+				and danger.illicitState = 1
 			</if>
 			<if test="failureState ==true ">
-				and failureState = 1
+				and danger.failureState = 1
 			</if>
 			<if test="overdueProofState ==true ">
-				and overdueProofState = 1
+				and danger.overdueProofState = 1
 			</if>
-			order by dangerType DESC
+			order by danger.dangerType DESC
 		
 		limit ${startRecord},${pageSize}
 	</select>
@@ -729,24 +732,24 @@ GROUP BY
 				and area.id = #{areaId}
 			</if>   
 			<if test="dangertype != null and dangertype != ''">
-				and dangerType = #{dangertype}
+				and danger.dangerType = #{dangertype}
 			</if>
 			<if test="dangertype == null and dangertype == ''">
-				and dangerType != 0
+				and danger.dangerType != 0
 			</if>
 			<if test="fullStudyState ==true ">
-				and fullStudyState = 1
+				and danger.fullStudyState = 1
 			</if>
 			<if test="illicitState ==true ">
-				and illicitState = 1
+				and danger.illicitState = 1
 			</if>
 			<if test="failureState ==true ">
-				and failureState = 1
+				and danger.failureState = 1
 			</if>
 			<if test="overdueProofState ==true ">
-				and overdueProofState = 1
+				and danger.overdueProofState = 1
 			</if>
-			order by dangerType DESC
+			order by danger.dangerType DESC
 		
 		limit ${startRecord},${pageSize}  
 	</select>

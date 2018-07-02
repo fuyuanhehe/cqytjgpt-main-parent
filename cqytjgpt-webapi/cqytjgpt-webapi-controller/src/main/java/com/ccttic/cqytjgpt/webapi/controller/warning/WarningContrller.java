@@ -191,6 +191,8 @@ public class WarningContrller implements Serializable {
 			// 2. 判断REDIS是否为空
 			if (null != emp) {
 				ent = emp.getEnt();
+				resp.setData(ent);
+				resp.success("获取企业列表成功");
 			} else {
 
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
