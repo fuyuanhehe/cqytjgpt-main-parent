@@ -78,7 +78,7 @@ public class RoleMenuController {
 	@OperLogging(operType = 1)
 	//	@PostMapping("/updateMenuByRole")
 	@RequestMapping(value="/updateMenuByRole",method={RequestMethod.POST,RequestMethod.GET})
-	@ResourceScan(rsc = @Resource(cd = Const.UPDATE_MENU, name = "修改权限", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
+	@ResourceScan(rsc = @Resource(cd = Const.UPDATE_MENU, name = "修改角色权限", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
 			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addMenu(@RequestBody Roles roles){
@@ -157,6 +157,9 @@ public class RoleMenuController {
 	}
 
 	@OperLogging(operType = 3)
+	@ResourceScan(rsc = @Resource(cd = Const.GETALL_EMP, name = "查询所有员工", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
+			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/seAllEmp",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EmpVo>> seAllEmp(){
 		ResponseMsg<List<EmpVo>>  resp = new ResponseMsg<>();
@@ -175,7 +178,7 @@ public class RoleMenuController {
 
 		return resp;
 	}
-	// emp_id
+	// emp_id 根据员工id获取角色，菜单
 	@RequestMapping(value="/getTreeMenus",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<EmployeeVo> getTreeMenus(String emp_id){
 		ResponseMsg<EmployeeVo>  resp = new ResponseMsg<>();

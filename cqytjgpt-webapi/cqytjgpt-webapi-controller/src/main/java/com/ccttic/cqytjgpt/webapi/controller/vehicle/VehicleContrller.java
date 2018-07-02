@@ -94,7 +94,7 @@ public class VehicleContrller implements Serializable {
 			String empType = null;
 			String username =JWTUtil.getUsername(access_token);
 			// redis get data
-			EmployeeVo vo = (EmployeeVo)redisService.get(username); 
+			EmployeeVo vo = (EmployeeVo)redisService.get(username+Const.TOKEN); 
 			// 2. 判断REDIS是否为空
 			if (null != vo) {
 				ent = vo.getEnt();
@@ -146,7 +146,7 @@ public class VehicleContrller implements Serializable {
 				 return resp;
 			 }
 			String username =JWTUtil.getUsername(access_token);
-			EmployeeVo vo= (EmployeeVo) redisService.get(username); 
+			EmployeeVo vo= (EmployeeVo) redisService.get(username+Const.TOKEN); 
 			if (null == vo) {
 				vo = employeeService.findEmployeeByAccount(username);
 				//3. 更新redis里用户缓存
@@ -277,13 +277,13 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_TRACK, url="/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<String> qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
+	public ResponseMsg<JSON> qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
+		ResponseMsg<JSON> resp = new ResponseMsg<JSON>();
 		if (token==null) {
 			token = getToken();
 		}
 		String s = frign.queryData(token, "渝"+vo.getVehiNo(), vo.getStartDate(), vo.getEndDate());
-		resp.setData(s);
+		resp.setData(JSON.parseObject(s));
 		resp.success("查询成功！");
 		
 		return resp;
@@ -301,13 +301,13 @@ public class VehicleContrller implements Serializable {
     , prsc = {@Resource( cd = Const.CAR_TRACK, url="/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<String> qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
-		ResponseMsg<String> resp = new ResponseMsg<String>();
+	public ResponseMsg<JSON> qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
+		ResponseMsg<JSON> resp = new ResponseMsg<JSON>();
 		if (token==null) {
 			token = getToken();
 		}
-		String s = frign.vehicleInfo(token, "渝"+vo.getVehiNo());
-		resp.setData(s);
+		String s = frign.vehicleInfo(token,vo.getVehiNo());
+		resp.setData(JSON.parseObject(s));
 		resp.success("查询成功！");
 		return resp;
 	}
@@ -334,10 +334,10 @@ public class VehicleContrller implements Serializable {
 			token = getToken();
 		}
 		
-		EmployeeVo vo = (EmployeeVo)redisService.get(username); 
+		EmployeeVo vo = (EmployeeVo)redisService.get(username+Const.TOKEN); 
 		if (null == vo) {
 			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-			//3. 更新redis里用户缓存
+			//3. 更新redis里用户缓存 
 			vo= employee;
 			redisService.set(username+Const.TOKEN,employee, Const.USER_REDIS_LIVE);
 		}

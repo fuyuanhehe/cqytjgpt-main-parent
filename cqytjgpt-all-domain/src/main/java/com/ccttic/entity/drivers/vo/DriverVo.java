@@ -22,8 +22,11 @@ public class DriverVo  extends Driver{
 	private String laShString;
    //企业id
     private List<String> qid;
+     //账号类型
+    private String empType;
     
-	public DriverVo() {
+    public DriverVo() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public DriverVo(String id, String name, String idcard, String telphone, String mobilephone,
@@ -31,7 +34,8 @@ public class DriverVo  extends Driver{
 			String mgrdepartareaid, String mgrenterpriseid, String nextexaminetime,
 			String effectstarttime, String effectendtime, String examineeffectendtime,
 			String scoretotal, String state, String areaNm, String etpNm, String fiString,
-			String laString, String fistShString, String laShString, List<String> qid) {
+			String laString, String fistShString, String laShString, List<String> qid,
+			String empType) {
 		super(id, name, idcard, telphone, mobilephone, adress, permicar, firstrecivetime, mgrdepart,
 				mgrdepartareaid, mgrenterpriseid, nextexaminetime, effectstarttime, effectendtime,
 				examineeffectendtime, scoretotal, state);
@@ -42,13 +46,14 @@ public class DriverVo  extends Driver{
 		this.fistShString = fistShString;
 		this.laShString = laShString;
 		this.qid = qid;
+		this.empType = empType;
 	}
 
 	@Override
 	public String toString() {
 		return "DriverVo [areaNm=" + areaNm + ", etpNm=" + etpNm + ", fiString=" + fiString
 				+ ", laString=" + laString + ", fistShString=" + fistShString + ", laShString="
-				+ laShString + ", qid=" + qid + "]";
+				+ laShString + ", qid=" + qid + ", empType=" + empType + "]";
 	}
 
 	public String getAreaNm() {
@@ -107,7 +112,16 @@ public class DriverVo  extends Driver{
 		this.qid = qid;
 	}
 
-	
+	public String getEmpType() {
+		return empType;
+	}
 
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
+    
+    
+    
+    
 
 }

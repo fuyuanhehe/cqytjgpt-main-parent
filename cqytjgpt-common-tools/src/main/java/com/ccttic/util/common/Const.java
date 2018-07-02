@@ -113,6 +113,10 @@ public class Const {
 	           * 驾驶人信息-信息记录 三级
 	          */
 	        public static final String DRIVER_PER = "driver_per";
+	        /*
+		        * 获取准假车型 四级
+		        */
+		     public static final String GET_PERMICAR = "get_permicar";
 			       /*
 			        * 新增驾驶人 四级
 			        */
@@ -286,7 +290,9 @@ public class Const {
 	            * 查询所有菜单树
 	            */
 	           public static final String QUERYALL_MENU = "queryall-menu";
-	           
-	           
+	           /*
+	            * 获取所有员工
+	            */
+	           public static final String GETALL_EMP = "getall-menu";
 //***************************系统管理菜单 end************************************************************
 }
