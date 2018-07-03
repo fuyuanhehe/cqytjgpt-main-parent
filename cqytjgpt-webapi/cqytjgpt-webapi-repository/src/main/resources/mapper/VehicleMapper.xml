@@ -123,10 +123,14 @@
 			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
 			 	</when>
 			 	<otherwise>
-			 		WHERE (isDeleted is null or isDeleted !=1) and mgrEnterpriseId in 
-				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			 		WHERE (isDeleted is null or isDeleted !=1)
+			 		<if test="list != null">
+					and mgrEnterpriseId in 
+					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
-			    </foreach>  
+			       </foreach> 
+					</if>	
+			 		  
 			 	</otherwise>
 			 </choose>
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
@@ -176,10 +180,14 @@
 			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
 			 	</when>
 			 	<otherwise>
-			 	 where 1=1  and (isDeleted is null or isDeleted !=1) and mgrEnterpriseId in 
+			 	 where 1=1  and (isDeleted is null or isDeleted !=1) 
+			 	 <if test="list != null">
+			 	 and mgrEnterpriseId in 
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    	</foreach>  
+			 	 </if>
+			 	 
 			 	</otherwise>
 			 </choose>
 		
