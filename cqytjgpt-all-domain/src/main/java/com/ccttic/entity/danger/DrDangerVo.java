@@ -13,18 +13,25 @@ public class DrDangerVo extends DrDanger {
 	private int page = 1;
 	private int rows = 10;
 	// 行政区域代码
-	private String areaId;
+	private String areaCd;
 	// 行政区域名称
 	private String areaNm;
 	//企业id
 	private String ownerenterprise;
 	
+	private String orgNm;
+	
 	private List<String> list;
 	//用户类型
 	private String empType;
 	
-	
+	public String getOrgNm() {
+		return orgNm;
+	}
 
+	public void setOrgNm(String orgNm) {
+		this.orgNm = orgNm;
+	}
 
 	public String getEmpType() {
 		return empType;
@@ -50,12 +57,14 @@ public class DrDangerVo extends DrDanger {
 		this.list = list;
 	}
 
-	public String getAreaId() {
-		return areaId;
+	
+
+	public String getAreaCd() {
+		return areaCd;
 	}
 
-	public void setAreaId(String areaId) {
-		this.areaId = areaId;
+	public void setAreaCd(String areaCd) {
+		this.areaCd = areaCd;
 	}
 
 	public String getAreaNm() {

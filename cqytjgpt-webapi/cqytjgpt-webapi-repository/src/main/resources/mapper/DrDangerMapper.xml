@@ -673,7 +673,7 @@ GROUP BY
   
   <!-- 根据条件查询记录 -->
 	<select id="qryDriverList" parameterType="java.util.Map" resultMap="BaseResultMap">
-		SELECT danger.*,org.orgNm FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id 
+		SELECT danger.*,org.orgNm,area.* FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area area ON org.area_id=area.id 
 		LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id  
 			<choose>
 			 	<when test="empType == 'SUPERMAN'" >
