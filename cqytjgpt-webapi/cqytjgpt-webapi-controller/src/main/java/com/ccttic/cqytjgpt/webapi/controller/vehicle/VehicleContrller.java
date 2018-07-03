@@ -199,6 +199,9 @@ public class VehicleContrller implements Serializable {
 			try {
 				// 调用接口获取车辆基础信息
 				XMLCar xmlCar = queryCarService.selectCarByHpzlHphm(mapVe.get("vehiNoType"), mapVe.get("vehiNo"));
+				if(xmlCar==null) {
+					continue;
+				}
 				vehicleService.modifVehicle(xmlCar);
 				resp.success("修改成功！");
 			} catch (Exception e) {
