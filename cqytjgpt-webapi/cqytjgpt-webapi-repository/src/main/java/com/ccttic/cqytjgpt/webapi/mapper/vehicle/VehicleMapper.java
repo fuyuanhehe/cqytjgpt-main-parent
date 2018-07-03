@@ -87,4 +87,14 @@ public interface VehicleMapper {
 	List<VehiIllicit>selectByVehicleId(String vehicleId);
 
 	public String getfenceIdByEssid(String id);
+
+	/**批量更新车辆信息
+	 * @param update
+	 */
+	public void updateBatch(List<Vehicle> vehicle);
+	
+	/**批量删除无信息车辆
+	 * @param vehicle
+	 */
+	public void deleteBatch(List<String> vehicle);
 }

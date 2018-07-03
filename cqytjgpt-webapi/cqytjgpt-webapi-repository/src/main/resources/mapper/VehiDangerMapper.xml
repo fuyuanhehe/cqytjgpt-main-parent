@@ -51,8 +51,7 @@
 			property="updateby" />
 		<result column="updateDepCd" jdbcType="VARCHAR"
 			property="updatedepcd" />
-		<result column="orgNm" jdbcType="VARCHAR"
-			property="orgNm" />
+		
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -759,8 +758,8 @@
 		</foreach>
 	</update>
 	<!-- 根据条件查询记录 -->
-	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="BaseResultMap">
-		SELECT danger.*,org.orgNm as orgNm,
+	<select id="qryVehicleList" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.vo.VehiDangerVo">
+		SELECT danger.*,(select e.areaNm from ess_area e where e.id=org.area_id) orgNm,
 			CASE danger.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '其他' END vehiNoTypeText
 			FROM vehi_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id
 			LEFT JOIN ess_area area ON org.area_id=area.id

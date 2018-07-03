@@ -14,6 +14,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.batch.IDriverBatch;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskdriver.ITaskDriverService;
 import com.ccttic.entity.danger.DrDanger;
+import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.illegal.DrIllicit;
 
@@ -45,10 +46,10 @@ class DriverTaskController {
 				// TODO Auto-generated catch block
 				logger.info(e.getMessage());
 			}
-			if (result.get("update") != null) {
+			if (result!=null && result.get("update") != null) {
 				update.addAll((List<DrIllicit>) (result.get("update")));
 			}
-			if (result.get("insert") != null) {
+			if (result!=null && result.get("insert") != null) {
 				insert.addAll((List<DrIllicit>) (result.get("insert")));
 			}
 		}
@@ -73,10 +74,10 @@ class DriverTaskController {
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 			}
-			if (result.get("update") != null) {
+			if (result!=null && result.get("update") != null) {
 				update.add((DrDanger) (result.get("update")));
 			}
-			if (result.get("insert") != null) {
+			if (result!=null && result.get("insert") != null) {
 				insert.add((DrDanger) (result.get("insert")));
 			}
 		}
@@ -84,6 +85,35 @@ class DriverTaskController {
 		driverBatch.addDriverDanger(insert);
 		if(update.size()>0)
 		driverBatch.updateDriverDanger(update);
+	}
+	
+	@RequestMapping("/updateDriver")
+	public void updateDriver() {
+		Driver dr = null;
+		
+		List<Driver> update = new ArrayList<>();
+		List<Driver> delete = new ArrayList<>();
+		List<DriverIllegal> drivers = driversService.getAllDriver();
+		int i =0;
+		for (DriverIllegal driver : drivers) {
+			i++;
+			logger.info("第"+i+"条");
+			try {
+				dr = taskDriverService.updateDriver(driver);
+			} catch (Exception e) {
+				logger.info(e.getMessage());
+			}
+			if (dr != null && dr.getState()!=null) {
+				update.add(dr);
+			}else {
+				delete.add(dr);
+			}
+			
+		}
+		if(update.size()>0)
+		driverBatch.updateDriver(update);
+		if(delete.size()>0)
+		driverBatch.deleteDriver(delete);
 	}
 
 }

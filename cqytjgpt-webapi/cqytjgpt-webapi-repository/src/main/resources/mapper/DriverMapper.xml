@@ -624,7 +624,49 @@
 
 
 	</select>
+<update id="updateBatch" parameterType="java.util.List">
 
+		update driver
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="permiCar = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.permicar != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.permicar,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="state = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.state != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.state,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="effectEndTime = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.effectendtime != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.effectendtime,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
 
+		where id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+
+<delete id="deleteBatch" parameterType="java.util.List">
+DELETE FROM driver where idcard in
+<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+			        #{item}  
+			    	</foreach>  
+
+</delete>
 
 </mapper>

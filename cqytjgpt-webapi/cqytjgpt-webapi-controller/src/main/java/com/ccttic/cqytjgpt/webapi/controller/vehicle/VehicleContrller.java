@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -197,7 +199,6 @@ public class VehicleContrller implements Serializable {
 			try {
 				// 调用接口获取车辆基础信息
 				XMLCar xmlCar = queryCarService.selectCarByHpzlHphm(mapVe.get("vehiNoType"), mapVe.get("vehiNo"));
-				// 根据车牌号修改车辆基础信息
 				vehicleService.modifVehicle(xmlCar);
 				resp.success("修改成功！");
 			} catch (Exception e) {
@@ -224,8 +225,16 @@ public class VehicleContrller implements Serializable {
 	public ResponseMsg<Vehicle> qryOneVehicle(@RequestBody Vehicle ve) {
 		ResponseMsg<Vehicle> resp = new ResponseMsg<Vehicle>();
 		Map<String, Object> params = new HashMap<String, Object>();
-		// 过滤掉车牌的前面一位
-		String vehiNo = ve.getVehiNo().substring(1, ve.getVehiNo().length());
+		// 去掉空格
+		String vehiNo = ve.getVehiNo().replace(" ", "");
+		// 匹配除了中文的
+		Pattern pt = Pattern.compile("\\w+");
+		Matcher mc = pt.matcher(vehiNo);
+		if(mc.find()) {
+			// 去掉中文之后的
+			vehiNo = mc.group();
+		}
+		
 		params.put("vehiNo", vehiNo);
 		try {
 			Vehicle vehicle = vehicleService.qryOneVehicle(params);

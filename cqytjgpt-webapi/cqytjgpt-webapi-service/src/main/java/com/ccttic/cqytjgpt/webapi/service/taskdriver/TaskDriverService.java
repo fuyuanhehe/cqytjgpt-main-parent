@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IPendingPaymentService;
+import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryPersonService;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskdriver.ITaskDriverService;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.drillicit.DrIllicitMapper;
@@ -22,6 +23,7 @@ import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.entity.danger.DangerEnums;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.drivers.Driver;
+import com.ccttic.entity.drivers.XMLDriver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.illegal.DrIllicit;
 import com.ccttic.entity.illegal.DrIllicitExample;
@@ -42,6 +44,8 @@ public class TaskDriverService implements ITaskDriverService {
 	private DrDangerMapper drDangerMapper;
 	@Autowired
 	private OrganizationMapper organizationMapper;
+	@Autowired
+	private IQueryPersonService queryPersonService;
 
 	@Override
 	public Map<String, Object> getDriveIllega(DriverIllegal driver) throws Exception {
@@ -143,13 +147,23 @@ public class TaskDriverService implements ITaskDriverService {
 		Organization org = organizationMapper.findOrgByEptId(enterpriseid);
 		String orgNm = essEnterpriseMapper.selectOrgIdbyId(enterpriseid);
 		dr.setOwnerorgid(orgNm);
-		dr.setOwnergener(org.getOrgNm());
+		if (org != null) {
+			dr.setOwnergener(org.getOrgNm());
+		}
 		String[] strs = driver.getState().split(",");
 		for (String string : strs) {
-			dr.setIllicitstate("H".equals(string) ? 1 : 0);
-			dr.setFailurestate("I".equals(string) ? 1 : 0);
-			dr.setOverdueproofstate("M".equals(string) ? 1 : 0);
-			dr.setOverdueexaminestate("S".equals(string) ? 1 : 0);
+			if (dr.getIllicitstate() == null || dr.getIllicitstate() != 1) {
+				dr.setIllicitstate("H".equals(string) ? 1 : 0);
+			}
+			if (dr.getFailurestate() == null || dr.getFailurestate() != 1) {
+				dr.setFailurestate("I".equals(string) ? 1 : 0);
+			}
+			if (dr.getOverdueproofstate() == null || dr.getOverdueproofstate() != 1) {
+				dr.setOverdueproofstate("M".equals(string) ? 1 : 0);
+			}
+			if (dr.getOverdueexaminestate() == null || dr.getOverdueexaminestate() != 1) {
+				dr.setOverdueexaminestate("S".equals(string) ? 1 : 0);
+			}
 		}
 		dr.setFullstudystate(0);
 		if (dr.getIllicitstate() + dr.getFailurestate() + dr.getOverdueexaminestate() + dr.getOverdueproofstate()
@@ -174,4 +188,16 @@ public class TaskDriverService implements ITaskDriverService {
 		}
 		return result;
 	}
+	
+	public Driver updateDriver(Driver driver) throws Exception{
+
+		XMLDriver xmldr = queryPersonService.QueryPersonByIDCard(driver.getIdcard());
+		driver.setEffectendtime(xmldr!=null?xmldr.getYxqz():null);
+		driver.setPermicar(xmldr!=null?xmldr.getZjcx():null);
+		driver.setState(xmldr!=null?xmldr.getZt():null);
+		
+		return driver;
+		
+	}
+	
 }

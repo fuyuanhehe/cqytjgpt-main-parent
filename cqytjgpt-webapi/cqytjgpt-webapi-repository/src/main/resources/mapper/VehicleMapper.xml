@@ -290,5 +290,54 @@
 	<select id="selectByVehicleId" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.VehiIllicit">
   	select * from vehi_illicit where vehicle_id = #{vehicleId} and (isDeleted = 0 or isDeleted is null)
   </select>
-	
+	<update id="updateBatch" parameterType="java.util.List">
+
+		update driver
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="owner = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.owner != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.owner,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="effectStartTime = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.effectStartTime != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.effectStartTime,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="effectEndTime = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.effectEndTime != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.effectEndTime,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="state = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.state != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.state,jdbcType=INTEGER}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+
+		where id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+	<delete id="deleteBatch" parameterType="java.util.List">
+	DELETE FROM vehicle where id in
+	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+	#{item}  
+	</foreach>  
+	</delete>
 </mapper>

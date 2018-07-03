@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.illegal.VehiIllicit;
+import com.ccttic.entity.role.Vehicle;
 
 public interface ICarBatch {
 	
@@ -30,4 +31,14 @@ public interface ICarBatch {
 	 * @param list
 	 */
 	public void updateCarDanger(List<VehiDanger> list);
+
+	/**删除查询不到的车辆
+	 * @param delete
+	 */
+	public void deleteCar(List<Vehicle> delete);
+
+	/**更新车辆信息
+	 * @param update
+	 */
+	public void updateCar(List<Vehicle> update);
 }

@@ -10,5 +10,7 @@ public interface ITaskDriverService {
 	Map<String,Object> getDriveIllega(DriverIllegal driver)  throws Exception;
 	
 	Map<String,Object> getDriverDanger(Driver driver)  throws Exception;
+	
+	public Driver updateDriver(Driver driver) throws Exception;
 
 }
