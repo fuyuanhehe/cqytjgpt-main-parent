@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningservice;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
+import com.ccttic.entity.danger.DangerEnums;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.DrDangerVo;
 import com.ccttic.entity.danger.VehiDanger;
@@ -43,6 +44,16 @@ public class WarningServiceImpl implements IWarningservice{
 		params.put("overdueExamineState", ve.getOverdueexaminestate()==1?true:false);
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<VehiDangerVo> records = mapper.qryVehicleList(params);
+		for (VehiDangerVo vo : records) {
+			if(DangerEnums.EXECUTING.getValue().equals(vo.getCorrectstate())) {
+				vo.setCorrectstate(DangerEnums.EXECUTING.getText());
+			}else if(DangerEnums.NORMAL.getValue().equals(vo.getCorrectstate())) {
+				vo.setCorrectstate(DangerEnums.NORMAL.getText());
+			}else if(DangerEnums.UNEXECUTED.getValue().equals(vo.getCorrectstate())) {
+				vo.setCorrectstate(DangerEnums.UNEXECUTED.getText());
+			}
+			
+		}
 		pager.setTotalRows(totolRols);
 		pager.setRecords(records);
 		return pager;
@@ -62,7 +73,7 @@ public class WarningServiceImpl implements IWarningservice{
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("empType", vo.getEmpType()); // 账号类型
 		params.put("list", vo.getList()); // 企业id
-		params.put("areaId", vo.getAreaId());// 区域
+		params.put("areaId", vo.getAreaCd());// 区域
 		params.put("ownerenterprise", vo.getOwnerenterprise());// 公司
 		params.put("fullStudyState", vo.getFullstudystate()==1?true:false);
 		params.put("illicitState", vo.getIllicitstate()==1?true:false);
@@ -72,6 +83,16 @@ public class WarningServiceImpl implements IWarningservice{
 		params.put("correctstate", vo.getCorrectstate());// 整改进度
 		long totolRols = drMapper.qryDriverListCount(params);
 		List<DrDangerVo> records = drMapper.qryDriverList(params);
+		for (DrDangerVo drDangerVo : records) {
+			if(DangerEnums.EXECUTING.getValue().equals(drDangerVo.getCorrectstate())) {
+				drDangerVo.setCorrectstate(DangerEnums.EXECUTING.getText());
+			}else if(DangerEnums.NORMAL.getValue().equals(drDangerVo.getCorrectstate())) {
+				drDangerVo.setCorrectstate(DangerEnums.NORMAL.getText());
+			}else if(DangerEnums.UNEXECUTED.getValue().equals(drDangerVo.getCorrectstate())) {
+				drDangerVo.setCorrectstate(DangerEnums.UNEXECUTED.getText());
+			}
+			
+		}
 		pager.setTotalRows(totolRols);
 		pager.setRecords(records);
 		return pager;
