@@ -112,8 +112,15 @@ public class VehicleServiceImpl implements IVehicleService {
 	@Override
 	public void modifVehicle(XMLCar xmlCar) throws AppException {
 		Vehicle vehicle = new Vehicle();
+		// 根据编号查询机动车 如果机动车里面有所有人则不修改 否则修改
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("vehiNo", xmlCar.getHphm());
+		Vehicle v = mapper.qryOneVehicle(params);
+		if(v.getOwner()==null || v.getOwner()=="") {
+			// 根据车牌号修改车辆基础信息
+			vehicle.setOwner(xmlCar.getSyr());// 所有人
+		}
 		vehicle.setVehiNo(xmlCar.getHphm());
-		vehicle.setOwner(xmlCar.getSyr());// 所有人
 		vehicle.setEffectStartTime(xmlCar.getCcdjrq());// 初次登记日期
 		vehicle.setEffectEndTime(xmlCar.getYxqz());// 有效结束时间
 		String state = null;
