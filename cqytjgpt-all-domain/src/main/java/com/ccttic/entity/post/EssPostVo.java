@@ -3,6 +3,7 @@ package com.ccttic.entity.post;
 import java.util.List;
 
 import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.role.Department;
 
 public class EssPostVo extends EssPost {
 	/**
@@ -15,6 +16,10 @@ public class EssPostVo extends EssPost {
 	private String depNm;
 	//员工名
 	private List<EssEmployee> emp;
+	//员工类型
+	private String empType;
+	//部门
+	private List<Department> deps;
 	private int page = 1;
 	private int rows = 10;
 	public int getPage() {
@@ -47,16 +52,32 @@ public class EssPostVo extends EssPost {
 	public void setEmp(List<EssEmployee> emp) {
 		this.emp = emp;
 	}
-	public EssPostVo(String orgNm, String depNm, List<EssEmployee> emp) {
+	public String getEmpType() {
+		return empType;
+	}
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
+	public List<Department> getDeps() {
+		return deps;
+	}
+	public void setDeps(List<Department> deps) {
+		this.deps = deps;
+	}
+	public EssPostVo(String orgNm, String depNm, List<EssEmployee> emp, String empType, List<Department> deps, int page,
+			int rows) {
 		super();
 		this.orgNm = orgNm;
 		this.depNm = depNm;
 		this.emp = emp;
+		this.empType = empType;
+		this.deps = deps;
+		this.page = page;
+		this.rows = rows;
 	}
 	public EssPostVo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 	
 }

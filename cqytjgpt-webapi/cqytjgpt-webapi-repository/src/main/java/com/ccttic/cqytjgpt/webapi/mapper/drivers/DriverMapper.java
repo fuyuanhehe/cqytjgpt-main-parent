@@ -2,13 +2,13 @@ package com.ccttic.cqytjgpt.webapi.mapper.drivers;
 
 import java.util.List;
 import java.util.Map;
+
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.entity.drivers.vo.PermiCarsVo;
-import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.employee.EssEmployee;
 
@@ -55,5 +55,17 @@ public interface DriverMapper {
 	
 	// 企业信息-信息记录
 	public List<vehiclesVo>getvehiclesCount(vehiclesVo vehiclesVo);
+	
+	/**批量更新驾驶人信息
+	 * @param update
+	 */
+	public void updateBatch(List<Driver> update);
+	
+	/**
+	 * 批量删除驾驶人信息
+	 * @param delete
+	 */
+	public void deleteBatch(List<String> delete);
+	
 	
 }

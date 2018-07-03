@@ -15,6 +15,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.illegal.VehiIllicit;
+import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 
 @RestController
@@ -44,10 +45,10 @@ public class CarTaskController {
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 			}
-			if (result.get("update") != null) {
+			if (result!=null && result.get("update") != null) {
 				update.addAll((List<VehiIllicit>) (result.get("update")));
 			}
-			if (result.get("insert") != null) {
+			if (result!=null && result.get("insert") != null) {
 				insert.addAll((List<VehiIllicit>) (result.get("insert")));
 			}
 		}
@@ -74,30 +75,47 @@ public class CarTaskController {
 				logger.info(e.getMessage());
 			}
 			
-			if (result.get("update") != null) {
+			if (result!=null && result.get("update") != null) {
 				update.add((VehiDanger) (result.get("update")));
-			}else if (result.get("insert") != null) {
+			}else if (result!=null && result.get("insert") != null) {
 				insert.add((VehiDanger) (result.get("insert")));
 			}
 		}
 		
-		List<Integer> cf = new ArrayList<>();  
-		for (int a = 0; a < insert.size(); a ++) {
-			for (int j = a+1; j < insert.size()-a; j++) {
-				if(insert.get(a).getId().equals(insert.get(j).getId())) {
-					cf.add(a);
-					break;
-				}
-			}
-		}
-		for (Integer integer : cf) {
-			insert.remove((int)integer);
-		}
-		
-
 		if(insert.size()>0)
 		carBatch.addCarDanger(insert);
 		if(update.size()>0)
 		carBatch.updateCarDanger(update);
+	}
+	
+	@RequestMapping("/updateCar")
+	public void updateCar() {
+		
+		Map<String, Object> result = null;
+		List<Vehicle> delete = new ArrayList<>();
+		List<Vehicle> update = new ArrayList<>();
+		List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
+		int i = 0;
+		for (VehicleIllegal vehicle : vehicles) {
+			i++;
+			logger.info("第"+i+"条");
+			try {
+				result = taskCarService.updateCar(vehicle);
+			} catch (Exception e) {
+				logger.info(e.getMessage());
+			}
+			
+			if (result!=null && result.get("update") != null) {
+				update.add((Vehicle) (result.get("update")));
+			}else if (result!=null && result.get("delete") != null) {
+				delete.add((Vehicle) (result.get("delete")));
+			}
+		}
+		
+		
+		if(delete.size()>0)
+		carBatch.deleteCar(delete);
+		if(update.size()>0)
+		carBatch.updateCar(update);
 	}
 }

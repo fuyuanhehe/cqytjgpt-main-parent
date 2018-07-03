@@ -80,10 +80,10 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public Map<String, Object> saveVehicle(VehicleList listMap,String entId) throws AppException {
+	public Map<String, Object> saveVehicle(VehicleList listMap, String entId) throws AppException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int cet = 0;
-		String gather="";
+		String gather = "";
 		List<Map<String, String>> maps = listMap.getListMap();
 		for (int i = 0; i < maps.size(); i++) {
 			Map<String, String> mapVe = maps.get(i);
@@ -96,11 +96,11 @@ public class VehicleServiceImpl implements IVehicleService {
 			params.put("entId", entId);
 			if (mapper.qryOneVehiNo(maps.get(i).get("vehiNo")) != null) {
 				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + maps.get(i).get("vehiNo") + "]已存在！");
-				gather = gather+ "车牌号[" + maps.get(i).get("vehiNo") + "]已存在！";
+				gather = gather + "车牌号[" + maps.get(i).get("vehiNo") + "]已存在！";
 				cet = 1;
 				continue;
 			}
-		
+
 			// 入库
 			mapper.saveVehicle(params);
 		}
@@ -113,10 +113,10 @@ public class VehicleServiceImpl implements IVehicleService {
 	public void modifVehicle(XMLCar xmlCar) throws AppException {
 		Vehicle vehicle = new Vehicle();
 		// 根据编号查询机动车 如果机动车里面有所有人则不修改 否则修改
-		Map<String,Object> params = new HashMap<String,Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("vehiNo", xmlCar.getHphm());
 		Vehicle v = mapper.qryOneVehicle(params);
-		if(v.getOwner()==null || v.getOwner()=="") {
+		if (v.getOwner() == null || v.getOwner() == "" || ("未上报").equals(v.getOwner())) {
 			// 根据车牌号修改车辆基础信息
 			vehicle.setOwner(xmlCar.getSyr());// 所有人
 		}
@@ -127,14 +127,14 @@ public class VehicleServiceImpl implements IVehicleService {
 		if (null != xmlCar.getZt()) {
 			state = stateConvert(xmlCar.getZt());
 		}
-		
+
 		vehicle.setState(state); // 状态
 		mapper.modifVehicle(vehicle);
 	}
 
 	public static String stateConvert(String zt) {
 		String state = "";
-		String [] stait = zt.split(",");
+		String[] stait = zt.split(",");
 		for (int i = 0; i < stait.length; i++) {
 			if (stait[i].equals("违法未处理")) {
 				state += ",G";
@@ -171,18 +171,17 @@ public class VehicleServiceImpl implements IVehicleService {
 		state = state.substring(1);
 		return state;
 	}
-	
+
 	@Override
 	public List<VehicleIllegal> getAllVehicle() {
-		
+
 		return mapper.getAllCar();
 	}
 
 	@Override
 	public String getfenceIdByEssid(String id) {
-		
+
 		return mapper.getfenceIdByEssid(id);
 	}
 
-	
 }

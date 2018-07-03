@@ -50,8 +50,6 @@ public class WarningContrller implements Serializable {
 	@Autowired
 	private IWarningservice warningservice;
 
-	@Autowired
-	private IEnterpriseService enterpriseService;
 
 	/**
 	 * 根据条件获取车辆预警信息
@@ -71,7 +69,7 @@ public class WarningContrller implements Serializable {
 		String empType = null;
 		String username =JWTUtil.getUsername(access_token);
 		// redis get data
-		EmployeeVo vo = (EmployeeVo)redisService.get(username); 
+		EmployeeVo vo = (EmployeeVo)redisService.get(username+Const.TOKEN); 
 		// 2. 判断REDIS是否为空
 		if (null != vo) {
 			ent = vo.getEnt();
@@ -185,7 +183,7 @@ public class WarningContrller implements Serializable {
 		List<EssEnterprise> ent = null;
 		String username = JWTUtil.getUsername(access_token);
 		// redis get data
-		EmployeeVo emp = (EmployeeVo) redisService.get(username);
+		EmployeeVo emp = (EmployeeVo) redisService.get(username+Const.TOKEN);
 
 		try {
 			// 2. 判断REDIS是否为空

@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IIllegalProcessService;
+import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskcar.ITaskCarService;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
+import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.danger.DangerEnums;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.enterprise.EssEnterprise;
@@ -39,6 +41,8 @@ public class TaskCarService implements ITaskCarService {
 	private VehiDangerMapper vehiDangerMapper;
 	@Autowired
 	private OrganizationMapper organizationMapper;
+	@Autowired
+	private IQueryCarService queryCarService;
 
 	@Override
 	public Map<String, Object> getCarIllega(VehicleIllegal vehicle) throws Exception {
@@ -90,14 +94,14 @@ public class TaskCarService implements ITaskCarService {
 				vehiIllicit.setPickdepartmentdesc(xml.getCjjgmc());
 				if (vehiIllicitMapper.selectByPrimaryKey(vehiIllicit.getId()) != null) {
 					update.add(vehiIllicit);
-					
+
 				} else {
 					insert.add(vehiIllicit);
-					
+
 				}
 			}
-			result.put("update", update.size()>0? update:null);
-			result.put("insert", insert.size()>0? insert:null);
+			result.put("update", update.size() > 0 ? update : null);
+			result.put("insert", insert.size() > 0 ? insert : null);
 
 		}
 		return result;
@@ -170,6 +174,25 @@ public class TaskCarService implements ITaskCarService {
 		} else {
 			map.put("insert", vr);
 			map.put("update", null);
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> updateCar(VehicleIllegal vehicle) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		XMLCar car = queryCarService.selectCarByHpzlHphm(vehicle.getVehiNoType(), vehicle.getVehiNo());
+		if(car!=null) {
+			if (vehicle.getOwner() == null || vehicle.getOwner() == "" || ("未上报").equals(vehicle.getOwner())) {
+				// 根据车牌号修改车辆基础信息
+				vehicle.setOwner(car.getSyr());// 所有人
+			}
+			vehicle.setEffectStartTime(car.getCcdjrq());// 初次登记日期
+			vehicle.setEffectEndTime(car.getYxqz());// 有效结束时间
+			vehicle.setState(car.getZt()); // 状态
+			map.put("update", vehicle);
+		}else {
+			map.put("delete", vehicle);
 		}
 		return map;
 	}
