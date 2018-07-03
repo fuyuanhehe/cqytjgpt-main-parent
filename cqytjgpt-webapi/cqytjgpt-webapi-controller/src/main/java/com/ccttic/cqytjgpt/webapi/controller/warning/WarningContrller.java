@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
-import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningservice;
 import com.ccttic.entity.common.ResponseMsg;

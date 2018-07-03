@@ -17,6 +17,7 @@ import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
+import com.ccttic.cqytjgpt.webapi.service.vehicle.VehicleServiceImpl;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.danger.DangerEnums;
 import com.ccttic.entity.danger.VehiDanger;
@@ -43,6 +44,7 @@ public class TaskCarService implements ITaskCarService {
 	private OrganizationMapper organizationMapper;
 	@Autowired
 	private IQueryCarService queryCarService;
+	
 
 	@Override
 	public Map<String, Object> getCarIllega(VehicleIllegal vehicle) throws Exception {
@@ -189,7 +191,7 @@ public class TaskCarService implements ITaskCarService {
 			}
 			vehicle.setEffectStartTime(car.getCcdjrq());// 初次登记日期
 			vehicle.setEffectEndTime(car.getYxqz());// 有效结束时间
-			vehicle.setState(car.getZt()); // 状态
+			vehicle.setState(VehicleServiceImpl.stateConvert(car.getZt())); // 状态
 			map.put("update", vehicle);
 		}else {
 			map.put("delete", vehicle);
