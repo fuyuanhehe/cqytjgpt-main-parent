@@ -48,7 +48,7 @@
 		FROM
 		driver
 		WHERE
-		permiCar != ''
+		permiCar != '' and (isDelete is null OR isDelete !=1)
 	</select>
 
 
@@ -131,8 +131,9 @@
 			and d.nextexaminetime BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
-
-		limit ${startRecord},${pageSize}
+		and (a.isDeleted is null OR a.isDeleted !=1)
+		limit
+		${startRecord},${pageSize}
 	</select>
 	<!-- 驾驶人分页总数 -->
 	<select id="sePageCount" resultType="long">
@@ -189,7 +190,7 @@
 			and d.nextexaminetime BETWEEN #{fistShString} and
 			#{laShString}
 		</if>
-
+		and (a.isDeleted is null OR a.isDeleted !=1)
 	</select>
 	<!--驾驶人违法记录 -->
 	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
@@ -224,8 +225,11 @@
 			</otherwise>
 		</choose>
 		and d.id!='' and d.id = #{id}
+		and (e.isDeleted is null OR e.isDeleted
+		!=1)
 		limit
-		${startRecord} , ${pageSize}
+		${startRecord} ,
+		${pageSize}
 	</select>
 	<select id="seDrillicitByDriverIdCount" parameterType="java.util.Map"
 		resultType="long">
@@ -255,6 +259,7 @@
 		</choose>
 		and d.id!='' and d.id =
 		#{id}
+		and (e.isDeleted is null OR e.isDeleted !=1)
 	</select>
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
@@ -313,9 +318,11 @@
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
+		
+		and (d.isDelete is null OR d.isDelete !=1)
 
-
-		limit ${startRecord} , ${pageSize}
+		limit ${startRecord} ,
+		${pageSize}
 
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
@@ -365,7 +372,7 @@
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
-
+		and (d.isDelete is null OR d.isDelete !=1)
 	</select>
 
 	<!-- 一对多查询关联 -->
@@ -442,7 +449,9 @@
 		<if test="ownerTransport!= null and ownerTransport!='' ">
 			en.ownerTransport = #{ownerTransport}
 		</if>
-		limit ${startRecord} , ${pageSize}
+		and (en.isDeleted is null OR en.isDeleted !=1)
+		limit ${startRecord} ,
+		${pageSize}
 
 	</select>
 
@@ -482,7 +491,7 @@
 		<if test="ownerTransport!= null and ownerTransport!='' ">
 			en.ownerTransport = #{ownerTransport}
 		</if>
-
+		and (en.isDeleted is null OR en.isDeleted !=1)
 	</select>
 	<!--企业信息记录分页 -->
 	<select id="queryVehiclespage" parameterType="java.util.Map"
@@ -530,7 +539,9 @@
 		<if test="vehiType!=null and vehiType!= '' ">
 			AND v.vehiType =#{vehiType}
 		</if>
-		limit ${startRecord} , ${pageSize}
+		and (o.isDeleted is null OR o.isDeleted !=1)
+		limit ${startRecord} ,
+		${pageSize}
 
 	</select>
 	<!-- 分页总数 -->
@@ -567,6 +578,7 @@
 		<if test="vehiType!=null and vehiType!= '' ">
 			AND v.vehiType =#{vehiType}
 		</if>
+		and (o.isDeleted is null OR o.isDeleted !=1)
 	</select>
 	<select id="seEmp" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.employee.EssEmployee">
@@ -605,7 +617,7 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		 and e.id != ''
+		and e.id != ''
 		<if test="orgNm!=null and orgNm!= '' ">
 			AND o.orgNm =#{orgNm}
 		</if>
@@ -621,10 +633,10 @@
 			#{item}
 		</foreach>
 
-
+		and (o.isDeleted is null OR o.isDeleted !=1)
 
 	</select>
-<update id="updateBatch" parameterType="java.util.List">
+	<update id="updateBatch" parameterType="java.util.List">
 
 		update driver
 		<trim prefix="set" suffixOverrides=",">
@@ -661,12 +673,13 @@
 		</foreach>
 	</update>
 
-<delete id="deleteBatch" parameterType="java.util.List">
-DELETE FROM driver where idcard in
-<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-			        #{item}  
-			    	</foreach>  
+	<delete id="deleteBatch" parameterType="java.util.List">
+		DELETE FROM driver where idcard in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
 
-</delete>
+	</delete>
 
 </mapper>
