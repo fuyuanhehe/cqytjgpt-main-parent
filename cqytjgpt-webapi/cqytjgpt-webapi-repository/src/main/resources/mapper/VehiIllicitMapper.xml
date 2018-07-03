@@ -590,7 +590,7 @@
  	<!-- 根据企业编码获取车辆违法信息条数 -->
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
-						WHERE ve.mgrEnterpriseId in
+						WHERE (cit.isDeleted is null or cit.isDeleted !=1) and ve.mgrEnterpriseId in
 				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    </foreach>  
@@ -638,7 +638,7 @@
 			   ,cit.remark,ess.etpNm
 				FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-				WHERE ess.id in
+				WHERE (cit.isDeleted is null or cit.isDeleted !=1) and ess.id in
 				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    </foreach>  
@@ -691,7 +691,7 @@
 			   
 			   ,cit.remark,ess.etpNm
 				FROM (
-						SELECT * FROM vehi_illicit  WHERE id=#{id}
+						SELECT * FROM vehi_illicit  WHERE id=#{id} and (isDeleted is null or isDeleted !=1)
 					 ) cit  
 				LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id

@@ -97,7 +97,7 @@
 	
 	<!-- 根据车牌号获取车辆 -->
 	<select id="qryOneVehiNo" parameterType="java.lang.String" resultMap="Vehicle">
-		SELECT * FROM vehicle WHERE vehiNo =#{vehiNo}
+		SELECT * FROM vehicle WHERE vehiNo =#{vehiNo} and (isDeleted is null or isDeleted !=1)
 	</select>
 	<!-- 根据企业id获取fenced -->
 	<select id="getfenceIdByEssid" parameterType="java.lang.String" resultType="java.lang.String">
@@ -120,10 +120,10 @@
 			 FROM ( SELECT * FROM vehicle
 			 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
-			 		WHERE 1=1
+			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
 			 	</when>
 			 	<otherwise>
-			 		WHERE mgrEnterpriseId in 
+			 		WHERE (isDeleted is null or isDeleted !=1) and mgrEnterpriseId in 
 				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    </foreach>  
@@ -173,10 +173,10 @@
 		select count(1) from vehicle
 		 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
-			 		WHERE 1=1
+			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
 			 	</when>
 			 	<otherwise>
-			 	 where 1=1 and mgrEnterpriseId in 
+			 	 where 1=1  and (isDeleted is null or isDeleted !=1) and mgrEnterpriseId in 
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    	</foreach>  
@@ -231,10 +231,11 @@
 			 ELSE '其他' END  state
 			 ,area.areaNm,ise.etpNm 
 			 FROM (
-				SELECT * FROM vehicle  WHERE vehiNo=#{vehiNo}
+				SELECT * FROM vehicle  WHERE vehiNo=#{vehiNo} and (isDeleted is null or isDeleted !=1)
 			)ve 
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
 			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 
+			
 	</select>
 	
 	<!-- 根据id获取指定车辆的违法信息 -->
@@ -252,7 +253,7 @@
 			  ,cit.remark,ess.etpNm
 		FROM 
 		(
-			SELECT * FROM vehi_illicit  WHERE vehicle_id=#{id}
+			SELECT * FROM vehi_illicit  WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1)
 		) cit
 		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
 		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
@@ -266,7 +267,7 @@
 		SELECT COUNT(1)
 		FROM 
 		(
-			SELECT * FROM vehi_illicit  WHERE vehicle_id=#{id}
+			SELECT * FROM vehi_illicit  WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1)
 		) cit
 		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
 		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
