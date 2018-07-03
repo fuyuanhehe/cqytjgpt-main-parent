@@ -11,4 +11,7 @@ public interface ICarServiceFeign{
 	
 	@RequestMapping("/addCarDanger")
 	public String addCarDanger();
+	
+	@RequestMapping("/updateCar")
+	public String updateCar();
 }

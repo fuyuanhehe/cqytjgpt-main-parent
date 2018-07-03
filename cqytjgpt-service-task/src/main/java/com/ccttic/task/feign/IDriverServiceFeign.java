@@ -11,5 +11,8 @@ public interface IDriverServiceFeign {
 	
 	@RequestMapping("/driverService/addDriverDanger")
 	public String addDriverDanger();
+	
+	@RequestMapping("/driverService/updateCar")
+	public String updateDriver();
 
 }
