@@ -292,7 +292,7 @@
   </select>
 	<update id="updateBatch" parameterType="java.util.List">
 
-		update driver
+		update vehicle
 		<trim prefix="set" suffixOverrides=",">
 			<trim prefix="owner = case" suffix="end,">
 				<foreach collection="list" item="item" index="index">
