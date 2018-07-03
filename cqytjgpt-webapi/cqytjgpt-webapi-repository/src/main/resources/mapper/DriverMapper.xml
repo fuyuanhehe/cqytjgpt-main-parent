@@ -125,7 +125,7 @@
 		</if>
 		<if test="fiString!=null and fiString!=''  ">
 			and d.firstReciveTime BETWEEN #{fiString} and
-			laStrin#{laString}
+			#{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
 			and d.nextexaminetime BETWEEN #{fistShString} and
@@ -183,7 +183,7 @@
 		</if>
 		<if test="fiString!=null and fiString!='' ">
 			and d.firstReciveTime BETWEEN #{fiString} and
-			laStrin#{laString}
+			#{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
 			and d.nextexaminetime BETWEEN #{fistShString} and
@@ -492,7 +492,7 @@
 		e.etpNm,
 		v.vehiNo,
 		v.nature,
-		v.vehiNoType,
+		v.vehiType,
 		v.effectStartTime,
 		v.effectEndTime,
 		v.updateTime,
@@ -527,8 +527,8 @@
 		<if test="etpNm!=null and etpNm!= '' ">
 			AND e.etpNm =#{etpNm}
 		</if>
-		<if test="vehiNoType!=null and vehiNoType!= '' ">
-			AND v.vehiNoType =#{vehiNoType}
+		<if test="vehiType!=null and vehiType!= '' ">
+			AND v.vehiType =#{vehiType}
 		</if>
 		limit ${startRecord} , ${pageSize}
 
@@ -564,8 +564,8 @@
 		<if test="etpNm!=null and etpNm!= '' ">
 			AND e.etpNm =#{etpNm}
 		</if>
-		<if test="vehiNoType!=null and vehiNoType!= '' ">
-			AND v.vehiNoType =#{vehiNoType}
+		<if test="vehiType!=null and vehiType!= '' ">
+			AND v.vehiType =#{vehiType}
 		</if>
 	</select>
 	<select id="seEmp" parameterType="java.util.Map"

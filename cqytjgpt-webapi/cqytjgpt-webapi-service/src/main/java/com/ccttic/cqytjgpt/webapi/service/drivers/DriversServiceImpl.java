@@ -170,7 +170,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("orgNm", vehiclesVo.getOrgNm());
 		params.put("etpNm", vehiclesVo.getEtpNm());
-		params.put("vehiNoType", vehiclesVo.getVehiType());
+		params.put("vehiType", vehiclesVo.getVehiType());
 		params.put("list", vehiclesVo.getQid());
 		params.put("empType", vehiclesVo.getEmpType());
 		pager.setRecords(mapper.queryVehiclespage(params));
