@@ -717,6 +717,9 @@
 		<if test="vehiType!=null and vehiType!='' ">
 			and v.vehiType = #{vehiType}
 		</if>
+		AND e.etpNm != ''
+		AND o.isDeleted IS NULL
+		OR o.isDeleted != 1
 		GROUP BY
 		e.etpNm
 	</select>
@@ -757,6 +760,10 @@
 			and v.vehiType = #{vehiType}
 		</if>
 		and vd.scrappedState = 1
+		AND e.etpNm != ''
+		AND o.isDeleted IS NULL
+		OR
+		o.isDeleted != 1
 		GROUP BY
 		e.etpNm
 	</select>
@@ -797,6 +804,10 @@
 			and v.vehiType = #{vehiType}
 		</if>
 		and vd.illicitState = 1
+		AND e.etpNm != ''
+		AND o.isDeleted IS NULL
+		OR
+		o.isDeleted != 1
 		GROUP BY
 		e.etpNm
 	</select>
@@ -840,6 +851,9 @@
 			and vd.vehiType = #{vehiType}
 		</if>
 		and vd.overdueExamineState = 1
+		AND e.etpNm != ''
+		AND o.isDeleted IS NULL
+		OR o.isDeleted != 1
 		GROUP BY
 		e.etpNm
 	</select>

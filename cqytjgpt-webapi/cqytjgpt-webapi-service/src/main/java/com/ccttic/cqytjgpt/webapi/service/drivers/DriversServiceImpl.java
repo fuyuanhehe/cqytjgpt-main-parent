@@ -217,77 +217,75 @@ public class DriversServiceImpl implements DriversService {
 		List<VehicleCountVo> vehilist = new ArrayList<>();
 		List<VehicleCountVo> vehicCount = new ArrayList<>();
 
-		for (VehicleCountVo vehicleCountVo : count) {
-			VehicleCountVo vehic = new VehicleCountVo();
+		lableB: 
+			for (VehicleCountVo vehicleCountVo : count) {
+				VehicleCountVo vehic = new VehicleCountVo();
 
-			for (VehicleCountVo vehicount : bcount) {
-				if (vehicleCountVo.getEtpNm().equals(vehicount.getEtpNm() )) {
-					vehic.setEtpNm(vehicleCountVo.getEtpNm());
-					vehic.setvCount(vehicleCountVo.getvCount());
-					vehic.setOverCount( vehicount.getvCount());
-					list.add(vehic); 
-
-				}else {
-					vehic.setvCount(vehicleCountVo.getvCount());
-					vehic.setEtpNm(vehicleCountVo.getEtpNm());
-					vehic.setOverCount(0);
-					list.add(vehic);continue;
+				for (VehicleCountVo vehicount : bcount) {
+					if (vehicleCountVo.getEtpNm().equals(vehicount.getEtpNm() )) {
+						vehic.setEtpNm(vehicleCountVo.getEtpNm());
+						vehic.setvCount(vehicleCountVo.getvCount());
+						vehic.setOverCount( vehicount.getvCount());
+						list.add(vehic); 
+						continue lableB;
+					}
 				}
+				vehic.setvCount(vehicleCountVo.getvCount());
+				vehic.setEtpNm(vehicleCountVo.getEtpNm());
+				vehic.setOverCount(0);
+				list.add(vehic); 
 
 			}
+		out:
+			for (VehicleCountVo vehicleCountVo : list) {
+				VehicleCountVo vehic = new VehicleCountVo();
 
-		}
-		for (VehicleCountVo vehicleCountVo : list) {
-			VehicleCountVo vehic = new VehicleCountVo();
-
-			for (VehicleCountVo vehicleCountVoyc : wcount) {
-				if (vehicleCountVo.getEtpNm().equals(vehicleCountVoyc.getEtpNm() )) {
-					vehic.setIllicitCount( vehicleCountVoyc.getvCount() );
-					vehic.setvCount( vehicleCountVo.getvCount());
-					vehic.setOverCount(vehicleCountVo.getOverCount() );
-					vehilist.add(vehic);
-
-				} else {
-					vehic.setEtpNm(vehicleCountVo.getEtpNm());
-					vehic.setIllicitCount(0);
-					vehic.setvCount( vehicleCountVo.getvCount());
-					vehic.setOverCount(vehicleCountVo.getOverCount() );
-					vehilist.add(vehic);	continue;
-					
+				for (VehicleCountVo vehicleCountVoyc : wcount) {
+					if (vehicleCountVo.getEtpNm().equals(vehicleCountVoyc.getEtpNm() )) {
+						vehic.setEtpNm(vehicleCountVo.getEtpNm());
+						vehic.setIllicitCount( vehicleCountVoyc.getvCount() );
+						vehic.setvCount( vehicleCountVo.getvCount());
+						vehic.setOverCount(vehicleCountVo.getOverCount() );
+						vehilist.add(vehic);
+						continue out ;
+					} 
 				}
-			
+				vehic.setEtpNm(vehicleCountVo.getEtpNm());
+				vehic.setIllicitCount(0);
+				vehic.setvCount( vehicleCountVo.getvCount());
+				vehic.setOverCount(vehicleCountVo.getOverCount() );
+				vehilist.add(vehic);	
+
 			}
-			
-		}
+			dnag:
+				for (VehicleCountVo velc : vehilist) {
+					VehicleCountVo vehics = new VehicleCountVo();
 
-		for (VehicleCountVo velc : vehilist) {
-			VehicleCountVo vehics = new VehicleCountVo();
-
-			for (VehicleCountVo ycountts : ycount) {
-				if (velc.getEtpNm().equals(ycountts.getEtpNm() )) {
-					vehics.setEtpNm( velc.getEtpNm());
-					vehics.setvCount(velc.getvCount() );
-					vehics.setOverCount(velc.getOverCount() );
-					vehics.setIllicitCount(velc.getIllicitCount());
-					vehics.setScraCount(ycountts.getvCount() );
-					vehics.setzCount( velc.getvCount() - velc.getOverCount() );
-					vehicCount.add(vehics);
-
-				} 	 else {
+					for (VehicleCountVo ycountts : ycount) {
+						if (velc.getEtpNm().equals(ycountts.getEtpNm() )) {
+							vehics.setEtpNm( velc.getEtpNm());
+							vehics.setvCount(velc.getvCount() );
+							vehics.setOverCount(velc.getOverCount() );
+							vehics.setIllicitCount(velc.getIllicitCount());
+							vehics.setScraCount(ycountts.getvCount() );
+							vehics.setzCount( velc.getvCount() - velc.getOverCount() );
+							vehicCount.add(vehics);
+							continue dnag;
+						} 	 
+					}
 					vehics.setEtpNm(velc.getEtpNm());
 					vehics.setvCount(velc.getvCount() );
 					vehics.setOverCount(velc.getOverCount() );
 					vehics.setIllicitCount(velc.getIllicitCount());
 					vehics.setScraCount(0);
 					vehics.setzCount( velc.getvCount() - velc.getOverCount() );
-					vehicCount.add(vehics); continue;
+					vehicCount.add(vehics); 
 				}
-			}
-			
-		}
 
-		return vehicCount;
+			return vehicCount;
 
 	}
+
+
 
 }
