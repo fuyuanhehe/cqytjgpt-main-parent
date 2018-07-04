@@ -121,7 +121,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			org.put(organization.getOrgCd(), organization);
 			}
 		}
-		if(org!=null) {
+		if(organization!=null && org!=null) {
 		orgs.add(org.get(organization.getOrgNm()));
 		}
 		// 员工能使用的菜单,员工角色
