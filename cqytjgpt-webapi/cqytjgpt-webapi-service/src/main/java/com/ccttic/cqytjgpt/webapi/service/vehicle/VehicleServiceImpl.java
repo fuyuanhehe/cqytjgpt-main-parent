@@ -179,7 +179,7 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public String getfenceIdByEssid(String id) {
+	public List<String> getfenceIdByEssid(String id) {
 
 		return mapper.getfenceIdByEssid(id);
 	}

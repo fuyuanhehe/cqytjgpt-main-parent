@@ -86,7 +86,7 @@ public interface VehicleMapper {
 	//根据车辆id获取数据库违章信息
 	List<VehiIllicit>selectByVehicleId(String vehicleId);
 
-	public String getfenceIdByEssid(String id);
+	public List<String> getfenceIdByEssid(String id);
 
 	/**批量更新车辆信息
 	 * @param update

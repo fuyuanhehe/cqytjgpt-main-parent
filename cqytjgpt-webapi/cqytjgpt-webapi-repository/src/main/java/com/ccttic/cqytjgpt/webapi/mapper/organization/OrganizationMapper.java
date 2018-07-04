@@ -81,4 +81,11 @@ public interface OrganizationMapper {
 	 */
 	public List<String> getLastOrg(@Param("id") String id);
 	
+	/**
+	 * 获取所有最下层组织
+	 * @param id
+	 * @return
+	 */
+	public List<String> getAllLastOrg();
+	
 }

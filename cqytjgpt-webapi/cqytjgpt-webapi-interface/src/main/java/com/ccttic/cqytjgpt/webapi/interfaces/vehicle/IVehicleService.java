@@ -58,6 +58,6 @@ public interface IVehicleService {
 	
 	public List<VehicleIllegal> getAllVehicle();
 
-	public String getfenceIdByEssid(String id);
+	public List<String> getfenceIdByEssid(String id);
 	
 }

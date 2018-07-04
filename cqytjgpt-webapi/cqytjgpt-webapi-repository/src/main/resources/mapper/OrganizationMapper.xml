@@ -98,5 +98,11 @@
 	<select id="getLastOrg" parameterType="java.lang.String" resultType="java.lang.String">
 		select id from ess_organization where superOrg_id =#{id} and isDeleted is null or isDeleted = 0
 	</select>
+	
+	
+	<!-- 获取所有组织id -->
+	<select id="getAllLastOrg" parameterType="java.lang.String" resultType="java.lang.String">
+		select id from ess_organization where orgType = "2" and (isDeleted is null or isDeleted = 0)
+	</select>
 
 </mapper>

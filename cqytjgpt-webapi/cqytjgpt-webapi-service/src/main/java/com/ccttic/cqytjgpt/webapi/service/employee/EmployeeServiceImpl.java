@@ -2,8 +2,10 @@ package com.ccttic.cqytjgpt.webapi.service.employee;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -110,12 +112,15 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		List<EssEnterprise> ent = entMapper.getEssEnterprise(emp.getId());
 		emp.setEnt(ent);
 		// 员工所在组织
-		List<Organization> orgs = new ArrayList<>();
+		Map<String,Organization> org = new HashMap<>();
+		Organization organization = null;
+		List<Organization> orgs= new ArrayList<>();
 		for (Department department : deps) {
-			Organization org = empMapper.selectOrgByDepId(department.getId());
-			orgs.add(org);
+			 organization = empMapper.selectOrgByDepId(department.getId());
+			
+			org.put(organization.getOrgCd(), organization);
 		}
-		emp.setOrgs(orgs);
+		orgs.add(org.get(organization.getOrgNm()));
 		// 员工能使用的菜单,员工角色
 		EmployeeVo datas = service.seRole_MenuById(emp.getId());
 		emp.setMenus(datas.getMenus());

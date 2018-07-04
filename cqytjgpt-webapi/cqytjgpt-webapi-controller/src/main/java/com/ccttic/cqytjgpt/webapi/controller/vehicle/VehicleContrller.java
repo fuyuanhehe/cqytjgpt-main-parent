@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -26,6 +27,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -70,6 +72,9 @@ public class VehicleContrller implements Serializable {
 	private RedisService<EmployeeVo> redisService;
 	@Autowired
 	private VehicleFrign frign;
+	@Autowired
+	private OrganizationMapper organizationMapper;
+	
 	/**
 	 * 根据条件获取车辆基本信息
 	 * 
@@ -332,6 +337,7 @@ public class VehicleContrller implements Serializable {
 	 * @param id
 	 * @return
 	 */
+	
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_TRACK, name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -355,13 +361,31 @@ public class VehicleContrller implements Serializable {
 			vo= employee;
 			redisService.set(username+Const.TOKEN,employee, Const.USER_REDIS_LIVE);
 		}
-		String fenceCd=null;
 		List<JSON> list = new ArrayList<JSON>();
-		for( EssEnterprise ee:vo.getEnt()) {
-			fenceCd=vehicleService.getfenceIdByEssid(ee.getId());
-			String s = frign.vehicleInfoList(token,"0",fenceCd);
-			list.add(JSON.parseObject(s)); 
+		List<String> area =new ArrayList<String>();
+
+		if ("0".equals(vo.getOrgs().get(0).getOrgType())) {
+			area =vehicleService.getfenceIdByEssid("");
+			
+			
+		} else if ("1".equals(vo.getOrgs().get(0).getOrgType())) {
+			List <String> orgs = organizationMapper.getLastOrg(vo.getOrgs().get(0).getId());
+			for (String str : orgs) {
+				List<String> areaList = vehicleService.getfenceIdByEssid(str);
+				if(areaList.size()>0) {
+				area.add(areaList.get(0));
+				}
+			}
+			
+		} else {
+			area = organizationMapper.getLastOrg(vo.getOrgs().get(0).getId());
 		}
+			for (String string : area) {
+				String s = frign.vehicleInfoList(token,"0",string);
+				list.add(JSON.parseObject(s)); 
+			}
+			
+		
 		resp.setData(list);
 		resp.success("查询成功！");
 		return resp;
