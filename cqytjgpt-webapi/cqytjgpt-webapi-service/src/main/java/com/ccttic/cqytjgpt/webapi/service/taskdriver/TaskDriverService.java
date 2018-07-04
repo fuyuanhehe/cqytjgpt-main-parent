@@ -194,7 +194,18 @@ public class TaskDriverService implements ITaskDriverService {
 		XMLDriver xmldr = queryPersonService.QueryPersonByIDCard(driver.getIdcard());
 		driver.setEffectendtime(xmldr!=null?xmldr.getYxqz():null);
 		driver.setPermicar(xmldr!=null?xmldr.getZjcx():null);
-		driver.setState(xmldr!=null?xmldr.getZt():null);
+		String str ="";
+		if(xmldr!=null) {
+			char[] state = xmldr.getZt().toCharArray();
+			for (int i = 0; i < state.length; i++) {
+				if(i!=0) {
+					str=str+",";
+				}
+				str=str+state[i];
+					
+			}
+		}
+		driver.setState(str!=""?str:null);
 		
 		return driver;
 		
