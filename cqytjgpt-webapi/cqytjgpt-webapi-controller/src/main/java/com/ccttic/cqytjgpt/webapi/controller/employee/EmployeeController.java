@@ -146,59 +146,56 @@ public class EmployeeController {
 
 		return response;
 	}
-    //分页显示所有员工
-	@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
-	@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
-			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token,
-			@RequestBody EssEmployeeVo emp) {
-		ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
-		
-		List<String> list = new ArrayList<String>();
-		List<EssEnterprise> ent = null;
-		String empType = null;
-		List<Department> deps = null;
-		String username =JWTUtil.getUsername(access_token);
-		// redis get data
-		EmployeeVo vo = (EmployeeVo)redisService.get(username); 
-		// 2. 判断REDIS是否为空
-		if (null != vo) {
-			ent = vo.getEnt();
-			empType = vo.getEmptype();
-			deps = vo.getDeps();
-		} else {
-			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-			ent=employee.getEnt();
-			empType = employee.getEmptype();
-			deps = employee.getDeps();
-			//3. 更新redis里用户缓存
-			redisService.set(username,employee, Const.USER_REDIS_LIVE);
+	// 分页显示所有员工
+		@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+		@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+				@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+				@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+		public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token,
+				@RequestBody EssEmployeeVo emp) {
+			ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
+
+			String empType = null;
+			List<Department> deps = null;
+			String username = JWTUtil.getUsername(access_token);
+			// redis get data
+			EmployeeVo vo = (EmployeeVo) redisService.get(username+Const.TOKEN);
+			// 2. 判断REDIS是否为空
+			if (null != vo) {
+
+				empType = vo.getEmptype();
+				deps = vo.getDeps();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				empType = employee.getEmptype();
+				deps = employee.getDeps();
+				// 3. 更新redis里用户缓存
+				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+			}
+
+			emp.setDes(deps);
+			emp.setEmpType(empType);
+
+			try {
+
+				PageRequest page = new PageRequest();
+				page.setPage(emp.getPage());
+				page.setRows(emp.getRows());
+				Page<EssEmployeeVo> pager = employeeService.selectEmployee(page, emp);
+
+				rm.setData(pager);
+				rm.setMessage("获取employee数据成功");
+				rm.setStatus(0);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+
+				rm.setMessage("获取employee数据失败");
+				rm.setStatus(-1);
+				logger.error("获取employee数据失败", e);
+			}
+
+			return rm;
 		}
-		
-		emp.setDes(deps);
-		emp.setEmpType(empType);
-		
-		try {
-			
-			PageRequest page = new PageRequest();
-			page.setPage(emp.getPage());
-			page.setRows(emp.getRows());
-			Page<EssEmployeeVo> pager = employeeService.selectEmployee(page, emp);
-
-			rm.setData(pager);
-			rm.setMessage("获取employee数据成功");
-			rm.setStatus(0);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-
-			rm.setMessage("获取employee数据失败");
-			rm.setStatus(-1);
-			logger.error("获取employee数据失败", e);
-		}
-
-		return rm;
-	}
 	
 	@RequestMapping(value = "/refreshtoken", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
