@@ -52,25 +52,9 @@ public class DriversServiceImpl implements DriversService {
 		params.put("telphone", driverVo.getTelphone());
 		params.put("list", driverVo.getQid());
 		params.put("empType", driverVo.getEmpType()); // 账号类型
-		List<DriverVo> data = mapper.seDriverPage(params);
-		/*		if(ObjectHelper.isEmpty(ids)){
-			List<DriverVo> list = new ArrayList<>();   	   
-			for (DriverVo driver : data) {
-				driver.setAdress("");
-				driver.setMgrdepart("");
-				driver.setTelphone("");
-				driver.setScoretotal("");
-				driver.setExamineeffectendtime("");
-				driver.setEffectendtime("");
-				driver.setEffectstarttime("");
-				list.add(driver);
-			}
-			pager.setTotalRows( mapper.sePageCount(params));
-			pager.setRecords(list);
-		}  */  
 
 		pager.setTotalRows( mapper.sePageCount(params));
-		pager.setRecords(data);
+		pager.setRecords(mapper.seDriverPage(params));
 
 		return pager;
 	}
@@ -106,15 +90,12 @@ public class DriversServiceImpl implements DriversService {
 		params.put("laString", driver.getLaString());
 		params.put("list", driver.getQid());
 		params.put("empType", driver.getEmpType()); // 账号类型
-		List<DriverillicitVo> data = mapper.seDr_illicitPages(params);
-		long count = mapper.getDriverPageCount(params);
 
-		pager.setRecords(data);
-		pager.setTotalRows(count);
+		pager.setRecords(mapper.seDr_illicitPages(params));
+		pager.setTotalRows(mapper.getDriverPageCount(params));
 
 		return pager;
 	}
-
 
 	@Override
 	@Transactional
@@ -125,9 +106,7 @@ public class DriversServiceImpl implements DriversService {
 			driver2.setId(RandomHelper.uuid());
 			list.add(driver2);
 		}
-
 		mapper.insertSelective(list);
-
 	}
 
 	@Override
@@ -182,7 +161,6 @@ public class DriversServiceImpl implements DriversService {
 
 		return pager;
 	}
-
 
 	@Override
 	public List<PermiCarsVo> getAllpermiCar() {
