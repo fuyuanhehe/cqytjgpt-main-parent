@@ -317,7 +317,7 @@
 		</if>
 		<if test="fiString!=null and fiString!='' ">
 			and d.firstReciveTime BETWEEN #{fiString} and
-			laStrin#{laString}
+			#{laString}
 		</if>
 
 		and (d.isDelete is null OR d.isDelete !=1)
@@ -371,7 +371,7 @@
 		</if>
 		<if test="fiString!=null and fiString!='' ">
 			and d.firstReciveTime BETWEEN #{fiString} and
-			laStrin#{laString}
+			#{laString}
 		</if>
 		and (d.isDelete is null OR d.isDelete !=1)
 	</select>

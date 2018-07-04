@@ -49,6 +49,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("laString", driverVo.getLaString());
 		params.put("fistShString", driverVo.getFistShString());
 		params.put("laShString", driverVo.getLaShString());
+		params.put("mobilephone", driverVo.getMobilephone());
 		params.put("list", driverVo.getQid());
 		params.put("empType", driverVo.getEmpType()); // 账号类型
 		List<DriverVo> data = mapper.seDriverPage(params);
