@@ -49,7 +49,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("laString", driverVo.getLaString());
 		params.put("fistShString", driverVo.getFistShString());
 		params.put("laShString", driverVo.getLaShString());
-		params.put("mobilephone", driverVo.getMobilephone());
+		params.put("telphone", driverVo.getTelphone());
 		params.put("list", driverVo.getQid());
 		params.put("empType", driverVo.getEmpType()); // 账号类型
 		List<DriverVo> data = mapper.seDriverPage(params);
@@ -183,7 +183,7 @@ public class DriversServiceImpl implements DriversService {
 		return pager;
 	}
 
-	
+
 	@Override
 	public List<PermiCarsVo> getAllpermiCar() {
 
@@ -226,13 +226,16 @@ public class DriversServiceImpl implements DriversService {
 					vehic.setvCount(vehicleCountVo.getvCount());
 					vehic.setOverCount( vehicount.getvCount());
 					list.add(vehic); 
-					continue;
+
+				}else {
+					vehic.setvCount(vehicleCountVo.getvCount());
+					vehic.setEtpNm(vehicleCountVo.getEtpNm());
+					vehic.setOverCount(0);
+					list.add(vehic);continue;
 				}
+
 			}
-			vehic.setvCount(vehicleCountVo.getvCount());
-			vehic.setEtpNm(vehicleCountVo.getEtpNm());
-			vehic.setOverCount(0);
-			list.add(vehic);
+
 		}
 		for (VehicleCountVo vehicleCountVo : list) {
 			VehicleCountVo vehic = new VehicleCountVo();
@@ -243,43 +246,48 @@ public class DriversServiceImpl implements DriversService {
 					vehic.setvCount( vehicleCountVo.getvCount());
 					vehic.setOverCount(vehicleCountVo.getOverCount() );
 					vehilist.add(vehic);
-					continue;
-				}
 
+				} else {
+					vehic.setEtpNm(vehicleCountVo.getEtpNm());
+					vehic.setIllicitCount(0);
+					vehic.setvCount( vehicleCountVo.getvCount());
+					vehic.setOverCount(vehicleCountVo.getOverCount() );
+					vehilist.add(vehic);	continue;
+					
+				}
+			
 			}
-			vehic.setEtpNm(vehicleCountVo.getEtpNm());
-			vehic.setIllicitCount(0);
-			vehic.setvCount( vehicleCountVo.getvCount());
-			vehic.setOverCount(vehicleCountVo.getOverCount() );
-			vehilist.add(vehic);
+			
 		}
 
 		for (VehicleCountVo velc : vehilist) {
 			VehicleCountVo vehics = new VehicleCountVo();
 
 			for (VehicleCountVo ycountts : ycount) {
-				if (velc.getEtpNm().equals(ycountts.getEtpNm() )) {	
+				if (velc.getEtpNm().equals(ycountts.getEtpNm() )) {
+					vehics.setEtpNm( velc.getEtpNm());
 					vehics.setvCount(velc.getvCount() );
 					vehics.setOverCount(velc.getOverCount() );
 					vehics.setIllicitCount(velc.getIllicitCount());
 					vehics.setScraCount(ycountts.getvCount() );
 					vehics.setzCount( velc.getvCount() - velc.getOverCount() );
 					vehicCount.add(vehics);
-					continue;
+
+				} 	 else {
+					vehics.setEtpNm(velc.getEtpNm());
+					vehics.setvCount(velc.getvCount() );
+					vehics.setOverCount(velc.getOverCount() );
+					vehics.setIllicitCount(velc.getIllicitCount());
+					vehics.setScraCount(0);
+					vehics.setzCount( velc.getvCount() - velc.getOverCount() );
+					vehicCount.add(vehics); continue;
 				}
 			}
-			vehics.setEtpNm(velc.getEtpNm());
-			vehics.setvCount(velc.getvCount() );
-			vehics.setOverCount(velc.getOverCount() );
-			vehics.setIllicitCount(velc.getIllicitCount());
-			vehics.setScraCount(0);
-			vehics.setzCount( velc.getvCount() - velc.getOverCount() );
-			vehicCount.add(vehics);
+			
 		}
 
 		return vehicCount;
 
 	}
-	
 
 }

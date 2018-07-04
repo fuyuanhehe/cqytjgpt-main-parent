@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 //@FeignClient注解接名该接口通过指定的的“CQJXJ-INTERFACES”服务名，找到资源服务
 //feign默认实现了负载均衡,如果CQJXJ-INTERFACES资源服务启动多个时，默认是轮询调用
-@FeignClient(name="cqjxj-interfaces", url="http://10.10.20.21:8084")
+@FeignClient(name="cqjxj-interfaces", url="${urls.jxj-url}")
 public interface WebServiceFeign {
     /**
      * 这里@requestMapping里指定的路径就是cqjxj-interface工程里的controller里的/ws/queryObject路径

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name="lkywjxj-service", url="http://10.10.20.34:9100")
+@FeignClient(name="lkywjxj-service", url="${urls.ypt-url}")
 public interface VehicleFrign {
 	
 	/**
