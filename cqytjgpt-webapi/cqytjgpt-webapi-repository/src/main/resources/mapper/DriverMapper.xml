@@ -297,7 +297,7 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		<if test="driverid!=null and driverid!= '' ">
+		<if test="id!=null and id!= '' ">
 			and d.id = #{id}
 		</if>
 		<if test="name!=null and name!='' ">
@@ -351,8 +351,8 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		<if test="driverid!=null and driverid!= '' ">
-			and d.id = #{driverid}
+		<if test="id!=null and id!= '' ">
+			and d.id = #{id}
 		</if>
 		<if test="name!=null and name!='' ">
 			and d.name = #{name}
