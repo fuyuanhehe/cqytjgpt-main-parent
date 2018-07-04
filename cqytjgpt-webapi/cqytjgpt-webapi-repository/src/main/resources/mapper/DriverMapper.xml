@@ -120,8 +120,8 @@
 		<if test="id!=null and id!='' ">
 			and d.id = #{id}
 		</if>
-		<if test="mobilephone!=null and mobilephone!='' ">
-			and d.mobilephone = #{mobilephone}
+		<if test="telphone!=null and telphone!='' ">
+			and d.telphone = #{telphone}
 		</if>
 		<if test="fiString!=null and fiString!=''  ">
 			and d.firstReciveTime BETWEEN #{fiString} and
@@ -179,8 +179,8 @@
 		<if test="id!=null and id!='' ">
 			and d.id = #{id}
 		</if>
-		<if test="mobilephone!=null and mobilephone!='' ">
-			and d.mobilephone = #{mobilephone}
+		<if test="telphone!=null and telphone!='' ">
+			and d.telphone = #{telphone}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
 			and d.firstReciveTime BETWEEN #{fiString} and
