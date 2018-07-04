@@ -124,7 +124,7 @@
 			 	</when>
 			 	<otherwise>
 			 		WHERE (isDeleted is null or isDeleted !=1)
-			 		<if test="list != null">
+			 		<if test="list != null and list.size()>0">
 					and mgrEnterpriseId in 
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
@@ -181,7 +181,7 @@
 			 	</when>
 			 	<otherwise>
 			 	 where 1=1  and (isDeleted is null or isDeleted !=1) 
-			 	 <if test="list != null">
+			 	 <if test="list != null and list.size()>0">
 			 	 and mgrEnterpriseId in 
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  

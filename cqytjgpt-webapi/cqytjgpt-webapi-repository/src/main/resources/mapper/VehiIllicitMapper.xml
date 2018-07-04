@@ -591,8 +591,8 @@
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
 						WHERE (cit.isDeleted is null or cit.isDeleted !=1)
-				<if test="list != null">
-					 and ve.mgrEnterpriseId in
+				<if test="list != null and list.size()>0">
+							 and ve.mgrEnterpriseId in
 				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    </foreach>  
@@ -643,7 +643,7 @@
 				FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
 				WHERE (cit.isDeleted is null or cit.isDeleted !=1) 
-				<if test="list != null">
+				<if test="list != null and list.size()>0">
 					and ess.id in 
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
