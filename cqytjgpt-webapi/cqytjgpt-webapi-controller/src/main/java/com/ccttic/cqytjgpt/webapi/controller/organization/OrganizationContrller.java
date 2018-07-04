@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
@@ -54,8 +53,7 @@ public class OrganizationContrller implements Serializable {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/findHeadOrg", produces = "text/plain;charset=UTF-8")
-	@ResponseBody
+	@RequestMapping(value = "/findHeadOrg")
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -71,6 +69,7 @@ public class OrganizationContrller implements Serializable {
 			resp.fail("获取信息失败！");
 			logger.error(e.getMessage());
 		}
+		System.out.println(resp);
 		return resp;
 	}
 
@@ -82,7 +81,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return 下级节点
 	 */
 	@RequestMapping(value = "/findNextNode", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.GET_NEXT_NODE, name = "获取下级节点", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -109,7 +107,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/findOrgByOrgCd", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.GET_ORGANIZATION, name = "获取组织信息", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -138,7 +135,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/saveOrg", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_ORGANIZATION, name = "创建组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -164,7 +160,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/editOrg", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_ORGANIZATION, name = "修改组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -189,7 +184,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return 下级节点
 	 */
 	@RequestMapping(value = "/removeOrg", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ORGANIZATION, name = "删除组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -213,7 +207,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/findOrgDepartment", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.GET_DEPARTMENT, name = "获取部门信息", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -243,7 +236,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/saveDepartment", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_DEPARTMENT, name = "创建部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -268,7 +260,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/editDepartment", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_DEPARTMENT, name = "修改部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -292,7 +283,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/removeDepartment", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_DEPARTMENT, name = "删除部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -318,7 +308,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/saveEnterprise", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_ENTERPRISE, name = "创建企业", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
@@ -342,7 +331,6 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/getArea", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
 	public ResponseMsg<List<Area>> getArea() {
 		ResponseMsg<List<Area>> resp = new ResponseMsg<List<Area>>();
 		try {
