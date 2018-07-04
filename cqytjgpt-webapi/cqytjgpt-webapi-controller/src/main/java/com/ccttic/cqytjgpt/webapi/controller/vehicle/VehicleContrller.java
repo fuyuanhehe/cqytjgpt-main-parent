@@ -368,7 +368,7 @@ public class VehicleContrller implements Serializable {
 		List<JSON> list = new ArrayList<JSON>();
 		List<String> area = new ArrayList<String>();
 
-		if (vo != null && vo.getOrgs().size() > 0) {
+		if (vo.getOrgs() != null && vo.getOrgs().size() > 0) {
 			if ("0".equals(vo.getOrgs().get(0).getOrgType())) {
 				area = vehicleService.getfenceIdByEssid("");
 
