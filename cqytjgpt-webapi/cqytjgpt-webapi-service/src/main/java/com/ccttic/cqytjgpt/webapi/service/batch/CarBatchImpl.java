@@ -26,46 +26,46 @@ public class CarBatchImpl implements ICarBatch {
 
 	@Override
 	public void addCarIllegal(List<VehiIllicit> list) {
-		
+
 		List<VehiIllicit> saveTargets = new ArrayList<VehiIllicit>();
-		
+
 		List<Integer> cf = new ArrayList<>();
-		
+
 		for (int a = 0; a < list.size(); a++) {
-			
+
 			for (int j = a + 1; j < list.size() - a; j++) {
-				
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
-					
+
+				if (list.get(a).getId().equals(list.get(j).getId())) {
+
 					cf.add(a);
-					
+
 					break;
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		for (Integer integer : cf) {
-			
+
 			list.remove((int) integer);
-			
+
 		}
-		
+
 		for (VehiIllicit quotaResult : list) {
 
 			saveTargets.add(quotaResult);
 
 			if (saveTargets.size() > 0 && (saveTargets.size() % 100) == 0) { // 每100条提交
-				
+
 				vehiIllicitMapper.insertBatch(list); // 保存当前批次后清楚历史
-				
+
 				saveTargets.clear();
-				
+
 			}
-			
+
 		}
-		
+
 		if (!CollectionUtils.isEmpty(saveTargets)) {
 			// saveTargets 只有1～99条时
 			vehiIllicitMapper.insertBatch(list);
@@ -75,33 +75,33 @@ public class CarBatchImpl implements ICarBatch {
 
 	@Override
 	public void addCarDanger(List<VehiDanger> list) {
-		
+
 		List<VehiDanger> saveTargets = new ArrayList<VehiDanger>();
-		
+
 		List<Integer> cf = new ArrayList<>();
-		
+
 		for (int a = 0; a < list.size(); a++) {
-			
+
 			for (int j = a + 1; j < list.size() - a; j++) {
-				
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
-					
+
+				if (list.get(a).getId().equals(list.get(j).getId())) {
+
 					cf.add(a);
-					
+
 					break;
-					
+
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		for (Integer integer : cf) {
-			
+
 			list.remove((int) integer);
-			
+
 		}
-		
+
 		for (VehiDanger quotaResult : list) {
 
 			saveTargets.add(quotaResult);
@@ -112,7 +112,7 @@ public class CarBatchImpl implements ICarBatch {
 				saveTargets.clear();
 			}
 		}
-		
+
 		if (!CollectionUtils.isEmpty(saveTargets)) {
 			// saveTargets 只有1～99条时
 			vehiDangerMapper.insertBatch(saveTargets);
@@ -122,33 +122,33 @@ public class CarBatchImpl implements ICarBatch {
 
 	@Override
 	public void updateCarIllegal(List<VehiIllicit> list) {
-		
+
 		List<VehiIllicit> saveTargets = new ArrayList<VehiIllicit>();
-		
+
 		List<Integer> cf = new ArrayList<>();
-		
+
 		for (int a = 0; a < list.size(); a++) {
-			
+
 			for (int j = a + 1; j < list.size() - a; j++) {
-				
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
-					
+
+				if (list.get(a).getId().equals(list.get(j).getId())) {
+
 					cf.add(a);
-					
+
 					break;
-					
+
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		for (Integer integer : cf) {
-			
+
 			list.remove((int) integer);
-			
+
 		}
-		
+
 		for (VehiIllicit quotaResult : list) {
 
 			saveTargets.add(quotaResult);
@@ -156,47 +156,47 @@ public class CarBatchImpl implements ICarBatch {
 			if (saveTargets.size() > 0 && (saveTargets.size() % 100) == 0) { // 每100条提交
 
 				vehiIllicitMapper.updateBatch(saveTargets); // 保存当前批次后清楚历史
-				
+
 				saveTargets.clear();
-				
+
 			}
-			
+
 		}
-		
+
 		if (!CollectionUtils.isEmpty(saveTargets)) {
 			// saveTargets 只有1～99条时
 			vehiIllicitMapper.updateBatch(saveTargets);
-			
+
 		}
 
 	}
 
 	@Override
 	public void updateCarDanger(List<VehiDanger> list) {
-		
+
 		List<VehiDanger> saveTargets = new ArrayList<VehiDanger>();
-		
+
 		List<Integer> cf = new ArrayList<>();
-		
+
 		for (int a = 0; a < list.size(); a++) {
-			
+
 			for (int j = a + 1; j < list.size() - a; j++) {
-				
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
-					
+
+				if (list.get(a).getId().equals(list.get(j).getId())) {
+
 					cf.add(a);
-					
+
 					break;
-					
+
 				}
-				
+
 			}
-			
+
 		}
 		for (Integer integer : cf) {
-			
+
 			list.remove((int) integer);
-			
+
 		}
 		for (VehiDanger quotaResult : list) {
 
@@ -217,9 +217,9 @@ public class CarBatchImpl implements ICarBatch {
 
 	@Override
 	public void deleteCar(List<Vehicle> list) {
-		
+
 		List<String> saveTargets = new ArrayList<String>();
-		
+
 		for (Vehicle quotaResult : list) {
 
 			saveTargets.add(quotaResult.getId());
@@ -227,26 +227,26 @@ public class CarBatchImpl implements ICarBatch {
 			if (saveTargets.size() > 0 && (saveTargets.size() % 100) == 0) { // 每100条提交
 
 				vehicleMapper.deleteBatch(saveTargets); // 保存当前批次后清楚历史
-				
+
 				saveTargets.clear();
-				
+
 			}
-			
+
 		}
-		
+
 		if (!CollectionUtils.isEmpty(saveTargets)) {
 			// saveTargets 只有1～99条时
 			vehicleMapper.deleteBatch(saveTargets);
-			
+
 		}
 
 	}
 
 	@Override
 	public void updateCar(List<Vehicle> list) {
-		
+
 		List<Vehicle> saveTargets = new ArrayList<Vehicle>();
-		
+
 		for (Vehicle quotaResult : list) {
 
 			saveTargets.add(quotaResult);
@@ -254,11 +254,11 @@ public class CarBatchImpl implements ICarBatch {
 			if (saveTargets.size() > 0 && (saveTargets.size() % 100) == 0) { // 每100条提交
 
 				vehicleMapper.updateBatch(saveTargets); // 保存当前批次后清楚历史
-				
+
 				saveTargets.clear();
 			}
 		}
-		
+
 		if (!CollectionUtils.isEmpty(saveTargets)) {
 			// saveTargets 只有1～99条时
 			vehicleMapper.updateBatch(saveTargets);

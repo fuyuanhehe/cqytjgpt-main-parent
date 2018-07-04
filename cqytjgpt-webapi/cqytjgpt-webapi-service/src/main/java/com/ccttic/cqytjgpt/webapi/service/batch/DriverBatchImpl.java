@@ -32,7 +32,7 @@ public class DriverBatchImpl implements IDriverBatch {
 		List<Integer> cf = new ArrayList<>();
 		for (int a = 0; a < list.size(); a++) {
 			for (int j = a + 1; j < list.size() - a; j++) {
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
+				if (list.get(a).getId().equals(list.get(j).getId())) {
 					cf.add(a);
 					break;
 				}
@@ -65,7 +65,7 @@ public class DriverBatchImpl implements IDriverBatch {
 		List<Integer> cf = new ArrayList<>();
 		for (int a = 0; a < list.size(); a++) {
 			for (int j = a + 1; j < list.size() - a; j++) {
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
+				if (list.get(a).getId().equals(list.get(j).getId())) {
 					cf.add(a);
 					break;
 				}
@@ -98,7 +98,7 @@ public class DriverBatchImpl implements IDriverBatch {
 		List<Integer> cf = new ArrayList<>();
 		for (int a = 0; a < list.size(); a++) {
 			for (int j = a + 1; j < list.size() - a; j++) {
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
+				if (list.get(a).getId().equals(list.get(j).getId())) {
 					cf.add(a);
 					break;
 				}
@@ -131,7 +131,7 @@ public class DriverBatchImpl implements IDriverBatch {
 		List<Integer> cf = new ArrayList<>();
 		for (int a = 0; a < list.size(); a++) {
 			for (int j = a + 1; j < list.size() - a; j++) {
-				if (saveTargets.get(a).getId().equals(list.get(j).getId())) {
+				if (list.get(a).getId().equals(list.get(j).getId())) {
 					cf.add(a);
 					break;
 				}
