@@ -122,8 +122,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			}
 		}
 		if(organization!=null && org!=null) {
-		orgs.add(org.get(organization.getOrgNm()));
+		orgs.add(org.get(organization.getOrgCd()));
 		}
+		emp.setOrgs(orgs);
 		// 员工能使用的菜单,员工角色
 		EmployeeVo datas = service.seRole_MenuById(emp.getId());
 		emp.setMenus(datas.getMenus());

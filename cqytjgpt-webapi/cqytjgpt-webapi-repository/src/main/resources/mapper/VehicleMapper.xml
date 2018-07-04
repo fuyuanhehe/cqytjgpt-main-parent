@@ -101,7 +101,7 @@
 	</select>
 	<!-- 根据企业id获取fenced -->
 	<select id="getfenceIdByEssid" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT area.areaCd FROM ess_organization org LEFT JOIN ess_area AREA ON area.id=org.area_id 
+		SELECT area.areaCd FROM ess_area AREA LEFT JOIN ess_organization org ON area.id=org.area_id 
 		<if test="id != null and id != ''">
 		WHERE org.id=#{id}
 		</if>
