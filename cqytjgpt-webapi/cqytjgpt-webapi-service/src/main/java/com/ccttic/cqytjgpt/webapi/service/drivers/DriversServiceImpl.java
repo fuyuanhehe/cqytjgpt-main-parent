@@ -2,8 +2,11 @@ package com.ccttic.cqytjgpt.webapi.service.drivers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -281,7 +284,24 @@ public class DriversServiceImpl implements DriversService {
 
 	@Override
 	public List<PermiCarsVo> getAllpermiCar() {
-		return mapper.getAllpermiCar();
+
+		List<PermiCarsVo> list = new ArrayList<>();
+
+		List<PermiCarsVo> data = mapper.getAllpermiCar();
+
+		Set<String> set = new HashSet<>();
+
+		for (PermiCarsVo string : data) {
+			set.add(string.getPermiCar());
+		}
+
+		for (String string : set) {
+			PermiCarsVo vo = new PermiCarsVo();
+			vo.setPermiCar(string);
+			list.add(vo);
+		}
+
+		return list;
 	}
 
 
