@@ -182,106 +182,7 @@ public class DriversServiceImpl implements DriversService {
 		return pager;
 	}
 
-	@Override
-	public List<List<VehicleCountVo>> getvehiclesCount(vehiclesVo vehiclesVo) {
-		List<vehiclesVo> data = mapper.getvehiclesCount(vehiclesVo); 
-
-		List<List<VehicleCountVo>> lists = new ArrayList<>();
-
-		String empNm = "";
-		List<vehiclesVo> vehi = new ArrayList<>();
-		int count = 0;
-		for (vehiclesVo model : data) {
-			if(count==0){ 
-				empNm = model.getEtpNm();
-				vehi.add(model);  
-				count++;      
-				continue;
-			}
-			if(empNm.equals(model.getEtpNm()) ){
-				vehi.add(model);
-				continue;
-			}
-			empNm = model.getEtpNm();
-			try {
-				lists.add( getHiStory(vehi)  )	;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			vehi.clear();
-
-		}
-
-		return lists;
-	}
-
-	public static List<VehicleCountVo> getHiStory(List<vehiclesVo> list)throws Exception{
-		List<VehicleCountVo> vehilist = new ArrayList<>();
-		List<vehiclesVo> arrs = new ArrayList<>();
-		List<vehiclesVo> arrstwo = new ArrayList<>();
-		for (vehiclesVo vehi : list) {
-			if(vehi.getVehiType().equals("1")  || vehi.getVehiType().equals("01")){
-				arrs.add(vehi);
-				continue;
-			}
-			arrstwo.add(vehi);
-		}   
-		int ints = 0;
-		Integer vCount = 0;     //总数量
-		Integer scraCount = 0; //报废车辆
-		Integer overCount = 0 ; // 逾期
-		Integer illicitCount = 0 ; //违法未处理
-		VehicleCountVo  vahic = new VehicleCountVo();//车辆数目
-		for (vehiclesVo vehiclesVo : arrs) {
-			vCount ++; ints++;
-			if(vehiclesVo.getOverdueExamineState()==1 //逾期   
-					){ overCount ++; }
-			if(vehiclesVo.getScrappedState()==1 //报废
-					){ scraCount ++; }
-			if(vehiclesVo.getIllicitState()==1 //违法
-					){ illicitCount ++; } 
-			if(ints ==arrs.size()){ 
-				vahic.setEtpNm( vehiclesVo.getEtpNm()); 
-				vahic.setType( vehiclesVo.getVehiType()); 
-			}
-		}  
-		vahic.setvCount(vCount);
-		vahic.setzCount(vCount-scraCount);
-		vahic.setScraCount(overCount);
-		vahic.setOverCount(scraCount);
-		vahic.setIllicitCount(illicitCount);
-		// 循环下一个
-		int intss = 0;
-		Integer vCounts = 0;     //总数量
-		Integer scraCounts = 0; //报废车辆
-		Integer overCounts = 0 ; // 逾期
-		Integer illicitCounts = 0 ; //违法未处理
-		VehicleCountVo  vahics = new VehicleCountVo();//车辆数目
-		for (vehiclesVo vehiclesVo : arrstwo) {
-			vCounts ++; intss++;
-			if(vehiclesVo.getOverdueExamineState()==1 //逾期   
-					){ overCounts ++; }
-			if(vehiclesVo.getScrappedState()==1 //报废
-					){ scraCounts ++; }
-			if(vehiclesVo.getIllicitState()==1 //违法
-					){ illicitCounts ++; } 
-			if(intss ==arrs.size()){ 
-				vahics.setEtpNm( vehiclesVo.getEtpNm()); 
-				vahics.setType( vehiclesVo.getVehiType()); 
-			}
-		}
-		vahics.setvCount(vCounts);
-		vahics.setzCount(vCounts-scraCounts);
-		vahics.setScraCount(overCounts);
-		vahics.setOverCount(scraCounts);
-		vahics.setIllicitCount(illicitCounts);
-
-		vehilist.add(vahic);
-		vehilist.add(vahics);
-
-		return vehilist;
-	}
-
+	
 	@Override
 	public List<PermiCarsVo> getAllpermiCar() {
 
@@ -304,5 +205,80 @@ public class DriversServiceImpl implements DriversService {
 		return list;
 	}
 
+	@Override
+	public List<VehicleCountVo> getvehiclesCount(VehicleCountVo countVo) {
+
+		List<VehicleCountVo> count = mapper.getvehiCount(countVo);
+		List<VehicleCountVo> bcount = mapper.getvehibCount(countVo);                                
+		List<VehicleCountVo> wcount = mapper.getvehiwCount(countVo);  
+		List<VehicleCountVo> ycount = mapper.getvehiyCount(countVo);  
+		List<VehicleCountVo> list = new ArrayList<>();
+		List<VehicleCountVo> vehilist = new ArrayList<>();
+		List<VehicleCountVo> vehicCount = new ArrayList<>();
+
+		for (VehicleCountVo vehicleCountVo : count) {
+			VehicleCountVo vehic = new VehicleCountVo();
+
+			for (VehicleCountVo vehicount : bcount) {
+				if (vehicleCountVo.getEtpNm().equals(vehicount.getEtpNm() )) {
+					vehic.setEtpNm(vehicleCountVo.getEtpNm());
+					vehic.setvCount(vehicleCountVo.getvCount());
+					vehic.setOverCount( vehicount.getvCount());
+					list.add(vehic); 
+					continue;
+				}
+			}
+			vehic.setvCount(vehicleCountVo.getvCount());
+			vehic.setEtpNm(vehicleCountVo.getEtpNm());
+			vehic.setOverCount(0);
+			list.add(vehic);
+		}
+		for (VehicleCountVo vehicleCountVo : list) {
+			VehicleCountVo vehic = new VehicleCountVo();
+
+			for (VehicleCountVo vehicleCountVoyc : wcount) {
+				if (vehicleCountVo.getEtpNm().equals(vehicleCountVoyc.getEtpNm() )) {
+					vehic.setIllicitCount( vehicleCountVoyc.getvCount() );
+					vehic.setvCount( vehicleCountVo.getvCount());
+					vehic.setOverCount(vehicleCountVo.getOverCount() );
+					vehilist.add(vehic);
+					continue;
+				}
+
+			}
+			vehic.setEtpNm(vehicleCountVo.getEtpNm());
+			vehic.setIllicitCount(0);
+			vehic.setvCount( vehicleCountVo.getvCount());
+			vehic.setOverCount(vehicleCountVo.getOverCount() );
+			vehilist.add(vehic);
+		}
+
+		for (VehicleCountVo velc : vehilist) {
+			VehicleCountVo vehics = new VehicleCountVo();
+
+			for (VehicleCountVo ycountts : ycount) {
+				if (velc.getEtpNm().equals(ycountts.getEtpNm() )) {	
+					vehics.setvCount(velc.getvCount() );
+					vehics.setOverCount(velc.getOverCount() );
+					vehics.setIllicitCount(velc.getIllicitCount());
+					vehics.setScraCount(ycountts.getvCount() );
+					vehics.setzCount( velc.getvCount() - velc.getOverCount() );
+					vehicCount.add(vehics);
+					continue;
+				}
+			}
+			vehics.setEtpNm(velc.getEtpNm());
+			vehics.setvCount(velc.getvCount() );
+			vehics.setOverCount(velc.getOverCount() );
+			vehics.setIllicitCount(velc.getIllicitCount());
+			vehics.setScraCount(0);
+			vehics.setzCount( velc.getvCount() - velc.getOverCount() );
+			vehicCount.add(vehics);
+		}
+
+		return vehicCount;
+
+	}
+	
 
 }

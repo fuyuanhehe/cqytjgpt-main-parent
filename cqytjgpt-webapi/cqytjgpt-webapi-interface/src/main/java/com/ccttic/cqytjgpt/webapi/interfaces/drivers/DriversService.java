@@ -46,8 +46,10 @@ public interface DriversService {
 	//<!--企业信息记录分页 -->
 	Page<vehiclesVo> queryVehiclespage(Pageable page,vehiclesVo vehiclesVo);
 	
+	
 	//企业信息-信息记录
-	public List<List<VehicleCountVo>> getvehiclesCount(vehiclesVo vehiclesVo);
+	public List<VehicleCountVo> getvehiclesCount(VehicleCountVo countVo );
+	
 }
 
 

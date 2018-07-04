@@ -418,23 +418,48 @@ public class DriversController implements Serializable{
 	}
 
 	// 企业信息-信息记录
-	@OperLogging(operType = 0)
-	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<List<VehicleCountVo>>>getvehiclesCount(@RequestBody vehiclesVo vehiclesVo,@RequestParam String access_token){
-		ResponseMsg<List<List<VehicleCountVo>>> resp = new ResponseMsg<>();
+		@OperLogging(operType = 0)
+		@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
+		public ResponseMsg<List<VehicleCountVo>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
+			ResponseMsg<List<VehicleCountVo>> resp = new ResponseMsg<>();
 
-		try {
-			List<List<VehicleCountVo>> data = service.getvehiclesCount(vehiclesVo);
-			resp.setData(data);    	
-			resp.setMessage("获取数据成功");
-			resp.setStatus(1);
-		} catch (Exception e) {
-			resp.setMessage("获取数据失败");
-			resp.setStatus(-1);	
-			logger.error("获取数据失败",e);
+			try {
+				if(StringUtils.isEmpty(access_token)) {
+					resp.fail("access_token 不能为空");
+					return resp;
+				}
+				List<String> list = new ArrayList<String>();
+				String empType = null;
+
+				String username=JWTUtil.getUsername(access_token);
+				// 从redis获取用户信息 
+				EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+				List<EssEnterprise> ent = null;
+				if (null != vo) {
+					ent = vo.getEnt();
+					empType = vo.getEmptype();
+				} else {
+					EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+					ent=employee.getEnt();
+					empType = employee.getEmptype();
+					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+				}
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				}
+				tment.setList(list);
+				tment.setEmpType(empType);
+				List<VehicleCountVo> data = service.getvehiclesCount(tment);
+				resp.setData(data);    	
+				resp.setMessage("获取数据成功");
+				resp.setStatus(1);
+			} catch (Exception e) {
+				resp.setMessage("获取数据失败");
+				resp.setStatus(-1);	
+				logger.error("获取数据失败",e);
+			}
+
+			return resp;
 		}
-
-		return resp;
-	}
 
 }

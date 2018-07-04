@@ -9,6 +9,7 @@ import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.entity.drivers.vo.PermiCarsVo;
+import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.employee.EssEmployee;
 
@@ -66,6 +67,15 @@ public interface DriverMapper {
 	 * @param delete
 	 */
 	public void deleteBatch(List<String> delete);
+	
+	// 企业信息-信息记录 总数
+		public List<VehicleCountVo>getvehiCount(VehicleCountVo vehiclesVo);
+		
+		public List<VehicleCountVo>getvehibCount(VehicleCountVo vehiclesVo);
+		
+		public List<VehicleCountVo>getvehiwCount(VehicleCountVo vehiclesVo);
+		
+		public List<VehicleCountVo>getvehiyCount(VehicleCountVo vehiclesVo);
 	
 	
 }

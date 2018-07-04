@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.ccttic.entity.drivers.ess_enterprise;
 // 企业自定义实体
-public abstract class EnterprisethenVo extends ess_enterprise{
+public  class EnterprisethenVo extends ess_enterprise{
    
 	//区县  所辖运所
 	private String orgNm;

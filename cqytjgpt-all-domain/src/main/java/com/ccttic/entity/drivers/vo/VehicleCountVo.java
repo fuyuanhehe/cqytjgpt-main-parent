@@ -1,4 +1,7 @@
 package com.ccttic.entity.drivers.vo;
+
+import java.util.List;
+
 // 企业机动车正常，隐患数量查询
 public class VehicleCountVo {
 	//企业名称
@@ -15,8 +18,52 @@ public class VehicleCountVo {
 	private Integer overCount;
 	//违法处理车辆
 	private Integer illicitCount;
-
+	//账号类型
+	private String empType;
+	//企业id
+	private List<String> list;
+	//区域
+	private String orgNm;
+    // 车辆类型
+	private String vehiType;
 	public VehicleCountVo() {
+	}
+
+
+	public String getVehiType() {
+		return vehiType;
+	}
+
+
+	public void setVehiType(String vehiType) {
+		this.vehiType = vehiType;
+	}
+
+
+	public String getOrgNm() {
+		return orgNm;
+	}
+
+
+	public void setOrgNm(String orgNm) {
+		this.orgNm = orgNm;
+	}
+
+
+	public String getEmpType() {
+		return empType;
+	}
+
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
 	}
 
 	public VehicleCountVo(String etpNm, String type, Integer vCount, Integer zCount,

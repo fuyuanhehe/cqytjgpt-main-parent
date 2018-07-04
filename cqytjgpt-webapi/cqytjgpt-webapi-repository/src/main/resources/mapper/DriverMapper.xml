@@ -259,7 +259,8 @@
 		</choose>
 		and d.id!='' and d.id =
 		#{id}
-		and (e.isDeleted is null OR e.isDeleted !=1)
+		and (e.isDeleted is null OR e.isDeleted
+		!=1)
 	</select>
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
@@ -318,7 +319,7 @@
 			and d.firstReciveTime BETWEEN #{fiString} and
 			laStrin#{laString}
 		</if>
-		
+
 		and (d.isDelete is null OR d.isDelete !=1)
 
 		limit ${startRecord} ,
@@ -681,5 +682,169 @@
 		</foreach>
 
 	</delete>
+
+	<!-- 驾驶人信息-信息记录 总数 -->
+	<select id="getvehiCount" resultType="com.ccttic.entity.drivers.vo.VehicleCountVo"
+		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
+		SELECT
+		e.etpNm,
+		COUNT(v.id) AS vCount
+		FROM
+		ess_organization o
+		LEFT JOIN
+		ess_enterprise e ON o.id = e.org_id
+		LEFT JOIN vehicle v ON e.id =
+		v.mgrEnterpriseId
+		LEFT JOIN vehi_danger vd ON v.id = vd.vehicle_id
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+		<if test="orgNm!=null and orgNm!='' ">
+			and o.orgNm = #{orgNm}
+		</if>
+		<if test="etpNm!=null and etpNm!='' ">
+			and e.etpNm = #{etpNm}
+		</if>
+		<if test="vehiType!=null and vehiType!='' ">
+			and v.vehiType = #{vehiType}
+		</if>
+		GROUP BY
+		e.etpNm
+	</select>
+	<!-- 驾驶人信息-信息记录 报废数 -->
+	<select id="getvehibCount" resultType="com.ccttic.entity.drivers.vo.VehicleCountVo"
+		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
+		SELECT
+		e.etpNm,
+		COUNT(vd.scrappedState) AS vCount
+		FROM
+		ess_organization o
+		LEFT JOIN
+		ess_enterprise e ON o.id = e.org_id
+		LEFT JOIN vehicle v ON
+		e.id =
+		v.mgrEnterpriseId
+		LEFT JOIN vehi_danger vd ON v.id =
+		vd.vehicle_id
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+		<if test="orgNm!=null and orgNm!='' ">
+			and o.orgNm = #{orgNm}
+		</if>
+		<if test="etpNm!=null and etpNm!='' ">
+			and e.etpNm = #{etpNm}
+		</if>
+		<if test="vehiType!=null and vehiType!='' ">
+			and v.vehiType = #{vehiType}
+		</if>
+		and vd.scrappedState = 1
+		GROUP BY
+		e.etpNm
+	</select>
+	<!-- 驾驶人信息-信息记录 违法未处理 -->
+	<select id="getvehiwCount" resultType="com.ccttic.entity.drivers.vo.VehicleCountVo"
+		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
+		SELECT
+		e.etpNm,
+		COUNT(vd.illicitState) AS vCount
+		FROM
+		ess_organization o
+		LEFT JOIN
+		ess_enterprise e ON o.id = e.org_id
+		LEFT JOIN vehicle v ON
+		e.id =
+		v.mgrEnterpriseId
+		LEFT JOIN vehi_danger vd ON v.id =
+		vd.vehicle_id
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+		<if test="orgNm!=null and orgNm!='' ">
+			and o.orgNm = #{orgNm}
+		</if>
+		<if test="etpNm!=null and etpNm!='' ">
+			and e.etpNm = #{etpNm}
+		</if>
+		<if test="vehiType!=null and vehiType!='' ">
+			and v.vehiType = #{vehiType}
+		</if>
+		and vd.illicitState = 1
+		GROUP BY
+		e.etpNm
+	</select>
+
+	<!-- 驾驶人信息-信息记录 逾期 -->
+	<select id="getvehiyCount" resultType="com.ccttic.entity.drivers.vo.VehicleCountVo"
+		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
+		SELECT
+		e.etpNm,
+		COUNT(vd.overdueExamineState) AS vCount
+		FROM
+		ess_organization o
+		LEFT JOIN
+		ess_enterprise e ON o.id = e.org_id
+		LEFT
+		JOIN vehicle v ON
+		e.id =
+		v.mgrEnterpriseId
+		LEFT JOIN vehi_danger vd ON
+		v.id =
+		vd.vehicle_id
+		<choose>
+			<when test="empType == 'SUPERMAN'">
+				where 1=1
+			</when>
+			<otherwise>
+				where e.id in
+				<foreach collection="list" index="index" item="item" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</otherwise>
+		</choose>
+		<if test="orgNm!=null and orgNm!='' ">
+			and o.orgNm = #{orgNm}
+		</if>
+		<if test="etpNm!=null and etpNm!='' ">
+			and e.etpNm = #{etpNm}
+		</if>
+		<if test="vehiType!=null and vehiType!='' ">
+			and vd.vehiType = #{vehiType}
+		</if>
+		and vd.overdueExamineState = 1
+		GROUP BY
+		e.etpNm
+	</select>
+
+
+
 
 </mapper>
