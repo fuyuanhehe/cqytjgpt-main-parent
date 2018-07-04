@@ -14,7 +14,7 @@ spring:
       server:
         native:
           search-locations: file:D:\\config
-      profile: pub
+      profile: dev
   rabbitmq:     # 配置RabbitMQ
     host: 10.10.20.21
     port: 5672

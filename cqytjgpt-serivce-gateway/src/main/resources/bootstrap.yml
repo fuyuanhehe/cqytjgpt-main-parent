@@ -8,7 +8,7 @@ spring:
   application:
     name: cqytjgpt-service-gateway
   profiles:
-    active: pub
+    active: dev
   cloud:
     config:
       enabled: true
