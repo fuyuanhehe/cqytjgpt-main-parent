@@ -117,8 +117,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		List<Organization> orgs= new ArrayList<>();
 		for (Department department : deps) {
 			 organization = empMapper.selectOrgByDepId(department.getId());
-			
+			if(organization!=null) {
 			org.put(organization.getOrgCd(), organization);
+			}
 		}
 		if(org!=null) {
 		orgs.add(org.get(organization.getOrgNm()));
