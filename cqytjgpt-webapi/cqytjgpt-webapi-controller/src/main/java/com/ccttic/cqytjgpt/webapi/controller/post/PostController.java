@@ -12,10 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.post.IPostService;
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
@@ -25,6 +29,7 @@ import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
@@ -35,6 +40,12 @@ public class PostController {
 
 	@Autowired
 	private IPostService postService;
+	
+	@Autowired
+	private RedisService<EmployeeVo> redisService;
+	
+	@Autowired
+	private IEmployeeService employeeService;
 
 	/**分页查询岗位
 	 * @param request
@@ -47,11 +58,30 @@ public class PostController {
 	@ResourceScan(rsc = @Resource(cd = Const.SELECT_POST, name = "岗位主页",  hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE)
     , prsc = {@Resource( cd = Const.POST_MANAGEMENT, url="/post/selectPost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Page<EssPostVo>> selectPost(ServletRequest request, ServletResponse response,
+	public ResponseMsg<Page<EssPostVo>> selectPost(@RequestParam String access_token, ServletResponse response,
 			@RequestBody EssPostVo post) {
 		ResponseMsg<Page<EssPostVo>> rm = new ResponseMsg<>();
 		
-		
+		String empType = null;
+		List<Department> deps = null;
+		String username = JWTUtil.getUsername(access_token);
+		// redis get data
+		EmployeeVo vo = (EmployeeVo) redisService.get(username+Const.TOKEN);
+		// 2. 判断REDIS是否为空
+		if (null != vo) {
+
+			empType = vo.getEmptype();
+			deps = vo.getDeps();
+		} else {
+			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+			empType = employee.getEmptype();
+			deps = employee.getDeps();
+			// 3. 更新redis里用户缓存
+			redisService.set(username, employee, Const.USER_REDIS_LIVE);
+		}
+
+		post.setDeps(deps);
+		post.setEmpType(empType);
 		
 		try {
 			PageRequest page = new PageRequest();

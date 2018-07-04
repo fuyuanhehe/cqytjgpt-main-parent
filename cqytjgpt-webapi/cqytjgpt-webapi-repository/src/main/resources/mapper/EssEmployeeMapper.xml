@@ -601,7 +601,7 @@
 		org.orgCd=depart.org_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				WHERE 1=1
+				and 1=1
 			</when>
 			<otherwise>
 				and depart.org_id in
@@ -642,21 +642,23 @@
 		org.orgCd=depart.org_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				WHERE 1=1
+				and 1=1
 			</when>
 			<otherwise>
+			<if test="orgCd != null and orgCd != ''">
 				and depart.org_id in
 				<foreach collection="list" index="index" item="item"
 					open="(" separator="," close=")">
 					#{item}
 				</foreach>
-
+				</if>
+				<if test="eptId != null and eptId != ''">
+			and depart.ept_id =#{eptId}
+				</if>
 			</otherwise>
 		</choose>
 
-		<if test="eptId != null and eptId != ''">
-			and depart.ept_id =#{eptId}
-		</if>
+		
 
 		<if test="empNm != null and empNm != ''">
 			and emp.empNm like '%${empNm}%'

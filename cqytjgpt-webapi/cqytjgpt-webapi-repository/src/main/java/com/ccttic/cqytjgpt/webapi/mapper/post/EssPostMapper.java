@@ -20,14 +20,14 @@ public interface EssPostMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	long qryPostListCount(Map<String, String> params)throws Exception;
+	long qryPostListCount(Map<String, Object> params)throws Exception;
 
 	/**分页查询post
 	 * @param params
 	 * @return
 	 * @throws Exception
 	 */
-	List<EssPostVo> qryPostList(Map<String, String> params)throws Exception;
+	List<EssPostVo> qryPostList(Map<String, Object> params)throws Exception;
 	
 	/**获取所有的组织
 	 * @return
