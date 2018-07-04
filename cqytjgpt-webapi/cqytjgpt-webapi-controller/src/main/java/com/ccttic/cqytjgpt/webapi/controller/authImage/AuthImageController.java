@@ -34,11 +34,8 @@ public class AuthImageController {
 			// 生成随机字串
 			String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
 			
-			String sessionId = request.getSession().getId();
-			redis.set(Const.PIC_CODE + sessionId, verifyCode, 20L);
-			
 			// 存入session
-			//session.setAttribute(Const.PIC_CODE, verifyCode);
+			session.setAttribute(Const.PIC_CODE, verifyCode);
 
 			// 生成图片
 			int w = 200, h = 80;
