@@ -5,9 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.VerifyCodeUtils;
@@ -17,6 +19,9 @@ import com.ccttic.util.common.VerifyCodeUtils;
 public class AuthImageController {
 
 	private Logger logger = Logger.getLogger(getClass());
+	
+	@Autowired
+	RedisService<String> redis;
 
 	@RequestMapping("/img")
 	public ResponseMsg<String> img(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -28,8 +33,12 @@ public class AuthImageController {
 		try {
 			// 生成随机字串
 			String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
+			
+			String sessionId = request.getSession().getId();
+			redis.set(Const.PIC_CODE + sessionId, verifyCode, 20L);
+			
 			// 存入session
-			session.setAttribute(Const.PIC_CODE, verifyCode);
+			//session.setAttribute(Const.PIC_CODE, verifyCode);
 
 			// 生成图片
 			int w = 200, h = 80;
