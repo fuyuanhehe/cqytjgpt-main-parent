@@ -63,6 +63,12 @@ mybatis:
 
 logging:
   config: classpath:logback.xml
+  level:
+    com: 
+      ccttic:
+        cqytjgpt:
+          webapi:
+            client: DEBUG
   
 fdfs:
   so-timeout: 30000
@@ -94,6 +100,7 @@ eureka:
   client:
     healthcheck:
       enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常
+      
       
 urls:
   jxj-url: http://10.10.20.21:8084
