@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.aop;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -80,6 +81,11 @@ public class LoggerAop {
 			userOperLogger.setId(CommonGenerator.distributiveIDGenerator());
 			userOperLogger.setIpAddr(CCtticWebUtils.getRemoteHost(request));
 			userOperLogger.setOperTime(CCtticDateUtils.presentDay("yyyy-MM-dd HH:mm:ss"));
+			
+			Object [] params = joinPoint.getArgs();
+			if(params != null && params.length > 0){
+				userOperLogger.setOperParam(Arrays.toString(params));
+			}
 
 			// 获得方法和他所在类它上面的注解信息
 			LoggerModel loggerInfo = LoggerWorker.getLoggerInfo(method);

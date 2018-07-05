@@ -29,19 +29,15 @@ public class UserOperLoggerServiceImpl implements UserOperLoggerService {
     @Async
     @Override
     public void addUserOperLogger(UserOperLogger userOperLogger) {
-         userOperLoggerMapper.addUserOperLogger(userOperLogger);
-    }
-
-    @Async
-    @Override
-    public void renewUserOperLogger(UserOperLogger userOperLogger) {
-         userOperLoggerMapper.renewUserOperLogger(userOperLogger);
+    	String now = DateFormatUtils.format(new Date(), "yyyyMMdd");
+        userOperLoggerMapper.addUserOperLogger(userOperLogger,now);
     }
 
     @Async
     @Override
     public void delUserOperLogger(String id) {
-         userOperLoggerMapper.delUserOperLogger(id);
+    	String now = DateFormatUtils.format(new Date(), "yyyyMMdd");
+        userOperLoggerMapper.delUserOperLogger(id,now);
     }
     
 
@@ -56,6 +52,7 @@ public class UserOperLoggerServiceImpl implements UserOperLoggerService {
     @Override
     @Transactional(readOnly = true)
     public Page<UserOperLogger> findAllUserOperLogger(UserOperLogger userOperLogger, Pageable page) {
+    	String now = DateFormatUtils.format(new Date(), "yyyyMMdd");
     	Page<UserOperLogger> pager = new PageImpl<UserOperLogger>(page);
     	Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
@@ -64,16 +61,19 @@ public class UserOperLoggerServiceImpl implements UserOperLoggerService {
         params.put("operBy", userOperLogger.getOperBy());
         params.put("content", userOperLogger.getContent());
         params.put("operTime", userOperLogger.getOperTime());
+        params.put("startTime", userOperLogger.getStartTime());
+        params.put("endTime", userOperLogger.getEndTime());
         params.put("ipAddr", userOperLogger.getIpAddr());
         params.put("remark", userOperLogger.getRemark());
-		pager.setTotalRows(userOperLoggerMapper.findAllUserOperLoggerCount(params));
-		pager.setRecords(userOperLoggerMapper.findAllUserOperLogger(params));
+		pager.setTotalRows(userOperLoggerMapper.findAllUserOperLoggerCount(params,now));
+		pager.setRecords(userOperLoggerMapper.findAllUserOperLogger(params,now));
         return pager;
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserOperLogger findSingleUserOperLog(String id) {
-        return userOperLoggerMapper.findSingleUserOperLog(id);
+    	String now = DateFormatUtils.format(new Date(), "yyyyMMdd");
+        return userOperLoggerMapper.findSingleUserOperLog(id,now);
     }
 }

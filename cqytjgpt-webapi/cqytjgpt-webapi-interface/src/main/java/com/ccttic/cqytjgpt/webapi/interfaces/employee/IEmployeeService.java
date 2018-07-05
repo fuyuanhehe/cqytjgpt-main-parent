@@ -67,7 +67,7 @@ public interface IEmployeeService {
 	 * @return
 	 * @throws AppException
 	 */
-	public void addEmployee(EssEmployeeVo emp) throws Exception ;
+	public int addEmployee(EssEmployeeVo emp) throws Exception ;
 
 	/**
 	 * 修改员工
