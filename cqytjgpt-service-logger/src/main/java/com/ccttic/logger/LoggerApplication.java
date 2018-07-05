@@ -3,13 +3,13 @@ package com.ccttic.logger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableTransactionManagement
+@EnableCircuitBreaker
 @EnableAsync
 @MapperScan(basePackages = "com.ccttic.logger.mapper")
 public class LoggerApplication {
