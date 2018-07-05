@@ -11,11 +11,6 @@ public interface UserOperLoggerService {
     void addUserOperLogger(UserOperLogger userOperLogger);
 
     /**
-     * 说明：更新一个UserOperLogger
-     * */
-    void renewUserOperLogger(UserOperLogger userOperLogger);
-
-    /**
      * 说明：删除一个UserOperLogger
      * */
     void delUserOperLogger(String id);

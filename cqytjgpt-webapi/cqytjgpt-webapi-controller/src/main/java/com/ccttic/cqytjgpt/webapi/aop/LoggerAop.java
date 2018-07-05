@@ -87,6 +87,10 @@ public class LoggerAop {
 				userOperLogger.setContent(loggerInfo.getContent());
 				userOperLogger.setRemark(loggerInfo.getRemark());
 				userOperLogger.setOperType(loggerInfo.getOperType());
+				Object [] params = joinPoint.getArgs();
+				if(params != null && params.length > 0){
+					userOperLogger.setOperParam(params.toString());
+				}
 			}
 
 			// 异步保存用户日志
