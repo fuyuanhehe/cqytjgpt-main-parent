@@ -65,7 +65,7 @@ public interface VehiDangerMapper {
 	 * @return
 	 * @throws AppException
 	 */
-	public VehiDanger qryOneVehicle(VehiDanger ve) throws AppException;
+	public VehiDangerVo qryOneVehicle(VehiDanger ve) throws AppException;
 	
 	/**
 	 * 

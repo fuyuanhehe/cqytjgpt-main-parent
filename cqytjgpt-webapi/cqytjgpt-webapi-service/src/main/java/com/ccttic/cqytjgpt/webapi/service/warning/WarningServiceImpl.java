@@ -60,7 +60,7 @@ public class WarningServiceImpl implements IWarningservice{
 	}
 
 	@Override
-	public VehiDanger qryOneVehicle(VehiDanger ve) throws AppException {
+	public VehiDangerVo qryOneVehicle(VehiDanger ve) throws AppException {
 		return mapper.qryOneVehicle(ve);
 	}
 
