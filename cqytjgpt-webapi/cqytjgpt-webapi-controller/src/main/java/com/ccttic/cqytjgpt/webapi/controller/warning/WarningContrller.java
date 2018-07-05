@@ -79,7 +79,7 @@ public class WarningContrller implements Serializable {
 				ent=employee.getEnt();
 				empType = employee.getEmptype();
 				//3. 更新redis里用户缓存
-				redisService.set(username,employee, Const.USER_REDIS_LIVE);
+				redisService.set(username+Const.TOKEN,employee, Const.USER_REDIS_LIVE);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -208,7 +208,7 @@ public class WarningContrller implements Serializable {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 				ent = employee.getEnt();
 				// 3. 更新redis里用户缓存
-				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+				redisService.set(username+Const.TOKEN, employee, Const.USER_REDIS_LIVE);
 				resp.setData(ent);
 				resp.success("获取企业列表成功");
 			}
