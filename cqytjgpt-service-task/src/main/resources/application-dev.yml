@@ -34,6 +34,13 @@ ribbon:
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 2
   OkToRetryOnAllOperations: true 
+  
+cqytjgpt-service-logger:
+  ribbon:
+    ReadTimeout: 10000 #请求连接超时 单位毫秒
+    ConnectTimeout: 10000 #请求处理超时 单位毫秒
+    MaxAutoRetries: 0
+    MaxAutoRetriesNextServer: 0
       
 hystrix:
   command:
