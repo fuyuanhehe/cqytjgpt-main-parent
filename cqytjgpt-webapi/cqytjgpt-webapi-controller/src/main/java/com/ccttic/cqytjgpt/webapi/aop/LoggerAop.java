@@ -8,6 +8,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -31,6 +33,8 @@ import com.ccttic.util.web.CCtticWebUtils;
 @Configuration
 public class LoggerAop {
 	
+	Logger logger = LoggerFactory.getLogger(LoggerAop.class);
+	
     // token key
     public final static String AUTHORIZATION = "Authorization";
 
@@ -41,15 +45,11 @@ public class LoggerAop {
     private UserOperLoggerFeign feign;
 
 	@Around("execution(* com.ccttic.cqytjgpt.webapi.controller..*.*(..))")
-	public Object logAspect(ProceedingJoinPoint joinPoint) {
-		
-		Object proceed = null;  // 返回的数据
-        // 获得request
-        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = (sra == null ? null : sra.getRequest());
-        
+	public Object logAspect(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
-        	
+        	 // 获得request
+            ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = (sra == null ? null : sra.getRequest());
             // 获得方法对象
         	Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
             // 获得用户的基本操作日志
@@ -83,11 +83,10 @@ public class LoggerAop {
            
             // 异步保存用户日志
             feign.addOperLogger(userOperLogger);
-            // 执行目标方法,如果这一句不执行，那么目标方法不会执行
-            proceed = joinPoint.proceed();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        } catch (Throwable e) {
+        	logger.error("AOP保存日志异常",e);
         }
-        return proceed;
+        // 执行目标方法,如果这一句不执行，那么目标方法不会执行
+        return joinPoint.proceed();
 	}
 }
