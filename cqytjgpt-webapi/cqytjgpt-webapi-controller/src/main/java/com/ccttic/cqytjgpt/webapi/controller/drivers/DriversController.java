@@ -146,7 +146,7 @@ public class DriversController implements Serializable{
 	 * @date  2018年6月15日
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法记录")
-	@ResourceScan(rsc = @Resource(cd = Const.ILLICIT_INFO, name = "基本信息-违法记录",  hierarchy = 4, isMenue = false, pcd = Const.PERSONAL_INFORMATION)
+	@ResourceScan(rsc = @Resource(cd = Const.ILLEGAL_RECORD, name = "基本信息-违法记录",  hierarchy = 4, isMenue = false, pcd = Const.PERSONAL_INFORMATION)
 	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "驾驶人信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
 			@Resource( cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
