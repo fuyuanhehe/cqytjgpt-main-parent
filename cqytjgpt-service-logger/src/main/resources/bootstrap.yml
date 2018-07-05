@@ -1,5 +1,5 @@
 info:
-  description: 重庆交巡警源头监管项目认证中心
+  description: 重庆交巡警源头监管项目操作日志服务
 
 server:
   port: 10002
