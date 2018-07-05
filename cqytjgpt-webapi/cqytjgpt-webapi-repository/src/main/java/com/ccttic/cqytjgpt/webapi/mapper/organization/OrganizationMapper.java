@@ -11,10 +11,10 @@ import com.ccttic.entity.role.Organization;
 public interface OrganizationMapper {
 
 	/**
-	 * 获取树头
+	 * 获取机构
 	 * @return
 	 */
-	public Organization getHeadOrg();
+	public List<Organization> getHeadOrg();
 	
 	/**
 	 * 通过机构编码获取子机构

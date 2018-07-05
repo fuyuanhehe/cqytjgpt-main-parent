@@ -49,7 +49,7 @@ public class OrganizationContrller implements Serializable {
 	private IDepartmentService departmentService;
 
 	/**
-	 * 获取机构头
+	 * 获取组织机构
 	 * 
 	 * @return
 	 */
@@ -57,10 +57,10 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Organization> findAllOrg() {
-		ResponseMsg<Organization> resp = new ResponseMsg<Organization>();
+	public ResponseMsg<List<Organization>> findAllOrg() {
+		ResponseMsg<List<Organization>> resp = new ResponseMsg<List<Organization>>();
 		try {
-			Organization headOrg = organizationService.getHeadOrg();
+			List<Organization> headOrg = organizationService.getHeadOrg();
 			if (!ObjectHelper.isEmpty(headOrg)) {
 				resp.setData(headOrg);
 				resp.success("获取信息成功！");
