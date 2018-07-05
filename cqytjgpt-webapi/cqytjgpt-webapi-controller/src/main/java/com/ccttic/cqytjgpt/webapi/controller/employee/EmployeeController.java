@@ -269,8 +269,10 @@ public class EmployeeController {
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
-
 		try {
+//			if () {
+//				
+//			}
 			employeeService.addEmployee(emp);
 			rm.success("添加employee数据成功");
 		} catch (Exception e) {
@@ -320,6 +322,8 @@ public class EmployeeController {
 	public ResponseMsg<String> modifyPassword(HttpServletRequest request, @RequestBody EssEmployee emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
 		try {
+			String md5pasword = MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8");
+			emp.setPassword(md5pasword);
 			employeeService.modifyPassword(emp);
 			rm.success("修改密码成功");
 		} catch (Exception e) {
