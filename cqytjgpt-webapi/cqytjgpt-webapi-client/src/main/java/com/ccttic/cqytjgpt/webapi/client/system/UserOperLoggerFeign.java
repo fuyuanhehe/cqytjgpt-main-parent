@@ -11,7 +11,7 @@ import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.logger.UserOperLogger;
 import com.ccttic.util.page.PageRequest;
 
-@FeignClient(name="cqytjgpt-service-logger")
+@FeignClient(value="cqytjgpt-service-logger",path="operlog")
 public interface UserOperLoggerFeign {
 
 	@RequestMapping(value="/multi",method=RequestMethod.POST)

@@ -11,9 +11,9 @@ import com.ccttic.entity.common.ResponseMsg;
  * @author zhuliang
  *
  */
-@FeignClient(name="cqytjgpt-service-logger")
+@FeignClient(value="cqytjgpt-service-logger",path="operlog")
 public interface IUserOperLogger {
 	
-	@RequestMapping(value="/addTb",method= {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/addTb",method=RequestMethod.POST)
     public ResponseMsg<Boolean> addOperLoggerTb() ;
 }
