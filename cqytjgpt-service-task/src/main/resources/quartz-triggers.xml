@@ -22,6 +22,7 @@
             <list>
             	<ref bean="carDangerTrigger"/>
             	<ref bean="driverDangerTrigger"/>
+            	<ref bean="userOperLoggerTrigger"/>
             </list>
         </property>  
     </bean>  
@@ -69,7 +70,7 @@
         <property name="requestsRecovery" value="true" />
     </bean>
      <!-- 定时触发器 -->
-    <bean id="carDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <bean id="userOperLoggerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="userOperLoggerJob" />    
         <property name="cronExpression">
             <!-- 每天22点启动 -->
