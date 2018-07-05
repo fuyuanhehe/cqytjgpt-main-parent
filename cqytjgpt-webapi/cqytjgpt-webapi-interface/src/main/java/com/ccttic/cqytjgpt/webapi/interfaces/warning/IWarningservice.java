@@ -23,7 +23,7 @@ public interface IWarningservice {
 	 * @return
 	 * @throws AppException
 	 */
-	public VehiDanger qryOneVehicle(VehiDanger ve) throws AppException;
+	public VehiDangerVo qryOneVehicle(VehiDanger ve) throws AppException;
 	
 	
 	/**根据条件查询驾驶人预警信息

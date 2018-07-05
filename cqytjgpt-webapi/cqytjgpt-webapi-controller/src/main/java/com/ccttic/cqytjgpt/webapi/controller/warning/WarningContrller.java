@@ -18,7 +18,6 @@ import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningservice;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.DrDangerVo;
-import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.danger.vo.VehiDangerVo;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
@@ -146,11 +145,11 @@ public class WarningContrller implements Serializable {
 	 */
 	@RequestMapping(value = "/getByIdVehicleWarning", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseMsg<VehiDanger> getByIdVehicleWarning(@RequestBody VehiDangerVo vo) {
-		ResponseMsg<VehiDanger> resp = new ResponseMsg<VehiDanger>();
+	public ResponseMsg<VehiDangerVo> getByIdVehicleWarning(@RequestBody VehiDangerVo vo) {
+		ResponseMsg<VehiDangerVo> resp = new ResponseMsg<VehiDangerVo>();
 
 		try {
-			VehiDanger vehi = warningservice.qryOneVehicle(vo);
+			VehiDangerVo vehi = warningservice.qryOneVehicle(vo);
 			resp.setData(vehi);
 			resp.success("查询成功！");
 		} catch (AppException e) {

@@ -207,7 +207,6 @@ public class Const {
 				 * 删除企业 三级菜单
 				 */
 				public static final String DELETE_ENTERPRISE="delete_enterprise";
-				
 				/**
 				 * 组织员工管理 三级菜单
 				 */
@@ -295,4 +294,19 @@ public class Const {
 	            */
 	           public static final String GETALL_EMP = "getall-menu";
 //***************************系统管理菜单 end************************************************************
+	           
+	        /**
+	   		 * 登录注册审核 一级菜单
+	   		 */
+	   		public static final String LOGIN_REGISTER_ENTERPRISE="login_register_enterprise";
+	   		/**
+			 * 注册企业 二级菜单
+			 */
+			public static final String REGISTER_ENTERPRISE="register_enterprise";
+	   		/**
+	   		 * 取分所审核 二级菜单
+	   		 */
+	   		public static final String CHECK_ENTERPRISE="CHECK_ENTERPRISE";
+	   		
+	   		
 }

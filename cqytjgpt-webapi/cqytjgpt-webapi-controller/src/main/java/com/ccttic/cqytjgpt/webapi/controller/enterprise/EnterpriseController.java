@@ -1,6 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.controller.enterprise;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,6 @@ import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
-import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
@@ -97,7 +96,15 @@ public class EnterpriseController {
 		return rm;
 	}
 	
+	/**
+	 * 注册企业(资料填写)
+	 * @param request
+	 * @param vo
+	 * @return
+	 */
 	@RequestMapping(value = "/registerEnterpries", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResourceScan(rsc = @Resource(cd = Const.REGISTER_ENTERPRISE,url = "/enterprise/registerEnterpries", name = "注册企业", hierarchy = 2, isMenue = true, pcd = Const.LOGIN_REGISTER_ENTERPRISE), prsc = {
+			@Resource(cd = Const.LOGIN_REGISTER_ENTERPRISE, name = "登录注册审核", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> registerEnterpries(HttpServletRequest request, @RequestBody EnterpriseVo vo) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
 		try {
@@ -116,30 +123,30 @@ public class EnterpriseController {
 	}
 	
 	/**
-	 * 根据条件获取企业信息
+	 * 根据条件获取企业信息(区分所审核)
 	 * @param page
 	 * @param vo
 	 * @return
 	 */
 	@RequestMapping(value = "/qryEnterpriesList", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public String qryEnterpriesList(@RequestBody PageEssEnterpriseVo vo) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	@ResourceScan(rsc = @Resource(cd = Const.CHECK_ENTERPRISE,url = "/enterprise/qryEnterpriesList", name = "区分所审核", hierarchy = 2, isMenue = true, pcd = Const.LOGIN_REGISTER_ENTERPRISE), prsc = {
+			@Resource(cd = Const.LOGIN_REGISTER_ENTERPRISE, name = "登录注册审核", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	public ResponseMsg<List<EssEnterprise>> qryEnterpriesList(@RequestBody PageEssEnterpriseVo vo) {
+		ResponseMsg<List<EssEnterprise>> resp = new ResponseMsg<List<EssEnterprise>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(vo.getPage());
 			page.setRows(vo.getRows());
 			Page<EssEnterprise> pager = enterpriseService.qryEssEnterpriseList(page, vo);
-			map.put("data", pager.getRecords());
-			map.put("total", pager.getTotalRows());
-			map.put("result", 0);
-			map.put("msg", "获取信息成功！");
+			resp.setData(pager.getRecords());
+			resp.setTotal(pager.getTotalRows().intValue());
+			resp.success("查询成功！");
 		} catch (AppException e) {
-			map.put("result", -1);
-			map.put("msg", "获取信息失败！");
-			logger.error(e.getMessage());
+			resp.fail("查询失败！");
+			logger.error("查询失败！", e);
 		}
-		return ObjectHelper.objectToJson(map);
+		return resp;
 	}
 	
 	
