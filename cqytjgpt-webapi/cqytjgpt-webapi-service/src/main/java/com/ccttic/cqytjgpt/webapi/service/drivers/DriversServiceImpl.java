@@ -165,23 +165,7 @@ public class DriversServiceImpl implements DriversService {
 	@Override
 	public List<PermiCarsVo> getAllpermiCar() {
 
-		List<PermiCarsVo> list = new ArrayList<>();
-
-		List<PermiCarsVo> data = mapper.getAllpermiCar();
-
-		Set<String> set = new HashSet<>();
-
-		for (PermiCarsVo string : data) {
-			set.add(string.getPermiCar());
-		}
-
-		for (String string : set) {
-			PermiCarsVo vo = new PermiCarsVo();
-			vo.setPermiCar(string);
-			list.add(vo);
-		}
-
-		return list;
+		return mapper.getAllpermiCar();
 	}
 
 	@Override

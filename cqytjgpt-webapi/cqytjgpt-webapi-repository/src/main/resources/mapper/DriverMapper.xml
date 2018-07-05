@@ -42,9 +42,9 @@
 		deleteTime, createBy, createDepCd, updateBy, updateDepCd
 	</sql>
 	<!-- 获取所有准假车型 -->
-	<select id="getAllpermiCar" resultType="com.ccttic.entity.drivers.vo.PermiCarsVo">
-		SELECT
-		permiCar
+	<select id="getAllpermiCar" resultType="com.ccttic.en	tity.drivers.vo.PermiCarsVo">
+		SELECT DISTINCT
+		permiCar	
 		FROM
 		driver
 		WHERE
