@@ -280,9 +280,11 @@ public class EmployeeController {
 	public ResponseMsg<String> addEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
 		try {
-//			if () {
-//				
-//			}
+			int cat = employeeService.addEmployee(emp);
+			if (cat == 1) {
+				rm.fail("添加employee数据失败，用户名重复");
+				return rm;
+			}
 			employeeService.addEmployee(emp);
 			rm.success("添加employee数据成功");
 		} catch (Exception e) {

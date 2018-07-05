@@ -1,12 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.service.employee;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -27,13 +23,12 @@ import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeDept;
+import com.ccttic.entity.employee.EssEmployeeExample;
 import com.ccttic.entity.employee.EssEmployeePost;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
-import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
-import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.util.common.MD5;
@@ -253,7 +248,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public void addEmployee(EssEmployeeVo emp) throws Exception {
+	public int addEmployee(EssEmployeeVo emp) throws Exception {
+		int cat=0;
+		EssEmployeeExample example = new EssEmployeeExample();
+		example.createCriteria().andAccountEqualTo(emp.getAccount());
+		List<EssEmployee> empList = empMapper.selectByExample(example);
+		if (empList.size()>0) {
+			cat = 1;
+		}
 		String empid = RandomHelper.uuid();
 		EssEmployee employee = emp;
 		employee.setId(empid);
@@ -277,6 +279,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			postMapper.relatedPostAndEmp(eep);
 
 		}
+		return cat;
 	}
 
 	/*
