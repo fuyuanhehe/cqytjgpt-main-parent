@@ -28,29 +28,29 @@ public class UserOperLoggerServiceImpl implements UserOperLoggerService {
 
     @Async
     @Override
-    public boolean addUserOperLogger(UserOperLogger userOperLogger) {
-        return userOperLoggerMapper.addUserOperLogger(userOperLogger);
+    public void addUserOperLogger(UserOperLogger userOperLogger) {
+         userOperLoggerMapper.addUserOperLogger(userOperLogger);
     }
 
     @Async
     @Override
-    public boolean renewUserOperLogger(UserOperLogger userOperLogger) {
-        return userOperLoggerMapper.renewUserOperLogger(userOperLogger);
+    public void renewUserOperLogger(UserOperLogger userOperLogger) {
+         userOperLoggerMapper.renewUserOperLogger(userOperLogger);
     }
 
     @Async
     @Override
-    public boolean delUserOperLogger(String id) {
-        return userOperLoggerMapper.delUserOperLogger(id);
+    public void delUserOperLogger(String id) {
+         userOperLoggerMapper.delUserOperLogger(id);
     }
     
 
     @Async
 	@Override
-	public boolean addUserOperLoggerTb() {
+	public void addUserOperLoggerTb() {
     	Date nextDate = DateUtils.addDays(new Date(), 1);
     	String nextDateStr = DateFormatUtils.format(nextDate, "yyyyMMdd");
-		return userOperLoggerMapper.addUserOperLoggerTb(nextDateStr);
+		userOperLoggerMapper.addUserOperLoggerTb(nextDateStr);
 	}
 
     @Override

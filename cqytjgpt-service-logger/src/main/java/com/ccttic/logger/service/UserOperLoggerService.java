@@ -8,23 +8,23 @@ public interface UserOperLoggerService {
     /**
      * 说明：增加UserOperLogger
      * */
-    boolean addUserOperLogger(UserOperLogger userOperLogger);
+    void addUserOperLogger(UserOperLogger userOperLogger);
 
     /**
      * 说明：更新一个UserOperLogger
      * */
-    boolean renewUserOperLogger(UserOperLogger userOperLogger);
+    void renewUserOperLogger(UserOperLogger userOperLogger);
 
     /**
      * 说明：删除一个UserOperLogger
      * */
-    boolean delUserOperLogger(String id);
+    void delUserOperLogger(String id);
     
     /**
      * 添加日志表
      * @return
      */
-    boolean addUserOperLoggerTb();
+    void addUserOperLoggerTb();
 
     /**
      * 说明：查询所有的参数

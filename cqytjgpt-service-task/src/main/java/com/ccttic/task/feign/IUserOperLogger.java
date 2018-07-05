@@ -15,5 +15,5 @@ import com.ccttic.entity.common.ResponseMsg;
 public interface IUserOperLogger {
 	
 	@RequestMapping(value="/addTb",method=RequestMethod.POST)
-    public ResponseMsg<Boolean> addOperLoggerTb() ;
+    public ResponseMsg<String> addOperLoggerTb() ;
 }

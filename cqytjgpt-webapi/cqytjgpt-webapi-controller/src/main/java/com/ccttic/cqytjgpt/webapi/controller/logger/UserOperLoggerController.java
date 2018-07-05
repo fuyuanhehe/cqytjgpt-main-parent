@@ -23,7 +23,7 @@ public class UserOperLoggerController {
 	@RequestMapping(value="/multi",method= {RequestMethod.GET,RequestMethod.POST})
     @OperLogging(content="分页查询用户操作日志")
     public ResponseMsg<List<UserOperLogger>> findOperLogger(UserOperLogger userOperLogger, PageRequest page) {
-		return feign.findOperLogger(userOperLogger, page);
+		return feign.findOperLogger(userOperLogger, page.getPage(),page.getRows());
     }
 
 	@RequestMapping(value="/single",method= {RequestMethod.GET,RequestMethod.POST})

@@ -25,7 +25,7 @@ public class UserOperLoggerTask extends QuartzJobBean{
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		ResponseMsg<Boolean> result = feign.addOperLoggerTb();
+		ResponseMsg<String> result = feign.addOperLoggerTb();
 		if(result.getStatus() == -1){
 			logger.error(result.getMessage());
 		}
