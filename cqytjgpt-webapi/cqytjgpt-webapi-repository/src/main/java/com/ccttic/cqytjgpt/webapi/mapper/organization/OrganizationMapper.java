@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.role.Area;
+import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 
@@ -73,19 +74,28 @@ public interface OrganizationMapper {
 	/**获取所有组织信息
 	 * @return
 	 */
-	public List<String> getAllOrg();
+	public List<Organization> getAllOrg();
 	
 	/**通过第二层的组织获得最底层组织
 	 * @param id
 	 * @return
 	 */
-	public List<String> getLastOrg(@Param("id") String id);
+	public List<Organization> getLastOrg(@Param("id") String id);
 	
 	/**
 	 * 获取所有最下层组织
 	 * @param id
 	 * @return
 	 */
-	public List<String> getAllLastOrg();
+	public List<Organization> getAllLastOrg();
+
+	/**通过adminid获取组织id
+	 * @param id
+	 * @return
+	 */
+	public Organization getOrgByAdminId(String id);
+	
+	public List<Department> getAllDepart(@Param("orgId") String orgId);
+	
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.car.XMLCar;
+import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.PageVehicleVo;
@@ -58,6 +59,6 @@ public interface IVehicleService {
 	
 	public List<VehicleIllegal> getAllVehicle();
 
-	public List<String> getfenceIdByEssid(String id);
+	public Area getfenceIdByEssid(String id);
 	
 }

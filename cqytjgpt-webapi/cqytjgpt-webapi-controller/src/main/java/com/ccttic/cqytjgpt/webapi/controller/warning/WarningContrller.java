@@ -73,11 +73,18 @@ public class WarningContrller implements Serializable {
 			ent = vo.getEnt();
 			empType = vo.getEmptype();
 		} else {
-			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-			ent=employee.getEnt();
-			empType = employee.getEmptype();
-			//3. 更新redis里用户缓存
-			redisService.set(username,employee, Const.USER_REDIS_LIVE);
+			EmployeeVo employee;
+			try {
+				employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				empType = employee.getEmptype();
+				//3. 更新redis里用户缓存
+				redisService.set(username,employee, Const.USER_REDIS_LIVE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		}
 		for (EssEnterprise essEnterprise : ent) {
 			list.add(essEnterprise.getId());
@@ -115,11 +122,18 @@ public class WarningContrller implements Serializable {
 			ent = vo.getEnt();
 			empType = vo.getEmptype();
 		} else {
-			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-			ent=employee.getEnt();
-			empType = employee.getEmptype();
-			//3. 更新redis里用户缓存
-			redisService.set(username,employee, Const.USER_REDIS_LIVE);
+			EmployeeVo employee;
+			try {
+				employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				empType = employee.getEmptype();
+				//3. 更新redis里用户缓存
+				redisService.set(username,employee, Const.USER_REDIS_LIVE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
 		for (EssEnterprise essEnterprise : ent) {

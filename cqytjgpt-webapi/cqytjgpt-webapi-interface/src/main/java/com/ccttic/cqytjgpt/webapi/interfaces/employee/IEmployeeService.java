@@ -36,7 +36,7 @@ public interface IEmployeeService {
 	 * @param account
 	 * @return
 	 */
-	public EmployeeVo findEmployeeByAccount(String account);
+	public EmployeeVo findEmployeeByAccount(String account) throws Exception;
 	
 	/**
 	 * 用户登录
@@ -98,11 +98,12 @@ public interface IEmployeeService {
 	/**
 	 * 获取员工列表
 	 * @param page
-	 * @param emp
+	 * @param list
+	 * @param emp 
 	 * @return
 	 * @throws Exception
 	 */
-	public Page<EssEmployeeVo> selectEmployee(Pageable page, EssEmployeeVo emp) throws Exception ;
+	public Page<EssEmployeeVo> selectEmployee(Pageable page, List<EssEmployee> list, EssEmployeeVo emp) throws Exception ;
 
 	/**修改员工密码
 	 * @param emp

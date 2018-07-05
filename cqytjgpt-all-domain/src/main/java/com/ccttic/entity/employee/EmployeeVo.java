@@ -13,12 +13,20 @@ public class EmployeeVo extends EssEmployee implements Serializable{
 	private static final long serialVersionUID = -4656386997456826076L;
 	// 员工所在岗位
 	private List<EssPost> posts;
+	private List<EssPost> canSeePosts;
+	private List<EssEmployee> canSeeEmp;
 	// 员工所在部门
 	private List<Department> deps;
+	
+	private List<Department> canSeeDeps;
 	// 员工所在企业
 	private List<EssEnterprise> ent;
+	
+	private List<EssEnterprise> canSeeEnt;
 	// 员工所在组织
-	private List<Organization> orgs;
+	private Organization org;
+	
+	private List<Organization> canSeeOrgs;
 	// 角色
 	private List<RoleModels> models;
 	// 员工能使用的菜单
@@ -26,25 +34,54 @@ public class EmployeeVo extends EssEmployee implements Serializable{
 	//验证码 
 	private String picCode;
 
-      public EmployeeVo() {
-		// TODO Auto-generated constructor stub
+
+	public List<EssEmployee> getCanSeeEmp() {
+		return canSeeEmp;
 	}
 
-	public EmployeeVo(List<EssPost> posts, List<Department> deps, List<EssEnterprise> ent, List<Organization> orgs,
-			List<RoleModels> models, List<Object> menus, String picCode) {
-		super();
-		this.posts = posts;
-		this.deps = deps;
-		this.ent = ent;
-		this.orgs = orgs;
-		this.models = models;
-		this.menus = menus;
-		this.picCode = picCode;
+	public void setCanSeeEmp(List<EssEmployee> canSeeEmp) {
+		this.canSeeEmp = canSeeEmp;
 	}
 
+	public Organization getOrg() {
+		return org;
+	}
 
+	public void setOrg(Organization org) {
+		this.org = org;
+	}
 
+	public List<EssPost> getCanSeePosts() {
+		return canSeePosts;
+	}
 
+	public void setCanSeePosts(List<EssPost> canSeePosts) {
+		this.canSeePosts = canSeePosts;
+	}
+
+	public List<Department> getCanSeeDeps() {
+		return canSeeDeps;
+	}
+
+	public void setCanSeeDeps(List<Department> canSeeDeps) {
+		this.canSeeDeps = canSeeDeps;
+	}
+
+	public List<EssEnterprise> getCanSeeEnt() {
+		return canSeeEnt;
+	}
+
+	public void setCanSeeEnt(List<EssEnterprise> canSeeEnt) {
+		this.canSeeEnt = canSeeEnt;
+	}
+
+	public List<Organization> getCanSeeOrgs() {
+		return canSeeOrgs;
+	}
+
+	public void setCanSeeOrgs(List<Organization> canSeeOrgs) {
+		this.canSeeOrgs = canSeeOrgs;
+	}
 
 	public List<EssPost> getPosts() {
 		return posts;
@@ -62,13 +99,7 @@ public class EmployeeVo extends EssEmployee implements Serializable{
 		this.deps = deps;
 	}
 
-	public List<Organization> getOrgs() {
-		return orgs;
-	}
-
-	public void setOrgs(List<Organization> orgs) {
-		this.orgs = orgs;
-	}
+	
 
 	public List<RoleModels> getModels() {
 		return models;
@@ -102,11 +133,6 @@ public class EmployeeVo extends EssEmployee implements Serializable{
 		this.ent = ent;
 	}
 
-	@Override
-	public String toString() {
-		return "EmployeeVo [posts=" + posts + ", deps=" + deps + ", orgs=" + orgs + ", models="
-				+ models + ", menus=" + menus + ", picCode=" + picCode + ", ent=" + ent + "]";
-	}
-
+	
 
 }

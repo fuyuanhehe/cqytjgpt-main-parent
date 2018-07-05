@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.car.XMLCar;
+import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.PageVehicleVo;
@@ -179,7 +180,7 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public List<String> getfenceIdByEssid(String id) {
+	public Area getfenceIdByEssid(String id) {
 
 		return mapper.getfenceIdByEssid(id);
 	}

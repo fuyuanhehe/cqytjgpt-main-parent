@@ -73,11 +73,18 @@ public class PostController {
 			empType = vo.getEmptype();
 			deps = vo.getDeps();
 		} else {
-			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-			empType = employee.getEmptype();
-			deps = employee.getDeps();
-			// 3. 更新redis里用户缓存
-			redisService.set(username, employee, Const.USER_REDIS_LIVE);
+			EmployeeVo employee;
+			try {
+				employee = employeeService.findEmployeeByAccount(username);
+				empType = employee.getEmptype();
+				deps = employee.getDeps();
+				// 3. 更新redis里用户缓存
+				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		}
 
 		post.setDeps(deps);
@@ -88,7 +95,7 @@ public class PostController {
 			page.setPage(post.getPage());
 			page.setRows(post.getRows());
 			
-			Page<EssPostVo> pager = postService.selectPost(page, post);
+			Page<EssPostVo> pager = postService.selectPost(page, post,vo.getCanSeePosts());
 
 			rm.setData(pager);
 			rm.setMessage("获取post数据成功");
@@ -107,21 +114,41 @@ public class PostController {
 	 * @return
 	 */
 	@RequestMapping(value = "selectAllOrganization", method = RequestMethod.POST)
-	public ResponseMsg<List<Organization>> selectAllOrganization(ServletRequest request, ServletResponse response) {
+	public ResponseMsg<List<Organization>> selectAllOrganization(ServletRequest request, ServletResponse response,@RequestParam String access_token) {
 		ResponseMsg<List<Organization>> rm = new ResponseMsg<>();
-		try {
-			List<Organization> list = postService.getAllOrg();
-			rm.setData(list);
-			rm.setMessage("获取Organization数据成功");
-			rm.setStatus(0);
-		} catch (Exception e) {
+		
 
+		String username = JWTUtil.getUsername(access_token);
+		// redis get data
+		EmployeeVo vo = (EmployeeVo) redisService.get(username+Const.TOKEN);
+		// 2. 判断REDIS是否为空
+		if (null != vo) {
 
-			rm.setMessage("获取Organization数据失败");
-			rm.setStatus(-1);
-			logger.info(e);
+		} else {
+			EmployeeVo employee;
+			try {
+				employee = employeeService.findEmployeeByAccount(username);
+				// 3. 更新redis里用户缓存
+				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
+		
+			if(vo.getCanSeeOrgs()!=null && vo.getCanSeeOrgs().size()>0) {
+			rm.setData(vo.getCanSeeOrgs());
+			rm.setMessage("获取Organization数据成功");
+			rm.setStatus(0);
+			}else {
+
+			rm.setMessage("获取Organization数据为空");
+			rm.setStatus(-1);
+			}
+		
 		return rm;
 	}
 

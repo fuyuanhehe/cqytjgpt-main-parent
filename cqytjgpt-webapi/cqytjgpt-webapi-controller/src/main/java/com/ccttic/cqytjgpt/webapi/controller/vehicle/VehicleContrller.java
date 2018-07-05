@@ -31,6 +31,8 @@ import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.role.Area;
+import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.InputVehiVo;
@@ -107,11 +109,18 @@ public class VehicleContrller implements Serializable {
 				ent = vo.getEnt();
 				empType = vo.getEmptype();
 			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent = employee.getEnt();
-				empType = employee.getEmptype();
-				// 3. 更新redis里用户缓存
-				redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+				EmployeeVo employee;
+				try {
+					employee = employeeService.findEmployeeByAccount(username);
+					ent = employee.getEnt();
+					empType = employee.getEmptype();
+					// 3. 更新redis里用户缓存
+					redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
@@ -156,7 +165,12 @@ public class VehicleContrller implements Serializable {
 			String username = JWTUtil.getUsername(access_token);
 			EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
 			if (null == vo) {
-				vo = employeeService.findEmployeeByAccount(username);
+				try {
+					vo = employeeService.findEmployeeByAccount(username);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// 3. 更新redis里用户缓存
 				redisService.set(username + Const.TOKEN, vo, Const.USER_REDIS_LIVE);
 			}
@@ -362,34 +376,42 @@ public class VehicleContrller implements Serializable {
 
 		EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
 		if (null == vo) {
-			EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+			EmployeeVo employee;
+			try {
+				employee = employeeService.findEmployeeByAccount(username);
+				vo = employee;
+				redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// 3. 更新redis里用户缓存
-			vo = employee;
-			redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+		
 		}
 		List<JSON> list = new ArrayList<JSON>();
-		List<String> area = new ArrayList<String>();
 
-		if (vo.getOrgs() != null && vo.getOrgs().size() > 0) {
-			if ("0".equals(vo.getOrgs().get(0).getOrgType())) {
-				area = vehicleService.getfenceIdByEssid("");
+		Area area = null;
+		if (vo.getOrg() != null) {
+			if ("SUPERMAN".equals(vo.getEmptype()) || "0".equals(vo.getOrg().getOrgType())) {
+				String s = frign.vehicleInfoList(token, "0", "500000");
+				list.add(JSON.parseObject(s));
 
-			} else if ("1".equals(vo.getOrgs().get(0).getOrgType())) {
-				List<String> orgs = organizationMapper.getLastOrg(vo.getOrgs().get(0).getId());
-				for (String str : orgs) {
-					List<String> areaList = vehicleService.getfenceIdByEssid(str);
-					if (areaList.size() > 0) {
-						area.add(areaList.get(0));
-					}
+			} else if ("ADMIN".equals(vo.getEmptype()) && "1".equals(vo.getOrg().getOrgType())) {
+				List<Organization> orgs = vo.getCanSeeOrgs();
+				for (Organization org : orgs) {
+					area = vehicleService.getfenceIdByEssid(org.getId());
+					list.add(JSON.parseObject(area != null && area.getAreaCd() != null
+							? frign.vehicleInfoList(token, "0", area.getAreaCd())
+							: null));
 				}
 
-			} else {
-				area = organizationMapper.getLastOrg(vo.getOrgs().get(0).getId());
+			} else if ("ADMIN".equals(vo.getEmptype()) && "2".equals(vo.getEmptype())) {
+				area = vehicleService.getfenceIdByEssid(vo.getOrg().getId());
+				list.add(JSON.parseObject(
+						area != null && area.getAreaCd() != null ? frign.vehicleInfoList(token, "0", area.getAreaCd())
+								: null));
 			}
-		}
-		for (String string : area) {
-			String s = frign.vehicleInfoList(token, "0", string);
-			list.add(JSON.parseObject(s));
+
 		}
 
 		resp.setData(list);
