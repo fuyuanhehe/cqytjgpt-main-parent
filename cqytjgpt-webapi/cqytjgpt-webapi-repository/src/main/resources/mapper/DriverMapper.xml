@@ -279,7 +279,7 @@
 		parameterType="java.util.Map">
 		SELECT
 		d.id,
-		REPLACE (d. NAME, ' ', '') NAME,
+		REPLACE (d. NAME, ' ', '') name,
 		a.areaNm,
 		en.etpNm,
 		dl.illicitTime,
@@ -329,7 +329,7 @@
 			and dl.illicit = #{illicit}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and d.firstReciveTime BETWEEN #{fiString} and
+			and dl.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
 
@@ -383,7 +383,7 @@
 			and dl.illicit = #{illicit}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and d.firstReciveTime BETWEEN #{fiString} and
+			and dl.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
 		and (d.isDelete is null OR d.isDelete !=1)
