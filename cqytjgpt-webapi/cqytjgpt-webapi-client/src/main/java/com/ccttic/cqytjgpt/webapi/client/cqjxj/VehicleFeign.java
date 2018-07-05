@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name="lkywjxj-service", url="${urls.ypt-url}",path="lkywjxj")
-public interface VehicleFrign {
+public interface VehicleFeign {
 	
 	/**
      * 这里@requestMapping里指定的路径就是lkywjxj-service工程里的里的/lkywjxj-service/admin/qryVehiHissTrack路径

@@ -1,16 +1,25 @@
 package com.ccttic.cqytjgpt.webapi.aop;
 
+import java.lang.reflect.Method;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.ccttic.cqytjgpt.webapi.aspect.LoggerAspect;
-import com.ccttic.cqytjgpt.webapi.interfaces.logger.UserOperLoggerService;
-import com.ccttic.util.common.SystemEnvironment;
-import com.ccttic.util.task.GeneralTestQueueExecutor;
+import com.ccttic.cqytjgpt.webapi.client.system.UserOperLoggerFeign;
+import com.ccttic.entity.logger.LoggerModel;
+import com.ccttic.entity.logger.UserOperLogger;
+import com.ccttic.util.common.CCtticDateUtils;
+import com.ccttic.util.common.CommonGenerator;
+import com.ccttic.util.jwt.JWTUtil;
+import com.ccttic.util.web.CCtticWebUtils;
 
 /**
  * 说明：记录用户操作日志
@@ -21,37 +30,64 @@ import com.ccttic.util.task.GeneralTestQueueExecutor;
 @Aspect
 @Configuration
 public class LoggerAop {
+	
+    // token key
+    public final static String AUTHORIZATION = "Authorization";
 
-	@Autowired
-	private LoggerAspect loggerAspect;
-
-	@Bean(destroyMethod = "destroy")
-	public LoggerAspect loggerAspect(UserOperLoggerService userOperLoggerService,
-			GeneralTestQueueExecutor generalTestQueueExecutor) {
-		LoggerAspect loggerAspect = new LoggerAspect();
-		// 设置日志写入的异步执行类，这个类型来执行主要的逻辑
-		loggerAspect.setGeneralTestQueueExecutor(generalTestQueueExecutor);
-		// 设置向日志写入的主要Service方法
-		loggerAspect.setUserOperLoggerService(userOperLoggerService);
-		return loggerAspect;
-	}
-
-	/**
-	 * 注意：初始化完成后，必须调用GeneralTestQueueExecutor#start() 方法
-	 */
-	@Bean(initMethod = "start", destroyMethod = "destroy")
-	public GeneralTestQueueExecutor generalTestQueueExecutor() {
-		// SystemEnvironment.PROCESSOR 与CPU核心数一样的写入线程
-		// 队列中最大的任务数量为2000
-		// 两个监听消费者
-		GeneralTestQueueExecutor generalTestQueueExecutor = new GeneralTestQueueExecutor(SystemEnvironment.PROCESSOR,
-				2000, 2);
-		return generalTestQueueExecutor;
-	}
+    // 网关中必须将用户姓名写入request域，USER_NAME_TOKEN 就是key
+    public static final String USER_NAME_TOKEN = "authentication_name";
+    
+    @Autowired
+    private UserOperLoggerFeign feign;
 
 	@Around("execution(* com.ccttic.cqytjgpt.webapi.controller..*.*(..))")
 	public Object logAspect(ProceedingJoinPoint joinPoint) {
-		return loggerAspect.doAroundLogger(joinPoint);
+		
+		Object proceed = null;  // 返回的数据
+        // 获得request
+        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = (sra == null ? null : sra.getRequest());
+        
+        try {
+        	
+            // 获得方法对象
+        	Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+            // 获得用户的基本操作日志
+            
+            // 需要保存的UserOperLogger
+            UserOperLogger userOperLogger = new UserOperLogger();
+            String token = request.getHeader(AUTHORIZATION);
+            String zjhm = null;
+            if (token == null)
+                userOperLogger.setOperBy("游客");
+            else {
+                // 获得姓名  这一步可以异步操作，优化响应时间
+                zjhm = JWTUtil.getUsername(token);
+                if (zjhm == null)
+                    zjhm = "游客";
+                userOperLogger.setOperBy("" + zjhm);
+            }
+            // 设置基本信息
+            userOperLogger.setOperType(3);
+            userOperLogger.setId(CommonGenerator.distributiveIDGenerator());
+            userOperLogger.setIpAddr(CCtticWebUtils.getRemoteHost(request));
+            userOperLogger.setOperTime(CCtticDateUtils.presentDay("yyyy-MM-dd HH:mm:ss"));
+            
+            // 获得方法和他所在类它上面的注解信息
+            LoggerModel loggerInfo = LoggerWorker.getLoggerInfo(method);
+            if (loggerInfo != null) {
+                userOperLogger.setContent(loggerInfo.getContent());
+                userOperLogger.setRemark(loggerInfo.getRemark());
+                userOperLogger.setOperType(loggerInfo.getOperType());
+            }
+           
+            // 异步保存用户日志
+            feign.addOperLogger(userOperLogger);
+            // 执行目标方法,如果这一句不执行，那么目标方法不会执行
+            proceed = joinPoint.proceed();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        return proceed;
 	}
-
 }

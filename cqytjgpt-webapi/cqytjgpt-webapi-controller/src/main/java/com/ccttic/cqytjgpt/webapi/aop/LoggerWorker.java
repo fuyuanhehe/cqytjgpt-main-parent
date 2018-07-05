@@ -1,4 +1,4 @@
-package com.ccttic.cqytjgpt.webapi.aspect;
+package com.ccttic.cqytjgpt.webapi.aop;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;

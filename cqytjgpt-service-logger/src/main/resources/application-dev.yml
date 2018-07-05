@@ -1,0 +1,52 @@
+spring:
+  rabbitmq:     # 配置RabbitMQ
+    host: 10.10.20.21
+    port: 5672
+    username: guest
+    password: guest
+  redis:
+      host: 10.10.20.22 
+      port: 6379
+      timeout: 0
+      pool:
+        max-wait: -1
+        max-active: 10
+        max-idle: 10
+        min-idle: 0
+  datasource: # 配置数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.10.20.22:3306/cqytjgpt_logger?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: ccttic!
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      initial-size: 1
+      max-active: 15
+      min-idle: 1
+      validation-query: select 1
+      validation-query-timeout: 10000
+      test-on-borrow: true
+      test-while-idle: true
+      test-on-return: false
+      filters: stat,wall,log4j
+      pool-prepared-statements: true
+# mybatis 配置
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:  # 配置懒加载机制
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    log-prefix: dao.
+
+logging:
+  config: classpath:logback.xml
+  
+ # 手动POST刷新配置需要关闭安全策略
+management:
+  security:
+    enabled: false
+    
+eureka:
+  client:
+    healthcheck:
+      enabled: true   # 开启健康检测，该配置不能配置在bootstrap.yml中，会出现服务检测异常

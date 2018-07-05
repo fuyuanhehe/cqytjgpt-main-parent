@@ -1,7 +1,5 @@
 package com.ccttic.util.common;
 
-import java.util.Random;
-
 public class CommonGenerator {
 
     /**

@@ -37,6 +37,7 @@
     	<module>cqytjgpt-screen-api</module>
     	<!-- 基本的web模块 -->
     	<module>cqytjgpt-webapi</module>
+    <module>cqytjgpt-service-logger</module>
   </modules>
 
     <properties>

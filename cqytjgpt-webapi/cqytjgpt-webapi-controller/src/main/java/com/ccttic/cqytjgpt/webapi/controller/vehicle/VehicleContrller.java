@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFrign;
+import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
@@ -70,7 +70,7 @@ public class VehicleContrller implements Serializable {
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
 	@Autowired
-	private VehicleFrign frign;
+	private VehicleFeign frign;
 	@Autowired
 	private OrganizationMapper organizationMapper;
 
