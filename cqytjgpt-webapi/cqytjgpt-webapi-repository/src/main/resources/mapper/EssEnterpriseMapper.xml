@@ -605,7 +605,7 @@
   <select id="qryEnterpriseList" parameterType="java.util.Map" resultType="com.ccttic.entity.enterprise.EssEnterprise">
   	SELECT etpNm,etpAdress,etpTel,etpSafer,saferTel,etpLawer,lawerTel,createTime,updateTime,state 
   	FROM ess_enterprise 
-  	WHERE 1=1
+  	WHERE 1=1 and (isDeleted is null or isDeleted = 0)
   		<if test="etpnm != null and etpnm != ''">
 			and etpNm = #{etpnm}
 		</if>
