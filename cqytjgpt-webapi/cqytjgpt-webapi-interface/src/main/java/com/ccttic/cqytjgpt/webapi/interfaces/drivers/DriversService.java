@@ -35,7 +35,7 @@ public interface DriversService {
 
 
 	// 增加驾驶员
-	public void insertSelective(DriverInsert driver);
+	public boolean insertSelective(DriverInsert driver);
 	
 	public List<DriverIllegal> getAllDriver();
 	
