@@ -94,5 +94,7 @@ public interface EssPostMapper {
 	 */
 	List<EssPost> selectPostUnderDep(Map<String, String> map)throws Exception;
 	
+	List<EssPost> getAllPost()throws Exception;
+	
 	
 }

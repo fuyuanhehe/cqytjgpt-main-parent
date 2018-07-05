@@ -1,6 +1,5 @@
 package com.ccttic.cqytjgpt.webapi.controller.employee;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,14 +12,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
@@ -33,7 +30,6 @@ import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.employee.vo.TokenVo;
-import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.Department;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
@@ -132,70 +128,84 @@ public class EmployeeController {
 		 }
 		String username=JWTUtil.getUsername(access_token);
 	
-		EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-		
-		if (employee == null) {
-			response.fail("获取用户信息失败!");
-			return response;
+		EmployeeVo employee;
+		try {
+			employee = employeeService.findEmployeeByAccount(username);
+			if (employee == null) {
+				response.fail("获取用户信息失败!");
+				return response;
+			}
+			logger.info("-----------------放入开始！-----------------------");
+			redisService.set(username+Const.TOKEN, employee,Const.USER_REDIS_LIVE);
+			logger.info("-----------------放入结束！-----------------------");
+			response.setStatus(ResponseMsg.STATUS_SUCCES);
+			response.setData((EmployeeVo) employee);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		logger.info("-----------------放入开始！-----------------------");
-		redisService.set(username+Const.TOKEN, employee,Const.USER_REDIS_LIVE);
-		logger.info("-----------------放入结束！-----------------------");
-		response.setStatus(ResponseMsg.STATUS_SUCCES);
-		response.setData((EmployeeVo) employee);
+		
+		
 
 		return response;
 	}
 	// 分页显示所有员工
-		@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
-		@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
-				@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-				@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-		public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token,
-				@RequestBody EssEmployeeVo emp) {
-			ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
+	@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token,
+			@RequestBody EssEmployeeVo emp) {
+		ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
 
-			String empType = null;
-			List<Department> deps = null;
-			String username = JWTUtil.getUsername(access_token);
-			// redis get data
-			EmployeeVo vo = (EmployeeVo) redisService.get(username+Const.TOKEN);
-			// 2. 判断REDIS是否为空
-			if (null != vo) {
+		String empType = null;
+		List<Department> deps = null;
+		String username = JWTUtil.getUsername(access_token);
+		// redis get data
+		EmployeeVo vo = (EmployeeVo) redisService.get(username+Const.TOKEN);
+		// 2. 判断REDIS是否为空
+		if (null != vo) {
 
-				empType = vo.getEmptype();
-				deps = vo.getDeps();
-			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+			empType = vo.getEmptype();
+			deps = vo.getDeps();
+		} else {
+			EmployeeVo employee;
+			try {
+				employee = employeeService.findEmployeeByAccount(username);
 				empType = employee.getEmptype();
 				deps = employee.getDeps();
 				// 3. 更新redis里用户缓存
 				redisService.set(username, employee, Const.USER_REDIS_LIVE);
-			}
-
-			emp.setDes(deps);
-			emp.setEmpType(empType);
-
-			try {
-
-				PageRequest page = new PageRequest();
-				page.setPage(emp.getPage());
-				page.setRows(emp.getRows());
-				Page<EssEmployeeVo> pager = employeeService.selectEmployee(page, emp);
-
-				rm.setData(pager);
-				rm.setMessage("获取employee数据成功");
-				rm.setStatus(0);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-
-				rm.setMessage("获取employee数据失败");
-				rm.setStatus(-1);
-				logger.error("获取employee数据失败", e);
+				e.printStackTrace();
 			}
-
-			return rm;
+		
 		}
+
+		emp.setDes(deps);
+		emp.setEmpType(empType);
+
+		try {
+			PageRequest page = new PageRequest();
+			page.setPage(emp.getPage());
+			page.setRows(emp.getRows());
+			Page<EssEmployeeVo> pager = employeeService.selectEmployee(page, vo.getCanSeeEmp(),emp);
+
+			rm.setData(pager);
+			rm.setMessage("获取employee数据成功");
+			rm.setStatus(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+
+			rm.setMessage("获取employee数据失败");
+			rm.setStatus(-1);
+			logger.error("获取employee数据失败", e);
+		}
+
+		return rm;
+	}
 	
 	@RequestMapping(value = "/refreshtoken", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
@@ -269,8 +279,10 @@ public class EmployeeController {
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
-
 		try {
+//			if () {
+//				
+//			}
 			employeeService.addEmployee(emp);
 			rm.success("添加employee数据成功");
 		} catch (Exception e) {
@@ -320,6 +332,8 @@ public class EmployeeController {
 	public ResponseMsg<String> modifyPassword(HttpServletRequest request, @RequestBody EssEmployee emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
 		try {
+			String md5pasword = MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8");
+			emp.setPassword(md5pasword);
 			employeeService.modifyPassword(emp);
 			rm.success("修改密码成功");
 		} catch (Exception e) {

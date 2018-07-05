@@ -16,6 +16,7 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.enums.EssEmployeeStatus;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -85,7 +86,8 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		employee.setEmpstatus(EssEmployeeStatus.START.getValue());
 		employee.setEmail(vo.getEmail());
 		employee.setAccount(vo.getAccount());
-		employee.setPassword(vo.getPassword());
+		String md5pasword = MD5.sign(vo.getAccount(), vo.getPassword(), "utf-8");
+		employee.setPassword(md5pasword);
 		employee.setEmpnm(vo.getEtplawer());
 		employee.setCreatetime(new Date());
 		i = employeeMapper.insertSelective(employee);

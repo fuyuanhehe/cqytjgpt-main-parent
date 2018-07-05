@@ -77,9 +77,16 @@ public class VehiIllicitContrller implements Serializable{
 			if (null != vo) {
 				ent = vo.getEnt();
 			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
-				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+				EmployeeVo employee;
+				try {
+					employee = employeeService.findEmployeeByAccount(username);
+					ent=employee.getEnt();
+					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());

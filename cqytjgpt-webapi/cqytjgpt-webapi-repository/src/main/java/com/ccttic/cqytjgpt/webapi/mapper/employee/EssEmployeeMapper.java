@@ -88,4 +88,6 @@ public interface EssEmployeeMapper {
 	 */
 	void delEmpUnderDep(EssEmployeeDept dept);
 	
+	List<EssEmployee> getAllEmp();
+	
 }

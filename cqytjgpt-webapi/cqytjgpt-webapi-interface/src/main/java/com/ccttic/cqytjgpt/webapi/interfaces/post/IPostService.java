@@ -17,10 +17,11 @@ public interface IPostService {
 	 * 查询岗位
 	 * @param page
 	 * @param post
+	 * @param list 
 	 * @return
 	 * @throws Exception
 	 */
-	Page<EssPostVo> selectPost(Pageable page, EssPostVo post) throws Exception;
+	Page<EssPostVo> selectPost(Pageable page, EssPostVo post, List<EssPost> list) throws Exception;
 
 	/**
 	 * 获取所有组织

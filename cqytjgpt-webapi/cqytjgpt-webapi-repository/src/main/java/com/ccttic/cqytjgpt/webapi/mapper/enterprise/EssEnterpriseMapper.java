@@ -55,5 +55,9 @@ public interface EssEnterpriseMapper {
 	 */
 	public int qryEnterpriseCount(Map<String, Object> params) throws AppException;
 	
-	public List<EssEnterprise> getEssEnterprise(String id);
+	public List<EssEnterprise> getEssEnterprise(@Param("id")String id);
+	
+	public List<EssEnterprise> getEssEnterpriseByOrgId(@Param("id")String id);
+	
+	
 }

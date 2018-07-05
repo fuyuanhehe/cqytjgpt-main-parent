@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.VehicleIllegal;
@@ -88,7 +89,7 @@ public interface VehicleMapper {
 	//根据车辆id获取数据库违章信息
 	List<VehiIllicit>selectByVehicleId(String vehicleId);
 
-	public List<String> getfenceIdByEssid(@Param("id") String id);
+	public Area getfenceIdByEssid(@Param("id") String id);
 
 	/**批量更新车辆信息
 	 * @param update
