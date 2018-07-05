@@ -38,7 +38,7 @@ public interface IDepartmentService {
 	 * @param orgCd
 	 * @throws AppException
 	 */
-	void removeMent(String id) throws AppException;
+	int removeMent(String id) throws AppException;
 	
 	/**
 	 * 创建企业

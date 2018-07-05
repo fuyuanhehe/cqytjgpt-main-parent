@@ -56,11 +56,11 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	}
 
 	@Override
-	public void removeMent(String id) throws AppException {
+	public int removeMent(String id) throws AppException {
 		if (ObjectHelper.isNotEmpty(mapper.finByDepEmpId(id))) {
 			throw new DeleteRefusedException("该部门有供职人员，请移除员工后删除!");
 		}
-		mapper.removeMent(id);
+		return mapper.removeMent(id);
 	}
 
 	@Override

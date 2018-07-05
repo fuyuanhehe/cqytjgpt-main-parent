@@ -52,7 +52,7 @@ public interface DepartmentMapper {
 	 * 删除部门
 	 * @param id
 	 */
-	public void removeMent(@Param("id") String id);
+	public int removeMent(@Param("id") String id);
 	
 	/**
 	 * 创建企业
