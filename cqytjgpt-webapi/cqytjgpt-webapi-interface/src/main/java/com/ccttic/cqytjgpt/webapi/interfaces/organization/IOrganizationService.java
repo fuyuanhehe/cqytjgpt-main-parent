@@ -10,11 +10,11 @@ import com.ccttic.util.exception.AppException;
 public interface IOrganizationService {
 	
 	/**
-	 * 获取机构
+	 * 获取机构头
 	 * @return
 	 * @throws AppException
 	 */
-	List<Organization> getHeadOrg() throws AppException;
+	Organization getHeadOrg() throws AppException;
 	
 	/**
 	 * 通过机构代码获取子机构信息

@@ -3,7 +3,6 @@ package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -168,8 +167,11 @@ public class VehicleContrller implements Serializable {
 				return resp;
 			}
 			// 默认只有一个 所以直接取list的第一条数据
+			if (ent.size() <= 0) {
+				resp.fail("添加失败,只有企业才能添加车辆！");
+				return resp;
+			}
 			entId = ent.get(0).getId();
-
 			Map<String, Object> maps = vehicleService.saveVehicle(listMap, entId);
 			if ((int) maps.get("cet") == 1) {
 				resp.fail(maps.get("gather") + "其他添加成功！");

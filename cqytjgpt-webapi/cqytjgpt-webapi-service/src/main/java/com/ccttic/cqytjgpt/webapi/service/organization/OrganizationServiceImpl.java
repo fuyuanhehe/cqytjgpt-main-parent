@@ -25,7 +25,7 @@ public class OrganizationServiceImpl implements IOrganizationService{
 	private DepartmentMapper mentMapper;
 	
 	@Override
-	public List<Organization> getHeadOrg() throws AppException {
+	public Organization getHeadOrg() throws AppException {
 		return mapper.getHeadOrg();
 	}
 

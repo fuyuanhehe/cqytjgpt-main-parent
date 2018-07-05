@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.controller.organization;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.ccttic.entity.role.Enterprise;
 import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.vo.PageDepartmentVo;
+import com.ccttic.entity.role.vo.TreeVo;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -57,12 +59,27 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Organization>> findAllOrg() {
-		ResponseMsg<List<Organization>> resp = new ResponseMsg<List<Organization>>();
+	public ResponseMsg<List<TreeVo>> findAllOrg() {
+		ResponseMsg<List<TreeVo>> resp = new ResponseMsg<List<TreeVo>>();
+		List<TreeVo> list = new ArrayList<TreeVo>();
+		TreeVo vo = new TreeVo();
 		try {
-			List<Organization> headOrg = organizationService.getHeadOrg();
+			Organization headOrg = organizationService.getHeadOrg(); // 获取机构头
+			vo.setId(headOrg.getOrgCd());
+			vo.setText(headOrg.getOrgNm());
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("orgType", "0");
+			map.put("orgCd", headOrg.getOrgCd());
+			map.put("id", headOrg.getId());
+			vo.setIconCls("company");
+			vo.setAttributes(map);
+			List<Organization> orgs = organizationService.findNextNode(headOrg.getOrgCd()); // 获取分所
+			if (ObjectHelper.isNotEmpty(orgs)) {
+				vo.setChildren(itemOrg(orgs));
+			}
+			list.add(vo);
 			if (!ObjectHelper.isEmpty(headOrg)) {
-				resp.setData(headOrg);
+				resp.setData(list);
 				resp.success("获取信息成功！");
 			}
 		} catch (AppException e) {
@@ -72,7 +89,43 @@ public class OrganizationContrller implements Serializable {
 		System.out.println(resp);
 		return resp;
 	}
-
+	
+	/**
+	 * 遍历所有的下级机构
+	 * @param orgs
+	 * @param type
+	 * @return
+	 * @throws AppException
+	 */
+	public List<TreeVo> itemOrg(List<Organization> orgs) throws AppException {
+		List<TreeVo> list = new ArrayList<TreeVo>();
+		for (Organization org : orgs) {
+			TreeVo vo = new TreeVo();
+			vo.setId(org.getOrgCd());
+			vo.setText(org.getOrgNm());
+			Map<String, String> map = new HashMap<String, String>();
+			// 判断机构类型
+			if ("1".equalsIgnoreCase(org.getOrgType())) {
+				map.put("orgType", "1");
+				vo.setIconCls("department");
+			} else {
+				map.put("orgType", "2");
+				vo.setIconCls("company");
+			}
+			// 设置orgCd
+			map.put("orgCd", org.getOrgCd());
+			// 设置id
+			map.put("id", org.getId());
+			vo.setAttributes(map);
+			// 取得下级机构
+			List<Organization> childOrgs = organizationService.findNextNode(org.getOrgCd());
+			if (ObjectHelper.isNotEmpty(childOrgs)) {
+				vo.setChildren(itemOrg(childOrgs));
+			}
+			list.add(vo);
+		}
+		return list;
+	}
 	/**
 	 * 取得当前节点的下级节点
 	 * 

@@ -14,7 +14,7 @@ public interface OrganizationMapper {
 	 * 获取机构
 	 * @return
 	 */
-	public List<Organization> getHeadOrg();
+	public Organization getHeadOrg();
 	
 	/**
 	 * 通过机构编码获取子机构
