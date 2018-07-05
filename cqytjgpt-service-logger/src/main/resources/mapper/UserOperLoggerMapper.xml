@@ -53,7 +53,7 @@
     </select>
 
     <!-- 说明：查找所有的logs count -->
-    <select id="findAllUserOperLoggerCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    <select id="findAllUserOperLoggerCount" parameterType="java.util.Map" resultType="java.lang.Long">
         SELECT COUNT(id) FROM user_oper_log
         <where>
             <if test="content != null and content != ''">content = #{content} </if>
