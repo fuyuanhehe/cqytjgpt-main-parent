@@ -13,15 +13,14 @@ public class VehiDangerVo extends VehiDanger{
 	private String areaId;
 	private String empType;
 	private String orgNm;
+	private String superNm;
 	
 	public VehiDangerVo() {
 		super();
 	}
 
-
-
-
-	public VehiDangerVo(int page, int rows, List<String> list, String areaId, String empType, String orgNm) {
+	public VehiDangerVo(int page, int rows, List<String> list, String areaId, String empType, String orgNm,
+			String superNm) {
 		super();
 		this.page = page;
 		this.rows = rows;
@@ -29,9 +28,8 @@ public class VehiDangerVo extends VehiDanger{
 		this.areaId = areaId;
 		this.empType = empType;
 		this.orgNm = orgNm;
+		this.superNm = superNm;
 	}
-
-
 
 
 	public int getPage() {
@@ -75,6 +73,14 @@ public class VehiDangerVo extends VehiDanger{
 
 	public void setOrgNm(String orgNm) {
 		this.orgNm = orgNm;
+	}
+
+	public String getSuperNm() {
+		return superNm;
+	}
+
+	public void setSuperNm(String superNm) {
+		this.superNm = superNm;
 	}
 	
 	
