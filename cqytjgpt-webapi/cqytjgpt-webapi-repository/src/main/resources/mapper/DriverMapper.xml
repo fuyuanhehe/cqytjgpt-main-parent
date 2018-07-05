@@ -64,7 +64,12 @@
 
 	<sql id="names">
 		replace(`name`,' ','') name,
+	
 	</sql>
+	<sql id="dnames">
+		trim(REPLACE(`name`, ' ', '')) LIKE trim(REPLACE('%${name}%', ' ', ''))
+	</sql>
+	
 	<!-- 驾驶员分页 -->
 	<select id="seDriverPage" resultType="com.ccttic.entity.drivers.vo.DriverVo"
 		parameterType="java.util.Map">
@@ -90,7 +95,8 @@
 		ess_area a
 		LEFT JOIN driver d ON a.id =
 		d.mgrDepartAreaId
-		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
+		LEFT JOIN ess_enterprise
+		en ON d.mgrEnterpriseId =
 		en.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -106,19 +112,19 @@
 		</choose>
 		and d.id != ''
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm = #{etpNm}
+			and en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
 		</if>
 		<if test="name!=null and name!='' ">
-			and d.name = #{name}
+			and  <include refid="dnames"></include>
 		</if>
 		<if test="idcard!=null and idcard!='' ">
 			and d.idcard = #{idcard}
 		</if>
 		<if test="permicar!=null and permicar!='' ">
-			and d.permiCar = #{permicar}
+			and d.permiCar like '%${permiCar}%'
 		</if>
 		<if test="id!=null and id!='' ">
 			and d.id = #{id}
@@ -165,13 +171,13 @@
 		</choose>
 		and d.id != ''
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm = '%${etpNm}%'
+			and en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
 		</if>
 		<if test="name!=null and name!='' ">
-			and d.name = '%${name}%'
+			and trim(REPLACE(`name`, ' ', '')) LIKE trim(REPLACE('%${name}%', ' ', ''))
 		</if>
 		<if test="idcard!=null and idcard!='' ">
 			and d.idcard = #{idcard}
@@ -208,11 +214,13 @@
 		FROM
 		ess_enterprise e
 		LEFT JOIN driver d
-		ON e.id = d.mgrEnterpriseId
+		ON e.id =
+		d.mgrEnterpriseId
 		LEFT
 		JOIN dr_illicit dl ON d.id =
 		dl.driver_id
-		LEFT JOIN ess_area a ON
+		LEFT JOIN
+		ess_area a ON
 		d.mgrDepartAreaId = a.id
 
 		<choose>
@@ -271,7 +279,7 @@
 		parameterType="java.util.Map">
 		SELECT
 		d.id,
-		<include refid="names"></include>
+		REPLACE (d. NAME, ' ', '') NAME,
 		a.areaNm,
 		en.etpNm,
 		dl.illicitTime,
@@ -282,11 +290,13 @@
 		FROM
 		driver d
 		LEFT JOIN
-		ess_enterprise en ON d.mgrEnterpriseId = en.id
+		ess_enterprise en ON d.mgrEnterpriseId
+		= en.id
 		LEFT
 		JOIN ess_area a ON
 		d.mgrDepartAreaId = a.id
-		LEFT JOIN dr_illicit dl ON
+		LEFT JOIN
+		dr_illicit dl ON
 		d.id = dl.driver_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -304,10 +314,10 @@
 			and d.id = #{id}
 		</if>
 		<if test="name!=null and name!='' ">
-			and d.name = #{name}
+			and trim(REPLACE(d.name, ' ', '')) LIKE trim(REPLACE('%${name}%', ' ', ''))
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm = #{etpNm}
+			and en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
@@ -358,10 +368,10 @@
 			and d.id = #{id}
 		</if>
 		<if test="name!=null and name!='' ">
-			and d.name = #{name}
+			and trim(REPLACE(d.name, ' ', '')) LIKE trim(REPLACE('%${name}%', ' ', ''))
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm = #{etpNm}
+			and en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
@@ -445,7 +455,7 @@
 			en.id = #{id}
 		</if>
 		<if test="etpNm!= null and etpNm!='' ">
-			en.etpNm = #{etpNm}
+			en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="ownerTraffic!= null and ownerTraffic!='' ">
 			en.ownerTraffic = #{ownerTraffic}
@@ -487,7 +497,7 @@
 			en.id = #{id}
 		</if>
 		<if test="etpNm!= null and etpNm!='' ">
-			en.etpNm = #{etpNm}
+			en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="ownerTraffic!= null and ownerTraffic!='' ">
 			en.ownerTraffic = #{ownerTraffic}
@@ -538,7 +548,7 @@
 			AND o.orgNm =#{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!= '' ">
-			AND e.etpNm =#{etpNm}
+			AND e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="vehiType!=null and vehiType!= '' ">
 			AND v.vehiType =#{vehiType}
@@ -577,7 +587,7 @@
 			AND o.orgNm =#{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!= '' ">
-			AND e.etpNm =#{etpNm}
+			AND e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="vehiType!=null and vehiType!= '' ">
 			AND v.vehiType =#{vehiType}
@@ -626,7 +636,7 @@
 			AND o.orgNm =#{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!= '' ">
-			AND e.etpNm =#{etpNm}
+			AND e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="vehiNoType!=null and vehiNoType!= '' ">
 			AND v.vehiNoType =#{vehiNoType}
@@ -715,7 +725,7 @@
 			and o.orgNm = #{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm = #{etpNm}
+			and e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="vehiType!=null and vehiType!='' ">
 			and v.vehiType = #{vehiType}
@@ -757,7 +767,7 @@
 			and o.orgNm = #{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm = #{etpNm}
+			and e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="vehiType!=null and vehiType!='' ">
 			and v.vehiType = #{vehiType}
@@ -801,7 +811,7 @@
 			and o.orgNm = #{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm = #{etpNm}
+			and e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="vehiType!=null and vehiType!='' ">
 			and v.vehiType = #{vehiType}
@@ -848,7 +858,7 @@
 			and o.orgNm = #{orgNm}
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm = #{etpNm}
+			and e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="vehiType!=null and vehiType!='' ">
 			and vd.vehiType = #{vehiType}

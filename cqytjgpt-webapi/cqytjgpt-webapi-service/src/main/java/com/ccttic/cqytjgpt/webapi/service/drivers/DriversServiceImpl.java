@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,14 +100,20 @@ public class DriversServiceImpl implements DriversService {
 
 	@Override
 	@Transactional
-	public void insertSelective(DriverInsert driver) {
+	public boolean insertSelective(DriverInsert driver) {
 
 		List<Driver> list = new ArrayList<>();
+		
 		for (Driver driver2 : driver.getDrivers()) {
-			driver2.setId(RandomHelper.uuid());
-			list.add(driver2);
+			if(isIDCard(driver2.getIdcard())){
+				driver2.setId(RandomHelper.uuid());
+				list.add(driver2);
+			}else {
+				return false;
+			}
 		}
 		mapper.insertSelective(list);
+		return true;
 	}
 
 	@Override
@@ -247,7 +254,11 @@ public class DriversServiceImpl implements DriversService {
 			return vehicCount;
 
 	}
+	public static boolean isIDCard(String idCard) {
+		String regularExpression = "(^[1-9]\\d{5}(18|19|20)\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$)|" +
+				"(^[1-9]\\d{5}\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}$)";
+		return Pattern.matches(regularExpression, idCard);
+	}
 
-
-
+	
 }
