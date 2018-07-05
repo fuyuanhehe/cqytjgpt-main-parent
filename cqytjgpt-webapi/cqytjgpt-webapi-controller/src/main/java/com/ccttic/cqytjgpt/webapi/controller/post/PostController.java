@@ -79,7 +79,7 @@ public class PostController {
 				empType = employee.getEmptype();
 				deps = employee.getDeps();
 				// 3. 更新redis里用户缓存
-				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+				redisService.set(username+Const.TOKEN, employee, Const.USER_REDIS_LIVE);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -94,7 +94,7 @@ public class PostController {
 			PageRequest page = new PageRequest();
 			page.setPage(post.getPage());
 			page.setRows(post.getRows());
-			
+			System.out.println(vo.getCanSeePosts().size());
 			Page<EssPostVo> pager = postService.selectPost(page, post,vo.getCanSeePosts());
 
 			rm.setData(pager);
@@ -129,7 +129,7 @@ public class PostController {
 			try {
 				employee = employeeService.findEmployeeByAccount(username);
 				// 3. 更新redis里用户缓存
-				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+				redisService.set(username+Const.TOKEN, employee, Const.USER_REDIS_LIVE);
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

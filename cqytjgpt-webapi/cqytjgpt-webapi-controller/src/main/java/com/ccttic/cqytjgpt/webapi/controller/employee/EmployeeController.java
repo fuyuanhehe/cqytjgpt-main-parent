@@ -176,7 +176,7 @@ public class EmployeeController {
 				empType = employee.getEmptype();
 				deps = employee.getDeps();
 				// 3. 更新redis里用户缓存
-				redisService.set(username, employee, Const.USER_REDIS_LIVE);
+				redisService.set(username+Const.TOKEN, employee, Const.USER_REDIS_LIVE);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
