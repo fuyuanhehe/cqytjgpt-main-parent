@@ -42,9 +42,9 @@
 		deleteTime, createBy, createDepCd, updateBy, updateDepCd
 	</sql>
 	<!-- 获取所有准假车型 -->
-	<select id="getAllpermiCar" resultType="com.ccttic.en	tity.drivers.vo.PermiCarsVo">
+	<select id="getAllpermiCar" resultType="com.ccttic.entity.drivers.vo.PermiCarsVo">
 		SELECT DISTINCT
-		permiCar	
+		permiCar
 		FROM
 		driver
 		WHERE
@@ -62,6 +62,9 @@
 
 	</insert>
 
+	<sql id="names">
+		replace(`name`,' ','') name,
+	</sql>
 	<!-- 驾驶员分页 -->
 	<select id="seDriverPage" resultType="com.ccttic.entity.drivers.vo.DriverVo"
 		parameterType="java.util.Map">
@@ -69,7 +72,7 @@
 		d.id,
 		d.adress,
 		a.areaNm,
-		d.NAME,
+		<include refid="names"></include>
 		d.idcard,
 		d.mobilephone,
 		en.etpNm,
@@ -162,19 +165,19 @@
 		</choose>
 		and d.id != ''
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm = #{etpNm}
+			and en.etpNm = '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
 		</if>
 		<if test="name!=null and name!='' ">
-			and d.name = #{name}
+			and d.name = '%${name}%'
 		</if>
 		<if test="idcard!=null and idcard!='' ">
 			and d.idcard = #{idcard}
 		</if>
 		<if test="permicar!=null and permicar!='' ">
-			and d.permiCar = #{permicar}
+			and d.permiCar like '%${permicar}%'
 		</if>
 		<if test="id!=null and id!='' ">
 			and d.id = #{id}
@@ -196,7 +199,7 @@
 	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
 		SELECT
-		d.name,
+		<include refid="names"></include>
 		a.areaNm,
 		dl.illicitTime,
 		dl.illicitAdress,
@@ -268,7 +271,7 @@
 		parameterType="java.util.Map">
 		SELECT
 		d.id,
-		d.name,
+		<include refid="names"></include>
 		a.areaNm,
 		en.etpNm,
 		dl.illicitTime,
