@@ -67,6 +67,7 @@ public class OrganizationContrller implements Serializable {
 			Organization headOrg = organizationService.getHeadOrg(); // 获取机构头
 			vo.setId(headOrg.getOrgCd());
 			vo.setText(headOrg.getOrgNm());
+			vo.setRemark(headOrg.getRemark());
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("orgType", "0");
 			map.put("orgCd", headOrg.getOrgCd());
@@ -103,6 +104,8 @@ public class OrganizationContrller implements Serializable {
 			TreeVo vo = new TreeVo();
 			vo.setId(org.getOrgCd());
 			vo.setText(org.getOrgNm());
+			vo.setRemark(org.getRemark());
+			vo.setSuperOrgId(org.getSuperOrgId());
 			Map<String, String> map = new HashMap<String, String>();
 			// 判断机构类型
 			if ("1".equalsIgnoreCase(org.getOrgType())) {

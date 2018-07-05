@@ -25,6 +25,14 @@ public class TreeVo implements Serializable {
 	 */
 	public String text;
 	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
+	 * 父id
+	 */
+	private String superOrgId;
+	/**
 	 * 树型结构的外加属性
 	 */
 	private Map<String, String> attributes = new HashMap<String, String>();
@@ -100,5 +108,22 @@ public class TreeVo implements Serializable {
 	public void setIconCls(String iconCls) {
 		this.iconCls = iconCls;
 	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getSuperOrgId() {
+		return superOrgId;
+	}
+
+	public void setSuperOrgId(String superOrgId) {
+		this.superOrgId = superOrgId;
+	}
+	
 
 }
