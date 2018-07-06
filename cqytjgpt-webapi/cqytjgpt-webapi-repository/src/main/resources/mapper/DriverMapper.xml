@@ -220,7 +220,8 @@
 		ON e.id =
 		d.mgrEnterpriseId
 		LEFT
-		JOIN dr_illicit dl ON d.id =
+		JOIN dr_illicit dl ON
+		d.id =
 		dl.driver_id
 		LEFT JOIN
 		ess_area a ON
@@ -438,12 +439,11 @@
 		en.remark,
 		a.areaNm
 		FROM
-		ess_enterprise en
+		ess_organization eo
 		LEFT
-		JOIN ess_organization eo ON en.org_id = eo.id
+		JOIN ess_enterprise en ON en.org_id = eo.id
 		LEFT JOIN ess_area a ON
 		eo.area_id = a.id
-
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				where 1=1
@@ -456,7 +456,7 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		
+
 		<if test="orgNm!= null and orgNm!='' ">
 			eo.orgNm = #{orgNm}
 		</if>
@@ -483,13 +483,10 @@
 		SELECT
 		COUNT(en.id)
 		FROM
-		ess_enterprise en
-		LEFT
-		JOIN ess_organization eo ON
-		en.org_id = eo.id
-		LEFT JOIN ess_area a ON
-		eo.area_id = a.id
-
+		ess_organization eo
+		LEFT JOIN ess_enterprise en
+		ON en.org_id = eo.id
+		LEFT JOIN ess_area a ON eo.area_id = a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				where 1=1
@@ -519,7 +516,7 @@
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
 	</select>
-	<!--企业信息记录分页  违法未处理详情-->
+	<!--企业信息记录分页 违法未处理详情 -->
 	<select id="queryVehiclespage" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.vehiclesVo">
 		SELECT
@@ -566,6 +563,7 @@
 			AND v.vehiType =#{vehiType}
 		</if>
 		and (o.isDeleted is null OR o.isDeleted !=1)
+
 		limit ${startRecord} ,
 		${pageSize}
 
