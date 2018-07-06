@@ -140,10 +140,10 @@ public class DriversServiceImpl implements DriversService {
 		List<EnterprisethenVo> data = mapper.queryEnterprisePage(params);
 		
 		  for (EnterprisethenVo enterprisethenVo2 : data) {
-			  if(enterprisethenVo.getState()==1 || enterprisethenVo.getState().equals("1")){
-				  enterprisethenVo.setStartthe("启动");
+			  if(enterprisethenVo2.getState()==1 || enterprisethenVo.getState().equals("1")){
+				  enterprisethenVo2.setStartthe("启动");
 			  }else {
-				  enterprisethenVo.setStartthe("未启动");
+				  enterprisethenVo2.setStartthe("未启动");
 			}
 			  list.add(enterprisethenVo2);
 		}

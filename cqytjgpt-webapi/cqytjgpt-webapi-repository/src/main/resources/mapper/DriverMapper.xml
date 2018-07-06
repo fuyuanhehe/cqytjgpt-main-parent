@@ -458,19 +458,19 @@
 		</choose>
 
 		<if test="orgNm!= null and orgNm!='' ">
-			eo.orgNm = #{orgNm}
+			and eo.orgNm = #{orgNm}
 		</if>
 		<if test="id!= null and id!='' ">
-			en.id = #{id}
+			and en.id = #{id}
 		</if>
 		<if test="etpNm!= null and etpNm!='' ">
-			en.etpNm like '%${etpNm}%'
+			and en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="ownerTraffic!= null and ownerTraffic!='' ">
-			en.ownerTraffic = #{ownerTraffic}
+			and en.ownerTraffic = #{ownerTraffic}
 		</if>
 		<if test="ownerTransport!= null and ownerTransport!='' ">
-			en.ownerTransport = #{ownerTransport}
+			and en.ownerTransport = #{ownerTransport}
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
 		limit ${startRecord} ,
@@ -500,19 +500,19 @@
 			</otherwise>
 		</choose>
 		<if test="orgNm!= null and orgNm!='' ">
-			eo.orgNm = #{orgNm}
+			and eo.orgNm = #{orgNm}
 		</if>
 		<if test="id!= null and id!='' ">
-			en.id = #{id}
+			and en.id = #{id}
 		</if>
 		<if test="etpNm!= null and etpNm!='' ">
-			en.etpNm like '%${etpNm}%'
+			and en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="ownerTraffic!= null and ownerTraffic!='' ">
-			en.ownerTraffic = #{ownerTraffic}
+			and en.ownerTraffic = #{ownerTraffic}
 		</if>
 		<if test="ownerTransport!= null and ownerTransport!='' ">
-			en.ownerTransport = #{ownerTransport}
+			and en.ownerTransport = #{ownerTransport}
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
 	</select>
