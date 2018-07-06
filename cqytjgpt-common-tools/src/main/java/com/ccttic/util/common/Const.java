@@ -22,9 +22,28 @@ package com.ccttic.util.common;
 public class Const {
 	
 	/**
+	 * 次级管理员
+	 */
+	final public static String ADMIN = "ADMIN";
+	/**
+	 * 最高管理员
+	 */
+	final public static String SUPERMAN = "SUPERMAN";
+	
+	/**
 	 * 0
 	 */
 	final public static int ZERO = 0;
+	
+	/**
+	 * 1
+	 */
+	final public static int ONE = 1;
+	
+	/**
+	 * 2
+	 */
+	final public static int TWO = 2;
 	/**
 	 * 违法序号长度
 	 */

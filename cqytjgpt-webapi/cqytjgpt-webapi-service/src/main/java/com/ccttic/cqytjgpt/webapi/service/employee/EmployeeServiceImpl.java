@@ -31,6 +31,7 @@ import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.RoleEmp;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
@@ -115,13 +116,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// 员工所在组织
 		Map<String, String> map = null;
 		Organization organization = null;
-		if ("SUPERMAN".equals(emp.getEmptype())) {
+		if (Const.SUPERMAN.equals(emp.getEmptype())) {
 			emp.setCanSeeOrgs(organizationMapper.getAllOrg() != null ? organizationMapper.getAllOrg() : null);
 			emp.setCanSeeDeps(organizationMapper.getAllDepart("") != null ? organizationMapper.getAllDepart("") : null);
 			emp.setCanSeeEnt(entMapper.getEssEnterpriseByOrgId(""));
 			emp.setCanSeeEmp(empMapper.getAllEmp());
 			emp.setCanSeePosts(postMapper.getAllPost());
-		} else if ("ADMIN".equals(emp.getEmptype()) && "1".equals(emp.getEmptype())) {
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.ONE).equals(emp.getEmptype())) {
 
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			List<Organization> organizations = organizationMapper.getLastOrg(organization.getId());
@@ -149,7 +150,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				emp.getCanSeePosts().addAll(postList);
 			}
 
-		} else if ("ADMIN".equals(emp.getEmptype()) && "2".equals(emp.getEmptype())) {
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.TWO).equals(emp.getEmptype())) {
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			if (organizationMapper.getAllDepart(organization.getId()) != null
 					&& organizationMapper.getAllDepart(organization.getId()).size() > 0) {
