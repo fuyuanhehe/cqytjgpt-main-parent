@@ -22,8 +22,8 @@ public class DriverDangerTask extends QuartzJobBean{
 	@Override
 	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
 		
-		feign.updateDriver();
-		feign.addDriverIllega();
-		feign.addDriverDanger();
+//		feign.updateDriver();
+//		feign.addDriverIllega();
+//		feign.addDriverDanger();
 	}
 }

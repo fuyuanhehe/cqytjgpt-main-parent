@@ -73,10 +73,7 @@ public class TaskDriverService implements ITaskDriverService {
 						}
 					}
 					if (x == 0) {
-						dr = new DrIllicit();
-						dr.setIsdeleted(true);
-						dr.setId(driver.getDrIllicits().get(i).getId());
-						drIllicitMapper.updateByPrimaryKeySelective(dr);
+						drIllicitMapper.deleteByPrimaryKey(driver.getDrIllicits().get(i).getId());
 					}
 				}
 			}

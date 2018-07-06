@@ -69,20 +69,17 @@ public class TaskCarService implements ITaskCarService {
 						}
 					}
 					if (x == 0) {
-						vehiIllicit = new VehiIllicit();
-						vehiIllicit.setIsdeleted(true);
-						vehiIllicit.setId(vehicle.getVehiIllicits().get(i).getId());
-						vehiIllicitMapper.updateByPrimaryKeySelective(vehiIllicit);
+						vehiIllicitMapper.deleteByPrimaryKey(vehicle.getVehiIllicits().get(i).getId());
 					}
 				}
 			}
 			List<VehiIllicit> update = new ArrayList<>();
 			List<VehiIllicit> insert = new ArrayList<>();
-			SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+			
 			for (XMLIllegalProcess xml : list) {
 
 				vehiIllicit = new VehiIllicit();
-				vehiIllicit.setId(xml.getXh()+sdf.format(new Date()));
+				vehiIllicit.setId(xml.getXh()+vehicle.getVehiNo()+vehicle.getVehiNoType());
 				vehiIllicit.setVehino(vehicle.getVehiNo());
 				vehiIllicit.setVehinotype(vehicle.getVehiNoType());
 				vehiIllicit.setNature(vehicle.getNature());
@@ -98,7 +95,7 @@ public class TaskCarService implements ITaskCarService {
 				vehiIllicit.setIllicitadress(xml.getWfdz());
 				vehiIllicit.setIllicit(xml.getWfxw());
 				vehiIllicit.setPickdepartmentdesc(xml.getCjjgmc());
-				if (vehiIllicitMapper.selectByPrimaryKey(vehiIllicit.getId()) != null) {
+				if (vehiIllicitMapper.selectByPrimaryKey(xml.getXh()+vehicle.getVehiNo()+vehicle.getVehiNoType()) != null) {
 					update.add(vehiIllicit);
 
 				} else {
