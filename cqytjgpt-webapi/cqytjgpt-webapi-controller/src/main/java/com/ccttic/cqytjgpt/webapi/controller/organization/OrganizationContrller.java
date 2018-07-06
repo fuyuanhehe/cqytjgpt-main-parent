@@ -345,8 +345,12 @@ public class OrganizationContrller implements Serializable {
 	public ResponseMsg<String> removeDepartment(@RequestBody Department ment) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
-			departmentService.removeMent(ment.getId());
-			resp.success("删除成功！");
+			int cat = departmentService.removeMent(ment.getId());
+			if (cat == 1) {
+				resp.success("删除成功！");
+			} else if (cat == 0) {
+				resp.fail("删除失败！");
+			}
 		} catch (Exception e) {
 			resp.fail("删除失败！");
 			logger.error(e.getMessage());
