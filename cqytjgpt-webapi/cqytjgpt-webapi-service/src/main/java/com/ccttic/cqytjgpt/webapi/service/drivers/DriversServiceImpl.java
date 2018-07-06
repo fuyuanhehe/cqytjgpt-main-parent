@@ -135,7 +135,19 @@ public class DriversServiceImpl implements DriversService {
 		params.put("ownerTransport", enterprisethenVo.getOwnertransport());
 		params.put("list", enterprisethenVo.getQid());
 		params.put("empType", enterprisethenVo.getEmpType());
-		pager.setRecords(mapper.queryEnterprisePage(params));
+		
+		List<EnterprisethenVo> list = new ArrayList<>();
+		List<EnterprisethenVo> data = mapper.queryEnterprisePage(params);
+		
+		  for (EnterprisethenVo enterprisethenVo2 : data) {
+			  if(enterprisethenVo.getState()==1 || enterprisethenVo.getState().equals("1")){
+				  enterprisethenVo.setStartthe("启动");
+			  }else {
+				  enterprisethenVo.setStartthe("未启动");
+			}
+			  list.add(enterprisethenVo2);
+		}
+		pager.setRecords(list);
 		pager.setTotalRows(mapper.queryEnterprisePageCount(params));
 
 		return pager;
