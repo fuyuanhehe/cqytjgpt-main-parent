@@ -81,6 +81,7 @@ public class LoggerAop {
 			userOperLogger.setId(CommonGenerator.distributiveIDGenerator());
 			userOperLogger.setIpAddr(CCtticWebUtils.getRemoteHost(request));
 			userOperLogger.setOperTime(CCtticDateUtils.presentDay("yyyy-MM-dd HH:mm:ss"));
+			userOperLogger.setContent(method.toGenericString());
 			
 			Object [] params = joinPoint.getArgs();
 			if(params != null && params.length > 0){
