@@ -11,18 +11,29 @@ public  class EnterprisethenVo extends ess_enterprise{
 	private String orgNm;
 	// 所属行政辖划分
 	private String areaNm;
-	
-	private String state;
-	
+	//状态
+	private Integer state;
+	//电话
 	private String etpTel;
-	
+	//地址
 	private String etpAdress;
-	
+	//企业id
 	private List<String> qid;
-	
+	//账号类型
 	private String empType;
+	//企业状态
+	private String startthe;
 	
-	
+	public String getStartthe() {
+		return startthe;
+	}
+
+
+	public void setStartthe(String startthe) {
+		this.startthe = startthe;
+	}
+
+
 	public List<String> getQid() {
 		return qid;
 	}
@@ -47,7 +58,7 @@ public  class EnterprisethenVo extends ess_enterprise{
 	}
 
 
-	public EnterprisethenVo(String orgNm, String areaNm, String state, String etpTel,
+	public EnterprisethenVo(String orgNm, String areaNm, Integer state, String etpTel,
 			String etpAdress) {
 		super();
 		this.orgNm = orgNm;
@@ -85,12 +96,12 @@ public  class EnterprisethenVo extends ess_enterprise{
 	}
 
 
-	public String getState() {
+	public Integer getState() {
 		return state;
 	}
 
 
-	public void setState(String state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 
