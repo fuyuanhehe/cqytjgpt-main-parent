@@ -456,6 +456,10 @@
 				</foreach>
 			</otherwise>
 		</choose>
+		
+		<if test="orgNm!= null and orgNm!='' ">
+			eo.orgNm = #{orgNm}
+		</if>
 		<if test="id!= null and id!='' ">
 			en.id = #{id}
 		</if>
@@ -498,6 +502,9 @@
 				</foreach>
 			</otherwise>
 		</choose>
+		<if test="orgNm!= null and orgNm!='' ">
+			eo.orgNm = #{orgNm}
+		</if>
 		<if test="id!= null and id!='' ">
 			en.id = #{id}
 		</if>
@@ -512,7 +519,7 @@
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
 	</select>
-	<!--企业信息记录分页 -->
+	<!--企业信息记录分页  违法未处理详情-->
 	<select id="queryVehiclespage" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.vehiclesVo">
 		SELECT
