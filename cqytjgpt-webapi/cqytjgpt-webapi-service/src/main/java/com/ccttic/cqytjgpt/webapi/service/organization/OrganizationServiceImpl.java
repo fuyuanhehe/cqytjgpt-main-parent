@@ -43,8 +43,8 @@ public class OrganizationServiceImpl implements IOrganizationService{
 	public Organization createOrg(Organization org, String id) throws AppException {
 		org.setId(id);
 		org.setOrgCd(id);
-		org.setSuperOrgId(org.getSuperOrgCd());
-		if (ObjectHelper.isEmpty(org.getSuperOrgCd())) {// 如果没有父id则是在创建机构
+		org.setSuperOrgId(org.getSuperOrgId());
+		if (ObjectHelper.isEmpty(org.getSuperOrgId())) {// 如果没有父id则是在创建机构
 			mapper.createOrg(org);
 		} else {
 			mapper.createChildOrg(org);
