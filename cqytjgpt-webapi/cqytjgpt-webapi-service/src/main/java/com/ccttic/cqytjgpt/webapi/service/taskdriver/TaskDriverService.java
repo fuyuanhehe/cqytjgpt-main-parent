@@ -29,6 +29,7 @@ import com.ccttic.entity.illegal.DrIllicit;
 import com.ccttic.entity.illegal.DrIllicitExample;
 import com.ccttic.entity.illegalprocess.XMLPendingPayment;
 import com.ccttic.entity.role.Organization;
+import com.ccttic.util.common.Const;
 
 @Service
 @Transactional
@@ -62,10 +63,12 @@ public class TaskDriverService implements ITaskDriverService {
 			logger.info(list.toString());
 
 			if (driver.getDrIllicits() != null && driver.getDrIllicits().size() > 0) {
+				String str=null;
 				for (int i = 0; i < driver.getDrIllicits().size(); i++) {
 					int x = 0;
 					for (int j = 0; j < list.size(); j++) {
-						if (driver.getDrIllicits().get(i).getId().equals(list.get(j).getJdsbh())) {
+						str =driver.getDrIllicits().get(i).getId().substring(Const.ZERO, Const.XHlength);
+						if (str.equals(list.get(j).getJdsbh())) {
 							x++;
 						}
 					}
@@ -79,10 +82,11 @@ public class TaskDriverService implements ITaskDriverService {
 			}
 			List<DrIllicit> update = new ArrayList<>();
 			List<DrIllicit> insert = new ArrayList<>();
+			SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
 			for (XMLPendingPayment xmlPendingPayment : list) {
 
 				dr = new DrIllicit();
-				dr.setId(xmlPendingPayment.getJdsbh());
+				dr.setId(xmlPendingPayment.getJdsbh()+sdf.format(new Date()));
 				dr.setName(xmlPendingPayment.getDsr());
 				dr.setIdcard(xmlPendingPayment.getJszh());
 				dr.setVehino(xmlPendingPayment.getHphm());

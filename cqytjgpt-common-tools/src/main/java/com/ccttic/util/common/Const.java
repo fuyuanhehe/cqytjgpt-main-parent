@@ -21,6 +21,14 @@ package com.ccttic.util.common;
 
 public class Const {
 	
+	/**
+	 * 0
+	 */
+	final public static int ZERO = 0;
+	/**
+	 * 违法序号长度
+	 */
+	final public static int XHlength = 16;
 	
 	final public static String TOKEN = "TOKEN";
 	/**

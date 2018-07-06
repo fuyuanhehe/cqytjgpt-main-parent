@@ -28,6 +28,7 @@ import com.ccttic.entity.illegalprocess.XMLIllegalProcess;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.VehicleIllegal;
+import com.ccttic.util.common.Const;
 
 @Service
 public class TaskCarService implements ITaskCarService {
@@ -59,9 +60,11 @@ public class TaskCarService implements ITaskCarService {
 			List<XMLIllegalProcess> list = (List<XMLIllegalProcess>) map.get("illegalprocess");
 			if (vehicle.getVehiIllicits() != null && vehicle.getVehiIllicits().size() > 0) {
 				for (int i = 0; i < vehicle.getVehiIllicits().size(); i++) {
+					String str=null;
 					int x = 0;
 					for (int j = 0; j < list.size(); j++) {
-						if (vehicle.getVehiIllicits().get(i).getId().equals(list.get(j).getXh())) {
+						str =vehicle.getVehiIllicits().get(i).getId().substring(Const.ZERO, Const.XHlength);
+						if (str.equals(list.get(j).getXh())) {
 							x++;
 						}
 					}
@@ -75,10 +78,11 @@ public class TaskCarService implements ITaskCarService {
 			}
 			List<VehiIllicit> update = new ArrayList<>();
 			List<VehiIllicit> insert = new ArrayList<>();
+			SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
 			for (XMLIllegalProcess xml : list) {
 
 				vehiIllicit = new VehiIllicit();
-				vehiIllicit.setId(xml.getXh());
+				vehiIllicit.setId(xml.getXh()+sdf.format(new Date()));
 				vehiIllicit.setVehino(vehicle.getVehiNo());
 				vehiIllicit.setVehinotype(vehicle.getVehiNoType());
 				vehiIllicit.setNature(vehicle.getNature());
