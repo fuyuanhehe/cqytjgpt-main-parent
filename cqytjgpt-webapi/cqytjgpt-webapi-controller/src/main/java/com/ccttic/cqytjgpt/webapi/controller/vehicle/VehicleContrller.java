@@ -73,8 +73,6 @@ public class VehicleContrller implements Serializable {
 	private RedisService<EmployeeVo> redisService;
 	@Autowired
 	private VehicleFeign frign;
-	@Autowired
-	private OrganizationMapper organizationMapper;
 
 	/**
 	 * 根据条件获取车辆基本信息

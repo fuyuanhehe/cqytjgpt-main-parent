@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
+import com.ccttic.util.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +46,6 @@ import com.ccttic.util.page.Pageable;
  * 
  * @version 1.0.0
  * @author xgYin
- * @see com.studio.framework.service.ess.impl.EmployeeServiceImpl.java
  * @date 2016年12月4日
  */
 @Service
@@ -52,21 +53,22 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Resource
 	private EmployeeMapper mapper;
-	@Autowired
+	@Resource
 	private EssEmployeeMapper empMapper;
-	@Autowired
+	@Resource
 	private EssEnterpriseMapper entMapper;
-	@Autowired
+	@Resource
 	private EssPostMapper postMapper;
 	@Autowired
 	private IRoleMenuService service;
-	@Autowired
+	@Resource
 	private DepartmentMapper departmentMapper;
-	@Autowired
+	@Resource
 	private OrganizationMapper organizationMapper;
 	@Resource
 	private VehicleMapper vehicleMapper;// 司机基础信息
-
+	@Autowired
+	private RedisService<EmployeeVo> redisService;
 	/*
 	 * (非 Javadoc)
 	 * 
@@ -339,8 +341,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			throws Exception {
 		Page<EssEmployeeVo> pager = new PageImpl<EssEmployeeVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
-
-		params.put("eptId", emp.getEptId());// 企业id
+		if (emp.getEptId() != null) {
+			params.put("eptId", emp.getEptId());// 企业id
+		}
 		params.put("emps", list);//员工集合
 		params.put("pageSize", page.getRows() + "");
 		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
@@ -351,14 +354,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		params.put("account", emp.getAccount());// 员工账号
 		params.put("depid", emp.getDepid());// 部门id
 
-		long totolRols = empMapper.qryPostListCount(params);
+		long totalRows = empMapper.qryPostListCount(params);
 		List<EssEmployeeVo> records = empMapper.qryPostList(params);
 		for (EssEmployeeVo essEmployeeVo : records) {
 			List<EssPost> post = empMapper.selectPostUnderEmp(essEmployeeVo.getId());
 			essEmployeeVo.setPost(post);
 		}
 
-		pager.setTotalRows(totolRols);
+		pager.setTotalRows(totalRows);
 		pager.setRecords(records);
 
 		return pager;
@@ -381,6 +384,23 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		empMapper.delEmpUnderDep(dept);
 		empMapper.updateByPrimaryKeySelective(emp);
 
+	}
+
+	@Override
+	public EmployeeVo getUserInfo(String access_token) {
+		String username = JWTUtil.getUsername(access_token);
+		EmployeeVo employee = (EmployeeVo) redisService.get(username + Const.TOKEN);
+		// 2. 判断REDIS是否为空
+		if (null == employee) {
+			try {
+				employee = findEmployeeByAccount(username);
+				//3. 更新redis里用户缓存
+				redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return employee;
 	}
 
 }

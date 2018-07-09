@@ -22,8 +22,8 @@
   <select id="qryPostListCount" parameterType="java.util.Map" resultType="java.lang.Long">
 	SELECT count(*) FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
 
-			<if test="orgCd != null and orgCd != ''">
-				and depart.org_id in
+			<if test="post.id != null and post.id != ''">
+				and post.id in
 				<foreach collection="list" index="index" item="item"
 					open="(" separator="," close=")">
 					#{item}
@@ -40,7 +40,7 @@
 	<select id="qryPostList" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPostVo">
 		SELECT post.id AS id,org.orgNm AS orgNm,depart.depNm AS depNm,post.postCd AS postCd,post.postNm AS postNm,post.description AS description FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
 		
-			<if test="orgCd != null and orgCd != ''">
+			<if test="post.id != null and post.id != ''">
 				and post.id in
 				<foreach collection="list" index="index" item="item"
 					open="(" separator="," close=")">
