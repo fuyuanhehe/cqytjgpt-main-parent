@@ -424,8 +424,9 @@
 		parameterType="java.util.Map">
 		SELECT
 		en.id,
-		eo.orgNm,
+		a.areaNm,
 		en.etpNm,
+		en.etpCd,
 		en.etpshortNm,
 		en.etpLawer,
 		en.lawerTel,
@@ -441,7 +442,8 @@
 		FROM
 		ess_organization eo
 		LEFT
-		JOIN ess_enterprise en ON en.org_id = eo.id
+		JOIN ess_enterprise en ON
+		en.org_id = eo.id
 		LEFT JOIN ess_area a ON
 		eo.area_id = a.id
 		<choose>
@@ -457,8 +459,8 @@
 			</otherwise>
 		</choose>
 
-		<if test="orgNm!= null and orgNm!='' ">
-			and eo.orgNm = #{orgNm}
+		<if test="areaNm!= null and areaNm!='' ">
+			and a.areaNm = #{areaNm}
 		</if>
 		<if test="id!= null and id!='' ">
 			and en.id = #{id}
@@ -529,10 +531,12 @@
 		v.updateTime
 		FROM
 		ess_organization o
-		LEFT JOIN ess_enterprise e ON
+		LEFT JOIN
+		ess_enterprise e ON
 		o.id = e.org_id
 		LEFT
-		JOIN vehicle v ON e.id = v.mgrEnterpriseId
+		JOIN vehicle v ON e.id =
+		v.mgrEnterpriseId
 		LEFT JOIN
 		vehi_danger vd ON
 		v.id = vd.vehicle_id
@@ -609,7 +613,7 @@
 		resultType="long">
 		select count(id) from ess_employee
 	</select>
-	<!-- 驾驶人信息-信息记录 -->
+	<!-- 企业信息-信息记录 -->
 	<select id="getvehiclesCount" resultType="com.ccttic.entity.drivers.vo.vehiclesVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -707,14 +711,17 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(v.id) AS vCount
+		COUNT(v.id) AS vCount,
+		v.vehiType
 		FROM
 		ess_organization o
 		LEFT JOIN
 		ess_enterprise e ON o.id = e.org_id
-		LEFT JOIN vehicle v ON e.id =
+		LEFT JOIN vehicle v ON
+		e.id =
 		v.mgrEnterpriseId
-		LEFT JOIN vehi_danger vd ON v.id = vd.vehicle_id
+		LEFT JOIN vehi_danger vd ON v.id =
+		vd.vehicle_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				where 1=1
@@ -747,15 +754,18 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.scrappedState) AS vCount
+		COUNT(vd.scrappedState) AS vCount,
+		v.vehiType
 		FROM
 		ess_organization o
 		LEFT JOIN
 		ess_enterprise e ON o.id = e.org_id
-		LEFT JOIN vehicle v ON
+		LEFT
+		JOIN vehicle v ON
 		e.id =
 		v.mgrEnterpriseId
-		LEFT JOIN vehi_danger vd ON v.id =
+		LEFT JOIN vehi_danger vd ON
+		v.id =
 		vd.vehicle_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -791,15 +801,18 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.illicitState) AS vCount
+		COUNT(vd.illicitState) AS vCount,
+		v.vehiType
 		FROM
 		ess_organization o
 		LEFT JOIN
 		ess_enterprise e ON o.id = e.org_id
-		LEFT JOIN vehicle v ON
+		LEFT
+		JOIN vehicle v ON
 		e.id =
 		v.mgrEnterpriseId
-		LEFT JOIN vehi_danger vd ON v.id =
+		LEFT JOIN vehi_danger vd ON
+		v.id =
 		vd.vehicle_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -836,7 +849,8 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.overdueExamineState) AS vCount
+		COUNT(vd.overdueExamineState) AS vCount,
+		v.vehiType
 		FROM
 		ess_organization o
 		LEFT JOIN

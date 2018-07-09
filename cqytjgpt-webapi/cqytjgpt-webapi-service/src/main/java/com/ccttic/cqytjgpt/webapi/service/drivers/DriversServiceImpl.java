@@ -2,12 +2,9 @@ package com.ccttic.cqytjgpt.webapi.service.drivers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -131,6 +128,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("id", enterprisethenVo.getId());
 		params.put("etpNm", enterprisethenVo.getEtpnm());
+		params.put("areaNm", enterprisethenVo.getAreaNm());
 		params.put("ownerTraffic", enterprisethenVo.getOwnertraffic());
 		params.put("ownerTransport", enterprisethenVo.getOwnertransport());
 		params.put("list", enterprisethenVo.getQid());
@@ -279,23 +277,7 @@ public class DriversServiceImpl implements DriversService {
 	}
 
 
-	public static void main(String[] args) {
 
-		Integer w  = 10;
-		Integer s = null;
-
-		if(s.toString()=="1"){
-
-			System.out.println(666);	
-		}else {
-			System.out.println(888);
-		}
-
-
-
-
-
-	}
 
 
 }
