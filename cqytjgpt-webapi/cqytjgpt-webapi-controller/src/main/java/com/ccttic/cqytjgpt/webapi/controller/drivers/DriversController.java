@@ -82,7 +82,7 @@ public class DriversController implements Serializable{
 			page.setRows(tment.getRows());
 			List<String> list = new ArrayList<String>();
 			String empType = null;
-			
+
 			String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
@@ -114,7 +114,7 @@ public class DriversController implements Serializable{
 
 		return resp;
 	}
-	
+
 	// 准假车型
 	@ResourceScan(rsc = @Resource(cd = Const.GET_PERMICAR, name = "获取所有准假车型",  hierarchy = 4, isMenue = false, pcd = Const.PERSONAL_INFORMATION)
 	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "驾驶人信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
@@ -138,9 +138,9 @@ public class DriversController implements Serializable{
 
 		return resp;
 	}
-	
-	
-	
+
+
+
 	/**基本信息-违法记录
 	 * @param id 驾驶人主键ID
 	 * @date  2018年6月15日
@@ -257,7 +257,6 @@ public class DriversController implements Serializable{
 		return resp;
 	}
 	/**
-	 * 功能说明：  修改角色和关联的员工
 	 * @param idcard 驾驶员身份证
 	 * @return
 	 * @date  2018年6月15日
@@ -286,9 +285,9 @@ public class DriversController implements Serializable{
 	/**
 	 * 功能说明：  企业信息-基本信息 分页，详情
 	 * @param id 企业id
-	 * @param etpNm 企业名字
-	 * @param ownerTraffic 交警大队
-	 * @param ownerTransport 运管所
+	 * @param etpnm 企业名字
+	 * @param ownertraffic 交警大队
+	 * @param ownertransport 运管所
 	 * @return 
 	 * @date  2018年6月20日
 	 */
@@ -307,7 +306,7 @@ public class DriversController implements Serializable{
 			page.setRows(tment.getRows());
 			List<String> list = new ArrayList<String>();
 			String empType = null;
-			
+
 			String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
@@ -327,14 +326,14 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
-			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setMessage("查询企业基本信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询驾驶员违法信息失败！");
+			resp.setMessage("查询企业基本信息失败！");
 			resp.setStatus(0);
-			logger.error("查询驾驶员违法信息失败！",e);
+			logger.error("查询企业基本信息失败！",e);
 		}
 
 		return resp;
@@ -383,7 +382,7 @@ public class DriversController implements Serializable{
 			page.setRows(tment.getRows());
 			List<String> list = new ArrayList<String>();
 			String empType = null;
-			
+
 			String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
@@ -402,64 +401,72 @@ public class DriversController implements Serializable{
 			}
 			tment.setQid(list);
 			tment.setEmpType(empType);
-			
+
 			Page<vehiclesVo> data = service.queryVehiclespage(page, tment);
 			resp.setData(data.getRecords());
-			resp.setMessage("查询企业机动车违法信息成功");
+			resp.setMessage("获取数据成功");
 			resp.setStatus(0);
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询企业机动车违法信息失败");
+			resp.setMessage("获取数据失败");
 			resp.setStatus(-1);
-			logger.error("查询企业机动车违法信息失败",e);
+			logger.error("获取数据失败",e);
 		}
 
 		return resp;
 	}
 
 	// 企业信息-信息记录
-		@OperLogging(operType = 0)
-		@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
-		public ResponseMsg<List<VehicleCountVo>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
-			ResponseMsg<List<VehicleCountVo>> resp = new ResponseMsg<>();
+	/*
+	 * @param etpNm 企业名字 
+	 * @param orgNm 
+	 * @param vehiType  
+	 */
 
-			try {
-				if(StringUtils.isEmpty(access_token)) {
-					resp.fail("access_token 不能为空");
-					return resp;
-				}
-				List<String> list = new ArrayList<String>();
-				String empType = null;
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<VehicleCountVo>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
+		ResponseMsg<List<VehicleCountVo>> resp = new ResponseMsg<>();
 
-				String username=JWTUtil.getUsername(access_token);
-				// 从redis获取用户信息 
-				EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-				List<EssEnterprise> ent = null;
-				if (null != vo) {
-					ent = vo.getEnt();
-					empType = vo.getEmptype();
-				} else {
-					EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-					ent=employee.getEnt();
-					empType = employee.getEmptype();
-					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
-				}
-				for (EssEnterprise essEnterprise : ent) {
-					list.add(essEnterprise.getId());
-				}
-				tment.setList(list);
-				tment.setEmpType(empType);
-				List<VehicleCountVo> data = service.getvehiclesCount(tment);
-				resp.setData(data);    	
-				resp.setMessage("获取数据成功");
-				resp.setStatus(1);
-			} catch (Exception e) {
-				resp.setMessage("获取数据失败");
-				resp.setStatus(-1);	
-				logger.error("获取数据失败",e);
+		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
 			}
+			List<String> list = new ArrayList<String>();
+			String empType = null;
 
-			return resp;
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				ent = vo.getEnt();
+				empType = vo.getEmptype();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				ent=employee.getEnt();
+				empType = employee.getEmptype();
+				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+			tment.setList(list);
+			tment.setEmpType(empType);
+			List<VehicleCountVo> data = service.getvehiclesCount(tment);
+			resp.setData(data);    	
+			resp.setMessage("获取数据成功");
+			resp.setStatus(1);
+		} catch (Exception e) {
+			resp.setMessage("获取数据失败");
+			resp.setStatus(-1);	
+			logger.error("获取数据失败",e);
 		}
+
+		return resp;
+	}
+
+
 
 }
