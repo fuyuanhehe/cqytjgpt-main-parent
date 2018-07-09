@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.enterprise.EssEnterprise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,36 +31,66 @@ public class CarTaskController {
 	@Autowired
 	private ICarBatch carBatch;
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping("/addCarIllega")
-	public void addCarIllega() {
+
+	@RequestMapping("/addCarIllegal")
+	public void addCarIllegal(@RequestBody EssEnterprise enterprises) {
 		Map<String, Object> result = null;
-		List<VehiIllicit> insert = new ArrayList<>();
-		List<VehiIllicit> update = new ArrayList<>();
-	    List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
-	    int i =0;
+		List<VehiIllicit> insertIllegal = new ArrayList<>();
+		List<VehiIllicit> updateIllegal = new ArrayList<>();
+		List<VehiDanger> insertDanger = new ArrayList<>();
+		List<VehiDanger> updateDanger = new ArrayList<>();
+
+		List<EssEnterprise> ent = new ArrayList<>();
+		ent.add(enterprises);
+	    List<VehicleIllegal> vehicles = vehicleService.getVehicleByEnterprises(ent);
+	    /*
+	    *
+	    * 违法记录查询
+	    * */
 		for (VehicleIllegal vehicle : vehicles) {
-			i++;
-			logger.info("第"+i+"条");
+
 			try {
 				result = taskCarService.getCarIllega(vehicle);
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 			}
 			if (result!=null && result.get("update") != null) {
-				update.addAll((List<VehiIllicit>) (result.get("update")));
+				updateIllegal.addAll((List<VehiIllicit>) (result.get("update")));
 			}
 			if (result!=null && result.get("insert") != null) {
-				insert.addAll((List<VehiIllicit>) (result.get("insert")));
+				insertIllegal.addAll((List<VehiIllicit>) (result.get("insert")));
 			}
 		}
-		if(insert.size()>0)
-		carBatch.addCarIllegal(insert);
-		if(update.size()>0)
-		carBatch.updateCarIllegal(update);
+		if(insertIllegal.size()>0)
+		carBatch.addCarIllegal(insertIllegal);
+		if(updateIllegal.size()>0)
+		carBatch.updateCarIllegal(updateIllegal);
+
+		/*
+		* 车辆预警数据处理
+		* */
+		for (VehicleIllegal vehicle : vehicles) {
+
+			try {
+				result = taskCarService.getCarDanger(vehicle);
+			} catch (Exception e) {
+				logger.info(e.getMessage());
+			}
+
+			if (result!=null && result.get("update") != null) {
+				updateDanger.add((VehiDanger) (result.get("update")));
+			}else if (result!=null && result.get("insert") != null) {
+				insertDanger.add((VehiDanger) (result.get("insert")));
+			}
+		}
+
+		if(insertDanger.size()>0)
+			carBatch.addCarDanger(insertDanger);
+		if(updateDanger.size()>0)
+			carBatch.updateCarDanger(updateDanger);
 	}
 
-	@RequestMapping("/addCarDanger")
+	/*@RequestMapping("/addCarDanger")
 	public void addCarDanger() {
 		
 		Map<String, Object> result = null;
@@ -86,9 +118,9 @@ public class CarTaskController {
 		carBatch.addCarDanger(insert);
 		if(update.size()>0)
 		carBatch.updateCarDanger(update);
-	}
+	}*/
 	
-	@RequestMapping("/updateCar")
+	/*@RequestMapping("/updateCar")
 	public void updateCar() {
 		
 		Map<String, Object> result = null;
@@ -117,5 +149,5 @@ public class CarTaskController {
 		carBatch.deleteCar(delete);
 		if(update.size()>0)
 		carBatch.updateCar(update);
-	}
+	}*/
 }

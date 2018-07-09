@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.ccttic.entity.enterprise.EssEnterprise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -174,15 +175,14 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public List<VehicleIllegal> getAllVehicle() {
-
-		return mapper.getAllCar();
-	}
-
-	@Override
 	public Area getfenceIdByEssid(String id) {
 
 		return mapper.getfenceIdByEssid(id);
+	}
+
+	@Override
+	public List<VehicleIllegal> getVehicleByEnterprises(List<EssEnterprise> enterprise) {
+		return mapper.getVehicleByEnterprises(enterprise);
 	}
 
 }

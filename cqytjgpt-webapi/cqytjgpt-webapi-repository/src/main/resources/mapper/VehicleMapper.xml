@@ -293,9 +293,13 @@
          </collection>    
      </resultMap>
 
-	<!-- 根据学习类型查询学习文档信息 -->
-	<select id="getAllCar" 	resultMap="slist">
-		select * from vehicle where isDeleted = 0 or isDeleted is null
+	<select id="getVehicleByEnterprises" parameterType="java.util.List" resultMap="slist">
+		SELECT * FROM  vehicle
+		<foreach collection="list" item="item" index="index">
+			<if test="item.id != null and item.id !=''" >
+				WHERE mgrEnterpriseId IN (#{item.id})
+			</if>
+		</foreach>
 	</select>
 	<select id="selectByVehicleId" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.VehiIllicit">
   	select * from vehi_illicit where vehicle_id = #{vehicleId} and (isDeleted = 0 or isDeleted is null)
@@ -350,4 +354,6 @@
 	#{item}  
 	</foreach>  
 	</delete>
+
+
 </mapper>

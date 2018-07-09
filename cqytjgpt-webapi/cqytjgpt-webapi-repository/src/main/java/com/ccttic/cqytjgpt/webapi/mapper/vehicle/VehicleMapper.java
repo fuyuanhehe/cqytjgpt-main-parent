@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.mapper.vehicle;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.enterprise.EssEnterprise;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.role.Area;
@@ -84,8 +85,6 @@ public interface VehicleMapper {
 	 * @throws AppException
 	 */
 	public int modifVehicle(Vehicle vehicle) throws AppException;
-	//获取所有车辆
-	public List<VehicleIllegal> getAllCar();
 	//根据车辆id获取数据库违章信息
 	List<VehiIllicit>selectByVehicleId(String vehicleId);
 
@@ -100,4 +99,10 @@ public interface VehicleMapper {
 	 * @param vehicle
 	 */
 	public void deleteBatch(List<String> vehicle);
+	/**
+	 *@Author:zhy
+	 *@Description:获取企业下的车辆
+	 *@Date:16:22 2018/7/6
+	 */
+    List<VehicleIllegal> getVehicleByEnterprises(List<EssEnterprise> enterprise);
 }
