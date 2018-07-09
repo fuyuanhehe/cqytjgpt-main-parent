@@ -74,7 +74,6 @@
 			<if test="org.orgType != null and org.orgType != ''">
 				orgType = #{org.orgType}
 			</if>
-			 orgCd=#{org.orgCd}
 		where orgCd=#{org.orgCd}
 	</update>
 
