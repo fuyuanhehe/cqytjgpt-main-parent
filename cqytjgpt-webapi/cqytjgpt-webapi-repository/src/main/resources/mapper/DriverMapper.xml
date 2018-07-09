@@ -437,8 +437,8 @@
 		en.state,
 		en.etpTel,
 		en.etpAdress,
-		en.remark,
-		a.areaNm
+		en.remark
+	
 		FROM
 		ess_organization eo
 		LEFT
@@ -475,6 +475,7 @@
 			and en.ownerTransport = #{ownerTransport}
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
+		AND en.id != ''
 		limit ${startRecord} ,
 		${pageSize}
 
@@ -502,7 +503,7 @@
 			</otherwise>
 		</choose>
 		<if test="orgNm!= null and orgNm!='' ">
-			and eo.orgNm = #{orgNm}
+			and a.areaNm = #{areaNm}
 		</if>
 		<if test="id!= null and id!='' ">
 			and en.id = #{id}
@@ -517,6 +518,7 @@
 			and en.ownerTransport = #{ownerTransport}
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
+		AND en.id != ''
 	</select>
 	<!--企业信息记录分页 违法未处理详情 -->
 	<select id="queryVehiclespage" parameterType="java.util.Map"

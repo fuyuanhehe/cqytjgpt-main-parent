@@ -286,6 +286,7 @@ public class DriversController implements Serializable{
 	 * 功能说明：  企业信息-基本信息 分页，详情
 	 * @param id 企业id
 	 * @param etpnm 企业名字
+	 * @param areaNm 区域
 	 * @param ownertraffic 交警大队
 	 * @param ownertransport 运管所
 	 * @return 
