@@ -520,17 +520,13 @@
 	<select id="queryVehiclespage" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.vehiclesVo">
 		SELECT
-		e.id,
 		e.etpNm,
 		v.vehiNo,
 		v.nature,
 		v.vehiType,
 		v.effectStartTime,
 		v.effectEndTime,
-		v.updateTime,
-		vd.overdueExamineState,
-		vd.scrappedState,
-		vd.illicitState
+		v.updateTime
 		FROM
 		ess_organization o
 		LEFT JOIN ess_enterprise e ON

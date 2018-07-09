@@ -103,7 +103,7 @@ public class DriversServiceImpl implements DriversService {
 	public boolean insertSelective(DriverInsert driver) {
 
 		List<Driver> list = new ArrayList<>();
-		
+
 		for (Driver driver2 : driver.getDrivers()) {
 			if(isIDCard(driver2.getIdcard())){
 				driver2.setId(RandomHelper.uuid());
@@ -135,17 +135,23 @@ public class DriversServiceImpl implements DriversService {
 		params.put("ownerTransport", enterprisethenVo.getOwnertransport());
 		params.put("list", enterprisethenVo.getQid());
 		params.put("empType", enterprisethenVo.getEmpType());
-		
+
 		List<EnterprisethenVo> list = new ArrayList<>();
 		List<EnterprisethenVo> data = mapper.queryEnterprisePage(params);
-		
-		  for (EnterprisethenVo enterprisethenVo2 : data) {
-			  if(enterprisethenVo2.getState()==1 || enterprisethenVo.getState().equals("1")){
-				  enterprisethenVo2.setStartthe("启动");
-			  }else {
-				  enterprisethenVo2.setStartthe("未启动");
+
+		for (EnterprisethenVo enterprisethenVo2 : data) {
+			if(enterprisethenVo2.getState()!=null){
+				if(enterprisethenVo2.getState()==1 || enterprisethenVo.getState().equals("1")){
+					enterprisethenVo2.setStartthe("启动");
+				}else {
+					enterprisethenVo2.setStartthe("未启动");
+				}
+				list.add(enterprisethenVo2);
+				continue;
+			}else{
+				enterprisethenVo2.setStartthe("未启动");
+				list.add(enterprisethenVo2);
 			}
-			  list.add(enterprisethenVo2);
 		}
 		pager.setRecords(list);
 		pager.setTotalRows(mapper.queryEnterprisePageCount(params));
@@ -272,5 +278,24 @@ public class DriversServiceImpl implements DriversService {
 		return Pattern.matches(regularExpression, idCard);
 	}
 
-	
+
+	public static void main(String[] args) {
+
+		Integer w  = 10;
+		Integer s = null;
+
+		if(s.toString()=="1"){
+
+			System.out.println(666);	
+		}else {
+			System.out.println(888);
+		}
+
+
+
+
+
+	}
+
+
 }
