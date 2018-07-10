@@ -103,14 +103,14 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverVo> data = service.seDriverPage(page, tment);
-			resp.setMessage("获取数据成功！");
+			resp.setMessage("获取驾驶人信息-基本信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("获取数据失败！");
+			resp.setMessage("获取驾驶人信息-基本信息失败！");
 			resp.setStatus(0);
-			logger.error("获取数据失败！",e);
+			logger.error("获取驾驶人信息-基本信息失败！",e);
 		}
 
 		return resp;
@@ -183,14 +183,14 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
-			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setMessage("获取基本信息-违法记录成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setMessage("获取基本信息-违法记录成功！");
 			resp.setStatus(0);
-			logger.error("查询驾驶员违法信息失败",e);
+			logger.error("获取基本信息-违法记录失败",e);
 		}
 
 		return resp;
@@ -245,14 +245,14 @@ public class DriversController implements Serializable{
 			tment.setEmpType(empType);
 
 			Page<DriverillicitVo> data = service.getDriverPages(page, tment);
-			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setMessage("获取驾驶人信息-信息记录成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询驾驶员违法信息失败！");
+			resp.setMessage("获取驾驶人信息-信息记录失败！");
 			resp.setStatus(-1);
-			logger.error("查询驾驶员违法信息失败！",e);
+			logger.error("获取驾驶人信息-信息记录失败！",e);
 		}
 
 		return resp;
@@ -293,7 +293,7 @@ public class DriversController implements Serializable{
 	 * @return 
 	 * @date  2018年6月20日
 	 */
-	@OperLogging(operType = 0,content="企业基本信息分页")
+	@OperLogging(operType = 0,content="企业信息-基本信息")
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
@@ -328,14 +328,14 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
-			resp.setMessage("查询企业基本信息成功！");
+			resp.setMessage("查询企业信息-基本信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询企业基本信息失败！");
+			resp.setMessage("查询企业信息-基本信息失败！");
 			resp.setStatus(0);
-			logger.error("查询企业基本信息失败！",e);
+			logger.error("查询企业信息-基本信息失败！",e);
 		}
 
 		return resp;
