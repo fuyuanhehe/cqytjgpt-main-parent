@@ -61,35 +61,9 @@ public class PostController {
 	public ResponseMsg<Page<EssPostVo>> selectPost(@RequestParam String access_token, ServletResponse response,
 			@RequestBody EssPostVo post) {
 		ResponseMsg<Page<EssPostVo>> rm = new ResponseMsg<>();
-		
-		String empType = null;
-		List<Department> deps = null;
-		String username = JWTUtil.getUsername(access_token);
-		// redis get data
-		EmployeeVo vo = (EmployeeVo) redisService.get(username+Const.TOKEN);
-		// 2. 判断REDIS是否为空
-		if (null != vo) {
 
-			empType = vo.getEmptype();
-			deps = vo.getDeps();
-		} else {
-			EmployeeVo employee;
-			try {
-				employee = employeeService.findEmployeeByAccount(username);
-				empType = employee.getEmptype();
-				deps = employee.getDeps();
-				// 3. 更新redis里用户缓存
-				redisService.set(username+Const.TOKEN, employee, Const.USER_REDIS_LIVE);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-		}
+		EmployeeVo vo = employeeService.getUserInfo(access_token) ;
 
-		post.setDeps(deps);
-		post.setEmpType(empType);
-		
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(post.getPage());
