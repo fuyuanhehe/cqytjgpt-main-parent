@@ -567,6 +567,10 @@
 		<if test="vehiType!=null and vehiType!= '' ">
 			AND v.vehiType =#{vehiType}
 		</if>
+		<if test="id!=null and id!= '' ">
+			AND e.id =#{id}
+		</if>
+		
 		and (o.isDeleted is null OR o.isDeleted !=1)
 
 		limit ${startRecord} ,
@@ -656,6 +660,9 @@
 		<if test="vehiNoType!=null and vehiNoType!= '' ">
 			AND v.vehiNoType =#{vehiNoType}
 		</if>
+		<if test="id!=null and id!= '' ">
+			AND e.id =#{id}
+		</if>
 		and e.id in
 		<foreach collection="list" index="index" item="item"
 			separator="," open="(" close=")">
@@ -715,15 +722,17 @@
 	<select id="getvehiCount" resultType="com.ccttic.entity.drivers.vo.VehicleCountVo"
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
+		e.id,
 		e.etpNm,
-		COUNT(v.id) AS vCount,
-		v.vehiType
+		COUNT(v.id) AS vCount
 		FROM
 		ess_organization o
-		LEFT JOIN
+		LEFT
+		JOIN
 		ess_enterprise e ON o.id = e.org_id
 		LEFT JOIN vehicle v ON
-		e.id =
+		e.id
+		=
 		v.mgrEnterpriseId
 		LEFT JOIN vehi_danger vd ON v.id =
 		vd.vehicle_id
@@ -759,8 +768,7 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.scrappedState) AS vCount,
-		v.vehiType
+		COUNT(vd.scrappedState) AS vCount
 		FROM
 		ess_organization o
 		LEFT JOIN
@@ -806,8 +814,7 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.illicitState) AS vCount,
-		v.vehiType
+		COUNT(vd.illicitState) AS vCount
 		FROM
 		ess_organization o
 		LEFT JOIN
@@ -854,8 +861,7 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.overdueExamineState) AS vCount,
-		v.vehiType
+		COUNT(vd.overdueExamineState) AS vCount
 		FROM
 		ess_organization o
 		LEFT JOIN
@@ -895,8 +901,6 @@
 		GROUP BY
 		e.etpNm
 	</select>
-
-
 
 
 </mapper>

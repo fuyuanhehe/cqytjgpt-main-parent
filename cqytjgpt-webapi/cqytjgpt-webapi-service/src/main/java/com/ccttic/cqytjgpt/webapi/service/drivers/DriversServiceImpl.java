@@ -179,6 +179,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("vehiType", vehiclesVo.getVehiType());
 		params.put("list", vehiclesVo.getQid());
 		params.put("empType", vehiclesVo.getEmpType());
+		params.put("id", vehiclesVo.getId());
 		pager.setRecords(mapper.queryVehiclespage(params));
 		pager.setTotalRows(mapper.queryVehiclespageCount(params));
 
@@ -193,7 +194,7 @@ public class DriversServiceImpl implements DriversService {
 
 	@Override
 	public List<VehicleCountVo> getVehiclesCount(VehicleCountVo countVo) {
-
+		countVo.setVehiType("01");
 		List<VehicleCountVo> count = mapper.getvehiCount(countVo);
 		List<VehicleCountVo> bcount = mapper.getvehibCount(countVo);                                
 		List<VehicleCountVo> wcount = mapper.getvehiwCount(countVo);  
@@ -208,6 +209,7 @@ public class DriversServiceImpl implements DriversService {
 
 				for (VehicleCountVo vehicount : bcount) {
 					if (vehicleCountVo.getEtpNm().equals(vehicount.getEtpNm() )) {
+						vehic.setId(vehicleCountVo.getId() );
 						vehic.setEtpNm(vehicleCountVo.getEtpNm());
 						vehic.setvCount(vehicleCountVo.getvCount());
 						vehic.setOverCount( vehicount.getvCount());
@@ -215,6 +217,7 @@ public class DriversServiceImpl implements DriversService {
 						continue lableB;
 					}
 				}
+				vehic.setId(vehicleCountVo.getId() );
 				vehic.setvCount(vehicleCountVo.getvCount());
 				vehic.setEtpNm(vehicleCountVo.getEtpNm());
 				vehic.setOverCount(0);
@@ -227,6 +230,7 @@ public class DriversServiceImpl implements DriversService {
 
 				for (VehicleCountVo vehicleCountVoyc : wcount) {
 					if (vehicleCountVo.getEtpNm().equals(vehicleCountVoyc.getEtpNm() )) {
+						vehic.setId(vehicleCountVo.getId() );
 						vehic.setEtpNm(vehicleCountVo.getEtpNm());
 						vehic.setIllicitCount( vehicleCountVoyc.getvCount() );
 						vehic.setvCount( vehicleCountVo.getvCount());
@@ -235,6 +239,7 @@ public class DriversServiceImpl implements DriversService {
 						continue out ;
 					} 
 				}
+				vehic.setId(vehicleCountVo.getId() );
 				vehic.setEtpNm(vehicleCountVo.getEtpNm());
 				vehic.setIllicitCount(0);
 				vehic.setvCount( vehicleCountVo.getvCount());
@@ -248,6 +253,8 @@ public class DriversServiceImpl implements DriversService {
 
 					for (VehicleCountVo ycountts : ycount) {
 						if (velc.getEtpNm().equals(ycountts.getEtpNm() )) {
+							vehics.setId(velc.getId() );
+							vehics.setVehiType("大型车");
 							vehics.setEtpNm( velc.getEtpNm());
 							vehics.setvCount(velc.getvCount() );
 							vehics.setOverCount(velc.getOverCount() );
@@ -258,6 +265,8 @@ public class DriversServiceImpl implements DriversService {
 							continue dnag;
 						} 	 
 					}
+					vehics.setId(velc.getId() );
+					vehics.setVehiType("大型车");
 					vehics.setEtpNm(velc.getEtpNm());
 					vehics.setvCount(velc.getvCount() );
 					vehics.setOverCount(velc.getOverCount() );
@@ -278,11 +287,90 @@ public class DriversServiceImpl implements DriversService {
 
 	@Override
 	public List<VehicleCountVo> getVehiclesVehi(VehicleCountVo countVo) {
+		countVo.setVehiType("02");
+		List<VehicleCountVo> count = mapper.getvehiCount(countVo);
+		List<VehicleCountVo> bcount = mapper.getvehibCount(countVo);                                
+		List<VehicleCountVo> wcount = mapper.getvehiwCount(countVo);  
+		List<VehicleCountVo> ycount = mapper.getvehiyCount(countVo);  
+		List<VehicleCountVo> list = new ArrayList<>();
+		List<VehicleCountVo> vehilist = new ArrayList<>();
+		List<VehicleCountVo> vehicCount = new ArrayList<>();
+
+		lableB: 
+			for (VehicleCountVo vehicleCountVo : count) {
+				VehicleCountVo vehic = new VehicleCountVo();
+
+				for (VehicleCountVo vehicount : bcount) {
+					if (vehicleCountVo.getEtpNm().equals(vehicount.getEtpNm() )) {
+						vehic.setId(vehicleCountVo.getId());
+						vehic.setEtpNm(vehicleCountVo.getEtpNm());
+						vehic.setvCount(vehicleCountVo.getvCount());
+						vehic.setOverCount( vehicount.getvCount());
+						list.add(vehic); 
+						continue lableB;
+					}
+				}
+				vehic.setId(vehicleCountVo.getId());
+				vehic.setvCount(vehicleCountVo.getvCount());
+				vehic.setEtpNm(vehicleCountVo.getEtpNm());
+				vehic.setOverCount(0);
+				list.add(vehic); 
+
+			}
+		out:
+			for (VehicleCountVo vehicleCountVo : list) {
+				VehicleCountVo vehic = new VehicleCountVo();
+
+				for (VehicleCountVo vehicleCountVoyc : wcount) {
+					if (vehicleCountVo.getEtpNm().equals(vehicleCountVoyc.getEtpNm() )) {
+						vehic.setId(vehicleCountVo.getId());
+						vehic.setEtpNm(vehicleCountVo.getEtpNm());
+						vehic.setIllicitCount( vehicleCountVoyc.getvCount() );
+						vehic.setvCount( vehicleCountVo.getvCount());
+						vehic.setOverCount(vehicleCountVo.getOverCount() );
+						vehilist.add(vehic);
+						continue out ;
+					} 
+				}
+				vehic.setId(vehicleCountVo.getId());
+				vehic.setEtpNm(vehicleCountVo.getEtpNm());
+				vehic.setIllicitCount(0);
+				vehic.setvCount( vehicleCountVo.getvCount());
+				vehic.setOverCount(vehicleCountVo.getOverCount() );
+				vehilist.add(vehic);	
+
+			}
+			dnag:
+				for (VehicleCountVo velc : vehilist) {
+					VehicleCountVo vehics = new VehicleCountVo();
+
+					for (VehicleCountVo ycountts : ycount) {
+						if (velc.getEtpNm().equals(ycountts.getEtpNm() )) {
+							vehics.setId(velc.getId());
+							vehics.setVehiType("小型车");
+							vehics.setEtpNm( velc.getEtpNm());
+							vehics.setvCount(velc.getvCount() );
+							vehics.setOverCount(velc.getOverCount() );
+							vehics.setIllicitCount(velc.getIllicitCount());
+							vehics.setScraCount(ycountts.getvCount() );
+							vehics.setzCount( velc.getvCount() - velc.getOverCount() );
+							vehicCount.add(vehics);
+							continue dnag;
+						} 	 
+					}
+					vehics.setId(velc.getId());
+					vehics.setVehiType("小型车");
+					vehics.setEtpNm(velc.getEtpNm());
+					vehics.setvCount(velc.getvCount() );
+					vehics.setOverCount(velc.getOverCount() );
+					vehics.setIllicitCount(velc.getIllicitCount());
+					vehics.setScraCount(0);
+					vehics.setzCount( velc.getvCount() - velc.getOverCount() );
+					vehicCount.add(vehics); 
+				}
+
+			return vehicCount;
 		
-		
-		
-		
-		return null;
 	}
 
 

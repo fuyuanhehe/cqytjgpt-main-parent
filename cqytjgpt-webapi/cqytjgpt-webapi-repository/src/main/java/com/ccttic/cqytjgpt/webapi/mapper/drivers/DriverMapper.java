@@ -77,5 +77,4 @@ public interface DriverMapper {
 		
 		public List<VehicleCountVo>getvehiyCount(VehicleCountVo vehiclesVo);
 	
-	
 }
