@@ -21,9 +21,11 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
 
+import javax.annotation.Resource;
+
 @Service
 public class PostServiceImpl implements IPostService {
-	@Autowired
+	@Resource
 	private EssPostMapper postMapper;
 	@Override
 	public Page<EssPostVo> selectPost(Pageable page, EssPostVo post,List<EssPost> list) throws Exception {
@@ -35,14 +37,14 @@ public class PostServiceImpl implements IPostService {
 		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
 		params.put("postNm", post.getPostnm());// 岗位名称
 
-		long totolRols = postMapper.qryPostListCount(params);
+		long totalRows = postMapper.qryPostListCount(params);
 		List<EssPostVo> records = postMapper.qryPostList(params);
 		for (EssPostVo essPostVo : records) {
 			List<EssEmployee> emp = postMapper.selectEmpUnderPost(essPostVo.getId());
 			essPostVo.setEmp(emp);
 		}
 
-		pager.setTotalRows(totolRols);
+		pager.setTotalRows(totalRows);
 		pager.setRecords(records);
 
 		return pager;
