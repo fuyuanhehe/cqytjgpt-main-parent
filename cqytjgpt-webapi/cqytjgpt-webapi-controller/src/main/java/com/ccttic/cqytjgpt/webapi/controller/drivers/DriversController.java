@@ -23,6 +23,7 @@ import com.ccttic.entity.drivers.vo.DriverillicitVoPage;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVoPage;
 import com.ccttic.entity.drivers.vo.PermiCarsVo;
+import com.ccttic.entity.drivers.vo.VehiTotal;
 import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.drivers.vo.vehiclesVoPage;
@@ -102,14 +103,14 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverVo> data = service.seDriverPage(page, tment);
-			resp.setMessage("查询驾驶员信息分页成功！");
+			resp.setMessage("获取数据成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询驾驶员信息分页失败！");
+			resp.setMessage("获取数据失败！");
 			resp.setStatus(0);
-			logger.error("查询驾驶员信息分页失败！",e);
+			logger.error("获取数据失败！",e);
 		}
 
 		return resp;
@@ -426,8 +427,8 @@ public class DriversController implements Serializable{
 
 	@OperLogging(operType = 0)
 	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<VehicleCountVo>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
-		ResponseMsg<List<VehicleCountVo>> resp = new ResponseMsg<>();
+	public ResponseMsg<List<VehiTotal>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
+		ResponseMsg<List<VehiTotal>> resp = new ResponseMsg<>();
 
 		try {
 			if(StringUtils.isEmpty(access_token)) {
@@ -455,10 +456,63 @@ public class DriversController implements Serializable{
 			}
 			tment.setList(list);
 			tment.setEmpType(empType);
-			List<VehicleCountVo> data = service.getVehiclesCount(tment);
-			resp.setData(data);    	
+			String type = tment.getVehiType();
+			if(type.equals("")){
+				List<VehiTotal > veList = new ArrayList<>();
+				List<VehicleCountVo> data = service.getVehiclesCount(tment);
+				List<VehicleCountVo> datas = service.getVehiclesVehi(tment);
+				out:
+					for (VehicleCountVo vehicleCountVo : data) {
+						VehiTotal VehiTotal = new VehiTotal();
+						for (VehicleCountVo vehikos : datas) {
+							if(vehicleCountVo.getEtpNm().equals(vehikos.getEtpNm())){
+								VehicleCountVo vecount = new VehicleCountVo();
+								VehiTotal.setId(vehicleCountVo.getId());
+								VehiTotal.setEtpNm(vehicleCountVo.getEtpNm());
+								VehiTotal.setMaxVehi(vehicleCountVo);
+								VehiTotal.setMinVehi(vehikos);
+								vecount.setEtpNm("小计");
+								vecount.setvCount( vehicleCountVo.getvCount()+ vehikos.getvCount());
+								vecount.setzCount(vehicleCountVo.getzCount()+vehikos.getzCount() );
+								vecount.setScraCount(vehicleCountVo.getScraCount()+vehikos.getScraCount() );								
+								vecount.setOverCount(vehicleCountVo.getOverCount()+ vehikos.getOverCount());				
+								vecount.setIllicitCount( vehicleCountVo.getIllicitCount()+vehikos.getIllicitCount());
+								VehiTotal.setTotal(vecount);
+								veList.add(VehiTotal);
+								continue out;
+							}
+						}
+					}
+				resp.setTotal( veList.size());
+				resp.setData(veList);    	
+			}else if (type.equals("01")) {
+				List<VehiTotal > veList = new ArrayList<>();
+				List<VehicleCountVo> data = service.getVehiclesCount(tment);
+				for (VehicleCountVo vehicleCountVo : data) {
+					VehiTotal total = new VehiTotal();
+					total.setMaxVehi(vehicleCountVo);
+					total.setId(vehicleCountVo.getId()  );
+					total.setEtpNm(vehicleCountVo.getEtpNm());
+					veList.add(total);
+				}
+				resp.setData(veList);    	
+				resp.setTotal( veList.size());
+			}else if(type.equals("02") ) {
+				List<VehiTotal > veList = new ArrayList<>();
+				List<VehicleCountVo> data = service.getVehiclesVehi(tment);	
+				for (VehicleCountVo vehicleCountVo : data) {
+					VehiTotal total = new VehiTotal();
+					total.setMinVehi(vehicleCountVo);
+					total.setId(vehicleCountVo.getId()  );
+					total.setEtpNm(vehicleCountVo.getEtpNm());
+					veList.add(total);
+				}
+				resp.setData(veList); 
+				resp.setTotal( veList.size());
+			} 
 			resp.setMessage("获取数据成功");
 			resp.setStatus(1);
+
 		} catch (Exception e) {
 			resp.setMessage("获取数据失败");
 			resp.setStatus(-1);	
