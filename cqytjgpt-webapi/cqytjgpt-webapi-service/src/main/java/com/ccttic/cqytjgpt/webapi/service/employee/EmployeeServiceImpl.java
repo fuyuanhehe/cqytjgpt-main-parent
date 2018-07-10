@@ -251,14 +251,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public int addEmployee(EssEmployeeVo emp) throws Exception {
-		int cat=0;
-		EssEmployeeExample example = new EssEmployeeExample();
-		example.createCriteria().andAccountEqualTo(emp.getAccount());
-		List<EssEmployee> empList = empMapper.selectByExample(example);
-		if (empList.size()>0) {
-			cat = 1;
-		}
+	public void addEmployee(EssEmployeeVo emp) throws Exception {
+	
 		String empid = RandomHelper.uuid();
 		EssEmployee employee = emp;
 		employee.setId(empid);
@@ -282,7 +276,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			postMapper.relatedPostAndEmp(eep);
 
 		}
-		return cat;
 	}
 
 	/*
@@ -401,6 +394,17 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			}
 		}
 		return employee;
+	}
+
+	@Override
+	public int selectEmpByAccount(String account) {
+		EssEmployeeExample example = new EssEmployeeExample();
+		example.createCriteria().andAccountEqualTo(account);
+		if(empMapper.selectByExample(example)!=null){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 
 }

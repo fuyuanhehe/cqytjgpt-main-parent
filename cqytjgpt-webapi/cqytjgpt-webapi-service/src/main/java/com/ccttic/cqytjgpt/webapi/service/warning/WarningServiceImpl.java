@@ -104,7 +104,4 @@ public class WarningServiceImpl implements IWarningService{
 	public DrDanger qryOneDriver(DrDanger dr) throws AppException {		
 		return drMapper.selectByPrimaryKey(dr.getId());
 	}
-
-
-
 }

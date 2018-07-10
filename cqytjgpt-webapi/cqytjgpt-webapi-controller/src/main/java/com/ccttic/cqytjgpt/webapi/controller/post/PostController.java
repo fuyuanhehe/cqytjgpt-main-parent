@@ -182,6 +182,7 @@ public class PostController {
     , prsc = {@Resource( cd = Const.POST_MANAGEMENT, url="/post/addpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addpost(@RequestBody EssPostVo post) {
+
 		ResponseMsg<String> rm = new ResponseMsg<>();
 		 try {
 			postService.addpost(post);

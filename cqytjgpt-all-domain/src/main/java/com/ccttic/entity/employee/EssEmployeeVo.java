@@ -20,11 +20,6 @@ public class EssEmployeeVo extends EssEmployee {
 	private String orgCd;
 	//企业id
 	private String eptId;
-	//用户类型
-	private String empType;
-	
-	
-	
 	//岗位
 	private List<EssPost> post;
 	//部门id
@@ -78,38 +73,12 @@ public class EssEmployeeVo extends EssEmployee {
 	public void setEptId(String eptId) {
 		this.eptId = eptId;
 	}
-	public String getEmpType() {
-		return empType;
-	}
-	public void setEmpType(String empType) {
-		this.empType = empType;
-	}
+	
 	public List<Department> getDes() {
 		return des;
 	}
 	public void setDes(List<Department> des) {
 		this.des = des;
 	}
-	public EssEmployeeVo(String depNm, String depid, String orgNm, String orgCd, String eptId, String empType,
-			List<EssPost> post, List<Department> des, int page, int rows) {
-		super();
-		this.depNm = depNm;
-		this.depid = depid;
-		this.orgNm = orgNm;
-		this.orgCd = orgCd;
-		this.eptId = eptId;
-		this.empType = empType;
-		this.post = post;
-		this.des = des;
-		this.page = page;
-		this.rows = rows;
-	}
-	public EssEmployeeVo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	
-	
 	
 }

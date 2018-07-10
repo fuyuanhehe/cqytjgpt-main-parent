@@ -67,7 +67,7 @@ public interface IEmployeeService {
 	 * @return
 	 * @throws AppException
 	 */
-	public int addEmployee(EssEmployeeVo emp) throws Exception ;
+	public void addEmployee(EssEmployeeVo emp) throws Exception ;
 
 	/**
 	 * 修改员工
@@ -124,5 +124,10 @@ public interface IEmployeeService {
 	 */
 	public EmployeeVo getUserInfo(String access_token);
 
-
+		/**
+		 *@Author:zhy
+		 *@Description:
+		 *@Date:15:31 2018/7/10
+		 */
+	int selectEmpByAccount(String account);
 }
