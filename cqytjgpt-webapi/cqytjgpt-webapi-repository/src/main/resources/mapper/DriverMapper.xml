@@ -209,7 +209,7 @@
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
 		SELECT
 		replace(d.name,' ','') name,
-		a.areaNm,
+		e.etpNm,
 		dl.illicitTime,
 		dl.illicitAdress,
 		dl.illicitScore,
@@ -220,7 +220,8 @@
 		ON e.id =
 		d.mgrEnterpriseId
 		LEFT
-		JOIN dr_illicit dl ON
+		JOIN
+		dr_illicit dl ON
 		d.id =
 		dl.driver_id
 		LEFT JOIN
@@ -438,13 +439,14 @@
 		en.etpTel,
 		en.etpAdress,
 		en.remark
-	
+
 		FROM
 		ess_organization eo
 		LEFT
 		JOIN ess_enterprise en ON
 		en.org_id = eo.id
-		LEFT JOIN ess_area a ON
+		LEFT
+		JOIN ess_area a ON
 		eo.area_id = a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -476,7 +478,8 @@
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
 		AND en.id != ''
-		limit ${startRecord} ,
+		limit
+		${startRecord} ,
 		${pageSize}
 
 	</select>

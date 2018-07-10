@@ -23,7 +23,7 @@ public class VehicleCountVo {
 	//区域
 	private String orgNm;
     // 车辆类型
-	private String vehiType;
+	private String vehiType = "01";
 	public VehicleCountVo() {
 	}
 	@Override

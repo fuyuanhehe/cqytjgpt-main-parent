@@ -192,7 +192,7 @@ public class DriversServiceImpl implements DriversService {
 	}
 
 	@Override
-	public List<VehicleCountVo> getvehiclesCount(VehicleCountVo countVo) {
+	public List<VehicleCountVo> getVehiclesCount(VehicleCountVo countVo) {
 
 		List<VehicleCountVo> count = mapper.getvehiCount(countVo);
 		List<VehicleCountVo> bcount = mapper.getvehibCount(countVo);                                
@@ -274,6 +274,15 @@ public class DriversServiceImpl implements DriversService {
 		String regularExpression = "(^[1-9]\\d{5}(18|19|20)\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$)|" +
 				"(^[1-9]\\d{5}\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}$)";
 		return Pattern.matches(regularExpression, idCard);
+	}
+
+	@Override
+	public List<VehicleCountVo> getVehiclesVehi(VehicleCountVo countVo) {
+		
+		
+		
+		
+		return null;
 	}
 
 

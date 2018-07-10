@@ -455,7 +455,7 @@ public class DriversController implements Serializable{
 			}
 			tment.setList(list);
 			tment.setEmpType(empType);
-			List<VehicleCountVo> data = service.getvehiclesCount(tment);
+			List<VehicleCountVo> data = service.getVehiclesCount(tment);
 			resp.setData(data);    	
 			resp.setMessage("获取数据成功");
 			resp.setStatus(1);
