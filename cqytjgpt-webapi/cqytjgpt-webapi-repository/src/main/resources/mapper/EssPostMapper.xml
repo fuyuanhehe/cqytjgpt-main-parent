@@ -93,12 +93,14 @@
 	<update id="delpost"  parameterType="java.util.Map" >
 	update set ess_post isDeleted=1 where  id=#{postId}
 	</update>
-		<select id="selectPostUnderdep"  parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPost">
-	SELECT id AS id,postNm AS postnm FROM ess_post  WHERE dep_id=#{depid} 
+
+	<select id="selectPostUnderDep"  parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPost">
+	        SELECT id AS id,postNm AS postnm FROM ess_post  WHERE dep_id=#{depid}
 		<if test="postNm != null and postNm != ''">
-			AND postNm like '%${postNm}%'
+			AND postNm like %${postNm}%
 		</if>
 	</select>
+
 	<select id="getAllPost" resultType="com.ccttic.entity.post.EssPost">
 	select * from ess_post
 	</select>
