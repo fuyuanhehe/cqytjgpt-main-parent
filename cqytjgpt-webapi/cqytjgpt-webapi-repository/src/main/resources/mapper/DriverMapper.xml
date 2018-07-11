@@ -505,7 +505,7 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		<if test="orgNm!= null and orgNm!='' ">
+		<if test="areaNm!= null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
 		</if>
 		<if test="id!= null and id!='' ">
