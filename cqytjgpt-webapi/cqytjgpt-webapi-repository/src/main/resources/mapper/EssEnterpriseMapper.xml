@@ -638,4 +638,7 @@
  	WHERE org_id=#{id};
  	</if>
   </select>
+  <select id="getEntByEmpId" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.EssEnterprise">
+    SELECT * FROM ess_enterprise ent LEFT JOIN ess_department depart ON depart.ept_id = ent.id LEFT JOIN ess_employee_dept  dept ON  depart.id =dept.dep_id   LEFT JOIN    ess_employee emp ON emp.id = dept.emp_id WHERE emp.id =#{id}
+  </select>
 </mapper>

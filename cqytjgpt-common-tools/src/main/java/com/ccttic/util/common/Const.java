@@ -45,6 +45,10 @@ public class Const {
 	 */
 	final public static int TWO = 2;
 	/**
+	 * 3
+	 */
+	final public static int THREE =3;
+	/**
 	 * 违法序号长度
 	 */
 	final public static int XHlength = 16;

@@ -361,21 +361,14 @@ public class EmployeeController {
 	 * @Date:10:05 2018/7/9
 	 */
 	public EmployeeVo getUserInfo(String access_token) {
-		List<EssEnterprise> ent = null;
-		String empType = null;
+
 		String username = JWTUtil.getUsername(access_token);
 		// redis get data
-		EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
+		EmployeeVo employee = (EmployeeVo) redisService.get(username + Const.TOKEN);
 		// 2. 判断REDIS是否为空
-		if (null != vo) {
-			ent = vo.getEnt();
-			empType = vo.getEmptype();
-		} else {
-			EmployeeVo employee;
-			try {
+		if (null == employee) {
+			try{
 				employee = employeeService.findEmployeeByAccount(username);
-				ent = employee.getEnt();
-				empType = employee.getEmptype();
 				// 3. 更新redis里用户缓存
 				redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
 			} catch (Exception e) {
@@ -384,6 +377,6 @@ public class EmployeeController {
 			}
 
 		}
-		return vo;
+		return employee;
 	}
 }

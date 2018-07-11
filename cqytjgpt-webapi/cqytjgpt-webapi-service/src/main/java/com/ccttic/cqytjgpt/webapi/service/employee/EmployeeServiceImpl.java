@@ -113,7 +113,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// 员工所在部门
 		List<Department> deps = empMapper.selectDepUnderEmp(emp.getId());
 		emp.setDeps(deps);
-		List<EssEnterprise> ent = entMapper.getEssEnterprise(emp.getId());
+		EssEnterprise ent = entMapper.getEntByEmpId(emp.getId());
 		emp.setEnt(ent);
 		// 员工所在组织
 		Map<String, String> map = null;
@@ -134,7 +134,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			for (Organization org : organizations) {
 
 				if (organizationMapper.getAllDepart(org.getId()) != null
-						&& organizationMapper.getAllDepart(org.getId()).size() > 0) {
+						&& organizationMapper.getAllDepart(org.getId()).size() > Const.ZERO) {
 					emp.getCanSeeDeps().addAll(organizationMapper.getAllDepart(org.getId()));
 					if (!org.getId().equals(organization.getId())) {
 						emp.getCanSeeEnt().addAll(entMapper.getEssEnterpriseByOrgId(org.getId()));
@@ -155,7 +155,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.TWO).equals(emp.getEmptype())) {
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			if (organizationMapper.getAllDepart(organization.getId()) != null
-					&& organizationMapper.getAllDepart(organization.getId()).size() > 0) {
+					&& organizationMapper.getAllDepart(organization.getId()).size() > Const.ZERO) {
 				emp.getCanSeeDeps().addAll(organizationMapper.getAllDepart(organization.getId()));
 				emp.getCanSeeEnt().addAll(entMapper.getEssEnterpriseByOrgId(organization.getId()));
 			}
@@ -163,17 +163,36 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				map = new HashMap<>();
 				map.put("depid", depart.getId());
 				List<EssEmployee> emps = postMapper.getEmployeeByDep(map);
-				if (emps != null && emps.size() > 0) {
+				if (emps != null && emps.size() > Const.ZERO) {
 					emp.getCanSeeEmp().addAll(emps);
 				}
 				List<EssPost> postList = postMapper.selectPostUnderDep(map);
-				if (postList != null && postList.size() > 0) {
+				if (postList != null && postList.size() > Const.ZERO) {
 					emp.getCanSeePosts().addAll(postList);
 				}
 			}
 			emp.setOrg(organization);
-		} else {
-			organization = empMapper.selectOrgByDepId(deps.get(0).getId());
+		} else if((Const.ADMIN.equals(emp.getEmptype()) && (""+Const.THREE).equals(emp.getEmptype()))){
+			List<EssEnterprise> adminEnt = entMapper.getEssEnterprise(emp.getId());
+			emp.setCanSeeEnt(adminEnt);
+			List<Department> departments =organizationMapper.getDepartByEntCd(adminEnt.get(0).getEtpcd());
+			organization = organizationMapper.findOrgByEptId(adminEnt.get(0).getId());
+			emp.setOrg(organization);
+			for (Department depart : departments){
+				map = new HashMap<>();
+				map.put("depid", depart.getId());
+				List<EssEmployee> emps = postMapper.getEmployeeByDep(map);
+				if (emps != null && emps.size() > Const.ZERO) {
+					emp.getCanSeeEmp().addAll(emps);
+				}
+				List<EssPost> postList = postMapper.selectPostUnderDep(map);
+				if (postList != null && postList.size() > Const.ZERO) {
+					emp.getCanSeePosts().addAll(postList);
+				}
+			}
+
+		}else{
+			organization = organizationMapper.getOrgByEmpId(emp.getId());
 			emp.setOrg(organization);
 		}
 

@@ -20,7 +20,7 @@ public class EmployeeVo extends EssEmployee implements Serializable{
 	
 	private List<Department> canSeeDeps;
 	// 员工所在企业
-	private List<EssEnterprise> ent;
+	private EssEnterprise ent;
 	
 	private List<EssEnterprise> canSeeEnt;
 	// 员工所在组织
@@ -124,15 +124,12 @@ public class EmployeeVo extends EssEmployee implements Serializable{
 	public void setPicCode(String picCode) {
 		this.picCode = picCode;
 	}
-	
-	public List<EssEnterprise> getEnt() {
+
+	public EssEnterprise getEnt() {
 		return ent;
 	}
 
-	public void setEnt(List<EssEnterprise> ent) {
+	public void setEnt(EssEnterprise ent) {
 		this.ent = ent;
 	}
-
-	
-
 }
