@@ -165,13 +165,13 @@ public class WarningController implements Serializable {
 		try {
 			// 2. 判断REDIS是否为空
 			if (null != emp) {
-				ent = emp.getEnt();
+				ent = emp.getCanSeeEnt();
 				resp.setData(ent);
 				resp.success("获取企业列表成功");
 			} else {
 
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent = employee.getEnt();
+				ent = employee.getCanSeeEnt();
 				// 3. 更新redis里用户缓存
 				redisService.set(username+Const.TOKEN, employee, Const.USER_REDIS_LIVE);
 				resp.setData(ent);
