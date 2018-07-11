@@ -365,7 +365,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		params.put("empNm", emp.getEmpnm());// 员工姓名
 		params.put("account", emp.getAccount());// 员工账号
 		params.put("depid", emp.getDepid());// 部门id
-
+		params.put("orgid", emp.getOrgCd());// 组织id
 		long totalRows = empMapper.qryPostListCount(params);
 		List<EssEmployeeVo> records = empMapper.qryPostList(params);
 		for (EssEmployeeVo essEmployeeVo : records) {

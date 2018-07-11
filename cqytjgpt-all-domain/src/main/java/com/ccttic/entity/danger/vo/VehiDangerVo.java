@@ -14,23 +14,15 @@ public class VehiDangerVo extends VehiDanger{
 	private String empType;
 	private String orgNm;
 	private String superNm;
-	
-	public VehiDangerVo() {
-		super();
+	private String etpNm;
+
+	public String getEtpNm() {
+		return etpNm;
 	}
 
-	public VehiDangerVo(int page, int rows, List<String> list, String areaId, String empType, String orgNm,
-			String superNm) {
-		super();
-		this.page = page;
-		this.rows = rows;
-		this.list = list;
-		this.areaId = areaId;
-		this.empType = empType;
-		this.orgNm = orgNm;
-		this.superNm = superNm;
+	public void setEtpNm(String etpNm) {
+		this.etpNm = etpNm;
 	}
-
 
 	public int getPage() {
 		return page;

@@ -610,6 +610,9 @@
 		<if test="eptId != null and eptId != ''">
 			and depart.ept_id =#{eptId}
 		</if>
+		<if test="orgid != null and orgid != ''">
+			and org.id =#{orgid}
+		</if>
 
 		<if test="empNm != null and empNm != ''">
 			and emp.empNm like '%${empNm}%'
@@ -637,8 +640,9 @@
 					#{item.id}
 				</foreach>
 		</if>
-		
-
+		<if test="orgid != null and orgid != ''">
+			and org.id =#{orgid}
+		</if>
 		<if test="empNm != null and empNm != ''">
 			and emp.empNm like '%${empNm}%'
 		</if>
