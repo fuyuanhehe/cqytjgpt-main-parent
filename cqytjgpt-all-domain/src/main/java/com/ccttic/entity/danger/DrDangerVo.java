@@ -18,6 +18,8 @@ public class DrDangerVo extends DrDanger {
 	private String areaNm;
 	//企业id
 	private String ownerenterprise;
+
+	private String superNm;
 	
 	private String orgNm;
 	
@@ -99,4 +101,11 @@ public class DrDangerVo extends DrDanger {
 		this.drDangers = drDangers;
 	}
 
+	public String getSuperNm() {
+		return superNm;
+	}
+
+	public void setSuperNm(String superNm) {
+		this.superNm = superNm;
+	}
 }

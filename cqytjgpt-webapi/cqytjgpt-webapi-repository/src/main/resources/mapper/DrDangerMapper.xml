@@ -673,7 +673,8 @@ GROUP BY
   
   <!-- 根据条件查询记录 -->
 	<select id="qryDriverList" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.DrDangerVo">
-      SELECT danger.*,(SELECT e.areaNm FROM ess_area e WHERE e.id=org.area_id) orgNm ,org1.orgNm AS superNm,area.*,etp.etpNm FROM dr_danger danger LEFT JOIN ess_organization org ON danger.
+      SELECT danger.*,(SELECT e.areaNm FROM ess_area e WHERE e.id=org.area_id) orgNm ,org1.orgNm AS
+      superNm,area.*,etp.etpNm AS ownerenterprise FROM dr_danger danger LEFT JOIN ess_organization org ON danger.
       ownerOrgId=org.id LEFT JOIN ess_area AREA ON org.area_id=area.id
       LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id  LEFT JOIN ess_organization org1 ON org1.id=org.superOrg_id
 			<choose>
