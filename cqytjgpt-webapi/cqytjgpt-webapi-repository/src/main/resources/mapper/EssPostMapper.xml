@@ -33,7 +33,7 @@
 			and depart.ept_id =#{eptId}
 				</if>
 		<if test="postNm != null and postNm != ''">
-			and postNm like %${postNm}%
+			and postNm like '%${postNm}%'
 		</if>
 	
 	</select>
@@ -52,7 +52,7 @@
 				</if>
 		
 		<if test="postNm != null and postNm != ''">
-			and post.postNm like %${postNm}%
+			and post.postNm like '%${postNm}%'
 		</if>
 		order by post.createTime DESC
 		

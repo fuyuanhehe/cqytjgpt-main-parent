@@ -48,10 +48,6 @@ public class PostController {
 	private IEmployeeService employeeService;
 
 	/**分页查询岗位
-	 * @param request
-	 * @param response
-	 * @param page
-	 * @param post
 	 * @return
 	 */
 	@RequestMapping(value = "selectPost", method = RequestMethod.POST)
