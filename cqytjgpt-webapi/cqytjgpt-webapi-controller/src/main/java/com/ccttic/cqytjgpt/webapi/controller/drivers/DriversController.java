@@ -54,15 +54,6 @@ public class DriversController implements Serializable{
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
 	/**
-	 * @param etpNm 所属企业
-	 * @param areaNm 所属区域
-	 * @param name 驾驶人名称
-	 * @param idcard 身份证号码
-	 * @param permiCar 准驾车型
-	 * @param id 驾驶人主键ID
-	 * @param mobilephone 手机号码*
-	 * @param fiString,laString 初次领证时间,最后领证时间
-	 * @param fistShString,laShString 初次审核时期,最后审核时期
 	 * @return
 	 * @date  2018年6月15日
 	 */
@@ -89,11 +80,9 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
@@ -143,7 +132,6 @@ public class DriversController implements Serializable{
 
 
 	/**基本信息-违法记录
-	 * @param id 驾驶人主键ID
 	 * @date  2018年6月15日
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法记录")
@@ -169,11 +157,11 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
+
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
+
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
@@ -197,13 +185,6 @@ public class DriversController implements Serializable{
 	}
 	/**
 	 * 功能说明：  驾驶人违法记录分页
-	 * @param id 驾驶员ID
-	 * @param name 驾驶员名字
-	 * @param etpNm 所属区域
-	 * @param areaNm 所属企业
-	 * @param illicitadress 违法地址
-	 * @param illicit 违法行为
-	 * @param fiString,laString 初次违法时间,最后违法时间
 	 * @return
 	 * @date  2018年6月15日
 	 */
@@ -230,11 +211,11 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
+
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
+
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
@@ -258,7 +239,6 @@ public class DriversController implements Serializable{
 		return resp;
 	}
 	/**
-	 * @param idcard 驾驶员身份证
 	 * @return
 	 * @date  2018年6月15日
 	 */
@@ -285,11 +265,6 @@ public class DriversController implements Serializable{
 	}
 	/**
 	 * 功能说明：  企业信息-基本信息 分页，详情
-	 * @param id 企业id
-	 * @param etpnm 企业名字
-	 * @param areaNm 区域
-	 * @param ownertraffic 交警大队
-	 * @param ownertransport 运管所
 	 * @return 
 	 * @date  2018年6月20日
 	 */
@@ -314,11 +289,9 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
@@ -388,19 +361,19 @@ public class DriversController implements Serializable{
 			String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
+
 			if (null != vo) {
-				ent = vo.getEnt();
+
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
+
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
-			}
+
+				list.add(vo.getEnt().getId());
+
 			tment.setQid(list);
 			tment.setEmpType(empType);
 
@@ -441,19 +414,17 @@ public class DriversController implements Serializable{
 			String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
+
 			if (null != vo) {
-				ent = vo.getEnt();
+
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
+
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
-			}
+			list.add(vo.getEnt().getId());
 			tment.setList(list);
 			tment.setEmpType(empType);
 			String type = tment.getVehiType();

@@ -104,13 +104,13 @@ public class VehicleContrller implements Serializable {
 			EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
 			// 2. 判断REDIS是否为空
 			if (null != vo) {
-				ent = vo.getEnt();
+
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee;
 				try {
 					employee = employeeService.findEmployeeByAccount(username);
-					ent = employee.getEnt();
+
 					empType = employee.getEmptype();
 					// 3. 更新redis里用户缓存
 					redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
@@ -141,8 +141,8 @@ public class VehicleContrller implements Serializable {
 	 * 新增车牌号和车辆类型到数据库
 	 * -----------------------------------这个接口可能要改，因为前端传递的机动车编号会有渝字-------------------------------
 	 * 
-	 * @param vehiNo
-	 * @param vehiType
+	 * @param
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/saveVehicle", method = { RequestMethod.POST, RequestMethod.GET })
@@ -173,17 +173,17 @@ public class VehicleContrller implements Serializable {
 				redisService.set(username + Const.TOKEN, vo, Const.USER_REDIS_LIVE);
 			}
 
-			List<EssEnterprise> ent = vo.getEnt();
+			EssEnterprise ent = vo.getEnt();
 			if (ent == null) {
 				resp.fail("该用户企业为null");
 				return resp;
 			}
 			// 默认只有一个 所以直接取list的第一条数据
-			if (ent.size() <= 0) {
+			if (ent == null) {
 				resp.fail("添加失败,只有企业才能添加车辆！");
 				return resp;
 			}
-			entId = ent.get(0).getId();
+			entId = ent.getId();
 			Map<String, Object> maps = vehicleService.saveVehicle(listMap, entId);
 			if ((int) maps.get("cet") == 1) {
 				resp.fail(maps.get("gather") + "其他添加成功！");
@@ -201,8 +201,8 @@ public class VehicleContrller implements Serializable {
 	/**
 	 * 调取信息（调取接口补全车辆信息）
 	 * 
-	 * @param vehiNo
-	 * @param vehiType
+	 * @param
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -237,7 +237,7 @@ public class VehicleContrller implements Serializable {
 	/**
 	 * 根据条件获取指定车辆信息 （详情）
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/qryOneVehicle", method = { RequestMethod.POST, RequestMethod.GET })
@@ -274,7 +274,7 @@ public class VehicleContrller implements Serializable {
 	/**
 	 * 根据条件获取指定车辆信息 （违法记录）
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/qryOneVehiIllicit", method = { RequestMethod.POST, RequestMethod.GET })
@@ -304,7 +304,7 @@ public class VehicleContrller implements Serializable {
 	 * 根据条件获取车辆历史轨迹信息 ----------------------------------这个接口的渝字 后期也要修改
 	 * 因为前端统一要传----------------------------
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/qryOneHistoryTrack", method = { RequestMethod.POST, RequestMethod.GET })
@@ -328,7 +328,7 @@ public class VehicleContrller implements Serializable {
 	/**
 	 * 根据车牌号获取车辆信息
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/qryOneVehicleInfo", method = { RequestMethod.POST, RequestMethod.GET })
@@ -351,7 +351,7 @@ public class VehicleContrller implements Serializable {
 	/**
 	 * 根据条件获取车辆信息
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 
