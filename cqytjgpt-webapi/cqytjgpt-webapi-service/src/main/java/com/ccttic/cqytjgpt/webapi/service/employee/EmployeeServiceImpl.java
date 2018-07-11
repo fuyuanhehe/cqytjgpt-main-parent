@@ -419,7 +419,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public int selectEmpByAccount(String account) {
 		EssEmployeeExample example = new EssEmployeeExample();
 		example.createCriteria().andAccountEqualTo(account);
-		if(empMapper.selectByExample(example)!=null){
+
+		if(empMapper.selectByExample(example).size()>0){
 			return 1;
 		}else{
 			return 0;

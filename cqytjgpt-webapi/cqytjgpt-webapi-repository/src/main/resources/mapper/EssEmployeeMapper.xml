@@ -617,7 +617,7 @@
 		<if test="account != null and account != ''">
 			and emp.account =#{account}
 		</if>
-		<if test="depNm != null and depNm != ''">
+		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
 		order by emp.createTime DESC
@@ -645,7 +645,7 @@
 		<if test="account != null and account != ''">
 			and emp.account =#{account}
 		</if>
-		<if test="depNm != null and depNm != ''">
+		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
 	</select>

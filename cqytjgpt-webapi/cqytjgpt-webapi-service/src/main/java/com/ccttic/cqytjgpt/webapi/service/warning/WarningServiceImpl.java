@@ -76,7 +76,7 @@ public class WarningServiceImpl implements IWarningService{
 		params.put("empType", vo.getEmpType()); // 账号类型
 		params.put("list", vo.getList()); // 企业id
 		params.put("areaId", vo.getAreaCd());// 区域
-		params.put("ownerenterprise", vo.getOwnerenterprise());// 公司
+		params.put("etpNId", vo.getEtpId());// 公司
 		params.put("fullStudyState", vo.getFullstudystate()==1?true:false);
 		params.put("illicitState", vo.getIllicitstate()==1?true:false);
 		params.put("failureState", vo.getFailurestate()==1?true:false);
