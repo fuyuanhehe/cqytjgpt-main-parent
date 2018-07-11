@@ -15,6 +15,7 @@ import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.enums.EssEmployeeStatus;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
@@ -136,6 +137,25 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	@Override
 	public List<EssEnterprise> getEssEnterprise(String id) throws Exception {
 		return enterpriseMapper.getEssEnterprise(id);
+	}
+
+	@Override
+	public Page<EnterpriseVehiVo> getEnterpriseVe(Pageable page, EnterpriseVehiVo envo)
+			throws AppException {
+		Page<EnterpriseVehiVo> pager = new PageImpl<EnterpriseVehiVo>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		params.put("etpNm", envo.getEtpNm());
+		params.put("areaNm", envo.getAreaNm());
+		params.put("id", envo.getId());
+		params.put("list", envo.getList());
+		params.put("empType", envo.getEmpType());
+		
+		pager.setRecords(enterpriseMapper.getEnterpriseVe(params));
+		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));
+		
+		return pager;
 	}
 	
 	

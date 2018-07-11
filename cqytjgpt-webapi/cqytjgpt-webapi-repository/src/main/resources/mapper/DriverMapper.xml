@@ -438,8 +438,8 @@
 		en.state,
 		en.etpTel,
 		en.etpAdress,
-		en.remark
-
+		en.remark,
+		en.etpCd
 		FROM
 		ess_organization eo
 		LEFT
@@ -476,6 +476,10 @@
 		<if test="ownerTransport!= null and ownerTransport!='' ">
 			and en.ownerTransport = #{ownerTransport}
 		</if>
+		<if test="etpCd!= null and etpCd!='' ">
+			and en.etpCd = #{etpCd}
+		</if>
+
 		and (en.isDeleted is null OR en.isDeleted !=1)
 		AND en.id != ''
 		limit
@@ -519,6 +523,9 @@
 		</if>
 		<if test="ownerTransport!= null and ownerTransport!='' ">
 			and en.ownerTransport = #{ownerTransport}
+		</if>
+		<if test="etpCd!= null and etpCd!='' ">
+			and en.etpCd = #{etpCd}
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
 		AND en.id != ''
@@ -570,7 +577,7 @@
 		<if test="id!=null and id!= '' ">
 			AND e.id =#{id}
 		</if>
-		
+
 		and (o.isDeleted is null OR o.isDeleted !=1)
 
 		limit ${startRecord} ,
@@ -775,7 +782,8 @@
 		ess_enterprise e ON o.id = e.org_id
 		LEFT
 		JOIN vehicle v ON
-		e.id =
+		e.id
+		=
 		v.mgrEnterpriseId
 		LEFT JOIN vehi_danger vd ON
 		v.id =
@@ -821,7 +829,8 @@
 		ess_enterprise e ON o.id = e.org_id
 		LEFT
 		JOIN vehicle v ON
-		e.id =
+		e.id
+		=
 		v.mgrEnterpriseId
 		LEFT JOIN vehi_danger vd ON
 		v.id =

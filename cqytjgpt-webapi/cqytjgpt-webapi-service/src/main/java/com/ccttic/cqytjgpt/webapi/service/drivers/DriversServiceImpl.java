@@ -133,7 +133,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("ownerTransport", enterprisethenVo.getOwnertransport());
 		params.put("list", enterprisethenVo.getQid());
 		params.put("empType", enterprisethenVo.getEmpType());
-
+		params.put("etpCd", enterprisethenVo.getEtpcd());
 		List<EnterprisethenVo> list = new ArrayList<>();
 		List<EnterprisethenVo> data = mapper.queryEnterprisePage(params);
 
