@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.EssEnterpriseExample;
+import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.util.exception.AppException;
 
@@ -83,5 +84,12 @@ public interface EssEnterpriseMapper {
 	 
 	public long getEnterpriseVeCount(Map<String, Object> map);
 	
+	
+	/*
+	 * 企业下属驾驶员
+	 */
+	public List<EnterpriseDriverVo > getEnterpriceDriver(Map<String, Object> map);
+	
+	public Long getEnterpriceDriverCount(Map<String, Object> map);
 	
 }

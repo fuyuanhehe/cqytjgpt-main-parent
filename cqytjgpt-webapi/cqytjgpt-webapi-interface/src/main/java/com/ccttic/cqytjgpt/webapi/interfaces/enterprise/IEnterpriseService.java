@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.util.exception.AppException;
@@ -60,5 +61,9 @@ public interface IEnterpriseService {
 	
 	public Page<EnterpriseVehiVo> getEnterpriseVe(Pageable page,EnterpriseVehiVo envo)throws AppException ;
 	
+	/*
+	 * 企业下属驾驶人
+	 */
+	public Page<EnterpriseDriverVo> getEnterpriceDriver(Pageable page,EnterpriseDriverVo envo)throws AppException ;
 	
 }
