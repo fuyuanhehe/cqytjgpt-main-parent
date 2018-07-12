@@ -316,6 +316,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		EssEmployee employee = emp;
 		empMapper.updateByPrimaryKeySelective(employee);
 		empMapper.delPostUnderEmp(emp.getId());
+		EssEmployeeDept dept = new EssEmployeeDept();
+		dept.setDepId(emp.getDepid());
+		dept.setEmpId(emp.getId());
+		dept.setVersion(1);
+		dept.setId(RandomHelper.uuid());
+		empMapper.delEmpUnderDep(dept);
+		empMapper.relatedDepAndEmp(dept);
 		if (emp.getPost() != null)
 			for (int i = 0; i < emp.getPost().size(); i++) {
 				String postId = emp.getPost().get(i).getId();
