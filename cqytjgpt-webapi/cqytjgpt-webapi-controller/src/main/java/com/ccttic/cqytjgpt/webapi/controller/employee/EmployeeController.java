@@ -164,7 +164,7 @@ public class EmployeeController {
 		// redis get data
 		EmployeeVo employee = employeeService.getUserInfo(access_token);
 
-		emp.setDes(employee.getCanSeeDeps());
+		emp.setDes(employee.getCanSeeDeps()!=null?employee.getCanSeeDeps():null);
 
 		try {
 			PageRequest page = new PageRequest();
