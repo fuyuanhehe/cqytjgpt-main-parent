@@ -338,10 +338,11 @@
 			and dl.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
-
+		and dl.id!=''
 		and (d.isDelete is null OR d.isDelete !=1)
 
-		limit ${startRecord} ,
+		limit
+		${startRecord} ,
 		${pageSize}
 
 	</select>
@@ -394,6 +395,7 @@
 			#{laString}
 		</if>
 		and (d.isDelete is null OR d.isDelete !=1)
+		and dl.id!=''
 	</select>
 
 	<!-- 一对多查询关联 -->
