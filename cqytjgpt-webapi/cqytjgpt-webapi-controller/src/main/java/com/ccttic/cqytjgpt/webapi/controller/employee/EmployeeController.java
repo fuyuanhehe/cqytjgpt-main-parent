@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
+import com.ccttic.entity.post.EssPostVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -331,19 +332,20 @@ public class EmployeeController {
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "删除员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/delEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody String str) {
-		List<LinkedHashMap<String, String>> list = JsonUtil.jsonToList(str);
-		ResponseMsg<String> rm = new ResponseMsg<String>();
+	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody EssPostVo post) {
+		ResponseMsg<String> rm = new ResponseMsg<>();
 
 		try {
-			for (LinkedHashMap<String, String> map : list) {
-				EssEmployeeVo emp = new EssEmployeeVo();
-				emp.setId(map.get("id"));
-				emp.setDepid(map.get("depid"));
-				emp.setIsdeleted(true);
-				employeeService.delEmployee(emp);
+			if (post != null && post.getEmp().size() > 0) {
+				for (EssEmployee emp : post.getEmp()) {
+					EssEmployeeVo empVo = new EssEmployeeVo();
+					emp.setId(emp.getId());
+					//前端将部门id放到empcd中传入
+					empVo.setDepid(emp.getEmpcd());
+					emp.setIsdeleted(true);
+					employeeService.delEmployee(empVo);
+				}
 			}
-
 			rm.success("删除Employee成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
