@@ -623,6 +623,7 @@
 		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
+		    and emp.isDeleted !=1
 		order by emp.createTime DESC
 
 		limit ${startRecord},${pageSize}
@@ -652,12 +653,13 @@
 		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
+			and emp.isDeleted !=1
 	</select>
 	<select id="selectPostUnderEmp" parameterType="java.lang.String"
 		resultType="com.ccttic.entity.post.EssPost">
 		SELECT post.* FROM ess_post post,ess_employee_post eep
 		WHERE
-		post.id=eep.post_id AND eep.emp_id =#{id}
+		post.id=eep.post_id AND eep.emp_id =#{id} and post.isDeleted !=1
 	</select>
 	<delete id="delPostUnderEmp" parameterType="java.lang.String">
 		delete from
@@ -697,6 +699,6 @@
 	</delete>
 	
 	<select id="getAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
-	select * from ess_employee
+	select * from ess_employee WHERE  and isDeleted !=1
 	</select>
 </mapper>
