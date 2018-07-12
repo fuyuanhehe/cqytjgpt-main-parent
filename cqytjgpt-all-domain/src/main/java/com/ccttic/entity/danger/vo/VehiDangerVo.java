@@ -11,10 +11,19 @@ public class VehiDangerVo extends VehiDanger{
 	private int rows = 10;
 	private List<String> list;
 	private String areaId;
+	private String areaNm;
 	private String empType;
 	private String orgNm;
 	private String superNm;
 	private String etpNm;
+
+	public String getAreaNm() {
+		return areaNm;
+	}
+
+	public void setAreaNm(String areaNm) {
+		this.areaNm = areaNm;
+	}
 
 	public String getEtpNm() {
 		return etpNm;
