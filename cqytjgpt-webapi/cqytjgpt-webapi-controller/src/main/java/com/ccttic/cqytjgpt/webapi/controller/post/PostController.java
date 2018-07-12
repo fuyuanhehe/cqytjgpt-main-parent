@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.controller.post;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.ccttic.entity.employee.EssEmployeeVo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -213,18 +215,20 @@ public class PostController {
 		return rm;
 	}
 	/**删除岗位
-	 * @param postId
 	 * @return
 	 */
 	@RequestMapping(value = "delpost", method = RequestMethod.POST)
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_POST, name = "删除岗位",  hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
     , prsc = {@Resource( cd = Const.POST_MANAGEMENT, url="/post/delpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<String> delpost(@RequestBody String postId) {
+	public ResponseMsg<String> delpost(@RequestBody String id) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
-		Map<String, String> map = JsonUtil.jsonToMap(postId);
+		List<LinkedHashMap<String, String>> list = JsonUtil.jsonToList(id);
 		 try {
-			postService.delpost(map);
+			 for (LinkedHashMap<String, String> map : list) {
+
+				 postService.delpost(map);
+			 }
 			rm.setMessage("删除post数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
