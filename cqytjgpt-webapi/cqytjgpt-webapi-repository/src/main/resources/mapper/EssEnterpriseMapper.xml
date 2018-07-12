@@ -839,7 +839,7 @@
 		</if>
 		and v.id != ''
 	</select>
-
+	<!--企业下驾驶人 -->
 	<select id="getEnterpriceDriver" resultType="com.ccttic.entity.enterprise.vo.EnterpriseDriverVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -888,7 +888,7 @@
 			and a.areaNm= #{areaNm}
 		</if>
 		<if test="id!=null and id!='' ">
-			and v.id= #{id}
+			and d.id= #{id}
 		</if>
 		and d.id !=''
 		and (d.isDelete is null OR d.isDelete !=1)
@@ -926,7 +926,7 @@
 			and a.areaNm= #{areaNm}
 		</if>
 		<if test="id!=null and id!='' ">
-			and v.id= #{id}
+			and d.id= #{id}
 		</if>
 		and d.id !=''
 		and (d.isDelete is null OR d.isDelete !=1)
