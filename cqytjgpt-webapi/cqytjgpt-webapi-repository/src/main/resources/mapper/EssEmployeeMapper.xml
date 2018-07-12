@@ -593,7 +593,7 @@
 
 	<select id="qryPostList" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.employee.EssEmployeeVo">
-		SELECT emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS
+		SELECT emp.id AS id , emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS
 		orgNm,emp.empType AS emptype,emp.empNo AS empno,emp.account AS
 		account,depart.depNm AS depNm ,depart.id AS depid FROM ess_employee_dept dept,ess_employee
 		emp,ess_organization org ,ess_department depart WHERE
