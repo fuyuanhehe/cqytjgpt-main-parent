@@ -107,6 +107,6 @@
     </select>
 
     <select id="getAllPost" resultType="com.ccttic.entity.post.EssPost">
-	select * from ess_post where post.isDeleted !=1
+	select * from ess_post where isDeleted !=1
 	</select>
 </mapper>
