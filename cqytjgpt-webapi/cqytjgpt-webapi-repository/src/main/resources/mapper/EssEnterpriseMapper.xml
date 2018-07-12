@@ -738,28 +738,30 @@
 		emp.id =#{id}
 	</select>
 	<!-- 企业下属车辆 -->
-
+	<!-- CASE v.vehiType WHEN '01' THEN '大型车' ELSE '小型车' END AS vehiType, -->
 	<select id="getEnterpriseVe" resultType="com.ccttic.entity.enterprise.vo.EnterpriseVehiVo"
 		parameterType="java.util.Map">
 		SELECT
 		v.id,
 		v.vehiNo,
-		CASE v.vehiType
+		v.vehiType,
+		CASE v.vehiNoType
 		WHEN '01' THEN
 		'大型车'
 		ELSE
 		'小型车'
 		END AS
-		vehiType,
-		v.vehiNoType,
+		vehiNoType,
 		v.nature,
 		v.firstReciveTime,
-		v.examineEffectEndTime as effectEndTime ,
+		v.examineEffectEndTime as
+		effectEndTime ,
 		v.`owner`,
 		v.mobilephone,
 		v.mgrDepart,
 		CASE v.state
-		WHEN 'A' THEN
+		WHEN
+		'A' THEN
 		'正常'
 		ELSE
 		'不正常'
@@ -767,10 +769,12 @@
 		a.areaNm
 		FROM
 		ess_area a
-		LEFT JOIN vehicle v ON a.id =
+		LEFT JOIN
+		vehicle v ON a.id =
 		v.mgrDepartAreaId
 		LEFT JOIN
-		ess_enterprise e ON v.mgrEnterpriseId = e.id
+		ess_enterprise e ON
+		v.mgrEnterpriseId = e.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				where 1=1
@@ -892,12 +896,14 @@
 		${startRecord},${pageSize}
 	</select>
 
-	<select id="getEnterpriceDriverCount" resultType="long" parameterType="java.util.Map">
+	<select id="getEnterpriceDriverCount" resultType="long"
+		parameterType="java.util.Map">
 		SELECT
 		count(d.id)
 		FROM
 		driver d
-		LEFT JOIN ess_enterprise e ON d.mgrEnterpriseId =
+		LEFT JOIN ess_enterprise e ON
+		d.mgrEnterpriseId =
 		e.id
 		LEFT
 		JOIN ess_area a ON d.mgrDepartAreaId = a.id
