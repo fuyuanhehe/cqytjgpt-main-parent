@@ -38,7 +38,7 @@
 	
 	</select>
 	<select id="qryPostList" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPostVo">
-		SELECT post.id AS id,org.orgNm AS orgNm,depart.depNm AS depNm,post.postCd AS postCd,post.postNm AS postNm,post.description AS description FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
+		SELECT post.id AS id,org.orgNm AS orgNm,org.id AS orgid,depart.depNm AS depNm,post.postCd AS postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
 		
 			<if test="posts != null and posts.size>0 ">
 				and post.id in
