@@ -342,7 +342,7 @@ public class EmployeeController {
 					emp.setId(emp.getId());
 					//前端将部门id放到empcd中传入
 					empVo.setDepid(emp.getEmpcd());
-					emp.setIsdeleted(true);
+					empVo.setIsdeleted(true);
 					employeeService.delEmployee(empVo);
 				}
 			}
