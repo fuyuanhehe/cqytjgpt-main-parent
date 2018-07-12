@@ -36,7 +36,6 @@
         <if test="postNm != null and postNm != ''">
             and postNm like '%${postNm}%'
         </if>
-            and post.isDeleted !=1
 
     </select>
     <select id="qryPostList" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPostVo">
@@ -58,7 +57,6 @@
         <if test="postNm != null and postNm != ''">
             and post.postNm like '%${postNm}%'
         </if>
-            and post.isDeleted !=1
         order by post.createTime DESC
 
         limit ${startRecord},${pageSize}
@@ -98,7 +96,7 @@
 	SELECT emp.* FROM ess_employee emp,ess_employee_post post WHERE emp.id = post.emp_id AND post.post_id=#{id}
 	</select>
     <update id="delpost" parameterType="java.util.Map">
-	update ess_post set isDeleted=1 where  id=#{postId}
+	update ess_post set isDeleted=1 where  id=#{id}
 	</update>
 
     <select id="selectPostUnderDep" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPost">

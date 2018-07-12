@@ -108,7 +108,7 @@ public class PostServiceImpl implements IPostService {
 	@Transactional
 	public void delpost(Map<String, String> map) throws Exception {
 		postMapper.delpost(map);
-		postMapper.delEmpUnderPost(map.get("postId"));
+		postMapper.delEmpUnderPost(map.get("id"));
 
 	}
 

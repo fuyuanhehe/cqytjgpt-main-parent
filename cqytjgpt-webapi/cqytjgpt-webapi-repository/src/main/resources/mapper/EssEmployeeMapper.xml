@@ -699,6 +699,6 @@
 	</delete>
 	
 	<select id="getAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
-	select * from ess_employee WHERE  and isDeleted !=1
+	select * from ess_employee WHERE  isDeleted !=1
 	</select>
 </mapper>
