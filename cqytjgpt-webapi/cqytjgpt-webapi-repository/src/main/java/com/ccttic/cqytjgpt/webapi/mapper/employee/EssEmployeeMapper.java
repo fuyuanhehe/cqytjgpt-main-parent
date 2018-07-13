@@ -89,5 +89,10 @@ public interface EssEmployeeMapper {
 	void delEmpUnderDep(EssEmployeeDept dept);
 	
 	List<EssEmployee> getAllEmp();
-	
+	/**
+	 *@Author:zhy
+	 *@Description:通过部门id获取旗下的员工
+	 *@Date:11:04 2018/7/13
+	 */
+    List<EssEmployee> selectEmployeeByDepartment(Map<String, Object> params);
 }

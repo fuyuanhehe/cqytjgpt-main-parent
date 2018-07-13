@@ -186,6 +186,33 @@ public class EmployeeController {
 		return rm;
 	}
 
+    @RequestMapping(value = "/showEmployeeByDepartment", method = { RequestMethod.GET, RequestMethod.POST })
+    public ResponseMsg<List<EssEmployee>> showEmployeeByDepartment(@RequestParam String access_token,
+                                                         @RequestBody EssEmployeeVo emp) {
+        ResponseMsg<List<EssEmployee>> rm = new ResponseMsg<>();
+        // redis get data
+        EmployeeVo employee = employeeService.getUserInfo(access_token);
+        try {
+            if(emp!=null && emp.getDepid()!=null){
+            List<EssEmployee> employees = employeeService.selectEmployeeByDepartment(employee.getCanSeeEmp(), emp.getDepid(),emp.getEmpnm());
+
+            rm.setData(employees);
+            rm.setMessage("获取employee数据成功");
+            rm.setStatus(0);
+            }else {
+                rm.setMessage("获取employee数据失败,获取部门id失败");
+                rm.setStatus(-1);
+                }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+
+            rm.setMessage("获取employee数据失败");
+            rm.setStatus(-1);
+            logger.error("获取employee数据失败", e);
+        }
+
+        return rm;
+    }
 	@RequestMapping(value = "/refreshtoken", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public ResponseMsg<Map<String, Object>> refreshToken(@RequestBody TokenVo vo) {

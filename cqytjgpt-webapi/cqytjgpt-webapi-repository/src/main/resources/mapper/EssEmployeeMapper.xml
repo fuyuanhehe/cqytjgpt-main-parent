@@ -701,4 +701,21 @@
 	<select id="getAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
 	select * from ess_employee WHERE  isDeleted !=1
 	</select>
+	<select id="selectEmployeeByDepartment" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployee" >
+		SELECT * FROM ess_employee emp LEFT JOIN ess_employee_dept dept ON emp.id = dept.emp_id WHERE 1=1
+		<if test="emps != null and emps.size >0">
+			and emp.id in
+			<foreach collection="emps" index="index" item="item"
+					 open="(" separator="," close=")">
+				#{item.id}
+			</foreach>
+		</if>
+		<if test="depId != null and depId != ''">
+		and	dept.dep_id =#{depId}
+		</if>
+		<if test="empNm != null and empNm != ''">
+			and	emp.empNm like '%${empNm}%'
+		</if>
+	</select>
+
 </mapper>

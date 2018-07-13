@@ -436,4 +436,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 	}
 
+	@Override
+	public List<EssEmployee> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("emps",canSeeEmp);
+		params.put("depId",depid);
+		params.put("empNm",empnm);
+		return empMapper.selectEmployeeByDepartment(params);
+	}
+
 }
