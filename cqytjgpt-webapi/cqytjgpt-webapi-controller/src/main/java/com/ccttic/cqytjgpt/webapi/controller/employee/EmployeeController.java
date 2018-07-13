@@ -194,7 +194,7 @@ public class EmployeeController {
         EmployeeVo employee = employeeService.getUserInfo(access_token);
         try {
             if(emp!=null && emp.getDepid()!=null){
-            List<EssEmployee> employees = employeeService.selectEmployeeByDepartment(employee.getCanSeeEmp(), emp.getDepid(),emp.getEmpnm());
+            List<EssEmployee> employees = employeeService.selectEmployeeByDepartment(employee.getCanSeeEmp(), emp.getDepid(),emp.getEmpnm(),emp.getOrgCd());
 
             rm.setData(employees);
             rm.setMessage("获取employee数据成功");
@@ -359,18 +359,15 @@ public class EmployeeController {
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "删除员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/delEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody EssPostVo post) {
+	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody ArrayList<EssEmployeeVo> employees) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
 
 		try {
-			if (post != null && post.getEmp().size() > 0) {
-				for (EssEmployee emp : post.getEmp()) {
-					EssEmployeeVo empVo = new EssEmployeeVo();
-					empVo.setId(emp.getId());
-					//前端将部门id放到empcd中传入
-					empVo.setDepid(emp.getEmpcd());
-					empVo.setIsdeleted(true);
-					employeeService.delEmployee(empVo);
+			if (employees != null && employees.size() > 0) {
+				for (EssEmployeeVo emp : employees) {
+
+					emp.setIsdeleted(true);
+					employeeService.delEmployee(emp);
 				}
 			}
 			rm.success("删除Employee成功");

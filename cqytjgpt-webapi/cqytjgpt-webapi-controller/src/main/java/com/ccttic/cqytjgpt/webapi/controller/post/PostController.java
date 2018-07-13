@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -228,12 +229,12 @@ public class PostController {
     @ResourceScan(rsc = @Resource(cd = Const.DELETE_POST, name = "删除岗位", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
             , prsc = {@Resource(cd = Const.POST_MANAGEMENT, url = "/post/delpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
             @Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-    public ResponseMsg<String> delpost(@RequestBody EssEmployeeVo emp) {
+    public ResponseMsg<String> delpost(@RequestBody ArrayList<EssPost> posts) {
         ResponseMsg<String> rm = new ResponseMsg<>();
 
         try {
-            if (emp != null && emp.getPost().size() > 0) {
-                for (EssPost post : emp.getPost()) {
+            if (posts != null && posts.size() > 0) {
+                for (EssPost post : posts) {
                     Map<String, String> map = new HashMap<>();
                     map.put("id", post.getId());
                     postService.delPost(map);
