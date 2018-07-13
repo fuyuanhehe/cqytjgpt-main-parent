@@ -339,7 +339,7 @@ public class EmployeeController {
 			if (post != null && post.getEmp().size() > 0) {
 				for (EssEmployee emp : post.getEmp()) {
 					EssEmployeeVo empVo = new EssEmployeeVo();
-					emp.setId(emp.getId());
+					empVo.setId(emp.getId());
 					//前端将部门id放到empcd中传入
 					empVo.setDepid(emp.getEmpcd());
 					empVo.setIsdeleted(true);
