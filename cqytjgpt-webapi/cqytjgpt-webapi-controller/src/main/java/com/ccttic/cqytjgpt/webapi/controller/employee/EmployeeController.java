@@ -193,14 +193,14 @@ public class EmployeeController {
         // redis get data
         EmployeeVo employee = employeeService.getUserInfo(access_token);
         try {
-            if(emp!=null && emp.getDepid()!=null){
+            if(emp!=null &&emp.getOrgCd()!=null){
             List<EssEmployee> employees = employeeService.selectEmployeeByDepartment(employee.getCanSeeEmp(), emp.getDepid(),emp.getEmpnm(),emp.getOrgCd());
 
             rm.setData(employees);
             rm.setMessage("获取employee数据成功");
             rm.setStatus(0);
             }else {
-                rm.setMessage("获取employee数据失败,获取部门id失败");
+                rm.setMessage("获取employee数据失败,获取组织id失败");
                 rm.setStatus(-1);
                 }
         } catch (Exception e) {
