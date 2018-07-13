@@ -701,7 +701,7 @@
 	<select id="getAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
 	select * from ess_employee WHERE  isDeleted !=1
 	</select>
-	<select id="selectEmployeeByDepartment" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployee" >
+	<select id="selectEmployeeByDepartment" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployeeVo" >
 		SELECT emp.*,depart.id AS depid,depart.depNm AS depNm ,org.orgNm AS orgNm FROM ess_employee emp LEFT JOIN ess_employee_dept dept ON emp.id = dept.emp_id LEFT JOIN ess_department depart ON depart.id = dept.dep_id LEFT JOIN ess_organization org ON org.id=depart.org_id WHERE depart.org_id =#{orgId}
 		<if test="emps != null and emps.size >0">
 			and emp.id in
