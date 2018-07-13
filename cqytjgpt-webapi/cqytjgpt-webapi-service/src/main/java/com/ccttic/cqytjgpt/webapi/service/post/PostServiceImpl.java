@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.service.post;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,10 +70,11 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional
-	public void addpost(EssPostVo post) throws Exception {
+	public void addPost(EssPostVo post) throws Exception {
 
 		String id = RandomHelper.uuid();
 		post.setId(id);
+		post.setCreatetime(new Date());
 		postMapper.createpost(post);
 		if(post.getEmp()!=null) {
 		for (int i = 0; i < post.getEmp().size(); i++) {
@@ -89,7 +91,7 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional
-	public void updatepost(EssPostVo post) throws Exception {
+	public void updatePost(EssPostVo post) throws Exception {
 
 		postMapper.updatepost(post);
 		postMapper.delEmpUnderPost(post.getId());
@@ -106,7 +108,7 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional
-	public void delpost(Map<String, String> map) throws Exception {
+	public void delPost(Map<String, String> map) throws Exception {
 		postMapper.delpost(map);
 		postMapper.delEmpUnderPost(map.get("id"));
 

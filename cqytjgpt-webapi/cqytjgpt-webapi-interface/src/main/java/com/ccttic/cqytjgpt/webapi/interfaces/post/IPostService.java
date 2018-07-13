@@ -49,19 +49,19 @@ public interface IPostService {
 	 * @param post
 	 * @throws Exception
 	 */
-	void addpost(EssPostVo post) throws Exception;
+	void addPost(EssPostVo post) throws Exception;
 
 	/**修改岗位
 	 * @param post
 	 * @throws Exception
 	 */
-	void updatepost(EssPostVo post) throws Exception;
+	void updatePost(EssPostVo post) throws Exception;
 
 	/**删除岗位
 	 * @param map
 	 * @throws Exception
 	 */
-	void delpost(Map<String, String> map) throws Exception;
+	void delPost(Map<String, String> map) throws Exception;
 
 	/**查询部门下的岗位
 	 * @param map

@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.service.employee;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -278,6 +279,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employee.setEmpcd(empid);
 		employee.setEmptype(emp.getEmptype());
 		employee.setPassword(MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8"));
+		employee.setCreatetime(new Date());
 		empMapper.insert(employee);
 		EssEmployeeDept dept = new EssEmployeeDept();
 		dept.setDepId(emp.getDepid());
