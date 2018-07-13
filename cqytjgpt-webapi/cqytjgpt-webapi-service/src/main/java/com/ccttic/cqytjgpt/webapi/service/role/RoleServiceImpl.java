@@ -173,7 +173,7 @@ public class RoleServiceImpl implements IRoleService {
 		for (Roles role : records) {
 			List<String> list = new ArrayList<>();
 			String rid = role.getEmp_id();
-			if(!rid.equals("")){
+			if(rid!= null){
 				String [] array = rid.split(","); 
 				for (int i = 0; i < array.length; i++) {
 					list.add(array[i]);
