@@ -187,7 +187,7 @@ public class PostController {
 
         ResponseMsg<String> rm = new ResponseMsg<>();
         try {
-            postService.addpost(post);
+            postService.addPost(post);
             rm.setMessage("添加post数据成功");
             rm.setStatus(0);
         } catch (Exception e) {
@@ -207,7 +207,7 @@ public class PostController {
         ResponseMsg<String> rm = new ResponseMsg<>();
 
         try {
-            postService.updatepost(post);
+            postService.updatePost(post);
             rm.setMessage("修改post数据成功");
             rm.setStatus(0);
         } catch (Exception e) {
@@ -236,7 +236,7 @@ public class PostController {
                 for (EssPost post : emp.getPost()) {
                     Map<String, String> map = new HashMap<>();
                     map.put("id", post.getId());
-                    postService.delpost(map);
+                    postService.delPost(map);
                 }
             }
             rm.setMessage("删除post数据成功");
