@@ -76,9 +76,10 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 			demol.setRoleNm(man.getRoleNm());
 			demol.setDescription(man.getDescription());
 			demol.setEmpName(man.getEmpNms());
-			 if(!man.getRoleId().equals("")){
+			 if(man.getRoleId() != null ){
 			List<Model_MenuVo> data = Mapper.seMenuByRoleIds(man.getRoleId());
 			for (Model_MenuVo mm : data) {
+				if(mm.getLabel()!=null){
 				MenuVo mun = new MenuVo();
 				mun.setTitle(mm.getLabel());
 				mun.setUrl(mm.getPath());
@@ -88,7 +89,7 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 				mun.setpId(mm.getGroupresource());
 				mun.setMenuId(mm.getId());
 				mList.add(mun);
-			} }
+			}     }}
 			MenuTreeUtil menuTree = new MenuTreeUtil(); 
 			List<Object> menuList = menuTree.menuList(removeDuplicate(mList));
 			demol.setMenus(menuList);
