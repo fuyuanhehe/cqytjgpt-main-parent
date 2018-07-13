@@ -135,5 +135,5 @@ public interface IEmployeeService {
 	 *@Description:通过部门id获取旗下的员工
 	 *@Date:11:04 2018/7/13
 	 */
-    List<EssEmployee> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd);
+    List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd);
 }

@@ -94,5 +94,5 @@ public interface EssEmployeeMapper {
 	 *@Description:通过部门id获取旗下的员工
 	 *@Date:11:04 2018/7/13
 	 */
-    List<EssEmployee> selectEmployeeByDepartment(Map<String, Object> params);
+    List<EssEmployeeVo> selectEmployeeByDepartment(Map<String, Object> params);
 }
