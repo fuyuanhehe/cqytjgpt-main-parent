@@ -159,7 +159,7 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
-	
+
 	public Page<Roles> seAllRole(Pageable page,Roles roles) {
 		Page<Roles> pager = new PageImpl<Roles>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -195,21 +195,26 @@ public class RoleServiceImpl implements IRoleService {
 	@Override
 	@Transactional
 	public void updateEssRole(Roles roles) {
+		//员工ID
+		String str = roles.getEmp_id();
+
+		if(str==null){    
+			//修改角色信息
+			mapper.updateRoleById(roles); 
+			return ;
+		}
 		//角色ID
 		String role_id = roles.getRoleId();
-		//删除关联
-		mapper.deleteEssRoleById(role_id);
+
+		String [] strs = str.split(",");
 		//修改角色信息
 		mapper.updateRoleById(roles);
 
+		//删除关联
+		mapper.deleteEssRoleById(role_id);
+
 		List<Role_Emp> roless = new ArrayList<Role_Emp>(); 
 
-		//员工ID
-		//	List<String> str = roles.getEmp_id();
-		String str = roles.getEmp_id();
-		String [] strs = str.split(",");
-
-		//	String [] strs = (String[]) str.toArray();
 		//修改角色员工关联
 		for(int i =0 ; i<strs.length; i++) {	
 			Role_Emp emp = new Role_Emp();
@@ -251,7 +256,5 @@ public class RoleServiceImpl implements IRoleService {
 
 		return byRole;
 	}
-
-
 
 }

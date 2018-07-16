@@ -60,7 +60,7 @@
 	<!-- 通过ID删除角色信息 -->
 	<delete id="deleteRole" parameterType="java.lang.String">
 		delete from ess_role where
-		id=#{id}
+		id=#{roleId}
 	</delete>
 	<!-- 通过编码获取角色 -->
 	<select id="findRoleByRoleCd" parameterType="java.lang.String"
@@ -142,14 +142,14 @@
 		UPDATE ess_role SET
 		roleCd =
 		#{roleCd},roleNm=#{roleNm},description=#{description} WHERE id
-		= #{id}
+		= #{roleId}
 
 	</update>
 	<!-- 删除角色关联公员工根据ID -->
 	<delete id="deleteEssRoleById" parameterType="java.lang.String">
 
 		DELETE FROM
-		ess_employee_role WHERE role_id = #{role_id}
+		ess_employee_role WHERE role_id = #{roleId}
 
 	</delete>
      <!--员工ID获取角色  -->
