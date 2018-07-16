@@ -7,22 +7,16 @@ public class PageVehiIllicitVo extends VehiIllicit {
 	private int page = 1;
 	private int rows = 10;
 	private String mgrEnterpriseId;
-	private String areaNm;
+
 
 	public PageVehiIllicitVo() {
 	}
 
-	public PageVehiIllicitVo(String vehiNo, String vehiNoType, String vehiNoTypeText, String nature, String ownership, String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime, String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc, String pickDepartment, String pickDepartmentDesc, String state, String remark, String etpNm, String startTime, String endTime) {
-		super(vehiNo, vehiNoType, vehiNoTypeText, nature, ownership, owner, adress, mgrDepart, mgrDepartAreaId, vehicleId, illicitTime, illicitScore, illicitAmount, illicitAdress, illicit, illicitDesc, pickDepartment, pickDepartmentDesc, state, remark, etpNm, startTime, endTime);
+	public PageVehiIllicitVo(String areaNm,String vehiNo, String vehiNoType, String vehiNoTypeText, String nature, String ownership, String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime, String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc, String pickDepartment, String pickDepartmentDesc, String state, String remark, String etpNm, String startTime, String endTime) {
+		super(areaNm,vehiNo, vehiNoType, vehiNoTypeText, nature, ownership, owner, adress, mgrDepart, mgrDepartAreaId, vehicleId, illicitTime, illicitScore, illicitAmount, illicitAdress, illicit, illicitDesc, pickDepartment, pickDepartmentDesc, state, remark, etpNm, startTime, endTime);
 	}
 
-	public String getAreaNm() {
-		return areaNm;
-	}
 
-	public void setAreaNm(String areaNm) {
-		this.areaNm = areaNm;
-	}
 
 	public int getPage() {
 		return page;
