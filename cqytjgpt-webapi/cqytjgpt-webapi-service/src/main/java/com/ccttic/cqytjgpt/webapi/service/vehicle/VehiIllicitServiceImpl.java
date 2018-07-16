@@ -1,13 +1,5 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
 import com.ccttic.entity.role.VehiIllicit;
@@ -15,13 +7,21 @@ import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
-public class VehiIllicitServiceImpl implements IVehiIllicitService{
+public class VehiIllicitServiceImpl implements IVehiIllicitService {
 
 	@Resource
 	private VehiIllicitMapper mapper;
+
 	@Override
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit,List<String> list) throws AppException {
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, List<String> list) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
@@ -35,8 +35,8 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService{
 		params.put("vehiNoType", vehiIllicit.getVehiNoType()); // 号牌种类
 		params.put("pickDepartmentDesc", vehiIllicit.getPickDepartmentDesc()); // 采集机关名称
 		params.put("startTime", vehiIllicit.getStartTime()); // 违法开始时间
-		params.put("endTime", vehiIllicit.getPickDepartmentDesc()); // 违法结束时间
-		
+		params.put("endTime", vehiIllicit.getEndTime()); // 违法结束时间
+
 		long totolRols = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 

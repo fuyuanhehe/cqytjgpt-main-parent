@@ -614,7 +614,7 @@
 					and ve.state = #{state}
 				</if>
 				<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-					and cit.pickDepartmentDesc = #{pickDepartmentDesc}
+					and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
 				</if>
 				<if test="vehiNoType != null and vehiNoType != ''">
 					and ve.vehiNoType = #{vehiNoType}
