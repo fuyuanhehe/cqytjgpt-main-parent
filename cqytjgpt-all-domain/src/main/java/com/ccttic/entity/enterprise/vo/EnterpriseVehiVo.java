@@ -35,6 +35,10 @@ public class EnterpriseVehiVo extends Pages {
 	private String etpNm;
 	
 	private String areaNm;
+	
+	private String ownership;
+	
+	private String adress;
 	public EnterpriseVehiVo() {
 		// TODO Auto-generated constructor stub
 	}
@@ -141,6 +145,18 @@ public class EnterpriseVehiVo extends Pages {
 	}
 	public void setAreaNm(String areaNm) {
 		this.areaNm = areaNm;
+	}
+	public String getOwnership() {
+		return ownership;
+	}
+	public void setOwnership(String ownership) {
+		this.ownership = ownership;
+	}
+	public String getAdress() {
+		return adress;
+	}
+	public void setAdress(String adress) {
+		this.adress = adress;
 	}
 	
 	

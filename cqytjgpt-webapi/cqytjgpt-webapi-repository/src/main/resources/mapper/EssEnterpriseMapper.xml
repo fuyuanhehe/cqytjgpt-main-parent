@@ -763,18 +763,51 @@
 		WHEN
 		'A' THEN
 		'正常'
+		WHEN 'G' THEN
+		'违法未处理'
+		WHEN 'Q'
+		THEN
+		'逾期未检验'
+		WHEN 'P' THEN
+		'达到报废标准公告牌证作废'
+		WHEN 'K' THEN
+		'查封'
+		WHEN 'O' THEN
+		'锁定'
+		WHEN 'L' THEN
+		'扣留'
+		WHEN 'J' THEN
+		'嫌疑车辆'
+		WHEN 'N' THEN
+		'事故逃逸'
+		WHEN 'D'
+		THEN
+		'停驶'
+		WHEN 'E' THEN
+		'注销'
+		WHEN 'H' THEN
+		'海管监管'
+		WHEN 'C' THEN
+		'被强盗'
+		WHEN 'C'
+		THEN
+		'转出'
 		ELSE
 		'不正常'
 		END AS state,
-		a.areaNm
+		a.areaNm ,
+		v.ownership,
+		v.adress
 		FROM
 		ess_area a
 		LEFT JOIN
-		vehicle v ON a.id =
+		vehicle v ON
+		a.id =
 		v.mgrDepartAreaId
 		LEFT JOIN
 		ess_enterprise e ON
-		v.mgrEnterpriseId = e.id
+		v.mgrEnterpriseId =
+		e.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				where 1=1
