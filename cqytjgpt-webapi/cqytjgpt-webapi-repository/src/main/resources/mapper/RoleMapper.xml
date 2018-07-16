@@ -152,7 +152,7 @@
 		ess_employee_role WHERE role_id = #{roleId}
 
 	</delete>
-     <!--员工ID获取角色  -->
+	<!--员工ID获取角色 -->
 	<select id="seRoleByEmpId" resultType="com.ccttic.entity.role.Role_Emp"
 		parameterType="java.lang.String">
 
@@ -161,8 +161,8 @@
 
 	</select>
 
-     <!-- 新增角色，获取员工信息 -->
-<select id="getEmpParameter" resultType="com.ccttic.entity.role.vo.EmpRoleMenuVo"
+	<!-- 新增角色，获取员工信息 -->
+	<select id="getEmpParameter" resultType="com.ccttic.entity.role.vo.EmpRoleMenuVo"
 		parameterType="java.util.Map">
 		SELECT
 		e.id,
@@ -204,7 +204,8 @@
 		FROM
 		ess_employee
 		e
-		LEFT JOIN ess_employee_dept ed ON e.id = ed.emp_id
+		LEFT JOIN ess_employee_dept ed ON
+		e.id = ed.emp_id
 		LEFT JOIN
 		ess_department d ON ed.dep_id = d.id
 		LEFT JOIN
@@ -224,6 +225,19 @@
 		<if test="empNm!=null and empNm!='' ">
 			and e.empNm = #{empNm}
 		</if>
+	</select>
+
+	<!--获取所有组织机构 -->
+	<select id="getOrgNm" resultType="String">
+		SELECT
+		orgNm
+		FROM
+		ess_organization
+	</select>
+
+	<!--获取所有组织机构 -->
+	<select id="getDep" resultType="String">
+		SELECT depNm FROM ess_department
 	</select>
 
 

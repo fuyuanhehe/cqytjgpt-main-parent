@@ -13,6 +13,7 @@ import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.EmpRoleMenuVo;
+import com.ccttic.entity.role.vo.OrgAndDep;
 import com.ccttic.entity.role.vo.rolesPage;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
@@ -218,11 +219,10 @@ public class RoleController {
 			Page<EmpRoleMenuVo> data = Roleservice.getEmpParameter(page, emp);
 			resp.setData(data.getRecords());
 			resp.setTotal(data.getTotalRows().intValue());
-			resp.setMessage("修改角色成功!");
+			resp.setMessage("获取用户信息成功!");
 			resp.setStatus(0);
 		} catch (Exception e) {
-			resp.success("添加角色关联员工失败");
-			resp.setMessage("添加角色关联员工失败");
+			resp.setMessage("获取用户信息成功");
 			resp.setStatus(-1);
 			logger.error("修改角色关联员工成功失败",e);
 		}
@@ -231,4 +231,31 @@ public class RoleController {
 
 	}	
 
+	@RequestMapping(value="/getOrgAndep",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.GET_ORG_DEP, name = "获取组织和部门",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
+	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
+			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@OperLogging(operType = 3)
+	public ResponseMsg<OrgAndDep> getOrgAndep(){
+		ResponseMsg<OrgAndDep> resp = new ResponseMsg<OrgAndDep>();
+
+		try {
+			OrgAndDep data = Roleservice.getOrgAndDep();
+			resp.setData(data);
+			resp.setTotal(1);
+			resp.setMessage("获取组织和部门成功!");
+			resp.setStatus(0);
+		} catch (Exception e) {
+			resp.setMessage("获取组织和部门成功");
+			resp.setStatus(-1);
+			logger.error("获取组织和部门成功",e);
+		}
+
+		return resp;
+
+	}	
+	
+	
+	
 }

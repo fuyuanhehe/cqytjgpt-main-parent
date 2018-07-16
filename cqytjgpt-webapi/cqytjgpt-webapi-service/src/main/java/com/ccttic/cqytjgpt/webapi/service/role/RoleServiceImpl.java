@@ -19,6 +19,7 @@ import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.entity.role.vo.Model_MenuVo;
+import com.ccttic.entity.role.vo.OrgAndDep;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
@@ -267,12 +268,25 @@ public class RoleServiceImpl implements IRoleService {
 		params.put("empNm", emp.getEmpNm());
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		
+
 		pager.setRecords(mapper.getEmpParameter(params));
 		pager.setTotalRows(mapper.getEmpParameterCont(params));
-		
+
 		return pager;
+	}
+
+	@Override
+	public OrgAndDep getOrgAndDep() {
+		OrgAndDep orgAndDep = new OrgAndDep();   		
+
+		List<String> org = mapper.getOrgNm();
+		List<String> dep = mapper.getDep();
+
+		orgAndDep.setOrgNm(org);
+		orgAndDep.setDep(dep);
+
+		return orgAndDep;
 	}	
-	
-	
+
+
 }

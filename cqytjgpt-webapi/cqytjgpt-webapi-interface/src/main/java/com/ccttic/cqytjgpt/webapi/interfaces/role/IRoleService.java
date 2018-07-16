@@ -7,6 +7,7 @@ import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.ModelByRole;
+import com.ccttic.entity.role.vo.OrgAndDep;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
@@ -94,4 +95,9 @@ public interface IRoleService {
 
 	//新增角色，查看所属的组织，部门，岗位
 	 Page<EmpRoleMenuVo> getEmpParameter(Pageable page,EmpRoleMenuVo emp);
+	 
+		//获取组织机构   ，获取部门	 
+	 public OrgAndDep getOrgAndDep();	 
+	 
+	 
 }

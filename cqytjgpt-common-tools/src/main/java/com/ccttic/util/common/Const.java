@@ -310,9 +310,13 @@ public class Const {
 		           * 增加角色,获取用户信息,4
 		           * 
 		           */
-		          public static final String ADD_ROLE_EMP = "add-role_emp";
+		          public static final String ADD_ROLE_EMP = "add-role-emp";
 		       
-		       
+		          /*
+		           * 获取组织部门,4
+		           * 
+		           */
+		          public static final String GET_ORG_DEP = "get-org-dep"; 
 		       
 		       /**
 				* 功能权限管理 二级菜单
