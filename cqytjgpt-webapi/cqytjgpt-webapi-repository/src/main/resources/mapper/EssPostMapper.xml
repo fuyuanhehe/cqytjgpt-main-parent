@@ -100,7 +100,7 @@
 	</update>
 
     <select id="selectPostUnderDep" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPost">
-        SELECT id AS id,postNm AS postnm FROM ess_post WHERE dep_id=#{depid}
+        SELECT id AS id,postNm AS postnm FROM ess_post WHERE dep_id=#{depId}
         <if test="postNm != null and postNm != ''">
             AND postNm like %${postNm}%
         </if>
