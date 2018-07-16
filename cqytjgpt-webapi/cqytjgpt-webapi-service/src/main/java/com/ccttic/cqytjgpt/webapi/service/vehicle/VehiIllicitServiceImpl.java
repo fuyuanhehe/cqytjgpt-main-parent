@@ -29,7 +29,7 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("list", list);
 		params.put("mgrDepartAreaId", vehiIllicit.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehiIllicit.getVehiNo()); // 车牌号
-		params.put("ownership", vehiIllicit.getOwnership()); // 车所属企业
+		params.put("etpNm", vehiIllicit.getEtpNm()); // 车所属企业
 		params.put("illicit", vehiIllicit.getIllicit()); // 违法行为
 		params.put("state", vehiIllicit.getState()); // 处罚状态
 		params.put("vehiNoType", vehiIllicit.getVehiNoType()); // 号牌种类

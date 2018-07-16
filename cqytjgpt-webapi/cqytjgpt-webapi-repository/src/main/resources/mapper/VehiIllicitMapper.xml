@@ -605,7 +605,7 @@
 					and ve.vehiNo = #{vehiNo}
 				</if>
 				<if test="etpNm != null and etpNm != ''">
-					and ve.etpNm LIKE '%${etpNm}%'
+					and cit.ownership LIKE '%${etpNm}%'
 				</if>
 				<if test="illicit != null and illicit != ''">
 					and cit.illicit = #{illicit}
@@ -659,7 +659,7 @@
 					and ve.vehiNo = #{vehiNo}
 				</if>
 				<if test="etpNm != null and etpNm != ''">
-					and ess.etpNm LIKE '%${etpNm}%'
+					and cit.ownership LIKE '%${etpNm}%'
 				</if>
 				<if test="illicit != null and illicit != ''">
 					and cit.illicit = #{illicit}
