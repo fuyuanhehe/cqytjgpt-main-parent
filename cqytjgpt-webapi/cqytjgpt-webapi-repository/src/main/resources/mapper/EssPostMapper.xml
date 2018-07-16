@@ -100,7 +100,11 @@
 	</update>
 
     <select id="selectPostUnderDep" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPost">
-        SELECT id AS id,postNm AS postnm FROM ess_post WHERE dep_id=#{depId}
+        SELECT post.id AS id,post.postNm AS postnm  FROM ess_post post LEFT JOIN ess_department department ON department.id = post.dep_id  LEFT JOIN ess_organization organization ON organization.id = department.org_id WHERE
+        organization.id = #{orgId}
+        <if test="depId != null and depId != ''">
+        dep_id=#{depId}
+        </if>
         <if test="postNm != null and postNm != ''">
             AND postNm like %${postNm}%
         </if>
