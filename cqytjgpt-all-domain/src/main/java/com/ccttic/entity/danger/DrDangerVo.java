@@ -17,11 +17,29 @@ public class DrDangerVo extends DrDanger {
 	// 行政区域名称
 	private String areaNm;
 	//企业id
-	private String ownerenterprise;
-	
+    private String etpNm;
+    //运管所名
 	private String orgNm;
-	
-	private List<String> list;
+
+	private String etpId;
+
+    public String getEtpId() {
+        return etpId;
+    }
+
+    public void setEtpId(String etpId) {
+        this.etpId = etpId;
+    }
+
+    public String getEtpNm() {
+        return etpNm;
+    }
+
+    public void setEtpNm(String etpNm) {
+        this.etpNm = etpNm;
+    }
+
+    private List<String> list;
 	//用户类型
 	private String empType;
 	
@@ -41,13 +59,6 @@ public class DrDangerVo extends DrDanger {
 		this.empType = empType;
 	}
 
-	public String getOwnerenterprise() {
-		return ownerenterprise;
-	}
-
-	public void setOwnerenterprise(String ownerenterprise) {
-		this.ownerenterprise = ownerenterprise;
-	}
 
 	public List<String> getList() {
 		return list;

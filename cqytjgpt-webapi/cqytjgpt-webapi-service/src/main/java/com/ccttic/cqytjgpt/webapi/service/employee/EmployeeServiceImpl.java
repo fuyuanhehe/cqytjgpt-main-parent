@@ -1,11 +1,14 @@
 package com.ccttic.cqytjgpt.webapi.service.employee;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
+import com.ccttic.util.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +47,6 @@ import com.ccttic.util.page.Pageable;
  * 
  * @version 1.0.0
  * @author xgYin
- * @see com.studio.framework.service.ess.impl.EmployeeServiceImpl.java
  * @date 2016年12月4日
  */
 @Service
@@ -52,21 +54,22 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Resource
 	private EmployeeMapper mapper;
-	@Autowired
+	@Resource
 	private EssEmployeeMapper empMapper;
-	@Autowired
+	@Resource
 	private EssEnterpriseMapper entMapper;
-	@Autowired
+	@Resource
 	private EssPostMapper postMapper;
 	@Autowired
 	private IRoleMenuService service;
-	@Autowired
+	@Resource
 	private DepartmentMapper departmentMapper;
-	@Autowired
+	@Resource
 	private OrganizationMapper organizationMapper;
 	@Resource
 	private VehicleMapper vehicleMapper;// 司机基础信息
-
+	@Autowired
+	private RedisService<EmployeeVo> redisService;
 	/*
 	 * (非 Javadoc)
 	 * 
@@ -111,7 +114,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// 员工所在部门
 		List<Department> deps = empMapper.selectDepUnderEmp(emp.getId());
 		emp.setDeps(deps);
-		List<EssEnterprise> ent = entMapper.getEssEnterprise(emp.getId());
+		EssEnterprise ent = entMapper.getEntByEmpId(emp.getId());
 		emp.setEnt(ent);
 		// 员工所在组织
 		Map<String, String> map = null;
@@ -132,7 +135,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			for (Organization org : organizations) {
 
 				if (organizationMapper.getAllDepart(org.getId()) != null
-						&& organizationMapper.getAllDepart(org.getId()).size() > 0) {
+						&& organizationMapper.getAllDepart(org.getId()).size() > Const.ZERO) {
 					emp.getCanSeeDeps().addAll(organizationMapper.getAllDepart(org.getId()));
 					if (!org.getId().equals(organization.getId())) {
 						emp.getCanSeeEnt().addAll(entMapper.getEssEnterpriseByOrgId(org.getId()));
@@ -153,7 +156,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.TWO).equals(emp.getEmptype())) {
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			if (organizationMapper.getAllDepart(organization.getId()) != null
-					&& organizationMapper.getAllDepart(organization.getId()).size() > 0) {
+					&& organizationMapper.getAllDepart(organization.getId()).size() > Const.ZERO) {
 				emp.getCanSeeDeps().addAll(organizationMapper.getAllDepart(organization.getId()));
 				emp.getCanSeeEnt().addAll(entMapper.getEssEnterpriseByOrgId(organization.getId()));
 			}
@@ -161,17 +164,36 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				map = new HashMap<>();
 				map.put("depid", depart.getId());
 				List<EssEmployee> emps = postMapper.getEmployeeByDep(map);
-				if (emps != null && emps.size() > 0) {
+				if (emps != null && emps.size() > Const.ZERO) {
 					emp.getCanSeeEmp().addAll(emps);
 				}
 				List<EssPost> postList = postMapper.selectPostUnderDep(map);
-				if (postList != null && postList.size() > 0) {
+				if (postList != null && postList.size() > Const.ZERO) {
 					emp.getCanSeePosts().addAll(postList);
 				}
 			}
 			emp.setOrg(organization);
-		} else {
-			organization = empMapper.selectOrgByDepId(deps.get(0).getId());
+		} else if((Const.ADMIN.equals(emp.getEmptype()) && (""+Const.THREE).equals(emp.getEmptype()))){
+			List<EssEnterprise> adminEnt = entMapper.getEssEnterprise(emp.getId());
+			emp.setCanSeeEnt(adminEnt);
+			List<Department> departments =organizationMapper.getDepartByEntCd(adminEnt.get(0).getEtpcd());
+			organization = organizationMapper.findOrgByEptId(adminEnt.get(0).getId());
+			emp.setOrg(organization);
+			for (Department depart : departments){
+				map = new HashMap<>();
+				map.put("depid", depart.getId());
+				List<EssEmployee> emps = postMapper.getEmployeeByDep(map);
+				if (emps != null && emps.size() > Const.ZERO) {
+					emp.getCanSeeEmp().addAll(emps);
+				}
+				List<EssPost> postList = postMapper.selectPostUnderDep(map);
+				if (postList != null && postList.size() > Const.ZERO) {
+					emp.getCanSeePosts().addAll(postList);
+				}
+			}
+
+		}else{
+			organization = organizationMapper.getOrgByEmpId(emp.getId());
 			emp.setOrg(organization);
 		}
 
@@ -249,20 +271,15 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public int addEmployee(EssEmployeeVo emp) throws Exception {
-		int cat=0;
-		EssEmployeeExample example = new EssEmployeeExample();
-		example.createCriteria().andAccountEqualTo(emp.getAccount());
-		List<EssEmployee> empList = empMapper.selectByExample(example);
-		if (empList.size()>0) {
-			cat = 1;
-		}
+	public void addEmployee(EssEmployeeVo emp) throws Exception {
+	
 		String empid = RandomHelper.uuid();
 		EssEmployee employee = emp;
 		employee.setId(empid);
 		employee.setEmpcd(empid);
 		employee.setEmptype(emp.getEmptype());
 		employee.setPassword(MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8"));
+		employee.setCreatetime(new Date());
 		empMapper.insert(employee);
 		EssEmployeeDept dept = new EssEmployeeDept();
 		dept.setDepId(emp.getDepid());
@@ -280,7 +297,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			postMapper.relatedPostAndEmp(eep);
 
 		}
-		return cat;
 	}
 
 	/*
@@ -302,6 +318,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		EssEmployee employee = emp;
 		empMapper.updateByPrimaryKeySelective(employee);
 		empMapper.delPostUnderEmp(emp.getId());
+		EssEmployeeDept dept = new EssEmployeeDept();
+		dept.setDepId(emp.getDepid());
+		dept.setEmpId(emp.getId());
+		dept.setVersion(1);
+		dept.setId(RandomHelper.uuid());
+		empMapper.delEmpUnderDep(dept);
+		empMapper.relatedDepAndEmp(dept);
 		if (emp.getPost() != null)
 			for (int i = 0; i < emp.getPost().size(); i++) {
 				String postId = emp.getPost().get(i).getId();
@@ -339,8 +362,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			throws Exception {
 		Page<EssEmployeeVo> pager = new PageImpl<EssEmployeeVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
-
-		params.put("eptId", emp.getEptId());// 企业id
+		if (emp.getEptId() != null) {
+			params.put("eptId", emp.getEptId());// 企业id
+		}
 		params.put("emps", list);//员工集合
 		params.put("pageSize", page.getRows() + "");
 		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
@@ -350,15 +374,15 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		params.put("empNm", emp.getEmpnm());// 员工姓名
 		params.put("account", emp.getAccount());// 员工账号
 		params.put("depid", emp.getDepid());// 部门id
-
-		long totolRols = empMapper.qryPostListCount(params);
+		params.put("orgid", emp.getOrgCd());// 组织id
+		long totalRows = empMapper.qryPostListCount(params);
 		List<EssEmployeeVo> records = empMapper.qryPostList(params);
 		for (EssEmployeeVo essEmployeeVo : records) {
 			List<EssPost> post = empMapper.selectPostUnderEmp(essEmployeeVo.getId());
 			essEmployeeVo.setPost(post);
 		}
 
-		pager.setTotalRows(totolRols);
+		pager.setTotalRows(totalRows);
 		pager.setRecords(records);
 
 		return pager;
@@ -381,6 +405,45 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		empMapper.delEmpUnderDep(dept);
 		empMapper.updateByPrimaryKeySelective(emp);
 
+	}
+
+	@Override
+	public EmployeeVo getUserInfo(String access_token) {
+		String username = JWTUtil.getUsername(access_token);
+		EmployeeVo employee = (EmployeeVo) redisService.get(username + Const.TOKEN);
+		// 2. 判断REDIS是否为空
+		if (null == employee) {
+			try {
+				employee = findEmployeeByAccount(username);
+				//3. 更新redis里用户缓存
+				redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return employee;
+	}
+
+	@Override
+	public int selectEmpByAccount(String account) {
+		EssEmployeeExample example = new EssEmployeeExample();
+		example.createCriteria().andAccountEqualTo(account);
+
+		if(empMapper.selectByExample(example).size()>0){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	@Override
+	public List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("emps",canSeeEmp);
+		params.put("depId",depid);
+		params.put("empNm",empnm);
+		params.put("orgId",orgCd);
+		return empMapper.selectEmployeeByDepartment(params);
 	}
 
 }

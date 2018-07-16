@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningService;
+import com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
+import com.ccttic.util.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningservice;
-import com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper;
-import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
 import com.ccttic.entity.danger.DangerEnums;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.DrDangerVo;
@@ -20,10 +21,11 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
 @Service
-public class WarningServiceImpl implements IWarningservice{
-	@Autowired
+public class WarningServiceImpl implements IWarningService{
+
+	@javax.annotation.Resource
 	private VehiDangerMapper mapper;
-	@Autowired
+	@javax.annotation.Resource
 	private DrDangerMapper drMapper;
 	@Override
 	public Page<VehiDangerVo> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException {
@@ -74,7 +76,7 @@ public class WarningServiceImpl implements IWarningservice{
 		params.put("empType", vo.getEmpType()); // 账号类型
 		params.put("list", vo.getList()); // 企业id
 		params.put("areaId", vo.getAreaCd());// 区域
-		params.put("ownerenterprise", vo.getOwnerenterprise());// 公司
+		params.put("etpNId", vo.getEtpId());// 公司
 		params.put("fullStudyState", vo.getFullstudystate()==1?true:false);
 		params.put("illicitState", vo.getIllicitstate()==1?true:false);
 		params.put("failureState", vo.getFailurestate()==1?true:false);
@@ -102,5 +104,4 @@ public class WarningServiceImpl implements IWarningservice{
 	public DrDanger qryOneDriver(DrDanger dr) throws AppException {		
 		return drMapper.selectByPrimaryKey(dr.getId());
 	}
-
 }

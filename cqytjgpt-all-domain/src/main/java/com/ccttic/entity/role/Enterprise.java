@@ -38,7 +38,7 @@ public class Enterprise extends BaseBean implements Serializable{
 	private int dispOrder;
 	// 备注
 	private String remark;
-	
+
 	public Enterprise() {
 		super();
 	}

@@ -12,6 +12,7 @@ public class EssPostVo extends EssPost {
 	private static final long serialVersionUID = 1L;
 	//组织名
 	private String orgNm;
+	private String orgid;
 	//部门名
 	private String depNm;
 	//员工名
@@ -22,6 +23,15 @@ public class EssPostVo extends EssPost {
 	private List<Department> deps;
 	private int page = 1;
 	private int rows = 10;
+
+	public String getOrgid() {
+		return orgid;
+	}
+
+	public void setOrgid(String orgid) {
+		this.orgid = orgid;
+	}
+
 	public int getPage() {
 		return page;
 	}

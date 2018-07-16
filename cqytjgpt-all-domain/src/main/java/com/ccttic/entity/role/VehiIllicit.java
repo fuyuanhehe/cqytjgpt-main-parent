@@ -59,17 +59,19 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	private String startTime;
 	// 违法结束时间
 	private String endTime;
+	private String areaNm;
 
 	public VehiIllicit() {
 		super();
 	}
 
-	public VehiIllicit(String vehiNo, String vehiNoType, String vehiNoTypeText, String nature, String ownership,
+	public VehiIllicit(String areaNm ,String vehiNo, String vehiNoType, String vehiNoTypeText, String nature, String ownership,
 			String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime,
 			String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc,
 			String pickDepartment, String pickDepartmentDesc, String state, String remark, String etpNm,
 			String startTime, String endTime) {
 		super();
+		this.areaNm = areaNm;
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
 		this.vehiNoTypeText = vehiNoTypeText;
@@ -95,7 +97,13 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.endTime = endTime;
 	}
 
+	public String getAreaNm() {
+		return areaNm;
+	}
 
+	public void setAreaNm(String areaNm) {
+		this.areaNm = areaNm;
+	}
 
 	public String getVehiNo() {
 		return vehiNo;

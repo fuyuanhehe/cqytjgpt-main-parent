@@ -67,7 +67,7 @@ public interface IEmployeeService {
 	 * @return
 	 * @throws AppException
 	 */
-	public int addEmployee(EssEmployeeVo emp) throws Exception ;
+	public void addEmployee(EssEmployeeVo emp) throws Exception ;
 
 	/**
 	 * 修改员工
@@ -117,5 +117,23 @@ public interface IEmployeeService {
 	 */
 	public void delEmployee(EssEmployeeVo emp) throws Exception;
 
+	/**
+	 * @Author:zhy
+	 * @Description:通过token获取用户信息
+	 * @Date:16:03 2018/7/9
+	 */
+	public EmployeeVo getUserInfo(String access_token);
 
+		/**
+		 *@Author:zhy
+		 *@Description:
+		 *@Date:15:31 2018/7/10
+		 */
+	int selectEmpByAccount(String account);
+	/**
+	 *@Author:zhy
+	 *@Description:通过部门id获取旗下的员工
+	 *@Date:11:04 2018/7/13
+	 */
+    List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd);
 }

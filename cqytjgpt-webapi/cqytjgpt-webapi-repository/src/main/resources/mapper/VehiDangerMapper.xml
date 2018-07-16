@@ -759,29 +759,19 @@
 	</update>
 	<!-- 根据条件查询记录 -->
 	<select id="qryVehicleList" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.vo.VehiDangerVo">
-		SELECT danger.*,(select e.areaNm from ess_area e where e.id=org.area_id) orgNm,org1.orgNm as superNm,
-			CASE danger.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '其他' END vehiNoTypeText
-			FROM vehi_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id
-			LEFT JOIN ess_area area ON org.area_id=area.id
-			LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id
-			LEFT JOIN ess_organization org1 ON org1.id=org.superOrg_id
-			 <choose>
-			 	<when test="empType == 'SUPERMAN'" >
-			 		WHERE 1=1
-			 	</when>
-			 	<otherwise>
-			 	 where 1=1 and vehi.mgrEnterpriseId in 
+		SELECT danger.*,area.areaNm,org.orgNm AS orgNm ,etp.etpNm AS etpNm,CASE danger.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '其他' END vehiNoTypeText FROM ess_area AREA ,ess_organization org ,vehi_danger danger ,vehicle vehi,ess_enterprise etp WHERE area.id =org.area_id AND danger.ownerOrgId=org.id AND danger.vehicle_id=vehi.id AND vehi.mgrEnterpriseId =etp.id
+
+		<if test="list != null and list.size>0 ">
+			 	 and vehi.mgrEnterpriseId in
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    	</foreach>  
-			 	</otherwise>
-			 </choose>
-			
+		</if>
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
-			<if test="ownerenterprise != null and ownerenterprise != ''">
-				and danger.ownerEnterprise = #{ownerenterprise}
+			<if test="etpId != null and etpId != ''">
+				and danger.ownerEnterprise = #{etpId}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
 				and danger.vehiNo = #{vehiNo}
@@ -810,24 +800,19 @@
 	</select>
 	<!-- 根据条件统计条数 -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM vehi_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area area ON org.area_id=area.id
-				LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id <choose>
-			 	<when test="empType == 'SUPERMAN'" >
-			 		WHERE 1=1
-			 	</when>
-			 	<otherwise>
-			 	 where 1=1 and vehi.mgrEnterpriseId in 
+		SELECT COUNT(1) FROM ess_area AREA ,ess_organization org ,vehi_danger danger ,vehicle vehi,ess_enterprise etp WHERE area.id =org.area_id AND danger.ownerOrgId=org.id AND danger.vehicle_id=vehi.id AND vehi.mgrEnterpriseId =etp.id
+		<if test="list != null and list.size>0 ">
+				 and vehi.mgrEnterpriseId in
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
 			    	</foreach>  
-			 	</otherwise>
-			 </choose>
+		</if>
 			
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
-			<if test="ownerenterprise != null and ownerenterprise != ''">
-				and vehi.ownerEnterprise = #{ownerenterprise}
+			<if test="etpId != null and etpId != ''">
+				and vehi.ownerEnterprise = #{etpId}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
 				and vehi.vehiNo = #{vehiNo}

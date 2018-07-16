@@ -75,12 +75,12 @@ public class VehiIllicitContrller implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
+				ent = vo.getCanSeeEnt();
 			} else {
 				EmployeeVo employee;
 				try {
 					employee = employeeService.findEmployeeByAccount(username);
-					ent=employee.getEnt();
+					ent=employee.getCanSeeEnt();
 					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -107,7 +107,7 @@ public class VehiIllicitContrller implements Serializable{
 	
 	/**
 	 * 根据条件获取指定车辆违法信息 （详情）
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/qryOneVehiIllicit", method = {RequestMethod.POST,RequestMethod.GET})

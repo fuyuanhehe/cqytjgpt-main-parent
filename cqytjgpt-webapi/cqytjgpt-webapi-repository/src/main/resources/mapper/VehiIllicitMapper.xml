@@ -605,7 +605,7 @@
 					and ve.vehiNo = #{vehiNo}
 				</if>
 				<if test="etpNm != null and etpNm != ''">
-					and ve.etpNm = #{etpNm}
+					and ve.etpNm LIKE '%${etpNm}%'
 				</if>
 				<if test="illicit != null and illicit != ''">
 					and cit.illicit = #{illicit}
@@ -614,7 +614,7 @@
 					and ve.state = #{state}
 				</if>
 				<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-					and cit.pickDepartmentDesc = #{pickDepartmentDesc}
+					and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
 				</if>
 				<if test="vehiNoType != null and vehiNoType != ''">
 					and ve.vehiNoType = #{vehiNoType}
@@ -629,7 +629,7 @@
 	
 	<!-- 根据条件获取车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-		SELECT cit.id,cit.vehiNo,
+		SELECT cit.id,cit.vehiNo,area.areaNm,
 				CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType as vehiNoTypeText,
 				cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
 			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
@@ -642,6 +642,7 @@
 			   ,cit.remark,ess.etpNm
 				FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
+                LEFT JOIN  ess_area area ON  area.id = cit.mgrDepartAreaId
 				WHERE (cit.isDeleted is null or cit.isDeleted !=1) 
 				<if test="list != null and list.size()>0">
 					and ess.id in 
@@ -658,7 +659,7 @@
 					and ve.vehiNo = #{vehiNo}
 				</if>
 				<if test="etpNm != null and etpNm != ''">
-					and ve.etpNm = #{etpNm}
+					and ve.etpNm LIKE '%${etpNm}%'
 				</if>
 				<if test="illicit != null and illicit != ''">
 					and cit.illicit = #{illicit}
@@ -667,7 +668,7 @@
 					and ve.state = #{state}
 				</if>
 				<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-					and cit.pickDepartmentDesc = #{pickDepartmentDesc}
+					and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
 				</if>
 				<if test="vehiNoType != null and vehiNoType != ''">
 					and ve.vehiNoType = #{vehiNoType}

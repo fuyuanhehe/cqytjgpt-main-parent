@@ -7,7 +7,6 @@ public class Roles {
 	/**
 	 * 	自定义角色员工菜单关联实体
 	 */
-	private static final long serialVersionUID = 1L;
 	//role_emp 的ID
 	private String id ;
 	//角色编码

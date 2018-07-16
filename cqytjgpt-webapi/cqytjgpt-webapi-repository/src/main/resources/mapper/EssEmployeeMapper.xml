@@ -593,15 +593,15 @@
 
 	<select id="qryPostList" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.employee.EssEmployeeVo">
-		SELECT emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS
+		SELECT emp.id AS id , emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS
 		orgNm,emp.empType AS emptype,emp.empNo AS empno,emp.account AS
-		account,depart.depNm AS depNm FROM ess_employee_dept dept,ess_employee
+		account,depart.depNm AS depNm ,depart.id AS depid FROM ess_employee_dept dept,ess_employee
 		emp,ess_organization org ,ess_department depart WHERE
 		dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND
 		org.orgCd=depart.org_id
-		<if test="emps != null and emps != ''">
+		<if test="emps != null and emps.size >0">
 				and emp.id in
-				<foreach collection="list" index="index" item="item"
+				<foreach collection="emps" index="index" item="item"
 					open="(" separator="," close=")">
 					#{item.id}
 				</foreach>
@@ -610,6 +610,9 @@
 		<if test="eptId != null and eptId != ''">
 			and depart.ept_id =#{eptId}
 		</if>
+		<if test="orgid != null and orgid != ''">
+			and org.id =#{orgid}
+		</if>
 
 		<if test="empNm != null and empNm != ''">
 			and emp.empNm like '%${empNm}%'
@@ -617,9 +620,10 @@
 		<if test="account != null and account != ''">
 			and emp.account =#{account}
 		</if>
-		<if test="depNm != null and depNm != ''">
+		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
+		    and emp.isDeleted !=1
 		order by emp.createTime DESC
 
 		limit ${startRecord},${pageSize}
@@ -630,30 +634,32 @@
 		emp,ess_organization org ,ess_department depart WHERE
 		dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND
 		org.orgCd=depart.org_id
-		<if test="emps != null and emps != ''">
+		<if test="emps != null and emps.size >0">
 				and emp.id in
-				<foreach collection="list" index="index" item="item"
+				<foreach collection="emps" index="index" item="item"
 					open="(" separator="," close=")">
 					#{item.id}
 				</foreach>
 		</if>
-		
-
+		<if test="orgid != null and orgid != ''">
+			and org.id =#{orgid}
+		</if>
 		<if test="empNm != null and empNm != ''">
 			and emp.empNm like '%${empNm}%'
 		</if>
 		<if test="account != null and account != ''">
 			and emp.account =#{account}
 		</if>
-		<if test="depNm != null and depNm != ''">
+		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
+			and emp.isDeleted !=1
 	</select>
 	<select id="selectPostUnderEmp" parameterType="java.lang.String"
 		resultType="com.ccttic.entity.post.EssPost">
 		SELECT post.* FROM ess_post post,ess_employee_post eep
 		WHERE
-		post.id=eep.post_id AND eep.emp_id =#{id}
+		post.id=eep.post_id AND eep.emp_id =#{id} and post.isDeleted !=1
 	</select>
 	<delete id="delPostUnderEmp" parameterType="java.lang.String">
 		delete from
@@ -693,6 +699,23 @@
 	</delete>
 	
 	<select id="getAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
-	select * from ess_employee
+	select * from ess_employee WHERE  isDeleted !=1
 	</select>
+	<select id="selectEmployeeByDepartment" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployeeVo" >
+		SELECT emp.*,depart.id AS depid,depart.depNm AS depNm ,org.orgNm AS orgNm FROM ess_employee emp LEFT JOIN ess_employee_dept dept ON emp.id = dept.emp_id LEFT JOIN ess_department depart ON depart.id = dept.dep_id LEFT JOIN ess_organization org ON org.id=depart.org_id WHERE depart.org_id =#{orgId}
+		<if test="emps != null and emps.size >0">
+			and emp.id in
+			<foreach collection="emps" index="index" item="item"
+					 open="(" separator="," close=")">
+				#{item.id}
+			</foreach>
+		</if>
+		<if test="depId != null and depId != ''">
+		and	dept.dep_id =#{depId}
+		</if>
+		<if test="empNm != null and empNm != ''">
+			and	emp.empNm like '%${empNm}%'
+		</if>
+	</select>
+
 </mapper>

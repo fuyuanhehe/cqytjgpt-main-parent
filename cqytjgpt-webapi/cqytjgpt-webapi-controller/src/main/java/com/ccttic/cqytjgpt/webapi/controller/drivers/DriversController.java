@@ -23,6 +23,7 @@ import com.ccttic.entity.drivers.vo.DriverillicitVoPage;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVoPage;
 import com.ccttic.entity.drivers.vo.PermiCarsVo;
+import com.ccttic.entity.drivers.vo.VehiTotal;
 import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.drivers.vo.vehiclesVoPage;
@@ -53,15 +54,6 @@ public class DriversController implements Serializable{
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
 	/**
-	 * @param etpNm 所属企业
-	 * @param areaNm 所属区域
-	 * @param name 驾驶人名称
-	 * @param idcard 身份证号码
-	 * @param permiCar 准驾车型
-	 * @param id 驾驶人主键ID
-	 * @param mobilephone 手机号码*
-	 * @param fiString,laString 初次领证时间,最后领证时间
-	 * @param fistShString,laShString 初次审核时期,最后审核时期
 	 * @return
 	 * @date  2018年6月15日
 	 */
@@ -88,12 +80,12 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
 				empType = vo.getEmptype();
+				ent = vo.getCanSeeEnt();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
 				empType = employee.getEmptype();
+				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
 			for (EssEnterprise essEnterprise : ent) {
@@ -102,14 +94,14 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverVo> data = service.seDriverPage(page, tment);
-			resp.setMessage("查询驾驶员信息分页成功！");
+			resp.setMessage("获取驾驶人信息-基本信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询驾驶员信息分页失败！");
+			resp.setMessage("获取驾驶人信息-基本信息失败！");
 			resp.setStatus(0);
-			logger.error("查询驾驶员信息分页失败！",e);
+			logger.error("获取驾驶人信息-基本信息失败！",e);
 		}
 
 		return resp;
@@ -142,7 +134,6 @@ public class DriversController implements Serializable{
 
 
 	/**基本信息-违法记录
-	 * @param id 驾驶人主键ID
 	 * @date  2018年6月15日
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法记录")
@@ -168,11 +159,11 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
+				ent = vo.getCanSeeEnt();
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
+				ent = employee.getCanSeeEnt();
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
@@ -182,27 +173,20 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
-			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setMessage("获取基本信息-违法记录成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setMessage("获取基本信息-违法记录成功！");
 			resp.setStatus(0);
-			logger.error("查询驾驶员违法信息失败",e);
+			logger.error("获取基本信息-违法记录失败",e);
 		}
 
 		return resp;
 	}
 	/**
 	 * 功能说明：  驾驶人违法记录分页
-	 * @param id 驾驶员ID
-	 * @param name 驾驶员名字
-	 * @param etpNm 所属区域
-	 * @param areaNm 所属企业
-	 * @param illicitadress 违法地址
-	 * @param illicit 违法行为
-	 * @param fiString,laString 初次违法时间,最后违法时间
 	 * @return
 	 * @date  2018年6月15日
 	 */
@@ -229,11 +213,11 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
+				ent = vo.getCanSeeEnt();
 				empType = vo.getEmptype();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
+				ent = employee.getCanSeeEnt();
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
@@ -244,20 +228,19 @@ public class DriversController implements Serializable{
 			tment.setEmpType(empType);
 
 			Page<DriverillicitVo> data = service.getDriverPages(page, tment);
-			resp.setMessage("查询驾驶员违法信息成功！");
+			resp.setMessage("获取驾驶人信息-信息记录成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询驾驶员违法信息失败！");
+			resp.setMessage("获取驾驶人信息-信息记录失败！");
 			resp.setStatus(-1);
-			logger.error("查询驾驶员违法信息失败！",e);
+			logger.error("获取驾驶人信息-信息记录失败！",e);
 		}
 
 		return resp;
 	}
 	/**
-	 * @param idcard 驾驶员身份证
 	 * @return
 	 * @date  2018年6月15日
 	 */
@@ -284,15 +267,10 @@ public class DriversController implements Serializable{
 	}
 	/**
 	 * 功能说明：  企业信息-基本信息 分页，详情
-	 * @param id 企业id
-	 * @param etpnm 企业名字
-	 * @param areaNm 区域
-	 * @param ownertraffic 交警大队
-	 * @param ownertransport 运管所
 	 * @return 
 	 * @date  2018年6月20日
 	 */
-	@OperLogging(operType = 0,content="企业基本信息分页")
+	@OperLogging(operType = 0,content="企业信息-基本信息")
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
@@ -313,12 +291,12 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
 				empType = vo.getEmptype();
+				ent = vo.getCanSeeEnt();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
 				empType = employee.getEmptype();
+				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
 			for (EssEnterprise essEnterprise : ent) {
@@ -327,14 +305,14 @@ public class DriversController implements Serializable{
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
-			resp.setMessage("查询企业基本信息成功！");
+			resp.setMessage("查询企业信息-基本信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
 			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
-			resp.setMessage("查询企业基本信息失败！");
+			resp.setMessage("查询企业信息-基本信息失败！");
 			resp.setStatus(0);
-			logger.error("查询企业基本信息失败！",e);
+			logger.error("查询企业信息-基本信息失败！",e);
 		}
 
 		return resp;
@@ -389,17 +367,20 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
 				empType = vo.getEmptype();
+				ent = vo.getCanSeeEnt();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
 				empType = employee.getEmptype();
+				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
 			}
+
+		//	list.add(vo.getEnt().getId());
+
 			tment.setQid(list);
 			tment.setEmpType(empType);
 
@@ -426,8 +407,8 @@ public class DriversController implements Serializable{
 
 	@OperLogging(operType = 0)
 	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
-	public ResponseMsg<List<VehicleCountVo>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
-		ResponseMsg<List<VehicleCountVo>> resp = new ResponseMsg<>();
+	public ResponseMsg<List<VehiTotal>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
+		ResponseMsg<List<VehiTotal>> resp = new ResponseMsg<>();
 
 		try {
 			if(StringUtils.isEmpty(access_token)) {
@@ -442,23 +423,77 @@ public class DriversController implements Serializable{
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			List<EssEnterprise> ent = null;
 			if (null != vo) {
-				ent = vo.getEnt();
 				empType = vo.getEmptype();
+				ent = vo.getCanSeeEnt();
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent=employee.getEnt();
 				empType = employee.getEmptype();
+				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
 			}
+			
 			tment.setList(list);
 			tment.setEmpType(empType);
-			List<VehicleCountVo> data = service.getvehiclesCount(tment);
-			resp.setData(data);    	
+			String type = tment.getVehiType();
+			if(type.equals("")){
+				List<VehiTotal > veList = new ArrayList<>();
+				List<VehicleCountVo> data = service.getVehiclesCount(tment);
+				List<VehicleCountVo> datas = service.getVehiclesVehi(tment);
+				out:
+					for (VehicleCountVo vehicleCountVo : data) {
+						VehiTotal VehiTotal = new VehiTotal();
+						for (VehicleCountVo vehikos : datas) {
+							if(vehicleCountVo.getEtpNm().equals(vehikos.getEtpNm())){
+								VehicleCountVo vecount = new VehicleCountVo();
+								VehiTotal.setId(vehicleCountVo.getId());
+								VehiTotal.setEtpNm(vehicleCountVo.getEtpNm());
+								VehiTotal.setMaxVehi(vehicleCountVo);
+								VehiTotal.setMinVehi(vehikos);
+								vecount.setEtpNm("小计");
+								vecount.setvCount( vehicleCountVo.getvCount()+ vehikos.getvCount());
+								vecount.setzCount(vehicleCountVo.getzCount()+vehikos.getzCount() );
+								vecount.setScraCount(vehicleCountVo.getScraCount()+vehikos.getScraCount() );								
+								vecount.setOverCount(vehicleCountVo.getOverCount()+ vehikos.getOverCount());				
+								vecount.setIllicitCount( vehicleCountVo.getIllicitCount()+vehikos.getIllicitCount());
+								VehiTotal.setTotal(vecount);
+								veList.add(VehiTotal);
+								continue out;
+							}
+						}
+					}
+				resp.setTotal( veList.size());
+				resp.setData(veList);    	
+			}else if (type.equals("01")) {
+				List<VehiTotal > veList = new ArrayList<>();
+				List<VehicleCountVo> data = service.getVehiclesCount(tment);
+				for (VehicleCountVo vehicleCountVo : data) {
+					VehiTotal total = new VehiTotal();
+					total.setMaxVehi(vehicleCountVo);
+					total.setId(vehicleCountVo.getId()  );
+					total.setEtpNm(vehicleCountVo.getEtpNm());
+					veList.add(total);
+				}
+				resp.setData(veList);    	
+				resp.setTotal( veList.size());
+			}else if(type.equals("02") ) {
+				List<VehiTotal > veList = new ArrayList<>();
+				List<VehicleCountVo> data = service.getVehiclesVehi(tment);	
+				for (VehicleCountVo vehicleCountVo : data) {
+					VehiTotal total = new VehiTotal();
+					total.setMinVehi(vehicleCountVo);
+					total.setId(vehicleCountVo.getId()  );
+					total.setEtpNm(vehicleCountVo.getEtpNm());
+					veList.add(total);
+				}
+				resp.setData(veList); 
+				resp.setTotal( veList.size());
+			} 
 			resp.setMessage("获取数据成功");
 			resp.setStatus(1);
+
 		} catch (Exception e) {
 			resp.setMessage("获取数据失败");
 			resp.setStatus(-1);	

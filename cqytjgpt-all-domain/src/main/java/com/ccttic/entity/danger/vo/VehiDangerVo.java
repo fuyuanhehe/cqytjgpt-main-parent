@@ -11,26 +11,27 @@ public class VehiDangerVo extends VehiDanger{
 	private int rows = 10;
 	private List<String> list;
 	private String areaId;
+	private String areaNm;
 	private String empType;
 	private String orgNm;
 	private String superNm;
-	
-	public VehiDangerVo() {
-		super();
+	private String etpNm;
+
+	public String getAreaNm() {
+		return areaNm;
 	}
 
-	public VehiDangerVo(int page, int rows, List<String> list, String areaId, String empType, String orgNm,
-			String superNm) {
-		super();
-		this.page = page;
-		this.rows = rows;
-		this.list = list;
-		this.areaId = areaId;
-		this.empType = empType;
-		this.orgNm = orgNm;
-		this.superNm = superNm;
+	public void setAreaNm(String areaNm) {
+		this.areaNm = areaNm;
 	}
 
+	public String getEtpNm() {
+		return etpNm;
+	}
+
+	public void setEtpNm(String etpNm) {
+		this.etpNm = etpNm;
+	}
 
 	public int getPage() {
 		return page;

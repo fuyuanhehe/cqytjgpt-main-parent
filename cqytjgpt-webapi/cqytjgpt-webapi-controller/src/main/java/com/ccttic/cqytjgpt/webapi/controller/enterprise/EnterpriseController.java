@@ -1,28 +1,37 @@
 package com.ccttic.cqytjgpt.webapi.controller.enterprise;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
+import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.entity.enterprise.vo.PageEssEnterpriseVo;
+import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.exception.AppException;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
@@ -33,6 +42,11 @@ public class EnterpriseController {
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private IEnterpriseService enterpriseService;
+	@Autowired
+	private IEmployeeService employeeService;
+	@Autowired
+	private RedisService<EmployeeVo> redisService;
+
 
 	@RequestMapping(value = "/selectEnterprise", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.SELECT_ENTERPRISE, name = "查询企业信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
@@ -95,7 +109,7 @@ public class EnterpriseController {
 		}
 		return rm;
 	}
-	
+
 	/**
 	 * 注册企业(资料填写)
 	 * @param request
@@ -121,7 +135,7 @@ public class EnterpriseController {
 		}
 		return rm;
 	}
-	
+
 	/**
 	 * 根据条件获取企业信息(区分所审核)
 	 * @param page
@@ -148,7 +162,121 @@ public class EnterpriseController {
 		}
 		return resp;
 	}
-	
-	
-	
+	/**
+	 * @param areaNm
+	 * @param etpNm
+	 * @param  id
+	 * @return
+	 */
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/getEnterpriseVe",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<EnterpriseVehiVo>>getEnterpriseVe(@RequestBody EnterpriseVehiVo tment,@RequestParam String access_token){
+		ResponseMsg<List<EnterpriseVehiVo>> resp = new ResponseMsg<List<EnterpriseVehiVo>>();
+
+		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			List<String> list = new ArrayList<String>();
+			String empType = null;
+
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				empType = vo.getEmptype();
+				ent = vo.getCanSeeEnt();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				empType = employee.getEmptype();
+				ent = employee.getCanSeeEnt();
+				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+
+			//	list.add(vo.getEnt().getId());
+
+			tment.setList(list);
+			tment.setEmpType(empType);
+
+			Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment);
+			resp.setData(data.getRecords());
+			resp.setMessage("获取企业下属车辆成功");
+			resp.setStatus(0);
+			resp.setTotal(data.getTotalRows().intValue());
+		} catch (Exception e) {
+			resp.setMessage("获取企业下属车辆失败");
+			resp.setStatus(-1);
+			logger.error("获取企业下属车辆失败",e);
+		}
+
+		return resp;
+	}
+
+	/** 企业下属驾驶员
+	 * @param areaNm
+	 * @param etpNm
+	 * @param  id
+	 * @return
+	 */
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/getEnterpriceDriver",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<EnterpriseDriverVo>>getEnterpriceDriver(@RequestBody EnterpriseDriverVo tment,@RequestParam String access_token){
+		ResponseMsg<List<EnterpriseDriverVo>> resp = new ResponseMsg<List<EnterpriseDriverVo>>();
+
+		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
+			PageRequest page = new PageRequest();
+			page.setPage(tment.getPage());
+			page.setRows(tment.getRows());
+			List<String> list = new ArrayList<String>();
+			String empType = null;
+
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			List<EssEnterprise> ent = null;
+			if (null != vo) {
+				empType = vo.getEmptype();
+				ent = vo.getCanSeeEnt();
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				empType = employee.getEmptype();
+				ent = employee.getCanSeeEnt();
+				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+			}
+			for (EssEnterprise essEnterprise : ent) {
+				list.add(essEnterprise.getId());
+			}
+
+			//	list.add(vo.getEnt().getId());
+
+			tment.setList(list);
+			tment.setEmpType(empType);
+
+			Page<EnterpriseDriverVo> data = enterpriseService.getEnterpriceDriver(page, tment);
+			resp.setData(data.getRecords());
+			resp.setMessage("获取企业下属驾驶员成功");
+			resp.setStatus(0);
+			resp.setTotal(data.getTotalRows().intValue());
+		} catch (Exception e) {
+			resp.setMessage("获取企业下属驾驶员失败");
+			resp.setStatus(-1);
+			logger.error("获取企业下属驾驶员失败",e);
+		}
+
+		return resp;
+	}
+
+
 }

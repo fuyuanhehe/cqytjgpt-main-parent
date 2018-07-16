@@ -86,27 +86,36 @@ public class RoleController {
 		if(ObjectHelper.isNotEmpty(rolty)) {
 			// 角色ID
 			String  idss = RandomHelper.uuid();
-			List<Role_Emp> roles = new ArrayList<Role_Emp>(); 
 			//员工ID
 			String str = rolty.getEmp_id();
-			String [] strs = str.split(",");
+			if(str != null)  {
+				List<Role_Emp> roles = new ArrayList<Role_Emp>(); 
+				String [] strs = str.split(",");
 
-			for(int i =0 ; i<strs.length; i++) {
-				//循环添加角色关联员工
-				Role_Emp emp = new Role_Emp();
-				emp.setRole_id(idss);
-				emp.setVersion(1);
-				emp.setId(RandomHelper.uuid());
-				emp.setEmp_id(strs[i]);
-				roles.add(emp);
-			}
-			try {
+				for(int i =0 ; i<strs.length; i++) {
+					//循环添加角色关联员工
+					Role_Emp emp = new Role_Emp();
+					emp.setRole_id(idss);
+					emp.setVersion(1);
+					emp.setId(RandomHelper.uuid());
+					emp.setEmp_id(strs[i]);
+					roles.add(emp);
+				}
+				
 				rolty.setId(idss);
 				Roleservice.addRoless(rolty);
 				Roleservice.addRole_Emp(roles);
 				resp.setMessage("添加角色关联员工成功");
 				resp.setStatus(0);
 				resp.success("添加角色关联员工成功");
+				return resp;
+			}
+			try {
+				rolty.setId(idss);
+				Roleservice.addRoless(rolty);
+				resp.setMessage("添加角色成功");
+				resp.setStatus(0);
+				resp.success("添加角色成功");
 			} catch (Exception e) {
 				resp.success("添加角色关联员工失败");
 				resp.setStatus(-1);
@@ -210,5 +219,7 @@ public class RoleController {
 
 		return resp;
 	}*/
+
+
 
 }

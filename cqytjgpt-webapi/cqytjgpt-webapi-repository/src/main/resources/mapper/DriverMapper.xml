@@ -209,7 +209,7 @@
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
 		SELECT
 		replace(d.name,' ','') name,
-		a.areaNm,
+		e.etpNm,
 		dl.illicitTime,
 		dl.illicitAdress,
 		dl.illicitScore,
@@ -220,7 +220,8 @@
 		ON e.id =
 		d.mgrEnterpriseId
 		LEFT
-		JOIN dr_illicit dl ON
+		JOIN
+		dr_illicit dl ON
 		d.id =
 		dl.driver_id
 		LEFT JOIN
@@ -337,10 +338,11 @@
 			and dl.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
-
+		and dl.id!=''
 		and (d.isDelete is null OR d.isDelete !=1)
 
-		limit ${startRecord} ,
+		limit
+		${startRecord} ,
 		${pageSize}
 
 	</select>
@@ -393,6 +395,7 @@
 			#{laString}
 		</if>
 		and (d.isDelete is null OR d.isDelete !=1)
+		and dl.id!=''
 	</select>
 
 	<!-- 一对多查询关联 -->
@@ -437,14 +440,15 @@
 		en.state,
 		en.etpTel,
 		en.etpAdress,
-		en.remark
-	
+		en.remark,
+		en.etpCd
 		FROM
 		ess_organization eo
 		LEFT
 		JOIN ess_enterprise en ON
 		en.org_id = eo.id
-		LEFT JOIN ess_area a ON
+		LEFT
+		JOIN ess_area a ON
 		eo.area_id = a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -474,9 +478,14 @@
 		<if test="ownerTransport!= null and ownerTransport!='' ">
 			and en.ownerTransport = #{ownerTransport}
 		</if>
+		<if test="etpCd!= null and etpCd!='' ">
+			and en.etpCd = #{etpCd}
+		</if>
+
 		and (en.isDeleted is null OR en.isDeleted !=1)
 		AND en.id != ''
-		limit ${startRecord} ,
+		limit
+		${startRecord} ,
 		${pageSize}
 
 	</select>
@@ -502,7 +511,7 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		<if test="orgNm!= null and orgNm!='' ">
+		<if test="areaNm!= null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
 		</if>
 		<if test="id!= null and id!='' ">
@@ -516,6 +525,9 @@
 		</if>
 		<if test="ownerTransport!= null and ownerTransport!='' ">
 			and en.ownerTransport = #{ownerTransport}
+		</if>
+		<if test="etpCd!= null and etpCd!='' ">
+			and en.etpCd = #{etpCd}
 		</if>
 		and (en.isDeleted is null OR en.isDeleted !=1)
 		AND en.id != ''
@@ -564,6 +576,10 @@
 		<if test="vehiType!=null and vehiType!= '' ">
 			AND v.vehiType =#{vehiType}
 		</if>
+		<if test="id!=null and id!= '' ">
+			AND e.id =#{id}
+		</if>
+
 		and (o.isDeleted is null OR o.isDeleted !=1)
 
 		limit ${startRecord} ,
@@ -653,6 +669,9 @@
 		<if test="vehiNoType!=null and vehiNoType!= '' ">
 			AND v.vehiNoType =#{vehiNoType}
 		</if>
+		<if test="id!=null and id!= '' ">
+			AND e.id =#{id}
+		</if>
 		and e.id in
 		<foreach collection="list" index="index" item="item"
 			separator="," open="(" close=")">
@@ -712,15 +731,17 @@
 	<select id="getvehiCount" resultType="com.ccttic.entity.drivers.vo.VehicleCountVo"
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
+		e.id,
 		e.etpNm,
-		COUNT(v.id) AS vCount,
-		v.vehiType
+		COUNT(v.id) AS vCount
 		FROM
 		ess_organization o
-		LEFT JOIN
+		LEFT
+		JOIN
 		ess_enterprise e ON o.id = e.org_id
 		LEFT JOIN vehicle v ON
-		e.id =
+		e.id
+		=
 		v.mgrEnterpriseId
 		LEFT JOIN vehi_danger vd ON v.id =
 		vd.vehicle_id
@@ -756,15 +777,15 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.scrappedState) AS vCount,
-		v.vehiType
+		COUNT(vd.scrappedState) AS vCount
 		FROM
 		ess_organization o
 		LEFT JOIN
 		ess_enterprise e ON o.id = e.org_id
 		LEFT
 		JOIN vehicle v ON
-		e.id =
+		e.id
+		=
 		v.mgrEnterpriseId
 		LEFT JOIN vehi_danger vd ON
 		v.id =
@@ -803,15 +824,15 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.illicitState) AS vCount,
-		v.vehiType
+		COUNT(vd.illicitState) AS vCount
 		FROM
 		ess_organization o
 		LEFT JOIN
 		ess_enterprise e ON o.id = e.org_id
 		LEFT
 		JOIN vehicle v ON
-		e.id =
+		e.id
+		=
 		v.mgrEnterpriseId
 		LEFT JOIN vehi_danger vd ON
 		v.id =
@@ -851,8 +872,7 @@
 		parameterType="com.ccttic.entity.drivers.vo.VehicleCountVo">
 		SELECT
 		e.etpNm,
-		COUNT(vd.overdueExamineState) AS vCount,
-		v.vehiType
+		COUNT(vd.overdueExamineState) AS vCount
 		FROM
 		ess_organization o
 		LEFT JOIN
@@ -892,8 +912,6 @@
 		GROUP BY
 		e.etpNm
 	</select>
-
-
 
 
 </mapper>

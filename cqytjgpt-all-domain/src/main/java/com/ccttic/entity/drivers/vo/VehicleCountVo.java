@@ -4,6 +4,7 @@ import java.util.List;
 
 // 企业机动车正常，隐患数量查询
 public class VehicleCountVo {
+	private String id;
 	//企业名称
 	private String etpNm;
 	//总数车辆
@@ -107,6 +108,12 @@ public class VehicleCountVo {
 		this.list = list;
 		this.orgNm = orgNm;
 		this.vehiType = vehiType;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 
 
