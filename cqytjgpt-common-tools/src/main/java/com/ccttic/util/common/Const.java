@@ -294,16 +294,26 @@ public class Const {
 		         /**
 		          * 增加角色三级菜单
 		          */
-		       public static final String ADD_ROLE = "add-role";
-		       /**
-		        * 删除角色 三级
-		        */
-		       public static final String DELETE_ROLE = "delete-role";
+		          public static final String ADD_ROLE = "add-role";
 		       
-		       /**
-		        * 修改角色 三级
-		        */
-		       public static final String UPDATE_ROLE = "update-role";
+		           /**
+		           * 删除角色 4级
+		          */
+		          public static final String DELETE_ROLE = "delete-role";
+		       
+		          /**
+		           * 修改角色 4级
+		          */
+		          public static final String UPDATE_ROLE = "update-role";
+		       
+		           /*
+		           * 增加角色,获取用户信息,4
+		           * 
+		           */
+		          public static final String ADD_ROLE_EMP = "add-role_emp";
+		       
+		       
+		       
 		       /**
 				* 功能权限管理 二级菜单
 			    * */

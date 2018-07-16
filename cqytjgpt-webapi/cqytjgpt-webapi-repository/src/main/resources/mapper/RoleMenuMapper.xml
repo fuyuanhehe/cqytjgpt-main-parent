@@ -125,7 +125,7 @@
 		id,
 		empNm
 		FROM
-		ess_employee 
+		ess_employee
 	</select>
 	<!-- 角色查询对应菜单 -->
 	<select id="seMenuByRoleIds" resultType="com.ccttic.entity.role.vo.Model_MenuVo"
@@ -199,5 +199,6 @@
 
 	</select>
 
+	
 
 </mapper>	

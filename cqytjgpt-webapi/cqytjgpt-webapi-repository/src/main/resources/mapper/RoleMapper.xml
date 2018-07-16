@@ -161,7 +161,70 @@
 
 	</select>
 
-     
+     <!-- 新增角色，获取员工信息 -->
+<select id="getEmpParameter" resultType="com.ccttic.entity.role.vo.EmpRoleMenuVo"
+		parameterType="java.util.Map">
+		SELECT
+		e.id,
+		o.orgNm,
+		d.depNm,
+		p.postNm,
+		e.empNm,
+		e.account
+		FROM
+		ess_employee
+		e
+		LEFT JOIN ess_employee_dept ed ON e.id = ed.emp_id
+		LEFT JOIN
+		ess_department d ON ed.dep_id = d.id
+		LEFT JOIN ess_employee_post ep ON
+		e.id = ep.emp_id
+		LEFT JOIN ess_post p ON ep.post_id = p.id
+		LEFT JOIN
+		ess_organization o ON e.id = o.admin_empid
+		where 1 = 1
+		<if test="orgNm!=null and orgNm!='' ">
+			and o.orgNm = #{orgNm}
+		</if>
+		<if test="depNm!=null and depNm!='' ">
+			and d.depNm = #{depNm}
+		</if>
+		<if test="empNm!=null and empNm!='' ">
+			and e.empNm = #{empNm}
+		</if>
+
+		limit ${startRecord},${pageSize}
+
+	</select>
+
+	<select id="getEmpParameterCont" resultType="long"
+		parameterType="java.util.Map">
+		SELECT
+		count(e.id )
+		FROM
+		ess_employee
+		e
+		LEFT JOIN ess_employee_dept ed ON e.id = ed.emp_id
+		LEFT JOIN
+		ess_department d ON ed.dep_id = d.id
+		LEFT JOIN
+		ess_employee_post ep ON
+		e.id = ep.emp_id
+		LEFT JOIN ess_post p ON
+		ep.post_id = p.id
+		LEFT JOIN
+		ess_organization o ON e.id = o.admin_empid
+		where 1 = 1
+		<if test="orgNm!=null and orgNm!='' ">
+			and o.orgNm = #{orgNm}
+		</if>
+		<if test="depNm!=null and depNm!='' ">
+			and d.depNm = #{depNm}
+		</if>
+		<if test="empNm!=null and empNm!='' ">
+			and e.empNm = #{empNm}
+		</if>
+	</select>
 
 
 </mapper>	

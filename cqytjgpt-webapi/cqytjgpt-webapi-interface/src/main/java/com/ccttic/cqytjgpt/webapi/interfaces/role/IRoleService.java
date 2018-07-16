@@ -5,6 +5,7 @@ import java.util.List;
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 import com.ccttic.util.page.Page;
@@ -88,5 +89,9 @@ public interface IRoleService {
 	 * 通过员工ID获取角色
 	 * @param roles
 	 */
-	public ModelByRole seRoleByEmpId(String emp_id);		
+	public ModelByRole seRoleByEmpId(String emp_id);	
+	
+
+	//新增角色，查看所属的组织，部门，岗位
+	 Page<EmpRoleMenuVo> getEmpParameter(Pageable page,EmpRoleMenuVo emp);
 }

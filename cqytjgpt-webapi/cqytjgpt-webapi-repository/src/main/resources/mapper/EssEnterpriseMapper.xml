@@ -756,7 +756,7 @@
 		v.firstReciveTime,
 		v.examineEffectEndTime as
 		effectEndTime ,
-		v.`owner`,
+		v.owner,
 		v.mobilephone,
 		v.telphone,
 		v.mgrDepart,

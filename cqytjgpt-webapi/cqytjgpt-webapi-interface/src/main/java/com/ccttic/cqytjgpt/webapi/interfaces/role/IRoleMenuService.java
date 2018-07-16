@@ -4,6 +4,7 @@ import java.util.List;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.entity.role.vo.MenuVo;
 import com.ccttic.entity.role.vo.Model_MenuVo;
@@ -76,5 +77,5 @@ public interface IRoleMenuService {
 	 public EmployeeVo seRole_MenuById(String emp_id);
 
 
-	
+	 
 }

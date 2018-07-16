@@ -9,6 +9,7 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.ResMenu;
 import com.ccttic.entity.role.RoleMenu;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.Model_menus;
@@ -92,4 +93,7 @@ public interface RoleMenuMapper {
 	
 	 // 登陆需要
 	 public List<Model_menus> seMenusByEid(@Param("emp_id") String emp_id);
+	 
+	 
+	 
 }

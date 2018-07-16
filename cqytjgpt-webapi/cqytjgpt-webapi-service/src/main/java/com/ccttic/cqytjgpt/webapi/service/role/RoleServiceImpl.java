@@ -16,6 +16,7 @@ import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.RoleMenuVo;
@@ -257,4 +258,21 @@ public class RoleServiceImpl implements IRoleService {
 		return byRole;
 	}
 
+	@Override
+	public Page<EmpRoleMenuVo> getEmpParameter(Pageable page, EmpRoleMenuVo emp) {
+		Page<EmpRoleMenuVo> pager = new PageImpl<EmpRoleMenuVo>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("orgNm", emp.getOrgNm());
+		params.put("depNm", emp.getDepNm());
+		params.put("empNm", emp.getEmpNm());
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		
+		pager.setRecords(mapper.getEmpParameter(params));
+		pager.setTotalRows(mapper.getEmpParameterCont(params));
+		
+		return pager;
+	}	
+	
+	
 }

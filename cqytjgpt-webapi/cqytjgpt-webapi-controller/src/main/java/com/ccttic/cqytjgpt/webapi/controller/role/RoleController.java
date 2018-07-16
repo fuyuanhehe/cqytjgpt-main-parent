@@ -12,6 +12,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
+import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.rolesPage;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
@@ -41,9 +42,10 @@ public class RoleController {
 	 */ 
 	@OperLogging(operType = 2)
 	@RequestMapping(value="/deleteRoleById",method={RequestMethod.POST,RequestMethod.GET})
-	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ROLE, name = "删除角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
-			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ROLE, name = "删除角色",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
+	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
+			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public ResponseMsg<String> deleteById(@RequestBody Roles roles) {
 
 		ResponseMsg<String> resp = new ResponseMsg<>();
@@ -76,11 +78,12 @@ public class RoleController {
 	 * @return
 	 * @date  2018年5月31日
 	 */
-	@OperLogging(operType = 0,content="增加角色关联员工")
+	@OperLogging(operType = 0,content="新增角色")
 	@RequestMapping(value="/addRole_Emp",method={RequestMethod.POST,RequestMethod.GET})
-	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE, name = "增加角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
-			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE, name = "新增角色",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
+	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
+			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public ResponseMsg<String> addRole_Emp(@RequestBody(required = false) Roles rolty) {
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		if(ObjectHelper.isNotEmpty(rolty)) {
@@ -101,7 +104,7 @@ public class RoleController {
 					emp.setEmp_id(strs[i]);
 					roles.add(emp);
 				}
-				
+
 				rolty.setId(idss);
 				Roleservice.addRoless(rolty);
 				Roleservice.addRole_Emp(roles);
@@ -170,9 +173,10 @@ public class RoleController {
 	 */
 	@OperLogging(operType = 1)
 	@RequestMapping(value="/updateEssRole",method={RequestMethod.POST,RequestMethod.GET})
-	@ResourceScan(rsc = @Resource(cd = Const.UPDATE_ROLE, name = "修改角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
-			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ResourceScan(rsc = @Resource(cd = Const.UPDATE_ROLE, name = "修改角色",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
+	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
+			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public ResponseMsg<List<Roles>> updateEssRole(@RequestBody Roles roles){
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 
@@ -193,33 +197,38 @@ public class RoleController {
 	}	
 	/**
 	 * 功能说明： 
-	 * @param emp_id 员工id
+	 * orgNm
+	 * depNm
+	 * empNm
 	 * @return
-	 * @date  2018年6s月1日
 	 */
-	/*@OperLogging(operType = 3)
-	@RequestMapping(value="/getRoleMenuByEmpid",method={RequestMethod.POST,RequestMethod.GET})
-	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE, name = "增加角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
-			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<ModelByRole> getRoleMenuByEmpid(@RequestBody Roles roles){
-		ResponseMsg<ModelByRole> resp = new ResponseMsg<>();
+	@RequestMapping(value="/getEmpParameter",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE_EMP, name = "增加角色,获取用户信息",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
+	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
+			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
+			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@OperLogging(operType = 3)
+	public ResponseMsg<List<EmpRoleMenuVo> > getEmpParameter(@RequestBody EmpRoleMenuVo emp){
+		ResponseMsg<List<EmpRoleMenuVo>> resp = new ResponseMsg<List<EmpRoleMenuVo>>();
 
 		try {
-			resp.setMessage("根据员工ID查询角色菜单成功!");
+			PageRequest page = new PageRequest();
+			page.setPage(emp.getPage());
+			page.setRows(emp.getRows());
+			Page<EmpRoleMenuVo> data = Roleservice.getEmpParameter(page, emp);
+			resp.setData(data.getRecords());
+			resp.setTotal(data.getTotalRows().intValue());
+			resp.setMessage("修改角色成功!");
 			resp.setStatus(0);
-			resp.setData(Roleservice.seRoleByEmpId(roles.getEmp_id()) );
-
 		} catch (Exception e) {
-			resp.setMessage("根据员工ID查询角色菜单失败!");
+			resp.success("添加角色关联员工失败");
+			resp.setMessage("添加角色关联员工失败");
 			resp.setStatus(-1);
-			logger.error("根据员工ID查询角色菜单失败!",e);
+			logger.error("修改角色关联员工成功失败",e);
 		}
 
-
 		return resp;
-	}*/
 
-
+	}	
 
 }
