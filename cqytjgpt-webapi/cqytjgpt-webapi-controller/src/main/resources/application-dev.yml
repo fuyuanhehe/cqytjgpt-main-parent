@@ -6,10 +6,10 @@ spring:
     password: guest
   mail:
     default-encoding: UTF-8
-    host: smtp.qq.com
-    username: 404582385@qq.com
-    password: cagkhflvugmtbjad
-    port: 465
+    host: smtp.yeah.net
+    username: ccttic@yeah.net
+    password: ccttic123
+    port: 25
     protocol: smtp
     properties:
       mail:
