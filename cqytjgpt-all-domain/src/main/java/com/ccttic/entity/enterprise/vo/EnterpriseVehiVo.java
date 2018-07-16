@@ -39,6 +39,25 @@ public class EnterpriseVehiVo extends Pages {
 	private String ownership;
 	
 	private String adress;
+	
+	private String examineEffectEndTime;
+	
+	private String telphone;
+	
+	
+	
+	public String getTelphone() {
+		return telphone;
+	}
+	public void setTelphone(String telphone) {
+		this.telphone = telphone;
+	}
+	public String getExamineEffectEndTime() {
+		return examineEffectEndTime;
+	}
+	public void setExamineEffectEndTime(String examineEffectEndTime) {
+		this.examineEffectEndTime = examineEffectEndTime;
+	}
 	public EnterpriseVehiVo() {
 		// TODO Auto-generated constructor stub
 	}
