@@ -366,6 +366,7 @@ public class EmployeeController {
 		try {
 			if (maps != null ) {
 				for (int i = 0; i < maps.size(); i++){
+					emp = new EssEmployeeVo();
 					emp.setId(maps.get(i).get("id"));
 					emp.setDepid(maps.get(i).get("depid"));
 					emp.setIsdeleted(true);
