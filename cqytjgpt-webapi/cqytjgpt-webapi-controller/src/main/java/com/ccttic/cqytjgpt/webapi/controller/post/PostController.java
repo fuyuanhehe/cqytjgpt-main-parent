@@ -9,6 +9,7 @@ import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
+import com.ccttic.entity.post.ObjectList;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.util.annotation.Resource;
@@ -63,7 +64,6 @@ public class PostController {
             PageRequest page = new PageRequest();
             page.setPage(post.getPage());
             page.setRows(post.getRows());
-            System.out.println(vo.getCanSeePosts().size());
             Page<EssPostVo> pager = postService.selectPost(page, post, vo.getCanSeePosts());
 
             rm.setData(pager);
@@ -229,15 +229,13 @@ public class PostController {
     @ResourceScan(rsc = @Resource(cd = Const.DELETE_POST, name = "删除岗位", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
             , prsc = {@Resource(cd = Const.POST_MANAGEMENT, url = "/post/delpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
             @Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-    public ResponseMsg<String> delpost(@RequestBody ArrayList<EssPost> posts) {
+    public ResponseMsg<String> delpost(@RequestBody ObjectList list) {
         ResponseMsg<String> rm = new ResponseMsg<>();
-
+        List<Map<String, String>> maps =list.listMap;
         try {
-            if (posts != null && posts.size() > 0) {
-                for (EssPost post : posts) {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("id", post.getId());
-                    postService.delPost(map);
+            if (maps != null ) {
+                for (int i = 0; i < maps.size(); i++) {
+                    postService.delPost(maps.get(i));
                 }
             }
             rm.setMessage("删除post数据成功");

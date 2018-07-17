@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.mapper.post;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.category.CategoryAttr;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.employee.EssEmployee;
@@ -95,6 +96,9 @@ public interface EssPostMapper {
 	List<EssPost> selectPostUnderDep(Map<String, String> map)throws Exception;
 	
 	List<EssPost> getAllPost()throws Exception;
-	
+
+	int setId(CategoryAttr arrt);
+
+	List<CategoryAttr> getCategoryAttr();
 	
 }

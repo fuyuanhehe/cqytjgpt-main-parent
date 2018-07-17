@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.interfaces.post;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.category.CategoryAttr;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
@@ -69,5 +70,4 @@ public interface IPostService {
 	 * @throws Exception
 	 */
 	List<EssPost> selectPostUnderDep(Map<String, String> map) throws Exception;
-
 }

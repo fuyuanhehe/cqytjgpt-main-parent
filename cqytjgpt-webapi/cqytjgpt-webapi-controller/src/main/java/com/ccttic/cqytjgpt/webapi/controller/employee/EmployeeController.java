@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
+import com.ccttic.entity.post.ObjectList;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -358,13 +359,15 @@ public class EmployeeController {
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "删除员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/delEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<String> delEmployee(HttpServletRequest request, @RequestBody ArrayList<EssEmployeeVo> employees) {
+	public ResponseMsg<String> delEmployee(HttpServletRequest request,@RequestBody ObjectList list) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
-
+		List<Map<String, String>> maps =list.listMap;
+		EssEmployeeVo emp = null;
 		try {
-			if (employees != null && employees.size() > 0) {
-				for (EssEmployeeVo emp : employees) {
-
+			if (maps != null ) {
+				for (int i = 0; i < maps.size(); i++){
+					emp.setId(maps.get(i).get("id"));
+					emp.setDepid(maps.get(i).get("depid"));
 					emp.setIsdeleted(true);
 					employeeService.delEmployee(emp);
 				}
