@@ -9,6 +9,7 @@ import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
 import com.ccttic.entity.role.vo.EmpRoleMenuVo;
+import com.ccttic.entity.role.vo.OrgDepVo;
 
 /**
    功能说明：      MyBatis角色映射
@@ -109,8 +110,8 @@ public interface RoleMapper {
 	
 		 
 	//获取组织机构   ，获取部门	 
-		 public List<String> getOrgNm();	 
-		 public List<String> getDep();
+		 public List<OrgDepVo> getOrgNm();	 
+		 public List<OrgDepVo> getDep();
 		 
 		 
 		 

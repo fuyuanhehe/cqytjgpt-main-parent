@@ -21,7 +21,29 @@ public class EmpRoleMenuVo extends Pages {
 	    
 	  private String account;
 	  
-	  public EmpRoleMenuVo() {
+	  private String orgId;
+	  
+	  private String depId;
+	  
+	  
+	  
+	  public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getDepId() {
+		return depId;
+	}
+
+	public void setDepId(String depId) {
+		this.depId = depId;
+	}
+
+	public EmpRoleMenuVo() {
 		// TODO Auto-generated constructor stub
 	}
 

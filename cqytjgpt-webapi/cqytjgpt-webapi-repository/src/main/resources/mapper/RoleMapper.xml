@@ -166,33 +166,34 @@
 		parameterType="java.util.Map">
 		SELECT
 		e.id,
-		o.orgNm,
-		d.depNm,
-		p.postNm,
+		GROUP_CONCAT(o.orgNm) AS orgNm,
+		GROUP_CONCAT(d.depNm) AS
+		depNm,
+		GROUP_CONCAT(p.postNm) AS postNm,
 		e.empNm,
 		e.account
 		FROM
-		ess_employee
-		e
+		ess_employee e
 		LEFT JOIN ess_employee_dept ed ON e.id = ed.emp_id
-		LEFT JOIN
-		ess_department d ON ed.dep_id = d.id
-		LEFT JOIN ess_employee_post ep ON
-		e.id = ep.emp_id
+		LEFT
+		JOIN ess_department d ON ed.dep_id = d.id
+		LEFT JOIN ess_employee_post
+		ep ON e.id = ep.emp_id
 		LEFT JOIN ess_post p ON ep.post_id = p.id
-		LEFT JOIN
-		ess_organization o ON e.id = o.admin_empid
+		LEFT
+		JOIN ess_organization o ON e.id = o.admin_empid
 		where 1 = 1
-		<if test="orgNm!=null and orgNm!='' ">
-			and o.orgNm = #{orgNm}
+		<if test="orgId!=null and orgId!='' ">
+			and o.id = #{orgId}
 		</if>
-		<if test="depNm!=null and depNm!='' ">
-			and d.depNm = #{depNm}
+		<if test="depId!=null and depId!='' ">
+			and d.id = #{depId}
 		</if>
 		<if test="empNm!=null and empNm!='' ">
 			and e.empNm = #{empNm}
 		</if>
-
+		GROUP BY
+		e.id
 		limit ${startRecord},${pageSize}
 
 	</select>
@@ -216,11 +217,11 @@
 		LEFT JOIN
 		ess_organization o ON e.id = o.admin_empid
 		where 1 = 1
-		<if test="orgNm!=null and orgNm!='' ">
-			and o.orgNm = #{orgNm}
+		<if test="orgId!=null and orgId!='' ">
+			and o.id = #{orgId}
 		</if>
-		<if test="depNm!=null and depNm!='' ">
-			and d.depNm = #{depNm}
+		<if test="depId!=null and depId!='' ">
+			and d.id = #{depId}
 		</if>
 		<if test="empNm!=null and empNm!='' ">
 			and e.empNm = #{empNm}
@@ -228,16 +229,16 @@
 	</select>
 
 	<!--获取所有组织机构 -->
-	<select id="getOrgNm" resultType="String">
-		SELECT
-		orgNm
+	<select id="getOrgNm" resultType="com.ccttic.entity.role.vo.OrgDepVo">
+		SELECT  
+		id as orgId,orgNm
 		FROM
 		ess_organization
 	</select>
 
 	<!--获取所有组织机构 -->
-	<select id="getDep" resultType="String">
-		SELECT depNm FROM ess_department
+	<select id="getDep" resultType="com.ccttic.entity.role.vo.OrgDepVo">
+		SELECT id as depId,depNm FROM ess_department
 	</select>
 
 

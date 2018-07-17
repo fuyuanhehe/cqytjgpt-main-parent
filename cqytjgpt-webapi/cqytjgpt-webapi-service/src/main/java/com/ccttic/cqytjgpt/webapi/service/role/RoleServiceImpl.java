@@ -2,8 +2,12 @@ package com.ccttic.cqytjgpt.webapi.service.role;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +24,7 @@ import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.OrgAndDep;
+import com.ccttic.entity.role.vo.OrgDepVo;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
@@ -263,13 +268,61 @@ public class RoleServiceImpl implements IRoleService {
 	public Page<EmpRoleMenuVo> getEmpParameter(Pageable page, EmpRoleMenuVo emp) {
 		Page<EmpRoleMenuVo> pager = new PageImpl<EmpRoleMenuVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("orgNm", emp.getOrgNm());
-		params.put("depNm", emp.getDepNm());
+		params.put("orgId", emp.getOrgId());
+		params.put("depId", emp.getDepId());
 		params.put("empNm", emp.getEmpNm());
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 
-		pager.setRecords(mapper.getEmpParameter(params));
+		List<EmpRoleMenuVo> data = mapper.getEmpParameter(params);
+		for (EmpRoleMenuVo emps : data) {
+
+			if(emps.getOrgNm()!=null){
+				String[] str = emps.getOrgNm().split(",");
+				if(str.length>1){
+					Set<String> set = new HashSet<>();
+					for (int i = 0; i < str.length; i++) {
+						set.add(str[i]);
+					}
+					String Strings = "";
+					for (String se : set) {
+						Strings += se;
+					}
+					emps.setOrgNm(Strings);
+				}    
+			}
+
+			if(emps.getDepNm()!=null){
+				String[] str = emps.getDepNm().split(",");
+				if(str.length>1){
+					Set<String> set = new HashSet<>();
+					for (int i = 0; i < str.length; i++) {
+						set.add(str[i]);
+					}
+					String Strings = "";
+					for (String se : set) {
+						Strings += se;
+					}
+					emps.setDepNm(Strings);
+				}    
+			}
+			if(emps.getPostNm()!=null){
+				String[] str = emps.getPostNm().split(",");
+				if(str.length>1){
+					Set<String> set = new HashSet<>();
+					for (int i = 0; i < str.length; i++) {
+						set.add(str[i]);
+					}
+					String Strings = "";
+					for (String se : set) {
+						Strings += se;
+					}
+					emps.setPostNm(Strings);
+				}    
+			}
+
+		}
+		pager.setRecords(data);
 		pager.setTotalRows(mapper.getEmpParameterCont(params));
 
 		return pager;
@@ -277,16 +330,12 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public OrgAndDep getOrgAndDep() {
-		OrgAndDep orgAndDep = new OrgAndDep();   		
+		OrgAndDep orgAndDep = new OrgAndDep();  		
 
-		List<String> org = mapper.getOrgNm();
-		List<String> dep = mapper.getDep();
-
-		orgAndDep.setOrgNm(org);
-		orgAndDep.setDep(dep);
+		orgAndDep.setOrgNm(mapper.getOrgNm());
+		orgAndDep.setDep(mapper.getDep());
 
 		return orgAndDep;
 	}	
-
 
 }
