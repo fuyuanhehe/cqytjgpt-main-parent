@@ -10,25 +10,25 @@ public class OrgAndDep implements Serializable{
 	 */
 	private static final long serialVersionUID = 2774941380195401218L;
 
-	private List<OrgDepVo> OrgNm;
+	private List<OrgDepVo> Org;
 	
 	private List<OrgDepVo> Dep;
 	
 	public OrgAndDep() {
 		// TODO Auto-generated constructor stub
 	}
-	public OrgAndDep(List<OrgDepVo> orgNm, List<OrgDepVo> dep) {
-		super();
-		OrgNm = orgNm;
-		Dep = dep;
+
+	@Override
+	public String toString() {
+		return "OrgAndDep [Org=" + Org + ", Dep=" + Dep + "]";
 	}
 
-	public List<OrgDepVo> getOrgNm() {
-		return OrgNm;
+	public List<OrgDepVo> getOrg() {
+		return Org;
 	}
 
-	public void setOrgNm(List<OrgDepVo> orgNm) {
-		OrgNm = orgNm;
+	public void setOrg(List<OrgDepVo> org) {
+		Org = org;
 	}
 
 	public List<OrgDepVo> getDep() {
@@ -39,11 +39,11 @@ public class OrgAndDep implements Serializable{
 		Dep = dep;
 	}
 
-	@Override
-	public String toString() {
-		return "OrgAndDep [OrgNm=" + OrgNm + ", Dep=" + Dep + "]";
+	public OrgAndDep(List<OrgDepVo> org, List<OrgDepVo> dep) {
+		super();
+		Org = org;
+		Dep = dep;
 	}
-
 	
 	
 }

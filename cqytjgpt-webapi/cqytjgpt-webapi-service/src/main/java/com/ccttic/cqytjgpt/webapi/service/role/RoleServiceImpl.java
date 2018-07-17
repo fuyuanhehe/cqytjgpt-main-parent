@@ -332,7 +332,7 @@ public class RoleServiceImpl implements IRoleService {
 	public OrgAndDep getOrgAndDep() {
 		OrgAndDep orgAndDep = new OrgAndDep();  		
 
-		orgAndDep.setOrgNm(mapper.getOrgNm());
+		orgAndDep.setOrg(mapper.getOrgNm());
 		orgAndDep.setDep(mapper.getDep());
 
 		return orgAndDep;
