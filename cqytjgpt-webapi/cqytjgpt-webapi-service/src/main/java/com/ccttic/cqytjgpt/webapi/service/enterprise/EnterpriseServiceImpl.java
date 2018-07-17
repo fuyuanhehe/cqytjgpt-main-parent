@@ -29,9 +29,9 @@ import javax.annotation.Resource;
 
 @Service
 public class EnterpriseServiceImpl implements IEnterpriseService {
-	@Resource
+	@Autowired
 	private EssEnterpriseMapper enterpriseMapper;
-	@Resource
+	@Autowired
 	private EssEmployeeMapper employeeMapper;
 
 	@Override

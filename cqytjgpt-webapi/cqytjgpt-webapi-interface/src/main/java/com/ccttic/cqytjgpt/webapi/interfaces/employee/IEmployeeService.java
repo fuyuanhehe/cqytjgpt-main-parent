@@ -120,7 +120,7 @@ public interface IEmployeeService {
 	 * @Description:通过token获取用户信息
 	 * @Date:16:03 2018/7/9
 	 */
-	public EmployeeVo getUserInfo(String access_token) throws AppException;
+	public EmployeeVo getUserInfo(String access_token);
 
 		/**
 		 *@Author:zhy

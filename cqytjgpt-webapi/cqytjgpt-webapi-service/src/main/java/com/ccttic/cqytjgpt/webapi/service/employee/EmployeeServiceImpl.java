@@ -437,7 +437,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd) {
+	public List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd) throws AppException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("emps",canSeeEmp);
 		params.put("depId",depid);
