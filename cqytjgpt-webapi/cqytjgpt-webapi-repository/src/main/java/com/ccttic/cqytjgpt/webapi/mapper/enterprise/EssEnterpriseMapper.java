@@ -61,20 +61,20 @@ public interface EssEnterpriseMapper {
 	 *@Description:企业管理员获取企业信息
 	 *@Date:10:25 2018/7/11
 	 */
-	public List<EssEnterprise> getEssEnterprise(@Param("id")String id);
+	public List<EssEnterprise> getEssEnterprise(@Param("id")String id)throws AppException;
 	/**
 	 *@Author:zhy
 	 *@Description:通过组织id获取企业信息
 	 *@Date:10:25 2018/7/11
 	 */
-	public List<EssEnterprise> getEssEnterpriseByOrgId(@Param("id")String id);
+	public List<EssEnterprise> getEssEnterpriseByOrgId(@Param("id")String id)throws AppException;
 
 	/**
 	 *@Author:zhy
 	 *@Description:通过用户的id获取企业信息
 	 *@Date:10:28 2018/7/11
 	 */
-	public EssEnterprise getEntByEmpId(@Param("id") String id);
+	public EssEnterprise getEntByEmpId(@Param("id") String id)throws AppException;
 	
 	
 	/*

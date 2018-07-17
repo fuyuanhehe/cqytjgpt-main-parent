@@ -21,16 +21,14 @@ public interface IEnterpriseService {
 	public Map<String,Object> selectEnterpriseById(Map<String, String> map);
 	/**
 	 * 修改企业信息
-	 * @param map
 	 * @return
 	 */
-	public void modifyEnterpriseById(EssEnterprise essEnterprise) throws Exception;
+	public void modifyEnterpriseById(EssEnterprise essEnterprise)throws AppException;
 	/**
 	 * 删除企业
-	 * @param map
 	 * @return
 	 */
-	public int delEnterpriseById(EssEnterprise essEnterprise) throws Exception;
+	public int delEnterpriseById(EssEnterprise essEnterprise) throws AppException;
 	
 	/**
 	 * 
@@ -42,7 +40,7 @@ public interface IEnterpriseService {
 	    * @return int    返回类型  
 	    * @throws
 	 */
-	public int registerEnterpries(EnterpriseVo vo)throws Exception;
+	public int registerEnterpries(EnterpriseVo vo)throws AppException;
 	
 	/**
 	 * 根据条件获取企业信息
@@ -53,7 +51,7 @@ public interface IEnterpriseService {
 	 */
 	public Page<EssEnterprise> qryEssEnterpriseList(Pageable page, EssEnterprise vo) throws AppException;
 	
-	public List<EssEnterprise> getEssEnterprise(String id)throws Exception;
+	public List<EssEnterprise> getEssEnterprise(String id)throws AppException;
 	
 	/*
 	 * 企业下属车辆

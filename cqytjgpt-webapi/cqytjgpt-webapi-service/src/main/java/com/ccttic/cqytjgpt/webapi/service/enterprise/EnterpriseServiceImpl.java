@@ -25,11 +25,13 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
 
+import javax.annotation.Resource;
+
 @Service
 public class EnterpriseServiceImpl implements IEnterpriseService {
-	@Autowired
+	@Resource
 	private EssEnterpriseMapper enterpriseMapper;
-	@Autowired
+	@Resource
 	private EssEmployeeMapper employeeMapper;
 
 	@Override
@@ -44,14 +46,14 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 
 	@Override
 	@Transactional
-	public void modifyEnterpriseById(EssEnterprise essEnterprise) throws Exception {
+	public void modifyEnterpriseById(EssEnterprise essEnterprise) throws AppException {
 		enterpriseMapper.updateByPrimaryKeySelective(essEnterprise);
 
 	}
 
 	@Override
 	@Transactional
-	public int delEnterpriseById(EssEnterprise essEnterprise) throws Exception {
+	public int delEnterpriseById(EssEnterprise essEnterprise) throws AppException {
 		int i = enterpriseMapper.hasemp(essEnterprise.getId());
 		if (i == 0) {
 			essEnterprise.setIsdeleted(true);
@@ -80,7 +82,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 
 	@Override
 	@Transactional
-	public int registerEnterpries(EnterpriseVo vo) throws Exception {
+	public int registerEnterpries(EnterpriseVo vo) throws AppException {
 		// 第一步，向employee表 添加账号
 		int i = 1;
 		EssEmployee employee = new EssEmployee();
@@ -136,7 +138,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	}
 
 	@Override
-	public List<EssEnterprise> getEssEnterprise(String id) throws Exception {
+	public List<EssEnterprise> getEssEnterprise(String id) throws AppException {
 		return enterpriseMapper.getEssEnterprise(id);
 	}
 

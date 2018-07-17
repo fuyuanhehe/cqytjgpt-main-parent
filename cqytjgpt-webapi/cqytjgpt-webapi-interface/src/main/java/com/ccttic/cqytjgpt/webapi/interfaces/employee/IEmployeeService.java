@@ -17,7 +17,6 @@ import com.ccttic.util.page.Pageable;
    功能说明：     人员业务接口
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.service.ess.IEmployeeService.java
  @date  2016年12月4日
  */
 
@@ -36,7 +35,7 @@ public interface IEmployeeService {
 	 * @param account
 	 * @return
 	 */
-	public EmployeeVo findEmployeeByAccount(String account) throws Exception;
+	public EmployeeVo findEmployeeByAccount(String account) throws AppException;
 	
 	/**
 	 * 用户登录
@@ -67,7 +66,7 @@ public interface IEmployeeService {
 	 * @return
 	 * @throws AppException
 	 */
-	public void addEmployee(EssEmployeeVo emp) throws Exception ;
+	public void addEmployee(EssEmployeeVo emp) throws AppException ;
 
 	/**
 	 * 修改员工
@@ -75,7 +74,7 @@ public interface IEmployeeService {
 	 * @return
 	 * @throws AppException
 	 */
-	public void editEmployee(EssEmployeeVo emp)  throws Exception;
+	public void editEmployee(EssEmployeeVo emp)  throws AppException;
 
 
 
@@ -91,7 +90,6 @@ public interface IEmployeeService {
 	 * 通过人员编号获取岗位
 	 * @param empId
 	 * @return
-	 * @throws AppException
 	 */
 	public List<RoleEmp> findRolesByEmpId(String empId) ;
 
@@ -101,39 +99,39 @@ public interface IEmployeeService {
 	 * @param list
 	 * @param emp 
 	 * @return
-	 * @throws Exception
+	 * @throws AppException
 	 */
-	public Page<EssEmployeeVo> selectEmployee(Pageable page, List<EssEmployee> list, EssEmployeeVo emp) throws Exception ;
+	public Page<EssEmployeeVo> selectEmployee(Pageable page, List<EssEmployee> list, EssEmployeeVo emp) throws AppException ;
 
 	/**修改员工密码
 	 * @param emp
 	 * @return
 	 */
-	public void modifyPassword(EssEmployee emp) throws Exception;
+	public void modifyPassword(EssEmployee emp) throws AppException;
 	
 	/**删除员工
 	 * @param emp
 	 * @throws Exception
 	 */
-	public void delEmployee(EssEmployeeVo emp) throws Exception;
+	public void delEmployee(EssEmployeeVo emp) throws AppException;
 
 	/**
 	 * @Author:zhy
 	 * @Description:通过token获取用户信息
 	 * @Date:16:03 2018/7/9
 	 */
-	public EmployeeVo getUserInfo(String access_token);
+	public EmployeeVo getUserInfo(String access_token) throws AppException;
 
 		/**
 		 *@Author:zhy
 		 *@Description:
 		 *@Date:15:31 2018/7/10
 		 */
-	int selectEmpByAccount(String account);
+	int selectEmpByAccount(String account)throws AppException;
 	/**
 	 *@Author:zhy
 	 *@Description:通过部门id获取旗下的员工
 	 *@Date:11:04 2018/7/13
 	 */
-    List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd);
+    List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd)throws AppException;
 }

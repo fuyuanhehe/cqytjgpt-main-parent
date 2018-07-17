@@ -104,7 +104,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	 */
 
 	@Override
-	public EmployeeVo findEmployeeByAccount(String account) throws Exception {
+	public EmployeeVo findEmployeeByAccount(String account) throws AppException {
 
 		EmployeeVo emp = empMapper.findEmployeeByAccount(account);
 		// 员工所在岗位
@@ -271,7 +271,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public void addEmployee(EssEmployeeVo emp) throws Exception {
+	public void addEmployee(EssEmployeeVo emp) throws AppException {
 	
 		String empid = RandomHelper.uuid();
 		EssEmployee employee = emp;
@@ -314,7 +314,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public void editEmployee(EssEmployeeVo emp) throws Exception {
+	public void editEmployee(EssEmployeeVo emp) throws AppException {
 		EssEmployee employee = emp;
 		empMapper.updateByPrimaryKeySelective(employee);
 		empMapper.delPostUnderEmp(emp.getId());
@@ -359,7 +359,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public Page<EssEmployeeVo> selectEmployee(Pageable page, List<EssEmployee> list, EssEmployeeVo emp)
-			throws Exception {
+			throws AppException {
 		Page<EssEmployeeVo> pager = new PageImpl<EssEmployeeVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (emp.getEptId() != null) {
@@ -390,13 +390,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public void modifyPassword(EssEmployee emp) throws Exception {
+	public void modifyPassword(EssEmployee emp) throws AppException {
 		empMapper.updateByPrimaryKeySelective(emp);
 	}
 
 	@Override
 	@Transactional
-	public void delEmployee(EssEmployeeVo emp) throws Exception {
+	public void delEmployee(EssEmployeeVo emp) throws AppException {
 
 		empMapper.delPostUnderEmp(emp.getId());
 		EssEmployeeDept dept = new EssEmployeeDept();

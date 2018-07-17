@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.category.CategoryAttr;
+import com.ccttic.util.exception.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class PostServiceImpl implements IPostService {
 	@Resource
 	private EssPostMapper postMapper;
 	@Override
-	public Page<EssPostVo> selectPost(Pageable page, EssPostVo post,List<EssPost> list) throws Exception {
+	public Page<EssPostVo> selectPost(Pageable page, EssPostVo post,List<EssPost> list) throws AppException {
 		Page<EssPostVo> pager = new PageImpl<EssPostVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		
@@ -53,25 +54,25 @@ public class PostServiceImpl implements IPostService {
 	}
 
 	@Override
-	public List<Organization> getAllOrg() throws Exception {
+	public List<Organization> getAllOrg() throws AppException {
 		return postMapper.getAllOrg();
 	}
 
 	@Override
-	public List<Department> getDepartmentByOrg(Map<String, String> map) throws Exception {
+	public List<Department> getDepartmentByOrg(Map<String, String> map) throws AppException {
 		// TODO Auto-generated method stub
 		return postMapper.getDepartmentByOrg(map);
 	}
 
 	@Override
-	public List<EssEmployee> getEmployeeByDep(Map<String, String> map) throws Exception {
+	public List<EssEmployee> getEmployeeByDep(Map<String, String> map) throws AppException {
 		// TODO Auto-generated method stub
 		return postMapper.getEmployeeByDep(map);
 	}
 
 	@Override
 	@Transactional
-	public void addPost(EssPostVo post) throws Exception {
+	public void addPost(EssPostVo post) throws AppException {
 
 		String id = RandomHelper.uuid();
 		post.setId(id);
@@ -92,7 +93,7 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional
-	public void updatePost(EssPostVo post) throws Exception {
+	public void updatePost(EssPostVo post) throws AppException {
 
 		postMapper.updatepost(post);
 		postMapper.delEmpUnderPost(post.getId());
@@ -109,14 +110,14 @@ public class PostServiceImpl implements IPostService {
 
 	@Override
 	@Transactional
-	public void delPost(Map<String, String> map) throws Exception {
+	public void delPost(Map<String, String> map) throws AppException {
 		postMapper.delpost(map);
 		postMapper.delEmpUnderPost(map.get("id"));
 
 	}
 
 	@Override
-	public List<EssPost> selectPostUnderDep(Map<String, String> map) throws Exception {
+	public List<EssPost> selectPostUnderDep(Map<String, String> map) throws AppException {
 
 		List<EssPost> list = postMapper.selectPostUnderDep(map);
 
