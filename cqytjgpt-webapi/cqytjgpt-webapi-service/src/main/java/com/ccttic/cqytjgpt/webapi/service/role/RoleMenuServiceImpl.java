@@ -210,6 +210,11 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		}        
 		return list;       
 	}
+	@Override
+	public List<String> getRoleNm() {
+		// TODO Auto-generated method stub
+		return Mapper.getRoleNm();
+	}
 	
 
 }

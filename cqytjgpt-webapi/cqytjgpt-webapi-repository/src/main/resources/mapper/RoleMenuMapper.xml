@@ -199,6 +199,13 @@
 
 	</select>
 
-	
+	<select id="getRoleNm" resultType="String">
+		SELECT DISTINCT
+		roleNm
+		FROM
+		ess_role
+	</select>
+
+
 
 </mapper>	

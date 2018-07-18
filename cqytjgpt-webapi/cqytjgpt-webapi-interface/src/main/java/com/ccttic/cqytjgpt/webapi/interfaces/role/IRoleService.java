@@ -94,7 +94,7 @@ public interface IRoleService {
 	
 
 	//新增角色，查看所属的组织，部门，岗位
-	 Page<EmpRoleMenuVo> getEmpParameter(Pageable page,EmpRoleMenuVo emp);
+	 List<EmpRoleMenuVo> getEmpParameter(EmpRoleMenuVo emp);
 	 
 		//获取组织机构   ，获取部门	 
 	 public OrgAndDep getOrgAndDep();	 

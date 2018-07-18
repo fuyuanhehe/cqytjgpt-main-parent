@@ -281,14 +281,11 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
-	public Page<EmpRoleMenuVo> getEmpParameter(Pageable page, EmpRoleMenuVo emp) {
-		Page<EmpRoleMenuVo> pager = new PageImpl<EmpRoleMenuVo>(page);
+	public List<EmpRoleMenuVo> getEmpParameter( EmpRoleMenuVo emp) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("orgId", emp.getOrgId());
 		params.put("depId", emp.getDepId());
 		params.put("empNm", emp.getEmpNm());
-		params.put("pageSize", page.getRows());
-		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 
 		List<EmpRoleMenuVo> data = mapper.getEmpParameter(params);
 		for (EmpRoleMenuVo emps : data) {
@@ -337,14 +334,9 @@ public class RoleServiceImpl implements IRoleService {
 				}    
 			}
 
-		//	emps.setEmpNm(emps.getDepNm()+","+emps.getAccount());
-		//	emps.setAccount("");
-
 		}
-		pager.setRecords(data);
-		pager.setTotalRows(mapper.getEmpParameterCont(params));
 
-		return pager;
+		return data;
 	}
 
 	@Override

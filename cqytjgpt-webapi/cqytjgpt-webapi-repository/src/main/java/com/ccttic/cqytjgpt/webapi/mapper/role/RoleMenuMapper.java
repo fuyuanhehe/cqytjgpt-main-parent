@@ -94,6 +94,7 @@ public interface RoleMenuMapper {
 	 // 登陆需要
 	 public List<Model_menus> seMenusByEid(@Param("emp_id") String emp_id);
 	 
-	 
+	 //获取所有角色名字
+	 public List<String> getRoleNm();
 	 
 }

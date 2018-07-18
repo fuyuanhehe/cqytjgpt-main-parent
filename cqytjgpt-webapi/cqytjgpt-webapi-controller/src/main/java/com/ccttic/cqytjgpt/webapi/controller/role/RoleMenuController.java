@@ -196,4 +196,24 @@ public class RoleMenuController {
 
 		return resp;
 	} 
+	//获取所有角色
+	@RequestMapping(value="/getRoleNm",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<List<String>> getRoleNm(){
+		ResponseMsg<List<String>>  resp = new ResponseMsg<>();
+		try { 
+			List<String> data = MenService.getRoleNm();
+			resp.setData(data);
+			resp.setMessage("所有角色查询成功！");
+			resp.setStatus(0);	
+		} catch (Exception e) {
+			resp.setMessage("所有角色查询失败！");
+			resp.setStatus(0);
+			logger.error("所有角色查询失败！",e);
+		}
+
+		return resp;
+	} 
+
+
+
 }

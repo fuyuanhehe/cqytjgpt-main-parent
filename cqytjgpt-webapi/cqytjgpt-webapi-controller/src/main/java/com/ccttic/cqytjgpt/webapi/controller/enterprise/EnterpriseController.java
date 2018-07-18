@@ -301,21 +301,39 @@ public class EnterpriseController {
 			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			if (null != vo) {
 				EssEnterprise str = vo.getEnt() ;
-				tment.setEmpId(str.getId());
+				if(str!=null){
+					String ids = str.getId();
+					if(  ids != null   ){
+						tment.setEmpId(ids);  
+					}else {
+						tment.setEmpId("没有记录"); 	
+					}  
+				}else {
+					tment.setEmpId("没有记录"); 	
+				}   
+
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 				EssEnterprise str = employee.getEnt() ;
-				tment.setEmpId(str.getId());
+				if(str!=null){
+					String ids = str.getId();
+					if(  ids != null   ){
+						tment.setEmpId(ids);  
+					}else {
+						tment.setEmpId("没有记录"); 	
+					}    
+				}else {
+					tment.setEmpId("没有记录"); 	
+				}   
 			}
-			
 			enterpriseService.updateVehicleByid(tment);
 			resp.setMessage("设置车辆成功!");
 			resp.setStatus(0);
 		} catch (Exception e) {
-			resp.setMessage("设置车辆成功失败");
+			resp.setMessage("设置车辆失败");
 			resp.setStatus(-1);
-			logger.error("设置车辆成功失败",e);
+			logger.error("设置车辆失败",e);
 		}
 
 		return resp;
