@@ -65,6 +65,18 @@ public class Vehicle extends BaseBean implements Serializable {
 	// 初次检验结束日期
 	private String endTime;
 	
+	private String id;
+	
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public Vehicle() {
 		super();
 	}

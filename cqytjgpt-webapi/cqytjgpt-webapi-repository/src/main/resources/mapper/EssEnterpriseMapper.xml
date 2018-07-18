@@ -788,7 +788,8 @@
 		'注销'
 		WHEN 'H' THEN
 		'海管监管'
-		WHEN 'C' THEN
+		WHEN 'C'
+		THEN
 		'被强盗'
 		WHEN 'C'
 		THEN
@@ -800,7 +801,7 @@
 		v.ownership,
 		v.adress,
 		v.examineEffectEndTime
-		
+
 		FROM
 		ess_area a
 		LEFT JOIN
@@ -968,5 +969,27 @@
 		and (d.isDelete is null OR d.isDelete !=1)
 
 	</select>
+
+	<!-- 企业选择车辆 -->
+
+	<update id="updateVehicleByid" parameterType="com.ccttic.entity.role.vo.EmpVo" >
+
+		UPDATE vehicle SET mgrEnterpriseId = #{empId} WHERE id = #{id}
+
+	</update>
+      <!-- 查询车辆以前的绑定企业 -->
+      <select id="getEnterVehicle" resultType="com.ccttic.entity.role.Vehicle">
+      
+      select id,mgrEnterpriseId from vehicle where id = #{id}
+      </select>
+
+
+     <!-- 插入选择前的企业和车辆  -->
+    <insert id="setEnterpriseVehicle" parameterType="com.ccttic.entity.enterprise.EnterVehicle">
+    
+     insert into enterprise_vehicle (id,vehiId,enterId,setTime)
+     values(#{id},#{vehiId},#{enterId},#{setTime});
+    
+    </insert>
 
 </mapper>

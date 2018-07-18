@@ -7,6 +7,7 @@ import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
@@ -64,4 +65,8 @@ public interface IEnterpriseService {
 	 */
 	public Page<EnterpriseDriverVo> getEnterpriceDriver(Pageable page,EnterpriseDriverVo envo)throws AppException ;
 	
+	
+	// 企业选择车辆
+	
+		public void updateVehicleByid(EmpVo empVo);
 }

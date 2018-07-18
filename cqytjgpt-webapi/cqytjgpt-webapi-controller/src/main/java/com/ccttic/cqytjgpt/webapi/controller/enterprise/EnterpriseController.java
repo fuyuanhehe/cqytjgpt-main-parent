@@ -25,6 +25,7 @@ import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.entity.enterprise.vo.PageEssEnterpriseVo;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
@@ -277,6 +278,49 @@ public class EnterpriseController {
 
 		return resp;
 	}
+
+	/*
+	 * 企业选择车辆
+	 * id
+	 * empId
+	 * 
+	 */
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/setVehicle",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<String>updateVehicleByid(@RequestBody EmpVo tment,@RequestParam String access_token){
+		ResponseMsg<String> resp = new ResponseMsg<String>();
+
+		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
+
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			if (null != vo) {
+				EssEnterprise str = vo.getEnt() ;
+				tment.setEmpId(str.getId());
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+				EssEnterprise str = employee.getEnt() ;
+				tment.setEmpId(str.getId());
+			}
+			
+			enterpriseService.updateVehicleByid(tment);
+			resp.setMessage("设置车辆成功!");
+			resp.setStatus(0);
+		} catch (Exception e) {
+			resp.setMessage("设置车辆成功失败");
+			resp.setStatus(-1);
+			logger.error("设置车辆成功失败",e);
+		}
+
+		return resp;
+	}
+
 
 
 }

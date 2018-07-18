@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.service.enterprise;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,18 +15,21 @@ import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.enums.EssEmployeeStatus;
+import com.ccttic.entity.enterprise.EnterVehicle;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.common.MD5;
+import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
+import com.ccttic.util.common.StringHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
-
-import javax.annotation.Resource;
 
 @Service
 public class EnterpriseServiceImpl implements IEnterpriseService {
@@ -124,11 +128,11 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("etpnm", vo.getEtpnm()); // 企业名称
 		params.put("state", vo.getState()); // 审核状态
-	    params.put("referStartTime", vo.getReferStartTime()); // 提交开始时间
-	    params.put("referEndTime", vo.getReferEndTime()); // 提交结束时间
-	    params.put("checkStartTime", vo.getCheckStartTime()); // 审核开始时间
-	    params.put("checkEndTime", vo.getCheckEndTime()); // 审核结束时间
-		
+		params.put("referStartTime", vo.getReferStartTime()); // 提交开始时间
+		params.put("referEndTime", vo.getReferEndTime()); // 提交结束时间
+		params.put("checkStartTime", vo.getCheckStartTime()); // 审核开始时间
+		params.put("checkEndTime", vo.getCheckEndTime()); // 审核结束时间
+
 		long totolRols = enterpriseMapper.qryEnterpriseCount(params);
 		List<EssEnterprise> records = enterpriseMapper.qryEnterpriseList(params);
 		pager.setTotalRows(totolRols);
@@ -154,10 +158,10 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("id", envo.getId());
 		params.put("list", envo.getList());
 		params.put("empType", envo.getEmpType());
-		
+
 		pager.setRecords(enterpriseMapper.getEnterpriseVe(params));
 		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));
-		
+
 		return pager;
 	}
 
@@ -173,12 +177,39 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("id", envo.getId());
 		params.put("list", envo.getList());
 		params.put("empType", envo.getEmpType());
-		
+
 		pager.setRecords(enterpriseMapper.getEnterpriceDriver(params));
 		pager.setTotalRows(enterpriseMapper.getEnterpriceDriverCount(params));
-		
+
 		return pager;
 	}
+
+	@Override
+	@Transactional
+	public void updateVehicleByid(EmpVo empVo) {
+
+		Vehicle ve = new Vehicle();
+		ve.setId(empVo.getId());
+
+		Vehicle data = enterpriseMapper.getEnterVehicle(ve);
+
+		EnterVehicle en = new EnterVehicle();
+		en.setId(RandomHelper.uuid());
+		en.setVehiId(data.getId() );
+		en.setEnterId(data.getMgrEnterpriseId());
+		SimpleDateFormat s =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
+        en.setSetTime(s.format( new Date()).toString());
+		
+		enterpriseMapper.setEnterpriseVehicle(en);
+
+		enterpriseMapper.updateVehicleByid(empVo);
+
+
+	}
+
+
 	
 	
+	
+
 }

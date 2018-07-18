@@ -5,10 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.enterprise.EnterVehicle;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.EssEnterpriseExample;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
+import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.exception.AppException;
 
 public interface EssEnterpriseMapper {
@@ -91,5 +94,17 @@ public interface EssEnterpriseMapper {
 	public List<EnterpriseDriverVo > getEnterpriceDriver(Map<String, Object> map);
 	
 	public Long getEnterpriceDriverCount(Map<String, Object> map);
+	
+	
+	// 企业选择车辆
+	
+	public int updateVehicleByid(EmpVo empVo);
+	
+	// <!-- 查询车辆以前的绑定企业 --> id
+	public Vehicle getEnterVehicle(Vehicle vehicle);
+	
+	// 插入选择前的企业和车辆
+	public int setEnterpriseVehicle(EnterVehicle en);
+	
 	
 }
