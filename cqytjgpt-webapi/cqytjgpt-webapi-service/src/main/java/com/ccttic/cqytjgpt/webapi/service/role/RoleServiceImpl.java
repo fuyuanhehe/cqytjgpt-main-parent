@@ -178,6 +178,8 @@ public class RoleServiceImpl implements IRoleService {
 		List<Roles> records = mapper.seRoleAll(params);
 
 		for (Roles role : records) {
+
+			List<String> emplist = new ArrayList<>();
 			List<String> list = new ArrayList<>();
 			String rid = role.getEmp_id();
 			if(rid!= null){
@@ -185,12 +187,26 @@ public class RoleServiceImpl implements IRoleService {
 				for (int i = 0; i < array.length; i++) {
 					list.add(array[i]);
 				}
+
+				if(role.getEmpNms()!=null){
+					String [] arr = role.getEmpNms().split(","); 	
+					for (int i = 0; i < arr.length; i++) {
+						emplist.add(arr[i]);
+					}
+				}
+
 			}
 
 			role.setEmporIds(list);  
-			role.setEmp_id("");
+			role.setEmp_id(null);
+			role.setEmporNms(emplist);
+            role.setEmpNms(null);
 
 		}
+
+
+
+
 
 		pager.setTotalRows(totolRols);
 		pager.setRecords(records);
@@ -257,7 +273,7 @@ public class RoleServiceImpl implements IRoleService {
 		for (Model_MenuVo model : data) {			
 			byRole.setRoleNm(model.getRoleNm());
 			models.add(model);
-			model.setRoleNm("");
+			model.setRoleNm(null);
 		}
 		byRole.setMenus(models);
 
@@ -320,6 +336,9 @@ public class RoleServiceImpl implements IRoleService {
 					emps.setPostNm(Strings);
 				}    
 			}
+
+		//	emps.setEmpNm(emps.getDepNm()+","+emps.getAccount());
+		//	emps.setAccount("");
 
 		}
 		pager.setRecords(data);

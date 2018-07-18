@@ -31,7 +31,20 @@ public class Roles {
 	private String emp_id;
 	//员工id
 	private List<String> emporIds;
-				
+
+	//员工账号
+	private List<String> emporNms;
+
+
+
+	public List<String> getEmporNms() {
+		return emporNms;
+	}
+
+	public void setEmporNms(List<String> emporNms) {
+		this.emporNms = emporNms;
+	}
+
 	public List<String> getEmporIds() {
 		return emporIds;
 	}
