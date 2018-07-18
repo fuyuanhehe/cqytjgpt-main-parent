@@ -629,22 +629,24 @@
 	
 	<!-- 根据条件获取车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-		SELECT cit.id,cit.vehiNo,area.areaNm,
-				CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType as vehiNoTypeText,
-				cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
-			   cit.vehicle_id as vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,cit.illicit,
-			   cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,
-		     CASE cit.state WHEN 'G' THEN '违法未处理' WHEN 'A' THEN '正常' WHEN 'O' THEN '锁定' WHEN 'N' THEN '事故逃逸'
-			 WHEN 'M' THEN '达到报废标准' WHEN 'L' THEN '扣留' WHEN 'K' THEN '查封' WHEN 'J' THEN '嫌疑车' 
-			 WHEN 'D' THEN '停驶' WHEN 'E' THEN '注销' WHEN 'H' THEN '海关监管' WHEN 'C' THEN '被盗抢' 
-			 WHEN 'B' THEN '转出' WHEN 'P' THEN '达到报废标准公告牌证作废' WHEN 'Q' THEN '逾期未检验' 
-			 ELSE '其他' END  state
-			   ,cit.remark,ess.etpNm
-				FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
-				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-                LEFT JOIN  ess_area area ON  area.id = cit.mgrDepartAreaId
-				WHERE (cit.isDeleted is null or cit.isDeleted !=1) 
-				<if test="list != null and list.size()>0">
+      SELECT cit.id,cit.vehiNo,area.areaNm,
+      CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoType,ve.vehiNoType AS vehiNoTypeText,
+      cit.nature,cit.ownership,cit.owner,cit.adress,cit.mgrDepart,cit.mgrDepartAreaId,
+      cit.vehicle_id AS vehicleId,cit.illicitTime,cit.illicitScore,cit.illicitAmount,cit.illicitAdress,
+      cit.illicitDesc,cit.pickDepartment,cit.pickDepartmentDesc,
+      CASE cit.state WHEN 'G' THEN '违法未处理' WHEN 'A' THEN '正常' WHEN 'O' THEN '锁定' WHEN 'N' THEN '事故逃逸'
+      WHEN 'M' THEN '达到报废标准' WHEN 'L' THEN '扣留' WHEN 'K' THEN '查封' WHEN 'J' THEN '嫌疑车'
+      WHEN 'D' THEN '停驶' WHEN 'E' THEN '注销' WHEN 'H' THEN '海关监管' WHEN 'C' THEN '被盗抢'
+      WHEN 'B' THEN '转出' WHEN 'P' THEN '达到报废标准公告牌证作废' WHEN 'Q' THEN '逾期未检验'
+      ELSE '其他' END  state
+      ,cit.remark,ess.etpNm,
+      ict.illegal_name AS illicit
+      FROM vehi_illicit cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+      LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
+      LEFT JOIN  ess_area AREA ON  area.id = cit.mgrDepartAreaId
+      LEFT JOIN  illegal_comparison_table ict ON  ict.code = cit.illicit
+      WHERE (cit.isDeleted IS NULL OR cit.isDeleted !=1)
+      <if test="list != null and list.size()>0">
 					and ess.id in 
 					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
 			        #{item}  
