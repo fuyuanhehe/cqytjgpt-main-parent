@@ -30,20 +30,22 @@ import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.util.common.Const;
 
+import javax.annotation.Resource;
+
 @Service
 public class TaskCarService implements ITaskCarService {
 
-	@Autowired
+	@Resource
 	private IIllegalProcessService illegalProcessService;
-	@Autowired
+	@Resource
 	private VehiIllicitMapper vehiIllicitMapper;
-	@Autowired
+	@Resource
 	private EssEnterpriseMapper essEnterpriseMapper;
-	@Autowired
+	@Resource
 	private VehiDangerMapper vehiDangerMapper;
-	@Autowired
+	@Resource
 	private OrganizationMapper organizationMapper;
-	@Autowired
+	@Resource
 	private IQueryCarService queryCarService;
 	
 

@@ -410,16 +410,21 @@
 	</resultMap>
 
 
-	<select id="selectAllDriver" resultMap="slist">
-		select * from driver
-		where isDelete = 0 or isDelete is null
-	</select>
-	<select id="selectByDriverId" parameterType="java.lang.String"
-		resultType="com.ccttic.entity.illegal.DrIllicit">
-		select * from dr_illicit where driver_id = #{driverId} and
-		(isDeleted = 0 or
-		isDeleted is null)
-	</select>
+	<!--<select id="selectAllDriver" resultMap="slist">-->
+		<!--select * from driver-->
+		<!--where isDelete = 0 or isDelete is null-->
+	<!--</select>-->
+	<!--<select id="selectByDriverId" parameterType="java.lang.String"-->
+		<!--resultType="com.ccttic.entity.illegal.DrIllicit">-->
+		<!--select * from dr_illicit where driver_id = #{driverId} and-->
+		<!--(isDeleted = 0 or-->
+		<!--isDeleted is null)-->
+	<!--</select>-->
+
+    <select id="getAllDriverMsg" resultType="com.ccttic.entity.drivers.Driver">
+        SELECT driverName,driverIdcard,myrEnterpriseId,effectEndTime,examineEffectEndTime FROM driver
+    </select>
+
 	<!-- 企业监管借口 -->
 
 	<!-- 企业信息基本信息分页接口 -->

@@ -3,6 +3,8 @@ package com.ccttic.cqytjgpt.webapi.interfaces.drivers;
 
 
 import java.util.List;
+
+import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
@@ -37,7 +39,7 @@ public interface DriversService {
 	// 增加驾驶员
 	public boolean insertSelective(DriverInsert driver);
 	
-	public List<DriverIllegal> getAllDriver();
+	public List<Driver> getAllDriverMsg();
 	
 	// 企业信息分页
 	Page<EnterprisethenVo> queryEnterprisePage(Pageable page,EnterprisethenVo enterprisethenVo);

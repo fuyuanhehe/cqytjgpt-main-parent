@@ -1,29 +1,23 @@
 package com.ccttic.cqytjgpt.webapi.service.drivers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.mapper.drivers.DriverMapper;
 import com.ccttic.entity.drivers.Driver;
-import com.ccttic.entity.drivers.vo.DriverIllegal;
-import com.ccttic.entity.drivers.vo.DriverInsert;
-import com.ccttic.entity.drivers.vo.DriverVo;
-import com.ccttic.entity.drivers.vo.DriverillicitVo;
-import com.ccttic.entity.drivers.vo.EnterprisethenVo;
-import com.ccttic.entity.drivers.vo.PermiCarsVo;
-import com.ccttic.entity.drivers.vo.VehicleCountVo;
-import com.ccttic.entity.drivers.vo.vehiclesVo;
+import com.ccttic.entity.drivers.vo.*;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class DriversServiceImpl implements DriversService {
@@ -114,9 +108,9 @@ public class DriversServiceImpl implements DriversService {
 	}
 
 	@Override
-	public List<DriverIllegal> getAllDriver() {
+	public List<Driver> getAllDriverMsg() {
 
-		return mapper.selectAllDriver();
+		return mapper.getAllDriverMsg();
 	}
 
 	@Override

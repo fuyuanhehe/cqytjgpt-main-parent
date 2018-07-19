@@ -35,8 +35,12 @@ public interface DriverMapper {
 
 	// 增加
 	public int insertSelective(List<Driver> driver);
-	
-	public List<DriverIllegal> selectAllDriver();
+	/**
+	 *@Author:zhy
+	 *@Description:获取要预警的驾驶员信息
+	 *@Date:16:51 2018/7/19
+	 */
+	public List<Driver> getAllDriverMsg();
 	
 	// 企业基本信息
 	public List<EnterprisethenVo> queryEnterprisePage(Map<String, Object> params);

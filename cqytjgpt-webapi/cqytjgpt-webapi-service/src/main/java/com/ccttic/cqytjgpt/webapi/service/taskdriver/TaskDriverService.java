@@ -31,21 +31,23 @@ import com.ccttic.entity.illegalprocess.XMLPendingPayment;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.util.common.Const;
 
+import javax.annotation.Resource;
+
 @Service
 @Transactional
 public class TaskDriverService implements ITaskDriverService {
 	private Logger logger = LoggerFactory.getLogger(TaskDriverService.class);
-	@Autowired
+	@Resource
 	private IPendingPaymentService service;
-	@Autowired
+	@Resource
 	private DrIllicitMapper drIllicitMapper;
-	@Autowired
+	@Resource
 	private EssEnterpriseMapper essEnterpriseMapper;
-	@Autowired
+	@Resource
 	private DrDangerMapper drDangerMapper;
-	@Autowired
+	@Resource
 	private OrganizationMapper organizationMapper;
-	@Autowired
+	@Resource
 	private IQueryPersonService queryPersonService;
 
 	@Override
@@ -122,7 +124,7 @@ public class TaskDriverService implements ITaskDriverService {
 		XMLPendingPayment pendingPayment = new XMLPendingPayment();
 		pendingPayment.setJszh(driver.getIdcard());
 		Map<String, Object> map = service.queryPendingPayment(pendingPayment, "04", "04Q03");
-		@SuppressWarnings("unchecked")
+
 		List<XMLPendingPayment> listdoing = (List<XMLPendingPayment>) map.get("pendingpayment");
 
 		DrIllicitExample example = new DrIllicitExample();
