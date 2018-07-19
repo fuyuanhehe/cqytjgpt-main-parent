@@ -196,7 +196,12 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		EnterVehicle en = new EnterVehicle();
 		en.setId(RandomHelper.uuid());
 		en.setVehiId(data.getId() );
-		en.setEnterId(data.getMgrEnterpriseId());
+		if(data.getMgrEnterpriseId()==null){
+			en.setEnterId("没有选择过企业");
+		}else {
+			en.setEnterId(data.getMgrEnterpriseId());
+		}
+		
 		SimpleDateFormat s =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
         en.setSetTime(s.format( new Date()).toString());
 		

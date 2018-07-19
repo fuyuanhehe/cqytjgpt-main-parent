@@ -139,17 +139,15 @@ public class DriversServiceImpl implements DriversService {
 
 		for (EnterprisethenVo enterprisethenVo2 : data) {
 			if(enterprisethenVo2.getState()!=null){
-				if(enterprisethenVo2.getState()==1 || enterprisethenVo.getState().equals("1")){
-					enterprisethenVo2.setStartthe("启动");
+				if(enterprisethenVo2.getState()==1 ){
+					enterprisethenVo2.setStartthe("审核通过");
+				}else if(enterprisethenVo2.getState()== -1 ){
+					enterprisethenVo2.setStartthe("审核未通过");
 				}else {
-					enterprisethenVo2.setStartthe("未启动");
+					enterprisethenVo2.setStartthe("待审核");
 				}
 				list.add(enterprisethenVo2);
-				continue;
-			}else{
-				enterprisethenVo2.setStartthe("未启动");
-				list.add(enterprisethenVo2);
-			}
+		}
 		}
 		pager.setRecords(list);
 		pager.setTotalRows(mapper.queryEnterprisePageCount(params));

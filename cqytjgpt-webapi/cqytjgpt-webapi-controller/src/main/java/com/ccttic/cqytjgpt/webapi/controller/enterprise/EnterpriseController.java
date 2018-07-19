@@ -305,12 +305,8 @@ public class EnterpriseController {
 					String ids = str.getId();
 					if(  ids != null   ){
 						tment.setEmpId(ids);  
-					}else {
-						tment.setEmpId("没有记录"); 	
-					}  
-				}else {
-					tment.setEmpId("没有记录"); 	
-				}   
+					} 
+				}
 
 			} else {
 				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
@@ -320,12 +316,8 @@ public class EnterpriseController {
 					String ids = str.getId();
 					if(  ids != null   ){
 						tment.setEmpId(ids);  
-					}else {
-						tment.setEmpId("没有记录"); 	
-					}    
-				}else {
-					tment.setEmpId("没有记录"); 	
-				}   
+					}  
+			}
 			}
 			enterpriseService.updateVehicleByid(tment);
 			resp.setMessage("设置车辆成功!");
