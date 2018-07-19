@@ -29,44 +29,44 @@ class DriverTaskController {
 	@Autowired
 	private IDriverBatch driverBatch;
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping("/addDriverIllega")
-	public void addDriverIllega() {
-		Map<String, Object> result = null;
-		List<DrIllicit> insert = new ArrayList<>();
-		List<DrIllicit> update = new ArrayList<>();
-		List<DriverIllegal> drivers = driversService.getAllDriver();
-		int i =0;
-		for (DriverIllegal driver : drivers) {
-			i++;
-			logger.info("第"+i+"条");
-			try {
-				result = taskDriverService.getDriveIllega(driver);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				logger.info(e.getMessage());
-			}
-			if (result!=null && result.get("update") != null) {
-				update.addAll((List<DrIllicit>) (result.get("update")));
-			}
-			if (result!=null && result.get("insert") != null) {
-				insert.addAll((List<DrIllicit>) (result.get("insert")));
-			}
-		}
-		if(insert.size()>0)
-		driverBatch.addDriverIllegal(insert);
-		if(update.size()>0)
-		driverBatch.updateDriverIllegal(update);
-	}
+//	@SuppressWarnings("unchecked")
+//	@RequestMapping("/addDriverIllega")
+//	public void addDriverIllega() {
+//		Map<String, Object> result = null;
+//		List<DrIllicit> insert = new ArrayList<>();
+//		List<DrIllicit> update = new ArrayList<>();
+//		List<Driver> drivers = driversService.getAllDriverMsg();
+//		int i =0;
+//		for (DriverIllegal driver : drivers) {
+//			i++;
+//			logger.info("第"+i+"条");
+//			try {
+//				result = taskDriverService.getDriveIllega(driver);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				logger.info(e.getMessage());
+//			}
+//			if (result!=null && result.get("update") != null) {
+//				update.addAll((List<DrIllicit>) (result.get("update")));
+//			}
+//			if (result!=null && result.get("insert") != null) {
+//				insert.addAll((List<DrIllicit>) (result.get("insert")));
+//			}
+//		}
+//		if(insert.size()>0)
+//		driverBatch.addDriverIllegal(insert);
+//		if(update.size()>0)
+//		driverBatch.updateDriverIllegal(update);
+//	}
 
 	@RequestMapping("/addDriverDanger")
 	public void addDriverDanger() {
 		Map<String, Object> result = null;
 		List<DrDanger> insert = new ArrayList<>();
 		List<DrDanger> update = new ArrayList<>();
-		List<DriverIllegal> drivers = driversService.getAllDriver();
+		List<Driver> drivers = driversService.getAllDriverMsg();
 		int i =0;
-		for (DriverIllegal driver : drivers) {
+		for (Driver driver : drivers) {
 			i++;
 			logger.info("第"+i+"条");
 			try {
@@ -93,9 +93,9 @@ class DriverTaskController {
 		
 		List<Driver> update = new ArrayList<>();
 		List<Driver> delete = new ArrayList<>();
-		List<DriverIllegal> drivers = driversService.getAllDriver();
+		List<Driver> drivers = driversService.getAllDriverMsg();
 		int i =0;
-		for (DriverIllegal driver : drivers) {
+		for (Driver driver : drivers) {
 			i++;
 			logger.info("第"+i+"条");
 			try {

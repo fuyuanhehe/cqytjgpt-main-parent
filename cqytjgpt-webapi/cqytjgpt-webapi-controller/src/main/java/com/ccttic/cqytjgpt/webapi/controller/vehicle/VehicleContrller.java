@@ -107,20 +107,20 @@ public class VehicleContrller implements Serializable {
 
 				empType = vo.getEmptype();
 			} else {
-				EmployeeVo employee;
-				try {
-					employee = employeeService.findEmployeeByAccount(username);
 
-					empType = employee.getEmptype();
+				try {
+					vo = employeeService.findEmployeeByAccount(username);
+
+					empType = vo.getEmptype();
 					// 3. 更新redis里用户缓存
-					redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+					redisService.set(username + Const.TOKEN, vo, Const.USER_REDIS_LIVE);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 			}
-            if(null!=vo.getCanSeeEnt()) {
+            if(null != vo && null!=vo.getCanSeeEnt()) {
 				for (EssEnterprise essEnterprise : vo.getCanSeeEnt()) {
 					list.add(essEnterprise.getId());
 				}
