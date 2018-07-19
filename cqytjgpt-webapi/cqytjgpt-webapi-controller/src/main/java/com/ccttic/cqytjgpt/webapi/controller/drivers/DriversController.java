@@ -43,7 +43,7 @@ import com.ccttic.util.page.PageRequest;
 
 @RestController
 @RequestMapping(value="/drvers")
-public class DriversController implements Serializable{
+public class DriversController implements Serializable{ 
 
 	private static final long serialVersionUID = 1262917332392058333L;
 	private Logger logger = Logger.getLogger(this.getClass());
