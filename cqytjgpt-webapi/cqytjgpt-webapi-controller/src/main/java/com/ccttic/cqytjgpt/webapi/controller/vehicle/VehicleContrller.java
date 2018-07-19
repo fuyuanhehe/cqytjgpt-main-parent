@@ -120,9 +120,10 @@ public class VehicleContrller implements Serializable {
 				}
 
 			}
-
-			for (EssEnterprise essEnterprise : vo.getCanSeeEnt()) {
-				list.add(essEnterprise.getId());
+            if(null!=vo.getCanSeeEnt()) {
+				for (EssEnterprise essEnterprise : vo.getCanSeeEnt()) {
+					list.add(essEnterprise.getId());
+				}
 			}
 
 			vehicle.setList(list);

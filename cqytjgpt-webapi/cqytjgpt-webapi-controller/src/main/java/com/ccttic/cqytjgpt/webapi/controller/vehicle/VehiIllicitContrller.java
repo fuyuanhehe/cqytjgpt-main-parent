@@ -88,10 +88,12 @@ public class VehiIllicitContrller implements Serializable{
 				}
 				
 			}
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
+			if(null!=ent){
+
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				}
 			}
-			
 			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page, vehiIllicit, list);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
