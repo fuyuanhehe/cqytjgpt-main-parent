@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.vehicle.TestIllicitMapper">
+	<!-- 获取所有车辆 -->
+  	<select id="qryVehicleList" resultType="com.ccttic.entity.role.Vehicle">
+  		SELECT * FROM vehicle
+  	</select>
+  	
+  	<select id="qryNetTrffSurveilList" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.NetTrffSurveil">
+  		SELECT * FROM test.net_trff_surveil WHERE HPHM=#{vehiNo}
+  	</select>
+  	<insert id="addIllicit" parameterType="com.ccttic.entity.illegal.VehiDrIllicit">
+  	insert into `cqytjgpt-test`.${tableName}
+  				(id,decisionNumber,vehiNo,vehiNoType,nature,ownership,
+  				owner,adress,mgrDepartAreaId,vehicle_id,illicitTime,illicitScore,illicitAmount,
+  				illicitAdress,illicit,pickDepartment,pickDepartmentDesc,vehiState,name,idcard,
+  				vehiIllicitState,drIllicitState) values 
+			(#{id},#{decisionNumber},#{vehiNo},#{vehiNoType},#{nature},#{ownership},
+			#{owner},#{adress},#{mgrDepartAreaId},#{vehicleId},#{illicitTime},#{illicitScore},#{illicitAmount},
+			#{illicitAdress},#{illicit},#{pickDepartment},#{pickDepartmentDesc},#{vehiState},#{name},#{idcard},
+			#{vehiIllicitState},#{drIllicitState})
+  	</insert>
+  	<!-- 分割线 -->
+  	<select id="qryNetTrffViolationList" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.NetTrffViolation">
+  		SELECT * FROM test.net_trff_violation WHERE HPHM=#{vehiNo}
+  	</select>
+  	<select id="qryVehiDrIllicit" parameterType="com.ccttic.entity.illegal.VehiDrIllicit" resultType="com.ccttic.entity.illegal.VehiDrIllicit">
+  		select * from `cqytjgpt-test`.${tableName} where decisionNumber=#{decisionNumber}
+  	
+  	</select>
+  	
+  	<update id="updtVehiDrIllicit" parameterType="com.ccttic.entity.illegal.VehiDrIllicit">
+  		update `cqytjgpt-test`.${tableName} set
+		<if test="illicitScore != null and illicitScore != ''">
+			illicitScore = #{illicitScore},
+		</if>
+		<if test="name != null and name != ''">
+			name = #{name},
+		</if>
+		<if test="idcard != null and idcard != ''">
+			idcard = #{idcard},
+		</if>
+		<if test="vehiIllicitState != null and vehiIllicitState != ''">
+			vehiIllicitState = #{vehiIllicitState},
+		</if>
+		<if test="drIllicitState != null and drIllicitState != ''">
+			drIllicitState = #{drIllicitState},
+		</if>
+		<if test="vehiState != null and vehiState != ''">
+			vehiState = #{vehiState},
+		</if>
+		decisionNumber=#{decisionNumber}
+		where decisionNumber=#{decisionNumber}
+  	
+  	</update>
+  	
+  	
+</mapper>
