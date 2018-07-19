@@ -877,6 +877,7 @@
 		and v.id != ''
 	</select>
 	<!--企业下驾驶人 -->
+	<!-- CASE d.state WHEN 'A' THEN '正常' ELSE '不正常' END AS state, -->
 	<select id="getEnterpriceDriver" resultType="com.ccttic.entity.enterprise.vo.EnterpriseDriverVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -887,12 +888,7 @@
 		d.permiCar,
 		d.firstReciveTime,
 		d.nextExamineTime,
-		CASE d.state
-		WHEN 'A' THEN
-		'正常'
-		ELSE
-		'不正常'
-		END AS state,
+		d.state,
 		d.mgrDepart,
 		d.telphone,
 		d.scoreTotal,
@@ -972,24 +968,24 @@
 
 	<!-- 企业选择车辆 -->
 
-	<update id="updateVehicleByid" parameterType="com.ccttic.entity.role.vo.EmpVo" >
+	<update id="updateVehicleByid" parameterType="com.ccttic.entity.role.vo.EmpVo">
 
 		UPDATE vehicle SET mgrEnterpriseId = #{empId} WHERE id = #{id}
 
 	</update>
-      <!-- 查询车辆以前的绑定企业 -->
-      <select id="getEnterVehicle" resultType="com.ccttic.entity.role.Vehicle">
-      
-      select id,mgrEnterpriseId from vehicle where id = #{id}
-      </select>
+	<!-- 查询车辆以前的绑定企业 -->
+	<select id="getEnterVehicle" resultType="com.ccttic.entity.role.Vehicle">
+
+		select id,mgrEnterpriseId from vehicle where id = #{id}
+	</select>
 
 
-     <!-- 插入选择前的企业和车辆  -->
-    <insert id="setEnterpriseVehicle" parameterType="com.ccttic.entity.enterprise.EnterVehicle">
-    
-     insert into enterprise_vehicle (id,vehiId,enterId,setTime)
-     values(#{id},#{vehiId},#{enterId},#{setTime});
-    
-    </insert>
+	<!-- 插入选择前的企业和车辆 -->
+	<insert id="setEnterpriseVehicle" parameterType="com.ccttic.entity.enterprise.EnterVehicle">
+
+		insert into enterprise_vehicle (id,vehiId,enterId,setTime)
+		values(#{id},#{vehiId},#{enterId},#{setTime});
+
+	</insert>
 
 </mapper>
