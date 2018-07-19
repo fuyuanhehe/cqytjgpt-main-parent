@@ -1,7 +1,9 @@
 spring:
   redis:
 #      host: 127.0.0.1
-      host: 10.10.20.22 
+      host: 10.10.20.22
+      port: 16318
+      password: ccttic!
 #      database: 2  
   rabbitmq:     # 配置RabbitMQ
     host: 10.10.20.21
@@ -10,7 +12,7 @@ spring:
     password: guest
   datasource: # 配置数据源
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://10.10.20.22:3306/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://10.10.20.22:43301/cqytjgpt?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: root
     password: ccttic!
     driver-class-name: com.mysql.jdbc.Driver
