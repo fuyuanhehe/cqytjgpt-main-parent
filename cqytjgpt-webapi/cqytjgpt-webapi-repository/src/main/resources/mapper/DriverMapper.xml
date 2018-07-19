@@ -441,7 +441,10 @@
 		en.etpTel,
 		en.etpAdress,
 		en.remark,
-		en.etpCd
+		en.etpCd,
+		en.etpType,
+		en.issueCardDate,
+		en.roadTransport
 		FROM
 		ess_organization eo
 		LEFT

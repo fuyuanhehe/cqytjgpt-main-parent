@@ -72,7 +72,40 @@ public class ess_enterprise {
     /** 修改人部门编码*/
     private String updatedepcd;
 
-    public String getId() {
+    private String etpType;
+    
+    private String issueCardDate;
+    
+    private String roadTransport;
+    
+    
+    
+    
+    public String getEtpType() {
+		return etpType;
+	}
+
+	public void setEtpType(String etpType) {
+		this.etpType = etpType;
+	}
+
+	public String getIssueCardDate() {
+		return issueCardDate;
+	}
+
+	public void setIssueCardDate(String issueCardDate) {
+		this.issueCardDate = issueCardDate;
+	}
+
+	public String getRoadTransport() {
+		return roadTransport;
+	}
+
+	public void setRoadTransport(String roadTransport) {
+		this.roadTransport = roadTransport;
+	}
+
+	public String getId() {
         return id;
     }
 
