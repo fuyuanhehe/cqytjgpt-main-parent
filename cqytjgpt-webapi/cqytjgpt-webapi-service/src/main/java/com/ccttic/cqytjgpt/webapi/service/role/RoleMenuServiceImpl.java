@@ -143,7 +143,7 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		return data;
 	}
 	@Override
-	public EmployeeVo  seRole_MenuById(String emp_id) {
+	public EmployeeVo  seRoleMenuById(String emp_id) {
 
 		List<RoleModels> list = new ArrayList<>();
 		//多个角色ID

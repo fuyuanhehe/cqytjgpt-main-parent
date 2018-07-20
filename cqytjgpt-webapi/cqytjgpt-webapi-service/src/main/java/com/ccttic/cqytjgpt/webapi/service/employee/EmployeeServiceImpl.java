@@ -198,9 +198,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 
 		// 员工能使用的菜单,员工角色
-		EmployeeVo datas = service.seRole_MenuById(emp.getId());
-		emp.setMenus(datas.getMenus());
-		emp.setModels(datas.getModels());
+		EmployeeVo datas = service.seRoleMenuById(emp.getId());
+		if(datas != null) {
+			emp.setMenus(datas.getMenus());
+			emp.setModels(datas.getModels());
+		}
+	
 		return emp;
 
 	}

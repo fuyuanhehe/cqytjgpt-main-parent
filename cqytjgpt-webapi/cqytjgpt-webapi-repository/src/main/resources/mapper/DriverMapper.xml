@@ -561,7 +561,17 @@
 		en.saferTel,
 		en.ownerTraffic,
 		en.ownerTransport,
-		en.state,
+		CASE en.state
+		WHEN
+		 1 THEN
+		'审核通过'
+		WHEN
+		 0 THEN
+		'待审核'
+		WHEN
+		 -1 THEN
+		'审核未通过'
+		end as state,
 		en.etpTel,
 		en.etpAdress,
 		en.remark,

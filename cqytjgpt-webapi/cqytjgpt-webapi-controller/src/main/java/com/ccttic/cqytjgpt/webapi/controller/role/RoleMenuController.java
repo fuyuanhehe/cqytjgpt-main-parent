@@ -184,7 +184,7 @@ public class RoleMenuController {
 		ResponseMsg<EmployeeVo>  resp = new ResponseMsg<>();
 
 		try { 
-			EmployeeVo data = MenService.seRole_MenuById(emp_id);
+			EmployeeVo data = MenService.seRoleMenuById(emp_id);
 			resp.setData(data);
 			resp.setMessage("员工查询成功！");
 			resp.setStatus(0);	

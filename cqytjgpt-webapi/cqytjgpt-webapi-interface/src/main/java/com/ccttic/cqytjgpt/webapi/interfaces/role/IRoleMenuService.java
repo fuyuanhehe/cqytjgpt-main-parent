@@ -74,7 +74,7 @@ public interface IRoleMenuService {
 	 public List<Model_MenuVo> seMenuByRoleIds( String roleId);
 	 
 	 // 员工id查询角色，菜单
-	 public EmployeeVo seRole_MenuById(String emp_id);
+	 public EmployeeVo seRoleMenuById(String emp_id);
 
 	 //获取所有角色名字
 	 public List<String> getRoleNm();
