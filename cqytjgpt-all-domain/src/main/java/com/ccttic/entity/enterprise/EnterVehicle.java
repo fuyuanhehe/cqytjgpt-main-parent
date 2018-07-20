@@ -13,6 +13,8 @@ public class EnterVehicle implements Serializable{
 	
 	private String vehiId;
 	
+	private String driverId;
+	
 	private String enterId;
 	
 	private String setTime;
@@ -20,6 +22,21 @@ public class EnterVehicle implements Serializable{
 	
 	
 	
+	
+	public String getDriverId() {
+		return driverId;
+	}
+
+
+
+
+	public void setDriverId(String driverId) {
+		this.driverId = driverId;
+	}
+
+
+
+
 	public String getId() {
 		return id;
 	}

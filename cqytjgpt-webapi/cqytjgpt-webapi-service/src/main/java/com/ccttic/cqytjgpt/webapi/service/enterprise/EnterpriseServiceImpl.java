@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
@@ -23,9 +21,7 @@ import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.common.MD5;
-import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
-import com.ccttic.util.common.StringHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
@@ -158,7 +154,8 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("id", envo.getId());
 		params.put("list", envo.getList());
 		params.put("empType", envo.getEmpType());
-
+		params.put("vehiNo", envo.getVehiNo());
+		
 		pager.setRecords(enterpriseMapper.getEnterpriseVe(params));
 		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));
 
@@ -177,7 +174,9 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("id", envo.getId());
 		params.put("list", envo.getList());
 		params.put("empType", envo.getEmpType());
-
+		params.put("empType", envo.getEmpType());
+		params.put("idcard", envo.getIdcard());
+		
 		pager.setRecords(enterpriseMapper.getEnterpriceDriver(params));
 		pager.setTotalRows(enterpriseMapper.getEnterpriceDriverCount(params));
 
@@ -210,6 +209,31 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		enterpriseMapper.updateVehicleByid(empVo);
 
 
+	}
+
+	@Override
+	@Transactional
+	public void updateDriverById(EmpVo empVo) {
+		Vehicle ve = new Vehicle();
+		ve.setId(empVo.getId());
+		Vehicle data = enterpriseMapper.getEnterDriversBy(ve);
+		
+		EnterVehicle en = new EnterVehicle();
+		en.setId(RandomHelper.uuid());
+		en.setDriverId(data.getId() );
+		if(data.getMgrEnterpriseId()==null){
+			en.setEnterId("没有选择过企业");
+		}else {
+			en.setEnterId(data.getMgrEnterpriseId());
+		}
+		
+		SimpleDateFormat s =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
+        en.setSetTime(s.format( new Date()).toString());
+		
+        enterpriseMapper.setEnterpriseDriver(en);
+		
+        enterpriseMapper.updateDriverByid(empVo);
+        
 	}
 
 

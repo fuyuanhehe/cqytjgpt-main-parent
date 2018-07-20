@@ -1,5 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.controller.enterprise;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,12 @@ import com.ccttic.util.page.PageRequest;
 
 @RestController
 @RequestMapping("/enterprise")
-public class EnterpriseController {
+public class EnterpriseController implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7624503176461180718L;
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private IEnterpriseService enterpriseService;
@@ -198,14 +203,17 @@ public class EnterpriseController {
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
+
+			if(ent!= null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				}
+				tment.setList(list);
+
 			}
-
-			//	list.add(vo.getEnt().getId());
-
-			tment.setList(list);
-			tment.setEmpType(empType);
+			if(empType!=null){
+				tment.setEmpType(empType);
+			}
 
 			Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment);
 			resp.setData(data.getRecords());
@@ -256,14 +264,16 @@ public class EnterpriseController {
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
+			if(ent!= null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				}
+				tment.setList(list);
+
 			}
-
-			//	list.add(vo.getEnt().getId());
-
-			tment.setList(list);
-			tment.setEmpType(empType);
+			if(empType!=null){
+				tment.setEmpType(empType);
+			}
 
 			Page<EnterpriseDriverVo> data = enterpriseService.getEnterpriceDriver(page, tment);
 			resp.setData(data.getRecords());
@@ -305,6 +315,9 @@ public class EnterpriseController {
 					String ids = str.getId();
 					if(  ids != null   ){
 						tment.setEmpId(ids);  
+					}else {
+						resp.fail("您的账号没有关联企业，设置失败");
+						return resp;
 					} 
 				}
 
@@ -316,8 +329,11 @@ public class EnterpriseController {
 					String ids = str.getId();
 					if(  ids != null   ){
 						tment.setEmpId(ids);  
+					}else {
+						resp.fail("您的账号没有关联企业，设置失败");
+						return resp;
 					}  
-			}
+				}
 			}
 			enterpriseService.updateVehicleByid(tment);
 			resp.setMessage("设置车辆成功!");
@@ -331,6 +347,64 @@ public class EnterpriseController {
 		return resp;
 	}
 
+	/*
+	 * 企业选驾驶人
+	 * id
+	 * empId
+	 * 
+	 */
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/setDriver",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<String>setVehicle(@RequestBody EmpVo tment,@RequestParam String access_token){
+		ResponseMsg<String> resp = new ResponseMsg<String>();
 
+		try {
+			if(StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 不能为空");
+				return resp;
+			}
+
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			if (null != vo) {
+				EssEnterprise str = vo.getEnt() ;
+				if(str!=null){
+					String ids = str.getId();
+					if(  ids != null   ){
+						tment.setEmpId(ids);  
+					}else {
+						resp.fail("您的账号没有关联企业，设置失败");
+						return resp;
+					} 
+				}
+
+			} else {
+				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
+				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+				EssEnterprise str = employee.getEnt() ;
+				if(str!=null){
+					String ids = str.getId();
+					if(  ids != null   ){
+						tment.setEmpId(ids);  
+					}else {
+						resp.fail("您的账号没有关联企业，设置失败");
+						return resp;
+					}
+					
+					
+				}
+			}
+			enterpriseService.updateDriverById(tment);
+			resp.setMessage("设置驾驶人成功!");
+			resp.setStatus(0);
+		} catch (Exception e) {
+			resp.setMessage("设置驾驶人失败");
+			resp.setStatus(-1);
+			logger.error("设置驾驶人失败",e);
+		}
+
+		return resp;
+	}
 
 }

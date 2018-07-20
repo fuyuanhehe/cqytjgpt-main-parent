@@ -738,7 +738,6 @@
 		emp.id =#{id}
 	</select>
 	<!-- 企业下属车辆 -->
-	<!-- CASE v.vehiType WHEN '01' THEN '大型车' ELSE '小型车' END AS vehiType, -->
 	<select id="getEnterpriseVe" resultType="com.ccttic.entity.enterprise.vo.EnterpriseVehiVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -812,11 +811,16 @@
 		a.id =
 		v.mgrDepartAreaId
 		LEFT JOIN
-		ess_enterprise e ON
+		ess_enterprise e
+		ON
 		v.mgrEnterpriseId =
 		e.id
 		<choose>
-			<when test="empType == 'SUPERMAN'">
+			<when test=" vehiNo != '' and vehiNo != null  ">
+				where v.vehiNo= #{vehiNo}
+			</when>
+
+			<when test="empType == 'SUPERMAN'  ">
 				where 1=1
 			</when>
 			<otherwise>
@@ -855,7 +859,12 @@
 		LEFT JOIN
 		ess_enterprise e ON v.mgrEnterpriseId = e.id
 		<choose>
-			<when test="empType == 'SUPERMAN'">
+
+			<when test=" vehiNo != '' and vehiNo != null  ">
+				where v.vehiNo= #{vehiNo}
+			</when>
+
+			<when test="empType == 'SUPERMAN' ">
 				where 1=1
 			</when>
 			<otherwise>
@@ -877,10 +886,10 @@
 		<if test="id!=null and id!='' ">
 			and v.id= #{id}
 		</if>
+
 		and v.id != ''
 	</select>
 	<!--企业下驾驶人 -->
-	<!-- CASE d.state WHEN 'A' THEN '正常' ELSE '不正常' END AS state, -->
 	<select id="getEnterpriceDriver" resultType="com.ccttic.entity.enterprise.vo.EnterpriseDriverVo"
 		parameterType="java.util.Map">
 		SELECT
@@ -891,7 +900,70 @@
 		d.permiCar,
 		d.firstReciveTime,
 		d.nextExamineTime,
-		d.state,
+		CASE d.state
+		WHEN
+		'A' THEN
+		'正常'
+		WHEN
+		'B' THEN
+		'超分'
+		WHEN
+		'C' THEN
+		'转出'
+		WHEN
+		'D' THEN
+		'暂扣'
+		WHEN
+		'E' THEN
+		'撤销'
+		WHEN
+		'F'
+		THEN
+		'吊销'
+		WHEN
+		'G' THEN
+		'注销'
+		WHEN
+		'H' THEN
+		'违法未处理'
+		WHEN
+		'I' THEN
+		'事故未处理'
+		WHEN
+		'J'
+		THEN
+		'停止使用'
+		WHEN
+		'K' THEN
+		'扣押'
+		WHEN
+		'L'
+		THEN
+		'锁定'
+		WHEN
+		'M' THEN
+		'逾期未换证'
+		WHEN
+		'N'
+		THEN
+		'延期换证'
+		WHEN
+		'P' THEN
+		'延期体检'
+		WHEN
+		'R' THEN
+		'注销可恢复'
+		WHEN
+		'延期审验' THEN
+		'正常'
+		WHEN
+		'U' THEN
+		'扣留'
+		WHEN
+		'S' THEN
+		'逾期未审验'
+		else '不明确'
+		end as state,
 		d.mgrDepart,
 		d.telphone,
 		d.scoreTotal,
@@ -900,16 +972,89 @@
 		d.effectEndTime,
 		e.etpNm,
 		a.areaNm,
-		d.state1
+		CASE d.state1
+		WHEN
+		'A' THEN
+		'正常'
+		WHEN
+		'B' THEN
+		'超分'
+		WHEN
+		'C' THEN
+		'转出'
+		WHEN
+		'D' THEN
+		'暂扣'
+		WHEN
+		'E'
+		THEN
+		'撤销'
+		WHEN
+		'F' THEN
+		'吊销'
+		WHEN
+		'G' THEN
+		'注销'
+		WHEN
+		'H' THEN
+		'违法未处理'
+		WHEN
+		'I'
+		THEN
+		'事故未处理'
+		WHEN
+		'J' THEN
+		'停止使用'
+		WHEN
+		'K' THEN
+		'扣押'
+		WHEN
+		'L'
+		THEN
+		'锁定'
+		WHEN
+		'M'
+		THEN
+		'预期未换证'
+		WHEN
+		'N' THEN
+		'延期换证'
+		WHEN
+		'P' THEN
+		'延期体检'
+		WHEN
+		'R' THEN
+		'注销可恢复'
+		WHEN
+		'T' THEN
+		'延期审验'
+		WHEN
+		'U' THEN
+		'扣留'
+		WHEN
+		'S' THEN
+		'逾期未审验'
+		else '不明确'
+		END as
+		state1
 		FROM
 		driver d
-		LEFT JOIN ess_enterprise e ON d.mgrEnterpriseId =
+		LEFT JOIN
+		ess_enterprise e ON
+		d.mgrEnterpriseId =
 		e.id
-		LEFT JOIN ess_area a ON d.mgrDepartAreaId = a.id
+		LEFT JOIN ess_area a ON
+		d.mgrDepartAreaId = a.id
 		<choose>
-			<when test="empType == 'SUPERMAN'">
-				where 1=1
+			<when test=" idcard!= null and idcard != '' ">
+				where  d.idcard= #{idcard}
 			</when>
+
+			<when test="empType == 'SUPERMAN' ">
+				where 1=1 
+			</when>
+
+
 			<otherwise>
 				where e.id in
 				<foreach collection="list" index="index" item="item" open="("
@@ -927,6 +1072,7 @@
 		<if test="id!=null and id!='' ">
 			and d.id= #{id}
 		</if>
+
 		and d.id !=''
 		and (d.isDelete is null OR d.isDelete !=1)
 		limit
@@ -945,8 +1091,11 @@
 		LEFT
 		JOIN ess_area a ON d.mgrDepartAreaId = a.id
 		<choose>
-			<when test="empType == 'SUPERMAN'">
-				where 1=1
+		<when test=" idcard!= null and idcard != '' ">
+				where  d.idcard= #{idcard}
+			</when>
+			<when test="empType == 'SUPERMAN' ">
+				where 1=1 
 			</when>
 			<otherwise>
 				where e.id in
@@ -965,6 +1114,7 @@
 		<if test="id!=null and id!='' ">
 			and d.id= #{id}
 		</if>
+
 		and d.id !=''
 		and (d.isDelete is null OR d.isDelete !=1)
 
@@ -974,22 +1124,51 @@
 
 	<update id="updateVehicleByid" parameterType="com.ccttic.entity.role.vo.EmpVo">
 
-		UPDATE vehicle SET mgrEnterpriseId = #{empId} WHERE id = #{id}
+		UPDATE vehicle SET
+		mgrEnterpriseId = #{empId} WHERE id = #{id}
 
 	</update>
 	<!-- 查询车辆以前的绑定企业 -->
 	<select id="getEnterVehicle" resultType="com.ccttic.entity.role.Vehicle">
 
-		select id,mgrEnterpriseId from vehicle where id = #{id}
+		select
+		id,mgrEnterpriseId from vehicle where id = #{id}
 	</select>
 
 
 	<!-- 插入选择前的企业和车辆 -->
 	<insert id="setEnterpriseVehicle" parameterType="com.ccttic.entity.enterprise.EnterVehicle">
 
-		insert into enterprise_vehicle (id,vehiId,enterId,setTime)
+		insert into
+		enterprise_vehicle (id,vehiId,enterId,setTime)
 		values(#{id},#{vehiId},#{enterId},#{setTime});
 
 	</insert>
+
+
+
+	<!-- 企业选择驾驶人 -->
+
+	<update id="updateDriverByid" parameterType="com.ccttic.entity.role.vo.EmpVo">
+		UPDATE driver SET
+		mgrEnterpriseId = #{empId} WHERE id = #{id}
+	</update>
+
+	<!-- 查询驾驶人以前的绑定企业 -->
+	<select id="getEnterDriversBy" resultType="com.ccttic.entity.role.Vehicle">
+
+		select
+		id,mgrEnterpriseId from driver where id = #{id}
+	</select>
+
+	<!-- 插入选择前的企业和车辆 -->
+	<insert id="setEnterpriseDriver" parameterType="com.ccttic.entity.enterprise.EnterVehicle">
+
+		insert into
+		enterprise_driver (id,driverId,enterId,setTime)
+		values(#{id},#{driverId},#{enterId},#{setTime});
+
+	</insert>
+
 
 </mapper>
