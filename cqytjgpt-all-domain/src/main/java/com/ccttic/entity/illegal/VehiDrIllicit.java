@@ -38,6 +38,12 @@ public class VehiDrIllicit extends BaseBean implements Serializable{
 	private String illicit;
 	// 违法行为描述
 	private String illicitDesc;
+	// 处罚种类
+	private String disposeType;
+	// 处理标记
+	private String disposeSign;
+	// 违法序号
+	private String serialNumber ;
 	// 采集机关
 	private String pickDepartment;
 	// 采集机关名称
@@ -63,12 +69,12 @@ public class VehiDrIllicit extends BaseBean implements Serializable{
 	public VehiDrIllicit() {
 		super();
 	}
-
-	public VehiDrIllicit(String decisionNumber, String vehiNo, String vehiNoType, String nature, String ownership, String owner, String adress,
-			String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime, String illicitScore,
-			String illicitAmount, String illicitAdress, String illicit, String illicitDesc, String pickDepartment,
-			String pickDepartmentDesc, String vehiState, String drState, String name, String idcard, String permitCar,
-			String vehiIllicitState, String drIllicitState, String remark,String tableName) {
+	public VehiDrIllicit(String decisionNumber, String vehiNo, String vehiNoType, String nature, String ownership,
+			String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime,
+			String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc,
+			String disposeType, String disposeSign, String pickDepartment, String pickDepartmentDesc, String vehiState,
+			String drState, String name, String idcard, String permitCar, String vehiIllicitState,
+			String drIllicitState, String remark, String tableName,String serialNumber) {
 		super();
 		this.decisionNumber = decisionNumber;
 		this.vehiNo = vehiNo;
@@ -86,6 +92,8 @@ public class VehiDrIllicit extends BaseBean implements Serializable{
 		this.illicitAdress = illicitAdress;
 		this.illicit = illicit;
 		this.illicitDesc = illicitDesc;
+		this.disposeType = disposeType;
+		this.disposeSign = disposeSign;
 		this.pickDepartment = pickDepartment;
 		this.pickDepartmentDesc = pickDepartmentDesc;
 		this.vehiState = vehiState;
@@ -97,8 +105,21 @@ public class VehiDrIllicit extends BaseBean implements Serializable{
 		this.drIllicitState = drIllicitState;
 		this.remark = remark;
 		this.tableName = tableName;
+		this.serialNumber = serialNumber;
 	}
 
+	public String getDisposeType() {
+		return disposeType;
+	}
+	public void setDisposeType(String disposeType) {
+		this.disposeType = disposeType;
+	}
+	public String getDisposeSign() {
+		return disposeSign;
+	}
+	public void setDisposeSign(String disposeSign) {
+		this.disposeSign = disposeSign;
+	}
 	public String getDecisionNumber() {
 		return decisionNumber;
 	}
@@ -313,6 +334,12 @@ public class VehiDrIllicit extends BaseBean implements Serializable{
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
+	}
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 	
 }

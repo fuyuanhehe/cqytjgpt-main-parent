@@ -122,6 +122,7 @@ public class VehiIllicitContrller implements Serializable{
 		ResponseMsg<VehiIllicit> resp = new ResponseMsg<VehiIllicit>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", ve.getId());
+		params.put("tableNmae", "vehi_dr_illicit"+ve.getIllicitTime().substring(0, 4));
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
 			resp.setData(vehiIllicit);

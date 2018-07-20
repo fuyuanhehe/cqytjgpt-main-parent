@@ -35,6 +35,9 @@ public class TestController implements Serializable {
 					VehiDrIllicit veDr = new VehiDrIllicit();
 					veDr.setId(uuid);
 					// 违法记分IllicitScore
+					if (null != net.getCLBJ()) { 
+						veDr.setDisposeSign(net.getCLBJ());
+					}
 					if (null != net.getJDSBH()) {
 						veDr.setDecisionNumber(net.getJDSBH());
 					}
@@ -49,6 +52,9 @@ public class TestController implements Serializable {
 					}
 					if (null != net.getWFXW()) {
 						veDr.setIllicit(net.getWFXW());
+					}
+					if (null != net.getXH()) {
+						veDr.setSerialNumber(net.getXH());
 					}
 //					veDr.setIllicitDesc("");// TODO 违法行为描述
 					if (null != net.getCJJG()) {
@@ -69,7 +75,7 @@ public class TestController implements Serializable {
 						veDr.setDrIllicitState("1");
 						veDr.setVehiState("002");
 					} else if (net.getCLBJ().equals("1") && (net.getJKBJ().equals("1")||net.getJKBJ().equals("9"))) {
-						veDr.setVehiIllicitState("0");
+						veDr.setVehiIllicitState("1");
 						veDr.setDrIllicitState("1");
 						veDr.setVehiState("003");
 					}
@@ -183,6 +189,9 @@ public class TestController implements Serializable {
 					}
 					if (null != net.getFXJGMC()) {
 						veDr.setPickDepartmentDesc(net.getFXJGMC());
+					}
+					if (null != net.getCFZL()) {
+						veDr.setDisposeType(net.getCFZL());
 					}
 					veDr.setIllicitTime(net.getWFSJ());
 					if (null != net.getWFJFS()) {
@@ -338,6 +347,4 @@ public class TestController implements Serializable {
 		
 	}
 
-	
-	
 }
