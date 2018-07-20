@@ -77,20 +77,20 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 			demol.setRoleNm(man.getRoleNm());
 			demol.setDescription(man.getDescription());
 			demol.setEmpName(man.getEmpNms());
-			 if(man.getRoleId() != null ){
-			List<Model_MenuVo> data = Mapper.seMenuByRoleIds(man.getRoleId());
-			for (Model_MenuVo mm : data) {
-				if(mm.getLabel()!=null){
-				MenuVo mun = new MenuVo();
-				mun.setTitle(mm.getLabel());
-				mun.setUrl(mm.getPath());
-				mun.setType(mm.getIsmenu());
-				mun.setCen(mm.getHierarchy());
-				mun.setId(mm.getResource());
-				mun.setpId(mm.getGroupresource());
-				mun.setMenuId(mm.getId());
-				mList.add(mun);
-			}     }}
+			if(man.getRoleId() != null ){
+				List<Model_MenuVo> data = Mapper.seMenuByRoleIds(man.getRoleId());
+				for (Model_MenuVo mm : data) {
+					if(mm.getLabel()!=null){
+						MenuVo mun = new MenuVo();
+						mun.setTitle(mm.getLabel());
+						mun.setUrl(mm.getPath());
+						mun.setType(mm.getIsmenu());
+						mun.setCen(mm.getHierarchy());
+						mun.setId(mm.getResource());
+						mun.setpId(mm.getGroupresource());
+						mun.setMenuId(mm.getId());
+						mList.add(mun);
+					}     }}
 			MenuTreeUtil menuTree = new MenuTreeUtil(); 
 			List<Object> menuList = menuTree.menuList(removeDuplicate(mList));
 			demol.setMenus(menuList);
@@ -145,48 +145,60 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 	@Override
 	public EmployeeVo  seRoleMenuById(String emp_id) {
 
-		List<RoleModels> list = new ArrayList<>();
 		//多个角色ID
 		List<Role_Emp> role_Emp = roleMapper.seRoleByEmpId(emp_id);
-		String arrs [] = new String[role_Emp.size()];
-		//多个角色id
-		for (int i = 0; i < role_Emp.size(); i++) {
-			Role_Emp ss = role_Emp.get(i);
-			arrs[i] = ss.getRole_id();
-		} 
-		// 通过角色ID获取菜单
-		List<Model_MenuVo> menu = Mapper.seMenuByRoleId(arrs)  ;
-		//菜单
-		List<MenuVo> mList = new ArrayList<>();
+		if(role_Emp!=null){
 
-		for (Model_MenuVo mm : menu) {
-			RoleModels models = new RoleModels();
-			models.setRoleId(mm.getRoleId());
-			models.setRoleCd(mm.getRoleCd());
-			models.setRoleNm(mm.getRoleNm());
-			models.setDescription(mm.getDescription());
-			list.add(models);
+			String arrs [] = new String[role_Emp.size()];
+			//多个角色id
+			for (int i = 0; i < role_Emp.size(); i++) {
+				Role_Emp ss = role_Emp.get(i);
+				arrs[i] = ss.getRole_id();
+			} 
+			// 通过角色ID获取菜单
+			List<Model_MenuVo> menu = Mapper.seMenuByRoleId(arrs)  ;
+			
+			if(menu != null ){
+				//菜单
+				List<MenuVo> mList = new ArrayList<>();
+				List<RoleModels> list = new ArrayList<>();
 
+				for (Model_MenuVo mm : menu) {
+					RoleModels models = new RoleModels();
+					models.setRoleId(mm.getRoleId());
+					models.setRoleCd(mm.getRoleCd());
+					models.setRoleNm(mm.getRoleNm());
+					models.setDescription(mm.getDescription());
+					list.add(models);
+
+				}
+				for (Model_MenuVo mm : menu) {
+					MenuVo mun = new MenuVo();
+					mun.setTitle(mm.getLabel());
+					mun.setUrl(mm.getPath());
+					mun.setType(mm.getIsmenu());
+					mun.setCen(mm.getHierarchy());
+					mun.setId(mm.getResource());
+					mun.setpId(mm.getGroupresource());
+					mun.setMenuId(mm.getId());
+					mList.add(mun);
+				}
+				EmployeeVo emp = new EmployeeVo();
+				MenuTreeUtil menuTree = new MenuTreeUtil(); 
+				if(mList!=null){
+					List<Object> menuList = menuTree.menuList(removeDuplicate(mList));
+
+					emp.setMenus(menuList);
+				}
+				if(list!=null){
+					emp.setModels(removeDuplicates(list)); 
+				}
+				return  emp;
+			}
+			
 		}
-		for (Model_MenuVo mm : menu) {
-			MenuVo mun = new MenuVo();
-			mun.setTitle(mm.getLabel());
-			mun.setUrl(mm.getPath());
-			mun.setType(mm.getIsmenu());
-			mun.setCen(mm.getHierarchy());
-			mun.setId(mm.getResource());
-			mun.setpId(mm.getGroupresource());
-			mun.setMenuId(mm.getId());
-			mList.add(mun);
-		}
 
-		MenuTreeUtil menuTree = new MenuTreeUtil(); 
-		List<Object> menuList = menuTree.menuList(removeDuplicate(mList));
-		EmployeeVo emp = new EmployeeVo();
-		emp.setModels(removeDuplicates(list)); 
-		emp.setMenus(menuList);
-
-		return  emp;
+		return  null;
 
 	}
 
@@ -215,6 +227,6 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		// TODO Auto-generated method stub
 		return Mapper.getRoleNm();
 	}
-	
+
 
 }
