@@ -247,7 +247,7 @@
 			
 	</select>
 	
-	<!-- 根据id获取指定车辆的违法信息 -->
+			<!-- 根据id获取指定车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
 		SELECT cit.id,ess.etpNm,cit.vehiNo,CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
 			 cit.illicitTime,cit.illicit,cit.illicitAdress,cit.serialNumber,tablei.illegal_name AS illicitDesc,CASE cit.disposeSign WHEN '0' THEN '未处理'
@@ -257,10 +257,10 @@
 			 CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
 		FROM 
 		(
-			SELECT * FROM #{tableNmae1} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
-			SELECT * FROM #{tableNmae2} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
-			SELECT * FROM #{tableNmae3} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
-			SELECT * FROM #{tableNmae4} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
+			SELECT * FROM ${tableNmae1} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
+			SELECT * FROM ${tableNmae2} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
+			SELECT * FROM ${tableNmae3} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
+			SELECT * FROM ${tableNmae4} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
 		) cit
 		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
 		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
@@ -275,10 +275,10 @@
 		SELECT COUNT(1)
 		FROM 
 		(
-			SELECT * FROM #{tableNmae1} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
-			SELECT * FROM #{tableNmae2} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
-			SELECT * FROM #{tableNmae3} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
-			SELECT * FROM #{tableNmae4} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
+			SELECT * FROM ${tableNmae1} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
+			SELECT * FROM ${tableNmae2} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
+			SELECT * FROM ${tableNmae3} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate} union
+			SELECT * FROM ${tableNmae4} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
 			
 		) cit
 		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
