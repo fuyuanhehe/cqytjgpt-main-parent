@@ -391,8 +391,8 @@ public class EnterpriseController implements Serializable {
 						resp.fail("您的账号没有关联企业，设置失败");
 						return resp;
 					}
-					
-					
+
+
 				}
 			}
 			enterpriseService.updateDriverById(tment);
@@ -406,5 +406,47 @@ public class EnterpriseController implements Serializable {
 
 		return resp;
 	}
+
+
+	// id
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/removeVehicle",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<String>removeVehicle(@RequestBody EmpVo tmen){
+		ResponseMsg<String> resp = new ResponseMsg<String>();
+
+		try{
+			enterpriseService.relieveVehicleEnter(tmen);
+			resp.setMessage("移除车辆成功!");
+			resp.setStatus(0);
+		} catch (Exception e) {
+			resp.setMessage("移除车辆失败");
+			resp.setStatus(-1);
+			logger.error("移除车辆失败",e);
+		}
+
+		return resp;
+	}
+
+
+	// id
+	@OperLogging(operType = 0)
+	@RequestMapping(value="/removeDriver",method={RequestMethod.POST,RequestMethod.GET})
+	public ResponseMsg<String>removeDriver(@RequestBody EmpVo tmen){
+		ResponseMsg<String> resp = new ResponseMsg<String>();
+
+		try{
+			enterpriseService.relieveDricerEnter(tmen);
+			resp.setMessage("移除驾驶人成功!");
+			resp.setStatus(0);
+		} catch (Exception e) {
+			resp.setMessage("移除驾驶人失败");
+			resp.setStatus(-1);
+			logger.error("移除驾驶人失败",e);
+		}
+
+		return resp;
+	}
+
+
 
 }

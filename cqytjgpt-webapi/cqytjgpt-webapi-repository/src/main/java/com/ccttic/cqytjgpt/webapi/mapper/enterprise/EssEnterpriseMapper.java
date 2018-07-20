@@ -116,5 +116,11 @@ public interface EssEnterpriseMapper {
 	// 插入选择前的企业和驾驶人
 	public int setEnterpriseDriver(EnterVehicle en);
 
-
+	//<!-- 企业解绑车辆 -->
+	public int relieveVehicleEnter(EmpVo empVo);
+	
+	// <!-- 企业解绑驾驶人 -->
+	
+	public int relieveDricerEnter(EmpVo empVo);
+	
 }

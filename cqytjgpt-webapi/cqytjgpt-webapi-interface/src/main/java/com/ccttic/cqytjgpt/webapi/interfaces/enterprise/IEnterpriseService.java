@@ -73,4 +73,13 @@ public interface IEnterpriseService {
 	// 企业选择驾驶人
 
 	public void updateDriverById(EmpVo empVo);	
+
+
+	//<!-- 企业解绑车辆 -->
+	public void relieveVehicleEnter(EmpVo empVo);
+
+	// <!-- 企业解绑驾驶人 -->
+
+	public void relieveDricerEnter(EmpVo empVo);
+
 }
