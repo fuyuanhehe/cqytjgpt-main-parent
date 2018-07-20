@@ -186,12 +186,12 @@ public class RoleMenuController {
 		try { 
 			EmployeeVo data = MenService.seRoleMenuById(emp_id);
 			resp.setData(data);
-			resp.setMessage("员工查询成功！");
+			resp.setMessage("角色菜单查询成功！");
 			resp.setStatus(0);	
 		} catch (Exception e) {
-			resp.setMessage("员工查询失败！");
+			resp.setMessage("角色菜单查询失败！");
 			resp.setStatus(0);
-			logger.error("员工查询失败！",e);
+			logger.error("角色菜单查询失败！",e);
 		}
 
 		return resp;

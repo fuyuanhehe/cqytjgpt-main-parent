@@ -208,12 +208,10 @@ public class EnterpriseController implements Serializable {
 				for (EssEnterprise essEnterprise : ent) {
 					list.add(essEnterprise.getId());
 				}
-				tment.setList(list);
+			}
+			tment.setList(list);
+			tment.setEmpType(empType);
 
-			}
-			if(empType!=null){
-				tment.setEmpType(empType);
-			}
 
 			Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment);
 			resp.setData(data.getRecords());

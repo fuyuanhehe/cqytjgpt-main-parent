@@ -88,9 +88,11 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
+			 if(ent != null){
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
 			}
+			 }
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverVo> data = service.seDriverPage(page, tment);
@@ -168,9 +170,10 @@ public class DriversController implements Serializable{
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
+			 if(ent != null){
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
-			}
+			}}
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
@@ -222,9 +225,10 @@ public class DriversController implements Serializable{
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
+			 if(ent != null){
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
-			}
+			}}
 			tment.setQid(list);
 			tment.setEmpType(empType);
 
@@ -300,9 +304,11 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
+			 if(ent != null){
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
-			}
+			} 
+			 }
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
@@ -376,11 +382,10 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
+			 if(ent != null){
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
-			}
-
-		//	list.add(vo.getEnt().getId());
+			} }
 
 			tment.setQid(list);
 			tment.setEmpType(empType);
@@ -432,9 +437,10 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
+			 if(ent != null){
 			for (EssEnterprise essEnterprise : ent) {
 				list.add(essEnterprise.getId());
-			}
+			} }
 			
 			tment.setList(list);
 			tment.setEmpType(empType);
