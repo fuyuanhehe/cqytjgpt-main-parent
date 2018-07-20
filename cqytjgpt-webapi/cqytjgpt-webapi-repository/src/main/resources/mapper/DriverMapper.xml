@@ -91,7 +91,8 @@
 		d.scoreTotal,
 		d.examineEffectEndTime,
 		d.effectStartTime,
-		d.effectEndTime
+		d.effectEndTime,
+		d.state1
 		FROM
 		ess_area a
 		LEFT JOIN driver d ON a.id =

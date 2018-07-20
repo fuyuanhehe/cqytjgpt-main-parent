@@ -55,8 +55,21 @@ public class Driver extends BaseBean{
     /** 状态*/
     private String state;
 
+    // 驾照状态
+    private String state1;
   
-    public String getId() {
+    
+    
+    
+    public String getState1() {
+		return state1;
+	}
+
+	public void setState1(String state1) {
+		this.state1 = state1;
+	}
+
+	public String getId() {
         return id;
     }
 

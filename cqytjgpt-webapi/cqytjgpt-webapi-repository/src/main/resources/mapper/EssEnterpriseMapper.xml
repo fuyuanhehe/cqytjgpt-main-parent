@@ -791,9 +791,12 @@
 		WHEN 'C'
 		THEN
 		'被强盗'
-		WHEN 'C'
+		WHEN 'B'
 		THEN
 		'转出'
+		WHEN 'M'
+		THEN
+		'达到报废标准'
 		ELSE
 		'不正常'
 		END AS state,
@@ -896,7 +899,8 @@
 		d.effectStartTime,
 		d.effectEndTime,
 		e.etpNm,
-		a.areaNm
+		a.areaNm,
+		d.state1
 		FROM
 		driver d
 		LEFT JOIN ess_enterprise e ON d.mgrEnterpriseId =
