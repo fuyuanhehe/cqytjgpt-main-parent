@@ -64,10 +64,10 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		long totolRols = 0;
 		List<VehiIllicit> listAll = new ArrayList<VehiIllicit>();
 		for (int i = 0; i < tableList.size(); i++) {
-			params.put("tableNmae", i);
+			params.put("tableNmae", tableList.get(i));
+			long totolRol = mapper.qryVehiIllicitListCount(params);
+			totolRols+=totolRol;
 			List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
-			totolRols = mapper.qryVehiIllicitListCount(params);
-			totolRols+=totolRols;
 			listAll.addAll(records);
 		}
 			

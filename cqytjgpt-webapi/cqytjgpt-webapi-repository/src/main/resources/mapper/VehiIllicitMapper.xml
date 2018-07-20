@@ -590,7 +590,7 @@
  	<!-- 根据企业编码获取车辆违法信息条数 -->
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from ${tableNmae} cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
-						WHERE (a.isDeleted is null or a.isDeleted !=1) left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
+						WHERE (cit.isDeleted is null or cit.isDeleted !=1) and left(cit.illicitTime,10) &gt;= #{startDate} and left(cit.illicitTime,10) &lt;= #{endDate}
 				<if test="list != null and list.size()>0">
 							 and ve.mgrEnterpriseId in
 				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
@@ -638,7 +638,7 @@
       LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
       LEFT JOIN  ess_area AREA ON  area.id = a.mgrDepartAreaId
       LEFT JOIN  illegal_comparison_table ict ON  ict.code = a.illicit
-      WHERE (a.isDeleted is null or a.isDeleted !=1) left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
+      WHERE (a.isDeleted is null or a.isDeleted !=1) and left(a.illicitTime,10) &gt;= #{startDate} and left(a.illicitTime,10) &lt;= #{endDate}
 		<if test="list != null and list.size()>0">
 			and ess.id in 
 			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
