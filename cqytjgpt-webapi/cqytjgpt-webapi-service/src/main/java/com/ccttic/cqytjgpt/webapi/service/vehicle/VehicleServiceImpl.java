@@ -185,4 +185,9 @@ public class VehicleServiceImpl implements IVehicleService {
 		return mapper.getVehicleByEnterprises(enterprise);
 	}
 
+	@Override
+	public List<Vehicle> getVehicleMsg() {
+		return mapper.getVehicleMsg();
+	}
+
 }

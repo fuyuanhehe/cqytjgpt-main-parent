@@ -90,15 +90,15 @@ public class CarTaskController {
 			carBatch.updateCarDanger(updateDanger);
 	}
 
-	/*@RequestMapping("/addCarDanger")
+	@RequestMapping("/addCarDanger")
 	public void addCarDanger() {
 		
 		Map<String, Object> result = null;
 		List<VehiDanger> insert = new ArrayList<>();
 		List<VehiDanger> update = new ArrayList<>();
-		List<VehicleIllegal> vehicles = vehicleService.getAllVehicle();
+		List<Vehicle> vehicles = vehicleService.getVehicleMsg();
 		int i = 0;
-		for (VehicleIllegal vehicle : vehicles) {
+		for (Vehicle vehicle : vehicles) {
 			i++;
 			logger.info("第"+i+"条");
 			try {
@@ -118,7 +118,7 @@ public class CarTaskController {
 		carBatch.addCarDanger(insert);
 		if(update.size()>0)
 		carBatch.updateCarDanger(update);
-	}*/
+	}
 	
 	/*@RequestMapping("/updateCar")
 	public void updateCar() {

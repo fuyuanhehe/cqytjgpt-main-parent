@@ -16,8 +16,6 @@
 			property="illicitstate" />
 		<result column="overdueExamineState" jdbcType="INTEGER"
 			property="overdueexaminestate" />
-		<result column="failureState" jdbcType="INTEGER"
-			property="failurestate" />
 		<result column="dangerType" jdbcType="VARCHAR"
 			property="dangertype" />
 		<result column="ownerGener" jdbcType="VARCHAR"
@@ -120,7 +118,7 @@
 	<sql id="Base_Column_List">
 		id, vehiNo, vehiType, ownerEnterprise, scrappedState, illicitState,
 		overdueExamineState,
-		failureState, dangerType, ownerGener, ownerOrgId, vehicle_id, dangerTime,
+	  	dangerType, ownerGener, ownerOrgId, vehicle_id, dangerTime,
 		correctTime,
 		correctState, dangerDesc, remark, version, isDeleted, createTime, updateTime,
 		deleteTime,
@@ -164,7 +162,7 @@
 		parameterType="com.ccttic.entity.danger.VehiDanger">
 		insert into vehi_danger (id, vehiNo, vehiType,
 		ownerEnterprise, scrappedState, illicitState,
-		overdueExamineState, failureState, dangerType,
+		overdueExamineState, dangerType,
 		ownerGener, ownerOrgId, vehicle_id,
 		dangerTime, correctTime, correctState,
 		dangerDesc, remark, version,
@@ -175,7 +173,7 @@
 		#{vehitype,jdbcType=VARCHAR},
 		#{ownerenterprise,jdbcType=VARCHAR}, #{scrappedstate,jdbcType=INTEGER}, #{illicitstate,jdbcType=INTEGER},
 		#{overdueexaminestate,jdbcType=INTEGER},
-		#{failurestate,jdbcType=INTEGER}, #{dangertype,jdbcType=VARCHAR},
+	    #{dangertype,jdbcType=VARCHAR},
 		#{ownergener,jdbcType=VARCHAR}, #{ownerorgid,jdbcType=VARCHAR},
 		#{vehicleId,jdbcType=VARCHAR},
 		#{dangertime,jdbcType=VARCHAR}, #{correcttime,jdbcType=VARCHAR}, #{correctstate,jdbcType=VARCHAR},
@@ -210,9 +208,6 @@
 			</if>
 			<if test="overdueexaminestate != null">
 				overdueExamineState,
-			</if>
-			<if test="failurestate != null">
-				failureState,
 			</if>
 			<if test="dangertype != null">
 				dangerType,
@@ -290,9 +285,6 @@
 			</if>
 			<if test="overdueexaminestate != null">
 				#{overdueexaminestate,jdbcType=INTEGER},
-			</if>
-			<if test="failurestate != null">
-				#{failurestate,jdbcType=INTEGER},
 			</if>
 			<if test="dangertype != null">
 				#{dangertype,jdbcType=VARCHAR},
@@ -382,9 +374,6 @@
 			<if test="record.overdueexaminestate != null">
 				overdueExamineState = #{record.overdueexaminestate,jdbcType=INTEGER},
 			</if>
-			<if test="record.failurestate != null">
-				failureState = #{record.failurestate,jdbcType=INTEGER},
-			</if>
 			<if test="record.dangertype != null">
 				dangerType = #{record.dangertype,jdbcType=VARCHAR},
 			</if>
@@ -453,7 +442,6 @@
 		scrappedState = #{record.scrappedstate,jdbcType=INTEGER},
 		illicitState = #{record.illicitstate,jdbcType=INTEGER},
 		overdueExamineState = #{record.overdueexaminestate,jdbcType=INTEGER},
-		failureState = #{record.failurestate,jdbcType=INTEGER},
 		dangerType = #{record.dangertype,jdbcType=VARCHAR},
 		ownerGener = #{record.ownergener,jdbcType=VARCHAR},
 		ownerOrgId = #{record.ownerorgid,jdbcType=VARCHAR},
@@ -497,9 +485,6 @@
 			</if>
 			<if test="overdueexaminestate != null">
 				overdueExamineState = #{overdueexaminestate,jdbcType=INTEGER},
-			</if>
-			<if test="failurestate != null">
-				failureState = #{failurestate,jdbcType=INTEGER},
 			</if>
 			<if test="dangertype != null">
 				dangerType = #{dangertype,jdbcType=VARCHAR},
@@ -567,7 +552,6 @@
 		scrappedState = #{scrappedstate,jdbcType=INTEGER},
 		illicitState = #{illicitstate,jdbcType=INTEGER},
 		overdueExamineState = #{overdueexaminestate,jdbcType=INTEGER},
-		failureState = #{failurestate,jdbcType=INTEGER},
 		dangerType = #{dangertype,jdbcType=VARCHAR},
 		ownerGener = #{ownergener,jdbcType=VARCHAR},
 		ownerOrgId = #{ownerorgid,jdbcType=VARCHAR},
@@ -591,7 +575,7 @@
 	<insert id="insertBatch" parameterType="java.util.List">
 		insert into vehi_danger (id, vehiNo, vehiType,
 		ownerEnterprise, scrappedState, illicitState,
-		overdueExamineState, failureState, dangerType,
+		overdueExamineState, dangerType,
 		ownerGener, ownerOrgId, vehicle_id,
 		dangerTime, correctTime, correctState,
 		dangerDesc, remark, version,
@@ -606,7 +590,6 @@
 			#{item.scrappedstate,jdbcType=INTEGER},
 			#{item.illicitstate,jdbcType=INTEGER},
 			#{item.overdueexaminestate,jdbcType=INTEGER},
-			#{item.failurestate,jdbcType=INTEGER},
 			#{item.dangertype,jdbcType=VARCHAR},
 			#{item.ownergener,jdbcType=VARCHAR},
 			#{item.ownerorgid,jdbcType=VARCHAR},
@@ -674,14 +657,6 @@
 					<if test="item.overdueexaminestate != null">
 						when id = #{item.id,jdbcType=VARCHAR} then
 						#{item.overdueexaminestate,jdbcType=INTEGER}
-					</if>
-				</foreach>
-			</trim>
-			<trim prefix="failureState = case" suffix="end,">
-				<foreach collection="list" item="item" index="index">
-					<if test="item.failurestate != null">
-						when id = #{item.id,jdbcType=VARCHAR} then
-						#{item.failurestate,jdbcType=INTEGER}
 					</if>
 				</foreach>
 			</trim>
@@ -788,9 +763,6 @@
 			<if test="illicitState ==true ">
 				and danger.illicitState = 1
 			</if>
-			<if test="failureState ==true ">
-				and danger.failureState = 1
-			</if>
 			<if test="overdueExamineState ==true ">
 				and danger.overdueExamineState = 1
 			</if>
@@ -828,9 +800,6 @@
 			</if>
 			<if test="illicitState ==true ">
 				and danger.illicitState = 1
-			</if>
-			<if test="failureState ==true ">
-				and danger.failureState = 1
 			</if>
 			<if test="overdueExamineState ==true ">
 				and danger.overdueExamineState = 1

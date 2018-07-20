@@ -1,7 +1,12 @@
 package com.ccttic.util.web;
 
+import com.ccttic.util.common.Const;
+
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.*;
+
+import static org.apache.commons.lang3.time.DateUtils.parseDate;
 
 public class CCtticWebUtils {
     // URL 正则表达式 & 符号匹配
@@ -108,4 +113,52 @@ public class CCtticWebUtils {
         }
         return map;
     }
+    public static Map<String,Object> getDateSpace(Date date1, Date date2,String user)
+            throws ParseException {
+        Map<String,Object> map = new HashMap<>();
+
+        Calendar calst = Calendar.getInstance();;
+        Calendar caled = Calendar.getInstance();
+
+        calst.setTime(date1);
+        caled.setTime(date2);
+
+        //设置时间为0时
+        calst.set(Calendar.HOUR_OF_DAY, 0);
+        calst.set(Calendar.MINUTE, 0);
+        calst.set(Calendar.SECOND, 0);
+        caled.set(Calendar.HOUR_OF_DAY, 0);
+        caled.set(Calendar.MINUTE, 0);
+        caled.set(Calendar.SECOND, 0);
+        //得到两个日期相差的天数
+        int days = ((int)(caled.getTime().getTime()/1000)-(int)(calst.getTime().getTime()/1000))/3600/24;
+        map.put("days",days);
+        if (0<days && days<=30 && "driver".equals(user)){
+            map.put("type",Const.THREE);
+            return map;
+        }
+        if (0>=days && days>= -60 && "driver".equals(user)){
+            map.put("type",Const.TWO);
+            return map;
+        }
+        if ( days<-60 && "driver".equals(user)){
+            map.put("type",Const.ONE);
+            return map;
+        }
+        if (30<days && days<=60 && "car".equals(user)){
+            map.put("type",Const.THREE);
+            return map;
+        }
+        if (30>=days && days> -30 && "car".equals(user)){
+            map.put("type",Const.TWO);
+            return map;
+        }
+        if ( days<= -30 && "car".equals(user)){
+            map.put("type",Const.ONE);
+            return map;
+        }
+        map.put("type",Const.ZERO);
+        return map;
+    }
+
 }

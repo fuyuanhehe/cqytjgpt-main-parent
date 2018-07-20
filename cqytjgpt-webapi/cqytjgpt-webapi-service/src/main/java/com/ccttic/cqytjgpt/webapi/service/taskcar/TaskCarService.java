@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.util.common.RandomHelper;
+import com.ccttic.util.web.CCtticWebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -117,61 +119,47 @@ public class TaskCarService implements ITaskCarService {
 	public Map<String, Object> getCarDanger(Vehicle vehicle) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		VehiDanger vr = new VehiDanger();
-		Map<Object, Object> mapillegal = illegalProcessService.getIIllegalProcess("04", "04Q22",
-				"<hphm>渝" + vehicle.getVehiNo() + "</hphm><hpzl>" + vehicle.getVehiNoType() + "</hpzl>");
-		@SuppressWarnings("unchecked")
-		List<XMLIllegalProcess> listdoing = (List<XMLIllegalProcess>) mapillegal.get("illegalprocess");
-
-		VehiIllicitExample example = new VehiIllicitExample();
-		example.createCriteria().andVehinoEqualTo(vehicle.getVehiNo()).andVehinotypeEqualTo(vehicle.getVehiNoType())
-				.andIsdeletedEqualTo(false);
-
-		List<VehiIllicit> listwait = vehiIllicitMapper.selectByExample(example);
-
-		if (listwait.size() == 0 && listdoing.size() == 0) {
-			vr.setCorrectstate(DangerEnums.NORMAL.getValue());
-		} else if (listdoing.size() > 0 && listdoing.size() != 0) {
-			vr.setCorrectstate(DangerEnums.EXECUTING.getValue());
-		} else if (listwait.size() > 0 && listdoing.size() == 0) {
-			vr.setCorrectstate(DangerEnums.UNEXECUTED.getValue());
+		int scrappedDays,overdueexamineDays,illegalDays ;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd");
+		if(null !=vehicle.getEffectEndTime()) {
+			Date effectendtime = simpleDateFormat.parse(vehicle.getEffectEndTime());
+			map = CCtticWebUtils.getDateSpace(new Date(),effectendtime,"car");
+			vr.setScrappedstate((Integer)map.get("type"));
+			scrappedDays =(Integer)map.get("days");
+		}else {
+			vr.setScrappedstate(null);
+		}
+		if(null !=vehicle.getExamineEffectEndTime()){
+			Date examineeffectendtime = simpleDateFormat.parse(vehicle.getExamineEffectEndTime());
+			map = CCtticWebUtils.getDateSpace(new Date(),examineeffectendtime,"car");
+			vr.setOverdueexaminestate((Integer)map.get("type"));
+			overdueexamineDays = (Integer)map.get("days");
+		}else{
+			vr.setOverdueexaminestate(null);
 		}
 
-		vr.setId(vehicle.getId());
+
+//		if (listwait.size() == 0 && listdoing.size() == 0) {
+//			vr.setCorrectstate(DangerEnums.NORMAL.getValue());
+//		} else if (listdoing.size() > 0 && listdoing.size() != 0) {
+//			vr.setCorrectstate(DangerEnums.EXECUTING.getValue());
+//		} else if (listwait.size() > 0 && listdoing.size() == 0) {
+//			vr.setCorrectstate(DangerEnums.UNEXECUTED.getValue());
+//		}
+
+		vr.setId(RandomHelper.uuid());
 		vr.setVehino(vehicle.getVehiNo());
 		vr.setVehitype(vehicle.getVehiNoType());
 		SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		vr.setDangertime(sdf.format(new Date()));
 		vr.setVehicleId(vehicle.getId());
 		String enterpriseid = vehicle.getMgrEnterpriseId();
-		if (enterpriseid == null || enterpriseid == "") {
-			map.put("insert", null);
-			map.put("update", null);
-			return map;
-		}
+
 		Organization org = organizationMapper.findOrgByEptId(enterpriseid);
-		EssEnterprise etp = essEnterpriseMapper.selectByPrimaryKey(enterpriseid);
 		vr.setOwnergener(org.getOrgNm());
 		vr.setOwnerorgid(org.getOrgCd());
-		vr.setOwnerenterprise(etp == null ? null : etp.getEtpnm());
+		vr.setOwnerenterprise(enterpriseid == null ? null : enterpriseid);
 		String[] strs = vehicle.getState().split(",");
-		for (String string : strs) {
-			vr.setScrappedstate("M".equals(string) ? 1 : 0);
-			vr.setIllicitstate("G".equals(string) ? 1 : 0);
-			vr.setOverdueexaminestate("Q".equals(string) ? 1 : 0);
-			vr.setFailurestate("I".equals(string) ? 1 : 0);
-		}
-
-		if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate() + vr.getFailurestate() == 0) {
-			vr.setDangertype("0");
-		} else if (vr.getIllicitstate() == 1
-				&& vr.getScrappedstate() + vr.getOverdueexaminestate() + vr.getFailurestate() == 0) {
-			vr.setDangertype("3");
-		} else if (vr.getIllicitstate() + vr.getScrappedstate() + vr.getOverdueexaminestate() == 0
-				&& vr.getFailurestate() == 1) {
-			vr.setDangertype("2");
-		} else if (vr.getScrappedstate() == 1 || vr.getOverdueexaminestate() == 1) {
-			vr.setDangertype("1");
-		}
 
 		if (vehiDangerMapper.selectByPrimaryKey(vehicle.getId()) != null) {
 			map.put("update", vr);

@@ -61,4 +61,10 @@ public interface IVehicleService {
 	public Area getfenceIdByEssid(String id);
 
     List<VehicleIllegal> getVehicleByEnterprises(List<EssEnterprise> enterprises);
+	/**
+	 *@Author:zhy
+	 *@Description:获取预警车辆信息
+	 *@Date:15:02 2018/7/20
+	 */
+    List<Vehicle> getVehicleMsg();
 }

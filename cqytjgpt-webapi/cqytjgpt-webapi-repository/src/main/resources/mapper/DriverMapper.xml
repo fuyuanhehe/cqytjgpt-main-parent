@@ -540,8 +540,8 @@
 		<!--isDeleted is null)-->
 	<!--</select>-->
 
-    <select id="getAllDriverMsg" resultType="com.ccttic.entity.drivers.Driver">
-        SELECT driverName,driverIdcard,myrEnterpriseId,effectEndTime,examineEffectEndTime FROM driver
+	<select id="getAllDriverMsg" resultType="com.ccttic.entity.drivers.Driver">
+        SELECT id , name , idcard , mgrEnterpriseId , DATE_FORMAT(effectEndTime,'%Y-%m-%d') AS effectEndTime,DATE_FORMAT(examineEffectEndTime,'%Y-%m-%d') AS examineEffectEndTime FROM driver GROUP BY idcard ORDER BY effectEndTime
     </select>
 
 	<!-- 企业监管借口 -->

@@ -21,7 +21,7 @@ import com.ccttic.entity.illegal.DrIllicit;
 @RestController
 @RequestMapping("/driverService")
 class DriverTaskController {
-	private Logger logger = LoggerFactory.getLogger(CarTaskController.class);
+	private Logger logger = LoggerFactory.getLogger(DriverTaskController.class);
 	@Autowired
 	private DriversService driversService;
 	@Autowired

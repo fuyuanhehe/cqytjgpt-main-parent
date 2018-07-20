@@ -105,4 +105,10 @@ public interface VehicleMapper {
 	 *@Date:16:22 2018/7/6
 	 */
     List<VehicleIllegal> getVehicleByEnterprises(List<EssEnterprise> enterprise);
+    /**
+     *@Author:zhy
+     *@Description:获取预警车辆信息
+     *@Date:15:00 2018/7/20
+     */
+    List<Vehicle> getVehicleMsg();
 }
