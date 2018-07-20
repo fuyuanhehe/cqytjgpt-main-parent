@@ -10,6 +10,11 @@ import com.ccttic.util.page.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +29,25 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, List<String> list) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		calendar.setTime(new Date());
+		String endDate = formatter.format(calendar.getTime());// 当前时间
+		int year = calendar.get(Calendar.YEAR);
+		// 要查询数据为当前时间往后推36个月的数据，所以固定查询当前年份后面的4张表
+		String tableNmae1 = "vehi_dr_illicit"+year;
+		String tableNmae2 = "vehi_dr_illicit"+(year-1);
+		String tableNmae3 = "vehi_dr_illicit"+(year-2);
+		String tableNmae4 = "vehi_dr_illicit"+(year-3);
+		calendar.add(calendar.MONTH, -36); 
+		String startDate = formatter.format(calendar.getTime());// 后推36个月后的时间
+		List<String> tableList = new ArrayList<String>();
+		tableList.add(tableNmae1);
+		tableList.add(tableNmae2);
+		tableList.add(tableNmae3);
+		tableList.add(tableNmae4);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("list", list);
@@ -37,11 +61,18 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("startTime", vehiIllicit.getStartTime()); // 违法开始时间
 		params.put("endTime", vehiIllicit.getEndTime()); // 违法结束时间
 
-		long totolRols = mapper.qryVehiIllicitListCount(params);
-		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
-
+		long totolRols = 0;
+		List<VehiIllicit> listAll = new ArrayList<VehiIllicit>();
+		for (int i = 0; i < tableList.size(); i++) {
+			params.put("tableNmae", i);
+			List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
+			totolRols = mapper.qryVehiIllicitListCount(params);
+			totolRols+=totolRols;
+			listAll.addAll(records);
+		}
+			
 		pager.setTotalRows(totolRols);
-		pager.setRecords(records);
+		pager.setRecords(listAll);
 
 		return pager;
 	}

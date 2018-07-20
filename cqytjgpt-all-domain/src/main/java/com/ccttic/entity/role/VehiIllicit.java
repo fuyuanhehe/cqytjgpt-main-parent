@@ -18,6 +18,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	private String vehiNo;
 	// 号牌种类
 	private String vehiNoType;
+	// 号牌中文名
 	private String vehiNoTypeText;
 	// 使用性质
 	private String nature;
@@ -49,6 +50,8 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	private String pickDepartment;
 	// 采集机关名称
 	private String pickDepartmentDesc;
+	// 处理标记
+	private String disposeSign;
 	// 状态
 	private String state;
 	// 备注
@@ -69,7 +72,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 			String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime,
 			String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc,
 			String pickDepartment, String pickDepartmentDesc, String state, String remark, String etpNm,
-			String startTime, String endTime) {
+			String startTime, String endTime,String disposeSign) {
 		super();
 		this.areaNm = areaNm;
 		this.vehiNo = vehiNo;
@@ -95,6 +98,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.etpNm = etpNm;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.disposeSign = disposeSign;
 	}
 
 	public String getAreaNm() {
@@ -287,6 +291,14 @@ public class VehiIllicit extends BaseBean implements Serializable {
 
 	public void setVehiNoTypeText(String vehiNoTypeText) {
 		this.vehiNoTypeText = vehiNoTypeText;
+	}
+
+	public String getDisposeSign() {
+		return disposeSign;
+	}
+
+	public void setDisposeSign(String disposeSign) {
+		this.disposeSign = disposeSign;
 	}
 
 }

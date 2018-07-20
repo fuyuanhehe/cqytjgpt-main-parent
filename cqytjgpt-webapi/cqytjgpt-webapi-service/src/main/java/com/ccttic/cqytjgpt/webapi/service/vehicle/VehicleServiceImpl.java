@@ -1,5 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,9 +72,28 @@ public class VehicleServiceImpl implements IVehicleService {
 	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		calendar.setTime(new Date());
+		String endDate = formatter.format(calendar.getTime());// 当前时间
+		int year = calendar.get(Calendar.YEAR);
+		// 要查询数据为当前时间往后推36个月的数据，所以固定查询当前年份后面的4张表
+		String tableNmae1 = "vehi_dr_illicit"+year;
+		String tableNmae2 = "vehi_dr_illicit"+(year-1);
+		String tableNmae3 = "vehi_dr_illicit"+(year-2);
+		String tableNmae4 = "vehi_dr_illicit"+(year-3);
+		calendar.add(calendar.MONTH, -36); 
+		String startDate = formatter.format(calendar.getTime());// 后推36个月后的时间
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("id", vehiIllicit.getId());
+		params.put("tableNmae1", tableNmae1);
+		params.put("tableNmae2", tableNmae2);
+		params.put("tableNmae3", tableNmae3);
+		params.put("tableNmae4", tableNmae4);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		
 		long totolRols = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 
@@ -80,7 +102,23 @@ public class VehicleServiceImpl implements IVehicleService {
 
 		return pager;
 	}
-
+public static void main(String[] args) {
+	Calendar calendar = Calendar.getInstance();
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	calendar.setTime(new Date());
+	System.out.println(formatter.format(calendar.getTime()));
+	int year = calendar.get(Calendar.YEAR);
+	String tableNmae1 = "vehi_dr_illicit"+year;
+	String tableNmae2 = "vehi_dr_illicit"+(year-1);
+	String tableNmae3 = "vehi_dr_illicit"+(year-2);
+	String tableNmae4 = "vehi_dr_illicit"+(year-3);
+	calendar.add(calendar.MONTH, -36);  //设置为前3月
+	System.out.println(tableNmae1);
+	System.out.println(tableNmae2);
+	System.out.println(tableNmae3);
+	System.out.println(tableNmae4);
+	System.out.println(formatter.format(calendar.getTime()));
+}
 	@Override
 	public Map<String, Object> saveVehicle(VehicleList listMap, String entId) throws AppException {
 		Map<String, Object> map = new HashMap<String, Object>();
