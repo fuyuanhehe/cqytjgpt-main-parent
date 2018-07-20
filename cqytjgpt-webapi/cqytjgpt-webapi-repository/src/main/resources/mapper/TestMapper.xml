@@ -18,7 +18,7 @@
 			(#{id},#{decisionNumber},#{vehiNo},#{vehiNoType},#{nature},#{ownership},
 			#{owner},#{adress},#{mgrDepartAreaId},#{vehicleId},#{illicitTime},#{illicitScore},#{illicitAmount},
 			#{illicitAdress},#{illicit},#{pickDepartment},#{pickDepartmentDesc},#{vehiState},#{name},#{idcard},
-			#{vehiIllicitState},#{drIllicitState},#{disposeType},#{disposeSign}#{serialNumber})
+			#{vehiIllicitState},#{drIllicitState},#{disposeType},#{disposeSign},#{serialNumber})
   	</insert>
   	<!-- 分割线 -->
   	<select id="qryNetTrffViolationList" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.NetTrffViolation">
