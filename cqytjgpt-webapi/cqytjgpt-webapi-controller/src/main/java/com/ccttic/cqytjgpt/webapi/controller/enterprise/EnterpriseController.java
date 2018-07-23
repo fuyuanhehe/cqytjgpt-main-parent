@@ -53,8 +53,8 @@ public class EnterpriseController implements Serializable {
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
 
-	@RequestMapping(value = "/selectEnterprise", method = { RequestMethod.GET, RequestMethod.POST })
-	public  ResponseMsg<List<EssEnterprise>> getEssEnterprise(@RequestBody String orgId){
+	@RequestMapping(value = "/getEssEnterpriseList", method = { RequestMethod.GET, RequestMethod.POST })
+	public  ResponseMsg<List<EssEnterprise>> getEssEnterpriseList(@RequestBody String orgId){
 		ResponseMsg<List<EssEnterprise>> responseMsg = new ResponseMsg<>();
 		Map<String, String> map = JsonUtil.jsonToMap(orgId);
 		try {
