@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ccttic.entity.role.vo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,6 @@ import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
-import com.ccttic.entity.role.vo.InputVehiVo;
-import com.ccttic.entity.role.vo.PageVehiIllicitVo;
-import com.ccttic.entity.role.vo.PageVehicleVo;
-import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -249,8 +246,8 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.CAR_BASE_INFO, url = "/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Vehicle> qryOneVehicle(@RequestBody Vehicle ve) {
-		ResponseMsg<Vehicle> resp = new ResponseMsg<Vehicle>();
+	public ResponseMsg<VehicleVO> qryOneVehicle(@RequestBody Vehicle ve) {
+		ResponseMsg<VehicleVO> resp = new ResponseMsg<VehicleVO>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		// 去掉空格
 		String vehiNo = ve.getVehiNo().replace(" ", "");
@@ -264,7 +261,7 @@ public class VehicleContrller implements Serializable {
 
 		params.put("vehiNo", vehiNo);
 		try {
-			Vehicle vehicle = vehicleService.qryOneVehicle(params);
+			VehicleVO vehicle = vehicleService.qryOneVehicle(params);
 			resp.setData(vehicle);
 			resp.success("查询成功！");
 		} catch (AppException e) {

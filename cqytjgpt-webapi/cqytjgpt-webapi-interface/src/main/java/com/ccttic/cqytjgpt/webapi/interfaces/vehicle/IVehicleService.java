@@ -11,6 +11,7 @@ import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.entity.role.vo.VehicleList;
+import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
@@ -33,7 +34,7 @@ public interface IVehicleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Vehicle qryOneVehicle(Map<String, Object> params) throws AppException;
+	public VehicleVO qryOneVehicle(Map<String, Object> params) throws AppException;
 
 	/**
 	 * 根据条件获取车辆违法信息
