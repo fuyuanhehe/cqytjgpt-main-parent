@@ -128,22 +128,8 @@ public class DriversServiceImpl implements DriversService {
 		params.put("list", enterprisethenVo.getQid());
 		params.put("empType", enterprisethenVo.getEmpType());
 		params.put("etpCd", enterprisethenVo.getEtpcd());
-		List<EnterprisethenVo> list = new ArrayList<>();
-		List<EnterprisethenVo> data = mapper.queryEnterprisePage(params);
-
-		for (EnterprisethenVo enterprisethenVo2 : data) {
-			if(enterprisethenVo2.getState()!=null){
-				if(enterprisethenVo2.getState()==1 ){
-					enterprisethenVo2.setStartthe("审核通过");
-				}else if(enterprisethenVo2.getState()== -1 ){
-					enterprisethenVo2.setStartthe("审核未通过");
-				}else {
-					enterprisethenVo2.setStartthe("待审核");
-				}
-				list.add(enterprisethenVo2);
-		}
-		}
-		pager.setRecords(list);
+	
+		pager.setRecords(mapper.queryEnterprisePage(params));
 		pager.setTotalRows(mapper.queryEnterprisePageCount(params));
 
 		return pager;
