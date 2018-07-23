@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class DriversServiceImpl implements DriversService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("id", driver.getId());
+		params.put("idcard", driver.getIdcard());
 		params.put("list", driver.getQid());
 		params.put("empType", driver.getEmpType()); // 账号类型
 		pager.setRecords( mapper.seDrillicitByDriverId(params));
@@ -82,6 +83,11 @@ public class DriversServiceImpl implements DriversService {
 		params.put("laString", driver.getLaString());
 		params.put("list", driver.getQid());
 		params.put("empType", driver.getEmpType()); // 账号类型
+           
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);//获取年份
+
+		params.put("dring", "vehi_dr_illicit"+String.valueOf(year));
 
 		pager.setRecords(mapper.seDr_illicitPages(params));
 		pager.setTotalRows(mapper.getDriverPageCount(params));
@@ -128,7 +134,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("list", enterprisethenVo.getQid());
 		params.put("empType", enterprisethenVo.getEmpType());
 		params.put("etpCd", enterprisethenVo.getEtpcd());
-	
+
 		pager.setRecords(mapper.queryEnterprisePage(params));
 		pager.setTotalRows(mapper.queryEnterprisePageCount(params));
 
@@ -348,10 +354,8 @@ public class DriversServiceImpl implements DriversService {
 				}
 
 			return vehicCount;
-		
+
 	}
-
-
 
 
 }

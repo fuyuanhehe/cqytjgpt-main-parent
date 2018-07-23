@@ -88,11 +88,11 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			 if(ent != null){
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
+			if(ent != null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				}
 			}
-			 }
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverVo> data = service.seDriverPage(page, tment);
@@ -136,7 +136,7 @@ public class DriversController implements Serializable{
 
 
 	/**基本信息-违法记录
-	 * id
+	 * idcard
 	 * @date  2018年6月15日
 	 */
 	@OperLogging(operType = 3,content="驾驶员违法记录")
@@ -170,10 +170,10 @@ public class DriversController implements Serializable{
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			 if(ent != null){
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
-			}}
+			if(ent != null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				}}
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
@@ -201,7 +201,6 @@ public class DriversController implements Serializable{
 	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(@RequestBody(required = false) DriverillicitVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
-
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
@@ -225,13 +224,12 @@ public class DriversController implements Serializable{
 				empType = employee.getEmptype();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			 if(ent != null){
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
-			}}
+			if(ent != null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				}}
 			tment.setQid(list);
 			tment.setEmpType(empType);
-
 			Page<DriverillicitVo> data = service.getDriverPages(page, tment);
 			resp.setMessage("获取驾驶人信息-信息记录成功！");
 			resp.setStatus(0);
@@ -304,11 +302,11 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			 if(ent != null){
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
-			} 
-			 }
+			if(ent != null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				} 
+			}
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
@@ -382,10 +380,10 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			 if(ent != null){
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
-			} }
+			if(ent != null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				} }
 
 			tment.setQid(list);
 			tment.setEmpType(empType);
@@ -437,11 +435,11 @@ public class DriversController implements Serializable{
 				ent = employee.getCanSeeEnt();
 				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			}
-			 if(ent != null){
-			for (EssEnterprise essEnterprise : ent) {
-				list.add(essEnterprise.getId());
-			} }
-			
+			if(ent != null){
+				for (EssEnterprise essEnterprise : ent) {
+					list.add(essEnterprise.getId());
+				} }
+
 			tment.setList(list);
 			tment.setEmpType(empType);
 			String type = tment.getVehiType();
@@ -510,17 +508,17 @@ public class DriversController implements Serializable{
 		return resp;
 	}
 
-public static void main(String[] args) {
-	
-	  List<String> list = new ArrayList<>();
-	  
-	  for (String string : list) {
-		System.out.println(11);
+	public static void main(String[] args) {
+
+		List<String> list = new ArrayList<>();
+
+		for (String string : list) {
+			System.out.println(11);
+		}
+
+
+
+
 	}
-	  
-	  
-	
-	
-}
 
 }
