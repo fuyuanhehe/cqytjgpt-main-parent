@@ -155,6 +155,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("list", envo.getList());
 		params.put("empType", envo.getEmpType());
 		params.put("vehiNo", envo.getVehiNo());
+		params.put("vehiNoType", envo.getVehiNoType());
 		
 		pager.setRecords(enterpriseMapper.getEnterpriseVe(params));
 		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));

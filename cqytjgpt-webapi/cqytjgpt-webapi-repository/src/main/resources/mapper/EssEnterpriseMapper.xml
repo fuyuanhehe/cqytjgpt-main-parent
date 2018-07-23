@@ -842,6 +842,11 @@
 		<if test="id!=null and id!='' ">
 			and v.id= #{id}
 		</if>
+		<if test="vehiNoType!=null and vehiNoType!='' ">
+			and v.vehiNoType= #{vehiNoType}
+		</if>
+		
+		
 
 		and v.id != ''
 		limit ${startRecord},${pageSize}
@@ -885,6 +890,9 @@
 		</if>
 		<if test="id!=null and id!='' ">
 			and v.id= #{id}
+		</if>
+		<if test="vehiNoType!=null and vehiNoType!='' ">
+			and v.vehiNoType= #{vehiNoType}
 		</if>
 
 		and v.id != ''
