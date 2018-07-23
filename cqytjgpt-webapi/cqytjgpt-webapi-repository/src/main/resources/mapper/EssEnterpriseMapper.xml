@@ -802,7 +802,7 @@
 		a.areaNm ,
 		v.ownership,
 		v.adress,
-		v.examineEffectEndTime
+		v.examineEffectEndTime,
 		v.identityCode,v.identityName,v.examineForceEffectEndTime,
 		v.mbCar,v.countrySideUse
 		FROM
