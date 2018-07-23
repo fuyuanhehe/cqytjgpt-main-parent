@@ -70,9 +70,14 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 			List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 			listAll.addAll(records);
 		}
+		List<VehiIllicit> subList= new ArrayList<VehiIllicit>();
+        int currIdx = (page.getPage() > 1 ? (page.getPage() -1) * page.getRows() : 0);
+        for (int i = 0; i < page.getRows() && i < listAll.size() - currIdx; i++) {
+        	subList.add(listAll.get(currIdx + i));
+        }
 			
 		pager.setTotalRows(totolRols);
-		pager.setRecords(listAll);
+		pager.setRecords(subList);
 
 		return pager;
 	}

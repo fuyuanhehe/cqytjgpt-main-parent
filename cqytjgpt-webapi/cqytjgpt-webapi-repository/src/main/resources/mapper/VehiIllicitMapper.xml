@@ -673,7 +673,6 @@
 			and left(DATE_FORMAT(cit.illicitTime,'%Y-%m-%d'),10) &lt;= #{endTime}
 		</if>
 		order by illicitTime desc	
-		limit ${startRecord},${pageSize}
 	</select>
 	
 	

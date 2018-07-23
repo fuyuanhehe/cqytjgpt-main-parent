@@ -109,27 +109,14 @@ public class VehicleServiceImpl implements IVehicleService {
 			List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 			listAll.addAll(records);
 		}
+		  List<VehiIllicit> subList= new ArrayList<VehiIllicit>();
+	        int currIdx = (page.getPage() > 1 ? (page.getPage() -1) * page.getRows() : 0);
+	        for (int i = 0; i < page.getRows() && i < listAll.size() - currIdx; i++) {
+	        	subList.add(listAll.get(currIdx + i));
+	        }
+        pager.setRecords(subList);
 		pager.setTotalRows(totolRols);
-		pager.setRecords(listAll);
 		return pager;
-	}
-
-	public static void main(String[] args) {
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		calendar.setTime(new Date());
-		System.out.println(formatter.format(calendar.getTime()));
-		int year = calendar.get(Calendar.YEAR);
-		String tableNmae1 = "vehi_dr_illicit" + year;
-		String tableNmae2 = "vehi_dr_illicit" + (year - 1);
-		String tableNmae3 = "vehi_dr_illicit" + (year - 2);
-		String tableNmae4 = "vehi_dr_illicit" + (year - 3);
-		calendar.add(calendar.MONTH, -36);  //设置为前3月
-		System.out.println(tableNmae1);
-		System.out.println(tableNmae2);
-		System.out.println(tableNmae3);
-		System.out.println(tableNmae4);
-		System.out.println(formatter.format(calendar.getTime()));
 	}
 
 	@Override
