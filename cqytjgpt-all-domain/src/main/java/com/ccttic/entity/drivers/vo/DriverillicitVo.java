@@ -24,9 +24,15 @@ public class DriverillicitVo extends dr_illicit{
    
    private String empType;
    
+   private String  drIllicitState;
    
    
-   
+	public String getDrIllicitState() {
+	return drIllicitState;
+}
+public void setDrIllicitState(String drIllicitState) {
+	this.drIllicitState = drIllicitState;
+}
 	public String getEmpType() {
 	return empType;
 }

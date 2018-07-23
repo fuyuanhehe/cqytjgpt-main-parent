@@ -93,7 +93,8 @@
 		'B' THEN
 		'超分'
 		WHEN
-		'C' THEN
+		'C'
+		THEN
 		'转出'
 		WHEN
 		'D' THEN
@@ -117,7 +118,8 @@
 		'J' THEN
 		'停止使用'
 		WHEN
-		'K' THEN
+		'K'
+		THEN
 		'扣押'
 		WHEN
 		'L' THEN
@@ -129,7 +131,8 @@
 		'N' THEN
 		'延期换证'
 		WHEN
-		'P' THEN
+		'P'
+		THEN
 		'延期体检'
 		WHEN
 		'R' THEN
@@ -159,7 +162,8 @@
 		'B' THEN
 		'超分'
 		WHEN
-		'C' THEN
+		'C'
+		THEN
 		'转出'
 		WHEN
 		'D' THEN
@@ -183,7 +187,8 @@
 		'J' THEN
 		'停止使用'
 		WHEN
-		'K' THEN
+		'K'
+		THEN
 		'扣押'
 		WHEN
 		'L' THEN
@@ -195,7 +200,8 @@
 		'N' THEN
 		'延期换证'
 		WHEN
-		'P' THEN
+		'P'
+		THEN
 		'延期体检'
 		WHEN
 		'R' THEN
@@ -210,13 +216,15 @@
 		'S' THEN
 		'逾期未审验'
 		else '不明确'
-		END  as state1
+		END as state1
 		FROM
 		ess_area a
-		LEFT JOIN driver d ON a.id =
+		LEFT JOIN driver d
+		ON a.id =
 		d.mgrDepartAreaId
 		LEFT JOIN ess_enterprise
-		en ON d.mgrEnterpriseId =
+		en ON
+		d.mgrEnterpriseId =
 		en.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -326,26 +334,23 @@
 	<!--驾驶人违法记录 -->
 	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
+
 		SELECT
-		replace(d.name,' ','') name,
 		e.etpNm,
-		dl.illicitTime,
-		dl.illicitAdress,
-		dl.illicitScore,
-		dl.illicitAmount
+		replace(vd.name,' ','') name,
+		vd.illicitTime,
+		vd.illicitAdress,
+		vd.illicitScore,
+		vd.illicitAmount,
+		vd.mgrDepart,
+		vd.drIllicitState
+
 		FROM
-		ess_enterprise e
-		LEFT JOIN driver d
-		ON e.id =
-		d.mgrEnterpriseId
+		vehi_dr_illicit2018 vd
+		LEFT JOIN vehicle v ON v.id
+		= vd.vehicle_id
 		LEFT
-		JOIN
-		dr_illicit dl ON
-		d.id =
-		dl.driver_id
-		LEFT JOIN
-		ess_area a ON
-		d.mgrDepartAreaId = a.id
+		JOIN ess_enterprise e ON e.id = v.mgrEnterpriseId
 
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -359,8 +364,10 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		and d.id!='' and d.id = #{id}
-		and (e.isDeleted is null OR e.isDeleted
+
+		and vd.idcard = #{idcard}
+		and (vd.isDeleted is null OR
+		vd.isDeleted
 		!=1)
 		limit
 		${startRecord} ,
@@ -369,16 +376,14 @@
 	<select id="seDrillicitByDriverIdCount" parameterType="java.util.Map"
 		resultType="long">
 		SELECT
-		count(d.id)
+		count(vd.id)
 		FROM
-		ess_enterprise e
-		LEFT JOIN driver d ON e.id =
-		d.mgrEnterpriseId
+		vehi_dr_illicit2018 vd
+		LEFT JOIN vehicle v ON
+		v.id = vd.vehicle_id
 		LEFT
-		JOIN dr_illicit dl ON d.id = dl.driver_id
-		LEFT
-		JOIN ess_area a ON
-		d.mgrDepartAreaId = a.id
+		JOIN ess_enterprise e ON e.id =
+		v.mgrEnterpriseId
 
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -392,129 +397,130 @@
 				</foreach>
 			</otherwise>
 		</choose>
-		and d.id!='' and d.id =
-		#{id}
-		and (e.isDeleted is null OR e.isDeleted
+
+		and vd.idcard = #{idcard}
+		and (vd.isDeleted is null OR
+		vd.isDeleted
 		!=1)
+
 	</select>
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
 		SELECT
-		d.id,
-		REPLACE (d. NAME, ' ', '') name,
+		vd.id,
 		a.areaNm,
-		en.etpNm,
-		dl.illicitTime,
-		dl.illicitAdress,
-		dl.illicitScore,
-		dl.illicitAmount,
-		dl.illicit
+		e.etpNm,
+		REPLACE (vd. NAME, ' ', '') NAME,
+		vd.illicitTime,
+		vd.illicitAdress,
+		vd.illicitScore,
+		vd.illicitAmount,
+		vd.mgrDepart,
+		vd.drIllicitState,
+		vd.illicit
 		FROM
-		driver d
+		${dring} vd
 		LEFT JOIN
-		ess_enterprise en ON d.mgrEnterpriseId
-		= en.id
-		LEFT
-		JOIN ess_area a ON
-		d.mgrDepartAreaId = a.id
-		LEFT JOIN
-		dr_illicit dl ON
-		d.id = dl.driver_id
+		vehicle v ON vd.vehicle_id = v.id
+		LEFT JOIN ess_enterprise e
+		ON
+		v.mgrEnterpriseId = e.id
+		LEFT JOIN ess_organization o ON e.org_id =
+		o.id
+		LEFT JOIN ess_area a ON o.area_id = a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
 			<otherwise>
-				WHERE en.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-		<if test="id!=null and id!= '' ">
-			and d.id = #{id}
+		<if test="id!=null and id!='' ">
+			and vd.id = #{id}
 		</if>
-		<if test="name!=null and name!='' ">
-			and trim(REPLACE(d.name, ' ', '')) LIKE
+		<if test="name !=null and name!='' ">
+			and trim(REPLACE(vd.name, ' ', '')) LIKE
 			trim(REPLACE('%${name}%', ' ', ''))
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm like '%${etpNm}%'
+			and e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
 		</if>
 		<if test="illicitadress!=null and illicitadress!='' ">
-			and dl.illicitadress = #{illicitadress}
+			and vd.illicitadress = #{illicitadress}
 		</if>
 		<if test="illicit!=null and illicit!='' ">
-			and dl.illicit = #{illicit}
+			and vd.illicit = #{illicit}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and dl.illicitTime BETWEEN #{fiString} and
+			and vd.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
-		and dl.id!=''
-		and (d.isDelete is null OR d.isDelete !=1)
-
 		limit
 		${startRecord} ,
 		${pageSize}
-
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
-	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
+	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map"
+		>
 		SELECT
-		count(d.id)
+		count(vd.id)
 		FROM
-		driver d
-		LEFT JOIN ess_enterprise en ON
-		d.mgrEnterpriseId = en.id
-		LEFT
-		JOIN ess_area a ON d.mgrDepartAreaId =
-		a.id
-		LEFT JOIN dr_illicit dl ON
-		d.id = dl.driver_id
+		${dring} vd
+		LEFT JOIN vehicle v ON vd.vehicle_id
+		= v.id
+		LEFT JOIN ess_enterprise
+		e
+		ON v.mgrEnterpriseId = e.id
+		LEFT JOIN
+		ess_organization o ON e.org_id =
+		o.id
+		LEFT JOIN ess_area a ON o.area_id
+		= a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
 			<otherwise>
-				WHERE en.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-		<if test="id!=null and id!= '' ">
-			and d.id = #{id}
+		<if test="id!=null and id!='' ">
+			and vd.id = #{id}
 		</if>
 		<if test="name!=null and name!='' ">
-			and trim(REPLACE(d.name, ' ', '')) LIKE
+			and trim(REPLACE(vd.name, ' ', '')) LIKE
 			trim(REPLACE('%${name}%', ' ', ''))
 		</if>
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm like '%${etpNm}%'
+			and e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			and a.areaNm = #{areaNm}
 		</if>
 		<if test="illicitadress!=null and illicitadress!='' ">
-			and dl.illicitadress = #{illicitadress}
+			and vd.illicitAdress = #{illicitadress}
 		</if>
 		<if test="illicit!=null and illicit!='' ">
-			and dl.illicit = #{illicit}
+			and vd.illicit = #{illicit}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and dl.illicitTime BETWEEN #{fiString} and
+			and vd.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
-		and (d.isDelete is null OR d.isDelete !=1)
-		and dl.id!=''
 	</select>
 
 	<!-- 一对多查询关联 -->
@@ -529,20 +535,25 @@
 	</resultMap>
 
 
-	<!--<select id="selectAllDriver" resultMap="slist">-->
-		<!--select * from driver-->
-		<!--where isDelete = 0 or isDelete is null-->
-	<!--</select>-->
-	<!--<select id="selectByDriverId" parameterType="java.lang.String"-->
-		<!--resultType="com.ccttic.entity.illegal.DrIllicit">-->
-		<!--select * from dr_illicit where driver_id = #{driverId} and-->
-		<!--(isDeleted = 0 or-->
-		<!--isDeleted is null)-->
-	<!--</select>-->
+	<!--<select id="selectAllDriver" resultMap="slist"> -->
+	<!--select * from driver -->
+	<!--where isDelete = 0 or isDelete is null -->
+	<!--</select> -->
+	<!--<select id="selectByDriverId" parameterType="java.lang.String" -->
+	<!--resultType="com.ccttic.entity.illegal.DrIllicit"> -->
+	<!--select * from dr_illicit where driver_id = #{driverId} and -->
+	<!--(isDeleted = 0 or -->
+	<!--isDeleted is null) -->
+	<!--</select> -->
 
 	<select id="getAllDriverMsg" resultType="com.ccttic.entity.drivers.Driver">
-        SELECT id , name , idcard , mgrEnterpriseId , DATE_FORMAT(effectEndTime,'%Y-%m-%d') AS effectEndTime,DATE_FORMAT(examineEffectEndTime,'%Y-%m-%d') AS examineEffectEndTime FROM driver GROUP BY idcard ORDER BY effectEndTime
-    </select>
+		SELECT id , name ,
+		idcard , mgrEnterpriseId ,
+		DATE_FORMAT(effectEndTime,'%Y-%m-%d') AS
+		effectEndTime,DATE_FORMAT(examineEffectEndTime,'%Y-%m-%d') AS
+		examineEffectEndTime FROM driver GROUP BY idcard ORDER BY
+		effectEndTime
+	</select>
 
 	<!-- 企业监管借口 -->
 
@@ -563,13 +574,14 @@
 		en.ownerTransport,
 		CASE en.state
 		WHEN
-		 1 THEN
+		1 THEN
 		'审核通过'
 		WHEN
-		 0 THEN
+		0 THEN
 		'待审核'
 		WHEN
-		 -1 THEN
+		-1
+		THEN
 		'审核未通过'
 		end as state,
 		en.etpTel,
