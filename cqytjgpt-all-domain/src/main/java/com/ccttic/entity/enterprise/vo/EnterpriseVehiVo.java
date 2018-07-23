@@ -43,9 +43,58 @@ public class EnterpriseVehiVo extends Pages {
 	private String examineEffectEndTime;
 	
 	private String telphone;
-	
-	
-	
+
+	//证件名称
+	private String identityName;
+	//证件号码
+	private String identityCode;
+	//是否为农用车
+	private String countrySideUse;
+	//是否是面包车
+	private String mbCar;
+	//强制报废时间
+	private String examineForceEffectEndTime;
+
+	public String getIdentityName() {
+		return identityName;
+	}
+
+	public void setIdentityName(String identityName) {
+		this.identityName = identityName;
+	}
+
+	public String getIdentityCode() {
+		return identityCode;
+	}
+
+	public void setIdentityCode(String identityCode) {
+		this.identityCode = identityCode;
+	}
+
+	public String getCountrySideUse() {
+		return countrySideUse;
+	}
+
+	public void setCountrySideUse(String countrySideUse) {
+		this.countrySideUse = countrySideUse;
+	}
+
+	public String getMbCar() {
+		return mbCar;
+	}
+
+	public void setMbCar(String mbCar) {
+		this.mbCar = mbCar;
+	}
+
+	public String getExamineForceEffectEndTime() {
+		return examineForceEffectEndTime;
+	}
+
+	public void setExamineForceEffectEndTime(String examineForceEffectEndTime) {
+		this.examineForceEffectEndTime = examineForceEffectEndTime;
+	}
+
 	public String getTelphone() {
 		return telphone;
 	}
@@ -58,35 +107,8 @@ public class EnterpriseVehiVo extends Pages {
 	public void setExamineEffectEndTime(String examineEffectEndTime) {
 		this.examineEffectEndTime = examineEffectEndTime;
 	}
-	public EnterpriseVehiVo() {
-		// TODO Auto-generated constructor stub
-	}
-	public EnterpriseVehiVo(String id, String vehiNo, String vehiType, String vehiNoType,
-			String nature, String firstReciveTime, String effectEndTime, String owner,
-			String mobilephone, String mgrDepart, String state, String etpNm, String areaNm) {
-		super();
-		this.id = id;
-		this.vehiNo = vehiNo;
-		this.vehiType = vehiType;
-		this.vehiNoType = vehiNoType;
-		this.nature = nature;
-		this.firstReciveTime = firstReciveTime;
-		this.effectEndTime = effectEndTime;
-		this.owner = owner;
-		this.mobilephone = mobilephone;
-		this.mgrDepart = mgrDepart;
-		this.state = state;
-		this.etpNm = etpNm;
-		this.areaNm = areaNm;
-	}
-	@Override
-	public String toString() {
-		return "EnterpriseVehiVo [id=" + id + ", vehiNo=" + vehiNo + ", vehiType=" + vehiType
-				+ ", vehiNoType=" + vehiNoType + ", nature=" + nature + ", firstReciveTime="
-				+ firstReciveTime + ", effectEndTime=" + effectEndTime + ", owner=" + owner
-				+ ", mobilephone=" + mobilephone + ", mgrDepart=" + mgrDepart + ", state=" + state
-				+ ", etpNm=" + etpNm + ", areaNm=" + areaNm + "]";
-	}
+
+
 	public String getId() {
 		return id;
 	}
@@ -177,6 +199,87 @@ public class EnterpriseVehiVo extends Pages {
 	public void setAdress(String adress) {
 		this.adress = adress;
 	}
-	
-	
+
+	public EnterpriseVehiVo(){
+		super();
+	}
+
+	public EnterpriseVehiVo(String id, String vehiNo, String vehiType, String vehiNoType, String nature, String firstReciveTime, String effectEndTime, String owner, String mobilephone, String mgrDepart, String state, String etpNm, String areaNm, String ownership, String adress, String examineEffectEndTime, String telphone, String identityName, String identityCode, String countrySideUse, String mbCar, String examineForceEffectEndTime) {
+		this.id = id;
+		this.vehiNo = vehiNo;
+		this.vehiType = vehiType;
+		this.vehiNoType = vehiNoType;
+		this.nature = nature;
+		this.firstReciveTime = firstReciveTime;
+		this.effectEndTime = effectEndTime;
+		this.owner = owner;
+		this.mobilephone = mobilephone;
+		this.mgrDepart = mgrDepart;
+		this.state = state;
+		this.etpNm = etpNm;
+		this.areaNm = areaNm;
+		this.ownership = ownership;
+		this.adress = adress;
+		this.examineEffectEndTime = examineEffectEndTime;
+		this.telphone = telphone;
+		this.identityName = identityName;
+		this.identityCode = identityCode;
+		this.countrySideUse = countrySideUse;
+		this.mbCar = mbCar;
+		this.examineForceEffectEndTime = examineForceEffectEndTime;
+	}
+
+	@Override
+	public String toString() {
+		return "EnterpriseVehiVo{" +
+				"id='" + id + '\'' +
+				", vehiNo='" + vehiNo + '\'' +
+				", vehiType='" + vehiType + '\'' +
+				", vehiNoType='" + vehiNoType + '\'' +
+				", nature='" + nature + '\'' +
+				", firstReciveTime='" + firstReciveTime + '\'' +
+				", effectEndTime='" + effectEndTime + '\'' +
+				", owner='" + owner + '\'' +
+				", mobilephone='" + mobilephone + '\'' +
+				", mgrDepart='" + mgrDepart + '\'' +
+				", state='" + state + '\'' +
+				", etpNm='" + etpNm + '\'' +
+				", areaNm='" + areaNm + '\'' +
+				", ownership='" + ownership + '\'' +
+				", adress='" + adress + '\'' +
+				", examineEffectEndTime='" + examineEffectEndTime + '\'' +
+				", telphone='" + telphone + '\'' +
+				", identityName='" + identityName + '\'' +
+				", identityCode='" + identityCode + '\'' +
+				", countrySideUse='" + countrySideUse + '\'' +
+				", mbCar='" + mbCar + '\'' +
+				", examineForceEffectEndTime='" + examineForceEffectEndTime + '\'' +
+				'}';
+	}
+
+	public EnterpriseVehiVo(int page, int rows, String id, String vehiNo, String vehiType, String vehiNoType, String nature, String firstReciveTime, String effectEndTime, String owner, String mobilephone, String mgrDepart, String state, String etpNm, String areaNm, String ownership, String adress, String examineEffectEndTime, String telphone, String identityName, String identityCode, String countrySideUse, String mbCar, String examineForceEffectEndTime) {
+		super(page, rows);
+		this.id = id;
+		this.vehiNo = vehiNo;
+		this.vehiType = vehiType;
+		this.vehiNoType = vehiNoType;
+		this.nature = nature;
+		this.firstReciveTime = firstReciveTime;
+		this.effectEndTime = effectEndTime;
+		this.owner = owner;
+		this.mobilephone = mobilephone;
+		this.mgrDepart = mgrDepart;
+		this.state = state;
+		this.etpNm = etpNm;
+		this.areaNm = areaNm;
+		this.ownership = ownership;
+		this.adress = adress;
+		this.examineEffectEndTime = examineEffectEndTime;
+		this.telphone = telphone;
+		this.identityName = identityName;
+		this.identityCode = identityCode;
+		this.countrySideUse = countrySideUse;
+		this.mbCar = mbCar;
+		this.examineForceEffectEndTime = examineForceEffectEndTime;
+	}
 }
