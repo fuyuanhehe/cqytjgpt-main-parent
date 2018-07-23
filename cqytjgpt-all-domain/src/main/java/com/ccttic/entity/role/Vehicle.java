@@ -341,5 +341,43 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.vehiTypeText = vehiTypeText;
 	}
 
+	public Vehicle(){
+		super();
+	}
 
+	public Vehicle(String vehiNo, String vehiNoType, String vehiNoTypeText, String vehiType, String vehiTypeText, String nature, String ownership, String owner, String telphone, String mobilephone, String adress, String permitCar, String firstReciveTime, String mgrDepart, String mgrDepartAreaId, String areaNm, String mgrEnterpriseId, String etpNm, String nextExamineTime, String effectStartTime, String effectEndTime, String examineEffectEndTime, String scoreTotal, String state, String remark, String startTime, String endTime, String id, String identityName, String identityCode, String countrySideUse, String mbCar, String examineForceEffectEndTime) {
+		this.vehiNo = vehiNo;
+		this.vehiNoType = vehiNoType;
+		this.vehiNoTypeText = vehiNoTypeText;
+		this.vehiType = vehiType;
+		this.vehiTypeText = vehiTypeText;
+		this.nature = nature;
+		this.ownership = ownership;
+		this.owner = owner;
+		this.telphone = telphone;
+		this.mobilephone = mobilephone;
+		this.adress = adress;
+		this.permitCar = permitCar;
+		this.firstReciveTime = firstReciveTime;
+		this.mgrDepart = mgrDepart;
+		this.mgrDepartAreaId = mgrDepartAreaId;
+		this.areaNm = areaNm;
+		this.mgrEnterpriseId = mgrEnterpriseId;
+		this.etpNm = etpNm;
+		this.nextExamineTime = nextExamineTime;
+		this.effectStartTime = effectStartTime;
+		this.effectEndTime = effectEndTime;
+		this.examineEffectEndTime = examineEffectEndTime;
+		this.scoreTotal = scoreTotal;
+		this.state = state;
+		this.remark = remark;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.id = id;
+		this.identityName = identityName;
+		this.identityCode = identityCode;
+		this.countrySideUse = countrySideUse;
+		this.mbCar = mbCar;
+		this.examineForceEffectEndTime = examineForceEffectEndTime;
+	}
 }
