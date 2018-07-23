@@ -36,7 +36,7 @@ import javax.annotation.Resource;
 public class EnterpriseServiceImpl implements IEnterpriseService {
 	@Autowired
 	private EssEnterpriseMapper enterpriseMapper;
-	@Resource
+	@Autowired
 	private EssEmployeeMapper employeeMapper;
 
 	@Resource
