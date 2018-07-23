@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ccttic.cqytjgpt.webapi.mapper.category.CategoryMapper;
+import com.ccttic.entity.category.CategoryAttr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +30,17 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
 
+import javax.annotation.Resource;
+
 @Service
 public class EnterpriseServiceImpl implements IEnterpriseService {
 	@Autowired
 	private EssEnterpriseMapper enterpriseMapper;
-	@Autowired
+	@Resource
 	private EssEmployeeMapper employeeMapper;
+
+	@Resource
+	private CategoryMapper categoryMapper;
 
 	@Override
 	public Map<String, Object> selectEnterpriseById(Map<String, String> map) {
@@ -158,8 +166,17 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("empType", envo.getEmpType());
 		params.put("vehiNo", envo.getVehiNo());
 		params.put("vehiNoType", envo.getVehiNoType());
-		
-		pager.setRecords(enterpriseMapper.getEnterpriseVe(params));
+
+		List<EnterpriseVehiVo> list= enterpriseMapper.getEnterpriseVe(params);
+
+		CategoryAttr categoryAttr = new CategoryAttr();
+		if (list.get(0)!=null) {
+			categoryAttr.setAttrCd(list.get(0).getIdentityName());
+			categoryAttr.setCategoryCd("027");
+			categoryAttr = categoryMapper.findCategoryAttrNmByCd(categoryAttr);
+			list.get(0).setIdentityName(categoryAttr.getAttrNm());
+		}
+		pager.setRecords(list);
 		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));
 
 		return pager;
