@@ -86,8 +86,8 @@ public class TestController implements Serializable {
 //						veDr.setDrIllicitState("0");
 //					}
 					veDr.setVehiNo(ve.getVehiNo());
-					if (null != ve.getVehiType()) {
-						veDr.setVehiNoType(ve.getVehiType());
+					if (null != ve.getVehiNoType()) {
+						veDr.setVehiNoType(ve.getVehiNoType());
 					}
 					if (null != ve.getNature()) {
 						veDr.setNature(ve.getNature());
@@ -149,8 +149,8 @@ public class TestController implements Serializable {
 					VehiDrIllicit veDr = new VehiDrIllicit();
 					String uuid = RandomHelper.uuid();
 					veDr.setVehiNo(ve2.getVehiNo());
-					if (null != ve2.getVehiType()) {
-						veDr.setVehiNoType(ve2.getVehiType());
+					if (null != ve2.getVehiNoType()) {
+						veDr.setVehiNoType(ve2.getVehiNoType());
 					}
 					if (null != ve2.getNature()) {
 						veDr.setNature(ve2.getNature());
