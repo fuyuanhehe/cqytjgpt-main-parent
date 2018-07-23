@@ -40,12 +40,16 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	private String illicitScore;
 	// 罚款金额
 	private String illicitAmount;
+	// 处罚种类
+	private String disposeType;
 	// 违法地址
 	private String illicitAdress;
 	// 违法行为
 	private String illicit;
 	// 违法行为描述
 	private String illicitDesc;
+	// 违法序号
+	private String serialNumber ;
 	// 采集机关
 	private String pickDepartment;
 	// 采集机关名称
@@ -72,7 +76,7 @@ public class VehiIllicit extends BaseBean implements Serializable {
 			String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime,
 			String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc,
 			String pickDepartment, String pickDepartmentDesc, String state, String remark, String etpNm,
-			String startTime, String endTime,String disposeSign) {
+			String startTime, String endTime,String disposeSign,String serialNumber,String disposeType) {
 		super();
 		this.areaNm = areaNm;
 		this.vehiNo = vehiNo;
@@ -99,6 +103,8 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.disposeSign = disposeSign;
+		this.serialNumber = serialNumber;
+		this.disposeType = disposeType;
 	}
 
 	public String getAreaNm() {
@@ -299,6 +305,22 @@ public class VehiIllicit extends BaseBean implements Serializable {
 
 	public void setDisposeSign(String disposeSign) {
 		this.disposeSign = disposeSign;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public String getDisposeType() {
+		return disposeType;
+	}
+
+	public void setDisposeType(String disposeType) {
+		this.disposeType = disposeType;
 	}
 
 }

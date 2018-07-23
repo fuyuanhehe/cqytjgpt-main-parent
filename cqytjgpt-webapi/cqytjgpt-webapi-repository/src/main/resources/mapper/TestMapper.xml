@@ -7,10 +7,10 @@
   	</select>
   	
   	<select id="qryNetTrffSurveilList" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.NetTrffSurveil">
-  		SELECT * FROM test.net_trff_surveil WHERE HPHM=#{vehiNo}
+  		SELECT * FROM net_trff_surveil WHERE HPHM=#{vehiNo}
   	</select>
   	<insert id="addIllicit" parameterType="com.ccttic.entity.illegal.VehiDrIllicit">
-  	insert into `cqytjgpt-test`.${tableName}
+  	insert into ${tableName}
   				(id,decisionNumber,vehiNo,vehiNoType,nature,ownership,
   				owner,adress,mgrDepartAreaId,vehicle_id,illicitTime,illicitScore,illicitAmount,
   				illicitAdress,illicit,pickDepartment,pickDepartmentDesc,vehiState,name,idcard,
@@ -22,10 +22,10 @@
   	</insert>
   	<!-- 分割线 -->
   	<select id="qryNetTrffViolationList" parameterType="java.lang.String" resultType="com.ccttic.entity.illegal.NetTrffViolation">
-  		SELECT * FROM test.net_trff_violation WHERE HPHM=#{vehiNo}
+  		SELECT * FROM net_trff_violation WHERE HPHM=#{vehiNo}
   	</select>
   	<select id="qryVehiDrIllicit" parameterType="com.ccttic.entity.illegal.VehiDrIllicit" resultType="com.ccttic.entity.illegal.VehiDrIllicit">
-  		select * from `cqytjgpt-test`.${tableName} where decisionNumber=#{decisionNumber}
+  		select * from ${tableName} where decisionNumber=#{decisionNumber}
   	
   	</select>
   	
