@@ -14,6 +14,18 @@ import java.io.Serializable;
 public class VehicleVO extends Vehicle implements Serializable {
 	//区域名
 	private String areaNm;
+	//企业名
+	private String etpNm;
+
+	@Override
+	public String getEtpNm() {
+		return etpNm;
+	}
+
+	@Override
+	public void setEtpNm(String etpNm) {
+		this.etpNm = etpNm;
+	}
 
 	@Override
 	public String getAreaNm() {
