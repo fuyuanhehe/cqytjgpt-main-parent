@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -82,24 +83,29 @@ public class VehicleServiceImpl implements IVehicleService {
 		String tableNmae2 = "vehi_dr_illicit"+(year-1);
 		String tableNmae3 = "vehi_dr_illicit"+(year-2);
 		String tableNmae4 = "vehi_dr_illicit"+(year-3);
+		List<String> tableList = new ArrayList<String>();
+		tableList.add(tableNmae1);
+		tableList.add(tableNmae2);
+		tableList.add(tableNmae3);
+		tableList.add(tableNmae4);
 		calendar.add(calendar.MONTH, -36); 
 		String startDate = formatter.format(calendar.getTime());// 后推36个月后的时间
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("id", vehiIllicit.getId());
-		params.put("tableNmae1", tableNmae1);
-		params.put("tableNmae2", tableNmae2);
-		params.put("tableNmae3", tableNmae3);
-		params.put("tableNmae4", tableNmae4);
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
-		
-		long totolRols = mapper.qryVehiIllicitListCount(params);
-		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
-
+		long totolRols = 0;
+		List<VehiIllicit> listAll = new ArrayList<VehiIllicit>();
+		for (int i = 0; i < tableList.size(); i++) {
+			params.put("tableNmae", tableList.get(i));
+			long totolRol = mapper.qryVehiIllicitListCount(params);
+			totolRols+=totolRol;
+			List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
+			listAll.addAll(records);
+		}
 		pager.setTotalRows(totolRols);
-		pager.setRecords(records);
-
+		pager.setRecords(listAll);
 		return pager;
 	}
 public static void main(String[] args) {
