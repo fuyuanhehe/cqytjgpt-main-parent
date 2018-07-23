@@ -16,7 +16,7 @@ import com.ccttic.util.common.RandomHelper;
 @Service
 public class MessageServiceImpl implements MessageService{
 	
-	@Autowired  
+/*	@Autowired  
 	JavaMailSender jms;  
 	
 	@Value("${spring.mail.username}")
@@ -39,5 +39,5 @@ public class MessageServiceImpl implements MessageService{
 		sendMail.setSubject(message.getTitle());
 		sendMail.setText(message.getContent());
 		jms.send(sendMail);		
-	}
+	}*/
 }

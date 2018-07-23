@@ -69,10 +69,10 @@
 	</dependency>
 	
 	<!-- 支持发送邮件 -->  
-     <dependency>  
+<!--      <dependency>  
          <groupId>org.springframework.boot</groupId>  
          <artifactId>spring-boot-starter-mail</artifactId>  
-     </dependency> 
+     </dependency>  -->
 	
 	<!-- spring 事务依赖 -->
 	<dependency>
