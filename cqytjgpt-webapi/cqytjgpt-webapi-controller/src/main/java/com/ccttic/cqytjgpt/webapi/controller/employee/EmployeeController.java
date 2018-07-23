@@ -94,14 +94,15 @@ public class EmployeeController {
 				response.fail("验证码输入错误");
 				return response;
 			}
-			Employee employee = employeeService.login(empVo.getAccount(), empVo.getPassword());
+			String md5pasword = MD5.sign(empVo.getAccount(), empVo.getPassword(), "utf-8");
+			Employee employee = employeeService.login(empVo.getAccount(), md5pasword);
 			if (employee == null) {
 				response.fail("用户名或密码错误!");
 				return response;
 			}
 
-			String md5pasword = MD5.sign(empVo.getAccount(), empVo.getPassword(), "utf-8");
-			String tokenValue = authFeign.getAccessToken(empVo.getAccount(), empVo.getPassword(), "password",
+
+			String tokenValue = authFeign.getAccessToken(empVo.getAccount(), md5pasword, "password",
 					"ccttic1");
 			if (ObjectHelper.isEmpty(tokenValue)) {
 				response.fail("获取访问token失败");
