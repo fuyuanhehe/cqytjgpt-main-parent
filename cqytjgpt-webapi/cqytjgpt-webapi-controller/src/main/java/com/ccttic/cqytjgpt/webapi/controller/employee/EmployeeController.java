@@ -101,7 +101,7 @@ public class EmployeeController {
 			}
 
 			String md5pasword = MD5.sign(empVo.getAccount(), empVo.getPassword(), "utf-8");
-			String tokenValue = authFeign.getAccessToken(empVo.getAccount(), md5pasword, "password",
+			String tokenValue = authFeign.getAccessToken(empVo.getAccount(), empVo.getPassword(), "password",
 					"ccttic1");
 			if (ObjectHelper.isEmpty(tokenValue)) {
 				response.fail("获取访问token失败");
