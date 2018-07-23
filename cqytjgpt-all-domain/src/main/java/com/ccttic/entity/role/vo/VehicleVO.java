@@ -16,4 +16,13 @@ public class VehicleVO extends Vehicle implements Serializable {
 	//区域名
 	private String areaNm;
 
+	@Override
+	public String getAreaNm() {
+		return areaNm;
+	}
+
+	@Override
+	public void setAreaNm(String areaNm) {
+		this.areaNm = areaNm;
+	}
 }
