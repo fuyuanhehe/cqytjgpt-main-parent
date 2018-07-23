@@ -743,7 +743,7 @@
 		SELECT
 		v.id,
 		v.vehiNo,
-		v.vehiType,
+	
 		CASE v.vehiNoType
 		WHEN '01' THEN
 		'大型车'
