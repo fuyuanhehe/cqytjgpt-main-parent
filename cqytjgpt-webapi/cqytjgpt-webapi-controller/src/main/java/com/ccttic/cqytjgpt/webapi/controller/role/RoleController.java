@@ -165,6 +165,7 @@ public class RoleController {
 
 	/**
 	 * 功能说明：  修改角色和关联的员工
+	 *        roleId  
 	 * @param roleCd 角色编码
 	 * @param roleNm 角色名称
 	 * @param description 角色描述

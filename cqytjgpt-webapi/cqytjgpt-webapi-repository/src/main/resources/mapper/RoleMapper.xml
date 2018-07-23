@@ -139,9 +139,24 @@
 
 	<update id="updateRoleById" parameterType="com.ccttic.entity.role.Roles">
 
-		UPDATE ess_role SET
-		roleCd =
-		#{roleCd},roleNm=#{roleNm},description=#{description} WHERE id
+		UPDATE ess_role
+
+		<set>
+			<if test="roleCd!= null and roleCd!='' ">
+				roleCd = #{roleCd} ,
+			</if>
+
+			<if test="roleNm!= null and roleNm!='' ">
+				roleNm=#{roleNm} ,
+			</if>
+
+			<if test="description!= null description!=''  ">
+				description=#{description}
+			</if>
+
+		</set>
+
+		WHERE id
 		= #{roleId}
 
 	</update>
@@ -199,7 +214,7 @@
 
 	<!--获取所有组织机构 -->
 	<select id="getOrgNm" resultType="com.ccttic.entity.role.vo.OrgDepVo">
-		SELECT  
+		SELECT
 		id as orgId,orgNm
 		FROM
 		ess_organization
@@ -207,7 +222,8 @@
 
 	<!--获取所有组织机构 -->
 	<select id="getDep" resultType="com.ccttic.entity.role.vo.OrgDepVo">
-		SELECT id as depId,depNm FROM ess_department
+		SELECT id as depId,depNm FROM
+		ess_department
 	</select>
 
 
