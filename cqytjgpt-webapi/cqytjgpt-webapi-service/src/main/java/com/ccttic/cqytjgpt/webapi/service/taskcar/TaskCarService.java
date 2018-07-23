@@ -1,11 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.service.taskcar;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.web.CCtticWebUtils;
@@ -119,12 +115,12 @@ public class TaskCarService implements ITaskCarService {
 	public Map<String, Object> getCarDanger(Vehicle vehicle) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		VehiDanger vr = new VehiDanger();
-		int scrappedDays,overdueexamineDays,illegalDays ;
+		int scrappedDays=0,overdueexamineDays=0,illegalDays=0;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd");
 		if(null !=vehicle.getEffectEndTime()) {
 			Date effectendtime = simpleDateFormat.parse(vehicle.getEffectEndTime());
 			map = CCtticWebUtils.getDateSpace(new Date(),effectendtime,"car");
-			vr.setScrappedstate((Integer)map.get("type"));
+			vr.setScrappedstate((Integer)map.get("rank"));
 			scrappedDays =(Integer)map.get("days");
 		}else {
 			vr.setScrappedstate(null);
@@ -132,21 +128,39 @@ public class TaskCarService implements ITaskCarService {
 		if(null !=vehicle.getExamineEffectEndTime()){
 			Date examineeffectendtime = simpleDateFormat.parse(vehicle.getExamineEffectEndTime());
 			map = CCtticWebUtils.getDateSpace(new Date(),examineeffectendtime,"car");
-			vr.setOverdueexaminestate((Integer)map.get("type"));
+			vr.setOverdueexaminestate((Integer)map.get("rank"));
 			overdueexamineDays = (Integer)map.get("days");
 		}else{
 			vr.setOverdueexaminestate(null);
 		}
-
-
-//		if (listwait.size() == 0 && listdoing.size() == 0) {
-//			vr.setCorrectstate(DangerEnums.NORMAL.getValue());
-//		} else if (listdoing.size() > 0 && listdoing.size() != 0) {
-//			vr.setCorrectstate(DangerEnums.EXECUTING.getValue());
-//		} else if (listwait.size() > 0 && listdoing.size() == 0) {
-//			vr.setCorrectstate(DangerEnums.UNEXECUTED.getValue());
-//		}
-
+		if (null == vr.getScrappedstate() || null == vr.getOverdueexaminestate() || null == vr.getIllicitstate()) {
+			vr.setDangertype(null);
+		}
+		List<Integer> sortList = new ArrayList<>();
+		if (null != vr.getScrappedstate()) {
+			sortList.add(vr.getScrappedstate());
+		}
+		if (null != vr.getOverdueexaminestate()) {
+			sortList.add(vr.getOverdueexaminestate());
+		}
+		if (null != vr.getIllicitstate()) {
+			sortList.add(vr.getIllicitstate());
+		}
+		Collections.sort(sortList);
+		for (int i = 0; i < sortList.size(); i++) {
+			if (sortList.get(i) != 0 && i != (sortList.size() - 1)) {
+				vr.setDangertype(sortList.get(i).toString());
+				break;
+			}
+			if (i == (sortList.size() - 1)) {
+				vr.setDangertype("0");
+			}
+		}
+		sortList.clear();
+		sortList.add(overdueexamineDays);
+		sortList.add(scrappedDays);
+		Collections.sort(sortList);
+		vr.setCorrecttime(sortList.get(0).toString());
 		vr.setId(RandomHelper.uuid());
 		vr.setVehino(vehicle.getVehiNo());
 		vr.setVehitype(vehicle.getVehiNoType());

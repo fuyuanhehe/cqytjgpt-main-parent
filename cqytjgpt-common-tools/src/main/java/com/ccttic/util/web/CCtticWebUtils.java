@@ -134,30 +134,30 @@ public class CCtticWebUtils {
         int days = ((int)(caled.getTime().getTime()/1000)-(int)(calst.getTime().getTime()/1000))/3600/24;
         map.put("days",days);
         if (0<days && days<=30 && "driver".equals(user)){
-            map.put("type",Const.THREE);
+            map.put("rank",Const.THREE);
             return map;
         }
         if (0>=days && days>= -60 && "driver".equals(user)){
-            map.put("type",Const.TWO);
+            map.put("rank",Const.TWO);
             return map;
         }
         if ( days<-60 && "driver".equals(user)){
-            map.put("type",Const.ONE);
+            map.put("rank",Const.ONE);
             return map;
         }
         if (30<days && days<=60 && "car".equals(user)){
-            map.put("type",Const.THREE);
+            map.put("rank",Const.THREE);
             return map;
         }
         if (30>=days && days> -30 && "car".equals(user)){
-            map.put("type",Const.TWO);
+            map.put("rank",Const.TWO);
             return map;
         }
         if ( days<= -30 && "car".equals(user)){
-            map.put("type",Const.ONE);
+            map.put("rank",Const.ONE);
             return map;
         }
-        map.put("type",Const.ZERO);
+        map.put("rank",Const.ZERO);
         return map;
     }
 

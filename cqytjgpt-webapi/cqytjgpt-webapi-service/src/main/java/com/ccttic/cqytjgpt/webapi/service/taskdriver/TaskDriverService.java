@@ -1,15 +1,5 @@
 package com.ccttic.cqytjgpt.webapi.service.taskdriver;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.ccttic.util.web.CCtticWebUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IPendingPaymentService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryPersonService;
 import com.ccttic.cqytjgpt.webapi.interfaces.taskdriver.ITaskDriverService;
@@ -17,18 +7,24 @@ import com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.drillicit.DrIllicitMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
-import com.ccttic.entity.danger.DangerEnums;
 import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.XMLDriver;
 import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.illegal.DrIllicit;
-import com.ccttic.entity.illegal.DrIllicitExample;
 import com.ccttic.entity.illegalprocess.XMLPendingPayment;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.util.common.Const;
+import com.ccttic.util.common.RandomHelper;
+import com.ccttic.util.web.CCtticWebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Transactional
@@ -62,11 +58,11 @@ public class TaskDriverService implements ITaskDriverService {
 			logger.info(list.toString());
 
 			if (driver.getDrIllicits() != null && driver.getDrIllicits().size() > 0) {
-				String str=null;
+				String str = null;
 				for (int i = 0; i < driver.getDrIllicits().size(); i++) {
 					int x = 0;
 					for (int j = 0; j < list.size(); j++) {
-						str =driver.getDrIllicits().get(i).getId().substring(Const.ZERO, Const.XHlength);
+						str = driver.getDrIllicits().get(i).getId().substring(Const.ZERO, Const.XHlength);
 						if (str.equals(list.get(j).getJdsbh())) {
 							x++;
 						}
@@ -82,7 +78,7 @@ public class TaskDriverService implements ITaskDriverService {
 			for (XMLPendingPayment xmlPendingPayment : list) {
 
 				dr = new DrIllicit();
-				dr.setId(xmlPendingPayment.getJdsbh()+sdf.format(new Date()));
+				dr.setId(xmlPendingPayment.getJdsbh() + sdf.format(new Date()));
 				dr.setName(xmlPendingPayment.getDsr());
 				dr.setIdcard(xmlPendingPayment.getJszh());
 				dr.setVehino(xmlPendingPayment.getHphm());
@@ -117,40 +113,26 @@ public class TaskDriverService implements ITaskDriverService {
 	public Map<String, Object> getDriverDanger(Driver driver) throws Exception {
 		Map<String, Object> result = new HashMap<>();
 		DrDanger dr = new DrDanger();
-
-
-
-//		DrIllicitExample example = new DrIllicitExample();
-//		example.createCriteria().andIdcardEqualTo(driver.getIdcard());
-
-//	List<DrIllicit> listwait = drIllicitMapper.selectByExample(example);
-
-//		if (listwait.size() == 0 && listdoing.size() == 0) {
-//			dr.setCorrectstate(DangerEnums.NORMAL.getValue());
-//		} else if (listdoing.size() > 0 && listdoing.size() != 0) {
-//			dr.setCorrectstate(DangerEnums.EXECUTING.getValue());
-//		} else if (listwait.size() > 0 && listdoing.size() == 0) {
-//			dr.setCorrectstate(DangerEnums.UNEXECUTED.getValue());
-//		}
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-		//String date = simpleDateFormat.format(new Date());
-		if(null !=driver.getEffectendtime()) {
+		int overdueproofDays = 0, overdueexaineDays = 0, fullStudyDays = 0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		if (null != driver.getEffectendtime()) {
 			Date effectendtime = simpleDateFormat.parse(driver.getEffectendtime());
-			result = CCtticWebUtils.getDateSpace(new Date(),effectendtime,"driver");
-			dr.setOverdueproofstate((int)result.get("type"));
-		}else {
+			result = CCtticWebUtils.getDateSpace(new Date(), effectendtime, "driver");
+			dr.setOverdueproofstate((int) result.get("rank"));
+			overdueproofDays = (int) result.get("days");
+		} else {
 			dr.setOverdueproofstate(null);
 		}
-		if(null !=driver.getExamineeffectendtime()){
+		if (null != driver.getExamineeffectendtime()) {
 			Date examineeffectendtime = simpleDateFormat.parse(driver.getExamineeffectendtime());
-			result = CCtticWebUtils.getDateSpace(new Date(),examineeffectendtime,"driver");
-			dr.setOverdueexaminestate((int)result.get("type"));
-		}else{
+			result = CCtticWebUtils.getDateSpace(new Date(), examineeffectendtime, "driver");
+			dr.setOverdueexaminestate((int) result.get("rank"));
+			overdueexaineDays = (int) result.get("days");
+		} else {
 			dr.setOverdueexaminestate(null);
 		}
 		dr.setDriverId(driver.getId());
-		dr.setDriverId(driver.getId());
-		dr.setId(driver.getIdcard());
+		dr.setId(RandomHelper.uuid());
 		dr.setDrivername(driver.getName());
 		dr.setDriveridcard(driver.getIdcard());
 		simpleDateFormat = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
@@ -162,23 +144,34 @@ public class TaskDriverService implements ITaskDriverService {
 		}
 		dr.setFullstudystate(0);
 
-		if(null ==dr.getOverdueproofstate() || null ==dr.getOverdueexaminestate() || null ==dr.getFullstudystate() )
-		{
+		if (null == dr.getOverdueproofstate() || null == dr.getOverdueexaminestate() || null == dr.getFullstudystate()) {
 			dr.setDangertype(null);
 		}
-		if(null !=dr.getOverdueproofstate() && null !=dr.getOverdueexaminestate() && null !=dr.getFullstudystate()){
-			List<Integer> sort = new ArrayList<>();
-			sort.add(dr.getOverdueproofstate());
-			sort.add(dr.getOverdueexaminestate());
-			sort.add(dr.getFullstudystate());
-			Collections.sort(sort);
-			for (Integer type:sort){
-				if(type!=0){
-					dr.setDangertype(type.toString());
-					break;
-				}
+		List<Integer> sortList = new ArrayList<>();
+		if (null != dr.getOverdueproofstate()) {
+			sortList.add(dr.getOverdueproofstate());
+		}
+		if (null != dr.getOverdueexaminestate()) {
+			sortList.add(dr.getOverdueexaminestate());
+		}
+		if (null != dr.getFullstudystate()) {
+			sortList.add(dr.getFullstudystate());
+		}
+		Collections.sort(sortList);
+		for (int i = 0; i < sortList.size(); i++) {
+			if (sortList.get(i) != 0 && i != (sortList.size() - 1)) {
+				dr.setDangertype(sortList.get(i).toString());
+				break;
+			}
+			if (i == (sortList.size() - 1)) {
+				dr.setDangertype("0");
 			}
 		}
+		sortList.clear();
+		sortList.add(overdueexaineDays);
+		sortList.add(overdueproofDays);
+		Collections.sort(sortList);
+		dr.setCorrecttime(sortList.get(0).toString());
 		if (drDangerMapper.selectByPrimaryKey(driver.getIdcard()) != null) {
 			result.put("update", dr);
 			result.put("insert", null);
