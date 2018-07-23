@@ -11,11 +11,11 @@ public interface ITestIllicitService {
 	
 	public List<Vehicle> qryVehicleList();
 	
-	public List<NetTrffSurveil> qryNetTrffSurveilList(String vehiNo);
+	public List<NetTrffSurveil> qryNetTrffSurveilList(String vehiNo,String type);
 	
 	public void addIllicit (VehiDrIllicit cit);
 	
-	public List<NetTrffViolation> qryNetTrffViolationList(String vehiNo);
+	public List<NetTrffViolation> qryNetTrffViolationList(String vehiNo,String type);
 	
 	public VehiDrIllicit qryVehiDrIllicit(VehiDrIllicit cit);
 	public void updtVehiDrIllicit(VehiDrIllicit cit);

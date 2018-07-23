@@ -1,6 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -22,16 +24,22 @@ public class TestIllicitServiceImpl implements ITestIllicitService{
 		return mapper.qryVehicleList();
 	}
 	@Override
-	public List<NetTrffSurveil> qryNetTrffSurveilList(String vehiNo) {
-		return mapper.qryNetTrffSurveilList(vehiNo);
+	public List<NetTrffSurveil> qryNetTrffSurveilList(String vehiNo,String type) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("vehiNo", vehiNo);
+		params.put("type", type);
+		return mapper.qryNetTrffSurveilList(params);
 	}
 	@Override
 	public void addIllicit(VehiDrIllicit cit) {
 		mapper.addIllicit(cit);
 	}
 	@Override
-	public List<NetTrffViolation> qryNetTrffViolationList(String vehiNo) {
-		return mapper.qryNetTrffViolationList(vehiNo);
+	public List<NetTrffViolation> qryNetTrffViolationList(String vehiNo,String type) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("vehiNo", vehiNo);
+		params.put("type", type);
+		return mapper.qryNetTrffViolationList(params);
 	}
 	@Override
 	public VehiDrIllicit qryVehiDrIllicit(VehiDrIllicit cit) {
