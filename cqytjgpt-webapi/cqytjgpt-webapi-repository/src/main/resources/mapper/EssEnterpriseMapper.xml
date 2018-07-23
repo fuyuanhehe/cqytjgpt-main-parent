@@ -902,6 +902,7 @@
 		parameterType="java.util.Map">
 		SELECT
 		d.id,
+		d.adress,
 		d. NAME,
 		d.idcard,
 		d.mobilephone,
