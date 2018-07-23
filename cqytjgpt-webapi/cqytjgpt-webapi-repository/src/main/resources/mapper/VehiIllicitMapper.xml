@@ -667,10 +667,10 @@
 			and ve.vehiNoType = #{vehiNoType}
 		</if>
 		<if test="startTime != null and startTime != ''">
-			and left(cit.illicitTime,10) &gt;= #{startTime}
+			and left(DATE_FORMAT(cit.illicitTime,'%Y-%m-%d'),10) &gt;= #{startTime}
 		</if>
 		<if test="endTime != null and endTime != ''">
-			and left(cit.illicitTime,10) &lt;= #{endTime}
+			and left(DATE_FORMAT(cit.illicitTime,'%Y-%m-%d'),10) &lt;= #{endTime}
 		</if>
 		order by illicitTime desc	
 		limit ${startRecord},${pageSize}
