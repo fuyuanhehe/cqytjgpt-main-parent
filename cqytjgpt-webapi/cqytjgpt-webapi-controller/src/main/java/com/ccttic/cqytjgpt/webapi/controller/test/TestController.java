@@ -28,7 +28,7 @@ public class TestController implements Serializable {
 	public void testSurveil() {
 		List<Vehicle> vehicle = testIllicitService.qryVehicleList();
 		for (Vehicle ve : vehicle) {
-			List<NetTrffSurveil> surveilList = testIllicitService.qryNetTrffSurveilList("渝"+ve.getVehiNo());
+			List<NetTrffSurveil> surveilList = testIllicitService.qryNetTrffSurveilList("渝"+ve.getVehiNo(),ve.getVehiNoType());
 			if (surveilList.size()>0) {
 				for (NetTrffSurveil net : surveilList) {
 					String uuid = RandomHelper.uuid();
@@ -143,7 +143,7 @@ public class TestController implements Serializable {
 			}
 		}
 		for (Vehicle ve2 : vehicle) {
-			List<NetTrffViolation> tion = testIllicitService.qryNetTrffViolationList("渝"+ve2.getVehiNo());
+			List<NetTrffViolation> tion = testIllicitService.qryNetTrffViolationList("渝"+ve2.getVehiNo(),ve2.getVehiNoType());
 			if (tion.size()>0) {
 				for (NetTrffViolation net : tion) {
 					VehiDrIllicit veDr = new VehiDrIllicit();

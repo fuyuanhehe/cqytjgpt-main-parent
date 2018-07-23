@@ -5,7 +5,6 @@
 		<id property="id" column="id" javaType="java.lang.String"></id>
 		<result property="vehiNo" column="vehiNo" javaType="java.lang.String"></result>
 		<result property="vehiNoType" column="vehiNoType" javaType="java.lang.String"></result>
-		<result property="vehiType" column="vehiType" javaType="java.lang.String"></result>
 		<result property="nature" column="nature" javaType="java.lang.String"></result>
 		<result property="ownership" column="ownership" javaType="java.lang.String"></result>
 		<result property="owner" column="owner" javaType="java.lang.String"></result>
@@ -27,8 +26,8 @@
 	</resultMap>
 	<!-- 新增车牌号和车辆类型 -->
 	<insert id="saveVehicle" parameterType="java.util.Map">
-		insert into vehicle(id,vehiNo,vehiNoType,vehiType,mgrEnterpriseId,createTime) values 
-			(#{id},#{vehiNo},#{vehiNoType},#{carTypeName},#{entId},NOW())
+		insert into vehicle(id,vehiNo,vehiNoType,mgrEnterpriseId,createTime) values 
+			(#{id},#{vehiNo},#{vehiNoType},#{entId},NOW())
 	</insert>
 	
 	<!--  -->
@@ -109,7 +108,6 @@
 	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="Vehicle">
 		SELECT ve.id,ve.vehiNo,
 			 CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
-			 CASE ve.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiTypeText,ve.vehiType,
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
 			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,
@@ -145,9 +143,6 @@
 			</if>
 			<if test="vehiNoType != null and vehiNoType != ''">
 				and vehiNoType = #{vehiNoType}
-			</if>
-			<if test="vehiType != null and vehiType != ''">
-				and vehiType = #{vehiType}
 			</if>
 			<if test="state != null and state != ''">
 				and state = #{state}
@@ -205,9 +200,6 @@
 			<if test="vehiNoType != null and vehiNoType != ''">
 				and vehiNoType = #{vehiNoType}
 			</if>
-			<if test="vehiType != null and vehiType != ''">
-				and vehiType = #{vehiType}
-			</if>
 			<if test="state != null and state != ''">
 				and state = #{state}
 			</if>
@@ -229,7 +221,6 @@
 	<select id="qryOneVehicle" parameterType="java.util.Map" resultMap="Vehicle">
 		SELECT ve.id,ve.vehiNo,
 			CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
-			 CASE ve.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiTypeText,ve.vehiType,
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
 			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,
