@@ -66,9 +66,41 @@ public class Vehicle extends BaseBean implements Serializable {
 	private String endTime;
 	
 	private String id;
-	
-	
-	
+	//证件名称
+	private String identityName;
+	//证件号码
+	private String identityCode;
+	//是否为农用车
+	private String countrySideUse;
+	//是否是面包车
+	private String mbCar;
+	//强制报废时间
+	private String examineForceEffectEndTime;
+
+	public String getExamineForceEffectEndTime() {
+		return examineForceEffectEndTime;
+	}
+
+	public void setExamineForceEffectEndTime(String examineForceEffectEndTime) {
+		this.examineForceEffectEndTime = examineForceEffectEndTime;
+	}
+
+	public String getCountrySideUse() {
+		return countrySideUse;
+	}
+
+	public void setCountrySideUse(String countrySideUse) {
+		this.countrySideUse = countrySideUse;
+	}
+
+	public String getMbCar() {
+		return mbCar;
+	}
+
+	public void setMbCar(String mbCar) {
+		this.mbCar = mbCar;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -77,53 +109,21 @@ public class Vehicle extends BaseBean implements Serializable {
 		this.id = id;
 	}
 
-	public Vehicle() {
-		super();
+	public String getIdentityName() {
+		return identityName;
 	}
 
-	public Vehicle(String vehiNo, String vehiNoType, String vehiNoTypeText, String vehiType, String vehiTypeText,
-			String nature, String ownership, String owner, String telphone, String mobilephone, String adress,
-			String permitCar, String firstReciveTime, String mgrDepart, String mgrDepartAreaId, String areaNm,
-			String mgrEnterpriseId, String etpNm, String nextExamineTime, String effectStartTime, String effectEndTime,
-			String examineEffectEndTime, String scoreTotal, String state, String remark, String startTime,
-			String endTime) {
-		super();
-		this.vehiNo = vehiNo;
-		this.vehiNoType = vehiNoType;
-		this.vehiNoTypeText = vehiNoTypeText;
-		this.vehiType = vehiType;
-		this.vehiTypeText = vehiTypeText;
-		this.nature = nature;
-		this.ownership = ownership;
-		this.owner = owner;
-		this.telphone = telphone;
-		this.mobilephone = mobilephone;
-		this.adress = adress;
-		this.permitCar = permitCar;
-		this.firstReciveTime = firstReciveTime;
-		this.mgrDepart = mgrDepart;
-		this.mgrDepartAreaId = mgrDepartAreaId;
-		this.areaNm = areaNm;
-		this.mgrEnterpriseId = mgrEnterpriseId;
-		this.etpNm = etpNm;
-		this.nextExamineTime = nextExamineTime;
-		this.effectStartTime = effectStartTime;
-		this.effectEndTime = effectEndTime;
-		this.examineEffectEndTime = examineEffectEndTime;
-		this.scoreTotal = scoreTotal;
-		this.state = state;
-		this.remark = remark;
-		this.startTime = startTime;
-		this.endTime = endTime;
+	public void setIdentityName(String identityName) {
+		this.identityName = identityName;
 	}
 
+	public String getIdentityCode() {
+		return identityCode;
+	}
 
-
-
-
-
-
-
+	public void setIdentityCode(String identityCode) {
+		this.identityCode = identityCode;
+	}
 
 	public String getEtpNm() {
 		return etpNm;
@@ -340,5 +340,6 @@ public class Vehicle extends BaseBean implements Serializable {
 	public void setVehiTypeText(String vehiTypeText) {
 		this.vehiTypeText = vehiTypeText;
 	}
+
 
 }

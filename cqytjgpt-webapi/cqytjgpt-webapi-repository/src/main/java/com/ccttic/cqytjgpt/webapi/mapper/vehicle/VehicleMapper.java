@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.role.vo.VehicleVO;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.role.Area;
@@ -40,7 +41,7 @@ public interface VehicleMapper {
 	 * @return
 	 * @throws AppException
 	 */
-	public Vehicle qryOneVehicle(Map<String, Object> params) throws AppException;
+	public VehicleVO qryOneVehicle(Map<String, Object> params) throws AppException;
 	
 	/**
 	 * 根据车牌号获取车辆基础信息

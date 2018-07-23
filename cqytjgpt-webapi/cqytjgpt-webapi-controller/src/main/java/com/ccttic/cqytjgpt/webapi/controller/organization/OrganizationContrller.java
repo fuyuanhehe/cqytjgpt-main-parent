@@ -6,12 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.entity.employee.EmployeeVo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
@@ -49,7 +48,8 @@ public class OrganizationContrller implements Serializable {
 
 	@Autowired
 	private IDepartmentService departmentService;
-
+	@Autowired
+	private IEmployeeService employeeService;
 	/**
 	 * 获取组织机构
 	 * 
@@ -59,7 +59,7 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<TreeVo>> findAllOrg() {
+	public ResponseMsg<List<TreeVo>> findAllOrg(@RequestParam String access_token) {
 		ResponseMsg<List<TreeVo>> resp = new ResponseMsg<List<TreeVo>>();
 		List<TreeVo> list = new ArrayList<TreeVo>();
 		TreeVo vo = new TreeVo();
@@ -74,7 +74,9 @@ public class OrganizationContrller implements Serializable {
 			map.put("id", headOrg.getId());
 			vo.setIconCls("company");
 			vo.setAttributes(map);
-			List<Organization> orgs = organizationService.findNextNode(headOrg.getOrgCd()); // 获取分所
+			//List<Organization> orgs = organizationService.findNextNode(headOrg.getOrgCd()); // 获取分所
+			EmployeeVo employee = employeeService.getUserInfo(access_token);
+			List<Organization> orgs = employee.getCanSeeOrgs();
 			if (ObjectHelper.isNotEmpty(orgs)) {
 				vo.setChildren(itemOrg(orgs));
 			}
@@ -94,7 +96,6 @@ public class OrganizationContrller implements Serializable {
 	/**
 	 * 遍历所有的下级机构
 	 * @param orgs
-	 * @param type
 	 * @return
 	 * @throws AppException
 	 */
@@ -131,8 +132,6 @@ public class OrganizationContrller implements Serializable {
 	}
 	/**
 	 * 取得当前节点的下级节点
-	 * 
-	 * @param orgCd
 	 *            当前节点的code
 	 * @return 下级节点
 	 */
@@ -157,8 +156,7 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 根据机构orgCd取得组织信息
-	 * 
-	 * @param orgCd
+	 *
 	 *            机构code
 	 * @return
 	 */
@@ -185,8 +183,7 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 创建机构
-	 * 
-	 * @param orgDto
+
 	 *            机构属性
 	 * @return
 	 */
@@ -210,8 +207,6 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 修改机构
-	 * 
-	 * @param orgDto
 	 *            机构属性
 	 * @return
 	 */
@@ -234,8 +229,6 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 删除机构
-	 * 
-	 * @param orgCd
 	 *            当前节点的code
 	 * @return 下级节点
 	 */
@@ -257,8 +250,6 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 根据机构orgCd取得部门管理信息
-	 * 
-	 * @param orgCd
 	 *            机构code
 	 * @return
 	 */
@@ -285,8 +276,6 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 新增部门
-	 * 
-	 * @param orgCd
 	 *            机构编码
 	 * @param ment
 	 * @return
@@ -334,8 +323,6 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 删除部门
-	 * 
-	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/removeDepartment", method = { RequestMethod.POST, RequestMethod.GET })
@@ -361,8 +348,6 @@ public class OrganizationContrller implements Serializable {
 
 	/**
 	 * 新增企业
-	 * 
-	 * @param orgCd
 	 *            机构编码
 	 * @param rise
 	 * @return

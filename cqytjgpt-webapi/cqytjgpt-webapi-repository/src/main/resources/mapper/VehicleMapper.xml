@@ -104,12 +104,12 @@
 	</select>
 	
 	<!-- 根据企业编码获取车辆基础信息 -->
-	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="Vehicle">
+	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="com.ccttic.entity.role.vo.VehicleVO">
 		SELECT ve.id,ve.vehiNo,
 			 CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
-			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,
+			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,ve.mbCar,ve.countrySideUse,
 			 CASE ve.state WHEN 'G' THEN '违法未处理' WHEN 'A' THEN '正常' WHEN 'O' THEN '锁定' WHEN 'N' THEN '事故逃逸'
 			 WHEN 'M' THEN '达到报废标准' WHEN 'L' THEN '扣留' WHEN 'K' THEN '查封' WHEN 'J' THEN '嫌疑车' 
 			 WHEN 'D' THEN '停驶' WHEN 'E' THEN '注销' WHEN 'H' THEN '海关监管' WHEN 'C' THEN '被盗抢' 
@@ -218,7 +218,7 @@
 	
 	<!-- 根据id获取指定车辆基础详情信息 -->
 	<select id="qryOneVehicle" parameterType="java.util.Map" resultMap="Vehicle">
-		SELECT ve.id,ve.vehiNo,
+		SELECT ve.id,ve.vehiNo,ve.identityCode,ve.identityName,ve.examineForceEffectEndTime,
 			CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,

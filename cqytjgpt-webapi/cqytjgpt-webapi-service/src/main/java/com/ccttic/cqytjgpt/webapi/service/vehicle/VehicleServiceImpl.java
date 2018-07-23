@@ -1,40 +1,39 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import com.ccttic.entity.enterprise.EssEnterprise;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
+import com.ccttic.cqytjgpt.webapi.mapper.category.CategoryMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.car.XMLCar;
+import com.ccttic.entity.category.CategoryAttr;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.entity.role.vo.VehicleList;
+import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class VehicleServiceImpl implements IVehicleService {
 	private Logger logger = LoggerFactory.getLogger(VehicleServiceImpl.class);
 	@Resource
 	private VehicleMapper mapper;// 司机基础信息
+
+	@Resource
+	private CategoryMapper categoryMapper;
 
 	@Override
 	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo vehicle) throws AppException {
@@ -66,7 +65,13 @@ public class VehicleServiceImpl implements IVehicleService {
 
 	@Override
 	public Vehicle qryOneVehicle(Map<String, Object> params) throws AppException {
-		return mapper.qryOneVehicle(params);
+		VehicleVO vehicle = mapper.qryOneVehicle(params);
+		CategoryAttr categoryAttr = new CategoryAttr();
+		categoryAttr.setAttrCd(vehicle.getIdentityName());
+		categoryAttr.setCategoryCd("027");
+		categoryAttr = categoryMapper.findCategoryAttrNmByCd(categoryAttr);
+		vehicle.setIdentityName(categoryAttr.getAttrNm());
+		return vehicle;
 	}
 
 	@Override
@@ -79,16 +84,16 @@ public class VehicleServiceImpl implements IVehicleService {
 		String endDate = formatter.format(calendar.getTime());// 当前时间
 		int year = calendar.get(Calendar.YEAR);
 		// 要查询数据为当前时间往后推36个月的数据，所以固定查询当前年份后面的4张表
-		String tableNmae1 = "vehi_dr_illicit"+year;
-		String tableNmae2 = "vehi_dr_illicit"+(year-1);
-		String tableNmae3 = "vehi_dr_illicit"+(year-2);
-		String tableNmae4 = "vehi_dr_illicit"+(year-3);
+		String tableNmae1 = "vehi_dr_illicit" + year;
+		String tableNmae2 = "vehi_dr_illicit" + (year - 1);
+		String tableNmae3 = "vehi_dr_illicit" + (year - 2);
+		String tableNmae4 = "vehi_dr_illicit" + (year - 3);
 		List<String> tableList = new ArrayList<String>();
 		tableList.add(tableNmae1);
 		tableList.add(tableNmae2);
 		tableList.add(tableNmae3);
 		tableList.add(tableNmae4);
-		calendar.add(calendar.MONTH, -36); 
+		calendar.add(calendar.MONTH, -36);
 		String startDate = formatter.format(calendar.getTime());// 后推36个月后的时间
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
@@ -100,7 +105,7 @@ public class VehicleServiceImpl implements IVehicleService {
 		for (int i = 0; i < tableList.size(); i++) {
 			params.put("tableNmae", tableList.get(i));
 			long totolRol = mapper.qryVehiIllicitListCount(params);
-			totolRols+=totolRol;
+			totolRols += totolRol;
 			List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 			listAll.addAll(records);
 		}
@@ -108,23 +113,25 @@ public class VehicleServiceImpl implements IVehicleService {
 		pager.setRecords(listAll);
 		return pager;
 	}
-public static void main(String[] args) {
-	Calendar calendar = Calendar.getInstance();
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	calendar.setTime(new Date());
-	System.out.println(formatter.format(calendar.getTime()));
-	int year = calendar.get(Calendar.YEAR);
-	String tableNmae1 = "vehi_dr_illicit"+year;
-	String tableNmae2 = "vehi_dr_illicit"+(year-1);
-	String tableNmae3 = "vehi_dr_illicit"+(year-2);
-	String tableNmae4 = "vehi_dr_illicit"+(year-3);
-	calendar.add(calendar.MONTH, -36);  //设置为前3月
-	System.out.println(tableNmae1);
-	System.out.println(tableNmae2);
-	System.out.println(tableNmae3);
-	System.out.println(tableNmae4);
-	System.out.println(formatter.format(calendar.getTime()));
-}
+
+	public static void main(String[] args) {
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		calendar.setTime(new Date());
+		System.out.println(formatter.format(calendar.getTime()));
+		int year = calendar.get(Calendar.YEAR);
+		String tableNmae1 = "vehi_dr_illicit" + year;
+		String tableNmae2 = "vehi_dr_illicit" + (year - 1);
+		String tableNmae3 = "vehi_dr_illicit" + (year - 2);
+		String tableNmae4 = "vehi_dr_illicit" + (year - 3);
+		calendar.add(calendar.MONTH, -36);  //设置为前3月
+		System.out.println(tableNmae1);
+		System.out.println(tableNmae2);
+		System.out.println(tableNmae3);
+		System.out.println(tableNmae4);
+		System.out.println(formatter.format(calendar.getTime()));
+	}
+
 	@Override
 	public Map<String, Object> saveVehicle(VehicleList listMap, String entId) throws AppException {
 		Map<String, Object> map = new HashMap<String, Object>();
