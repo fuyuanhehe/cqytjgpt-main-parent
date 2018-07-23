@@ -69,6 +69,7 @@
         <if test="orgid != null and orgid != ''">
             and org_id =#{orgid}
         </if>
+        AND isDeleted !=1
     </select>
     <select id="getEmployeeByDep" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployeeVo">
         SELECT emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS orgNm,depart.depNm AS depNm FROM ess_employee_dept
