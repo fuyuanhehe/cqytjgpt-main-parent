@@ -1,9 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.service.employee;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -117,28 +114,33 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		EssEnterprise ent = entMapper.getEntByEmpId(emp.getId());
 		emp.setEnt(ent);
 		// 员工所在组织
+
 		Map<String, String> map = null;
 		Organization organization = null;
+		if(Const.ADMIN.equals(emp.getEmptype())) {
+			organization = organizationMapper.getOrgByAdminId(emp.getId());
+			emp.setOrg(organization);
+		}
 		if (Const.SUPERMAN.equals(emp.getEmptype())) {
 			emp.setCanSeeOrgs(organizationMapper.getAllOrg() != null ? organizationMapper.getAllOrg() : null);
 			emp.setCanSeeDeps(organizationMapper.getAllDepart("") != null ? organizationMapper.getAllDepart("") : null);
 			emp.setCanSeeEnt(entMapper.getEssEnterpriseByOrgId(""));
 			emp.setCanSeeEmp(empMapper.getAllEmp());
 			emp.setCanSeePosts(postMapper.getAllPost());
-		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.ONE).equals(emp.getEmptype())) {
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.ONE).equals(emp.getOrg().getOrgType())) {
 
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			List<Organization> organizations = organizationMapper.getLastOrg(organization.getId());
 			emp.setOrg(organization);
 			organizations.add(organization);
-			emp.getCanSeeOrgs().addAll(organizations);
+			emp.setCanSeeOrgs(organizations);
 			for (Organization org : organizations) {
 
 				if (organizationMapper.getAllDepart(org.getId()) != null
 						&& organizationMapper.getAllDepart(org.getId()).size() > Const.ZERO) {
-					emp.getCanSeeDeps().addAll(organizationMapper.getAllDepart(org.getId()));
+					emp.setCanSeeDeps(organizationMapper.getAllDepart(org.getId()));
 					if (!org.getId().equals(organization.getId())) {
-						emp.getCanSeeEnt().addAll(entMapper.getEssEnterpriseByOrgId(org.getId()));
+						emp.setCanSeeEnt(entMapper.getEssEnterpriseByOrgId(org.getId()));
 					}
 				}
 			}
@@ -147,33 +149,33 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				map = new HashMap<>();
 				map.put("depid", depart.getId());
 				List<EssEmployee> emps = postMapper.getEmployeeByDep(map);
-				emp.getCanSeeEmp().addAll(emps);
+				emp.setCanSeeEmp(emps);
 
 				List<EssPost> postList = postMapper.selectPostUnderDep(map);
-				emp.getCanSeePosts().addAll(postList);
+				emp.setCanSeePosts(postList);
 			}
 
-		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.TWO).equals(emp.getEmptype())) {
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.TWO).equals(emp.getOrg().getOrgType())) {
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			if (organizationMapper.getAllDepart(organization.getId()) != null
 					&& organizationMapper.getAllDepart(organization.getId()).size() > Const.ZERO) {
-				emp.getCanSeeDeps().addAll(organizationMapper.getAllDepart(organization.getId()));
-				emp.getCanSeeEnt().addAll(entMapper.getEssEnterpriseByOrgId(organization.getId()));
+				emp.setCanSeeDeps(organizationMapper.getAllDepart(organization.getId()));
+				emp.setCanSeeEnt(entMapper.getEssEnterpriseByOrgId(organization.getId()));
 			}
 			for (Department depart : emp.getCanSeeDeps()) {
 				map = new HashMap<>();
 				map.put("depid", depart.getId());
 				List<EssEmployee> emps = postMapper.getEmployeeByDep(map);
 				if (emps != null && emps.size() > Const.ZERO) {
-					emp.getCanSeeEmp().addAll(emps);
+					emp.setCanSeeEmp(emps);
 				}
 				List<EssPost> postList = postMapper.selectPostUnderDep(map);
 				if (postList != null && postList.size() > Const.ZERO) {
-					emp.getCanSeePosts().addAll(postList);
+					emp.setCanSeePosts(postList);
 				}
 			}
 			emp.setOrg(organization);
-		} else if((Const.ADMIN.equals(emp.getEmptype()) && (""+Const.THREE).equals(emp.getEmptype()))){
+		} else if((Const.ADMIN.equals(emp.getEmptype()) && (""+Const.THREE).equals(emp.getOrg().getOrgType()))){
 			List<EssEnterprise> adminEnt = entMapper.getEssEnterprise(emp.getId());
 			emp.setCanSeeEnt(adminEnt);
 			List<Department> departments =organizationMapper.getDepartByEntCd(adminEnt.get(0).getEtpcd());
@@ -184,11 +186,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				map.put("depid", depart.getId());
 				List<EssEmployee> emps = postMapper.getEmployeeByDep(map);
 				if (emps != null && emps.size() > Const.ZERO) {
-					emp.getCanSeeEmp().addAll(emps);
+					emp.setCanSeeEmp(emps);
 				}
 				List<EssPost> postList = postMapper.selectPostUnderDep(map);
 				if (postList != null && postList.size() > Const.ZERO) {
-					emp.getCanSeePosts().addAll(postList);
+					emp.setCanSeePosts(postList);
 				}
 			}
 
@@ -196,6 +198,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			organization = organizationMapper.getOrgByEmpId(emp.getId());
 			emp.setOrg(organization);
 		}
+
+
 
 		// 员工能使用的菜单,员工角色
 		EmployeeVo datas = service.seRoleMenuById(emp.getId());
