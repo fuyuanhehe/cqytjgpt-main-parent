@@ -12,7 +12,6 @@ import java.io.Serializable;
  *
  */
 public class VehicleVO extends Vehicle implements Serializable {
-	private static final long serialVersionUID = -3732047563152491217L;
 	//区域名
 	private String areaNm;
 

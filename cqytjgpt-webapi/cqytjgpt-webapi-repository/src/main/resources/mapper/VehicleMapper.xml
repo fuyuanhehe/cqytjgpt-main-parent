@@ -104,7 +104,7 @@
 	</select>
 	
 	<!-- 根据企业编码获取车辆基础信息 -->
-	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="com.ccttic.entity.role.vo.VehicleVO">
+	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="Vehicle">
 		SELECT ve.id,ve.vehiNo,
 			 CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
