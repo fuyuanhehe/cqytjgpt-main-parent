@@ -240,17 +240,19 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	@Override
 	@Transactional
 	public void relieveVehicleEnter(EmpVo empVo) {
-		// TODO Auto-generated method stub
 		enterpriseMapper.relieveVehicleEnter(empVo);
 	}
 
 	@Override
 	@Transactional
 	public void relieveDricerEnter(EmpVo empVo) {
-		// TODO Auto-generated method stub
 		enterpriseMapper.relieveDricerEnter(empVo);
 	}
-
+	@Override
+	public List<EssEnterprise> selectEnterpriseList(Map<String, String> map) {
+		enterpriseMapper.selectEnterpriseList(map);
+		return null;
+	}
 
 	
 	

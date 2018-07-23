@@ -81,5 +81,10 @@ public interface IEnterpriseService {
 	// <!-- 企业解绑驾驶人 -->
 
 	public void relieveDricerEnter(EmpVo empVo);
-
+	/**
+	 *@Author:zhy
+	 *@Description: 获取当前组织下的企业
+	 *@Date:15:37 2018/7/23
+	 */
+	List<EssEnterprise> selectEnterpriseList(Map<String, String> map);
 }

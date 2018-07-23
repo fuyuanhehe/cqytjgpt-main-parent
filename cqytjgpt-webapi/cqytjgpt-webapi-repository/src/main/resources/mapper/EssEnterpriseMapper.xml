@@ -1192,4 +1192,8 @@
 		mgrEnterpriseId = null WHERE id = #{id}
 	</update>
 
+    <select id="selectEnterpriseList" parameterType="java.util.Map" resultType="com.ccttic.entity.enterprise.EssEnterprise">
+        SELECT id ,eptNm from ess_enterprise WHERE org_id = #{orgId}
+    </select>
+
 </mapper>

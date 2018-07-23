@@ -53,6 +53,21 @@ public class EnterpriseController implements Serializable {
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
 
+	@RequestMapping(value = "/selectEnterprise", method = { RequestMethod.GET, RequestMethod.POST })
+	public  ResponseMsg<List<EssEnterprise>> getEssEnterprise(@RequestBody String orgId){
+		ResponseMsg<List<EssEnterprise>> responseMsg = new ResponseMsg<>();
+		Map<String, String> map = JsonUtil.jsonToMap(orgId);
+		try {
+			List<EssEnterprise> result = enterpriseService.selectEnterpriseList(map);
+			responseMsg.setData(result);
+			responseMsg.success("获得企业列表");
+		} catch (Exception e) {
+			responseMsg.fail("获得企业列表");
+			logger.info(e);
+		}
+
+		return responseMsg;
+	}
 
 	@RequestMapping(value = "/selectEnterprise", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.SELECT_ENTERPRISE, name = "查询企业信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
@@ -144,7 +159,6 @@ public class EnterpriseController implements Serializable {
 
 	/**
 	 * 根据条件获取企业信息(区分所审核)
-	 * @param page
 	 * @param vo
 	 * @return
 	 */
@@ -169,9 +183,6 @@ public class EnterpriseController implements Serializable {
 		return resp;
 	}
 	/**企业下属车辆
-	 * @param areaNm
-	 * @param etpNm
-	 * @param  id
 	 * @return
 	 */
 	@OperLogging(operType = 0)
@@ -228,9 +239,6 @@ public class EnterpriseController implements Serializable {
 	}
 
 	/** 企业下属驾驶员
-	 * @param areaNm
-	 * @param etpNm
-	 * @param  id
 	 * @return
 	 */
 	@OperLogging(operType = 0)
