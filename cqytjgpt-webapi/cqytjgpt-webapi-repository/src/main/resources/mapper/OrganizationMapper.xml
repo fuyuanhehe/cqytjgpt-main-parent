@@ -32,7 +32,7 @@
 
 	<!-- 通过机构编码获取该机构信息 -->
 	<select id="findOrgByOrgCd" parameterType="java.lang.String" resultType="com.ccttic.entity.role.OrgEmpCombine">
-		select org.id,org.orgCd,org.orgNm,org.shortNm,org.orgType,org.area_id as areaId,org.superOrg_id as superOrgId,org.admin_empid as adminEmpid,
+		select org.id,org.orgCd,org.orgNm,org.shortNm,org.remark,org.orgType,org.area_id as areaId,org.superOrg_id as superOrgId,org.admin_empid as adminEmpid,
 			 emp.account,emp.password,emp.empNm,emp.empCd,emp.empNo,emp.duty,emp.empGender,emp.mobile
 			from ess_organization org LEFT JOIN ess_employee emp ON emp.id=org.admin_empid
 			where (org.isDeleted is null or org.isDeleted = 0) and org.orgCd=#{orgCd}

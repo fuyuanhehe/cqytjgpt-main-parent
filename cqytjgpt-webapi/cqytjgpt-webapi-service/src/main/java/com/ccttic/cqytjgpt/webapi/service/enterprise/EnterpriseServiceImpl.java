@@ -94,6 +94,8 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		employee.setPassword(md5pasword);
 		employee.setEmpnm(vo.getEtplawer());
 		employee.setCreatetime(new Date());
+		employee.setEmpcd(vo.getEtpcd());
+		employee.setEmpnm(vo.getEtplawer());
 		i = employeeMapper.insertSelective(employee);
 
 		// 第二步，添加企业信息
