@@ -217,7 +217,7 @@
 	</select>
 	
 	<!-- 根据id获取指定车辆基础详情信息 -->
-	<select id="qryOneVehicle" parameterType="java.util.Map" resultMap="Vehicle">
+	<select id="qryOneVehicle" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
 		SELECT ve.id,ve.vehiNo,ve.identityCode,ve.identityName,ve.examineForceEffectEndTime,
 			CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
