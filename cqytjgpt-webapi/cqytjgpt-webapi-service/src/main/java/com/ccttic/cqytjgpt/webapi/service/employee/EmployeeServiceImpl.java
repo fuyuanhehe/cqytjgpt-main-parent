@@ -132,7 +132,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			List<Organization> organizations = organizationMapper.getLastOrg(organization.getId());
 			emp.setOrg(organization);
-			organizations.add(organization);
+			organizations.add(0,organization);
 			emp.setCanSeeOrgs(organizations);
 			for (Organization org : organizations) {
 

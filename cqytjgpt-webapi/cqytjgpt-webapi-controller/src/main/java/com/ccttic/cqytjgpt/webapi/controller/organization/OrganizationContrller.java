@@ -74,9 +74,9 @@ public class OrganizationContrller implements Serializable {
 			map.put("id", headOrg.getId());
 			vo.setIconCls("company");
 			vo.setAttributes(map);
-			//List<Organization> orgs = organizationService.findNextNode(headOrg.getOrgCd()); // 获取分所
-			EmployeeVo employee = employeeService.getUserInfo(access_token);
-			List<Organization> orgs = employee.getCanSeeOrgs();
+			List<Organization> orgs = organizationService.findNextNode(headOrg.getOrgCd()); // 获取分所
+//			EmployeeVo employee = employeeService.getUserInfo(access_token);
+//			List<Organization> orgs = employee.getCanSeeOrgs();
 			if (ObjectHelper.isNotEmpty(orgs)) {
 				vo.setChildren(itemOrg(orgs));
 			}
