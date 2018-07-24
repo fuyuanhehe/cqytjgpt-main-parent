@@ -66,11 +66,6 @@ public class VehicleServiceImpl implements IVehicleService {
 	@Override
 	public VehicleVO qryOneVehicle(Map<String, Object> params) throws AppException {
 		VehicleVO vehicle = mapper.qryOneVehicle(params);
-		CategoryAttr categoryAttr = new CategoryAttr();
-		categoryAttr.setAttrCd(vehicle.getIdentityName());
-		categoryAttr.setCategoryCd("027");
-		categoryAttr = categoryMapper.findCategoryAttrNmByCd(categoryAttr);
-		vehicle.setIdentityName(categoryAttr.getAttrNm());
 		return vehicle;
 	}
 
