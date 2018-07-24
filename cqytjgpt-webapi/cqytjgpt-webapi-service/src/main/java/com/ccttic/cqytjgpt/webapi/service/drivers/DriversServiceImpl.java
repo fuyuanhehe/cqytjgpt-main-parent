@@ -12,9 +12,7 @@ import com.ccttic.util.page.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,11 +82,17 @@ public class DriversServiceImpl implements DriversService {
 		params.put("list", driver.getQid());
 		params.put("empType", driver.getEmpType()); // 账号类型
            
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);//获取年份
-
-		params.put("dring", "vehi_dr_illicit"+String.valueOf(year));
-
+		if(driver.getFiString()!=null){
+		if(  !(driver.getFiString().equals(""))){
+			 String year = driver.getFiString().substring(0, 4) ;
+			 params.put("dring", "vehi_dr_illicit"+year);
+		}else {
+			params.put("dring", "vehi_dr_illicit"+driver.getYears());
+		}
+		}else {
+			params.put("dring", "vehi_dr_illicit"+driver.getYears());
+		}
+		
 		pager.setRecords(mapper.seDr_illicitPages(params));
 		pager.setTotalRows(mapper.getDriverPageCount(params));
 
@@ -357,5 +361,5 @@ public class DriversServiceImpl implements DriversService {
 
 	}
 
-
+	
 }

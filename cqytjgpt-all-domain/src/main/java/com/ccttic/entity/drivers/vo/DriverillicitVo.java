@@ -1,5 +1,7 @@
 package com.ccttic.entity.drivers.vo;
 
+import java.time.Year;
+import java.util.Calendar;
 import java.util.List;
 
 import com.ccttic.entity.drivers.dr_illicit;
@@ -11,7 +13,7 @@ public class DriverillicitVo extends dr_illicit{
 	private String name;
 	// 所属企业
 	private String areaNm;
-   
+
 	// 所属区域
 	private String etpNm;
 	//违法时间
@@ -19,26 +21,37 @@ public class DriverillicitVo extends dr_illicit{
 	private String fiString;
 	//最后违法时间
 	private String laString;
-   //企业id
-   private List<String> qid;
-   
-   private String empType;
-   
-   private String  drIllicitState;
-   
-   
+	//企业id
+	private List<String> qid;
+
+	private String empType;
+
+	private String  drIllicitState;
+	Calendar cal = Calendar.getInstance();
+	int year = cal.get(Calendar.YEAR);//获取年份
+
+	private String years = String.valueOf(year);
+
+	
+
+	public String getYears() {
+		return years;
+	}
+	public void setYears(String years) {
+		this.years = years;
+	}
 	public String getDrIllicitState() {
-	return drIllicitState;
-}
-public void setDrIllicitState(String drIllicitState) {
-	this.drIllicitState = drIllicitState;
-}
+		return drIllicitState;
+	}
+	public void setDrIllicitState(String drIllicitState) {
+		this.drIllicitState = drIllicitState;
+	}
 	public String getEmpType() {
-	return empType;
-}
-public void setEmpType(String empType) {
-	this.empType = empType;
-}
+		return empType;
+	}
+	public void setEmpType(String empType) {
+		this.empType = empType;
+	}
 	public DriverillicitVo() {
 		// TODO Auto-generated constructor stub
 	}
@@ -93,9 +106,9 @@ public void setEmpType(String empType) {
 	public void setQid(List<String> qid) {
 		this.qid = qid;
 	}
-	
 
 
-	
+
+
 
 }

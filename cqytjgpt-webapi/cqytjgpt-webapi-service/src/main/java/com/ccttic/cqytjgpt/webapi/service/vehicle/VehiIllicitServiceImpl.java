@@ -1,23 +1,23 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
-import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
-import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
-import com.ccttic.entity.role.VehiIllicit;
-import com.ccttic.util.exception.AppException;
-import com.ccttic.util.page.Page;
-import com.ccttic.util.page.PageImpl;
-import com.ccttic.util.page.Pageable;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
+import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
+import com.ccttic.entity.role.VehiIllicit;
+import com.ccttic.util.common.DateHelper;
+import com.ccttic.util.exception.AppException;
+import com.ccttic.util.page.Page;
+import com.ccttic.util.page.PageImpl;
+import com.ccttic.util.page.Pageable;
 
 @Service
 public class VehiIllicitServiceImpl implements IVehiIllicitService {
@@ -30,22 +30,15 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		calendar.setTime(new Date());
-		String endDate = formatter.format(calendar.getTime());// 当前时间
-		int year = calendar.get(Calendar.YEAR);
-		// 要查询数据为当前时间往后推36个月的数据，所以固定查询当前年份后面的4张表
-		String tableNmae1 = "vehi_dr_illicit"+year;
-		String tableNmae2 = "vehi_dr_illicit"+(year-1);
-		String tableNmae3 = "vehi_dr_illicit"+(year-2);
-		String tableNmae4 = "vehi_dr_illicit"+(year-3);
-		calendar.add(calendar.MONTH, -36); 
-		String startDate = formatter.format(calendar.getTime());// 后推36个月后的时间
-		List<String> tableList = new ArrayList<String>();
-		tableList.add(tableNmae1);
-		tableList.add(tableNmae2);
-		tableList.add(tableNmae3);
-		tableList.add(tableNmae4);
+		int year = 0;
+		if (null != vehiIllicit.getIllicit()) {
+			year = Integer.parseInt(vehiIllicit.getIllicit().substring(0, 4));
+		} else { // 当违法时间为空的时候直接取当前年份
+			year = calendar.get(Calendar.YEAR);
+		}
+		String startDate = DateHelper.getFirstDayOfMonth1(year, 1);
+		String endDate = DateHelper.getLastDayOfMonth1(year, 12);
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
 		params.put("pageSize", page.getRows());
@@ -60,24 +53,12 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("pickDepartmentDesc", vehiIllicit.getPickDepartmentDesc()); // 采集机关名称
 		params.put("startTime", vehiIllicit.getStartTime()); // 违法开始时间
 		params.put("endTime", vehiIllicit.getEndTime()); // 违法结束时间
-
-		long totolRols = 0;
-		List<VehiIllicit> listAll = new ArrayList<VehiIllicit>();
-		for (int i = 0; i < tableList.size(); i++) {
-			params.put("tableNmae", tableList.get(i));
-			long totolRol = mapper.qryVehiIllicitListCount(params);
-			totolRols+=totolRol;
-			List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
-			listAll.addAll(records);
-		}
-		List<VehiIllicit> subList= new ArrayList<VehiIllicit>();
-        int currIdx = (page.getPage() > 1 ? (page.getPage() -1) * page.getRows() : 0);
-        for (int i = 0; i < page.getRows() && i < listAll.size() - currIdx; i++) {
-        	subList.add(listAll.get(currIdx + i));
-        }
-			
-		pager.setTotalRows(totolRols);
-		pager.setRecords(subList);
+		params.put("tableNmae", "vehi_dr_illicit"+year);
+		
+		long totolRol = mapper.qryVehiIllicitListCount(params);
+		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
+		pager.setTotalRows(totolRol);
+		pager.setRecords(records);
 
 		return pager;
 	}

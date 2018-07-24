@@ -2,6 +2,8 @@ package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,8 +123,16 @@ public class VehiIllicitContrller implements Serializable{
 	public ResponseMsg<VehiIllicit> qryOneVehiIllicit (@RequestBody VehiIllicit ve) {
 		ResponseMsg<VehiIllicit> resp = new ResponseMsg<VehiIllicit>();
 		Map<String, Object> params = new HashMap<String, Object>();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		int year = 0;
 		params.put("id", ve.getId());
-		params.put("tableNmae", "vehi_dr_illicit"+ve.getIllicitTime().substring(0, 4));
+		if (null != ve.getIllicitTime()) {
+			params.put("tableNmae", "vehi_dr_illicit"+ve.getIllicitTime().substring(0, 4));
+		} else {
+			year = calendar.get(Calendar.YEAR);
+			params.put("tableNmae", "vehi_dr_illicit"+year);
+		}
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
 			resp.setData(vehiIllicit);
