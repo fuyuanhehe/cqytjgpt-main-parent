@@ -672,7 +672,7 @@
 		<if test="endTime != null and endTime != ''">
 			and cit.illicitTime &lt;= #{endTime}
 		</if>
-		order by illicitTime desc	
+
 		limit ${startRecord},${pageSize}
 	</select>
 	
