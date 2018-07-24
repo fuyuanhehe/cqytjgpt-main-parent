@@ -589,7 +589,26 @@
 		en.etpAdress,
 		en.remark,
 		en.etpCd,
-		en.etpType,
+		case en.etpType
+		when 'I' then '消防企业'
+		when 'D' then '出租客运企业'
+		when 'Q' then '其他校车企业'
+		when 'N' then '教练企业'
+		when 'K' then '工程抢险车'
+		when 'P' then '小学生校车'
+		when 'G' then '租赁企业'
+		when 'A' then '非营运企业'
+		when 'C' then '公交客运企业'
+		when 'H' then '警用企业'
+		when 'E' then '旅游客运企业'
+		when 'J' then '救护企业'
+		when 'M' then '出租转非企业'
+		when 'L' then '营转非企业'
+		when 'F' then '货运企业'
+		when 'R' then '危化品运输企业'
+		when 'O' then '幼儿校车企业'
+		else '不明确'
+		end as etpType,
 		en.issueCardDate,
 		en.roadTransport
 		FROM
@@ -631,7 +650,6 @@
 		<if test="etpCd!= null and etpCd!='' ">
 			and en.etpCd = #{etpCd}
 		</if>
-
 		and (en.isDeleted is null OR en.isDeleted !=1)
 		AND en.id != ''
 		limit
