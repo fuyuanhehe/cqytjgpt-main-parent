@@ -749,24 +749,20 @@
 		'大型车'
 		ELSE
 		'小型车'
-		END AS
-		vehiNoType,
+		END AS vehiNoType,
 		v.nature,
 		v.firstReciveTime,
-		v.examineEffectEndTime as
-		effectEndTime ,
-		v.owner,
+		v.examineEffectEndTime AS effectEndTime,
+		v. OWNER,
 		v.mobilephone,
 		v.telphone,
 		v.mgrDepart,
 		CASE v.state
-		WHEN
-		'A' THEN
+		WHEN 'A' THEN
 		'正常'
 		WHEN 'G' THEN
 		'违法未处理'
-		WHEN 'Q'
-		THEN
+		WHEN 'Q' THEN
 		'逾期未检验'
 		WHEN 'P' THEN
 		'达到报废标准公告牌证作废'
@@ -776,51 +772,117 @@
 		'锁定'
 		WHEN 'L' THEN
 		'扣留'
-		WHEN
-		'J' THEN
+		WHEN 'J' THEN
 		'嫌疑车辆'
 		WHEN 'N' THEN
 		'事故逃逸'
-		WHEN 'D'
-		THEN
+		WHEN 'D' THEN
 		'停驶'
 		WHEN 'E' THEN
 		'注销'
 		WHEN 'H' THEN
 		'海管监管'
-		WHEN 'C'
-		THEN
+		WHEN 'C' THEN
 		'被强盗'
-		WHEN 'B'
-		THEN
+		WHEN 'B' THEN
 		'转出'
-		WHEN 'M'
-		THEN
+		WHEN 'M' THEN
 		'达到报废标准'
 		ELSE
-		'不正常'
+		'不明确'
 		END AS state,
-		a.areaNm ,
+		a.areaNm,
 		v.ownership,
 		v.adress,
 		v.examineEffectEndTime,
 		v.identityCode,
-		v.identityName,
-		v.mbCar,
-		v.countrySideUse,
-		v.examineForceEffectEndTime
+		CASE v.identityName
+		WHEN 'A' THEN
+		'居民身份证'
+		WHEN 'B' THEN
+		'组织机构代码证书'
+		WHEN 'C' THEN
+		'军官证'
+		WHEN 'D' THEN
+		'士兵证'
+		WHEN 'E' THEN
+		'军官离退休证'
+		WHEN 'F' THEN
+		'境外人员身份证明'
+		WHEN 'G' THEN
+		'外交人员身份证明'
+		WHEN 'H' THEN
+		'居民户口簿'
+		WHEN 'J' THEN
+		'单位注销证明'
+		WHEN 'K' THEN
+		'居住暂住证明'
+		WHEN 'L' THEN
+		'驻华机构证明'
+		WHEN 'M' THEN
+		'临时居民身份证'
+		WHEN 'N' THEN
+		'统一社会信用代码'
+		WHEN 'P' THEN
+		'个体工商户营业执照注册号'
+		ELSE
+		'不明确'
+		END AS identityName,
+		CASE v.mbCar
+		WHEN 1 THEN
+		'是'
+		WHEN 2 THEN
+		'否'
+		ELSE
+		'不明确'
+		END AS mbCar,
+		CASE v.vehicleState
+		WHEN 'A' THEN
+		'正常'
+		WHEN 'G' THEN
+		'违法未处理'
+		WHEN 'Q' THEN
+		'逾期未检验'
+		WHEN 'P' THEN
+		'达到报废标准公告牌证作废'
+		WHEN 'K' THEN
+		'查封'
+		WHEN 'O' THEN
+		'锁定'
+		WHEN 'L' THEN
+		'扣留'
+		WHEN 'J' THEN
+		'嫌疑车辆'
+		WHEN 'N' THEN
+		'事故逃逸'
+		WHEN 'D' THEN
+		'停驶'
+		WHEN 'E' THEN
+		'注销'
+		WHEN 'H' THEN
+		'海管监管'
+		WHEN 'C' THEN
+		'被强盗'
+		WHEN 'B' THEN
+		'转出'
+		WHEN 'M' THEN
+		'达到报废标准'
+		ELSE
+		'不明确'
+		END AS vehicleState,
+		v.examineForceEffectEndTime,
+		CASE v.countrySideUse
+		WHEN '1' THEN
+		'是'
+		WHEN '2' THEN
+		'否'
+		ELSE
+		'不明确'
+		END AS countrySideUse
 		FROM
 		ess_area a
-		LEFT JOIN
-		vehicle
-		v ON
-		a.id =
-		v.mgrDepartAreaId
-		LEFT JOIN
-		ess_enterprise e
-		ON
-		v.mgrEnterpriseId =
-		e.id
+		LEFT JOIN vehicle v ON a.id = v.mgrDepartAreaId
+		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId = e.id
 		<choose>
 			<when test=" vehiNo != '' and vehiNo != null  ">
 				where v.vehiNo= #{vehiNo}

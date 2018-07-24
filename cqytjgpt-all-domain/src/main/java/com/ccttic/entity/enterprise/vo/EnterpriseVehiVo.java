@@ -9,39 +9,39 @@ public class EnterpriseVehiVo extends Pages {
 	 * 
 	 */
 	private static final long serialVersionUID = -3154729662588697562L;
-	
+
 	private String id;
-	
+
 	private String vehiNo;
 
 	private String vehiType;
-	
+
 	private String vehiNoType;
-	
+
 	private String nature;
-	
+
 	private String firstReciveTime;
-	
+
 	private String effectEndTime;
-	
+
 	private String owner;
-	
+
 	private String mobilephone;
-	
+
 	private String mgrDepart;
-	
+
 	private String state;
-	
+
 	private String etpNm;
-	
+
 	private String areaNm;
-	
+
 	private String ownership;
-	
+
 	private String adress;
-	
+
 	private String examineEffectEndTime;
-	
+
 	private String telphone;
 
 	//证件名称
@@ -54,6 +54,17 @@ public class EnterpriseVehiVo extends Pages {
 	private String mbCar;
 	//强制报废时间
 	private String examineForceEffectEndTime;
+	//机动车状态
+	private String vehicleState;
+
+	
+	public String getVehicleState() {
+		return vehicleState;
+	}
+
+	public void setVehicleState(String vehicleState) {
+		this.vehicleState = vehicleState;
+	}
 
 	public String getIdentityName() {
 		return identityName;
