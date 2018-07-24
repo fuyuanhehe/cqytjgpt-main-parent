@@ -562,6 +562,7 @@
 		parameterType="java.util.Map">
 		SELECT
 		en.id,
+		en.ownerTransport,
 		a.areaNm,
 		en.etpNm,
 		en.etpCd,

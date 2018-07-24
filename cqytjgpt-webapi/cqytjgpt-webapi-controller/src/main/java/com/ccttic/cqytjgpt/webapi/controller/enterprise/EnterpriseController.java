@@ -185,7 +185,10 @@ public class EnterpriseController implements Serializable {
 	/**企业下属车辆
 	 * @return
 	 */
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 3,content="企业下属车辆")
+	@ResourceScan(rsc = @Resource(cd = Const.ENTER_VEHICLE, name = "企业下属车辆", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION), prsc = {
+			@Resource(cd = Const.DRIVER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getEnterpriseVe",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EnterpriseVehiVo>>getEnterpriseVe(@RequestBody EnterpriseVehiVo tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterpriseVehiVo>> resp = new ResponseMsg<List<EnterpriseVehiVo>>();
@@ -241,7 +244,10 @@ public class EnterpriseController implements Serializable {
 	/** 企业下属驾驶员
 	 * @return
 	 */
-	@OperLogging(operType = 0)
+	@ResourceScan(rsc = @Resource(cd = Const.ENTER_DRIVER, name = "企业下属驾驶人", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION), prsc = {
+			@Resource(cd = Const.DRIVER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@OperLogging(operType = 3,content="企业下属驾驶员")
 	@RequestMapping(value="/getEnterpriceDriver",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EnterpriseDriverVo>>getEnterpriceDriver(@RequestBody EnterpriseDriverVo tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterpriseDriverVo>> resp = new ResponseMsg<List<EnterpriseDriverVo>>();
@@ -301,7 +307,11 @@ public class EnterpriseController implements Serializable {
 	 * empId
 	 * 
 	 */
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 1)
+	@ResourceScan(rsc = @Resource(cd = Const.ENTER_CHOICE_VEHICLE, name = "企业选择车辆",  hierarchy = 4, isMenue = false, pcd = Const.ENTER_VEHICLE)
+	, prsc = {@Resource( cd = Const.ENTER_VEHICLE, name = "企业下属车辆", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION),
+			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/setVehicle",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String>updateVehicleByid(@RequestBody EmpVo tment,@RequestParam String access_token){
 		ResponseMsg<String> resp = new ResponseMsg<String>();
@@ -359,7 +369,11 @@ public class EnterpriseController implements Serializable {
 	 * empId
 	 * 
 	 */
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 1)
+	@ResourceScan(rsc = @Resource(cd = Const.ENTER_CHOICE_DRIVER, name = "企业选择驾驶人",  hierarchy = 4, isMenue = false, pcd = Const.ENTER_VEHICLE)
+	, prsc = {@Resource( cd = Const.ENTER_VEHICLE, name = "企业下属车辆", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION),
+			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/setDriver",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String>setVehicle(@RequestBody EmpVo tment,@RequestParam String access_token){
 		ResponseMsg<String> resp = new ResponseMsg<String>();
@@ -415,7 +429,7 @@ public class EnterpriseController implements Serializable {
 
 
 	// id
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 1)
 	@RequestMapping(value="/removeVehicle",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String>removeVehicle(@RequestBody EmpVo tmen){
 		ResponseMsg<String> resp = new ResponseMsg<String>();
@@ -435,7 +449,7 @@ public class EnterpriseController implements Serializable {
 
 
 	// id
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 1)
 	@RequestMapping(value="/removeDriver",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<String>removeDriver(@RequestBody EmpVo tmen){
 		ResponseMsg<String> resp = new ResponseMsg<String>();

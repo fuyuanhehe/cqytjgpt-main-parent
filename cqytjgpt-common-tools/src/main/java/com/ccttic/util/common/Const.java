@@ -166,7 +166,40 @@ public class Const {
 			       * 驾驶人信息-信息记录-详情 四级
 			       */
 			     public static final String DRIVER_DETAILS = "driver_details";
+			     
+	/*
+	 * 企业监管二级		     
+	 */
+    public	static final String	ENTER_INFORMATION = "enter-information";     
+			     
+          /*
+	       * 企业信息-基本信息	三级     
+	      */
+          public static final String ENTER_ESSENTIAL = "enter-essential";
+          /*
+      	 * 企业下属车辆	     	三级   
+      	 */
+          public static final String ENTER_VEHICLE = "enter-vehicle";
+          /*
+      	 * 企业下属驾驶人		三级   	     
+      	 */   
+          public static final String ENTER_DRIVER = "enter-driver";
+          
+              /*
+               * 企业选择车辆 4级
+               */
+              public static final String ENTER_CHOICE_VEHICLE = "enter-choice-vehicle";
+          
+              /*
+               * 企业选择驾驶人 4级
+               */
+              public static final String ENTER_CHOICE_DRIVER = "enter-choice-driver";
 	 
+              // 移除车辆  4级
+              public static final String REEMOVE_VEHICLE = "remove-vehicle";
+              
+           // 移除车辆 4级
+              public static final String REEMOVE_DRIVER = "remove-driver";
 //***************************日常监管菜单 end************************************************************
 				
 //***************************系统管理菜单 start**********************************************************

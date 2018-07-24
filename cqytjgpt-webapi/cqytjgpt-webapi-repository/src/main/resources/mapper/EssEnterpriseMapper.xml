@@ -742,8 +742,9 @@
 		parameterType="java.util.Map">
 		SELECT
 		v.id,
+		e.etpNm,
 		v.vehiNo,
-	
+		v.vehiType,
 		CASE v.vehiNoType
 		WHEN '01' THEN
 		'大型车'
@@ -776,7 +777,8 @@
 		'锁定'
 		WHEN 'L' THEN
 		'扣留'
-		WHEN 'J' THEN
+		WHEN
+		'J' THEN
 		'嫌疑车辆'
 		WHEN 'N' THEN
 		'事故逃逸'
@@ -803,12 +805,15 @@
 		v.ownership,
 		v.adress,
 		v.examineEffectEndTime,
-		v.identityCode,v.identityName,v.examineForceEffectEndTime,
-		v.mbCar,v.countrySideUse
+		v.identityCode,
+		v.identityName,
+		v.mbCar,
+		v.countrySideUse
 		FROM
 		ess_area a
 		LEFT JOIN
-		vehicle v ON
+		vehicle
+		v ON
 		a.id =
 		v.mgrDepartAreaId
 		LEFT JOIN
@@ -846,9 +851,7 @@
 		<if test="vehiNoType!=null and vehiNoType!='' ">
 			and v.vehiNoType= #{vehiNoType}
 		</if>
-		
-		
-
+		and e.etpNm!=''
 		and v.id != ''
 		limit ${startRecord},${pageSize}
 
@@ -895,7 +898,7 @@
 		<if test="vehiNoType!=null and vehiNoType!='' ">
 			and v.vehiNoType= #{vehiNoType}
 		</if>
-
+		and e.etpNm!=''
 		and v.id != ''
 	</select>
 	<!--企业下驾驶人 -->
@@ -1082,9 +1085,10 @@
 		<if test="id!=null and id!='' ">
 			and d.id= #{id}
 		</if>
-
+		and e.etpNm !=''
 		and d.id !=''
-		and (d.isDelete is null OR d.isDelete !=1)
+		and (d.isDelete is null OR d.isDelete
+		!=1)
 		limit
 		${startRecord},${pageSize}
 	</select>
@@ -1124,9 +1128,10 @@
 		<if test="id!=null and id!='' ">
 			and d.id= #{id}
 		</if>
-
+		and e.etpNm !=''
 		and d.id !=''
-		and (d.isDelete is null OR d.isDelete !=1)
+		and (d.isDelete is null OR d.isDelete
+		!=1)
 
 	</select>
 
@@ -1184,18 +1189,21 @@
 	<!-- 企业解绑车辆 -->
 
 	<update id="relieveVehicleEnter" parameterType="com.ccttic.entity.role.vo.EmpVo">
-		UPDATE vehicle SET
+		UPDATE vehicle
+		SET
 		mgrEnterpriseId = null WHERE id = #{id}
 	</update>
-	
+
 	<!-- 企业解绑驾驶人 -->
 	<update id="relieveDricerEnter" parameterType="com.ccttic.entity.role.vo.EmpVo">
 		UPDATE driver SET
 		mgrEnterpriseId = null WHERE id = #{id}
 	</update>
 
-    <select id="selectEnterpriseList" parameterType="java.util.Map" resultType="com.ccttic.entity.enterprise.EssEnterprise">
-        SELECT id ,eptNm from ess_enterprise WHERE org_id = #{orgId}
-    </select>
+	<select id="selectEnterpriseList" parameterType="java.util.Map"
+		resultType="com.ccttic.entity.enterprise.EssEnterprise">
+		SELECT id ,eptNm from ess_enterprise WHERE org_id =
+		#{orgId}
+	</select>
 
 </mapper>

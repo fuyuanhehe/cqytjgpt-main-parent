@@ -38,7 +38,7 @@ import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 /*
- *功能说明 : 驾驶员，违法记录
+ *功能说明 : 驾驶员业务
  */
 
 @RestController
@@ -114,7 +114,7 @@ public class DriversController implements Serializable{
 	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "驾驶人信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
 			@Resource( cd = Const.DRIVER_INFORMATION, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 3,content="获取准假车型")
 	@RequestMapping(value="/getAllpermiCar",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<PermiCarsVo>>getAllpermiCar(){
 		ResponseMsg<List<PermiCarsVo>> resp = new ResponseMsg<>();
@@ -273,7 +273,10 @@ public class DriversController implements Serializable{
 	 * @return 
 	 * @date  2018年6月20日
 	 */
-	@OperLogging(operType = 0,content="企业信息-基本信息")
+	@OperLogging(operType = 3,content="企业信息-基本信息")
+	@ResourceScan(rsc = @Resource(cd = Const.ENTER_ESSENTIAL, name = "企业信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION), prsc = {
+			@Resource(cd = Const.DRIVER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
@@ -324,7 +327,6 @@ public class DriversController implements Serializable{
 	}
 
 	//测试查询,没用的接口
-	@OperLogging(operType = 0)
 	@RequestMapping(value="/queryEmpPage",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EssEmployee>> queryEmpPage(PageRequest page){
 		ResponseMsg<List<EssEmployee>> resp = new ResponseMsg<List<EssEmployee>>();
@@ -351,7 +353,7 @@ public class DriversController implements Serializable{
 	 * @return 
 	 * @date  2018年6月25日
 	 */
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 3)
 	@RequestMapping(value="/queryVehiclespage",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<vehiclesVo>>queryVehiclespage(@RequestBody vehiclesVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<vehiclesVo>> resp = new ResponseMsg<List<vehiclesVo>>();
@@ -409,7 +411,7 @@ public class DriversController implements Serializable{
 	 * @param vehiType  
 	 */
 
-	@OperLogging(operType = 0)
+	@OperLogging(operType = 3)
 	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<VehiTotal>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){
 		ResponseMsg<List<VehiTotal>> resp = new ResponseMsg<>();
