@@ -317,7 +317,8 @@ public class EmployeeController {
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> editEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
-
+		String md5pasword = MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8");
+		emp.setPassword(md5pasword);
 		try {
 			employeeService.editEmployee(emp);
 			rm.success("修改employee数据成功");
