@@ -21,4 +21,6 @@ public interface TestIllicitMapper {
 	public VehiDrIllicit qryVehiDrIllicit(VehiDrIllicit cit);
 	
 	public void updtVehiDrIllicit(VehiDrIllicit cit);
+	
+	public void updaVehi(Map<String, Object> params);
 }

@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.vehicle;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ccttic.entity.illegal.NetTrffSurveil;
 import com.ccttic.entity.illegal.NetTrffViolation;
@@ -19,4 +20,7 @@ public interface ITestIllicitService {
 	
 	public VehiDrIllicit qryVehiDrIllicit(VehiDrIllicit cit);
 	public void updtVehiDrIllicit(VehiDrIllicit cit);
+	
+	
+	public void updaVehi(Map<String, Object> params);
 }

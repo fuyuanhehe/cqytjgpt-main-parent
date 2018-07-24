@@ -48,7 +48,10 @@ public class TestIllicitServiceImpl implements ITestIllicitService{
 	@Override
 	public void updtVehiDrIllicit(VehiDrIllicit cit) {
 		mapper.updtVehiDrIllicit(cit);
-		
+	}
+	@Override
+	public void updaVehi(Map<String, Object> params) {
+		mapper.updaVehi(params);
 	}
 
 

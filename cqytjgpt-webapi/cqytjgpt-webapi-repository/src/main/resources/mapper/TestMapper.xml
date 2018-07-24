@@ -56,6 +56,10 @@
 		where decisionNumber=#{decisionNumber}
   	
   	</update>
+  	<update id="updaVehi" parameterType="java.util.Map">
+  	UPDATE vehicle SET state=#{state} WHERE vehiNo=#{vehiNo}
   	
+  	
+  	</update>
   	
 </mapper>
