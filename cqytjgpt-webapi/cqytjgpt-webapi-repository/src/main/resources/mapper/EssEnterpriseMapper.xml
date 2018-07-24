@@ -744,7 +744,6 @@
 		v.id,
 		e.etpNm,
 		v.vehiNo,
-		v.vehiType,
 		CASE v.vehiNoType
 		WHEN '01' THEN
 		'大型车'
@@ -808,7 +807,8 @@
 		v.identityCode,
 		v.identityName,
 		v.mbCar,
-		v.countrySideUse
+		v.countrySideUse,
+		v.examineForceEffectEndTime
 		FROM
 		ess_area a
 		LEFT JOIN
