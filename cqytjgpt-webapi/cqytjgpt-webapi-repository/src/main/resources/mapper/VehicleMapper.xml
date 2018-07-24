@@ -118,7 +118,7 @@
 			 FROM ( SELECT * FROM vehicle
 			 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
-			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
+			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1) and
 			 	</when>
 			 	<otherwise>
 			 		WHERE (isDeleted is null or isDeleted !=1)

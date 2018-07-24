@@ -591,12 +591,12 @@
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from ${tableNmae} cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
 						WHERE (cit.isDeleted is null or cit.isDeleted !=1) and cit.illicitTime &gt;= #{startDate} and cit.illicitTime &lt;= #{endDate}
-				<if test="list != null and list.size()>0">
-							 and ve.mgrEnterpriseId in
-				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-			        #{item}  
-			    </foreach>  
-				</if>		
+				<!--<if test="list != null and list.size()>0">-->
+							 <!--and ve.mgrEnterpriseId in-->
+				<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
+                   <!--#{item}  -->
+			    <!--</foreach>  -->
+				<!--</if>		-->
 				
 				<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 					and cit.mgrDepartAreaId = #{mgrDepartAreaId}
@@ -611,7 +611,7 @@
 					and cit.illicit = #{illicit}
 				</if>
 				<if test="state != null and state != ''">
-					and ve.state = #{state}
+					and cit.vehiState = #{state}
 				</if>
 				<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
 					and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
@@ -629,22 +629,22 @@
 	
 	<!-- 根据条件获取车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-	SELECT a.id AS id,AREA.areaNm,a.vehiNo,ess.etpNm,CASE a.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,a.vehiNoType, 
-			a.illicitTime,a.illicitAdress,a.illicit,a.serialNumber,a.pickDepartmentDesc,CASE a.disposeSign WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END disposeSign,
-			ict.illegal_name AS illicitDesc,a.illicitAmount,a.illicitScore, CASE a.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
+	SELECT cit.id AS id,AREA.areaNm,cit.vehiNo,ess.etpNm,CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
+      cit.illicitTime,cit.illicitAdress,cit.illicit,cit.serialNumber,cit.pickDepartmentDesc,CASE cit.disposeSign WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END disposeSign,
+			ict.illegal_name AS illicitDesc,cit.illicitAmount,cit.illicitScore, CASE cit.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
 			 WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-			CASE a.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
-      FROM ${tableNmae} a LEFT JOIN vehicle ve ON a.vehicle_id=ve.id
+			CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
+      FROM ${tableNmae} cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
       LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-      LEFT JOIN  ess_area AREA ON  area.id = a.mgrDepartAreaId
-      LEFT JOIN  illegal_comparison_table ict ON  ict.code = a.illicit
-      WHERE (a.isDeleted is null or a.isDeleted !=1) and a.illicitTime &gt;= #{startDate} and a.illicitTime &lt;= #{endDate}
-		<if test="list != null and list.size()>0">
-			and ess.id in 
-			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-	        #{item}  
-	  	  </foreach>
-		</if>
+      LEFT JOIN  ess_area AREA ON  area.id = cit.mgrDepartAreaId
+      LEFT JOIN  illegal_comparison_table ict ON  ict.code = cit.illicit
+      WHERE (cit.isDeleted is null or cit.isDeleted !=1) and cit.illicitTime &gt;= #{startDate} and cit.illicitTime &lt;= #{endDate}
+		<!--<if test="list != null and list.size()>0">-->
+			<!--and ess.id in -->
+			<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
+	        <!--#{item}  -->
+	  	  <!--</foreach>-->
+		<!--</if>-->
 		<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 			and cit.mgrDepartAreaId = #{mgrDepartAreaId}
 		</if>
@@ -658,7 +658,7 @@
 			and cit.illicit = #{illicit}
 		</if>
 		<if test="state != null and state != ''">
-			and ve.state = #{state}
+			and cit.vehiState = #{state}
 		</if>
 		<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
 			and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
