@@ -673,6 +673,7 @@
 			and cit.illicitTime &lt;= #{endTime}
 		</if>
 		order by illicitTime desc	
+		${startRecord},${pageSize}
 	</select>
 	
 	

@@ -254,6 +254,7 @@
 		LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
 		LEFT JOIN illegal_comparison_table tablei ON cit.illicit=tablei.id
 		ORDER BY illicitTime DESC
+		${startRecord},${pageSize}
 	</select>
 	
 	<!-- 根据id获取指定车辆的违法信息条数-->
