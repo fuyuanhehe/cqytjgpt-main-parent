@@ -418,8 +418,8 @@
 		vd.illicitScore,
 		vd.illicitAmount,
 		vd.mgrDepart,
-		vd.drIllicitState,
-		vd.illicit
+        ict.illegal_name AS illicit,
+        CASE vd.drState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END drIllicitState
 		FROM
 		${dring} vd
 		LEFT JOIN
@@ -430,6 +430,7 @@
 		LEFT JOIN ess_organization o ON e.org_id =
 		o.id
 		LEFT JOIN ess_area a ON o.area_id = a.id
+        LEFT JOIN  illegal_comparison_table ict ON  ict.code = vd.illicit
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
