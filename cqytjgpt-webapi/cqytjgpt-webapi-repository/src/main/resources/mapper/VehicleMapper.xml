@@ -247,7 +247,7 @@
 			 CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
 		FROM 
 		(
-			SELECT * FROM ${tableNmae} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
+			SELECT * FROM ${tableNmae} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and illicitTime &gt;= #{startDate} and illicitTime &lt;= #{endDate}
 		) cit
 		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
 		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
@@ -261,7 +261,7 @@
 		SELECT COUNT(1)
 		FROM 
 		(
-			SELECT * FROM ${tableNmae} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and left(illicitTime,10) &gt;= #{startDate} and left(illicitTime,10) &lt;= #{endDate}
+			SELECT * FROM ${tableNmae} WHERE vehicle_id=#{id} and (isDeleted is null or isDeleted !=1) and illicitTime &gt;= #{startDate} and illicitTime &lt;= #{endDate}
 			
 		) cit
 		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
