@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.service.organization;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -25,8 +26,8 @@ public class OrganizationServiceImpl implements IOrganizationService{
 	private DepartmentMapper mentMapper;
 	
 	@Override
-	public Organization getHeadOrg() throws AppException {
-		return mapper.getHeadOrg();
+	public Organization getHeadOrg(Map<String, String> map) throws AppException {
+		return mapper.getHeadOrg(map);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.entity.employee.EmployeeVo;
+import com.ccttic.util.common.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,17 +60,18 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<TreeVo>> findAllOrg(@RequestParam String access_token) {
+	public ResponseMsg<List<TreeVo>> findAllOrg(@RequestParam String access_token,@RequestBody String orgId) {
 		ResponseMsg<List<TreeVo>> resp = new ResponseMsg<List<TreeVo>>();
+		Map<String, String> orgIdMap = JsonUtil.jsonToMap(orgId);
 		List<TreeVo> list = new ArrayList<TreeVo>();
 		TreeVo vo = new TreeVo();
 		try {
-			Organization headOrg = organizationService.getHeadOrg(); // 获取机构头
+			Organization headOrg = organizationService.getHeadOrg(orgIdMap); // 获取机构头
 			vo.setId(headOrg.getOrgCd());
 			vo.setText(headOrg.getOrgNm());
 			vo.setRemark(headOrg.getRemark());
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("orgType", "0");
+			map.put("orgType",headOrg.getOrgType());
 			map.put("orgCd", headOrg.getOrgCd());
 			map.put("id", headOrg.getId());
 			vo.setIconCls("company");

@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.mapper.organization;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -14,8 +15,9 @@ public interface OrganizationMapper {
 	/**
 	 * 获取机构
 	 * @return
+	 * @param map
 	 */
-	public Organization getHeadOrg();
+	public Organization getHeadOrg(Map<String, String> map);
 	
 	/**
 	 * 通过机构编码获取子机构

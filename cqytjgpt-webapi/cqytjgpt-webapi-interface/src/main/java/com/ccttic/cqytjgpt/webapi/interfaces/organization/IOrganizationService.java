@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.interfaces.organization;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.OrgEmpCombine;
@@ -13,8 +14,9 @@ public interface IOrganizationService {
 	 * 获取机构头
 	 * @return
 	 * @throws AppException
+	 * @param map
 	 */
-	Organization getHeadOrg() throws AppException;
+	Organization getHeadOrg(Map<String, String> map) throws AppException;
 	
 	/**
 	 * 通过机构代码获取子机构信息
