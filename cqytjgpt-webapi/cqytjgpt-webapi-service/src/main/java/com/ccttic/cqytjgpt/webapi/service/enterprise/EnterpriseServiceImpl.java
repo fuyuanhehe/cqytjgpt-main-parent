@@ -169,13 +169,13 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 
 		List<EnterpriseVehiVo> list= enterpriseMapper.getEnterpriseVe(params);
 
-		CategoryAttr categoryAttr = new CategoryAttr();
+	/*	CategoryAttr categoryAttr = new CategoryAttr();
 		if (list.get(0)!=null) {
 			categoryAttr.setAttrCd(list.get(0).getIdentityName());
 			categoryAttr.setCategoryCd("027");
 			categoryAttr = categoryMapper.findCategoryAttrNmByCd(categoryAttr);
 			list.get(0).setIdentityName(categoryAttr.getAttrNm());
-		}
+		}*/
 		pager.setRecords(list);
 		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));
 
