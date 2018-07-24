@@ -82,13 +82,17 @@ public class DriversServiceImpl implements DriversService {
 		params.put("list", driver.getQid());
 		params.put("empType", driver.getEmpType()); // 账号类型
            
+		if(driver.getFiString()!=null){
 		if(  !(driver.getFiString().equals(""))){
 			 String year = driver.getFiString().substring(0, 4) ;
 			 params.put("dring", "vehi_dr_illicit"+year);
 		}else {
 			params.put("dring", "vehi_dr_illicit"+driver.getYears());
 		}
-
+		}else {
+			params.put("dring", "vehi_dr_illicit"+driver.getYears());
+		}
+		
 		pager.setRecords(mapper.seDr_illicitPages(params));
 		pager.setTotalRows(mapper.getDriverPageCount(params));
 
