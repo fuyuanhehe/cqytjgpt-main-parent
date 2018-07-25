@@ -384,7 +384,6 @@
 		LEFT
 		JOIN ess_enterprise e ON e.id =
 		v.mgrEnterpriseId
-
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				where 1=1
@@ -399,39 +398,34 @@
 		</choose>
 
 		and vd.idcard = #{idcard}
-		and (vd.isDeleted is null OR
-		vd.isDeleted
-		!=1)
-
+		and (vd.isDeleted is null OR vd.isDeleted!=1)
 	</select>
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
-		SELECT
-		vd.id,
-		a.areaNm,
-		e.etpNm,
-		REPLACE (vd. NAME, ' ', '') NAME,
-		vd.illicitTime,
-		vd.illicitAdress,
-		vd.illicitScore,
-		vd.illicitAmount,
-		vd.mgrDepart,
+        SELECT
+        vd.id,
+        a.areaNm,
+        e.etpNm,
+        REPLACE (vd. NAME, ' ', '') NAME,
+        vd.idcard,
+        vd.illicitTime,
+        vd.illicitAdress,
+        vd.illicitScore,
+        vd.illicitAmount,
+        vd.mgrDepart,
         ict.illegal_name AS illicit,
         CASE vd.drState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END drIllicitState
-		FROM
-		${dring} vd
-		LEFT JOIN
-		vehicle v ON vd.vehicle_id = v.id
-		LEFT JOIN ess_enterprise e
-		ON
-		v.mgrEnterpriseId = e.id
-		LEFT JOIN ess_organization o ON e.org_id =
-		o.id
-		LEFT JOIN ess_area a ON o.area_id = a.id
+        FROM
+        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id =vd.id
+        LEFT JOIN vehicle v ON vd.vehicle_id = v.id
+        LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId = e.id
+        LEFT JOIN ess_organization o ON e.org_id = o.id
+        LEFT JOIN ess_area a ON o.area_id = a.id
         LEFT JOIN  illegal_comparison_table ict ON  ict.code = vd.illicit
-		<choose>
+
+        <choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
@@ -467,28 +461,13 @@
 			#{laString}
 		</if>
 		AND vd.idcard != NULL
- 		limit
-		${startRecord} ,
-		${pageSize}
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
 	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map"
 		>
-		SELECT
-		count(vd.id)
-		FROM
-		${dring} vd
-		LEFT JOIN vehicle v ON vd.vehicle_id
-		= v.id
-		LEFT JOIN ess_enterprise
-		e
-		ON v.mgrEnterpriseId = e.id
-		LEFT JOIN
-		ess_organization o ON e.org_id =
-		o.id
-		LEFT JOIN ess_area a ON o.area_id
-		= a.id
-		<choose>
+        SELECT count(vd.id) FROM
+        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL) tmp ON tmp.id =vd.id
+        <choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
@@ -523,6 +502,7 @@
 			and vd.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
+        AND vd.idcard IS NOT NULL
 	</select>
 
 	<!-- 一对多查询关联 -->
