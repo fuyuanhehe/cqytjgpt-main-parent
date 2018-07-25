@@ -389,7 +389,7 @@ public class VehicleContrller implements Serializable {
 		List<JSON> list = new ArrayList<JSON>();
 
 		Area area = null;
-		if (vo.getOrg() != null) {
+		if (vo.getCanSeeOrgs() != null) {
 			if ("SUPERMAN".equals(vo.getEmptype()) || "0".equals(vo.getOrg().getOrgType())) {
 				String s = frign.vehicleInfoList(token, "0", "500000");
 				list.add(JSON.parseObject(s));
