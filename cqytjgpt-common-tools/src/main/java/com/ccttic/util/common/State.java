@@ -14,7 +14,7 @@ public class State {
 	//身份证名称
 	public static final Map<String, Object> IDCARDHAMAP = new HashMap<>();
 
-	//企业状态
+	//企业类型
 	public static final Map<String, Object> ENTERMAP = new HashMap<>();
 	
 	//驾驶人状态

@@ -608,7 +608,6 @@
 		ELSE
 		'不明确'
 		END AS mbCar,
-		CASE
 		v.vehicleState,
 		v.examineForceEffectEndTime,
 		CASE v.countrySideUse
@@ -729,7 +728,7 @@
 		d.effectEndTime,
 		e.etpNm,
 		a.areaNm,
-		d.state1,
+		d.state1
 		FROM
 		driver d
 		LEFT JOIN
