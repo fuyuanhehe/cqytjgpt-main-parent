@@ -118,6 +118,7 @@ public class EssEnterprise extends BaseBean implements Serializable{
      * 创建时间
      */
     private Date createtime;
+    private String orgNm;
 
     public EssEnterprise() {
 		super();
@@ -127,7 +128,7 @@ public class EssEnterprise extends BaseBean implements Serializable{
 			String lawertel, String etpsafer, String safertel, String adminEmpid, String ownertraffic,
 			String ownertransport, String etpadress, String etpregadress, String etptel, String attachmentId,
 			Integer state, String remark, Integer disporder, String referStartTime, String referEndTime,
-			String checkStartTime, String checkEndTime, String etpType, String issueCardDate, String roadTransport,Date createtime) {
+			String checkStartTime, String checkEndTime, String etpType, String issueCardDate, String roadTransport,Date createtime,String orgNm) {
 		super();
 		this.id = id;
 		this.orgId = orgId;
@@ -156,6 +157,7 @@ public class EssEnterprise extends BaseBean implements Serializable{
 		this.issueCardDate = issueCardDate;
 		this.roadTransport = roadTransport;
 		this.createtime = createtime;
+		this.orgNm = orgNm;
 	}
 
 	/**
@@ -524,6 +526,14 @@ public class EssEnterprise extends BaseBean implements Serializable{
 
 	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
+	}
+
+	public String getOrgNm() {
+		return orgNm;
+	}
+
+	public void setOrgNm(String orgNm) {
+		this.orgNm = orgNm;
 	}
 
  
