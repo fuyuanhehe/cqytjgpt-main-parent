@@ -143,8 +143,11 @@
 			<if test="vehiNoType != null and vehiNoType != ''">
 				and vehiNoType = #{vehiNoType}
 			</if>
-			<if test="state != null and state != ''">
-				and state = #{state}
+            <if test="vehiType != null and vehiType != ''">
+                and vehiType = #{vehiType}
+            </if>
+            <if test="state != null and state != ''">
+				and state like CONCAT(CONCAT('%',#{state},'%'))
 			</if>
 			<if test="effectStartTime != null and effectStartTime != ''">
 				and (left(examineEffectEndTime,10) &gt;= #{effectStartTime})
@@ -158,6 +161,7 @@
 			<if test="endTime != null and endTime != ''">
 				and left(firstReciveTime,10) &lt;= #{endTime}
 			</if>
+
 			order by firstReciveTime desc
 			limit ${startRecord},${pageSize}
 			)ve 
@@ -235,7 +239,7 @@
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
 			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id
 			LEFT JOIN param_category_attr attrs ON ve.identityName=attrs.attrCd and attrs.categoryCd = '027'
-			LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '029'
+			LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and attr.categoryCd = '029'
 	</select>
 	
 			<!-- 根据id获取指定车辆的违法信息 -->
