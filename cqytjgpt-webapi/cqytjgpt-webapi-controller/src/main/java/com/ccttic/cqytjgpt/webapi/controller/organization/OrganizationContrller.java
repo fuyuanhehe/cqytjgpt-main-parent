@@ -18,6 +18,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
