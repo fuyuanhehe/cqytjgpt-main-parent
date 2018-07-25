@@ -591,6 +591,7 @@
 		when 'F' then '货运企业'
 		when 'R' then '危化品运输企业'
 		when 'O' then '幼儿校车企业'
+		when 'B' then '公路客运企业'
 		else '不明确'
 		end as etpType,
 		en.issueCardDate,
