@@ -87,4 +87,7 @@ public interface IEnterpriseService {
 	 *@Date:15:37 2018/7/23
 	 */
 	List<EssEnterprise> selectEnterpriseList(Map<String, String> map);
+	
+	//企业获取所有管理部门
+		public List<String> getDepar();
 }

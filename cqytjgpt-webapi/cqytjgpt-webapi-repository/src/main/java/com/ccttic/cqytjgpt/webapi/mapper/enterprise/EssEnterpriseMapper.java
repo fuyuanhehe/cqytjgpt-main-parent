@@ -128,4 +128,8 @@ public interface EssEnterpriseMapper {
 	 *@Date:15:39 2018/7/23
 	 */
 	void selectEnterpriseList(Map<String, String> map);
+	
+	
+	//企业获取所有管理部门
+	public List<String> getDepar();
 }

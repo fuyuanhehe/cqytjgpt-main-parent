@@ -187,9 +187,11 @@
 		#{updatedepcd,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
-		insert into ess_enterprise (id,attachment_id,etpNm,ownerTransport,etpAdress,etpTel,etpSafer,saferTel,etpLawer,lawerTel,org_id,etpRegAdress) 
-					VALUES(#{id},#{attachmentId},#{etpnm},#{ownertransport},#{etpadress},#{etptel},#{etpsafer},#{safertel},#{etplawer},#{lawertel},#{orgId},#{etpregadress})
-		
+		insert into
+		ess_enterprise
+		(id,attachment_id,etpNm,ownerTransport,etpAdress,etpTel,etpSafer,saferTel,etpLawer,lawerTel,org_id,etpRegAdress)
+		VALUES(#{id},#{attachmentId},#{etpnm},#{ownertransport},#{etpadress},#{etptel},#{etpsafer},#{safertel},#{etplawer},#{lawertel},#{orgId},#{etpregadress})
+
 	</insert>
 	<select id="countByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample"
 		resultType="java.lang.Long">
@@ -615,7 +617,8 @@
 		'注销'
 		WHEN 'H' THEN
 		'海管监管'
-		WHEN 'C' THEN
+		WHEN 'C'
+		THEN
 		'被强盗'
 		WHEN 'B' THEN
 		'转出'
@@ -634,7 +637,8 @@
 		'居民身份证'
 		WHEN 'B' THEN
 		'组织机构代码证书'
-		WHEN 'C' THEN
+		WHEN 'C'
+		THEN
 		'军官证'
 		WHEN 'D' THEN
 		'士兵证'
@@ -680,7 +684,8 @@
 		'达到报废标准公告牌证作废'
 		WHEN 'K' THEN
 		'查封'
-		WHEN 'O' THEN
+		WHEN
+		'O' THEN
 		'锁定'
 		WHEN 'L' THEN
 		'扣留'
@@ -702,10 +707,12 @@
 		'达到报废标准'
 		ELSE
 		'不明确'
-		END AS vehicleState,
+		END AS
+		vehicleState,
 		v.examineForceEffectEndTime,
 		CASE v.countrySideUse
-		WHEN '1' THEN
+		WHEN '1'
+		THEN
 		'是'
 		WHEN '2' THEN
 		'否'
@@ -715,7 +722,8 @@
 		FROM
 		ess_area a
 		LEFT JOIN vehicle v ON a.id = v.mgrDepartAreaId
-		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId = e.id
+		LEFT JOIN
+		ess_enterprise e ON v.mgrEnterpriseId = e.id
 		<choose>
 			<when test=" vehiNo != '' and vehiNo != null  ">
 				where v.vehiNo= #{vehiNo}
@@ -1099,6 +1107,13 @@
 		resultType="com.ccttic.entity.enterprise.EssEnterprise">
 		SELECT id ,eptNm from ess_enterprise WHERE org_id =
 		#{orgId}
+	</select>
+
+	<select id="getDepar" resultType="String">
+		SELECT DISTINCT
+		ownerTransport
+		FROM
+		ess_enterprise
 	</select>
 
 </mapper>

@@ -287,6 +287,12 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		return null;
 	}
 
+	@Override
+	public List<String> getDepar() {
+		// TODO Auto-generated method stub
+		return enterpriseMapper.getDepar();
+	}
+
 
 
 
