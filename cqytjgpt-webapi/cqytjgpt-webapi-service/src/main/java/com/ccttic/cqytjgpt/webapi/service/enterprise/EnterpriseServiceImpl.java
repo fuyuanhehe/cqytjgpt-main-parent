@@ -5,9 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.ccttic.cqytjgpt.webapi.mapper.category.CategoryMapper;
-import com.ccttic.entity.category.CategoryAttr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +24,8 @@ import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.common.DateHelper;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
+import com.ccttic.util.common.State;
+import com.ccttic.util.common.StringHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
@@ -168,14 +168,31 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("vehiNo", envo.getVehiNo());
 		params.put("vehiNoType", envo.getVehiNoType());
 
-		/*	CategoryAttr categoryAttr = new CategoryAttr();
-		if (list.get(0)!=null) {
-			categoryAttr.setAttrCd(list.get(0).getIdentityName());
-			categoryAttr.setCategoryCd("027");
-			categoryAttr = categoryMapper.findCategoryAttrNmByCd(categoryAttr);
-			list.get(0).setIdentityName(categoryAttr.getAttrNm());
-		}*/
-		pager.setRecords(enterpriseMapper.getEnterpriseVe(params));
+		List<EnterpriseVehiVo> data = enterpriseMapper.getEnterpriseVe(params);
+
+		for (EnterpriseVehiVo enterpriseVehiVo : data) {
+			if(enterpriseVehiVo.getState()==null){
+				enterpriseVehiVo.setState("不明确");
+			}else {
+				enterpriseVehiVo.setState(StringHelper.getChar(enterpriseVehiVo.getState(), State.VEHICLEMAP)  );
+			}
+
+			if( enterpriseVehiVo.getIdentityName()==null){
+				enterpriseVehiVo.setIdentityName("不明确");
+			}else {
+				enterpriseVehiVo.setIdentityName(StringHelper.getChar(enterpriseVehiVo.getIdentityName() , State.IDCARDHAMAP) );
+			}
+
+			if(enterpriseVehiVo.getVehicleState()==null){
+				enterpriseVehiVo.setVehicleState("不明确");
+			}else {
+				enterpriseVehiVo.setVehicleState( StringHelper.getChar(enterpriseVehiVo.getVehicleState() , State.VEHICLEMAP)   );	
+			}
+
+
+		}
+
+		pager.setRecords(data);
 		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));
 
 		return pager;
@@ -199,14 +216,22 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		List<EnterpriseDriverVo> list = enterpriseMapper.getEnterpriceDriver(params);
 
 		for (EnterpriseDriverVo driverVo2 : list) {
+
+			if(driverVo2.getState()==null){
+				driverVo2.setState("不明确");	
+			}else{
+				driverVo2.setState( StringHelper.getChar(driverVo2.getState() , State.MAPS) );	
+			}   
+			if(driverVo2.getState1()==null){
+				driverVo2.setState1("不明确");	
+			}else{
+				driverVo2.setState1( StringHelper.getChar(driverVo2.getState1() , State.MAPS) );	
+			}  
+
 			driverVo2.setFirstrecivetime(DateHelper.getDataString(driverVo2.getFirstrecivetime()));
-
 			driverVo2.setNextexaminetime(DateHelper.getDataString(driverVo2.getNextexaminetime()));	
-
 			driverVo2.setEffectstarttime(DateHelper.getDataString(driverVo2.getEffectstarttime()));
-
 			driverVo2.setEffectendtime(DateHelper.getDataString(driverVo2.getEffectendtime()));
-
 			driverVo2.setExamineeffectendtime(DateHelper.getDataString(driverVo2.getExamineeffectendtime()));
 		}
 

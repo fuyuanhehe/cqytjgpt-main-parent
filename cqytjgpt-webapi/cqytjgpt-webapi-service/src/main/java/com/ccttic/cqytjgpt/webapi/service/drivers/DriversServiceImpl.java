@@ -7,23 +7,19 @@ import com.ccttic.entity.drivers.vo.*;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.util.common.DateHelper;
 import com.ccttic.util.common.RandomHelper;
+import com.ccttic.util.common.State;
+import com.ccttic.util.common.StringHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import javax.activation.DataHandler;
 
 @Service
 public class DriversServiceImpl implements DriversService {
@@ -52,16 +48,23 @@ public class DriversServiceImpl implements DriversService {
 		params.put("empType", driverVo.getEmpType()); // 账号类型
 
 		List<DriverVo> List = mapper.seDriverPage(params);
+		
 		for (DriverVo driverVo2 : List) {
+			if(driverVo2.getState()==null){
+				driverVo2.setState("不明确");	
+			}else{
+				driverVo2.setState( StringHelper.getChar(driverVo2.getState() , State.MAPS) );	
+			}   
+			if(driverVo2.getState1()==null){
+				driverVo2.setState1("不明确");	
+			}else{
+				driverVo2.setState1( StringHelper.getChar(driverVo2.getState1() , State.MAPS) );	
+			}  
 
 			driverVo2.setFirstrecivetime(DateHelper.getDataString(driverVo2.getFirstrecivetime()));
-
 			driverVo2.setNextexaminetime(DateHelper.getDataString(driverVo2.getNextexaminetime()));	
-
 			driverVo2.setEffectstarttime(DateHelper.getDataString(driverVo2.getEffectstarttime()));
-
 			driverVo2.setEffectendtime(DateHelper.getDataString(driverVo2.getEffectendtime()));
-
 			driverVo2.setExamineeffectendtime(DateHelper.getDataString(driverVo2.getExamineeffectendtime()));
 		}
 
@@ -162,7 +165,17 @@ public class DriversServiceImpl implements DriversService {
 		params.put("empType", enterprisethenVo.getEmpType());
 		params.put("etpCd", enterprisethenVo.getEtpcd());
 
-		pager.setRecords(mapper.queryEnterprisePage(params));
+		List<EnterprisethenVo> list = mapper.queryEnterprisePage(params);
+
+		for (EnterprisethenVo enter : list) {
+			if(enter.getEtpType()==null){
+				enter.setEtpType("不明确");
+			}else {
+				enter.setEtpType(StringHelper.getChar(enter.getEtpType(),State.ENTERMAP));
+			}
+
+		}
+		pager.setRecords(list);
 		pager.setTotalRows(mapper.queryEnterprisePageCount(params));
 
 		return pager;
