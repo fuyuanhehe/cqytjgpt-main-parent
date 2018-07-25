@@ -1,6 +1,7 @@
 package com.ccttic.entity.enterprise;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.ccttic.entity.BaseBean;
 
@@ -110,9 +111,54 @@ public class EssEnterprise extends BaseBean implements Serializable{
     // 审核结束时间
     private String checkEndTime;
 
-  
-
+    private String etpType;
+    private String issueCardDate;
+    private String roadTransport;
     /**
+     * 创建时间
+     */
+    private Date createtime;
+
+    public EssEnterprise() {
+		super();
+	}
+
+	public EssEnterprise(String id, String orgId, String etpcd, String etpnm, String etpshortnm, String etplawer,
+			String lawertel, String etpsafer, String safertel, String adminEmpid, String ownertraffic,
+			String ownertransport, String etpadress, String etpregadress, String etptel, String attachmentId,
+			Integer state, String remark, Integer disporder, String referStartTime, String referEndTime,
+			String checkStartTime, String checkEndTime, String etpType, String issueCardDate, String roadTransport,Date createtime) {
+		super();
+		this.id = id;
+		this.orgId = orgId;
+		this.etpcd = etpcd;
+		this.etpnm = etpnm;
+		this.etpshortnm = etpshortnm;
+		this.etplawer = etplawer;
+		this.lawertel = lawertel;
+		this.etpsafer = etpsafer;
+		this.safertel = safertel;
+		this.adminEmpid = adminEmpid;
+		this.ownertraffic = ownertraffic;
+		this.ownertransport = ownertransport;
+		this.etpadress = etpadress;
+		this.etpregadress = etpregadress;
+		this.etptel = etptel;
+		this.attachmentId = attachmentId;
+		this.state = state;
+		this.remark = remark;
+		this.disporder = disporder;
+		this.referStartTime = referStartTime;
+		this.referEndTime = referEndTime;
+		this.checkStartTime = checkStartTime;
+		this.checkEndTime = checkEndTime;
+		this.etpType = etpType;
+		this.issueCardDate = issueCardDate;
+		this.roadTransport = roadTransport;
+		this.createtime = createtime;
+	}
+
+	/**
      * 主键ID
      * @return id 主键ID
      */
@@ -446,6 +492,38 @@ public class EssEnterprise extends BaseBean implements Serializable{
 
 	public void setCheckEndTime(String checkEndTime) {
 		this.checkEndTime = checkEndTime;
+	}
+
+	public String getEtpType() {
+		return etpType;
+	}
+
+	public void setEtpType(String etpType) {
+		this.etpType = etpType;
+	}
+
+	public String getIssueCardDate() {
+		return issueCardDate;
+	}
+
+	public void setIssueCardDate(String issueCardDate) {
+		this.issueCardDate = issueCardDate;
+	}
+
+	public String getRoadTransport() {
+		return roadTransport;
+	}
+
+	public void setRoadTransport(String roadTransport) {
+		this.roadTransport = roadTransport;
+	}
+
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
 
  

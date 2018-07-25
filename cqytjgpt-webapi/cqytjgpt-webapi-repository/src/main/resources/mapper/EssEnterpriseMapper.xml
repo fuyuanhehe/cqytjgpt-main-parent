@@ -31,6 +31,9 @@
 		<result column="createDepCd" jdbcType="VARCHAR" property="createdepcd" />
 		<result column="updateBy" jdbcType="VARCHAR" property="updateby" />
 		<result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
+		<result column="etpType" jdbcType="VARCHAR" property="etpType" />
+		<result column="issueCardDate" jdbcType="VARCHAR" property="issueCardDate" />
+		<result column="roadTransport" jdbcType="VARCHAR" property="roadTransport" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -184,179 +187,9 @@
 		#{updatedepcd,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
-		insert into ess_enterprise
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="orgId != null">
-				org_id,
-			</if>
-			<if test="etpcd != null">
-				etpCd,
-			</if>
-			<if test="etpnm != null">
-				etpNm,
-			</if>
-			<if test="etpshortnm != null">
-				etpshortNm,
-			</if>
-			<if test="etplawer != null">
-				etpLawer,
-			</if>
-			<if test="lawertel != null">
-				lawerTel,
-			</if>
-			<if test="etpsafer != null">
-				etpSafer,
-			</if>
-			<if test="safertel != null">
-				saferTel,
-			</if>
-			<if test="adminEmpid != null">
-				admin_empid,
-			</if>
-			<if test="ownertraffic != null">
-				ownerTraffic,
-			</if>
-			<if test="ownertransport != null">
-				ownerTransport,
-			</if>
-			<if test="etpadress != null">
-				etpadress,
-			</if>
-			<if test="etpregadress != null">
-				etpRegAdress,
-			</if>
-			<if test="etptel != null">
-				etpTel,
-			</if>
-			<if test="attachmentId != null">
-				attachment_id,
-			</if>
-			<if test="state != null">
-				state,
-			</if>
-			<if test="remark != null">
-				remark,
-			</if>
-			<if test="disporder != null">
-				dispOrder,
-			</if>
-			<if test="version != null">
-				version,
-			</if>
-			<if test="isdeleted != null">
-				isDeleted,
-			</if>
-			<if test="createtime != null">
-				createTime,
-			</if>
-			<if test="updatetime != null">
-				updateTime,
-			</if>
-			<if test="deletetime != null">
-				deleteTime,
-			</if>
-			<if test="createby != null">
-				createBy,
-			</if>
-			<if test="createdepcd != null">
-				createDepCd,
-			</if>
-			<if test="updateby != null">
-				updateBy,
-			</if>
-			<if test="updatedepcd != null">
-				updateDepCd,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=VARCHAR},
-			</if>
-			<if test="orgId != null">
-				#{orgId,jdbcType=VARCHAR},
-			</if>
-			<if test="etpcd != null">
-				#{etpcd,jdbcType=VARCHAR},
-			</if>
-			<if test="etpnm != null">
-				#{etpnm,jdbcType=VARCHAR},
-			</if>
-			<if test="etpshortnm != null">
-				#{etpshortnm,jdbcType=VARCHAR},
-			</if>
-			<if test="etplawer != null">
-				#{etplawer,jdbcType=VARCHAR},
-			</if>
-			<if test="lawertel != null">
-				#{lawertel,jdbcType=VARCHAR},
-			</if>
-			<if test="etpsafer != null">
-				#{etpsafer,jdbcType=VARCHAR},
-			</if>
-			<if test="safertel != null">
-				#{safertel,jdbcType=VARCHAR},
-			</if>
-			<if test="adminEmpid != null">
-				#{adminEmpid,jdbcType=VARCHAR},
-			</if>
-			<if test="ownertraffic != null">
-				#{ownertraffic,jdbcType=VARCHAR},
-			</if>
-			<if test="ownertransport != null">
-				#{ownertransport,jdbcType=VARCHAR},
-			</if>
-			<if test="etpadress != null">
-				#{etpadress,jdbcType=VARCHAR},
-			</if>
-			<if test="etpregadress != null">
-				#{etpregadress,jdbcType=VARCHAR},
-			</if>
-			<if test="etptel != null">
-				#{etptel,jdbcType=VARCHAR},
-			</if>
-			<if test="attachmentId != null">
-				#{attachmentId,jdbcType=VARCHAR},
-			</if>
-			<if test="state != null">
-				#{state,jdbcType=INTEGER},
-			</if>
-			<if test="remark != null">
-				#{remark,jdbcType=VARCHAR},
-			</if>
-			<if test="disporder != null">
-				#{disporder,jdbcType=INTEGER},
-			</if>
-			<if test="version != null">
-				#{version,jdbcType=INTEGER},
-			</if>
-			<if test="isdeleted != null">
-				#{isdeleted,jdbcType=BIT},
-			</if>
-			<if test="createtime != null">
-				#{createtime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updatetime != null">
-				#{updatetime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="deletetime != null">
-				#{deletetime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="createby != null">
-				#{createby,jdbcType=VARCHAR},
-			</if>
-			<if test="createdepcd != null">
-				#{createdepcd,jdbcType=VARCHAR},
-			</if>
-			<if test="updateby != null">
-				#{updateby,jdbcType=VARCHAR},
-			</if>
-			<if test="updatedepcd != null">
-				#{updatedepcd,jdbcType=VARCHAR},
-			</if>
-		</trim>
+		insert into ess_enterprise (id,attachment_id,etpNm,ownerTransport,etpAdress,etpTel,etpSafer,saferTel,etpLawer,lawerTel,org_id,etpRegAdress) 
+					VALUES(#{id},#{attachmentId},#{etpnm},#{ownertransport},#{etpadress},#{etptel},#{etpsafer},#{safertel},#{etplawer},#{lawertel},#{orgId},#{etpregadress})
+		
 	</insert>
 	<select id="countByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample"
 		resultType="java.lang.Long">

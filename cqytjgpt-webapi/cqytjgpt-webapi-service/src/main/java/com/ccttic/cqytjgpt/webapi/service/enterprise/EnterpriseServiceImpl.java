@@ -109,7 +109,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		// 第二步，添加企业信息
 		EssEnterprise en = new EssEnterprise();
 		en.setId(RandomHelper.uuid());
-		en.setAdminEmpid(employee.getId());
+		en.setAdminEmpid(RandomHelper.uuid());
 		en.setAttachmentId(vo.getAttachmentId());
 		en.setEtpnm(vo.getEtpnm()); // 企业名称
 		en.setOwnertransport(vo.getOwnertransport()); // 所属区域
