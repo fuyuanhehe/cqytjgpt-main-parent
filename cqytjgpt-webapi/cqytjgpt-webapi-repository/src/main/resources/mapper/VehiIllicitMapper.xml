@@ -589,9 +589,9 @@
   </update>
  	<!-- 根据企业编码获取车辆违法信息条数 -->
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from ${tableNmae} cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id	
-						WHERE (cit.isDeleted is null or cit.isDeleted !=1) and cit.illicitTime &gt;= #{startDate} and cit.illicitTime &lt;= #{endDate}
-				<!--<if test="list != null and list.size()>0">-->
+      SELECT COUNT(1)
+      FROM vehi_dr_illicit2018 cit JOIN (select dr.id FROM vehi_dr_illicit2018 dr WHERE (dr.isDeleted is null or dr.isDeleted !=1) and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+      <!--<if test="list != null and list.size()>0">-->
 							 <!--and ve.mgrEnterpriseId in-->
 				<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
                    <!--#{item}  -->
@@ -629,16 +629,15 @@
 	
 	<!-- 根据条件获取车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-	SELECT cit.id AS id,AREA.areaNm,cit.vehiNo,ess.etpNm,CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
+      SELECT cit.id AS id,AREA.areaNm,cit.vehiNo,ess.etpNm,CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
       cit.illicitTime,cit.illicitAdress,cit.illicit,cit.serialNumber,cit.pickDepartmentDesc,CASE cit.disposeSign WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END disposeSign,
-			ict.illegal_name AS illicitDesc,cit.illicitAmount,cit.illicitScore, CASE cit.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
-			 WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-			CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
-      FROM ${tableNmae} cit LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+      ict.illegal_name AS illicitDesc,cit.illicitAmount,cit.illicitScore, CASE cit.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
+      WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
+      CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
+      FROM ${tableNmae} cit JOIN (select dr.id FROM vehi_dr_illicit2018 dr WHERE (dr.isDeleted is null or dr.isDeleted !=1) and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate} ORDER BY illicitTime LIMIT ${startRecord},${pageSize}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
       LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
       LEFT JOIN  ess_area AREA ON  area.id = cit.mgrDepartAreaId
-      LEFT JOIN  illegal_comparison_table ict ON  ict.code = cit.illicit
-      WHERE (cit.isDeleted is null or cit.isDeleted !=1) and cit.illicitTime &gt;= #{startDate} and cit.illicitTime &lt;= #{endDate}
+      LEFT JOIN  illegal_comparison_table ict ON  ict.code = cit.illicit;
 		<!--<if test="list != null and list.size()>0">-->
 			<!--and ess.id in -->
 			<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
@@ -672,12 +671,8 @@
 		<if test="endTime != null and endTime != ''">
 			and cit.illicitTime &lt;= #{endTime}
 		</if>
-
-		limit ${startRecord},${pageSize}
 	</select>
-	
-	
-	
+
 	<!-- 根据id获取指定车辆的违法信息 -->
 	<select id="qryOneVehiIllicit" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
 				SELECT a.id AS id,a.vehiNo,ess.etpNm,CASE a.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,a.vehiNoType, 
