@@ -460,7 +460,6 @@
 			and vd.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
-		AND vd.idcard != NULL
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
 	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map"
