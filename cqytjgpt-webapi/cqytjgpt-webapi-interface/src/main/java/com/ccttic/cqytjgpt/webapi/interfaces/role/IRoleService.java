@@ -37,7 +37,7 @@ public interface IRoleService {
 	 * @return
 	 * @throws AppException
 	 */
-	boolean editRole(Role role);
+	//boolean editRole(Role role);
 
 	/**
 	 * 通过ID获取角色信息
@@ -53,7 +53,7 @@ public interface IRoleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public boolean deleteRole(String id);
+	public boolean deleteRole(Roles roles);
 
 	/**
 	 * 查询所有角色对应的菜单
@@ -97,7 +97,9 @@ public interface IRoleService {
 	 List<EmpRoleMenuVo> getEmpParameter(EmpRoleMenuVo emp);
 	 
 		//获取组织机构   ，获取部门	 
-	 public OrgAndDep getOrgAndDep();	 
+	 public OrgAndDep getOrgAndDep();
+
+ 
 	 
 	 
 }

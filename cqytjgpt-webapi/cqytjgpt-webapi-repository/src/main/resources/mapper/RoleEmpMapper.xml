@@ -25,8 +25,14 @@
 		left join ess_employee emp on emprole.emp_id = emp.id where emp.id = #{empId}  
 	</select>
 	<!-- 通过角色ID删除人员角色关系-->
-	<delete id="deleteEmpRoleByRoleId" parameterType="java.lang.String">
-		delete from ess_employee_role where role_id=#{roleId}
+	<delete id="deleteEmpRoleByRoleId" parameterType="com.ccttic.entity.role.Roles">
+		delete from ess_employee_role where role_id in
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+		(	#{item}  )
+		</foreach>
+		
+		
 	</delete>
 	<!--  通过人员ID删除人员角色关系 -->
 	<delete id="deleteEmpRoleByEmpId" parameterType="java.lang.String">

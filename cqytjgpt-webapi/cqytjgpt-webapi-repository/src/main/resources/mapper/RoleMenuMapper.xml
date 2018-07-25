@@ -28,9 +28,14 @@
 	</resultMap>
 
 	<!-- 通过角色ID删除角色菜单关系表 -->
-	<delete id="deleteRoleMenuByRoleId" parameterType="java.lang.String">
+	<delete id="deleteRoleMenuByRoleId" parameterType="com.ccttic.entity.role.Roles">
 		delete from
-		ess_role_menu where role_id=#{roleId}
+		ess_role_menu where role_id in
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+		(	#{item}  )
+		</foreach>
+		
 	</delete>
 	<!-- 批量增加角色菜单关系 -->
 	<insert id="setRoleResource" parameterType="java.util.List">

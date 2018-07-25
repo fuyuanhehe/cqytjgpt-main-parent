@@ -23,6 +23,7 @@ import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.EmpVo;
+import com.ccttic.util.common.DateHelper;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
@@ -167,16 +168,14 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("vehiNo", envo.getVehiNo());
 		params.put("vehiNoType", envo.getVehiNoType());
 
-		List<EnterpriseVehiVo> list= enterpriseMapper.getEnterpriseVe(params);
-
-	/*	CategoryAttr categoryAttr = new CategoryAttr();
+		/*	CategoryAttr categoryAttr = new CategoryAttr();
 		if (list.get(0)!=null) {
 			categoryAttr.setAttrCd(list.get(0).getIdentityName());
 			categoryAttr.setCategoryCd("027");
 			categoryAttr = categoryMapper.findCategoryAttrNmByCd(categoryAttr);
 			list.get(0).setIdentityName(categoryAttr.getAttrNm());
 		}*/
-		pager.setRecords(list);
+		pager.setRecords(enterpriseMapper.getEnterpriseVe(params));
 		pager.setTotalRows(enterpriseMapper.getEnterpriseVeCount(params));
 
 		return pager;
@@ -196,8 +195,23 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("empType", envo.getEmpType());
 		params.put("empType", envo.getEmpType());
 		params.put("idcard", envo.getIdcard());
-		
-		pager.setRecords(enterpriseMapper.getEnterpriceDriver(params));
+
+		List<EnterpriseDriverVo> list = enterpriseMapper.getEnterpriceDriver(params);
+
+		for (EnterpriseDriverVo driverVo2 : list) {
+			driverVo2.setFirstrecivetime(DateHelper.getDataString(driverVo2.getFirstrecivetime()));
+
+			driverVo2.setNextexaminetime(DateHelper.getDataString(driverVo2.getNextexaminetime()));	
+
+			driverVo2.setEffectstarttime(DateHelper.getDataString(driverVo2.getEffectstarttime()));
+
+			driverVo2.setEffectendtime(DateHelper.getDataString(driverVo2.getEffectendtime()));
+
+			driverVo2.setExamineeffectendtime(DateHelper.getDataString(driverVo2.getExamineeffectendtime()));
+		}
+
+		pager.setRecords(list);
+
 		pager.setTotalRows(enterpriseMapper.getEnterpriceDriverCount(params));
 
 		return pager;
@@ -220,10 +234,10 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		}else {
 			en.setEnterId(data.getMgrEnterpriseId());
 		}
-		
+
 		SimpleDateFormat s =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
-        en.setSetTime(s.format( new Date()).toString());
-		
+		en.setSetTime(s.format( new Date()).toString());
+
 		enterpriseMapper.setEnterpriseVehicle(en);
 
 		enterpriseMapper.updateVehicleByid(empVo);
@@ -237,7 +251,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		Vehicle ve = new Vehicle();
 		ve.setId(empVo.getId());
 		Vehicle data = enterpriseMapper.getEnterDriversBy(ve);
-		
+
 		EnterVehicle en = new EnterVehicle();
 		en.setId(RandomHelper.uuid());
 		en.setDriverId(data.getId() );
@@ -246,14 +260,14 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		}else {
 			en.setEnterId(data.getMgrEnterpriseId());
 		}
-		
+
 		SimpleDateFormat s =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
-        en.setSetTime(s.format( new Date()).toString());
-		
-        enterpriseMapper.setEnterpriseDriver(en);
-		
-        enterpriseMapper.updateDriverByid(empVo);
-        
+		en.setSetTime(s.format( new Date()).toString());
+
+		enterpriseMapper.setEnterpriseDriver(en);
+
+		enterpriseMapper.updateDriverByid(empVo);
+
 	}
 
 	@Override
@@ -273,8 +287,8 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		return null;
 	}
 
-	
-	
-	
+
+
+
 
 }

@@ -3,15 +3,12 @@ package com.ccttic.cqytjgpt.webapi.service.role;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleService;
 import com.ccttic.cqytjgpt.webapi.mapper.role.RoleEmpMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.role.RoleMapper;
@@ -24,7 +21,6 @@ import com.ccttic.entity.role.vo.EmpRoleMenuVo;
 import com.ccttic.entity.role.vo.ModelByRole;
 import com.ccttic.entity.role.vo.Model_MenuVo;
 import com.ccttic.entity.role.vo.OrgAndDep;
-import com.ccttic.entity.role.vo.OrgDepVo;
 import com.ccttic.entity.role.vo.RoleMenuVo;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
@@ -86,7 +82,7 @@ public class RoleServiceImpl implements IRoleService {
 		return pager;
 	}
 
-	@Override
+/*	@Override
 	@Transactional
 	public boolean editRole(Role role)  {
 		if (ObjectHelper.isEmpty(role.getId())) {
@@ -120,7 +116,7 @@ public class RoleServiceImpl implements IRoleService {
 			}
 		}
 		return true;
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see com.studio.framework.service.ess.IRoleService#findRoleById(java.lang.String)
@@ -136,10 +132,10 @@ public class RoleServiceImpl implements IRoleService {
 	 */
 	@Override
 	@Transactional
-	public boolean deleteRole(String id)  {
-		reMapper.deleteEmpRoleByRoleId(id);
-		rmMapper.deleteRoleMenuByRoleId(id);
-		mapper.deleteRole(id);
+	public boolean deleteRole(Roles roles)  {
+		reMapper.deleteEmpRoleByRoleId(roles);
+		rmMapper.deleteRoleMenuByRoleId(roles);
+		mapper.deleteRole(roles);
 		return true;
 
 	}

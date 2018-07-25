@@ -64,6 +64,26 @@ public class DateHelper {
 	/** 中文年月日时分秒毫秒日期格式 */
 	public static final String DATE_WITHMILLISECOND_CHN_FORMAT = "yyyy年MM月dd日 HH:mm:ss.S";
 
+	// 时间字符串获取年月日
+	public static String getDataString(String str){
+		if(str!=null){
+			if(str.length()>12){
+				SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				DateFormat df1 = DateFormat.getDateInstance();//日期格式，精确到日 
+				try {
+			     String list = (df1.format (simp.parse(str)));
+			     return list;
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}  
+			}else{
+				return str;
+			}
+			
+		}
+		return null;
+	}
+	
 	/**
 	 * 取得指定月份的最后一天
 	 * 

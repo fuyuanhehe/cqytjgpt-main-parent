@@ -40,7 +40,7 @@ public class RoleController {
 	 * @return
 	 * @date  2018年5月30日
 	 * 
-	 */ 
+	 */ 	
 	@OperLogging(operType = 2)
 	@RequestMapping(value="/deleteRoleById",method={RequestMethod.POST,RequestMethod.GET})
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ROLE, name = "删除角色",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
@@ -53,8 +53,8 @@ public class RoleController {
 
 		try {
 
-			if( !(ObjectHelper.isEmpty(roles.getId())) ) {		
-				Roleservice.deleteRole(roles.getId());
+			if( !(ObjectHelper.isEmpty(roles) )) {		
+				Roleservice.deleteRole(roles);
 				resp.setStatus(0);
 				resp.setMessage("删除角色成功!");
 
@@ -218,7 +218,7 @@ public class RoleController {
 			page.setPage(emp.getPage());
 			page.setRows(emp.getRows());
 			List<EmpRoleMenuVo> data = Roleservice.getEmpParameter(emp);
-			
+
 			resp.setData(data);
 			resp.setMessage("获取用户信息成功!");
 			resp.setStatus(0);
@@ -256,7 +256,6 @@ public class RoleController {
 		return resp;
 
 	}	
-	
-	
-	
+
+
 }

@@ -58,9 +58,14 @@
 		id=#{role.id}
 	</update>
 	<!-- 通过ID删除角色信息 -->
-	<delete id="deleteRole" parameterType="java.lang.String">
+	<delete id="deleteRole" parameterType="com.ccttic.entity.role.Roles">
 		delete from ess_role where
-		id=#{roleId}
+		id in
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item}  )
+		</foreach>
+		
 	</delete>
 	<!-- 通过编码获取角色 -->
 	<select id="findRoleByRoleCd" parameterType="java.lang.String"

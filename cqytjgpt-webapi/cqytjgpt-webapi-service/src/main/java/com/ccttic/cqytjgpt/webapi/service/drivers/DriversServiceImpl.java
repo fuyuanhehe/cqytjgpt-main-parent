@@ -5,6 +5,7 @@ import com.ccttic.cqytjgpt.webapi.mapper.drivers.DriverMapper;
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.*;
 import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.util.common.DateHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
@@ -12,11 +13,17 @@ import com.ccttic.util.page.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import javax.activation.DataHandler;
 
 @Service
 public class DriversServiceImpl implements DriversService {
@@ -44,8 +51,24 @@ public class DriversServiceImpl implements DriversService {
 		params.put("list", driverVo.getQid());
 		params.put("empType", driverVo.getEmpType()); // 账号类型
 
+		List<DriverVo> List = mapper.seDriverPage(params);
+		for (DriverVo driverVo2 : List) {
+
+			driverVo2.setFirstrecivetime(DateHelper.getDataString(driverVo2.getFirstrecivetime()));
+
+			driverVo2.setNextexaminetime(DateHelper.getDataString(driverVo2.getNextexaminetime()));	
+
+			driverVo2.setEffectstarttime(DateHelper.getDataString(driverVo2.getEffectstarttime()));
+
+			driverVo2.setEffectendtime(DateHelper.getDataString(driverVo2.getEffectendtime()));
+
+			driverVo2.setExamineeffectendtime(DateHelper.getDataString(driverVo2.getExamineeffectendtime()));
+		}
+
+
+		pager.setRecords(List);
 		pager.setTotalRows( mapper.sePageCount(params));
-		pager.setRecords(mapper.seDriverPage(params));
+
 
 		return pager;
 	}
@@ -81,18 +104,18 @@ public class DriversServiceImpl implements DriversService {
 		params.put("laString", driver.getLaString());
 		params.put("list", driver.getQid());
 		params.put("empType", driver.getEmpType()); // 账号类型
-           
+
 		if(driver.getFiString()!=null){
-		if(  !(driver.getFiString().equals(""))){
-			 String year = driver.getFiString().substring(0, 4) ;
-			 params.put("dring", "vehi_dr_illicit"+year);
+			if(  !(driver.getFiString().equals(""))){
+				String year = driver.getFiString().substring(0, 4) ;
+				params.put("dring", "vehi_dr_illicit"+year);
+			}else {
+				params.put("dring", "vehi_dr_illicit"+driver.getYears());
+			}
 		}else {
 			params.put("dring", "vehi_dr_illicit"+driver.getYears());
 		}
-		}else {
-			params.put("dring", "vehi_dr_illicit"+driver.getYears());
-		}
-		
+
 		pager.setRecords(mapper.seDr_illicitPages(params));
 		pager.setTotalRows(mapper.getDriverPageCount(params));
 
@@ -361,5 +384,5 @@ public class DriversServiceImpl implements DriversService {
 
 	}
 
-	
+
 }

@@ -26,7 +26,7 @@ public interface IRoleMenuService {
 	 * @return
 	 * @throws 
 	 */		
-	public void deleteRoleMenuByRoleId(String roleId);
+	public void deleteRoleMenuByRoleId(Roles roles);
     
 	
 	/**
