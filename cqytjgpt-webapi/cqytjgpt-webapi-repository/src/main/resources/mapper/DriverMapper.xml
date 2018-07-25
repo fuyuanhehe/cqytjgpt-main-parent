@@ -418,13 +418,16 @@
         ict.illegal_name AS illicit,
         CASE vd.drState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END drIllicitState
         FROM
-        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id =vd.id
+        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL
+		<if test="fiString!=null and fiString!='' ">
+			and dr.illicitTime BETWEEN #{fiString} and #{laString}
+		</if>
+		ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id =vd.id
         LEFT JOIN vehicle v ON vd.vehicle_id = v.id
         LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId = e.id
         LEFT JOIN ess_organization o ON e.org_id = o.id
         LEFT JOIN ess_area a ON o.area_id = a.id
         LEFT JOIN  illegal_comparison_table ict ON  ict.code = vd.illicit
-
         <choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
@@ -456,16 +459,16 @@
 		<if test="illicit!=null and illicit!='' ">
 			and vd.illicit = #{illicit}
 		</if>
-		<if test="fiString!=null and fiString!='' ">
-			and vd.illicitTime BETWEEN #{fiString} and
-			#{laString}
-		</if>
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
 	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map"
 		>
         SELECT count(vd.id) FROM
-        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL) tmp ON tmp.id =vd.id
+        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL
+		<if test="fiString!=null and fiString!='' ">
+			and dr.illicitTime BETWEEN #{fiString} and #{laString}
+		</if>
+		) tmp ON tmp.id =vd.id
         <choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
