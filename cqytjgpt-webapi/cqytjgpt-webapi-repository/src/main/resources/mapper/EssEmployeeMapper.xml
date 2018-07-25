@@ -718,4 +718,23 @@
 		</if>
 	</select>
 
+	<update id="modifyPassword" parameterType="java.util.List">
+		update ess_employee
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="password = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.password != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.password,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where id in
+		<foreach collection="list" index="index" item="item"
+				 separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+
 </mapper>

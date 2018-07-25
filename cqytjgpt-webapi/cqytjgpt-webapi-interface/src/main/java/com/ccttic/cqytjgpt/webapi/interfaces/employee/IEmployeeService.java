@@ -107,7 +107,7 @@ public interface IEmployeeService {
 	 * @param emp
 	 * @return
 	 */
-	public void modifyPassword(EssEmployee emp) throws AppException;
+	public void modifyPassword(List<EssEmployee> emp) throws AppException;
 	
 	/**删除员工
 	 * @param emp
