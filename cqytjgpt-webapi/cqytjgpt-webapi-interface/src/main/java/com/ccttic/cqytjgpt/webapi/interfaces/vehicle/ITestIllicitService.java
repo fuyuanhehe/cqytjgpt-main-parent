@@ -3,6 +3,8 @@ package com.ccttic.cqytjgpt.webapi.interfaces.vehicle;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.illegal.NetTrffSurveil;
 import com.ccttic.entity.illegal.NetTrffViolation;
 import com.ccttic.entity.illegal.VehiDrIllicit;
@@ -23,4 +25,8 @@ public interface ITestIllicitService {
 	
 	
 	public void updaVehi(Map<String, Object> params);
+	//------------------------------------------------------
+	public List<EssEnterprise> getEnt();
+	public void addEmp(EssEmployee emp);
+	public void updaEnt(EssEnterprise essent);
 }

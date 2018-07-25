@@ -283,8 +283,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	}
 	@Override
 	public List<EssEnterprise> selectEnterpriseList(Map<String, String> map) {
-		enterpriseMapper.selectEnterpriseList(map);
-		return null;
+		return enterpriseMapper.selectEnterpriseList(map);
 	}
 
 	@Override

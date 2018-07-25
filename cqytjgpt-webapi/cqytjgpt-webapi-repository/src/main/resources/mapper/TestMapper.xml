@@ -58,8 +58,12 @@
   	</update>
   	<update id="updaVehi" parameterType="java.util.Map">
   	UPDATE vehicle SET state=#{state} WHERE vehiNo=#{vehiNo}
-  	
-  	
   	</update>
   	
+  	<select id="getEnt" resultType="com.ccttic.entity.enterprise.EssEnterprise">
+  		SELECT * FROM ess_enterprise
+  	</select>
+  	<update id="updaEnt" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
+  		UPDATE ess_enterprise set admin_empid=#{adminEmpid} WHERE id=#{id}
+  	</update>
 </mapper>
