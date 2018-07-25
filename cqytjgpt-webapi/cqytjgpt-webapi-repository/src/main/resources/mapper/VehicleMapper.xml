@@ -143,8 +143,11 @@
 			<if test="vehiNoType != null and vehiNoType != ''">
 				and vehiNoType = #{vehiNoType}
 			</if>
-			<if test="state != null and state != ''">
-				and state = #{state}
+            <if test="vehiType != null and vehiType != ''">
+                and vehiType = #{vehiType}
+            </if>
+            <if test="state != null and state != ''">
+				and state like CONCAT(CONCAT('%',#{state},'%'))
 			</if>
 			<if test="effectStartTime != null and effectStartTime != ''">
 				and (left(examineEffectEndTime,10) &gt;= #{effectStartTime})
@@ -158,6 +161,7 @@
 			<if test="endTime != null and endTime != ''">
 				and left(firstReciveTime,10) &lt;= #{endTime}
 			</if>
+
 			order by firstReciveTime desc
 			limit ${startRecord},${pageSize}
 			)ve 
