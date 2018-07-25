@@ -397,8 +397,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	@Transactional
-	public void modifyPassword(EssEmployee emp) throws AppException {
-		empMapper.updateByPrimaryKeySelective(emp);
+	public void modifyPassword(List<EssEmployee> emp) throws AppException {
+		empMapper.modifyPassword(emp);
 	}
 
 	@Override

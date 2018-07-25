@@ -1105,8 +1105,8 @@
 
 	<select id="selectEnterpriseList" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.enterprise.EssEnterprise">
-		SELECT id ,eptNm from ess_enterprise WHERE org_id =
-		#{orgId}
+		SELECT ent.id,org.id as orgid,ent.etpNm,org.orgNm from ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id  WHERE org_id =#{orgId}
+
 	</select>
 
 	<select id="getDepar" resultType="String">

@@ -96,4 +96,10 @@ public interface EssEmployeeMapper {
 	 *@Date:11:04 2018/7/13
 	 */
     List<EssEmployeeVo> selectEmployeeByDepartment(Map<String, Object> params)throws AppException;
+	/**
+	 *@Author:zhy
+	 *@Description: 批量修改密码
+	 *@Date:15:04 2018/7/25
+	 */
+	void modifyPassword(List<EssEmployee> emp);
 }

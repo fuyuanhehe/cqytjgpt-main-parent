@@ -4,11 +4,47 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.util.StringUtils;
 
 public class StringHelper {
+
+	// 传入字符串,分割字符串,map的key和字符串对应的话就返回map的value
+	public static String getChar(String str,Map<String, Object> map){	
+
+		if(str!=null && str!=""){
+			if(str.length()>1){
+				char b;
+				int a = str.length();
+				String arr = "";
+				for(int i=0; i<a; i++){
+
+					b=str.charAt(i);
+					String strings = String.valueOf(b);
+					for (Entry<String, Object> maps : map.entrySet()) {
+						if(strings.equals( maps.getKey())){
+							arr += maps.getValue()+",";
+						}
+					}
+				}
+				return arr.substring(0, arr.length()-1);
+			}else{
+				String arr = "";
+				for (Entry<String, Object> maps : map.entrySet()) {
+					if(str.equals( maps.getKey())){
+						arr += maps.getValue()+",";
+					}
+				}	
+				return arr.substring(0, arr.length()-1);
+			}
+		}
+		return null;  
+	}
+
 
 	/**
 	 * 字符集转换(utf-8--->iso-8859-1)

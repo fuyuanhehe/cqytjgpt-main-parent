@@ -336,19 +336,34 @@ public class EmployeeController {
 	 * 修改员工密码
 	 *
 	 * @param request
-	 * @param emp
+	 * @param list
 	 * @return
 	 */
 	@RequestMapping(value = "/modifyPassword", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<String> modifyPassword(HttpServletRequest request, @RequestBody EssEmployee emp) {
+	public ResponseMsg<String> modifyPassword(HttpServletRequest request, @RequestBody ObjectList list) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
+		List<Map<String, String>> maps =list.listMap;
+		String password = list.str;
+		List<EssEmployee> emp = new ArrayList<>();
+		EssEmployee employee =null;
+		if(maps!=null && password!=null){
+			for(Map<String, String> map:maps) {
+				employee = new EssEmployee();
+				String id = map.get("id");
+				String account = map.get("account");
+				String md5pasword = MD5.sign(account, password, "utf-8");
+				employee.setPassword(md5pasword);
+				employee.setId(id);
+				emp.add(employee);
+			}
+		}else {
+			rm.fail("修改密码失败");
+			return rm;
+		}
 		try {
-			String md5pasword = MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8");
-			emp.setPassword(md5pasword);
 			employeeService.modifyPassword(emp);
 			rm.success("修改密码成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			rm.fail("修改密码失败");
 			logger.error("修改密码失败", e);

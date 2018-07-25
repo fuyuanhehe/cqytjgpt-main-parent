@@ -1,6 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.controller.test;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.ITestIllicitService;
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.illegal.NetTrffViolation;
 import com.ccttic.entity.illegal.VehiDrIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
 
 @Controller
@@ -362,5 +366,31 @@ public class TestController implements Serializable {
 		}
 		
 	}
+	/**
+	 * 初始化企业账号
+	 */
+	@RequestMapping(value = "/testEmp", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public void testEmp() {
+		// 获取所有企业
+		List<EssEnterprise> ent = testIllicitService.getEnt();
+		for (EssEnterprise ess : ent) {
+			EssEmployee emp = new EssEmployee();
+			String uuid = RandomHelper.uuid();
+			emp.setId(uuid);
+			
+			String account = String.valueOf(System.currentTimeMillis());
 
+			emp.setAccount(account);
+			String passwrd = MD5.sign(account, "123456", "utf-8");
+			emp.setPassword(passwrd);
+			emp.setEmptype("ADMIN");
+			emp.setCreatetime(new Date());
+			testIllicitService.addEmp(emp);
+			EssEnterprise essent = new EssEnterprise();
+			essent.setAdminEmpid(uuid);
+			essent.setId(ess.getId());
+			testIllicitService.updaEnt(essent);
+		}
+	}
 }
