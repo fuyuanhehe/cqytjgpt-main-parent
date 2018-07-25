@@ -29,7 +29,6 @@ import com.ccttic.entity.role.vo.TreeVo;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
-import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
