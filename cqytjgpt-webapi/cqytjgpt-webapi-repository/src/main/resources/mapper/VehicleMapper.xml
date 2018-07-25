@@ -218,7 +218,7 @@
 	
 	<!-- 根据id获取指定车辆基础详情信息 -->
 	<select id="qryOneVehicle" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
-		SELECT ve.id,ve.vehiNo,ve.identityCode,ve.identityName,ve.examineForceEffectEndTime,
+		SELECT ve.id,ve.vehiNo,ve.identityCode,ve.examineForceEffectEndTime,
 			CASE ve.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,ve.vehiNoType,
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
@@ -228,12 +228,13 @@
 			 WHEN 'D' THEN '停驶' WHEN 'E' THEN '注销' WHEN 'H' THEN '海关监管' WHEN 'C' THEN '被盗抢' 
 			 WHEN 'B' THEN '转出' WHEN 'P' THEN '达到报废标准公告牌证作废' WHEN 'Q' THEN '逾期未检验' 
 			 ELSE '其他' END  state
-			 ,area.areaNm,ise.etpNm,ve.vehiType
+			 ,area.areaNm,ise.etpNm,attr.attrNm as vehiType,attrs.attrNm as identityName
 			 FROM (
 				SELECT * FROM vehicle  WHERE vehiNo=#{vehiNo} and (isDeleted is null or isDeleted !=1)
 			)ve 
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
-			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 
+			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id
+			LEFT JOIN param_category_attr attrs ON ve.identityName=attrs.attrCd and attrs.categoryCd = '027'
 			LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '029'
 	</select>
 	
