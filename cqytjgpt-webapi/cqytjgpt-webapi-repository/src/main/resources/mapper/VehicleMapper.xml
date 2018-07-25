@@ -114,7 +114,7 @@
 			 WHEN 'M' THEN '达到报废标准' WHEN 'L' THEN '扣留' WHEN 'K' THEN '查封' WHEN 'J' THEN '嫌疑车' 
 			 WHEN 'D' THEN '停驶' WHEN 'E' THEN '注销' WHEN 'H' THEN '海关监管' WHEN 'C' THEN '被盗抢' 
 			 WHEN 'B' THEN '转出' WHEN 'P' THEN '达到报废标准公告牌证作废' WHEN 'Q' THEN '逾期未检验' 
-			 ELSE '其他' END  state,area.areaNm,ise.etpNm 
+			 ELSE '其他' END  state,area.areaNm,ise.etpNm,attr.attrNm as vehiType 
 			 FROM ( SELECT * FROM vehicle
 			 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
@@ -158,13 +158,13 @@
 			<if test="endTime != null and endTime != ''">
 				and left(firstReciveTime,10) &lt;= #{endTime}
 			</if>
+			order by firstReciveTime desc
+			limit ${startRecord},${pageSize}
 			)ve 
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
 			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 
-			
-			order by ve.createTime desc
-			
-			limit ${startRecord},${pageSize}
+			LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '029'
+
 	</select>
 	
 	<!-- 根据企业编码获取车辆基础信息条数 -->
@@ -228,13 +228,13 @@
 			 WHEN 'D' THEN '停驶' WHEN 'E' THEN '注销' WHEN 'H' THEN '海关监管' WHEN 'C' THEN '被盗抢' 
 			 WHEN 'B' THEN '转出' WHEN 'P' THEN '达到报废标准公告牌证作废' WHEN 'Q' THEN '逾期未检验' 
 			 ELSE '其他' END  state
-			 ,area.areaNm,ise.etpNm 
+			 ,area.areaNm,ise.etpNm,ve.vehiType
 			 FROM (
 				SELECT * FROM vehicle  WHERE vehiNo=#{vehiNo} and (isDeleted is null or isDeleted !=1)
 			)ve 
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
 			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id 
-			
+			LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '029'
 	</select>
 	
 			<!-- 根据id获取指定车辆的违法信息 -->

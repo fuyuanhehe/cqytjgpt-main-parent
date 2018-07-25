@@ -6,10 +6,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.ITestIllicitService;
+import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.TestIllicitMapper;
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.illegal.NetTrffSurveil;
 import com.ccttic.entity.illegal.NetTrffViolation;
 import com.ccttic.entity.illegal.VehiDrIllicit;
@@ -19,6 +23,8 @@ public class TestIllicitServiceImpl implements ITestIllicitService{
 
 	@Resource
 	private TestIllicitMapper mapper;
+	@Autowired
+	private EssEmployeeMapper employeeMapper;
 	@Override
 	public List<Vehicle> qryVehicleList() {
 		return mapper.qryVehicleList();
@@ -52,6 +58,20 @@ public class TestIllicitServiceImpl implements ITestIllicitService{
 	@Override
 	public void updaVehi(Map<String, Object> params) {
 		mapper.updaVehi(params);
+	}
+	//--------------------------------------------
+	@Override
+	public List<EssEnterprise> getEnt() {
+		// TODO Auto-generated method stub
+		return mapper.getEnt();
+	}
+	@Override
+	public void addEmp(EssEmployee emp) {
+		employeeMapper.insertSelective(emp);
+	}
+	@Override
+	public void updaEnt(EssEnterprise essent) {
+		mapper.updaEnt(essent);
 	}
 
 
