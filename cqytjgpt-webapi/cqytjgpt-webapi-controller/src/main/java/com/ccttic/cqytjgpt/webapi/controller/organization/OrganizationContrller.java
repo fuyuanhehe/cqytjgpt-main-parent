@@ -6,13 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
-import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.util.common.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.entity.common.ResponseMsg;
@@ -26,6 +28,7 @@ import com.ccttic.entity.role.vo.TreeVo;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
+import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
@@ -339,6 +342,8 @@ public class OrganizationContrller implements Serializable {
 				resp.success("删除成功！");
 			} else if (cat == 0) {
 				resp.fail("删除失败！");
+			} else if (cat == 2) {
+				resp.fail("该部门下有人员关联，无法删除；请清除关联人员后重试!");
 			}
 		} catch (Exception e) {
 			resp.fail("删除失败！");
