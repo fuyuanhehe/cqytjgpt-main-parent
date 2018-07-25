@@ -401,5 +401,41 @@ public class OrganizationContrller implements Serializable {
 		}
 		return resp;
 	}
-
+	
+	/**
+	 * 获取组织机构下拉框用
+	 * @return
+	 */
+	@RequestMapping(value = "/findAllOrgList", method = { RequestMethod.POST, RequestMethod.GET })
+	public ResponseMsg<List<TreeVo>> findAllOrgList() {
+		ResponseMsg<List<TreeVo>> resp = new ResponseMsg<List<TreeVo>>();
+		List<TreeVo> list = new ArrayList<TreeVo>();
+		TreeVo vo = new TreeVo();
+		try {
+			Organization headOrg = organizationService.getHeadOrgList(); // 获取机构头
+			vo.setId(headOrg.getOrgCd());
+			vo.setText(headOrg.getOrgNm());
+			vo.setRemark(headOrg.getRemark());
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("orgType", "0");
+			map.put("orgCd", headOrg.getOrgCd());
+			map.put("id", headOrg.getId());
+			vo.setIconCls("company");
+			vo.setAttributes(map);
+			List<Organization> orgs = organizationService.findNextNode(headOrg.getOrgCd()); // 获取分所
+			if (ObjectHelper.isNotEmpty(orgs)) {
+				vo.setChildren(itemOrg(orgs));
+			}
+			list.add(vo);
+			if (!ObjectHelper.isEmpty(headOrg)) {
+				resp.setData(list);
+				resp.success("获取信息成功！");
+			}
+		} catch (AppException e) {
+			resp.fail("获取信息失败！");
+			logger.error(e.getMessage());
+		}
+		System.out.println(resp);
+		return resp;
+	}
 }

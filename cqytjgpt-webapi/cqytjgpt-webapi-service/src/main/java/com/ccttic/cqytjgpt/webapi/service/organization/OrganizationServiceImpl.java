@@ -83,4 +83,9 @@ public class OrganizationServiceImpl implements IOrganizationService{
 		return mapper.getArea();
 	}
 
+	@Override
+	public Organization getHeadOrgList() throws AppException {
+		return mapper.getHeadOrgList();
+	}
+
 }

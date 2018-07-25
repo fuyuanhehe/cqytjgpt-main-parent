@@ -19,6 +19,13 @@ public interface IOrganizationService {
 	Organization getHeadOrg(Map<String, String> map) throws AppException;
 	
 	/**
+	 * 获取机构头下拉框用
+	 * @return
+	 * @throws AppException
+	 */
+	Organization getHeadOrgList() throws AppException;
+	
+	/**
 	 * 通过机构代码获取子机构信息
 	 * @param orgCd
 	 * @return
