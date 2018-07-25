@@ -62,7 +62,14 @@ public class OrganizationContrller implements Serializable {
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<List<TreeVo>> findAllOrg(@RequestParam String access_token,@RequestBody String orgId) {
 		ResponseMsg<List<TreeVo>> resp = new ResponseMsg<List<TreeVo>>();
-		Map<String, String> orgIdMap = JsonUtil.jsonToMap(orgId);
+			EmployeeVo employee = employeeService.getUserInfo(access_token);
+			Organization org = employee.getOrg();
+		Map<String, String> orgIdMap = new HashMap<>();
+		if (org==null){
+			orgIdMap.put("orgId","162d7b86a54e465d8cf421def2f35ef8");
+		}else{
+			orgIdMap.put("orgId",org.getId());
+		}
 		List<TreeVo> list = new ArrayList<TreeVo>();
 		TreeVo vo = new TreeVo();
 		try {
@@ -77,8 +84,6 @@ public class OrganizationContrller implements Serializable {
 			vo.setIconCls("company");
 			vo.setAttributes(map);
 			List<Organization> orgs = organizationService.findNextNode(headOrg.getOrgCd()); // 获取分所
-//			EmployeeVo employee = employeeService.getUserInfo(access_token);
-//			List<Organization> orgs = employee.getCanSeeOrgs();
 			if (ObjectHelper.isNotEmpty(orgs)) {
 				vo.setChildren(itemOrg(orgs));
 			}
