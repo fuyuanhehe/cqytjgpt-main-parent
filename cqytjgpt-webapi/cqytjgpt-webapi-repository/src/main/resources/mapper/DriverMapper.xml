@@ -466,7 +466,8 @@
 			and vd.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
-		limit
+		AND vd.idcard != NULL
+ 		limit
 		${startRecord} ,
 		${pageSize}
 	</select>
