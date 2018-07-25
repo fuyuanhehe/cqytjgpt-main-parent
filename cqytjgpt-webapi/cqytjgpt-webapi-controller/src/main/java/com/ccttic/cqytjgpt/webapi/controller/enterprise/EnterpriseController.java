@@ -467,6 +467,20 @@ public class EnterpriseController implements Serializable {
 		return resp;
 	}
 
-
+	//获取管理部门
+	@RequestMapping(value = "/getDepar", method = { RequestMethod.GET, RequestMethod.POST })
+	public ResponseMsg<List<String>> getDepar() {
+		ResponseMsg<List<String>> rm = new ResponseMsg<List<String>>();
+		try {
+			rm.setData( enterpriseService.getDepar() );
+			rm.setMessage("获取所有管理部门成功");
+			rm.setStatus(0);
+		} catch (Exception e) {
+			rm.setMessage("获取所有管理部门成功");
+			rm.setStatus(-1);
+			logger.info(e);
+		}
+		return rm;
+	}
 
 }
