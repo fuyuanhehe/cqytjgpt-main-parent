@@ -58,7 +58,7 @@ public interface RoleMapper {
 	 * 通过ID删除角色信息
 	 * @param id
 	 */
-	public void deleteRole(@Param("id") String id);
+	public void deleteRole(Roles roles);
 
 	/**
 	 * 通过编码获取角色

@@ -28,7 +28,7 @@ public interface RoleMenuMapper {
 	 * 通过角色ID删除角色菜单关系表
 	 * @param roleId
 	 */
-	public void deleteRoleMenuByRoleId(@Param("roleId") String roleId);
+	public void deleteRoleMenuByRoleId(Roles roles);
 
 	/**
 	 * 批量增加角色菜单关系

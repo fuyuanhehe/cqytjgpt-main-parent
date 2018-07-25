@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.role.RoleEmp;
+import com.ccttic.entity.role.Roles;
 
 
 /**
@@ -34,7 +35,7 @@ public interface RoleEmpMapper {
 	 * 通过角色ID删除人员角色关系
 	 * @param id
 	 */
-	public void deleteEmpRoleByRoleId(@Param("roleId") String roleId);
+	public void deleteEmpRoleByRoleId(Roles roles);
 
 	/**
 	 * 通过人员ID删除人员角色关系

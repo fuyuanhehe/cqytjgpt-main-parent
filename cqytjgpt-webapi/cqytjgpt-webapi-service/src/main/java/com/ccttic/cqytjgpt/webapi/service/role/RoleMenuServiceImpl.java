@@ -42,9 +42,9 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 	// 删除角色菜单关联
 	@Override
 	@Transactional
-	public void deleteRoleMenuByRoleId(String roleId) {
+	public void deleteRoleMenuByRoleId(Roles roles) {
 
-		Mapper.deleteRoleMenuByRoleId(roleId);;
+		Mapper.deleteRoleMenuByRoleId(roles);;
 	}
 	// 插入角色菜单关联
 	@Override
