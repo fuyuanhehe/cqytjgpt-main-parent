@@ -92,7 +92,7 @@
 		d.examineEffectEndTime,
 		d.effectStartTime,
 		d.effectEndTime,
-		 d.state1,
+		 d.state1
 		FROM
 		ess_area a
 		LEFT JOIN driver d

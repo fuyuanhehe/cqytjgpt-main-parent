@@ -27,7 +27,7 @@ public class StringHelper {
 					String strings = String.valueOf(b);
 					for (Entry<String, Object> maps : map.entrySet()) {
 						if(strings.equals( maps.getKey())){
-							arr += maps.getValue()+",";
+							arr += maps.getValue().toString()+",";
 						}
 					}
 				}
@@ -36,10 +36,10 @@ public class StringHelper {
 				String arr = "";
 				for (Entry<String, Object> maps : map.entrySet()) {
 					if(str.equals( maps.getKey())){
-						arr += maps.getValue()+",";
+						arr = maps.getValue().toString();
 					}
 				}	
-				return arr.substring(0, arr.length()-1);
+				return arr;
 			}
 		}
 		return null;  
