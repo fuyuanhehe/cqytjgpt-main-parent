@@ -590,7 +590,7 @@
  	<!-- 根据企业编码获取车辆违法信息条数 -->
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
       SELECT COUNT(1)
-      FROM vehi_dr_illicit2018 cit JOIN (select dr.id FROM vehi_dr_illicit2018 dr WHERE (dr.isDeleted is null or dr.isDeleted !=1) and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+      FROM ${tableNmae} cit JOIN (select dr.id FROM ${tableNmae} dr WHERE (dr.isDeleted is null or dr.isDeleted !=1) and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
       <!--<if test="list != null and list.size()>0">-->
 							 <!--and ve.mgrEnterpriseId in-->
 				<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
@@ -637,13 +637,14 @@
       FROM ${tableNmae} cit JOIN (select dr.id FROM ${tableNmae} dr WHERE (dr.isDeleted is null or dr.isDeleted !=1) and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate} ORDER BY illicitTime LIMIT ${startRecord},${pageSize}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
       LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
       LEFT JOIN  ess_area AREA ON  area.id = cit.mgrDepartAreaId
-      LEFT JOIN  illegal_comparison_table ict ON  ict.code = cit.illicit;
+      LEFT JOIN  illegal_comparison_table ict ON  ict.code = cit.illicit
 		<!--<if test="list != null and list.size()>0">-->
 			<!--and ess.id in -->
 			<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
 	        <!--#{item}  -->
 	  	  <!--</foreach>-->
 		<!--</if>-->
+		WHERE 1=1 and
 		<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 			and cit.mgrDepartAreaId = #{mgrDepartAreaId}
 		</if>
@@ -670,7 +671,7 @@
 		</if>
 		<if test="endTime != null and endTime != ''">
 			and cit.illicitTime &lt;= #{endDate}
-		</if>
+		</if> 
 	</select>
 
 	<!-- 根据id获取指定车辆的违法信息 -->
