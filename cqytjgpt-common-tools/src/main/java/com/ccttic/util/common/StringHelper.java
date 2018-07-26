@@ -37,6 +37,8 @@ public class StringHelper {
 				for (Entry<String, Object> maps : map.entrySet()) {
 					if(str.equals( maps.getKey())){
 						arr = maps.getValue().toString();
+					}else {
+						arr = "不明确";
 					}
 				}	
 				return arr;
