@@ -312,7 +312,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		
+		params.put("orgId", ess.getOrgId());
 		long totolRols = enterpriseMapper.selectEnterpriseListCount(params);
 		List<EssEnterprise> records = enterpriseMapper.selectEnterpriseList(params);
 		pager.setTotalRows(totolRols);
