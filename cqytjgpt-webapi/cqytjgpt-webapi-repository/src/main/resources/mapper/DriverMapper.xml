@@ -85,20 +85,21 @@
 		d.permiCar,
 		d.firstReciveTime,
 		d.nextExamineTime,
-		 d.state,
+		d.state,
 		d.mgrDepart,
 		d.telphone,
 		d.scoreTotal,
 		d.examineEffectEndTime,
 		d.effectStartTime,
 		d.effectEndTime,
-		 d.state1
+		d.state1
 		FROM
 		ess_area a
 		LEFT JOIN driver d
 		ON a.id =
 		d.mgrDepartAreaId
-		LEFT JOIN ess_enterprise
+		LEFT JOIN
+		ess_enterprise
 		en ON
 		d.mgrEnterpriseId =
 		en.id
@@ -138,11 +139,11 @@
 			and d.mobilephone = #{mobilephone}
 		</if>
 		<if test="fiString!=null and fiString!=''  ">
-			and d.firstReciveTime BETWEEN #{fiString} and
-			#{laString}
+			and #{fiString} &lt; d.firstReciveTime &lt;
+			d.firstReciveTime
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and d.nextexaminetime BETWEEN #{fistShString} and
+			and #{fistShString} &lt; d.nextexaminetime &lt;
 			#{laShString}
 		</if>
 		and (a.isDeleted is null OR a.isDeleted !=1)
@@ -198,11 +199,11 @@
 			and d.mobilephone = #{mobilephone}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and d.firstReciveTime BETWEEN #{fiString} and
+			and #{fiString} &lt; d.firstReciveTime &lt;
 			#{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and d.nextexaminetime BETWEEN #{fistShString} and
+			and #{fistShString} &lt; d.nextexaminetime &lt;
 			#{laShString}
 		</if>
 		and (a.isDeleted is null OR a.isDeleted !=1)
@@ -280,30 +281,38 @@
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
 	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
 		parameterType="java.util.Map">
-        SELECT
-        vd.id,
-        a.areaNm,
-        e.etpNm,
-        REPLACE (vd. NAME, ' ', '') NAME,
-        vd.idcard,
-        vd.illicitTime,
-        vd.illicitAdress,
-        vd.illicitScore,
-        vd.illicitAmount,
-        vd.mgrDepart,
-        ict.illegal_name AS illicit,
-        CASE vd.drState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END drIllicitState
-        FROM
-        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL
+		SELECT
+		vd.id,
+		a.areaNm,
+		e.etpNm,
+		REPLACE (vd. NAME, ' ', '') NAME,
+		vd.idcard,
+		vd.illicitTime,
+		vd.illicitAdress,
+		vd.illicitScore,
+		vd.illicitAmount,
+		vd.mgrDepart,
+		ict.illegal_name AS illicit,
+		CASE
+		vd.drState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003'
+		THEN
+		'已处理' ELSE '' END drIllicitState
+		FROM
+		${dring} vd JOIN (select dr.id
+		FROM ${dring} dr where dr.idcard IS NOT NULL
 		<if test="fiString!=null and fiString!='' ">
 			and dr.illicitTime BETWEEN #{fiString} and #{laString}
 		</if>
-		ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id =vd.id
-        LEFT JOIN vehicle v ON vd.vehicle_id = v.id
-        LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId = e.id
-        LEFT JOIN ess_area a ON a.id = vd.mgrDepartAreaId
-        LEFT JOIN  illegal_comparison_table ict ON  ict.code = vd.illicit
-        <choose>
+		ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id
+		=vd.id
+		LEFT JOIN vehicle v ON vd.vehicle_id = v.id
+		LEFT JOIN
+		ess_enterprise e ON v.mgrEnterpriseId = e.id
+		LEFT JOIN ess_area a ON
+		a.id = vd.mgrDepartAreaId
+		LEFT JOIN illegal_comparison_table ict ON
+		ict.code = vd.illicit
+		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
@@ -336,15 +345,15 @@
 		</if>
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
-	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map"
-		>
-        SELECT count(vd.id) FROM
-        ${dring} vd JOIN (select dr.id FROM ${dring} dr where dr.idcard IS NOT NULL
+	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
+		SELECT count(vd.id) FROM
+		${dring} vd JOIN (select dr.id FROM ${dring}
+		dr where dr.idcard IS NOT NULL
 		<if test="fiString!=null and fiString!='' ">
 			and dr.illicitTime BETWEEN #{fiString} and #{laString}
 		</if>
 		) tmp ON tmp.id =vd.id
-        <choose>
+		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
@@ -379,7 +388,7 @@
 			and vd.illicitTime BETWEEN #{fiString} and
 			#{laString}
 		</if>
-        AND vd.idcard IS NOT NULL
+		AND vd.idcard IS NOT NULL
 	</select>
 
 	<!-- 一对多查询关联 -->
@@ -437,7 +446,8 @@
 		1 THEN
 		'审核通过'
 		WHEN
-		0 THEN
+		0
+		THEN
 		'待审核'
 		WHEN
 		-1
