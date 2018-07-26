@@ -20,7 +20,7 @@
 	</select>
 	<!-- 通过机构代码获取部门总条数 -->
 	<select id="qryDepartmentListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from ess_department where 1=1 and org_id=#{orgCd}
+		select count(1) from ess_department where 1=1 and ept_id=#{orgCd}
 	</select>
 	
 	<!-- 创建部门-->
