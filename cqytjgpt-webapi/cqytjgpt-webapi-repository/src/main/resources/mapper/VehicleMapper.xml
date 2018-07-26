@@ -232,7 +232,7 @@
 			 WHEN 'D' THEN '停驶' WHEN 'E' THEN '注销' WHEN 'H' THEN '海关监管' WHEN 'C' THEN '被盗抢' 
 			 WHEN 'B' THEN '转出' WHEN 'P' THEN '达到报废标准公告牌证作废' WHEN 'Q' THEN '逾期未检验' 
 			 ELSE '其他' END  state
-			 ,area.areaNm,ise.etpNm,attr.attrNm as vehiType,attrs.attrNm as identityName
+			 ,area.areaNm,ise.etpNm,attr.attrNm as vehiTypeText,ve.vehiType,attrs.attrNm as identityName
 			 FROM (
 				SELECT * FROM vehicle  WHERE vehiNo=#{vehiNo} and (isDeleted is null or isDeleted !=1)
 			)ve 
