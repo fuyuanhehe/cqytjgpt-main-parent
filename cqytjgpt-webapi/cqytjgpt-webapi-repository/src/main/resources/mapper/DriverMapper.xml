@@ -301,8 +301,7 @@
 		ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id =vd.id
         LEFT JOIN vehicle v ON vd.vehicle_id = v.id
         LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId = e.id
-        LEFT JOIN ess_organization o ON e.org_id = o.id
-        LEFT JOIN ess_area a ON o.area_id = a.id
+        LEFT JOIN ess_area a ON a.id = vd.mgrDepartAreaId
         LEFT JOIN  illegal_comparison_table ict ON  ict.code = vd.illicit
         <choose>
 			<when test="empType == 'SUPERMAN'">
