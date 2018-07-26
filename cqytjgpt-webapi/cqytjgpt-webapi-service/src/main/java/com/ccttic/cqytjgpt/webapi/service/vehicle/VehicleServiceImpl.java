@@ -82,13 +82,23 @@ public class VehicleServiceImpl implements IVehicleService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		int year = 0;
-		if (null != vehiIllicit.getIllicit()) {
-			year = Integer.parseInt(vehiIllicit.getIllicit().substring(0, 4));
+		if (null != vehiIllicit.getEndTime() && null != vehiIllicit.getStartTime()) {
+			year = Integer.parseInt(vehiIllicit.getStartTime().substring(0, 4));
 		} else { // 当违法时间为空的时候直接取当前年份
 			year = calendar.get(Calendar.YEAR);
 		}
-		String startDate = DateHelper.getFirstDayOfMonth1(year, 1);
-		String endDate = DateHelper.getLastDayOfMonth1(year, 12);
+		String endDate = null;
+		String startDate = null;
+		if (null != vehiIllicit.getEndTime()) {
+			endDate = vehiIllicit.getEndTime();
+		} else {
+			endDate = DateHelper.getLastDayOfMonth1(year, 12);
+		}
+		if (null != vehiIllicit.getStartTime()) {
+			startDate = vehiIllicit.getStartTime();
+		} else {
+			startDate = DateHelper.getFirstDayOfMonth1(year, 1);
+		}
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("id", vehiIllicit.getId());
