@@ -620,10 +620,10 @@
 					and ve.vehiNoType = #{vehiNoType}
 				</if>
 				<if test="startTime != null and startTime != ''">
-					and cit.illicitTime &gt;= #{startTime}
+					and cit.illicitTime &gt;= #{startDate}
 				</if>
 				<if test="endTime != null and endTime != ''">
-					and cit.illicitTime &lt;= #{endTime}
+					and cit.illicitTime &lt;= #{endDate}
 				</if>
 	</select>
 	
