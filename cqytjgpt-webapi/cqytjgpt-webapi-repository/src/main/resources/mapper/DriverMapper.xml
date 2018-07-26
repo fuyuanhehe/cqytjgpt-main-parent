@@ -85,138 +85,14 @@
 		d.permiCar,
 		d.firstReciveTime,
 		d.nextExamineTime,
-		CASE d.state
-		WHEN
-		'A' THEN
-		'正常'
-		WHEN
-		'B' THEN
-		'超分'
-		WHEN
-		'C'
-		THEN
-		'转出'
-		WHEN
-		'D' THEN
-		'暂扣'
-		WHEN
-		'E' THEN
-		'撤销'
-		WHEN
-		'F' THEN
-		'吊销'
-		WHEN
-		'G' THEN
-		'注销'
-		WHEN
-		'H' THEN
-		'违法未处理'
-		WHEN
-		'I' THEN
-		'事故未处理'
-		WHEN
-		'J' THEN
-		'停止使用'
-		WHEN
-		'K'
-		THEN
-		'扣押'
-		WHEN
-		'L' THEN
-		'锁定'
-		WHEN
-		'M' THEN
-		'逾期未换证'
-		WHEN
-		'N' THEN
-		'延期换证'
-		WHEN
-		'P'
-		THEN
-		'延期体检'
-		WHEN
-		'R' THEN
-		'注销可恢复'
-		WHEN
-		'延期审验' THEN
-		'正常'
-		WHEN
-		'U' THEN
-		'扣留'
-		WHEN
-		'S' THEN
-		'逾期未审验'
-		else '不明确'
-		end as state,
+		 d.state,
 		d.mgrDepart,
 		d.telphone,
 		d.scoreTotal,
 		d.examineEffectEndTime,
 		d.effectStartTime,
 		d.effectEndTime,
-		CASE d.state1
-		WHEN
-		'A' THEN
-		'正常'
-		WHEN
-		'B' THEN
-		'超分'
-		WHEN
-		'C'
-		THEN
-		'转出'
-		WHEN
-		'D' THEN
-		'暂扣'
-		WHEN
-		'E' THEN
-		'撤销'
-		WHEN
-		'F' THEN
-		'吊销'
-		WHEN
-		'G' THEN
-		'注销'
-		WHEN
-		'H' THEN
-		'违法未处理'
-		WHEN
-		'I' THEN
-		'事故未处理'
-		WHEN
-		'J' THEN
-		'停止使用'
-		WHEN
-		'K'
-		THEN
-		'扣押'
-		WHEN
-		'L' THEN
-		'锁定'
-		WHEN
-		'M' THEN
-		'预期未换证'
-		WHEN
-		'N' THEN
-		'延期换证'
-		WHEN
-		'P'
-		THEN
-		'延期体检'
-		WHEN
-		'R' THEN
-		'注销可恢复'
-		WHEN
-		'T' THEN
-		'延期审验'
-		WHEN
-		'U' THEN
-		'扣留'
-		WHEN
-		'S' THEN
-		'逾期未审验'
-		else '不明确'
-		END as state1
+		 d.state1
 		FROM
 		ess_area a
 		LEFT JOIN driver d
@@ -425,8 +301,7 @@
 		ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id =vd.id
         LEFT JOIN vehicle v ON vd.vehicle_id = v.id
         LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId = e.id
-        LEFT JOIN ess_organization o ON e.org_id = o.id
-        LEFT JOIN ess_area a ON o.area_id = a.id
+        LEFT JOIN ess_area a ON a.id = vd.mgrDepartAreaId
         LEFT JOIN  illegal_comparison_table ict ON  ict.code = vd.illicit
         <choose>
 			<when test="empType == 'SUPERMAN'">
@@ -573,27 +448,7 @@
 		en.etpAdress,
 		en.remark,
 		en.etpCd,
-		case en.etpType
-		when 'I' then '消防企业'
-		when 'D' then '出租客运企业'
-		when 'Q' then '其他校车企业'
-		when 'N' then '教练企业'
-		when 'K' then '工程抢险车'
-		when 'P' then '小学生校车'
-		when 'G' then '租赁企业'
-		when 'A' then '非营运企业'
-		when 'C' then '公交客运企业'
-		when 'H' then '警用企业'
-		when 'E' then '旅游客运企业'
-		when 'J' then '救护企业'
-		when 'M' then '出租转非企业'
-		when 'L' then '营转非企业'
-		when 'F' then '货运企业'
-		when 'R' then '危化品运输企业'
-		when 'O' then '幼儿校车企业'
-		when 'B' then '公路客运企业'
-		else '不明确'
-		end as etpType,
+		en.etpType,
 		en.issueCardDate,
 		en.roadTransport
 		FROM

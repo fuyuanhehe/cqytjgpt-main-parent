@@ -14,13 +14,13 @@
 	</resultMap>
 	<!-- 通过机构代码获取部门信息 -->
 	<select id="qryDepartmentList" parameterType="java.util.Map" resultMap="Department">
-		select b.* from ess_organization a LEFT JOIN ess_department b ON a.id=b.org_id WHERE b.org_id=#{orgCd}
+		select b.* from ess_organization a LEFT JOIN ess_department b ON a.id=b.org_id WHERE b.ept_id=#{orgCd}
 		and (b.isDeleted = 0 or b.isDeleted is null)
 		limit ${startRecord},${pageSize}
 	</select>
 	<!-- 通过机构代码获取部门总条数 -->
 	<select id="qryDepartmentListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from ess_department where 1=1 and org_id=#{orgCd}
+		select count(1) from ess_department where 1=1 and ept_id=#{orgCd}
 	</select>
 	
 	<!-- 创建部门-->

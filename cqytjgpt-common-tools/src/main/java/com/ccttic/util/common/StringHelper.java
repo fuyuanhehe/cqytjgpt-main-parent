@@ -13,10 +13,11 @@ import org.springframework.util.StringUtils;
 
 public class StringHelper {
 
+	
 	// 传入字符串,分割字符串,map的key和字符串对应的话就返回map的value
 	public static String getChar(String str,Map<String, Object> map){	
 
-		if(str!=null && str!=""){
+		if(str!=null &&  !str.equals("")){
 			if(str.length()>1){
 				char b;
 				int a = str.length();
@@ -27,7 +28,7 @@ public class StringHelper {
 					String strings = String.valueOf(b);
 					for (Entry<String, Object> maps : map.entrySet()) {
 						if(strings.equals( maps.getKey())){
-							arr += maps.getValue()+",";
+							arr += maps.getValue().toString()+",";
 						}
 					}
 				}
@@ -36,10 +37,14 @@ public class StringHelper {
 				String arr = "";
 				for (Entry<String, Object> maps : map.entrySet()) {
 					if(str.equals( maps.getKey())){
-						arr += maps.getValue()+",";
+						arr = maps.getValue().toString();
 					}
 				}	
-				return arr.substring(0, arr.length()-1);
+				if(! arr.equals("")){
+					return arr;
+				}else {
+					return "不明确";
+				}
 			}
 		}
 		return null;  

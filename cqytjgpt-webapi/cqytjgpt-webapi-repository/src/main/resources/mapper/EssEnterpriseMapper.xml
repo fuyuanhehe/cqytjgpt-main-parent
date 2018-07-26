@@ -592,138 +592,41 @@
 		v.mobilephone,
 		v.telphone,
 		v.mgrDepart,
-		CASE v.state
-		WHEN 'A' THEN
-		'正常'
-		WHEN 'G' THEN
-		'违法未处理'
-		WHEN 'Q' THEN
-		'逾期未检验'
-		WHEN 'P' THEN
-		'达到报废标准公告牌证作废'
-		WHEN 'K' THEN
-		'查封'
-		WHEN 'O' THEN
-		'锁定'
-		WHEN 'L' THEN
-		'扣留'
-		WHEN 'J' THEN
-		'嫌疑车辆'
-		WHEN 'N' THEN
-		'事故逃逸'
-		WHEN 'D' THEN
-		'停驶'
-		WHEN 'E' THEN
-		'注销'
-		WHEN 'H' THEN
-		'海管监管'
-		WHEN 'C'
-		THEN
-		'被强盗'
-		WHEN 'B' THEN
-		'转出'
-		WHEN 'M' THEN
-		'达到报废标准'
-		ELSE
-		'不明确'
-		END AS state,
+		v.state,
 		a.areaNm,
 		v.ownership,
 		v.adress,
 		v.examineEffectEndTime,
 		v.identityCode,
-		CASE v.identityName
-		WHEN 'A' THEN
-		'居民身份证'
-		WHEN 'B' THEN
-		'组织机构代码证书'
-		WHEN 'C'
-		THEN
-		'军官证'
-		WHEN 'D' THEN
-		'士兵证'
-		WHEN 'E' THEN
-		'军官离退休证'
-		WHEN 'F' THEN
-		'境外人员身份证明'
-		WHEN 'G' THEN
-		'外交人员身份证明'
-		WHEN 'H' THEN
-		'居民户口簿'
-		WHEN 'J' THEN
-		'单位注销证明'
-		WHEN 'K' THEN
-		'居住暂住证明'
-		WHEN 'L' THEN
-		'驻华机构证明'
-		WHEN 'M' THEN
-		'临时居民身份证'
-		WHEN 'N' THEN
-		'统一社会信用代码'
-		WHEN 'P' THEN
-		'个体工商户营业执照注册号'
-		ELSE
-		'不明确'
-		END AS identityName,
+		v.identityName,
 		CASE v.mbCar
-		WHEN 1 THEN
+		WHEN
+		1 THEN
 		'是'
 		WHEN 2 THEN
 		'否'
 		ELSE
 		'不明确'
 		END AS mbCar,
-		CASE v.vehicleState
-		WHEN 'A' THEN
-		'正常'
-		WHEN 'G' THEN
-		'违法未处理'
-		WHEN 'Q' THEN
-		'逾期未检验'
-		WHEN 'P' THEN
-		'达到报废标准公告牌证作废'
-		WHEN 'K' THEN
-		'查封'
-		WHEN
-		'O' THEN
-		'锁定'
-		WHEN 'L' THEN
-		'扣留'
-		WHEN 'J' THEN
-		'嫌疑车辆'
-		WHEN 'N' THEN
-		'事故逃逸'
-		WHEN 'D' THEN
-		'停驶'
-		WHEN 'E' THEN
-		'注销'
-		WHEN 'H' THEN
-		'海管监管'
-		WHEN 'C' THEN
-		'被强盗'
-		WHEN 'B' THEN
-		'转出'
-		WHEN 'M' THEN
-		'达到报废标准'
-		ELSE
-		'不明确'
-		END AS
-		vehicleState,
+		v.vehicleState,
 		v.examineForceEffectEndTime,
 		CASE v.countrySideUse
 		WHEN '1'
 		THEN
 		'是'
-		WHEN '2' THEN
+		WHEN
+		'2' THEN
 		'否'
 		ELSE
 		'不明确'
 		END AS countrySideUse
 		FROM
 		ess_area a
-		LEFT JOIN vehicle v ON a.id = v.mgrDepartAreaId
 		LEFT JOIN
-		ess_enterprise e ON v.mgrEnterpriseId = e.id
+		vehicle v ON a.id = v.mgrDepartAreaId
+		LEFT JOIN
+		ess_enterprise e ON
+		v.mgrEnterpriseId = e.id
 		<choose>
 			<when test=" vehiNo != '' and vehiNo != null  ">
 				where v.vehiNo= #{vehiNo}
@@ -816,70 +719,7 @@
 		d.permiCar,
 		d.firstReciveTime,
 		d.nextExamineTime,
-		CASE d.state
-		WHEN
-		'A' THEN
-		'正常'
-		WHEN
-		'B' THEN
-		'超分'
-		WHEN
-		'C' THEN
-		'转出'
-		WHEN
-		'D' THEN
-		'暂扣'
-		WHEN
-		'E' THEN
-		'撤销'
-		WHEN
-		'F'
-		THEN
-		'吊销'
-		WHEN
-		'G' THEN
-		'注销'
-		WHEN
-		'H' THEN
-		'违法未处理'
-		WHEN
-		'I' THEN
-		'事故未处理'
-		WHEN
-		'J'
-		THEN
-		'停止使用'
-		WHEN
-		'K' THEN
-		'扣押'
-		WHEN
-		'L'
-		THEN
-		'锁定'
-		WHEN
-		'M' THEN
-		'逾期未换证'
-		WHEN
-		'N'
-		THEN
-		'延期换证'
-		WHEN
-		'P' THEN
-		'延期体检'
-		WHEN
-		'R' THEN
-		'注销可恢复'
-		WHEN
-		'延期审验' THEN
-		'正常'
-		WHEN
-		'U' THEN
-		'扣留'
-		WHEN
-		'S' THEN
-		'逾期未审验'
-		else '不明确'
-		end as state,
+		d.state,
 		d.mgrDepart,
 		d.telphone,
 		d.scoreTotal,
@@ -888,78 +728,15 @@
 		d.effectEndTime,
 		e.etpNm,
 		a.areaNm,
-		CASE d.state1
-		WHEN
-		'A' THEN
-		'正常'
-		WHEN
-		'B' THEN
-		'超分'
-		WHEN
-		'C' THEN
-		'转出'
-		WHEN
-		'D' THEN
-		'暂扣'
-		WHEN
-		'E'
-		THEN
-		'撤销'
-		WHEN
-		'F' THEN
-		'吊销'
-		WHEN
-		'G' THEN
-		'注销'
-		WHEN
-		'H' THEN
-		'违法未处理'
-		WHEN
-		'I'
-		THEN
-		'事故未处理'
-		WHEN
-		'J' THEN
-		'停止使用'
-		WHEN
-		'K' THEN
-		'扣押'
-		WHEN
-		'L'
-		THEN
-		'锁定'
-		WHEN
-		'M'
-		THEN
-		'预期未换证'
-		WHEN
-		'N' THEN
-		'延期换证'
-		WHEN
-		'P' THEN
-		'延期体检'
-		WHEN
-		'R' THEN
-		'注销可恢复'
-		WHEN
-		'T' THEN
-		'延期审验'
-		WHEN
-		'U' THEN
-		'扣留'
-		WHEN
-		'S' THEN
-		'逾期未审验'
-		else '不明确'
-		END as
-		state1
+		d.state1
 		FROM
 		driver d
 		LEFT JOIN
 		ess_enterprise e ON
 		d.mgrEnterpriseId =
 		e.id
-		LEFT JOIN ess_area a ON
+		LEFT JOIN
+		ess_area a ON
 		d.mgrDepartAreaId = a.id
 		<choose>
 			<when test=" idcard!= null and idcard != '' ">
@@ -1105,7 +882,9 @@
 
 	<select id="selectEnterpriseList" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.enterprise.EssEnterprise">
-		SELECT ent.id,org.id as orgid,ent.etpNm,org.orgNm from ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id  WHERE org_id =#{orgId}
+		SELECT ent.id,org.id as orgid,ent.etpNm,org.orgNm from
+		ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id
+		WHERE org_id =#{orgId} and (ent.isDeleted is null or ent.isDeleted !=1)
 
 	</select>
 
