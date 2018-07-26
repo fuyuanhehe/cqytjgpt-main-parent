@@ -307,8 +307,17 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		enterpriseMapper.relieveDricerEnter(empVo);
 	}
 	@Override
-	public List<EssEnterprise> selectEnterpriseList(Map<String, String> map) {
-		return enterpriseMapper.selectEnterpriseList(map);
+	public Page<EssEnterprise> selectEnterpriseList(Pageable page,EssEnterprise ess) {
+		Page<EssEnterprise> pager = new PageImpl<EssEnterprise>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		
+		long totolRols = enterpriseMapper.selectEnterpriseListCount(params);
+		List<EssEnterprise> records = enterpriseMapper.selectEnterpriseList(params);
+		pager.setTotalRows(totolRols);
+		pager.setRecords(records);
+		return pager;
 	}
 
 	@Override

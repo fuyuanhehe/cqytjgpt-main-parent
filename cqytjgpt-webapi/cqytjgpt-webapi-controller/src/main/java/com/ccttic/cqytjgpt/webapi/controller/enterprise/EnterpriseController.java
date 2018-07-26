@@ -54,12 +54,15 @@ public class EnterpriseController implements Serializable {
 	private RedisService<EmployeeVo> redisService;
 
 	@RequestMapping(value = "/getEssEnterpriseList", method = { RequestMethod.GET, RequestMethod.POST })
-	public  ResponseMsg<List<EssEnterprise>> getEssEnterpriseList(@RequestBody String orgId){
+	public  ResponseMsg<List<EssEnterprise>> getEssEnterpriseList(@RequestBody PageEssEnterpriseVo vo){
 		ResponseMsg<List<EssEnterprise>> responseMsg = new ResponseMsg<>();
-		Map<String, String> map = JsonUtil.jsonToMap(orgId);
 		try {
-			List<EssEnterprise> result = enterpriseService.selectEnterpriseList(map);
-			responseMsg.setData(result);
+			PageRequest page = new PageRequest();
+			page.setPage(vo.getPage());
+			page.setRows(vo.getRows());
+			Page<EssEnterprise> result = enterpriseService.selectEnterpriseList(page,vo);
+			responseMsg.setData(result.getRecords());
+			responseMsg.setTotal(result.getTotalRows().intValue());
 			responseMsg.success("获得企业列表");
 		} catch (Exception e) {
 			responseMsg.fail("获得企业列表");

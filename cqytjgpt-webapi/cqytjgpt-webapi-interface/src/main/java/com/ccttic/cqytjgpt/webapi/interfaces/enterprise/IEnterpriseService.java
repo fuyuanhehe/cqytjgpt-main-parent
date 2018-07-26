@@ -7,6 +7,7 @@ import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.entity.enterprise.vo.PageEssEnterpriseVo;
 import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -86,7 +87,7 @@ public interface IEnterpriseService {
 	 *@Description: 获取当前组织下的企业
 	 *@Date:15:37 2018/7/23
 	 */
-	List<EssEnterprise> selectEnterpriseList(Map<String, String> map);
+	Page<EssEnterprise> selectEnterpriseList(Pageable page,EssEnterprise ess);
 	
 	//企业获取所有管理部门
 		public List<String> getDepar();

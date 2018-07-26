@@ -127,7 +127,14 @@ public interface EssEnterpriseMapper {
 	 *@Description: 获取当前组织下的企业
 	 *@Date:15:39 2018/7/23
 	 */
-	List<EssEnterprise> selectEnterpriseList(Map<String, String> map);
+	List<EssEnterprise> selectEnterpriseList(Map<String, Object> params);
+	/**
+	 * 条数
+	 * @param params
+	 * @return
+	 * @throws AppException
+	 */
+	public int selectEnterpriseListCount(Map<String, Object> params);
 	
 	
 	//企业获取所有管理部门

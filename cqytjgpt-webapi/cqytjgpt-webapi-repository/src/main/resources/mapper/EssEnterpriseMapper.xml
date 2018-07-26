@@ -885,7 +885,12 @@
 		SELECT ent.id,org.id as orgid,ent.etpNm,org.orgNm from
 		ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id
 		WHERE org_id =#{orgId} and (ent.isDeleted is null or ent.isDeleted !=1)
-
+		limit ${startRecord},${pageSize}
+	</select>
+	<select id="selectEnterpriseListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id
+		WHERE org_id =#{orgId} and (ent.isDeleted is null or ent.isDeleted !=1)
+	
 	</select>
 
 	<select id="getDepar" resultType="String">
