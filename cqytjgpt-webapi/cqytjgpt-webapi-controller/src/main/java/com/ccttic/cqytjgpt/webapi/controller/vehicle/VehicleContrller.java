@@ -365,21 +365,19 @@ public class VehicleContrller implements Serializable {
 		}
 			EmployeeVo vo=null;
 			try {
-				vo = employeeService.findEmployeeByAccount(username);
+				vo = employeeService.findEmployeeForDynamic(username);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		List<JSON> list = new ArrayList<JSON>();
 
 		Area area = null;
-		if (vo.getCanSeeOrgs() != null) {
+
 			if ("SUPERMAN".equals(vo.getEmptype()) || "0".equals(vo.getOrg().getOrgType())) {
 				String s = frign.vehicleInfoList(token, "0", "500000");
 				list.add(JSON.parseObject(s));
-
-			} else if ("ADMIN".equals(vo.getEmptype()) && "1".equals(vo.getOrg().getOrgType())) {
+		} else if ("ADMIN".equals(vo.getEmptype()) && "1".equals(vo.getOrg().getOrgType())) {
 				List<Organization> orgs = vo.getCanSeeOrgs();
 				for (Organization org : orgs) {
 					area = vehicleService.getfenceIdByEssid(org.getId());
@@ -395,7 +393,6 @@ public class VehicleContrller implements Serializable {
 								: null));
 			}
 
-		}
 
 		resp.setData(list);
 		resp.success("查询成功！");
