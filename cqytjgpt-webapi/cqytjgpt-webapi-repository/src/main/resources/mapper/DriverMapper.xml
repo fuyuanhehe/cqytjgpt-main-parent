@@ -138,20 +138,24 @@
 		<if test="mobilephone!=null and mobilephone!='' ">
 			and d.mobilephone = #{mobilephone}
 		</if>
-		<if test="fiString!=null and fiString!=''  ">
-			and #{fiString} &lt; d.firstReciveTime &lt;
-			d.firstReciveTime
+		<if test="fiString!=null and fiString!='' ">
+			and d.firstReciveTime &gt; #{fiString}
+		</if>
+		<if test="laString!=null and laString!='' ">
+			and d.firstReciveTime &lt; #{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and #{fistShString} &lt; d.nextexaminetime &lt;
-			#{laShString}
+			and  d.nextexaminetime &gt; #{fistShString} 
+		</if>
+		<if test="laShString!=null and laShString!='' ">
+			and  d.nextexaminetime &lt; #{laShString}
 		</if>
 		and (a.isDeleted is null OR a.isDeleted !=1)
 		limit
 		${startRecord},${pageSize}
 	</select>
 	<!-- 驾驶人分页总数 -->
-	<select id="sePageCount" resultType="long">
+	<select id="sePageCount" resultType="long" parameterType="java.util.Map">
 
 		SELECT
 		COUNT(d.id)
@@ -199,12 +203,16 @@
 			and d.mobilephone = #{mobilephone}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and #{fiString} &lt; d.firstReciveTime &lt;
-			#{laString}
+			and d.firstReciveTime &gt; #{fiString}
+		</if>
+		<if test="laString!=null and laString!='' ">
+			and d.firstReciveTime &lt; #{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and #{fistShString} &lt; d.nextexaminetime &lt;
-			#{laShString}
+			and  d.nextexaminetime &gt; #{fistShString} 
+		</if>
+		<if test="laShString!=null and laShString!='' ">
+			and  d.nextexaminetime &lt; #{laShString}
 		</if>
 		and (a.isDeleted is null OR a.isDeleted !=1)
 	</select>
