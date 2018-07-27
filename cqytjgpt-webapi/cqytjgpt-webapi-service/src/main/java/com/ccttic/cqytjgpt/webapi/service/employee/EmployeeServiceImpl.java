@@ -86,15 +86,45 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public EmployeeVo findEmployeeForDynamic(String account) throws AppException {
+		EmployeeVo emp = empMapper.findEmployeeByAccount(account);
 
+		Map<String, String> map = null;
+		Organization organization = null;
+		if(Const.ADMIN.equals(emp.getEmptype())) {
+			organization = organizationMapper.getOrgByAdminId(emp.getId());
+			emp.setOrg(organization);
+		}
+		if (Const.SUPERMAN.equals(emp.getEmptype())) {
+
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.ONE).equals(emp.getOrg().getOrgType())) {
+
+			organization = organizationMapper.getOrgByAdminId(emp.getId());
+			List<Organization> organizations = organizationMapper.getLastOrg(organization.getId());
+			emp.setOrg(organization);
+			organizations.add(0,organization);
+			emp.setCanSeeOrgs(organizations);
+
+
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.TWO).equals(emp.getOrg().getOrgType())) {
+			organization = organizationMapper.getOrgByAdminId(emp.getId());
+			emp.setOrg(organization);
+
+		}else{
+			organization = organizationMapper.getOrgByEmpId(emp.getId());
+			emp.setOrg(organization);
+		}
+   		return emp;
+	}
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * 
+	 *
+	 *
 	 * @param account
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @see
 	 * com.ccttic.service.employee.IEmployeeService#findEmployeeByAccount(java.lang.
 	 * String)
@@ -207,7 +237,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			emp.setMenus(datas.getMenus());
 			emp.setModels(datas.getModels());
 		}
-	
+
 		return emp;
 
 	}

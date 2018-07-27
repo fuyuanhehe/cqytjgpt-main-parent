@@ -31,6 +31,13 @@ public interface IEmployeeService {
 	public Employee findEmployeeById(String id) throws AppException;
 
 	/**
+	 * 动态监管专用查询
+	 * @param account
+	 * @return
+	 * @throws AppException
+	 */
+	EmployeeVo findEmployeeForDynamic (String account) throws  AppException;
+	/**
 	 * 根据账号查找用户
 	 * @param account
 	 * @return
