@@ -380,7 +380,7 @@ public class VehicleContrller implements Serializable {
 			try {
 				employee = employeeService.findEmployeeByAccount(username);
 				vo = employee;
-				redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+				//redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
