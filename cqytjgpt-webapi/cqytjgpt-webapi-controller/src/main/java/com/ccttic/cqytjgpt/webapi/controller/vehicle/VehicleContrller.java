@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ccttic.entity.employee.Employee;
 import com.ccttic.entity.role.vo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -372,7 +373,8 @@ public class VehicleContrller implements Serializable {
 			token = getToken();
 		}
 
-		EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
+		//EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
+		EmployeeVo vo=null;
 		if (null == vo) {
 			EmployeeVo employee;
 			try {
