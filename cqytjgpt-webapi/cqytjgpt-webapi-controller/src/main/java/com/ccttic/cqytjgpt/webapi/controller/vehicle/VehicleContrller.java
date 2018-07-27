@@ -99,26 +99,19 @@ public class VehicleContrller implements Serializable {
 			List<EssEnterprise> ent = null;
 			String empType = null;
 			String username = JWTUtil.getUsername(access_token);
-			// redis get data
-			EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
-			// 2. 判断REDIS是否为空
-			if (null != vo) {
 
-				empType = vo.getEmptype();
-			} else {
 
+
+				EmployeeVo vo =null;
 				try {
 					vo = employeeService.findEmployeeByAccount(username);
-
 					empType = vo.getEmptype();
-					// 3. 更新redis里用户缓存
-					redisService.set(username + Const.TOKEN, vo, Const.USER_REDIS_LIVE);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-			}
+
             if(null != vo && null!=vo.getCanSeeEnt()) {
 				for (EssEnterprise essEnterprise : vo.getCanSeeEnt()) {
 					list.add(essEnterprise.getId());
@@ -162,17 +155,15 @@ public class VehicleContrller implements Serializable {
 				return resp;
 			}
 			String username = JWTUtil.getUsername(access_token);
-			EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
-			if (null == vo) {
+			EmployeeVo vo = null;
+
 				try {
 					vo = employeeService.findEmployeeByAccount(username);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// 3. 更新redis里用户缓存
-				redisService.set(username + Const.TOKEN, vo, Const.USER_REDIS_LIVE);
-			}
+
 
 			EssEnterprise ent = vo.getEnt();
 			if (ent == null) {
@@ -372,22 +363,14 @@ public class VehicleContrller implements Serializable {
 		if (token == null) {
 			token = getToken();
 		}
-
-		//EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
-		EmployeeVo vo=null;
-		if (null == vo) {
-			EmployeeVo employee;
+			EmployeeVo vo=null;
 			try {
-				employee = employeeService.findEmployeeByAccount(username);
-				vo = employee;
-				//redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+				vo = employeeService.findEmployeeByAccount(username);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// 3. 更新redis里用户缓存
-		
-		}
+
 		List<JSON> list = new ArrayList<JSON>();
 
 		Area area = null;

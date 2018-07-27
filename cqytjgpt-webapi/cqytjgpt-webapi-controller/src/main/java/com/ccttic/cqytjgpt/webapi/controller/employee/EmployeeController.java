@@ -140,9 +140,6 @@ public class EmployeeController {
 				response.fail("获取用户信息失败!");
 				return response;
 			}
-			logger.info("-----------------放入开始！-----------------------");
-			redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
-			logger.info("-----------------放入结束！-----------------------");
 			response.setStatus(ResponseMsg.STATUS_SUCCES);
 			response.setData((EmployeeVo) employee);
 
