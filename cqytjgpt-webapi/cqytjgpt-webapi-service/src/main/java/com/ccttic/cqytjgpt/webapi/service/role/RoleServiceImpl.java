@@ -13,6 +13,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleService;
 import com.ccttic.cqytjgpt.webapi.mapper.role.RoleEmpMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.role.RoleMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.role.RoleMenuMapper;
+import com.ccttic.entity.drivers.vo.DriverillicitVo;
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.entity.role.Role_Emp;
@@ -277,16 +278,19 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
-	public List<EmpRoleMenuVo> getEmpParameter( EmpRoleMenuVo emp) {
+	public Page<EmpRoleMenuVo> getEmpParameter( EmpRoleMenuVo emp,Pageable page) {
+		Page<EmpRoleMenuVo> pager = new PageImpl<EmpRoleMenuVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("orgId", emp.getOrgId());
 		params.put("depId", emp.getDepId());
 		params.put("empNm", emp.getEmpNm());
-
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		
 		List<EmpRoleMenuVo> data = mapper.getEmpParameter(params);
 		for (EmpRoleMenuVo emps : data) {
 
-			if(emps.getOrgNm()!=null){
+			/*if(emps.getOrgNm()!=null){
 				String[] str = emps.getOrgNm().split(",");
 				if(str.length>1){
 					Set<String> set = new HashSet<>();
@@ -299,7 +303,7 @@ public class RoleServiceImpl implements IRoleService {
 					}
 					emps.setOrgNm(Strings);
 				}    
-			}
+			}*/
 
 			if(emps.getDepNm()!=null){
 				String[] str = emps.getDepNm().split(",");
@@ -331,8 +335,10 @@ public class RoleServiceImpl implements IRoleService {
 			}
 
 		}
-
-		return data;
+		pager.setRecords(data);
+		pager.setTotalRows(mapper.getEmpParameterCount(params));
+		
+		return pager;
 	}
 
 	@Override

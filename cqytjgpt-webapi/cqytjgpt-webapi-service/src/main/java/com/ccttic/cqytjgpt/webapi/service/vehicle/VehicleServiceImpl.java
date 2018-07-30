@@ -16,7 +16,6 @@ import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.cqytjgpt.webapi.mapper.category.CategoryMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
 import com.ccttic.entity.car.XMLCar;
-import com.ccttic.entity.category.CategoryAttr;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
@@ -25,7 +24,6 @@ import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.entity.role.vo.VehicleVO;
-import com.ccttic.util.common.DateHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -82,19 +80,23 @@ public class VehicleServiceImpl implements IVehicleService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		int year = 0;
-		if (null != vehiIllicit.getIllicit()) {
-			year = Integer.parseInt(vehiIllicit.getIllicit().substring(0, 4));
+		if (null != vehiIllicit.getIllicitTime()) {
+			year = Integer.parseInt(vehiIllicit.getIllicitTime().substring(0, 4));
 		} else { // 当违法时间为空的时候直接取当前年份
 			year = calendar.get(Calendar.YEAR);
 		}
-		String startDate = DateHelper.getFirstDayOfMonth1(year, 1);
-		String endDate = DateHelper.getLastDayOfMonth1(year, 12);
+//		String startDate = DateHelper.getFirstDayOfMonth1(year, 1);
+//		String endDate = DateHelper.getLastDayOfMonth1(year, 12);
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("id", vehiIllicit.getId());
-		params.put("startDate", startDate);
-		params.put("endDate", endDate);
-		params.put("tableNmae", "vehi_dr_illicit"+year);
+//		params.put("id", vehiIllicit.getId());
+//		params.put("startDate", startDate);
+//		params.put("endDate", endDate);
+		
+		params.put("vehiNo", vehiIllicit.getVehiNo());
+		params.put("vehiNoType", vehiIllicit.getVehiNoType());
+		params.put("netTrffSurveil", "net_trff_surveil_"+year);
+		params.put("netTrffViolation", "net_trff_violation_"+year);
 		long totolRol = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 	

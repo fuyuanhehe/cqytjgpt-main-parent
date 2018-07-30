@@ -91,8 +91,10 @@ public class RoleController {
 			// 角色ID
 			String  idss = RandomHelper.uuid();
 			//员工ID
-			String str = rolty.getEmp_id();
-			if(str != null)  {
+			if(rolty.getEmp_id() != null)  {
+				
+				String str = rolty.getEmp_id();
+				
 				List<Role_Emp> roles = new ArrayList<Role_Emp>(); 
 				String [] strs = str.split(",");
 
@@ -217,9 +219,10 @@ public class RoleController {
 			PageRequest page = new PageRequest();
 			page.setPage(emp.getPage());
 			page.setRows(emp.getRows());
-			List<EmpRoleMenuVo> data = Roleservice.getEmpParameter(emp);
+			Page<EmpRoleMenuVo> data = Roleservice.getEmpParameter(emp, page);
 
-			resp.setData(data);
+			resp.setData(data.getRecords());
+			resp.setTotal(data.getTotalRows().intValue());
 			resp.setMessage("获取用户信息成功!");
 			resp.setStatus(0);
 		} catch (Exception e) {

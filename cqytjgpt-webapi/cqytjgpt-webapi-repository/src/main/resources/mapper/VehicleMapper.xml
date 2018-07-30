@@ -244,35 +244,32 @@
 
 			<!-- 根据vehiNo获取指定车辆的违法信息 -->
 	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-		SELECT cit.id,ess.etpNm,cit.vehiNo,CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
-			cit.illicitTime,cit.illicit,cit.illicitAdress,cit.serialNumber,tablei.illegal_name AS illicitDesc,CASE cit.disposeSign WHEN '0' THEN '未处理'
-			 WHEN '1' THEN '已处理' ELSE '' END disposeSign,cit.illicitAmount,
-			 cit.illicitScore, CASE cit.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
-			 WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-			 CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
-		FROM
-		(
-			SELECT * FROM ${tableNmae} WHERE vehiNo=#{vehiNo} and (isDeleted is null or isDeleted !=1) and illicitTime &gt;= #{startDate} and illicitTime &lt;= #{endDate}
-		) cit
-		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
-		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+		SELECT net.id,ess.etpNm,net.hphm as vehiNo,CASE net.hpzl WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,net.hpzl as vehiNoType,
+		net.wfsj as illicitTime,net.wfxw as illicit,net.wfdz as illicitAdress,tablei.illegal_name AS illicitDesc,CASE net.CLBJ WHEN '0' THEN '未处理'
+		WHEN '1' THEN '已处理' ELSE '' END disposeSign,net.fkje AS illicitAmount,net.WFJFS as illicitScore,CASE net.CFZL WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
+		WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
+		CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState
+		FROM (SELECT * FROM (SELECT vio.id,vio.HPZL,vio.HPHM,vio.WFDZ,vio.WFXW,NULL AS CLBJ,vio.JKBJ,vio.CLJG AS CJJG,vio.CLJGMC AS CJJGMC,vio.WFSJ,vio.FKJE,vio.CLSJ,vio.JDSBH,vio.WFBH,vio.JSZH,vio.WFJFS,vio.DSR,vio.CFZL 
+		FROM ${netTrffViolation} vio WHERE vio.hphm=#{vehiNo} AND vio.hpzl=#{vehiNoType} AND vio.jkbj='1'  UNION 
+		SELECT sur.id,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
+		FROM ${netTrffSurveil} sur WHERE sur.hphm=#{vehiNo} AND sur.hpzl=#{vehiNoType} AND sur.clbj='0')n ORDER BY n.WFSJ DESC limit ${startRecord},${pageSize}) net 
+		LEFT JOIN (SELECT * FROM vehicle v WHERE v.vehiNo =#{vehiNo})ve  ON ve.vehiNo=net.hphm
+		LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
 		LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-		LEFT JOIN illegal_comparison_table tablei ON cit.illicit=tablei.id
-		ORDER BY illicitTime DESC
-		limit ${startRecord},${pageSize}
+		LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id
 	</select>
 
 	<!-- 根据id获取指定车辆的违法信息条数-->
 	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		SELECT COUNT(1)
-		FROM
-		(
-			SELECT * FROM ${tableNmae} WHERE vehiNo=#{vehiNo} and (isDeleted is null or isDeleted !=1) and illicitTime &gt;= #{startDate} and illicitTime &lt;= #{endDate}
-			
-		) cit
-		LEFT JOIN ess_area area ON cit.mgrDepartAreaId=area.id
-		LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+		SELECT count(1)
+		FROM (SELECT vio.id,vio.HPZL,vio.HPHM,vio.WFDZ,vio.WFXW,NULL AS CLBJ,vio.JKBJ,vio.CLJG AS CJJG,vio.CLJGMC AS CJJGMC,vio.WFSJ,vio.FKJE,vio.CLSJ,vio.JDSBH,vio.WFBH,vio.JSZH,vio.WFJFS,vio.DSR,vio.CFZL 
+		FROM net_trff_violation_2018 vio WHERE vio.hphm=#{vehiNo} AND vio.hpzl='' AND vio.jkbj='1'  UNION 
+		SELECT sur.id,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
+		FROM net_trff_surveil_2018 sur WHERE sur.hphm=#{vehiNo} AND sur.hpzl='' AND sur.clbj='0') net 
+		LEFT JOIN (SELECT * FROM vehicle v WHERE v.vehiNo =#{vehiNo} )ve  ON ve.vehiNo=net.hphm
+		LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
 		LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
+		LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id
 		
 	</select>
 	 <!-- 一对多查询关联  -->

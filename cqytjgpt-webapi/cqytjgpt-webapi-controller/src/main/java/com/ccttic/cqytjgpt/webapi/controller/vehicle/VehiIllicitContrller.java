@@ -126,13 +126,19 @@ public class VehiIllicitContrller implements Serializable{
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		int year = 0;
-		params.put("id", ve.getId());
 		if (null != ve.getIllicitTime()) {
-			params.put("tableNmae", "vehi_dr_illicit"+ve.getIllicitTime().substring(0, 4));
+			year = Integer.valueOf(ve.getIllicitTime().substring(0, 4));
 		} else {
 			year = calendar.get(Calendar.YEAR);
-			params.put("tableNmae", "vehi_dr_illicit"+year);
 		}
+		if ("0".equals(ve.getDisposeSign())) {
+			params.put("tableNmae", "net_trff_surveil_"+year);
+		} else {
+			params.put("tableNmae", "net_trff_violation_"+year);
+		}
+		params.put("id", ve.getId());
+		params.put("disposeSign", ve.getDisposeSign());
+		params.put("vehiNo", ve.getVehiNo());
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
 			resp.setData(vehiIllicit);

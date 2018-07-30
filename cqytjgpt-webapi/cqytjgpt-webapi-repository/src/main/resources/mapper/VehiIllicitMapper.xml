@@ -687,17 +687,27 @@
 
     <!-- 根据id获取指定车辆的违法信息 -->
     <select id="qryOneVehiIllicit" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-				SELECT a.id AS id,a.vehiNo,ess.etpNm,CASE a.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,a.vehiNoType, 
-			a.illicitTime,a.illicitAdress,a.illicit,a.serialNumber,a.pickDepartmentDesc,CASE a.disposeSign WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END disposeSign,
-			ict.illegal_name AS illicitDesc,a.illicitAmount,a.illicitScore, CASE a.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
-			 WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-			CASE a.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
+			SELECT net.id,ess.etpNm,net.hphm as vehiNo,CASE net.hpzl WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,net.hpzl as vehiNoType,
+			net.wfsj as illicitTime,net.wfxw as illicit,net.wfdz as illicitAdress,tablei.illegal_name AS illicitDesc,CASE net.CLBJ WHEN '0' THEN '未处理'
+			WHEN '1' THEN '已处理' ELSE '' END disposeSign,net.fkje AS illicitAmount,net.WFJFS as illicitScore,CASE net.CFZL WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
+			WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
+			CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState
 				FROM (
-						SELECT * FROM ${tableNmae} WHERE id=#{id} and (isDeleted is null or isDeleted !=1)
-					 ) a  
-				LEFT JOIN vehicle ve ON a.vehicle_id=ve.id
+						<choose>
+							<when test="disposeSign == '0'">
+								SELECT sur.id,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
+									FROM ${tableNmae} sur WHERE sur.ID=#{id}
+							</when>
+							<otherwise>
+								SELECT vio.id,vio.HPZL,vio.HPHM,vio.WFDZ,vio.WFXW,NULL AS CLBJ,vio.JKBJ,vio.CLJG AS CJJG,vio.CLJGMC AS CJJGMC,vio.WFSJ,vio.FKJE,vio.CLSJ,vio.JDSBH,vio.WFBH,vio.JSZH,vio.WFJFS,vio.DSR,vio.CFZL 
+									FROM ${tableNmae} vio WHERE vio.ID=#{id}
+							</otherwise>
+						</choose>
+					 ) net 
+				LEFT JOIN (SELECT * FROM vehicle v WHERE v.vehiNo ='')ve  ON ve.vehiNo=net.hphm
+				LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-				LEFT JOIN  illegal_comparison_table ict ON  ict.code = a.illicit
+				LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id
 	</select>
     <update id="updateBatch" parameterType="java.util.List">
         update vehi_illicit

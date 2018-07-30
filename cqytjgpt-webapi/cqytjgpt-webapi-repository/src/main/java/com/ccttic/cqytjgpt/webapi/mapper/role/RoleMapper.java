@@ -106,7 +106,8 @@ public interface RoleMapper {
 	
 	//新增角色，查看所属的组织，部门，岗位
 		 public List<EmpRoleMenuVo> getEmpParameter(Map<String, Object> params);
-	
+	     public long getEmpParameterCount(Map<String, Object> params);
+		 
 		 
 	//获取组织机构   ，获取部门	 
 		 public List<OrgDepVo> getOrgNm();	 
