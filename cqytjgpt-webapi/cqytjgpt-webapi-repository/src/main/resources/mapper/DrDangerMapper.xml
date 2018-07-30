@@ -717,9 +717,6 @@ GROUP BY
         <if test="overdueProofState ==true ">
             and danger.overdueProofState = 1
         </if>
-        order by danger.dangerType DESC
-
-        limit ${startRecord},${pageSize}
     </select>
 
 </mapper>
