@@ -13,7 +13,6 @@
     <result column="correctState" jdbcType="VARCHAR" property="correctstate" />
     <result column="dangerDesc" jdbcType="VARCHAR" property="dangerdesc" />
     <result column="driver_id" jdbcType="VARCHAR" property="driverId" />
-    <result column="illicitState" jdbcType="INTEGER" property="illicitstate" />
     <result column="failureState" jdbcType="INTEGER" property="failurestate" />
     <result column="overdueProofState" jdbcType="INTEGER" property="overdueproofstate" />
     <result column="overdueExamineState" jdbcType="INTEGER" property="overdueexaminestate" />
@@ -55,10 +54,6 @@
   <!-- 查询隐患问题分布 -->
   <select id="distributionDangerForDriver" resultType="map" parameterType="map">
  	<if test='date=="year"'>
-     select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
-      union all
-select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
-      union all
 select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
       union all
 select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
@@ -66,10 +61,6 @@ select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdu
 select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
  	</if>
  	<if test='date=="month"'>
-      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
-      union all
-      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
-      union all
       select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
       union all
       select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
@@ -77,10 +68,6 @@ select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullSt
       select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
  	</if>
  	<if test='date=="season"'>
-      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (isDeleted is null or isDeleted !=1)
-      union all
-      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (isDeleted is null or isDeleted !=1)
-      union all
       select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (isDeleted is null or isDeleted !=1)
       union all
       select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (isDeleted is null or isDeleted !=1)
@@ -175,8 +162,6 @@ SELECT
 	d.id,
 	d.driveridcard,
 	d.drivername,
-	d.illicitstate,
-	d.failurestate,
 	d.overdueproofstate,
 	d.overdueexaminestate,
 	d.fullstudystate,
