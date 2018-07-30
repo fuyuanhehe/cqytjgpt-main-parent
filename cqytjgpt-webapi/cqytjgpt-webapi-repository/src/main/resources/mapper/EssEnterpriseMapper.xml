@@ -629,38 +629,34 @@
 		v.mgrEnterpriseId = e.id
 		<choose>
 			<when test=" vehiNo != '' and vehiNo != null  ">
-				where v.vehiNo= #{vehiNo}
+				WHERE v.vehiNo= #{vehiNo}
 			</when>
-
 			<when test="empType == 'SUPERMAN'  ">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where e.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-
-		and (v.isDeleted is null OR v.isDeleted !=1)
+		AND (v.isDeleted is null OR v.isDeleted !=1)
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm like '%${etpNm}%'
+			AND e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm= #{areaNm}
+			AND a.areaNm= #{areaNm}
 		</if>
 		<if test="id!=null and id!='' ">
-			and v.id= #{id}
+			AND v.id= #{id}
 		</if>
 		<if test="vehiNoType!=null and vehiNoType!='' ">
-			and v.vehiNoType= #{vehiNoType}
+			AND v.vehiNoType= #{vehiNoType}
 		</if>
-		and e.etpNm!=''
-		and v.id != ''
-		limit ${startRecord},${pageSize}
-
+		AND e.id!=''
+		LIMIT ${startRecord},${pageSize}
 	</select>
 
 	<select id="getEnterpriseVeCount" resultType="long"
@@ -674,38 +670,34 @@
 		LEFT JOIN
 		ess_enterprise e ON v.mgrEnterpriseId = e.id
 		<choose>
-
 			<when test=" vehiNo != '' and vehiNo != null  ">
-				where v.vehiNo= #{vehiNo}
+				WHERE v.vehiNo= #{vehiNo}
 			</when>
-
 			<when test="empType == 'SUPERMAN' ">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where e.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-
-		and (v.isDeleted is null OR v.isDeleted !=1)
+		AND (v.isDeleted is null OR v.isDeleted !=1)
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm like '%${etpNm}%'
+			AND e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm= #{areaNm}
+			AND a.areaNm= #{areaNm}
 		</if>
 		<if test="id!=null and id!='' ">
-			and v.id= #{id}
+			AND v.id= #{id}
 		</if>
 		<if test="vehiNoType!=null and vehiNoType!='' ">
-			and v.vehiNoType= #{vehiNoType}
+			AND v.vehiNoType= #{vehiNoType}
 		</if>
-		and e.etpNm!=''
-		and v.id != ''
+		AND e.id!=''
 	</select>
 	<!--企业下驾驶人 -->
 	<select id="getEnterpriceDriver" resultType="com.ccttic.entity.enterprise.vo.EnterpriseDriverVo"
@@ -740,16 +732,13 @@
 		d.mgrDepartAreaId = a.id
 		<choose>
 			<when test=" idcard!= null and idcard != '' ">
-				where d.idcard= #{idcard}
+				WHERE d.idcard= #{idcard}
 			</when>
-
 			<when test="empType == 'SUPERMAN' ">
-				where 1=1
+				WHERE 1=1
 			</when>
-
-
 			<otherwise>
-				where e.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
@@ -757,19 +746,18 @@
 			</otherwise>
 		</choose>
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm like '%${etpNm}%'
+			AND e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm= #{areaNm}
+			AND a.areaNm= #{areaNm}
 		</if>
 		<if test="id!=null and id!='' ">
-			and d.id= #{id}
+			AND d.id= #{id}
 		</if>
-		and e.etpNm !=''
-		and d.id !=''
-		and (d.isDelete is null OR d.isDelete
+		AND e.id !=''
+		AND (d.isDelete is null OR d.isDelete
 		!=1)
-		limit
+		LIMIT
 		${startRecord},${pageSize}
 	</select>
 
@@ -786,13 +774,13 @@
 		JOIN ess_area a ON d.mgrDepartAreaId = a.id
 		<choose>
 			<when test=" idcard!= null and idcard != '' ">
-				where d.idcard= #{idcard}
+				WHERE d.idcard= #{idcard}
 			</when>
 			<when test="empType == 'SUPERMAN' ">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where e.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
@@ -800,19 +788,17 @@
 			</otherwise>
 		</choose>
 		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm like '%${etpNm}%'
+			AND e.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm= #{areaNm}
+			AND a.areaNm= #{areaNm}
 		</if>
 		<if test="id!=null and id!='' ">
-			and d.id= #{id}
+			AND d.id= #{id}
 		</if>
-		and e.etpNm !=''
-		and d.id !=''
-		and (d.isDelete is null OR d.isDelete
+		AND e.id !=''
+		AND (d.isDelete is null OR d.isDelete
 		!=1)
-
 	</select>
 
 	<!-- 企业选择车辆 -->
@@ -884,13 +870,17 @@
 		resultType="com.ccttic.entity.enterprise.EssEnterprise">
 		SELECT ent.id,org.id as orgid,ent.etpNm,org.orgNm from
 		ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id
-		WHERE org_id =#{orgId} and (ent.isDeleted is null or ent.isDeleted !=1)
+		WHERE org_id =#{orgId} and (ent.isDeleted is null or ent.isDeleted
+		!=1)
 		limit ${startRecord},${pageSize}
 	</select>
-	<select id="selectEnterpriseListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from ess_enterprise ent LEFT JOIN ess_organization org ON ent.org_id=org.id
-		WHERE org_id =#{orgId} and (ent.isDeleted is null or ent.isDeleted !=1)
-	
+	<select id="selectEnterpriseListCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(1) from ess_enterprise ent LEFT JOIN
+		ess_organization org ON ent.org_id=org.id
+		WHERE org_id =#{orgId} and
+		(ent.isDeleted is null or ent.isDeleted !=1)
+
 	</select>
 
 	<select id="getDepar" resultType="String">

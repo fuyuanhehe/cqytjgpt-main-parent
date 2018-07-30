@@ -63,8 +63,7 @@
 	</insert>
 
 	<sql id="names">
-		replace(`name`,' ','') name,
-
+		REPLACE(`name`,' ','') name,
 	</sql>
 	<sql id="dnames">
 		trim(REPLACE(`name`, ' ', '')) LIKE
@@ -105,53 +104,52 @@
 		en.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where en.id in
+				WHERE en.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-		and d.id != ''
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm like '%${etpNm}%'
+			AND en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm = #{areaNm}
+			AND a.areaNm = #{areaNm}
 		</if>
 		<if test="name!=null and name!='' ">
-			and
+			AND
 			<include refid="dnames"></include>
 		</if>
 		<if test="idcard!=null and idcard!='' ">
-			and d.idcard = #{idcard}
+			AND d.idcard = #{idcard}
 		</if>
 		<if test="permicar!=null and permicar!='' ">
-			and d.permiCar like '%${permicar}%'
+			AND d.permiCar like '%${permicar}%'
 		</if>
 		<if test="id!=null and id!='' ">
-			and d.id = #{id}
+			AND d.id = #{id}
 		</if>
 		<if test="mobilephone!=null and mobilephone!='' ">
-			and d.mobilephone = #{mobilephone}
+			AND d.mobilephone = #{mobilephone}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and d.firstReciveTime &gt; #{fiString}
+			AND d.firstReciveTime &gt; #{fiString}
 		</if>
 		<if test="laString!=null and laString!='' ">
-			and d.firstReciveTime &lt; #{laString}
+			AND d.firstReciveTime &lt; #{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and  d.nextexaminetime &gt; #{fistShString} 
+			AND d.nextexaminetime &gt; #{fistShString}
 		</if>
 		<if test="laShString!=null and laShString!='' ">
-			and  d.nextexaminetime &lt; #{laShString}
+			AND d.nextexaminetime &lt; #{laShString}
 		</if>
-		and (a.isDeleted is null OR a.isDeleted !=1)
-		limit
+		AND (d.isDelete is null OR d.isDelete !=1)
+		LIMIT
 		${startRecord},${pageSize}
 	</select>
 	<!-- 驾驶人分页总数 -->
@@ -165,56 +163,53 @@
 		d.mgrDepartAreaId
 		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
 		en.id
-
-
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where en.id in
+				WHERE en.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-		and d.id != ''
 		<if test="etpNm!=null and etpNm!='' ">
-			and en.etpNm like '%${etpNm}%'
+			AND en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm = #{areaNm}
+			AND a.areaNm = #{areaNm}
 		</if>
 		<if test="name!=null and name!='' ">
-			and trim(REPLACE(`name`, ' ', '')) LIKE
+			AND trim(REPLACE(`name`, ' ', '')) LIKE
 			trim(REPLACE('%${name}%', ' ', ''))
 		</if>
 		<if test="idcard!=null and idcard!='' ">
-			and d.idcard = #{idcard}
+			AND d.idcard = #{idcard}
 		</if>
 		<if test="permicar!=null and permicar!='' ">
-			and d.permiCar like '%${permicar}%'
+			AND d.permiCar like '%${permicar}%'
 		</if>
 		<if test="id!=null and id!='' ">
-			and d.id = #{id}
+			AND d.id = #{id}
 		</if>
 		<if test="mobilephone!=null and mobilephone!='' ">
-			and d.mobilephone = #{mobilephone}
+			AND d.mobilephone = #{mobilephone}
 		</if>
 		<if test="fiString!=null and fiString!='' ">
-			and d.firstReciveTime &gt; #{fiString}
+			AND d.firstReciveTime &gt; #{fiString}
 		</if>
 		<if test="laString!=null and laString!='' ">
-			and d.firstReciveTime &lt; #{laString}
+			AND d.firstReciveTime &lt; #{laString}
 		</if>
 		<if test="fistShString!=null and fistShString!='' ">
-			and  d.nextexaminetime &gt; #{fistShString} 
+			AND d.nextexaminetime &gt; #{fistShString}
 		</if>
 		<if test="laShString!=null and laShString!='' ">
-			and  d.nextexaminetime &lt; #{laShString}
+			AND d.nextexaminetime &lt; #{laShString}
 		</if>
-		and (a.isDeleted is null OR a.isDeleted !=1)
+		AND (d.isDelete is null OR d.isDelete !=1)
 	</select>
 	<!--驾驶人违法记录 -->
 	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
@@ -479,38 +474,36 @@
 		eo.area_id = a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where en.id in
+				WHERE en.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-
 		<if test="areaNm!= null and areaNm!='' ">
-			and a.areaNm = #{areaNm}
+			AND a.areaNm = #{areaNm}
 		</if>
 		<if test="id!= null and id!='' ">
-			and en.id = #{id}
+			AND en.id = #{id}
 		</if>
 		<if test="etpNm!= null and etpNm!='' ">
-			and en.etpNm like '%${etpNm}%'
+			AND en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="ownerTraffic!= null and ownerTraffic!='' ">
-			and en.ownerTraffic = #{ownerTraffic}
+			AND en.ownerTraffic = #{ownerTraffic}
 		</if>
 		<if test="ownerTransport!= null and ownerTransport!='' ">
-			and en.ownerTransport = #{ownerTransport}
+			AND en.ownerTransport = #{ownerTransport}
 		</if>
 		<if test="etpCd!= null and etpCd!='' ">
-			and en.etpCd = #{etpCd}
+			AND en.etpCd = #{etpCd}
 		</if>
-		and (en.isDeleted is null OR en.isDeleted !=1)
-		AND en.id != ''
-		limit
+		AND (en.isDeleted is null OR en.isDeleted !=1)
+		LIMIT
 		${startRecord} ,
 		${pageSize}
 
@@ -527,10 +520,10 @@
 		LEFT JOIN ess_area a ON eo.area_id = a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where e.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
@@ -538,25 +531,24 @@
 			</otherwise>
 		</choose>
 		<if test="areaNm!= null and areaNm!='' ">
-			and a.areaNm = #{areaNm}
+			AND a.areaNm = #{areaNm}
 		</if>
 		<if test="id!= null and id!='' ">
-			and en.id = #{id}
+			AND en.id = #{id}
 		</if>
 		<if test="etpNm!= null and etpNm!='' ">
-			and en.etpNm like '%${etpNm}%'
+			AND en.etpNm like '%${etpNm}%'
 		</if>
 		<if test="ownerTraffic!= null and ownerTraffic!='' ">
-			and en.ownerTraffic = #{ownerTraffic}
+			AND en.ownerTraffic = #{ownerTraffic}
 		</if>
 		<if test="ownerTransport!= null and ownerTransport!='' ">
-			and en.ownerTransport = #{ownerTransport}
+			AND en.ownerTransport = #{ownerTransport}
 		</if>
 		<if test="etpCd!= null and etpCd!='' ">
-			and en.etpCd = #{etpCd}
+			AND en.etpCd = #{etpCd}
 		</if>
-		and (en.isDeleted is null OR en.isDeleted !=1)
-		AND en.id != ''
+		AND (en.isDeleted is null OR en.isDeleted !=1)
 	</select>
 	<!--企业信息记录分页 违法未处理详情 -->
 	<select id="queryVehiclespage" parameterType="java.util.Map"
@@ -582,17 +574,17 @@
 		v.id = vd.vehicle_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where e.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-		and e.id != ''
+		AND e.id != ''
 		<if test="orgNm!=null and orgNm!= '' ">
 			AND o.orgNm =#{orgNm}
 		</if>
@@ -605,10 +597,8 @@
 		<if test="id!=null and id!= '' ">
 			AND e.id =#{id}
 		</if>
-
-		and (o.isDeleted is null OR o.isDeleted !=1)
-
-		limit ${startRecord} ,
+		AND (e.isDeleted is null OR e.isDeleted !=1)
+		LIMIT ${startRecord} ,
 		${pageSize}
 
 	</select>
@@ -626,17 +616,17 @@
 		JOIN vehi_danger vd ON v.id = vd.vehicle_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
-				where 1=1
+				WHERE 1=1
 			</when>
 			<otherwise>
-				where e.id in
+				WHERE e.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
 			</otherwise>
 		</choose>
-		and e.id != ''
+		AND e.id != ''
 		<if test="orgNm!=null and orgNm!= '' ">
 			AND o.orgNm =#{orgNm}
 		</if>
@@ -646,7 +636,7 @@
 		<if test="vehiType!=null and vehiType!= '' ">
 			AND v.vehiType =#{vehiType}
 		</if>
-		and (o.isDeleted is null OR o.isDeleted !=1)
+		AND (e.isDeleted is null OR e.isDeleted !=1)
 	</select>
 	<select id="seEmp" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.employee.EssEmployee">
