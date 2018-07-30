@@ -186,7 +186,7 @@
 		parameterType="java.util.Map">
 		SELECT
 		e.id,
-		GROUP_CONCAT(o.orgNm) AS orgNm,
+		o.orgNm,
 		GROUP_CONCAT(d.depNm) AS
 		depNm,
 		GROUP_CONCAT(p.postNm) AS postNm,
@@ -194,12 +194,15 @@
 		e.account
 		FROM
 		ess_employee e
-		LEFT JOIN ess_employee_dept ed ON e.id = ed.emp_id
+		LEFT JOIN ess_employee_dept ed ON
+		e.id = ed.emp_id
 		LEFT
 		JOIN ess_department d ON ed.dep_id = d.id
-		LEFT JOIN ess_employee_post
+		LEFT JOIN
+		ess_employee_post
 		ep ON e.id = ep.emp_id
-		LEFT JOIN ess_post p ON ep.post_id = p.id
+		LEFT JOIN ess_post p ON
+		ep.post_id = p.id
 		LEFT
 		JOIN ess_organization o ON e.id = o.admin_empid
 		where 1 = 1
@@ -223,7 +226,8 @@
 		count(e.id)
 		FROM
 		ess_employee e
-		LEFT JOIN ess_employee_dept ed ON e.id =
+		LEFT JOIN ess_employee_dept ed ON
+		e.id =
 		ed.emp_id
 		LEFT
 		JOIN ess_department d ON ed.dep_id = d.id

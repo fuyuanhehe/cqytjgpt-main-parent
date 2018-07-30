@@ -290,7 +290,7 @@ public class RoleServiceImpl implements IRoleService {
 		List<EmpRoleMenuVo> data = mapper.getEmpParameter(params);
 		for (EmpRoleMenuVo emps : data) {
 
-			if(emps.getOrgNm()!=null){
+			/*if(emps.getOrgNm()!=null){
 				String[] str = emps.getOrgNm().split(",");
 				if(str.length>1){
 					Set<String> set = new HashSet<>();
@@ -303,7 +303,7 @@ public class RoleServiceImpl implements IRoleService {
 					}
 					emps.setOrgNm(Strings);
 				}    
-			}
+			}*/
 
 			if(emps.getDepNm()!=null){
 				String[] str = emps.getDepNm().split(",");
