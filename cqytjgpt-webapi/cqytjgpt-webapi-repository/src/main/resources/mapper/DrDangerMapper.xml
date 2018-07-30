@@ -703,5 +703,5 @@ GROUP BY
 		
 		limit ${startRecord},${pageSize}  
 	</select>
-  
+
 </mapper>

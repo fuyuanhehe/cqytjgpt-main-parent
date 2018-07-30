@@ -1,132 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper">
-  <resultMap id="BaseResultMap" type="com.ccttic.entity.illegal.VehiIllicit">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="vehiNo" jdbcType="VARCHAR" property="vehino" />
-    <result column="vehiNoType" jdbcType="VARCHAR" property="vehinotype" />
-    <result column="nature" jdbcType="VARCHAR" property="nature" />
-    <result column="ownership" jdbcType="VARCHAR" property="ownership" />
-    <result column="owner" jdbcType="VARCHAR" property="owner" />
-    <result column="adress" jdbcType="VARCHAR" property="adress" />
-    <result column="mgrDepart" jdbcType="VARCHAR" property="mgrdepart" />
-    <result column="mgrDepartAreaId" jdbcType="VARCHAR" property="mgrdepartareaid" />
-    <result column="vehicle_id" jdbcType="VARCHAR" property="vehicleId" />
-    <result column="illicitTime" jdbcType="VARCHAR" property="illicittime" />
-    <result column="illicitScore" jdbcType="VARCHAR" property="illicitscore" />
-    <result column="illicitAmount" jdbcType="VARCHAR" property="illicitamount" />
-    <result column="illicitAdress" jdbcType="VARCHAR" property="illicitadress" />
-    <result column="illicit" jdbcType="VARCHAR" property="illicit" />
-    <result column="illicitDesc" jdbcType="VARCHAR" property="illicitdesc" />
-    <result column="pickDepartment" jdbcType="VARCHAR" property="pickdepartment" />
-    <result column="pickDepartmentDesc" jdbcType="VARCHAR" property="pickdepartmentdesc" />
-    <result column="state" jdbcType="VARCHAR" property="state" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="version" jdbcType="INTEGER" property="version" />
-    <result column="isDeleted" jdbcType="BIT" property="isdeleted" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
-    <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime" />
-    <result column="createBy" jdbcType="VARCHAR" property="createby" />
-    <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd" />
-    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
-    <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.ccttic.entity.illegal.VehiIllicit">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="vehiNo" jdbcType="VARCHAR" property="vehino"/>
+        <result column="vehiNoType" jdbcType="VARCHAR" property="vehinotype"/>
+        <result column="nature" jdbcType="VARCHAR" property="nature"/>
+        <result column="ownership" jdbcType="VARCHAR" property="ownership"/>
+        <result column="owner" jdbcType="VARCHAR" property="owner"/>
+        <result column="adress" jdbcType="VARCHAR" property="adress"/>
+        <result column="mgrDepart" jdbcType="VARCHAR" property="mgrdepart"/>
+        <result column="mgrDepartAreaId" jdbcType="VARCHAR" property="mgrdepartareaid"/>
+        <result column="vehicle_id" jdbcType="VARCHAR" property="vehicleId"/>
+        <result column="illicitTime" jdbcType="VARCHAR" property="illicittime"/>
+        <result column="illicitScore" jdbcType="VARCHAR" property="illicitscore"/>
+        <result column="illicitAmount" jdbcType="VARCHAR" property="illicitamount"/>
+        <result column="illicitAdress" jdbcType="VARCHAR" property="illicitadress"/>
+        <result column="illicit" jdbcType="VARCHAR" property="illicit"/>
+        <result column="illicitDesc" jdbcType="VARCHAR" property="illicitdesc"/>
+        <result column="pickDepartment" jdbcType="VARCHAR" property="pickdepartment"/>
+        <result column="pickDepartmentDesc" jdbcType="VARCHAR" property="pickdepartmentdesc"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="isDeleted" jdbcType="BIT" property="isdeleted"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime"/>
+        <result column="createBy" jdbcType="VARCHAR" property="createby"/>
+        <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd"/>
+        <result column="updateBy" jdbcType="VARCHAR" property="updateby"/>
+        <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     id, vehiNo, vehiNoType, nature, ownership, owner, adress, mgrDepart, mgrDepartAreaId, 
     vehicle_id, illicitTime, illicitScore, illicitAmount, illicitAdress, illicit, illicitDesc, 
     pickDepartment, pickDepartmentDesc, state, remark, version, isDeleted, createTime, 
     updateTime, deleteTime, createBy, createDepCd, updateBy, updateDepCd
   </sql>
-  <select id="selectByExample" parameterType="com.ccttic.entity.illegal.VehiIllicitExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from vehi_illicit
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from vehi_illicit
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectByExample" parameterType="com.ccttic.entity.illegal.VehiIllicitExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from vehi_illicit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vehi_illicit
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from vehi_illicit
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ccttic.entity.illegal.VehiIllicitExample">
-    delete from vehi_illicit
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.ccttic.entity.illegal.VehiIllicit">
+    <delete id="deleteByExample" parameterType="com.ccttic.entity.illegal.VehiIllicitExample">
+        delete from vehi_illicit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ccttic.entity.illegal.VehiIllicit">
     insert into vehi_illicit (id, vehiNo, vehiNoType, 
       nature, ownership, owner, 
       adress, mgrDepart, mgrDepartAreaId, 
@@ -148,414 +150,415 @@
       #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
       #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.ccttic.entity.illegal.VehiIllicit">
-    insert into vehi_illicit
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="vehino != null">
-        vehiNo,
-      </if>
-      <if test="vehinotype != null">
-        vehiNoType,
-      </if>
-      <if test="nature != null">
-        nature,
-      </if>
-      <if test="ownership != null">
-        ownership,
-      </if>
-      <if test="owner != null">
-        owner,
-      </if>
-      <if test="adress != null">
-        adress,
-      </if>
-      <if test="mgrdepart != null">
-        mgrDepart,
-      </if>
-      <if test="mgrdepartareaid != null">
-        mgrDepartAreaId,
-      </if>
-      <if test="vehicleId != null">
-        vehicle_id,
-      </if>
-      <if test="illicittime != null">
-        illicitTime,
-      </if>
-      <if test="illicitscore != null">
-        illicitScore,
-      </if>
-      <if test="illicitamount != null">
-        illicitAmount,
-      </if>
-      <if test="illicitadress != null">
-        illicitAdress,
-      </if>
-      <if test="illicit != null">
-        illicit,
-      </if>
-      <if test="illicitdesc != null">
-        illicitDesc,
-      </if>
-      <if test="pickdepartment != null">
-        pickDepartment,
-      </if>
-      <if test="pickdepartmentdesc != null">
-        pickDepartmentDesc,
-      </if>
-      <if test="state != null">
-        state,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="version != null">
-        version,
-      </if>
-      <if test="isdeleted != null">
-        isDeleted,
-      </if>
-      <if test="createtime != null">
-        createTime,
-      </if>
-      <if test="updatetime != null">
-        updateTime,
-      </if>
-      <if test="deletetime != null">
-        deleteTime,
-      </if>
-      <if test="createby != null">
-        createBy,
-      </if>
-      <if test="createdepcd != null">
-        createDepCd,
-      </if>
-      <if test="updateby != null">
-        updateBy,
-      </if>
-      <if test="updatedepcd != null">
-        updateDepCd,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="vehino != null">
-        #{vehino,jdbcType=VARCHAR},
-      </if>
-      <if test="vehinotype != null">
-        #{vehinotype,jdbcType=VARCHAR},
-      </if>
-      <if test="nature != null">
-        #{nature,jdbcType=VARCHAR},
-      </if>
-      <if test="ownership != null">
-        #{ownership,jdbcType=VARCHAR},
-      </if>
-      <if test="owner != null">
-        #{owner,jdbcType=VARCHAR},
-      </if>
-      <if test="adress != null">
-        #{adress,jdbcType=VARCHAR},
-      </if>
-      <if test="mgrdepart != null">
-        #{mgrdepart,jdbcType=VARCHAR},
-      </if>
-      <if test="mgrdepartareaid != null">
-        #{mgrdepartareaid,jdbcType=VARCHAR},
-      </if>
-      <if test="vehicleId != null">
-        #{vehicleId,jdbcType=VARCHAR},
-      </if>
-      <if test="illicittime != null">
-        #{illicittime,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitscore != null">
-        #{illicitscore,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitamount != null">
-        #{illicitamount,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitadress != null">
-        #{illicitadress,jdbcType=VARCHAR},
-      </if>
-      <if test="illicit != null">
-        #{illicit,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitdesc != null">
-        #{illicitdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="pickdepartment != null">
-        #{pickdepartment,jdbcType=VARCHAR},
-      </if>
-      <if test="pickdepartmentdesc != null">
-        #{pickdepartmentdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null">
-        #{state,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null">
-        #{version,jdbcType=INTEGER},
-      </if>
-      <if test="isdeleted != null">
-        #{isdeleted,jdbcType=BIT},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletetime != null">
-        #{deletetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createby != null">
-        #{createby,jdbcType=VARCHAR},
-      </if>
-      <if test="createdepcd != null">
-        #{createdepcd,jdbcType=VARCHAR},
-      </if>
-      <if test="updateby != null">
-        #{updateby,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedepcd != null">
-        #{updatedepcd,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.ccttic.entity.illegal.VehiIllicitExample" resultType="java.lang.Long">
-    select count(*) from vehi_illicit
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update vehi_illicit
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vehino != null">
+    <insert id="insertSelective" parameterType="com.ccttic.entity.illegal.VehiIllicit">
+        insert into vehi_illicit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="vehino != null">
+                vehiNo,
+            </if>
+            <if test="vehinotype != null">
+                vehiNoType,
+            </if>
+            <if test="nature != null">
+                nature,
+            </if>
+            <if test="ownership != null">
+                ownership,
+            </if>
+            <if test="owner != null">
+                owner,
+            </if>
+            <if test="adress != null">
+                adress,
+            </if>
+            <if test="mgrdepart != null">
+                mgrDepart,
+            </if>
+            <if test="mgrdepartareaid != null">
+                mgrDepartAreaId,
+            </if>
+            <if test="vehicleId != null">
+                vehicle_id,
+            </if>
+            <if test="illicittime != null">
+                illicitTime,
+            </if>
+            <if test="illicitscore != null">
+                illicitScore,
+            </if>
+            <if test="illicitamount != null">
+                illicitAmount,
+            </if>
+            <if test="illicitadress != null">
+                illicitAdress,
+            </if>
+            <if test="illicit != null">
+                illicit,
+            </if>
+            <if test="illicitdesc != null">
+                illicitDesc,
+            </if>
+            <if test="pickdepartment != null">
+                pickDepartment,
+            </if>
+            <if test="pickdepartmentdesc != null">
+                pickDepartmentDesc,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="isdeleted != null">
+                isDeleted,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="updatetime != null">
+                updateTime,
+            </if>
+            <if test="deletetime != null">
+                deleteTime,
+            </if>
+            <if test="createby != null">
+                createBy,
+            </if>
+            <if test="createdepcd != null">
+                createDepCd,
+            </if>
+            <if test="updateby != null">
+                updateBy,
+            </if>
+            <if test="updatedepcd != null">
+                updateDepCd,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="vehino != null">
+                #{vehino,jdbcType=VARCHAR},
+            </if>
+            <if test="vehinotype != null">
+                #{vehinotype,jdbcType=VARCHAR},
+            </if>
+            <if test="nature != null">
+                #{nature,jdbcType=VARCHAR},
+            </if>
+            <if test="ownership != null">
+                #{ownership,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null">
+                #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="adress != null">
+                #{adress,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrdepart != null">
+                #{mgrdepart,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrdepartareaid != null">
+                #{mgrdepartareaid,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleId != null">
+                #{vehicleId,jdbcType=VARCHAR},
+            </if>
+            <if test="illicittime != null">
+                #{illicittime,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitscore != null">
+                #{illicitscore,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitamount != null">
+                #{illicitamount,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitadress != null">
+                #{illicitadress,jdbcType=VARCHAR},
+            </if>
+            <if test="illicit != null">
+                #{illicit,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitdesc != null">
+                #{illicitdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="pickdepartment != null">
+                #{pickdepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="pickdepartmentdesc != null">
+                #{pickdepartmentdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="isdeleted != null">
+                #{isdeleted,jdbcType=BIT},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deletetime != null">
+                #{deletetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createby != null">
+                #{createby,jdbcType=VARCHAR},
+            </if>
+            <if test="createdepcd != null">
+                #{createdepcd,jdbcType=VARCHAR},
+            </if>
+            <if test="updateby != null">
+                #{updateby,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedepcd != null">
+                #{updatedepcd,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ccttic.entity.illegal.VehiIllicitExample"
+            resultType="java.lang.Long">
+        select count(*) from vehi_illicit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update vehi_illicit
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.vehino != null">
+                vehiNo = #{record.vehino,jdbcType=VARCHAR},
+            </if>
+            <if test="record.vehinotype != null">
+                vehiNoType = #{record.vehinotype,jdbcType=VARCHAR},
+            </if>
+            <if test="record.nature != null">
+                nature = #{record.nature,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownership != null">
+                ownership = #{record.ownership,jdbcType=VARCHAR},
+            </if>
+            <if test="record.owner != null">
+                owner = #{record.owner,jdbcType=VARCHAR},
+            </if>
+            <if test="record.adress != null">
+                adress = #{record.adress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrdepart != null">
+                mgrDepart = #{record.mgrdepart,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrdepartareaid != null">
+                mgrDepartAreaId = #{record.mgrdepartareaid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.vehicleId != null">
+                vehicle_id = #{record.vehicleId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.illicittime != null">
+                illicitTime = #{record.illicittime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.illicitscore != null">
+                illicitScore = #{record.illicitscore,jdbcType=VARCHAR},
+            </if>
+            <if test="record.illicitamount != null">
+                illicitAmount = #{record.illicitamount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.illicitadress != null">
+                illicitAdress = #{record.illicitadress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.illicit != null">
+                illicit = #{record.illicit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.illicitdesc != null">
+                illicitDesc = #{record.illicitdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pickdepartment != null">
+                pickDepartment = #{record.pickdepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pickdepartmentdesc != null">
+                pickDepartmentDesc = #{record.pickdepartmentdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remark != null">
+                remark = #{record.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.version != null">
+                version = #{record.version,jdbcType=INTEGER},
+            </if>
+            <if test="record.isdeleted != null">
+                isDeleted = #{record.isdeleted,jdbcType=BIT},
+            </if>
+            <if test="record.createtime != null">
+                createTime = #{record.createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updatetime != null">
+                updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.deletetime != null">
+                deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.createby != null">
+                createBy = #{record.createby,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createdepcd != null">
+                createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateby != null">
+                updateBy = #{record.updateby,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updatedepcd != null">
+                updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update vehi_illicit
+        set id = #{record.id,jdbcType=VARCHAR},
         vehiNo = #{record.vehino,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vehinotype != null">
         vehiNoType = #{record.vehinotype,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nature != null">
         nature = #{record.nature,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ownership != null">
         ownership = #{record.ownership,jdbcType=VARCHAR},
-      </if>
-      <if test="record.owner != null">
         owner = #{record.owner,jdbcType=VARCHAR},
-      </if>
-      <if test="record.adress != null">
         adress = #{record.adress,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mgrdepart != null">
         mgrDepart = #{record.mgrdepart,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mgrdepartareaid != null">
         mgrDepartAreaId = #{record.mgrdepartareaid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vehicleId != null">
         vehicle_id = #{record.vehicleId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.illicittime != null">
         illicitTime = #{record.illicittime,jdbcType=VARCHAR},
-      </if>
-      <if test="record.illicitscore != null">
         illicitScore = #{record.illicitscore,jdbcType=VARCHAR},
-      </if>
-      <if test="record.illicitamount != null">
         illicitAmount = #{record.illicitamount,jdbcType=VARCHAR},
-      </if>
-      <if test="record.illicitadress != null">
         illicitAdress = #{record.illicitadress,jdbcType=VARCHAR},
-      </if>
-      <if test="record.illicit != null">
         illicit = #{record.illicit,jdbcType=VARCHAR},
-      </if>
-      <if test="record.illicitdesc != null">
         illicitDesc = #{record.illicitdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.pickdepartment != null">
         pickDepartment = #{record.pickdepartment,jdbcType=VARCHAR},
-      </if>
-      <if test="record.pickdepartmentdesc != null">
         pickDepartmentDesc = #{record.pickdepartmentdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.state != null">
         state = #{record.state,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.version != null">
         version = #{record.version,jdbcType=INTEGER},
-      </if>
-      <if test="record.isdeleted != null">
         isDeleted = #{record.isdeleted,jdbcType=BIT},
-      </if>
-      <if test="record.createtime != null">
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updatetime != null">
         updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.deletetime != null">
         deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.createby != null">
         createBy = #{record.createby,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createdepcd != null">
         createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
-      </if>
-      <if test="record.updateby != null">
         updateBy = #{record.updateby,jdbcType=VARCHAR},
-      </if>
-      <if test="record.updatedepcd != null">
-        updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update vehi_illicit
-    set id = #{record.id,jdbcType=VARCHAR},
-      vehiNo = #{record.vehino,jdbcType=VARCHAR},
-      vehiNoType = #{record.vehinotype,jdbcType=VARCHAR},
-      nature = #{record.nature,jdbcType=VARCHAR},
-      ownership = #{record.ownership,jdbcType=VARCHAR},
-      owner = #{record.owner,jdbcType=VARCHAR},
-      adress = #{record.adress,jdbcType=VARCHAR},
-      mgrDepart = #{record.mgrdepart,jdbcType=VARCHAR},
-      mgrDepartAreaId = #{record.mgrdepartareaid,jdbcType=VARCHAR},
-      vehicle_id = #{record.vehicleId,jdbcType=VARCHAR},
-      illicitTime = #{record.illicittime,jdbcType=VARCHAR},
-      illicitScore = #{record.illicitscore,jdbcType=VARCHAR},
-      illicitAmount = #{record.illicitamount,jdbcType=VARCHAR},
-      illicitAdress = #{record.illicitadress,jdbcType=VARCHAR},
-      illicit = #{record.illicit,jdbcType=VARCHAR},
-      illicitDesc = #{record.illicitdesc,jdbcType=VARCHAR},
-      pickDepartment = #{record.pickdepartment,jdbcType=VARCHAR},
-      pickDepartmentDesc = #{record.pickdepartmentdesc,jdbcType=VARCHAR},
-      state = #{record.state,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      version = #{record.version,jdbcType=INTEGER},
-      isDeleted = #{record.isdeleted,jdbcType=BIT},
-      createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
-      deleteTime = #{record.deletetime,jdbcType=TIMESTAMP},
-      createBy = #{record.createby,jdbcType=VARCHAR},
-      createDepCd = #{record.createdepcd,jdbcType=VARCHAR},
-      updateBy = #{record.updateby,jdbcType=VARCHAR},
-      updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.illegal.VehiIllicit">
-    update vehi_illicit
-    <set>
-      <if test="vehino != null">
-        vehiNo = #{vehino,jdbcType=VARCHAR},
-      </if>
-      <if test="vehinotype != null">
-        vehiNoType = #{vehinotype,jdbcType=VARCHAR},
-      </if>
-      <if test="nature != null">
-        nature = #{nature,jdbcType=VARCHAR},
-      </if>
-      <if test="ownership != null">
-        ownership = #{ownership,jdbcType=VARCHAR},
-      </if>
-      <if test="owner != null">
-        owner = #{owner,jdbcType=VARCHAR},
-      </if>
-      <if test="adress != null">
-        adress = #{adress,jdbcType=VARCHAR},
-      </if>
-      <if test="mgrdepart != null">
-        mgrDepart = #{mgrdepart,jdbcType=VARCHAR},
-      </if>
-      <if test="mgrdepartareaid != null">
-        mgrDepartAreaId = #{mgrdepartareaid,jdbcType=VARCHAR},
-      </if>
-      <if test="vehicleId != null">
-        vehicle_id = #{vehicleId,jdbcType=VARCHAR},
-      </if>
-      <if test="illicittime != null">
-        illicitTime = #{illicittime,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitscore != null">
-        illicitScore = #{illicitscore,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitamount != null">
-        illicitAmount = #{illicitamount,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitadress != null">
-        illicitAdress = #{illicitadress,jdbcType=VARCHAR},
-      </if>
-      <if test="illicit != null">
-        illicit = #{illicit,jdbcType=VARCHAR},
-      </if>
-      <if test="illicitdesc != null">
-        illicitDesc = #{illicitdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="pickdepartment != null">
-        pickDepartment = #{pickdepartment,jdbcType=VARCHAR},
-      </if>
-      <if test="pickdepartmentdesc != null">
-        pickDepartmentDesc = #{pickdepartmentdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null">
-        state = #{state,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="isdeleted != null">
-        isDeleted = #{isdeleted,jdbcType=BIT},
-      </if>
-      <if test="createtime != null">
-        createTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatetime != null">
-        updateTime = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletetime != null">
-        deleteTime = #{deletetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createby != null">
-        createBy = #{createby,jdbcType=VARCHAR},
-      </if>
-      <if test="createdepcd != null">
-        createDepCd = #{createdepcd,jdbcType=VARCHAR},
-      </if>
-      <if test="updateby != null">
-        updateBy = #{updateby,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedepcd != null">
-        updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.illegal.VehiIllicit">
+        updateDepCd = #{record.updatedepcd,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.illegal.VehiIllicit">
+        update vehi_illicit
+        <set>
+            <if test="vehino != null">
+                vehiNo = #{vehino,jdbcType=VARCHAR},
+            </if>
+            <if test="vehinotype != null">
+                vehiNoType = #{vehinotype,jdbcType=VARCHAR},
+            </if>
+            <if test="nature != null">
+                nature = #{nature,jdbcType=VARCHAR},
+            </if>
+            <if test="ownership != null">
+                ownership = #{ownership,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null">
+                owner = #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="adress != null">
+                adress = #{adress,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrdepart != null">
+                mgrDepart = #{mgrdepart,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrdepartareaid != null">
+                mgrDepartAreaId = #{mgrdepartareaid,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleId != null">
+                vehicle_id = #{vehicleId,jdbcType=VARCHAR},
+            </if>
+            <if test="illicittime != null">
+                illicitTime = #{illicittime,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitscore != null">
+                illicitScore = #{illicitscore,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitamount != null">
+                illicitAmount = #{illicitamount,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitadress != null">
+                illicitAdress = #{illicitadress,jdbcType=VARCHAR},
+            </if>
+            <if test="illicit != null">
+                illicit = #{illicit,jdbcType=VARCHAR},
+            </if>
+            <if test="illicitdesc != null">
+                illicitDesc = #{illicitdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="pickdepartment != null">
+                pickDepartment = #{pickdepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="pickdepartmentdesc != null">
+                pickDepartmentDesc = #{pickdepartmentdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+            <if test="isdeleted != null">
+                isDeleted = #{isdeleted,jdbcType=BIT},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deletetime != null">
+                deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createby != null">
+                createBy = #{createby,jdbcType=VARCHAR},
+            </if>
+            <if test="createdepcd != null">
+                createDepCd = #{createdepcd,jdbcType=VARCHAR},
+            </if>
+            <if test="updateby != null">
+                updateBy = #{updateby,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedepcd != null">
+                updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.illegal.VehiIllicit">
     update vehi_illicit
     set vehiNo = #{vehino,jdbcType=VARCHAR},
       vehiNoType = #{vehinotype,jdbcType=VARCHAR},
@@ -587,95 +590,103 @@
       updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
- 	<!-- 根据企业编码获取车辆违法信息条数 -->
-	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-      SELECT COUNT(1)
-      FROM ${tableNmae} cit JOIN (select dr.id FROM ${tableNmae} dr WHERE (dr.isDeleted is null or dr.isDeleted !=1) and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
-      <!--<if test="list != null and list.size()>0">-->
-							 <!--and ve.mgrEnterpriseId in-->
-				<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
-                   <!--#{item}  -->
-			    <!--</foreach>  -->
-				<!--</if>		-->
-				
-				<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
-					and cit.mgrDepartAreaId = #{mgrDepartAreaId}
-				</if>
-				<if test="vehiNo != null and vehiNo != ''">
-					and ve.vehiNo = #{vehiNo}
-				</if>
-				<if test="etpNm != null and etpNm != ''">
-					and cit.ownership LIKE '%${etpNm}%'
-				</if>
-				<if test="illicit != null and illicit != ''">
-					and cit.illicit = #{illicit}
-				</if>
-				<if test="state != null and state != ''">
-					and cit.vehiState = #{state}
-				</if>
-				<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-					and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
-				</if>
-				<if test="vehiNoType != null and vehiNoType != ''">
-					and ve.vehiNoType = #{vehiNoType}
-				</if>
-				<if test="startTime != null and startTime != ''">
-					and cit.illicitTime &gt;= #{startDate}
-				</if>
-				<if test="endTime != null and endTime != ''">
-					and cit.illicitTime &lt;= #{endDate}
-				</if>
-	</select>
-	
-	<!-- 根据条件获取车辆的违法信息 -->
-	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-      SELECT cit.id AS id,AREA.areaNm,cit.vehiNo,ess.etpNm,CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
-      cit.illicitTime,cit.illicitAdress,cit.illicit,cit.serialNumber,cit.pickDepartmentDesc,CASE cit.disposeSign WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END disposeSign,
-      ict.illegal_name AS illicitDesc,cit.illicitAmount,cit.illicitScore, CASE cit.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
-      WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-      CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
-      FROM ${tableNmae} cit JOIN (select dr.id FROM ${tableNmae} dr WHERE (dr.isDeleted is null or dr.isDeleted !=1) and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate} ORDER BY illicitTime LIMIT ${startRecord},${pageSize}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
-      LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-      LEFT JOIN  ess_area AREA ON  area.id = cit.mgrDepartAreaId
-      LEFT JOIN  illegal_comparison_table ict ON  ict.code = cit.illicit
-		<!--<if test="list != null and list.size()>0">-->
-			<!--and ess.id in -->
-			<!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
-	        <!--#{item}  -->
-	  	  <!--</foreach>-->
-		<!--</if>-->
-		WHERE 1=1 
-		<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
-			and cit.mgrDepartAreaId = #{mgrDepartAreaId}
-		</if>
-		<if test="vehiNo != null and vehiNo != ''">
-			and ve.vehiNo = #{vehiNo}
-		</if>
-		<if test="etpNm != null and etpNm != ''">
-			and cit.ownership LIKE '%${etpNm}%'
-		</if>
-		<if test="illicit != null and illicit != ''">
-			and cit.illicit = #{illicit}
-		</if>
-		<if test="state != null and state != ''">
-			and cit.vehiState = #{state}
-		</if>
-		<if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-			and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
-		</if>
-		<if test="vehiNoType != null and vehiNoType != ''">
-			and ve.vehiNoType = #{vehiNoType}
-		</if>
-		<if test="startTime != null and startTime != ''">
-			and cit.illicitTime &gt;= #{startDate}
-		</if>
-		<if test="endTime != null and endTime != ''">
-			and cit.illicitTime &lt;= #{endDate}
-		</if> 
-	</select>
+    <!-- 根据企业编码获取车辆违法信息条数 -->
+    <select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM ${tableNmae} cit JOIN (select dr.id FROM ${tableNmae} dr WHERE (dr.isDeleted is null or dr.isDeleted !=1)
+        and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate}) tmp ON tmp.id =cit.id LEFT JOIN
+        vehicle ve ON cit.vehicle_id=ve.id
+        <!--<if test="list != null and list.size()>0">-->
+        <!--and ve.mgrEnterpriseId in-->
+        <!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
+        <!--#{item}  -->
+        <!--</foreach>  -->
+        <!--</if>		-->
 
-	<!-- 根据id获取指定车辆的违法信息 -->
-	<select id="qryOneVehiIllicit" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
+        <if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+            and cit.mgrDepartAreaId = #{mgrDepartAreaId}
+        </if>
+        <if test="vehiNo != null and vehiNo != ''">
+            and ve.vehiNo = #{vehiNo}
+        </if>
+        <if test="etpNm != null and etpNm != ''">
+            and cit.ownership LIKE '%${etpNm}%'
+        </if>
+        <if test="illicit != null and illicit != ''">
+            and cit.illicit = #{illicit}
+        </if>
+        <if test="state != null and state != ''">
+            and cit.vehiState = #{state}
+        </if>
+        <if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
+            and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
+        </if>
+        <if test="vehiNoType != null and vehiNoType != ''">
+            and ve.vehiNoType = #{vehiNoType}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and cit.illicitTime &gt;= #{startDate}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and cit.illicitTime &lt;= #{endDate}
+        </if>
+    </select>
+
+    <!-- 根据条件获取车辆的违法信息 -->
+    <select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
+        SELECT cit.id AS id,AREA.areaNm,cit.vehiNo,ess.etpNm,CASE cit.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN
+        '小型车' ELSE '' END vehiNoTypeText,cit.vehiNoType,
+        cit.illicitTime,cit.illicitAdress,cit.illicit,cit.serialNumber,cit.pickDepartmentDesc,CASE cit.disposeSign WHEN
+        '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END disposeSign,
+        ict.illegal_name AS illicitDesc,cit.illicitAmount,cit.illicitScore, CASE cit.disposeType WHEN '1' THEN '警告' WHEN
+        '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
+        WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END
+        disposeType,
+        CASE cit.vehiState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003' THEN '已处理' ELSE '' END vehiState
+        FROM ${tableNmae} cit JOIN (select dr.id FROM ${tableNmae} dr WHERE (dr.isDeleted is null or dr.isDeleted !=1)
+        and dr.illicitTime &gt;= #{startDate} and dr.illicitTime &lt;= #{endDate} ORDER BY illicitTime LIMIT
+        ${startRecord},${pageSize}) tmp ON tmp.id =cit.id LEFT JOIN vehicle ve ON cit.vehicle_id=ve.id
+        LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
+        LEFT JOIN ess_area AREA ON area.id = cit.mgrDepartAreaId
+        LEFT JOIN illegal_comparison_table ict ON ict.code = cit.illicit
+        <!--<if test="list != null and list.size()>0">-->
+        <!--and ess.id in -->
+        <!--<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  -->
+        <!--#{item}  -->
+        <!--</foreach>-->
+        <!--</if>-->
+        WHERE 1=1
+        <if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+            and cit.mgrDepartAreaId = #{mgrDepartAreaId}
+        </if>
+        <if test="vehiNo != null and vehiNo != ''">
+            and ve.vehiNo = #{vehiNo}
+        </if>
+        <if test="etpNm != null and etpNm != ''">
+            and cit.ownership LIKE '%${etpNm}%'
+        </if>
+        <if test="illicit != null and illicit != ''">
+            and cit.illicit = #{illicit}
+        </if>
+        <if test="state != null and state != ''">
+            and cit.vehiState = #{state}
+        </if>
+        <if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
+            and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
+        </if>
+        <if test="vehiNoType != null and vehiNoType != ''">
+            and ve.vehiNoType = #{vehiNoType}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and cit.illicitTime &gt;= #{startDate}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and cit.illicitTime &lt;= #{endDate}
+        </if>
+    </select>
+
+    <!-- 根据id获取指定车辆的违法信息 -->
+    <select id="qryOneVehiIllicit" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
 				SELECT a.id AS id,a.vehiNo,ess.etpNm,CASE a.vehiNoType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,a.vehiNoType, 
 			a.illicitTime,a.illicitAdress,a.illicit,a.serialNumber,a.pickDepartmentDesc,CASE a.disposeSign WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END disposeSign,
 			ict.illegal_name AS illicitDesc,a.illicitAmount,a.illicitScore, CASE a.disposeType WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
@@ -688,160 +699,176 @@
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
 				LEFT JOIN  illegal_comparison_table ict ON  ict.code = a.illicit
 	</select>
-	<update id="updateBatch" parameterType="java.util.List">
-    update vehi_illicit
-     <trim prefix="set" suffixOverrides=",">
-        <trim prefix="nature = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+    <update id="updateBatch" parameterType="java.util.List">
+        update vehi_illicit
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="nature = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.nature != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.nature,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.nature,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="ownership = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="ownership = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.ownership != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.ownership,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.ownership,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="owner = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="owner = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.owner != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.owner,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.owner,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="adress = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="adress = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.adress != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.adress,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.adress,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-         
-          <trim prefix="mgrDepart = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+
+            <trim prefix="mgrDepart = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.mgrdepart != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.mgrdepart,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.mgrdepart,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="mgrDepartAreaId = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="mgrDepartAreaId = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.mgrdepartareaid != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.mgrdepartareaid,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.mgrdepartareaid,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="vehicle_id = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="vehicle_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.vehicleId != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.vehicleId,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.vehicleId,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="vehiNo = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="vehiNo = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.vehino != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.vehino,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.vehino,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="vehiNoType = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="vehiNoType = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.vehinotype != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.vehinotype,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.vehinotype,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="illicitTime = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="illicitTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.illicittime != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicittime,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.illicittime,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="illicitScore = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="illicitScore = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.illicitscore != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitscore,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitscore,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="illicitAmount = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="illicitAmount = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.illicitamount != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitamount,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitamount,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="illicitAdress = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="illicitAdress = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.illicitadress != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitadress,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitadress,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="illicit = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="illicit = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.illicit != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicit,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.illicit,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="illicitDesc = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="illicitDesc = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.illicitdesc != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitdesc,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.illicitdesc,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-           <trim prefix="pickDepartment = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="pickDepartment = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.pickdepartment != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.pickdepartment,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.pickdepartment,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-           <trim prefix="pickDepartmentDesc = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="pickDepartmentDesc = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.pickdepartmentdesc != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.pickdepartmentdesc,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.pickdepartmentdesc,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-    </trim>
-    
-   where id in
+                </foreach>
+            </trim>
+        </trim>
+
+        where id in
         <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
             #{item.id}
         </foreach>
 
-  </update>
-  <insert id="insertBatch" parameterType="java.util.List">
-    insert into vehi_illicit (id, vehiNo, vehiNoType, 
-      nature, ownership, owner, 
-      adress, mgrDepart, mgrDepartAreaId, 
-      vehicle_id, illicitTime, illicitScore, 
-      illicitAmount, illicitAdress, illicit, 
-      illicitDesc, pickDepartment, pickDepartmentDesc, 
-      state, remark, version, 
-      isDeleted, createTime, updateTime, 
-      deleteTime, createBy, createDepCd, 
-      updateBy, updateDepCd)
-    values 
-    <foreach collection="list" item="item" index="index" separator=",">
-    (#{item.id,jdbcType=VARCHAR}, #{item.vehino,jdbcType=VARCHAR}, #{item.vehinotype,jdbcType=VARCHAR}, 
-      #{item.nature,jdbcType=VARCHAR}, #{item.ownership,jdbcType=VARCHAR}, #{item.owner,jdbcType=VARCHAR}, 
-      #{item.adress,jdbcType=VARCHAR}, #{item.mgrdepart,jdbcType=VARCHAR}, #{item.mgrdepartareaid,jdbcType=VARCHAR}, 
-      #{item.vehicleId,jdbcType=VARCHAR}, #{item.illicittime,jdbcType=VARCHAR}, #{item.illicitscore,jdbcType=VARCHAR}, 
-      #{item.illicitamount,jdbcType=VARCHAR}, #{item.illicitadress,jdbcType=VARCHAR}, #{item.illicit,jdbcType=VARCHAR}, 
-      #{item.illicitdesc,jdbcType=VARCHAR}, #{item.pickdepartment,jdbcType=VARCHAR}, #{item.pickdepartmentdesc,jdbcType=VARCHAR}, 
-      #{item.state,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.version,jdbcType=INTEGER}, 
-      #{item.isdeleted,jdbcType=BIT}, #{item.createtime,jdbcType=TIMESTAMP}, #{item.updatetime,jdbcType=TIMESTAMP}, 
-      #{item.deletetime,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR}, #{item.createdepcd,jdbcType=VARCHAR}, 
-      #{item.updateby,jdbcType=VARCHAR}, #{item.updatedepcd,jdbcType=VARCHAR})
-      </foreach>
-  </insert>
+    </update>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into vehi_illicit (id, vehiNo, vehiNoType,
+        nature, ownership, owner,
+        adress, mgrDepart, mgrDepartAreaId,
+        vehicle_id, illicitTime, illicitScore,
+        illicitAmount, illicitAdress, illicit,
+        illicitDesc, pickDepartment, pickDepartmentDesc,
+        state, remark, version,
+        isDeleted, createTime, updateTime,
+        deleteTime, createBy, createDepCd,
+        updateBy, updateDepCd)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.vehino,jdbcType=VARCHAR}, #{item.vehinotype,jdbcType=VARCHAR},
+            #{item.nature,jdbcType=VARCHAR}, #{item.ownership,jdbcType=VARCHAR}, #{item.owner,jdbcType=VARCHAR},
+            #{item.adress,jdbcType=VARCHAR}, #{item.mgrdepart,jdbcType=VARCHAR},
+            #{item.mgrdepartareaid,jdbcType=VARCHAR},
+            #{item.vehicleId,jdbcType=VARCHAR}, #{item.illicittime,jdbcType=VARCHAR},
+            #{item.illicitscore,jdbcType=VARCHAR},
+            #{item.illicitamount,jdbcType=VARCHAR}, #{item.illicitadress,jdbcType=VARCHAR},
+            #{item.illicit,jdbcType=VARCHAR},
+            #{item.illicitdesc,jdbcType=VARCHAR}, #{item.pickdepartment,jdbcType=VARCHAR},
+            #{item.pickdepartmentdesc,jdbcType=VARCHAR},
+            #{item.state,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.version,jdbcType=INTEGER},
+            #{item.isdeleted,jdbcType=BIT}, #{item.createtime,jdbcType=TIMESTAMP},
+            #{item.updatetime,jdbcType=TIMESTAMP},
+            #{item.deletetime,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR},
+            #{item.createdepcd,jdbcType=VARCHAR},
+            #{item.updateby,jdbcType=VARCHAR}, #{item.updatedepcd,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="getIllegalDays" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select to_days(now()) - to_days(vdi.illicitTime) AS days  FROM ${vehiDrIllicit} vdi join (select id FROM ${vehiDrIllicit} where vehiState ="001" AND vehiNo =#{vehiNo} AND vehiNoType=#{vehiNoType} AND
+        DATE_SUB(CURDATE(), INTERVAL 36 MONTH) &lt;= illicitTime)tmp ON tmp.id =vdi.id
+    </select>
+
+    <select id="getIllegalNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COUNT(1)  FROM ${vehiDrIllicit} vdi join (select id FROM ${vehiDrIllicit} where vehiNo =#{vehiNo} AND vehiNoType=#{vehiNoType} AND
+        DATE_SUB(CURDATE(), INTERVAL 36 MONTH) &lt;= illicitTime)tmp ON tmp.id =vdi.id
+    </select>
 </mapper>

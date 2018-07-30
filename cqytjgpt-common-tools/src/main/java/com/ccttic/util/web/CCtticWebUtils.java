@@ -131,29 +131,44 @@ public class CCtticWebUtils {
         caled.set(Calendar.MINUTE, 0);
         caled.set(Calendar.SECOND, 0);
         //得到两个日期相差的天数
-        int days = ((int)(caled.getTime().getTime()/1000)-(int)(calst.getTime().getTime()/1000))/3600/24;
+        int days = ((int)(caled.getTimeInMillis()/1000)-(int)(calst.getTimeInMillis()/1000))/3600/24;
+        if (days<0){
+            days = - days;
+        }
         map.put("days",days);
-        if (0<days && days<=30 && "driver".equals(user)){
+        if (60<days && days<=90 && "driver".equals(user)){
             map.put("rank",Const.THREE);
             return map;
         }
-        if (0>=days && days>= -60 && "driver".equals(user)){
+        if (30<days && days<= 60 && "driver".equals(user)){
             map.put("rank",Const.TWO);
             return map;
         }
-        if ( days<-60 && "driver".equals(user)){
+        if ( days<=30 && "driver".equals(user)){
             map.put("rank",Const.ONE);
             return map;
         }
-        if (30<days && days<=60 && "car".equals(user)){
+        if (30<days && days<=60 && "scrapped".equals(user)){
             map.put("rank",Const.THREE);
             return map;
         }
-        if (30>=days && days> -30 && "car".equals(user)){
+        if (30>=days && days> 10 && "scrapped".equals(user)){
             map.put("rank",Const.TWO);
             return map;
         }
-        if ( days<= -30 && "car".equals(user)){
+        if ( days<= 10 && "scrapped".equals(user)){
+            map.put("rank",Const.ONE);
+            return map;
+        }
+        if (20<days && days<=30 && "inspection".equals(user)){
+            map.put("rank",Const.THREE);
+            return map;
+        }
+        if (20>=days && days> 10 && "inspection".equals(user)){
+            map.put("rank",Const.TWO);
+            return map;
+        }
+        if ( days<= 10 && "inspection".equals(user)){
             map.put("rank",Const.ONE);
             return map;
         }

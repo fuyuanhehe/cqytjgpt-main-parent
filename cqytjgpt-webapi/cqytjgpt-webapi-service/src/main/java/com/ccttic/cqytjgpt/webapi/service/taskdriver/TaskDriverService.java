@@ -113,12 +113,20 @@ public class TaskDriverService implements ITaskDriverService {
 	public Map<String, Object> getDriverDanger(Driver driver) throws Exception {
 		Map<String, Object> result = new HashMap<>();
 		DrDanger dr = new DrDanger();
+		List<Integer> sortList = new ArrayList<>();
 		int overdueproofDays = 0, overdueexaineDays = 0, fullStudyDays = 0;
+		int overdueproofRank = 0, overdueexaineRank = 0, fullStudyRank = 0;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		if (null != driver.getEffectendtime()) {
 			Date effectendtime = simpleDateFormat.parse(driver.getEffectendtime());
 			result = CCtticWebUtils.getDateSpace(new Date(), effectendtime, "driver");
-			dr.setOverdueproofstate((int) result.get("rank"));
+			overdueproofRank = (int) result.get("rank");
+			sortList.add(overdueproofRank);
+			if (overdueproofRank == 0) {
+				dr.setOverdueproofstate(Const.ZERO);
+			} else {
+				dr.setOverdueproofstate(Const.ONE);
+			}
 			overdueproofDays = (int) result.get("days");
 		} else {
 			dr.setOverdueproofstate(null);
@@ -126,19 +134,25 @@ public class TaskDriverService implements ITaskDriverService {
 		if (null != driver.getExamineeffectendtime()) {
 			Date examineeffectendtime = simpleDateFormat.parse(driver.getExamineeffectendtime());
 			result = CCtticWebUtils.getDateSpace(new Date(), examineeffectendtime, "driver");
-			dr.setOverdueexaminestate((int) result.get("rank"));
+			overdueexaineRank = (int) result.get("rank");
+			sortList.add(overdueexaineRank);
+			if (overdueexaineRank == 0) {
+				dr.setOverdueexaminestate(Const.ZERO);
+			} else {
+				dr.setOverdueexaminestate(Const.ONE);
+			}
 			overdueexaineDays = (int) result.get("days");
 		} else {
 			dr.setOverdueexaminestate(null);
 		}
 		dr.setDriverId(driver.getId());
-		dr.setId(RandomHelper.uuid());
+		dr.setId(driver.getIdcard());
 		dr.setDrivername(driver.getName());
 		dr.setDriveridcard(driver.getIdcard());
 		simpleDateFormat = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		dr.setDangertime(simpleDateFormat.format(new Date()));
-		String enterpriseid = driver.getMgrenterpriseid();
-		Organization org = organizationMapper.findOrgByEptId(enterpriseid);
+		String enterpriseId = driver.getMgrenterpriseid();
+		Organization org = organizationMapper.findOrgByEptId(enterpriseId);
 		if (org != null) {
 			dr.setOwnergener(org.getId());
 		}
@@ -147,16 +161,7 @@ public class TaskDriverService implements ITaskDriverService {
 		if (null == dr.getOverdueproofstate() || null == dr.getOverdueexaminestate() || null == dr.getFullstudystate()) {
 			dr.setDangertype(null);
 		}
-		List<Integer> sortList = new ArrayList<>();
-		if (null != dr.getOverdueproofstate()) {
-			sortList.add(dr.getOverdueproofstate());
-		}
-		if (null != dr.getOverdueexaminestate()) {
-			sortList.add(dr.getOverdueexaminestate());
-		}
-		if (null != dr.getFullstudystate()) {
-			sortList.add(dr.getFullstudystate());
-		}
+
 		Collections.sort(sortList);
 		for (int i = 0; i < sortList.size(); i++) {
 			if (sortList.get(i) != 0 && i != (sortList.size() - 1)) {
@@ -164,7 +169,7 @@ public class TaskDriverService implements ITaskDriverService {
 				break;
 			}
 			if (i == (sortList.size() - 1)) {
-				dr.setDangertype("0");
+				dr.setDangertype(sortList.get(i).toString());
 			}
 		}
 		sortList.clear();
@@ -172,12 +177,10 @@ public class TaskDriverService implements ITaskDriverService {
 		sortList.add(overdueproofDays);
 		Collections.sort(sortList);
 		dr.setCorrecttime(sortList.get(0).toString());
-		if (drDangerMapper.selectByPrimaryKey(driver.getIdcard()) != null) {
-			result.put("update", dr);
-			result.put("insert", null);
+		if (drDangerMapper.selectByPrimaryKey(driver.getIdcard()) !=null) {
+			drDangerMapper.updateByPrimaryKeySelective(dr);
 		} else {
-			result.put("insert", dr);
-			result.put("update", null);
+			drDangerMapper.insertSelective(dr);
 		}
 		return result;
 	}

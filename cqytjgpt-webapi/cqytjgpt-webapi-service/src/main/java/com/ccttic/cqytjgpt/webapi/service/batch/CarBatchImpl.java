@@ -78,30 +78,6 @@ public class CarBatchImpl implements ICarBatch {
 
 		List<VehiDanger> saveTargets = new ArrayList<VehiDanger>();
 
-		List<Integer> cf = new ArrayList<>();
-
-		for (int a = 0; a < list.size(); a++) {
-
-			for (int j = a + 1; j < list.size() - a; j++) {
-
-				if (list.get(a).getId().equals(list.get(j).getId())) {
-
-					cf.add(a);
-
-					break;
-
-				}
-
-			}
-
-		}
-
-		for (Integer integer : cf) {
-
-			list.remove((int) integer);
-
-		}
-
 		for (VehiDanger quotaResult : list) {
 
 			saveTargets.add(quotaResult);
@@ -124,30 +100,6 @@ public class CarBatchImpl implements ICarBatch {
 	public void updateCarIllegal(List<VehiIllicit> list) {
 
 		List<VehiIllicit> saveTargets = new ArrayList<VehiIllicit>();
-
-		List<Integer> cf = new ArrayList<>();
-
-		for (int a = 0; a < list.size(); a++) {
-
-			for (int j = a + 1; j < list.size() - a; j++) {
-
-				if (list.get(a).getId().equals(list.get(j).getId())) {
-
-					cf.add(a);
-
-					break;
-
-				}
-
-			}
-
-		}
-
-		for (Integer integer : cf) {
-
-			list.remove((int) integer);
-
-		}
 
 		for (VehiIllicit quotaResult : list) {
 
@@ -176,28 +128,6 @@ public class CarBatchImpl implements ICarBatch {
 
 		List<VehiDanger> saveTargets = new ArrayList<VehiDanger>();
 
-		List<Integer> cf = new ArrayList<>();
-
-		for (int a = 0; a < list.size(); a++) {
-
-			for (int j = a + 1; j < list.size() - a; j++) {
-
-				if (list.get(a).getId().equals(list.get(j).getId())) {
-
-					cf.add(a);
-
-					break;
-
-				}
-
-			}
-
-		}
-		for (Integer integer : cf) {
-
-			list.remove((int) integer);
-
-		}
 		for (VehiDanger quotaResult : list) {
 
 			saveTargets.add(quotaResult);
