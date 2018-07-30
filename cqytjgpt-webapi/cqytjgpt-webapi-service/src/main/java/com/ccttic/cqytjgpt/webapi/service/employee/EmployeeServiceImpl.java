@@ -134,7 +134,24 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public EmployeeVo findEmployeeByAccount(String account) throws AppException {
 
 		EmployeeVo emp = empMapper.findEmployeeByAccount(account);
-		// 员工所在岗位
+		if (Const.SUPERMAN.equals(emp.getEmptype())) {
+			// doNothing
+		}else if(Const.ADMIN.equals(emp.getEmptype())){
+			//企业管理员,查询所属企业
+			emp.setEnt(entMapper.getEntByEmpId(emp.getId()));
+		}else if(Const.SUPER.equals(emp.getEmptype())){
+			//组织机构管理员,查询所属组织机构
+			emp.setOrg(organizationMapper.getOrgByEmpId(emp.getId()));
+		}
+		// 员工能使用的菜单,员工角色
+		EmployeeVo datas = service.seRoleMenuById(emp.getId());
+		if(datas != null) {
+			emp.setMenus(datas.getMenus());
+			emp.setModels(datas.getModels());
+		}
+
+		return emp;
+	/*	// 员工所在岗位
 		List<EssPost> posts = empMapper.selectPostUnderEmp(emp.getId());
 		emp.setPosts(posts);
 
@@ -155,7 +172,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			emp.setCanSeeOrgs(organizationMapper.getAllOrg() != null ? organizationMapper.getAllOrg() : null);
 			emp.setCanSeeDeps(organizationMapper.getAllDepart("") != null ? organizationMapper.getAllDepart("") : null);
 			emp.setCanSeeEnt(entMapper.getEssEnterpriseByOrgId(""));
-			emp.setCanSeeEmp(empMapper.getAllEmp());
+		//	emp.setCanSeeEmp(empMapper.getAllEmp());
 			emp.setCanSeePosts(postMapper.getAllPost());
 		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.ONE).equals(emp.getOrg().getOrgType())) {
 
@@ -229,16 +246,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			emp.setOrg(organization);
 		}
 
+*/
 
 
-		// 员工能使用的菜单,员工角色
-		EmployeeVo datas = service.seRoleMenuById(emp.getId());
-		if(datas != null) {
-			emp.setMenus(datas.getMenus());
-			emp.setModels(datas.getModels());
-		}
-
-		return emp;
 
 	}
 

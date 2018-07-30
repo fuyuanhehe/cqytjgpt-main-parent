@@ -20,9 +20,12 @@ package com.ccttic.util.common;
     */
 
 public class Const {
-	
 	/**
-	 * 次级管理员
+	 * 组织管理员
+	 */
+	final public static String SUPER = "SUPER";
+	/**
+	 * 企业管理员
 	 */
 	final public static String ADMIN = "ADMIN";
 	/**
