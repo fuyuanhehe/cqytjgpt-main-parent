@@ -58,16 +58,6 @@ public class DrDanger extends BaseBean implements Serializable{
     private String driverId;
 
     /**
-     * 违法处理状态 1是0否
-     */
-    private Integer illicitstate;
-
-    /**
-     * 事故处理状态 1是0否
-     */
-    private Integer failurestate;
-
-    /**
      * 预期未换证状态 1是0否
      */
     private Integer overdueproofstate;
@@ -248,37 +238,7 @@ public class DrDanger extends BaseBean implements Serializable{
         this.driverId = driverId == null ? null : driverId.trim();
     }
 
-    /**
-     * 违法处理状态 1是0否
-     * @return illicitState 违法处理状态 1是0否
-     */
-    public Integer getIllicitstate() {
-        return illicitstate;
-    }
 
-    /**
-     * 违法处理状态 1是0否
-     * @param illicitstate 违法处理状态 1是0否
-     */
-    public void setIllicitstate(Integer illicitstate) {
-        this.illicitstate = illicitstate;
-    }
-
-    /**
-     * 事故处理状态 1是0否
-     * @return failureState 事故处理状态 1是0否
-     */
-    public Integer getFailurestate() {
-        return failurestate;
-    }
-
-    /**
-     * 事故处理状态 1是0否
-     * @param failurestate 事故处理状态 1是0否
-     */
-    public void setFailurestate(Integer failurestate) {
-        this.failurestate = failurestate;
-    }
 
     /**
      * 预期未换证状态 1是0否

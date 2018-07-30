@@ -1,92 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper">
-  <resultMap id="BaseResultMap" type="com.ccttic.entity.danger.DrDanger">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="driverName" jdbcType="VARCHAR" property="drivername" />
-    <result column="driverIdcard" jdbcType="VARCHAR" property="driveridcard" />
-    <result column="dangerType" jdbcType="VARCHAR" property="dangertype" />
-    <result column="ownerGener" jdbcType="VARCHAR" property="ownergener" /> 
-    <result column="ownerOrgId" jdbcType="VARCHAR" property="ownerorgid" />
-    <result column="dangerTime" jdbcType="VARCHAR" property="dangertime" />
-    <result column="correctTime" jdbcType="VARCHAR" property="correcttime" />
-    <result column="correctState" jdbcType="VARCHAR" property="correctstate" />
-    <result column="dangerDesc" jdbcType="VARCHAR" property="dangerdesc" />
-    <result column="driver_id" jdbcType="VARCHAR" property="driverId" />
-    <result column="illicitState" jdbcType="INTEGER" property="illicitstate" />
-    <result column="failureState" jdbcType="INTEGER" property="failurestate" />
-    <result column="overdueProofState" jdbcType="INTEGER" property="overdueproofstate" />
-    <result column="overdueExamineState" jdbcType="INTEGER" property="overdueexaminestate" />
-    <result column="fullStudyState" jdbcType="INTEGER" property="fullstudystate" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="version" jdbcType="INTEGER" property="version" />
-    <result column="isDeleted" jdbcType="BIT" property="isdeleted" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
-    <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime" />
-    <result column="createBy" jdbcType="VARCHAR" property="createby" />
-    <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd" />
-    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
-    <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
-  </resultMap>
-  
-   
-  <!-- 发现数查询模块 -->
-  <select id="countIntoNum" resultType="int">
+    <resultMap id="BaseResultMap" type="com.ccttic.entity.danger.DrDanger">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="driverName" jdbcType="VARCHAR" property="drivername"/>
+        <result column="driverIdcard" jdbcType="VARCHAR" property="driveridcard"/>
+        <result column="dangerType" jdbcType="VARCHAR" property="dangertype"/>
+        <result column="ownerGener" jdbcType="VARCHAR" property="ownergener"/>
+        <result column="ownerOrgId" jdbcType="VARCHAR" property="ownerorgid"/>
+        <result column="dangerTime" jdbcType="VARCHAR" property="dangertime"/>
+        <result column="correctTime" jdbcType="VARCHAR" property="correcttime"/>
+        <result column="correctState" jdbcType="VARCHAR" property="correctstate"/>
+        <result column="dangerDesc" jdbcType="VARCHAR" property="dangerdesc"/>
+        <result column="driver_id" jdbcType="VARCHAR" property="driverId"/>
+        <result column="illicitState" jdbcType="INTEGER" property="illicitstate"/>
+        <result column="failureState" jdbcType="INTEGER" property="failurestate"/>
+        <result column="overdueProofState" jdbcType="INTEGER" property="overdueproofstate"/>
+        <result column="overdueExamineState" jdbcType="INTEGER" property="overdueexaminestate"/>
+        <result column="fullStudyState" jdbcType="INTEGER" property="fullstudystate"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="isDeleted" jdbcType="BIT" property="isdeleted"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="deleteTime" jdbcType="TIMESTAMP" property="deletetime"/>
+        <result column="createBy" jdbcType="VARCHAR" property="createby"/>
+        <result column="createDepCd" jdbcType="VARCHAR" property="createdepcd"/>
+        <result column="updateBy" jdbcType="VARCHAR" property="updateby"/>
+        <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd"/>
+    </resultMap>
+
+
+    <!-- 发现数查询模块 -->
+    <select id="countIntoNum" resultType="int">
   	select count(1) intoNum from driver
   </select>
-  
-  <select id="countDriverDangerNum" resultType="int">
+
+    <select id="countDriverDangerNum" resultType="int">
    select count(1) from dr_danger
   </select>
-  
-  <select id="countWarnNum" resultType="map">
+
+    <select id="countWarnNum" resultType="map">
   	select d.dangerType,count(1) warnNum from dr_danger d GROUP BY d.dangerType
   </select>
-  <!-- 查询隐患问题分布 -->
-  <select id="distributionDangerForDriver" resultType="map" parameterType="map">
- 	<if test='date=="year"'>
-      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.createTime) = year(now()) 
-      union all
-      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.createTime) = year(now()) 
-      union all
-      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.createTime) = year(now()) 
-      union all
-      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.createTime) = year(now()) 
-      union all
-      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.createTime) = year(now())
- 	</if>
- 	<if test='date=="month"'>
+    <!-- 查询隐患问题分布 -->
+    <select id="distributionDangerForDriver" resultType="map" parameterType="map">
+        <if test='date=="year"'>
+            select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.createTime) =
+            year(now())
+            union all
+            select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.createTime) =
+            year(now())
+            union all
+            select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.createTime)
+            = year(now())
+            union all
+            select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and
+            year(d.createTime) = year(now())
+            union all
+            select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.createTime) =
+            year(now())
+        </if>
+        <if test='date=="month"'>
 
-      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
-      union all
-      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
-      union all
-      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
-      union all
-      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
-      union all
-      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+            select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and month(d.createTime) =
+            month(now()) and year(d.createTime) = year(now())
+            union all
+            select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and month(d.createTime) =
+            month(now()) and year(d.createTime) = year(now())
+            union all
+            select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and
+            month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+            union all
+            select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and
+            month(d.createTime) = month(now()) and year(d.createTime) = year(now())
+            union all
+            select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and month(d.createTime) =
+            month(now()) and year(d.createTime) = year(now())
 
- 	</if>
- 	<if test='date=="season"'>
-      select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
-      union all
-      select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
-      union all
-      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
-      union all
-      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
-      union all
-      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
- 	</if>
-  </select>
-  <!-- 隐患治理情况 -->
-  <select id="countNoHandleDriver" resultType="int">
+        </if>
+        <if test='date=="season"'>
+            select count(1) num,"违法未处理" dangerName from dr_danger d where d.illicitState = 1 and year(d.createTime) =
+            year(now()) and quarter(now()) = quarter(d.createTime)
+            union all
+            select count(1) num,"事故未处理" dangerName from dr_danger d where d.failureState = 1 and year(d.createTime) =
+            year(now()) and quarter(now()) = quarter(d.createTime)
+            union all
+            select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.createTime)
+            = year(now()) and quarter(now()) = quarter(d.createTime)
+            union all
+            select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and
+            year(d.createTime) = year(now()) and quarter(now()) = quarter(d.createTime)
+            union all
+            select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.createTime) =
+            year(now()) and quarter(now()) = quarter(d.createTime)
+        </if>
+    </select>
+    <!-- 隐患治理情况 -->
+    <select id="countNoHandleDriver" resultType="int">
  	select count(1) from dr_danger
   </select>
-  <!-- 治理结果趋势 -->
-  <select id="resultDangerForDriver" resultType="map" >
+    <!-- 治理结果趋势 -->
+    <select id="resultDangerForDriver" resultType="map">
 select
     sum(case when month(d.createTime)=1 then 1 else 0 end) 一, 
     sum(case when month(d.createTime)=2 then 1 else 0 end) 二,
@@ -102,8 +117,8 @@ select
     sum(case when month(d.createTime)=12 then 1 else 0 end) 十二
 from dr_danger d where year(d.createTime) = year(now())
   </select>
-  <!-- 各区隐患详情查询 -->
-  <select id="areaDangerInfo" resultType="map" >
+    <!-- 各区隐患详情查询 -->
+    <select id="areaDangerInfo" resultType="map">
  	SELECT
 	e.orgNm,
 	(
@@ -130,8 +145,8 @@ ORDER BY
 	total
 DESC
   </select>
-  <!-- 通报驾驶员信息 -->
-  <select id="noticeDangerDriver" resultMap="BaseResultMap" parameterType="map">
+    <!-- 通报驾驶员信息 -->
+    <select id="noticeDangerDriver" resultMap="BaseResultMap" parameterType="map">
  	SELECT
 	d.id,
 	d.driverIdcard,
@@ -145,8 +160,8 @@ FROM
 	dr_danger d
 LIMIT  #{top,jdbcType=VARCHAR},1
   </select>
-  <!-- 各区隐患排行 -->
-  <select id="areaDangersTop" resultType="map">
+    <!-- 各区隐患排行 -->
+    <select id="areaDangersTop" resultType="map">
 	SELECT
 	e.orgNm,
 	(
@@ -173,9 +188,9 @@ ORDER BY
 	total
 DESC
   </select>
-  <!-- 根据分所查询各区的驾驶员隐患数 -->
-  <!-- 当月 -->
-  <select id="findMonthAreaDangerByOrgId" resultType="map" parameterType="map">
+    <!-- 根据分所查询各区的驾驶员隐患数 -->
+    <!-- 当月 -->
+    <select id="findMonthAreaDangerByOrgId" resultType="map" parameterType="map">
 	SELECT
 	orgNm,
 	(
@@ -195,8 +210,8 @@ WHERE
 GROUP BY
 	e.orgNm
   </select>
-  <!-- 上月 -->
-  <select id="findPreMonthAreaDangerByOrgId" resultType="map"  parameterType="map">
+    <!-- 上月 -->
+    <select id="findPreMonthAreaDangerByOrgId" resultType="map" parameterType="map">
 	SELECT
 	orgNm,
 	(
@@ -216,13 +231,13 @@ WHERE
 GROUP BY
 	e.orgNm
   </select>
- 
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from dr_danger
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.ccttic.entity.danger.DrDanger">
+    <insert id="insert" parameterType="com.ccttic.entity.danger.DrDanger">
     insert into dr_danger (id, driverName, driverIdcard, 
       dangerType, ownerGener, ownerOrgId, 
       dangerTime, correctTime, correctState, 
@@ -240,7 +255,7 @@ GROUP BY
       #{deletetime,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{createdepcd,jdbcType=VARCHAR}, 
       #{updateby,jdbcType=VARCHAR}, #{updatedepcd,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.danger.DrDanger">
+    <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.danger.DrDanger">
     update dr_danger
     set driverName = #{drivername,jdbcType=VARCHAR},
       driverIdcard = #{driveridcard,jdbcType=VARCHAR},
@@ -267,7 +282,7 @@ GROUP BY
       updateDepCd = #{updatedepcd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select id, driverName, driverIdcard, dangerType, ownerGener, ownerOrgId, dangerTime, 
     correctTime, correctState, dangerDesc, driver_id, overdueProofState,
     overdueExamineState, fullStudyState, remark, version, isDeleted, createTime, updateTime, 
@@ -275,433 +290,433 @@ GROUP BY
     from dr_danger
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="BaseResultMap">
     select id, driverName, driverIdcard, dangerType, ownerGener, ownerOrgId, dangerTime, 
     correctTime, correctState, dangerDesc, driver_id, overdueProofState,
     overdueExamineState, fullStudyState, remark, version, isDeleted, createTime, updateTime, 
     deleteTime, createBy, createDepCd, updateBy, updateDepCd
     from dr_danger
   </select>
-  <insert id="insertSelective" parameterType="com.ccttic.entity.danger.DrDanger">
-    insert into dr_danger
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="drivername != null">
-        driverName,
-      </if>
-      <if test="driveridcard != null">
-        driverIdcard,
-      </if>
-      <if test="dangertype != null">
-        dangerType,
-      </if>
-      <if test="ownergener != null">
-        ownerGener,
-      </if>
-      <if test="ownerorgid != null">
-        ownerOrgId,
-      </if>
-      <if test="dangertime != null">
-        dangerTime,
-      </if>
-      <if test="correcttime != null">
-        correctTime,
-      </if>
-      <if test="correctstate != null">
-        correctState,
-      </if>
-      <if test="dangerdesc != null">
-        dangerDesc,
-      </if>
-      <if test="driverId != null">
-        driver_id,
-      </if>
-      <if test="overdueproofstate != null">
-        overdueProofState,
-      </if>
-      <if test="overdueexaminestate != null">
-        overdueExamineState,
-      </if>
-      <if test="fullstudystate != null">
-        fullStudyState,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="version != null">
-        version,
-      </if>
-      <if test="isdeleted != null">
-        isDeleted,
-      </if>
-      <if test="createtime != null">
-        createTime,
-      </if>
-      <if test="updatetime != null">
-        updateTime,
-      </if>
-      <if test="deletetime != null">
-        deleteTime,
-      </if>
-      <if test="createby != null">
-        createBy,
-      </if>
-      <if test="createdepcd != null">
-        createDepCd,
-      </if>
-      <if test="updateby != null">
-        updateBy,
-      </if>
-      <if test="updatedepcd != null">
-        updateDepCd,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="drivername != null">
-        #{drivername,jdbcType=VARCHAR},
-      </if>
-      <if test="driveridcard != null">
-        #{driveridcard,jdbcType=VARCHAR},
-      </if>
-      <if test="dangertype != null">
-        #{dangertype,jdbcType=VARCHAR},
-      </if>
-      <if test="ownergener != null">
-        #{ownergener,jdbcType=VARCHAR},
-      </if>
-      <if test="ownerorgid != null">
-        #{ownerorgid,jdbcType=VARCHAR},
-      </if>
-      <if test="dangertime != null">
-        #{dangertime,jdbcType=VARCHAR},
-      </if>
-      <if test="correcttime != null">
-        #{correcttime,jdbcType=VARCHAR},
-      </if>
-      <if test="correctstate != null">
-        #{correctstate,jdbcType=VARCHAR},
-      </if>
-      <if test="dangerdesc != null">
-        #{dangerdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="driverId != null">
-        #{driverId,jdbcType=VARCHAR},
-      </if>
-      <if test="overdueproofstate != null">
-        #{overdueproofstate,jdbcType=INTEGER},
-      </if>
-      <if test="overdueexaminestate != null">
-        #{overdueexaminestate,jdbcType=INTEGER},
-      </if>
-      <if test="fullstudystate != null">
-        #{fullstudystate,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null">
-        #{version,jdbcType=INTEGER},
-      </if>
-      <if test="isdeleted != null">
-        #{isdeleted,jdbcType=BIT},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletetime != null">
-        #{deletetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createby != null">
-        #{createby,jdbcType=VARCHAR},
-      </if>
-      <if test="createdepcd != null">
-        #{createdepcd,jdbcType=VARCHAR},
-      </if>
-      <if test="updateby != null">
-        #{updateby,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedepcd != null">
-        #{updatedepcd,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
+    <insert id="insertSelective" parameterType="com.ccttic.entity.danger.DrDanger">
+        insert into dr_danger
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="drivername != null">
+                driverName,
+            </if>
+            <if test="driveridcard != null">
+                driverIdcard,
+            </if>
+            <if test="dangertype != null">
+                dangerType,
+            </if>
+            <if test="ownergener != null">
+                ownerGener,
+            </if>
+            <if test="ownerorgid != null">
+                ownerOrgId,
+            </if>
+            <if test="dangertime != null">
+                dangerTime,
+            </if>
+            <if test="correcttime != null">
+                correctTime,
+            </if>
+            <if test="correctstate != null">
+                correctState,
+            </if>
+            <if test="dangerdesc != null">
+                dangerDesc,
+            </if>
+            <if test="driverId != null">
+                driver_id,
+            </if>
+            <if test="overdueproofstate != null">
+                overdueProofState,
+            </if>
+            <if test="overdueexaminestate != null">
+                overdueExamineState,
+            </if>
+            <if test="fullstudystate != null">
+                fullStudyState,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="isdeleted != null">
+                isDeleted,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="updatetime != null">
+                updateTime,
+            </if>
+            <if test="deletetime != null">
+                deleteTime,
+            </if>
+            <if test="createby != null">
+                createBy,
+            </if>
+            <if test="createdepcd != null">
+                createDepCd,
+            </if>
+            <if test="updateby != null">
+                updateBy,
+            </if>
+            <if test="updatedepcd != null">
+                updateDepCd,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="drivername != null">
+                #{drivername,jdbcType=VARCHAR},
+            </if>
+            <if test="driveridcard != null">
+                #{driveridcard,jdbcType=VARCHAR},
+            </if>
+            <if test="dangertype != null">
+                #{dangertype,jdbcType=VARCHAR},
+            </if>
+            <if test="ownergener != null">
+                #{ownergener,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerorgid != null">
+                #{ownerorgid,jdbcType=VARCHAR},
+            </if>
+            <if test="dangertime != null">
+                #{dangertime,jdbcType=VARCHAR},
+            </if>
+            <if test="correcttime != null">
+                #{correcttime,jdbcType=VARCHAR},
+            </if>
+            <if test="correctstate != null">
+                #{correctstate,jdbcType=VARCHAR},
+            </if>
+            <if test="dangerdesc != null">
+                #{dangerdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="driverId != null">
+                #{driverId,jdbcType=VARCHAR},
+            </if>
+            <if test="overdueproofstate != null">
+                #{overdueproofstate,jdbcType=INTEGER},
+            </if>
+            <if test="overdueexaminestate != null">
+                #{overdueexaminestate,jdbcType=INTEGER},
+            </if>
+            <if test="fullstudystate != null">
+                #{fullstudystate,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="isdeleted != null">
+                #{isdeleted,jdbcType=BIT},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deletetime != null">
+                #{deletetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createby != null">
+                #{createby,jdbcType=VARCHAR},
+            </if>
+            <if test="createdepcd != null">
+                #{createdepcd,jdbcType=VARCHAR},
+            </if>
+            <if test="updateby != null">
+                #{updateby,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedepcd != null">
+                #{updatedepcd,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.danger.DrDanger">
-    update dr_danger
-    <set>
-      <if test="drivername != null">
-        driverName = #{drivername,jdbcType=VARCHAR},
-      </if>
-      <if test="driveridcard != null">
-        driverIdcard = #{driveridcard,jdbcType=VARCHAR},
-      </if>
-      <if test="dangertype != null">
-        dangerType = #{dangertype,jdbcType=VARCHAR},
-      </if>
-      <if test="ownergener != null">
-        ownerGener = #{ownergener,jdbcType=VARCHAR},
-      </if>
-      <if test="ownerorgid != null">
-        ownerOrgId = #{ownerorgid,jdbcType=VARCHAR},
-      </if>
-      <if test="dangertime != null">
-        dangerTime = #{dangertime,jdbcType=VARCHAR},
-      </if>
-      <if test="correcttime != null">
-        correctTime = #{correcttime,jdbcType=VARCHAR},
-      </if>
-      <if test="correctstate != null">
-        correctState = #{correctstate,jdbcType=VARCHAR},
-      </if>
-      <if test="dangerdesc != null">
-        dangerDesc = #{dangerdesc,jdbcType=VARCHAR},
-      </if>
-      <if test="driverId != null">
-        driver_id = #{driverId,jdbcType=VARCHAR},
-      </if>
-      <if test="overdueproofstate != null">
-        overdueProofState = #{overdueproofstate,jdbcType=INTEGER},
-      </if>
-      <if test="overdueexaminestate != null">
-        overdueExamineState = #{overdueexaminestate,jdbcType=INTEGER},
-      </if>
-      <if test="fullstudystate != null">
-        fullStudyState = #{fullstudystate,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="isdeleted != null">
-        isDeleted = #{isdeleted,jdbcType=BIT},
-      </if>
-      <if test="createtime != null">
-        createTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatetime != null">
-        updateTime = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deletetime != null">
-        deleteTime = #{deletetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createby != null">
-        createBy = #{createby,jdbcType=VARCHAR},
-      </if>
-      <if test="createdepcd != null">
-        createDepCd = #{createdepcd,jdbcType=VARCHAR},
-      </if>
-      <if test="updateby != null">
-        updateBy = #{updateby,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedepcd != null">
-        updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <insert id="insertBatch" parameterType="java.util.List">
-    insert into dr_danger (id, driverName, driverIdcard, 
-      dangerType, ownerGener, ownerOrgId, 
-      dangerTime, correctTime, correctState, 
-      dangerDesc, driver_id, overdueProofState, overdueExamineState,
-      fullStudyState, remark, version, 
-      isDeleted, createTime, updateTime, 
-      deleteTime, createBy, createDepCd, 
-      updateBy, updateDepCd)
-    values 
-    <foreach collection="list" item="item" index="index" separator=",">
-    (#{item.id,jdbcType=VARCHAR}, #{item.drivername,jdbcType=VARCHAR}, #{item.driveridcard,jdbcType=VARCHAR}, 
-      #{item.dangertype,jdbcType=VARCHAR}, #{item.ownergener,jdbcType=VARCHAR}, #{item.ownerorgid,jdbcType=VARCHAR}, 
-      #{item.dangertime,jdbcType=VARCHAR}, #{item.correcttime,jdbcType=VARCHAR}, #{item.correctstate,jdbcType=VARCHAR}, 
-      #{item.dangerdesc,jdbcType=VARCHAR}, #{item.driverId,jdbcType=VARCHAR}, #{item.overdueproofstate,jdbcType=INTEGER}, #{item.overdueexaminestate,jdbcType=INTEGER},
-      #{item.fullstudystate,jdbcType=INTEGER}, #{item.remark,jdbcType=VARCHAR}, #{item.version,jdbcType=INTEGER}, 
-      #{item.isdeleted,jdbcType=BIT}, #{item.createtime,jdbcType=TIMESTAMP}, #{item.updatetime,jdbcType=TIMESTAMP}, 
-      #{item.deletetime,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR}, #{item.createdepcd,jdbcType=VARCHAR}, 
-      #{item.updateby,jdbcType=VARCHAR}, #{item.updatedepcd,jdbcType=VARCHAR})
-      </foreach>
-  </insert>
-  
-  <update id="updateBatch" parameterType="java.util.List">
-  update dr_danger
-    
-    <trim prefix="set" suffixOverrides=",">
-        <trim prefix="driverName = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+        update dr_danger
+        <set>
+            <if test="drivername != null">
+                driverName = #{drivername,jdbcType=VARCHAR},
+            </if>
+            <if test="driveridcard != null">
+                driverIdcard = #{driveridcard,jdbcType=VARCHAR},
+            </if>
+            <if test="dangertype != null">
+                dangerType = #{dangertype,jdbcType=VARCHAR},
+            </if>
+            <if test="ownergener != null">
+                ownerGener = #{ownergener,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerorgid != null">
+                ownerOrgId = #{ownerorgid,jdbcType=VARCHAR},
+            </if>
+            <if test="dangertime != null">
+                dangerTime = #{dangertime,jdbcType=VARCHAR},
+            </if>
+            <if test="correcttime != null">
+                correctTime = #{correcttime,jdbcType=VARCHAR},
+            </if>
+            <if test="correctstate != null">
+                correctState = #{correctstate,jdbcType=VARCHAR},
+            </if>
+            <if test="dangerdesc != null">
+                dangerDesc = #{dangerdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="driverId != null">
+                driver_id = #{driverId,jdbcType=VARCHAR},
+            </if>
+            <if test="overdueproofstate != null">
+                overdueProofState = #{overdueproofstate,jdbcType=INTEGER},
+            </if>
+            <if test="overdueexaminestate != null">
+                overdueExamineState = #{overdueexaminestate,jdbcType=INTEGER},
+            </if>
+            <if test="fullstudystate != null">
+                fullStudyState = #{fullstudystate,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+            <if test="isdeleted != null">
+                isDeleted = #{isdeleted,jdbcType=BIT},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deletetime != null">
+                deleteTime = #{deletetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createby != null">
+                createBy = #{createby,jdbcType=VARCHAR},
+            </if>
+            <if test="createdepcd != null">
+                createDepCd = #{createdepcd,jdbcType=VARCHAR},
+            </if>
+            <if test="updateby != null">
+                updateBy = #{updateby,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedepcd != null">
+                updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into dr_danger (id, driverName, driverIdcard,
+        dangerType, ownerGener, ownerOrgId,
+        dangerTime, correctTime, correctState,
+        dangerDesc, driver_id, overdueProofState, overdueExamineState,
+        fullStudyState, remark, version,
+        isDeleted, createTime, updateTime,
+        deleteTime, createBy, createDepCd,
+        updateBy, updateDepCd)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.drivername,jdbcType=VARCHAR}, #{item.driveridcard,jdbcType=VARCHAR},
+            #{item.dangertype,jdbcType=VARCHAR}, #{item.ownergener,jdbcType=VARCHAR},
+            #{item.ownerorgid,jdbcType=VARCHAR},
+            #{item.dangertime,jdbcType=VARCHAR}, #{item.correcttime,jdbcType=VARCHAR},
+            #{item.correctstate,jdbcType=VARCHAR},
+            #{item.dangerdesc,jdbcType=VARCHAR}, #{item.driverId,jdbcType=VARCHAR},
+            #{item.overdueproofstate,jdbcType=INTEGER}, #{item.overdueexaminestate,jdbcType=INTEGER},
+            #{item.fullstudystate,jdbcType=INTEGER}, #{item.remark,jdbcType=VARCHAR}, #{item.version,jdbcType=INTEGER},
+            #{item.isdeleted,jdbcType=BIT}, #{item.createtime,jdbcType=TIMESTAMP},
+            #{item.updatetime,jdbcType=TIMESTAMP},
+            #{item.deletetime,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR},
+            #{item.createdepcd,jdbcType=VARCHAR},
+            #{item.updateby,jdbcType=VARCHAR}, #{item.updatedepcd,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update dr_danger
+
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="driverName = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.drivername != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.drivername,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.drivername,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="driverIdcard = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="driverIdcard = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.driveridcard != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.driveridcard,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.driveridcard,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="dangerType = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="dangerType = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.dangertype != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.dangertype,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.dangertype,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="ownerGener = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="ownerGener = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.ownergener != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.ownergener,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.ownergener,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="ownerOrgId = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="ownerOrgId = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.ownerorgid != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.ownerorgid,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.ownerorgid,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="dangerTime = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="dangerTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.dangertime != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.dangertime,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.dangertime,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="correctTime = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="correctTime = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.correcttime != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.correcttime,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.correcttime,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="correctState = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="correctState = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.correctstate != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.correctstate,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.correctstate,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="dangerDesc = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="dangerDesc = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.dangerdesc != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.dangerdesc,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.dangerdesc,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="driver_id = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="driver_id = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.driverId != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.driverId,jdbcType=VARCHAR}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.driverId,jdbcType=VARCHAR}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="overdueProofState = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="overdueProofState = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.overdueproofstate != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.overdueproofstate,jdbcType=INTEGER}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.overdueproofstate,jdbcType=INTEGER}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="overdueExamineState = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="overdueExamineState = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.overdueexaminestate != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.overdueexaminestate,jdbcType=INTEGER}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.overdueexaminestate,jdbcType=INTEGER}
                     </if>
-            </foreach>
-         </trim>
-          <trim prefix="fullStudyState = case" suffix="end,">
-            <foreach collection="list" item="item" index="index">
+                </foreach>
+            </trim>
+            <trim prefix="fullStudyState = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
                     <if test="item.fullstudystate != null">
-                       when id = #{item.id,jdbcType=VARCHAR} then #{item.fullstudystate,jdbcType=INTEGER}
+                        when id = #{item.id,jdbcType=VARCHAR} then #{item.fullstudystate,jdbcType=INTEGER}
                     </if>
-            </foreach>
-         </trim>
-    </trim>
-    
-   where id in
+                </foreach>
+            </trim>
+        </trim>
+
+        where id in
         <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
             #{item.id}
         </foreach>
-  </update>
-  
-  <!-- 根据条件查询记录 -->
-	<select id="qryDriverList" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.DrDangerVo">
-      SELECT danger.*,area.areaNm,org.orgNm AS orgNm ,etp.etpNm AS etpNm FROM ess_area AREA ,ess_organization org ,dr_danger danger ,driver dr,ess_enterprise etp WHERE area.id =org.area_id AND danger.ownerOrgId=org.id AND danger.driverIdcard = dr.idcard AND dr.mgrEnterpriseId =etp.id
-      <if test="list != null and list.size>0 ">
-			 	 and dr.mgrEnterpriseId in
-					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-			        #{item}  
-			    	</foreach>  
-      </if>
-		 	<if test="areaId != null and areaId != ''">
-				and area.id = #{areaId}
-			</if>   
-			<if test="etpNm != null and etpNm != ''">
-				and dr.mgrEnterpriseId = #{ownerenterprise}
-			</if>
-			<if test="dangertype == null and dangertype == ''">
-				and danger.dangerType != 0
-			</if>
-			<if test="dangertype != null and dangertype != ''">
-				and danger.dangerType = #{dangertype}
-			</if>
-			<if test="fullStudyState ==true ">
-				and danger.fullStudyState = 1
-			</if>
-			<if test="illicitState ==true ">
-				and danger.illicitState = 1
-			</if>
-			<if test="failureState ==true ">
-				and danger.failureState = 1
-			</if>
-			<if test="overdueProofState ==true ">
-				and danger.overdueProofState = 1
-			</if>
-			order by danger.dangerType DESC
-		limit ${startRecord},${pageSize}
-	</select>
-	<!-- 根据条件统计条数 -->
-	<select id="qryDriverListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-      SELECT COUNT(1) FROM ess_area AREA ,ess_organization org ,dr_danger danger ,driver dr,ess_enterprise etp WHERE area.id =org.area_id AND danger.ownerOrgId=org.id AND danger.driverIdcard = dr.idcard AND dr.mgrEnterpriseId =etp.id
-      <if test="list != null and list.size>0 ">
-			 	 and dr.mgrEnterpriseId in
-					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-			        #{item}  
-			    	</foreach>  
-      </if>
-			    <if test="areaId != null and areaId != ''">
-				and area.id = #{areaId}
-			</if>   
-			<if test="dangertype != null and dangertype != ''">
-				and danger.dangerType = #{dangertype}
-			</if>
-			<if test="dangertype == null and dangertype == ''">
-				and danger.dangerType != 0
-			</if>
-			<if test="fullStudyState ==true ">
-				and danger.fullStudyState = 1
-			</if>
-			<if test="illicitState ==true ">
-				and danger.illicitState = 1
-			</if>
-			<if test="failureState ==true ">
-				and danger.failureState = 1
-			</if>
-			<if test="overdueProofState ==true ">
-				and danger.overdueProofState = 1
-			</if>
-			order by danger.dangerType DESC
-		
-		limit ${startRecord},${pageSize}  
-	</select>
+    </update>
+
+    <!-- 根据条件查询记录 -->
+    <select id="qryDriverList" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.DrDangerVo">
+        SELECT danger.*,area.areaNm,org.orgNm AS orgNm ,etp.etpNm AS etpNm FROM ess_area AREA ,ess_organization org
+        ,dr_danger danger ,driver dr,ess_enterprise etp WHERE area.id =org.area_id AND danger.ownerGener=org.id AND
+        danger.driverIdcard = dr.idcard AND dr.mgrEnterpriseId =etp.id
+        <if test="list != null and list.size>0 ">
+            and org.id in
+            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item.id}
+            </foreach>
+        </if>
+        <if test="areaId != null and areaId != ''">
+            and area.id = #{areaId}
+        </if>
+        <if test="etpId != null and etpId != ''">
+            and dr.mgrEnterpriseId = #{etpId}
+        </if>
+        <if test="dangertype == null and dangertype == ''">
+            and danger.dangerType != 0
+        </if>
+        <if test="dangertype != null and dangertype != ''">
+            and danger.dangerType = #{dangertype}
+        </if>
+        <if test="fullStudyState ==true ">
+            and danger.fullStudyState = 1
+        </if>
+        <if test="overdueExamineState ==true ">
+            and danger.overdueExamineState = 1
+        </if>
+        <if test="overdueProofState ==true ">
+            and danger.overdueProofState = 1
+        </if>
+        order by danger.dangerType DESC
+        limit ${startRecord},${pageSize}
+    </select>
+    <!-- 根据条件统计条数 -->
+    <select id="qryDriverListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM ess_area AREA ,ess_organization org ,dr_danger danger ,driver dr,ess_enterprise etp WHERE
+        area.id =org.area_id AND danger.ownerGener=org.id AND danger.driverIdcard = dr.idcard AND dr.mgrEnterpriseId
+        =etp.id
+        <if test="list != null and list.size>0 ">
+            and org.id in
+            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item.id}
+            </foreach>
+        </if>
+        <if test="areaId != null and areaId != ''">
+            and area.id = #{areaId}
+        </if>
+        <if test="dangertype != null and dangertype != ''">
+            and danger.dangerType = #{dangertype}
+        </if>
+        <if test="dangertype == null and dangertype == ''">
+            and danger.dangerType != 0
+        </if>
+        <if test="fullStudyState ==true ">
+            and danger.fullStudyState = 1
+        </if>
+        <if test="overdueExamineState ==true ">
+            and danger.overdueExamineState = 1
+        </if>
+        <if test="overdueProofState ==true ">
+            and danger.overdueProofState = 1
+        </if>
+    </select>
 
 </mapper>

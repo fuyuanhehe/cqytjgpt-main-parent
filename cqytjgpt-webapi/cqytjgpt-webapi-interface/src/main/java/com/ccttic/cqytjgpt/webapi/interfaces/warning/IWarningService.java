@@ -19,7 +19,6 @@ public interface IWarningService {
 	public Page<VehiDangerVo> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException;
 	/**
 	 * 根据id查询车辆预警详情信息
-	 * @param params
 	 * @return
 	 * @throws AppException
 	 */
@@ -35,7 +34,6 @@ public interface IWarningService {
 	
 	/**
 	 * 根据id查询驾驶员预警详情信息
-	 * @param params
 	 * @return
 	 * @throws AppException
 	 */

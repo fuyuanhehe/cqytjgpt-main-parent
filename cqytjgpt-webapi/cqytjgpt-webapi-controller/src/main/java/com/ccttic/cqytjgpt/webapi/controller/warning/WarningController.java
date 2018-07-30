@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ccttic.cqytjgpt.webapi.controller.employee.EmployeeController;
 import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningService;
+import com.ccttic.entity.role.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,8 +71,21 @@ public class WarningController implements Serializable {
 			resp.fail("查询失败！,获取用户信息失败");
 			return resp;
 		}
-		for (EssEnterprise essEnterprise : vo.getCanSeeEnt()) {
-			list.add(essEnterprise.getId());
+		switch (vo.getEmptype()){
+			case Const.SUPERMAN:
+				break;
+			case Const.ADMIN:
+				EssEnterprise enterprise =vo.getEnt();
+				vdvo.setOwnerenterprise(enterprise!=null?enterprise.getId():null);
+				break;
+			case Const.SUPER:
+				Organization  organization= vo.getOrg();
+				vdvo.setOwnerorgid(organization!=null?organization.getId():null);
+				vdvo.setOrgType(organization!=null?organization.getOrgType():null);
+				break;
+			default:
+				resp.fail("查询失败！,获取用户信息失败");
+				return resp;
 		}
 		vdvo.setList(list);
 		vdvo.setEmpType(vo.getEmptype());
@@ -101,10 +115,22 @@ public class WarningController implements Serializable {
 			resp.fail("查询失败！,获取用户信息失败");
 			return resp;
 		}
-		for (EssEnterprise essEnterprise : vo.getCanSeeEnt()) {
-			list.add(essEnterprise.getId());
+		switch (vo.getEmptype()){
+			case Const.SUPERMAN:
+				break;
+			case Const.ADMIN:
+				EssEnterprise enterprise =vo.getEnt();
+				drVO.setEtpId(enterprise!=null?enterprise.getId():null);
+				break;
+			case Const.SUPER:
+				Organization  organization= vo.getOrg();
+				drVO.setOwnerorgid(organization!=null?organization.getId():null);
+				drVO.setOrgType(organization!=null?organization.getOrgType():null);
+				break;
+			default:
+				resp.fail("查询失败！,获取用户信息失败");
+				return resp;
 		}
-		drVO.setList(list);
 		drVO.setEmpType(vo.getEmptype());
 		try {
 			Page<DrDangerVo> pager = warningService.qryDriverList(page, drVO);
