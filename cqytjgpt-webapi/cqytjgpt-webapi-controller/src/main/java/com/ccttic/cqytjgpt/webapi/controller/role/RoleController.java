@@ -91,8 +91,10 @@ public class RoleController {
 			// 角色ID
 			String  idss = RandomHelper.uuid();
 			//员工ID
-			String str = rolty.getEmp_id();
-			if(str != null)  {
+			if(rolty.getEmp_id() != null)  {
+				
+				String str = rolty.getEmp_id();
+				
 				List<Role_Emp> roles = new ArrayList<Role_Emp>(); 
 				String [] strs = str.split(",");
 
