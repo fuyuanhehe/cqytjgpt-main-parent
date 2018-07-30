@@ -71,4 +71,10 @@ public interface IOrganizationService {
 	 * @throws AppException
 	 */
 	List<Area> getArea() throws AppException;
+	/**
+	 *@Author:zhy
+	 *@Description:根据组织type和id获取组织集合
+	 *@Date:11:24 2018/7/30
+	 */
+	List<Organization> getOrgByTypeAndId(String id,String type)throws AppException ;
 }

@@ -23,7 +23,17 @@ public class DrDangerVo extends DrDanger {
 
 	private String etpId;
 
-    public String getEtpId() {
+	private String orgType;
+
+	public String getOrgType() {
+		return orgType;
+	}
+
+	public void setOrgType(String orgType) {
+		this.orgType = orgType;
+	}
+
+	public String getEtpId() {
         return etpId;
     }
 

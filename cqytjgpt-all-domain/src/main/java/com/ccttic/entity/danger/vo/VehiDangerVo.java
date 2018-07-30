@@ -16,6 +16,15 @@ public class VehiDangerVo extends VehiDanger{
 	private String orgNm;
 	private String superNm;
 	private String etpNm;
+	private String orgType;
+
+	public String getOrgType() {
+		return orgType;
+	}
+
+	public void setOrgType(String orgType) {
+		this.orgType = orgType;
+	}
 
 	public String getAreaNm() {
 		return areaNm;

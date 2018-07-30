@@ -1,12 +1,16 @@
 package com.ccttic.cqytjgpt.webapi.service.warning;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.cqytjgpt.webapi.interfaces.warning.IWarningService;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.DrDangerMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.danger.VehiDangerMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
+import com.ccttic.entity.role.Organization;
 import com.ccttic.util.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +31,22 @@ public class WarningServiceImpl implements IWarningService{
 	private VehiDangerMapper mapper;
 	@javax.annotation.Resource
 	private DrDangerMapper drMapper;
+	@Autowired
+	private OrganizationMapper organizationMapper;
+	@Autowired
+	private IOrganizationService organizationService;
+
 	@Override
 	public Page<VehiDangerVo> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException {
 		Page<VehiDangerVo> pager = new PageImpl<VehiDangerVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
+		List<Organization> organizations = null;
+		if (null !=ve.getOwnerorgid()){
+			organizations = organizationService.getOrgByTypeAndId(ve.getOwnerorgid(),ve.getOrgType());
+		}
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("list", ve.getList()); // 企业id
+		params.put("list", organizations); // 组织集合
 		params.put("areaId", ve.getAreaId());// 区域
 		params.put("empType", ve.getEmpType()); // 账号类型
 		params.put("ownerenterprise", ve.getOwnerenterprise());// 公司
@@ -71,12 +84,18 @@ public class WarningServiceImpl implements IWarningService{
 
 		Page<DrDangerVo> pager = new PageImpl<DrDangerVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
+		List<Organization> organizations = null;
+		if (null !=vo.getOwnerorgid()){
+			if (null !=vo.getOwnerorgid()){
+				organizations = organizationService.getOrgByTypeAndId(vo.getOwnerorgid(),vo.getOrgType());
+			}
+		}
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("empType", vo.getEmpType()); // 账号类型
-		params.put("list", vo.getList()); // 企业id
+		params.put("list", organizations); // 企业id
 		params.put("areaId", vo.getAreaCd());// 区域
-		params.put("etpNId", vo.getEtpId());// 公司
+		params.put("etpId", vo.getEtpId());// 公司
 		params.put("fullStudyState", vo.getFullstudystate()==1?true:false);
 		params.put("illicitState", vo.getIllicitstate()==1?true:false);
 		params.put("failureState", vo.getFailurestate()==1?true:false);
