@@ -217,9 +217,10 @@ public class RoleController {
 			PageRequest page = new PageRequest();
 			page.setPage(emp.getPage());
 			page.setRows(emp.getRows());
-			List<EmpRoleMenuVo> data = Roleservice.getEmpParameter(emp);
+			Page<EmpRoleMenuVo> data = Roleservice.getEmpParameter(emp, page);
 
-			resp.setData(data);
+			resp.setData(data.getRecords());
+			resp.setTotal(data.getTotalRows().intValue());
 			resp.setMessage("获取用户信息成功!");
 			resp.setStatus(0);
 		} catch (Exception e) {

@@ -63,9 +63,9 @@
 		id in
 		<foreach collection="list" item="item" index="index"
 			separator=",">
-			(#{item}  )
+			(#{item} )
 		</foreach>
-		
+
 	</delete>
 	<!-- 通过编码获取角色 -->
 	<select id="findRoleByRoleCd" parameterType="java.lang.String"
@@ -214,8 +214,39 @@
 		</if>
 		GROUP BY
 		e.id
-
+		limit ${startRecord},${pageSize}
 	</select>
+
+	<select id="getEmpParameterCount" resultType="long"
+		parameterType="java.util.Map">
+		SELECT
+		count(e.id)
+		FROM
+		ess_employee e
+		LEFT JOIN ess_employee_dept ed ON e.id =
+		ed.emp_id
+		LEFT
+		JOIN ess_department d ON ed.dep_id = d.id
+		LEFT JOIN
+		ess_employee_post
+		ep ON e.id = ep.emp_id
+		LEFT JOIN ess_post p ON
+		ep.post_id = p.id
+		LEFT
+		JOIN ess_organization o ON e.id = o.admin_empid
+		where 1 = 1
+		<if test="orgId!=null and orgId!='' ">
+			and o.id = #{orgId}
+		</if>
+		<if test="depId!=null and depId!='' ">
+			and d.id = #{depId}
+		</if>
+		<if test="empNm!=null and empNm!='' ">
+			and e.empNm = #{empNm}
+		</if>
+	</select>
+
+
 
 	<!--获取所有组织机构 -->
 	<select id="getOrgNm" resultType="com.ccttic.entity.role.vo.OrgDepVo">
