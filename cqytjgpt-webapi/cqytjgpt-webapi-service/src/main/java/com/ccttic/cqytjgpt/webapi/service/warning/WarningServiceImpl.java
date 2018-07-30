@@ -55,7 +55,6 @@ public class WarningServiceImpl implements IWarningService{
 		params.put("correctstate", ve.getCorrectstate());// 整改进度
 		params.put("scrappedState", ve.getScrappedstate()==1?true:false);
 		params.put("illicitState", ve.getIllicitstate()==1?true:false);
-		params.put("failureState", ve.getFailurestate()==1?true:false);
 		params.put("overdueExamineState", ve.getOverdueexaminestate()==1?true:false);
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<VehiDangerVo> records = mapper.qryVehicleList(params);
@@ -97,8 +96,7 @@ public class WarningServiceImpl implements IWarningService{
 		params.put("areaId", vo.getAreaCd());// 区域
 		params.put("etpId", vo.getEtpId());// 公司
 		params.put("fullStudyState", vo.getFullstudystate()==1?true:false);
-		params.put("illicitState", vo.getIllicitstate()==1?true:false);
-		params.put("failureState", vo.getFailurestate()==1?true:false);
+		params.put("overdueExamineState", vo.getOverdueexaminestate()==1?true:false);
 		params.put("overdueProofState", vo.getOverdueproofstate()==1?true:false);
 		params.put("dangertype", vo.getDangertype());// 预警等级
 		params.put("correctstate", vo.getCorrectstate());// 整改进度
