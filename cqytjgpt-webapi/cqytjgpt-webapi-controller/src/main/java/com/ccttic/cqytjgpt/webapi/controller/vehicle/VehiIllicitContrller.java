@@ -88,17 +88,21 @@ public class VehiIllicitContrller implements Serializable{
 			}
 			String userType = null;
 			String id = null;
-			if (null != ent) { // 根据登录账号类型判断
-				if (Const.SUPERMAN.equals(vo.getEmptype())) {
-					userType = Const.SUPERMAN;
-				} else if (Const.SUPER.equals(vo.getEmptype())) {
-					userType = Const.SUPER;
+			 // 根据登录账号类型判断
+			if (Const.SUPERMAN.equals(vo.getEmptype())) {
+				userType = Const.SUPERMAN;
+			} else if (Const.SUPER.equals(vo.getEmptype())) {
+				userType = Const.SUPER;
+				if (null != ent) {
 					id = ent.getId();
-				} else if (Const.ADMIN.equals(vo.getEmptype())) {
-					userType = Const.ADMIN;
+				}
+			} else if (Const.ADMIN.equals(vo.getEmptype())) {
+				userType = Const.ADMIN;
+				if (null != ent) {
 					id = ent.getOrgId();
 				}
 			}
+			
 			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page,vehiIllicit,userType,id);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
@@ -141,7 +145,12 @@ public class VehiIllicitContrller implements Serializable{
 		}
 		params.put("id", ve.getId());
 		params.put("disposeSign", ve.getDisposeSign());
-		params.put("vehiNo", ve.getVehiNo());
+		if(ve.getVehiNo().contains("渝")) {
+			params.put("vehiNo", ve.getVehiNo().substring(1));
+		} else {
+			params.put("vehiNo", ve.getVehiNo());
+		}
+		
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
 			resp.setData(vehiIllicit);

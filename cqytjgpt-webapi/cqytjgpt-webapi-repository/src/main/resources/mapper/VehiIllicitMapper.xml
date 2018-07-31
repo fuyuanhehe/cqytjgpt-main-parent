@@ -664,11 +664,11 @@
 		CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState from (
 		   select * from (
 		   		<choose>
-		   			<when test="userType=='SUPERMAN'">
+		   			<when test="userType == 'SUPERMAN'">
 		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
 		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
 		   			</when>
-		   			<when test="userType=='SUPER'">
+		   			<when test="userType == 'SUPER'">
 		   				SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT ${startRecord},${pageSize} ) 
 						temp on ve.id = temp.id  LEFT JOIN ess_enterprise e ON ve.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
 		   			</when>
@@ -693,7 +693,6 @@
 		LEFT JOIN ess_area area ON net.mgrDepartAreaId=area.id 
 		LEFT JOIN ess_enterprise ess ON net.mgrEnterpriseId=ess.id 
 		LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id 
-		ORDER BY net.WFSJ  DESC limit ${startRecord},${pageSize}
         WHERE 1=1
         <if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
             and cit.mgrDepartAreaId = #{mgrDepartAreaId}
@@ -722,6 +721,7 @@
         <if test="endTime != null and endTime != ''">
             and cit.illicitTime &lt;= #{endDate}
         </if>
+        ORDER BY net.WFSJ  DESC limit ${startRecord},${pageSize}
     </select>
 
     <!-- 根据id获取指定车辆的违法信息 -->
@@ -743,7 +743,7 @@
 							</otherwise>
 						</choose>
 					 ) net 
-				LEFT JOIN (SELECT * FROM vehicle v WHERE v.vehiNo ='')ve  ON ve.vehiNo=net.hphm
+				LEFT JOIN (SELECT * FROM vehicle v WHERE v.vehiNo =#{vehiNo})ve  ON ve.vehiNo=net.hphm
 				LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
 				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
 				LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id
