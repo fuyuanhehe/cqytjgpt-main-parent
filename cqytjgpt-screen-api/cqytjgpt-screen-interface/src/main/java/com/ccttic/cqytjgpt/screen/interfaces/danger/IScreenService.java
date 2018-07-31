@@ -176,4 +176,8 @@ public interface IScreenService {
      * 清空统计表数据
      */
     void deleteScreenTotal();
+    /**
+     * 获取统计表数据
+     */
+    List<Map<String,Object>> areaInfoTotal();
 }

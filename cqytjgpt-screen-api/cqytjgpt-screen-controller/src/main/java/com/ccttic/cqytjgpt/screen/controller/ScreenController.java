@@ -312,10 +312,8 @@ public class ScreenController {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
             log.info("开始查询分区隐患信息");
-            List<Map<String, Object>> map = screenService.areaDangerInfo();
-            long time = System.currentTimeMillis();
-            //redisService.set("theMap",map,1000l);
-            System.out.println(System.currentTimeMillis()-time);
+            // 从统计表里面去拿 由定时任务跑出来
+            List<Map<String, Object>> map = screenService.areaInfoTotal();
             response.setData(map);
             response.success("分区隐患信息查询成功");
         } catch (Exception e) {

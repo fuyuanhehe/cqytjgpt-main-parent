@@ -145,7 +145,7 @@ public class ScreenServiceImpl implements IScreenService{
 	@Override
 	public List<Map<String, Object>> areaDangerInfo() {
 		// 查全市不同地区隐患数据
-		List<Map<String,Object>> areaDangerInfoList = drDangerMapper.areaInfoTotal();
+		List<Map<String,Object>> areaDangerInfoList = drDangerMapper.areaDangerInfo();
 		return areaDangerInfoList;
 	}
 
@@ -241,6 +241,11 @@ public class ScreenServiceImpl implements IScreenService{
 	@Override
 	public void deleteScreenTotal() {
 		drDangerMapper.deleteScreenTotal();
+	}
+
+	@Override
+	public List<Map<String,Object>> areaInfoTotal() {
+		return drDangerMapper.areaInfoTotal();
 	}
 
 	@Override
