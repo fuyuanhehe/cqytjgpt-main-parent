@@ -58,7 +58,7 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
 		params.put("pageSize", page.getRows());
-		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		params.put("startRecord", page.getPage());
 		params.put("mgrDepartAreaId", vehiIllicit.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehiIllicit.getVehiNo()); // 车牌号
 		params.put("etpNm", vehiIllicit.getEtpNm()); // 车所属企业
