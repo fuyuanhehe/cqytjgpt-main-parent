@@ -93,7 +93,6 @@ public class DriversController implements Serializable{
 					list.add(essEnterprise.getId());
 				}
 			}
-			if(list!=null && list.size()>0){
 				tment.setQid(list);
 				tment.setEmpType(empType);
 				Page<DriverVo> data = service.seDriverPage(page, tment);
@@ -101,7 +100,7 @@ public class DriversController implements Serializable{
 				resp.setStatus(0);
 				resp.setData(data.getRecords());
 				resp.setTotal(data.getTotalRows().intValue());
-			}
+			
 		} catch (Exception e) {
 			resp.setMessage("获取驾驶人信息-基本信息失败！");
 			resp.setStatus(0);
@@ -312,14 +311,13 @@ public class DriversController implements Serializable{
 					list.add(essEnterprise.getId());
 				} 
 			}
-			if(list!=null && list.size()>0){
 			tment.setQid(list);
 			tment.setEmpType(empType);
 			Page<EnterprisethenVo> data = service.queryEnterprisePage(page, tment);
 			resp.setMessage("查询企业信息-基本信息成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
-			resp.setTotal(data.getTotalRows().intValue()); }
+			resp.setTotal(data.getTotalRows().intValue()); 
 		} catch (Exception e) {
 			resp.setMessage("查询企业信息-基本信息失败！");
 			resp.setStatus(0);
