@@ -27,7 +27,7 @@ public interface DepartmentMapper {
 	 * @throws AppException
 	 */
 	public int qryDepartmentListCount(Map<String, Object> params) throws AppException;
-	public String getDepNm(String depNm);
+	public Department getDepNm(Map<String, Object> params);
 	/**
 	 * 根据条件获取部门信息
 	 * @param params

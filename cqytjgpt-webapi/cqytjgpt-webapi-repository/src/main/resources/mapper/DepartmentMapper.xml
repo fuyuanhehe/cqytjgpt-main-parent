@@ -22,8 +22,8 @@
 	<select id="qryDepartmentListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from ess_department where 1=1 and ept_id=#{orgCd}
 	</select>
-	<select id="getDepNm" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT depNm FROM ess_department WHERE depNm=#{depNm}
+	<select id="getDepNm" parameterType="java.util.Map" resultMap="Department">
+		SELECT * FROM ess_department WHERE depNm=#{depNm}
 	</select>
 	<!-- 创建部门-->
 	<insert id="createMent" parameterType="com.ccttic.entity.role.Department">

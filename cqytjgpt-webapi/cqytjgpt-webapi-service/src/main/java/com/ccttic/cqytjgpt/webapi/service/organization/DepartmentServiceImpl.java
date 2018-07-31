@@ -14,7 +14,6 @@ import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
-import com.ccttic.util.exception.DeleteRefusedException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
@@ -44,7 +43,9 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	public Department createMent(Department ment, String id) throws AppException {
 		ment.setId(id);
 		ment.setOrgId(ment.getOrgCd());
-		String depNm = mapper.getDepNm(ment.getDepNm());
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("depNm", ment.getDepNm());
+		Department depNm = mapper.getDepNm(params);
 		if (null != depNm) {
 			throw new RuntimeException("添加失败，部门名字重复！");
 		}
