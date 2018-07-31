@@ -42,4 +42,6 @@ public interface DrDangerMapper {
 	Map<String, Object> allCar();
 
 	List<Map<String, Object>> findPlace();
+
+	void insertScreenTotal(List<Map<String, Object>> list);
 }

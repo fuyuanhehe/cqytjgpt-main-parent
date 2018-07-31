@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.cqytjgpt.screen.mapper.danger.EtpDangerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class ScreenServiceImpl implements IScreenService{
 	DrDangerMapper drDangerMapper;
 	@Autowired
 	VehiDangerMapper vehiDangerMapper;
+	@Autowired
+	EtpDangerMapper etpDangerMapper;
 	@Override
 	public Map<String, Object> findDangerForDriver() {
 		Map map = new HashMap();
@@ -54,6 +57,21 @@ public class ScreenServiceImpl implements IScreenService{
 	}
 
 	@Override
+	public Map<String, Object> findDangerForEnterprise() {
+		Map map = new HashMap();
+		// 查询企业接入数
+		int intoNum =etpDangerMapper.countIntoNum();
+		// 查询隐患企业发现数
+		int findNum = etpDangerMapper.countEnterpriseDangerNum();
+		map.put("intoNum", intoNum);
+		map.put("findNum", findNum);
+		// 查询预警数 根据级别分组 返回list
+		List warnList = etpDangerMapper.countWarnNum();
+
+		return map;
+	}
+
+	@Override
 	public List<Map<String, Object>> distributionDangerForDriver(Map<String, Object> dateMap) {
 		// 查询驾驶员隐患问题分布情况
 		List<Map<String,Object>> driverDangerList = drDangerMapper.distributionDangerForDriver(dateMap);
@@ -65,6 +83,11 @@ public class ScreenServiceImpl implements IScreenService{
 		// 查询机动车隐患问题分布情况
 		List<Map<String,Object>> carDangerList = vehiDangerMapper.distributionDangerForCar(dateMap);
 		return carDangerList;
+	}
+
+	@Override
+	public List<Map<String, Object>> distributionDangerForEnterprise(Map<String, Object> dateMap) {
+		return null;
 	}
 
 	@Override
@@ -82,10 +105,21 @@ public class ScreenServiceImpl implements IScreenService{
 	public Map<String, Object> handleDangerForCar() {
 		Map map = new HashMap();
 		// 查询未处理的机动车
-		int noHandleDriver = vehiDangerMapper.countNoHandleCar();
+		int noHandleCar = vehiDangerMapper.countNoHandleCar();
 		//查询已处理的机动车隐患 暂时没有
 		map.put("handleCar", 0);
-		map.put("noHandleCar", noHandleDriver);
+		map.put("noHandleCar", noHandleCar);
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> handleDangerForEnterprise() {
+		Map map = new HashMap();
+		// 查询未处理的企业
+		int noHandleEnterprise = etpDangerMapper.countNoHandleEnterprise();
+		//查询已处理的机动车隐患 暂时没有
+		map.put("handleEnterprise", 0);
+		map.put("noHandleEnterprise", noHandleEnterprise);
 		return map;
 	}
 
@@ -101,6 +135,11 @@ public class ScreenServiceImpl implements IScreenService{
 		// 机动车隐患治理结果趋势图  按月份分类数据{"一":100","二":100...}
 		Map<String,Object> carResultMap = vehiDangerMapper.resultDangerForCar();
 		return carResultMap;
+	}
+
+	@Override
+	public Map<String, Object> resultDangerForEnterprise() {
+		return null;
 	}
 
 	@Override
@@ -123,6 +162,12 @@ public class ScreenServiceImpl implements IScreenService{
 		 Map<String,Object> dangerCar = vehiDangerMapper.noticeDangerCar(map);
 		return dangerCar;
 	}
+
+	@Override
+	public Map<String, Object> noticeDangerForEnterprise(Map map) {
+		return null;
+	}
+
 	/**
 	 * 该接口根据分区同时查询排行 各区驾驶员 各区机动车隐患数
 	 */
@@ -145,6 +190,13 @@ public class ScreenServiceImpl implements IScreenService{
 		// 机动车各区隐患占比 （直接调用之前的排行接口)
 		List<Map<String,Object>> areaDangersTopList = drDangerMapper.areaDangersTop();
 		return areaDangersTopList;
+	}
+
+	@Override
+	public List<Map<String, Object>> ratioDangerForEnterprise() {
+		// 企业各区隐患占比
+		List<Map<String,Object>> areaDangersTopList =etpDangerMapper.ratioDangerForEnterprise();
+		return null;
 	}
 
 	@Override
@@ -172,6 +224,21 @@ public class ScreenServiceImpl implements IScreenService{
 	}
 
 	@Override
+	public Map<String, Object> deptDangerForEnterprise(Map<String, Object> map) {
+		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> areaHandleDangersTop() {
+		return null;
+	}
+
+	@Override
+	public void insertScreenTotal(List<Map<String, Object>> list) {
+		drDangerMapper.insertScreenTotal(list);
+	}
+
+	@Override
 	public List<Map<String, Object>> findPlace() {
 		
 		return drDangerMapper.findPlace();
@@ -181,6 +248,11 @@ public class ScreenServiceImpl implements IScreenService{
 	public Map<String, Object> allDriver() {
 		
 		return drDangerMapper.allDriver();
+	}
+
+	@Override
+	public Map<String, Object> allEnterprise() {
+		return null;
 	}
 
 	@Override

@@ -28,7 +28,20 @@
     <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
     <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
   </resultMap>
-  
+
+    <insert id="insertScreenTotal" parameterType="List">
+     INSERT INTO screen_areaInfo_total (`id`, `orgNm`, `drivers`, `cars`,
+      `monthDriverDangers`, `monthCarDangers`, `monthTotal`, `driverDangers`,
+      `carDangers`) VALUES
+        <foreach collection="list" item="item" separator=";">
+           (#{item.id},#{item.orgNm},#{item.drivers},#{emp.cars},
+            #{item.monthDriverDangers},#{item.monthCarDangers},#{item.monthTotal},
+            #{item.driverDangers},#{item.carDangers})
+        </foreach>
+    </insert>
+
+
+
    <select id="allDriver" resultType="map">
        select count(1) allDriver from driver where  (isDelete is null or isDelete !=1)
     </select>
