@@ -226,14 +226,13 @@ public class EnterpriseController implements Serializable {
 					list.add(essEnterprise.getId());
 				}
 			}
-			if(list!=null && list.size()>0){
 				tment.setList(list);
 				tment.setEmpType(empType);
 				Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment);
 				resp.setData(data.getRecords());
 				resp.setMessage("获取企业下属车辆成功");
 				resp.setStatus(0);
-				resp.setTotal(data.getTotalRows().intValue());}
+				resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
 			resp.setMessage("获取企业下属车辆失败");
 			resp.setStatus(-1);
@@ -286,13 +285,12 @@ public class EnterpriseController implements Serializable {
 			if(empType!=null){
 				tment.setEmpType(empType);
 			}
-			if(list!=null && list.size()>0){
 				tment.setList(list);
 				Page<EnterpriseDriverVo> data = enterpriseService.getEnterpriceDriver(page, tment);
 				resp.setData(data.getRecords());
 				resp.setMessage("获取企业下属驾驶员成功");
 				resp.setStatus(0);
-				resp.setTotal(data.getTotalRows().intValue()); }
+				resp.setTotal(data.getTotalRows().intValue()); 
 		} catch (Exception e) {
 			resp.setMessage("获取企业下属驾驶员失败");
 			resp.setStatus(-1);
