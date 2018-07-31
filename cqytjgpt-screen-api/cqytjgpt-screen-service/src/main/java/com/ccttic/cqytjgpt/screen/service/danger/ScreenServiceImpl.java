@@ -239,6 +239,11 @@ public class ScreenServiceImpl implements IScreenService{
 	}
 
 	@Override
+	public void deleteScreenTotal() {
+		drDangerMapper.deleteScreenTotal();
+	}
+
+	@Override
 	public List<Map<String, Object>> findPlace() {
 		
 		return drDangerMapper.findPlace();

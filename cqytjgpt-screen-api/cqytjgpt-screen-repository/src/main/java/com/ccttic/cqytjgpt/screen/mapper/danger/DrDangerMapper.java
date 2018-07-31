@@ -44,4 +44,6 @@ public interface DrDangerMapper {
 	List<Map<String, Object>> findPlace();
 
 	void insertScreenTotal(List<Map<String, Object>> list);
+
+    void deleteScreenTotal();
 }

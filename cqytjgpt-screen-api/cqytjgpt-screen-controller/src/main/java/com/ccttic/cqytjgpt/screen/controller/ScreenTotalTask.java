@@ -26,6 +26,8 @@ public class ScreenTotalTask {
         try {
             log.info("开始查询分区隐患信息");
             List<Map<String, Object>> list = screenService.areaDangerInfo();
+            //清空统计表
+            screenService.deleteScreenTotal();
             screenService.insertScreenTotal(list);
             log.info("插入分区隐患信息成功");
         } catch (Exception e) {

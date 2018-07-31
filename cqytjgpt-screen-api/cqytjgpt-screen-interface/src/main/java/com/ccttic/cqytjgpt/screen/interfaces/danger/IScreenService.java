@@ -171,4 +171,9 @@ public interface IScreenService {
      * @return
      */
     void insertScreenTotal(List<Map<String, Object>> list);
+
+    /**
+     * 清空统计表数据
+     */
+    void deleteScreenTotal();
 }

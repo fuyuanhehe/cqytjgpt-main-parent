@@ -28,7 +28,9 @@
     <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
     <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd" />
   </resultMap>
-
+   <delete id="deleteScreenTotal">
+       delete from screen_areainfo_total
+   </delete>
     <insert id="insertScreenTotal" parameterType="List">
      INSERT INTO screen_areaInfo_total (`id`, `orgNm`, `drivers`, `cars`,
       `monthDriverDangers`, `monthCarDangers`, `monthTotal`, `driverDangers`,
