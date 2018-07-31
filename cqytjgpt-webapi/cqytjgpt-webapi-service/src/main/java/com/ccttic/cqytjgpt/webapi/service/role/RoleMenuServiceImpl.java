@@ -156,6 +156,7 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 				arrs[i] = ss.getRole_id();
 			} 
 			// 通过角色ID获取菜单
+			if(arrs.length>0){
 			List<Model_MenuVo> menu = Mapper.seMenuByRoleId(arrs)  ;
 			
 			if(menu != null ){
@@ -195,7 +196,7 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 				}
 				return  emp;
 			}
-			
+			}
 		}
 
 		return  null;
