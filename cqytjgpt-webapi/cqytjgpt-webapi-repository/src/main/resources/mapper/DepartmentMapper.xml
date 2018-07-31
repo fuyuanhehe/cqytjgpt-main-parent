@@ -14,8 +14,8 @@
 	</resultMap>
 	<!-- 通过机构代码获取部门信息 -->
 	<select id="qryDepartmentList" parameterType="java.util.Map" resultMap="Department">
-		select b.* from ess_organization a LEFT JOIN ess_department b ON a.id=b.org_id WHERE b.ept_id=#{orgCd}
-		and (b.isDeleted = 0 or b.isDeleted is null)
+		select * from  ess_department  WHERE org_id=#{orgCd}
+		and (isDeleted = 0 or isDeleted is null)
 		limit ${startRecord},${pageSize}
 	</select>
 	<!-- 通过机构代码获取部门总条数 -->
