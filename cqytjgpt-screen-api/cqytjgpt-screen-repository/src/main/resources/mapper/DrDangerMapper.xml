@@ -32,7 +32,7 @@
        delete from screen_areainfo_total
    </delete>
 
-    <select id="areaInfoTotal" parameterType="Map">
+    <select id="areaInfoTotal" resultType="Map">
         select * from screen_areainfo_total
     </select>
     <insert id="insertScreenTotal" parameterType="List">
