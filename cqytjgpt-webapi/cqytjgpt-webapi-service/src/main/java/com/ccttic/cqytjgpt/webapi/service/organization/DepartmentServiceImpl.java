@@ -44,7 +44,10 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	public Department createMent(Department ment, String id) throws AppException {
 		ment.setId(id);
 		ment.setOrgId(ment.getOrgCd());
-		
+		String depNm = mapper.getDepNm(ment.getDepNm());
+		if (null == depNm) {
+			throw new RuntimeException("部门名字重复");
+		}
 		mapper.createMent(ment);
 		return ment;
 	}

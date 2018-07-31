@@ -22,13 +22,15 @@
 	<select id="qryDepartmentListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from ess_department where 1=1 and ept_id=#{orgCd}
 	</select>
-	
+	<select id="getDepNm" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT depNm FROM ess_department WHERE depNm=#{depNm}
+	</select>
 	<!-- 创建部门-->
 	<insert id="createMent" parameterType="com.ccttic.entity.role.Department">
 		insert into ess_department(id,org_id,ept_id,depNm,depShortNm,depCd,depDuty,remark,dispOrder) values 
 			(#{ment.id},#{ment.orgId},#{ment.eptId},#{ment.depNm},#{ment.depShortNm},#{ment.depCd},#{ment.depDuty},#{ment.remark},#{ment.dispOrder})
 	</insert>
-
+	
 	<!-- 修改部门 -->
 	<update id="modifyMent" parameterType="com.ccttic.entity.role.Department">
 		update ess_department set 
