@@ -513,7 +513,7 @@ public class ScreenController {
      * 各分所企业治理情况
      * @param map orgId 分所id
      */
-    @RequestMapping("deptDangerForCar")
+    @RequestMapping("deptDangerForEnterprise")
     public ResponseMsg<Map<String, Object>> deptDangerForEnterprise(@RequestBody Map<String, Object> map) {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
