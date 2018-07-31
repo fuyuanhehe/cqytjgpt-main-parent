@@ -45,7 +45,7 @@ public class DepartmentServiceImpl implements IDepartmentService{
 		ment.setId(id);
 		ment.setOrgId(ment.getOrgCd());
 		String depNm = mapper.getDepNm(ment.getDepNm());
-		if (null == depNm) {
+		if (null != depNm) {
 			throw new RuntimeException("添加失败，部门名字重复！");
 		}
 		mapper.createMent(ment);
