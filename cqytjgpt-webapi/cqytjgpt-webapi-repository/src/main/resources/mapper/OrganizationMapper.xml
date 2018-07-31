@@ -124,6 +124,6 @@
 		select * from ess_department where etpCd = #{etpCd}
 	</select>
 	<select id="getOrgByEmpId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
-		SELECT org.* FROM ess_organization org LEFT JOIN ess_department depart ON depart.org_id = org.id LEFT JOIN ess_employee_dept  dept ON  depart.id =dept.dep_id   LEFT JOIN    ess_employee emp ON emp.id = dept.emp_id WHERE emp.id =#{id}
+		SELECT org.* FROM ess_organization org  WHERE admin_empid =#{id}
 	</select>
 </mapper>
