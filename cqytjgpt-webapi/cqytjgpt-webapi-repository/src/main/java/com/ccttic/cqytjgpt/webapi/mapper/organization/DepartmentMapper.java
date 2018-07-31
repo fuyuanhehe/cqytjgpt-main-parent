@@ -40,7 +40,7 @@ public interface DepartmentMapper {
 	 * 创建部门
 	 * @param org
 	 */
-	public void createMent(@Param("ment") Department ment);
+	public Department createMent(@Param("ment") Department ment);
 	
 	/**
 	 * 修改部门

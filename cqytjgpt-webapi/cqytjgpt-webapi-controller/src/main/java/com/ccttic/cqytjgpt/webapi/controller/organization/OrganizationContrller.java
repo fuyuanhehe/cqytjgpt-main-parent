@@ -302,7 +302,7 @@ public class OrganizationContrller implements Serializable {
 			resp.setData(ment);
 			resp.success("添加成功！");
 		} catch (Exception e) {
-			resp.fail("添加失败！");
+			resp.fail("添加失败,或部门名字重复");
 			logger.error(e.getMessage());
 		}
 		return resp;
