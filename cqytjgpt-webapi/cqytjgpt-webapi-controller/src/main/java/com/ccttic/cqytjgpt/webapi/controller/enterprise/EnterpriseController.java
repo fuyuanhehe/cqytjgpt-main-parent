@@ -226,15 +226,14 @@ public class EnterpriseController implements Serializable {
 					list.add(essEnterprise.getId());
 				}
 			}
-			tment.setList(list);
-			tment.setEmpType(empType);
-
-
-			Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment);
-			resp.setData(data.getRecords());
-			resp.setMessage("获取企业下属车辆成功");
-			resp.setStatus(0);
-			resp.setTotal(data.getTotalRows().intValue());
+			if(list!=null && list.size()>0){
+				tment.setList(list);
+				tment.setEmpType(empType);
+				Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment);
+				resp.setData(data.getRecords());
+				resp.setMessage("获取企业下属车辆成功");
+				resp.setStatus(0);
+				resp.setTotal(data.getTotalRows().intValue());}
 		} catch (Exception e) {
 			resp.setMessage("获取企业下属车辆失败");
 			resp.setStatus(-1);
@@ -283,18 +282,17 @@ public class EnterpriseController implements Serializable {
 				for (EssEnterprise essEnterprise : ent) {
 					list.add(essEnterprise.getId());
 				}
-				tment.setList(list);
-
 			}
 			if(empType!=null){
 				tment.setEmpType(empType);
 			}
-
-			Page<EnterpriseDriverVo> data = enterpriseService.getEnterpriceDriver(page, tment);
-			resp.setData(data.getRecords());
-			resp.setMessage("获取企业下属驾驶员成功");
-			resp.setStatus(0);
-			resp.setTotal(data.getTotalRows().intValue());
+			if(list!=null && list.size()>0){
+				tment.setList(list);
+				Page<EnterpriseDriverVo> data = enterpriseService.getEnterpriceDriver(page, tment);
+				resp.setData(data.getRecords());
+				resp.setMessage("获取企业下属驾驶员成功");
+				resp.setStatus(0);
+				resp.setTotal(data.getTotalRows().intValue()); }
 		} catch (Exception e) {
 			resp.setMessage("获取企业下属驾驶员失败");
 			resp.setStatus(-1);
