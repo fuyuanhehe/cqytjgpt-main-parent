@@ -89,8 +89,8 @@
     <bean id="screenTotalTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="screenTotalJob" />
         <property name="cronExpression">
-            <!-- 每1分钟执行 -->
-            <value>0 0/1 * * * ?</value>
+            <!-- 每天24点执行 -->
+            <value>0 0 24 * * ? *</value>
         </property>
     </bean>
     <!-- 定时创建日志表  结束  -->

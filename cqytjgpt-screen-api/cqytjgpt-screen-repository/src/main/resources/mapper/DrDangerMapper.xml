@@ -31,12 +31,16 @@
    <delete id="deleteScreenTotal">
        delete from screen_areainfo_total
    </delete>
+
+    <select id="areaInfoTotal" parameterType="Map">
+        select * from screen_areainfo_total
+    </select>
     <insert id="insertScreenTotal" parameterType="List">
      INSERT INTO screen_areaInfo_total (`id`, `orgNm`, `drivers`, `cars`,
       `monthDriverDangers`, `monthCarDangers`, `monthTotal`, `driverDangers`,
       `carDangers`) VALUES
-        <foreach collection="list" item="item" separator=";">
-           (#{item.id},#{item.orgNm},#{item.drivers},#{emp.cars},
+        <foreach collection="list" item="item" separator=",">
+           (replace(uuid(),'-',''),#{item.orgNm},#{item.drivers},#{item.cars},
             #{item.monthDriverDangers},#{item.monthCarDangers},#{item.monthTotal},
             #{item.driverDangers},#{item.carDangers})
         </foreach>

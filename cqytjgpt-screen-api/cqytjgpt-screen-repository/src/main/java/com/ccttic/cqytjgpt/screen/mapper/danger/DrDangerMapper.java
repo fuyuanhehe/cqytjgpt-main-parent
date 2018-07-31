@@ -46,4 +46,6 @@ public interface DrDangerMapper {
 	void insertScreenTotal(List<Map<String, Object>> list);
 
     void deleteScreenTotal();
+
+    List<Map<String,Object>> areaInfoTotal();
 }
