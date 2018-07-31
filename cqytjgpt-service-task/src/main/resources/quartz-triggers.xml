@@ -78,4 +78,19 @@
         </property>  
     </bean>
     <!-- 定时创建日志表  结束  -->
+    <!-- 大屏地图数据定时任务 开始 -->
+    <bean id="screenTotalJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ccttic.task.execute.ScreenTotalTask"/>
+        <property name="durability" value="true" />
+        <property name="requestsRecovery" value="true" />
+    </bean>
+    <!-- 定时触发器 -->
+    <bean id="screenTotalTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="screenTotalJob" />
+        <property name="cronExpression">
+            <!-- 每1分钟执行 -->
+            <value>0 0/1 * * * ?</value>
+        </property>
+    </bean>
+    <!-- 定时创建日志表  结束  -->
 </beans>
