@@ -733,7 +733,7 @@
 			CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState
 				FROM (
 						<choose>
-							<when test="disposeSign == '0'">
+							<when test="disposeSign == 0">
 								SELECT sur.id,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
 									FROM ${tableNmae} sur WHERE sur.ID=#{id}
 							</when>
