@@ -23,6 +23,7 @@
             <!-- <ref bean="carDangerTrigger"/> -->
             <!-- 	<ref bean="driverDangerTrigger"/> -->
             	<ref bean="userOperLoggerTrigger"/>
+                <ref bean="screenTotalTrigger"/>
             </list>
         </property>  
     </bean>  
