@@ -1,7 +1,6 @@
 package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -66,37 +65,41 @@ public class VehiIllicitContrller implements Serializable{
 			PageRequest page = new PageRequest();
 			page.setPage(vehiIllicit.getPage());
 			page.setRows(vehiIllicit.getRows());
-			List<String> list = new ArrayList<String>();
 			 if(StringUtils.isEmpty(access_token)) {
 				 resp.fail("access_token 不能为空");
 				 return resp;
 			 }
 			 String username=JWTUtil.getUsername(access_token);
 			// 从redis获取用户信息 
-			
-			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
+			EmployeeVo vo = (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			EssEnterprise ent = null;
 			if (null != vo) {
-				ent = vo.getCanSeeEnt();
+				ent = vo.getEnt();
 			} else {
 				EmployeeVo employee;
 				try {
 					employee = employeeService.findEmployeeByAccount(username);
-					ent=employee.getCanSeeEnt();
+					ent = employee.getEnt();
 					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
 			}
-			if(null!=ent){
-
-				for (EssEnterprise essEnterprise : ent) {
-					list.add(essEnterprise.getId());
+			String userType = null;
+			String id = null;
+			if (null != ent) { // 根据登录账号类型判断
+				if (Const.SUPERMAN.equals(vo.getEmptype())) {
+					userType = Const.SUPERMAN;
+				} else if (Const.SUPER.equals(vo.getEmptype())) {
+					userType = Const.SUPER;
+					id = ent.getId();
+				} else if (Const.ADMIN.equals(vo.getEmptype())) {
+					userType = Const.ADMIN;
+					id = ent.getOrgId();
 				}
 			}
-			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page, vehiIllicit, list);
+			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page,vehiIllicit,userType,id);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");
