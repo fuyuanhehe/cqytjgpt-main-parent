@@ -36,10 +36,10 @@ public class PostServiceImpl implements IPostService {
 		Page<EssPostVo> pager = new PageImpl<EssPostVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		
-		if (null!= employeePermission && null!= employeePermission.getOrgId()){
+		if (null!= employeePermission && null!= employeePermission.getOrgId() && !(Const.SUPERMAN.equals(employeePermission.getEmployeeType()))){
 			params.put("orgId",employeePermission.getOrgId());
 		}
-		if (null!= employeePermission && null!= employeePermission.getEnterpriseId()){
+		if (null!= employeePermission && null!= employeePermission.getEnterpriseId() && !(Const.SUPERMAN.equals(employeePermission.getEmployeeType()))){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}
 		if (null!= employeePermission && Const.SUPERMAN.equals(employeePermission.getEmployeeType()) && "true".equals(post.getOrgNm ())){
