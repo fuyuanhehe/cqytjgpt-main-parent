@@ -123,7 +123,7 @@ public class Department extends BaseBean implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Department [orgId=" + orgId + ", eptId=" + etpId + ", depNm=" + depNm
+		return "Department [orgId=" + orgId + ", etpId=" + etpId + ", depNm=" + depNm
 				+ ", depShortNm=" + depShortNm+ ", depCd=" + depCd+ ", remark=" + remark+ ", dispOrder=" + dispOrder
 				+", orgCd=" + orgCd +", id=" + id + "]";
 	}
