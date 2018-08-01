@@ -641,6 +641,9 @@
 					#{item.id}
 				</foreach>
 		</if>
+		<if test="orgCd != null and orgCd != ''">
+			and depart.ept_id =#{orgCd}
+		</if>
 		<if test="orgid != null and orgid != ''">
 			and org.id =#{orgid}
 		</if>
