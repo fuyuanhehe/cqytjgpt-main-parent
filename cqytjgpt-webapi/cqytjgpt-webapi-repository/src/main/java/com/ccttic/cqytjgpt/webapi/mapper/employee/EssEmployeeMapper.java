@@ -42,13 +42,13 @@ public interface EssEmployeeMapper {
 	 * @param params
 	 * @return
 	 */
-	long qryPostListCount(Map<String, Object> params) throws AppException;
+	long qryEmployeeListCount(Map<String, Object> params) throws AppException;
 
 	/**分页查询员工
 	 * @param params
 	 * @return
 	 */
-	List<EssEmployeeVo> qryPostList(Map<String, Object> params)throws AppException;
+	List<EssEmployeeVo> qryEmployeeList(Map<String, Object> params)throws AppException;
 
 	/**查询员工下的岗位
 	 * @param id

@@ -7,7 +7,7 @@ import com.ccttic.entity.BaseBean;
 /**
 功能说明：     部门基本信息
 @author  admin
-@see  com.ccttic.entity.role.Department.java
+@see  com.ccttic.entity.role.Department
 @date  2018年5月30日
 */
 public class Department extends BaseBean implements Serializable{

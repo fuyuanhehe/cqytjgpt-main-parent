@@ -591,29 +591,20 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 
-	<select id="qryPostList" parameterType="java.util.Map"
-		resultType="com.ccttic.entity.employee.EssEmployeeVo">
+	<select id="qryEmployeeList" parameterType="java.util.Map"
+			resultType="com.ccttic.entity.employee.EssEmployeeVo">
 		SELECT emp.id AS id , emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS
 		orgNm,emp.empType AS emptype,emp.empNo AS empno,emp.account AS
 		account,depart.depNm AS depNm ,depart.id AS depid FROM ess_employee_dept dept,ess_employee
 		emp,ess_organization org ,ess_department depart WHERE
 		dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND
 		org.orgCd=depart.org_id
-		<if test="emps != null and emps.size >0">
-				and emp.id in
-				<foreach collection="emps" index="index" item="item"
-					open="(" separator="," close=")">
-					#{item.id}
-				</foreach>
+		<if test="orgId != null and orgId != ''">
+			and org.id =#{orgId}
 		</if>
-
-		<if test="orgCd != null and orgCd != ''">
-			and depart.ept_id =#{orgCd}
+		<if test="eptId != null and eptId != ''">
+			and depart.ept_id =#{eptId}
 		</if>
-		<if test="orgid != null and orgid != ''">
-			and org.id =#{orgid}
-		</if>
-
 		<if test="empNm != null and empNm != ''">
 			and emp.empNm like '%${empNm}%'
 		</if>
@@ -623,29 +614,22 @@
 		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
-		    and emp.isDeleted !=1
+		and emp.isDeleted !=1
 		order by emp.createTime DESC
 
 		limit ${startRecord},${pageSize}
 	</select>
-	<select id="qryPostListCount" parameterType="java.util.Map"
-		resultType="java.lang.Long">
-		SELECT count(*) FROM ess_employee_dept dept,ess_employee
+	<select id="qryEmployeeListCount" parameterType="java.util.Map"
+			resultType="java.lang.Long">
+		SELECT COUNT(1) FROM ess_employee_dept dept,ess_employee
 		emp,ess_organization org ,ess_department depart WHERE
 		dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND
 		org.orgCd=depart.org_id
-		<if test="emps != null and emps.size >0">
-				and emp.id in
-				<foreach collection="emps" index="index" item="item"
-					open="(" separator="," close=")">
-					#{item.id}
-				</foreach>
+		<if test="orgId != null and orgId != ''">
+			and org.id =#{orgId}
 		</if>
-		<if test="orgCd != null and orgCd != ''">
-			and depart.ept_id =#{orgCd}
-		</if>
-		<if test="orgid != null and orgid != ''">
-			and org.id =#{orgid}
+		<if test="eptId != null and eptId != ''">
+			and depart.ept_id =#{eptId}
 		</if>
 		<if test="empNm != null and empNm != ''">
 			and emp.empNm like '%${empNm}%'
@@ -656,7 +640,7 @@
 		<if test="depid != null and depid != ''">
 			and depart.id =#{depid}
 		</if>
-			and emp.isDeleted !=1
+		and emp.isDeleted !=1
 	</select>
 	<select id="selectPostUnderEmp" parameterType="java.lang.String"
 		resultType="com.ccttic.entity.post.EssPost">
@@ -700,21 +684,14 @@
 		delete from ess_employee_dept where emp_id=#{empId} and
 		dep_id=#{depId}
 	</delete>
-	
+
 	<select id="getAllEmp" resultType="com.ccttic.entity.employee.EssEmployee">
 	select * from ess_employee WHERE  isDeleted !=1
 	</select>
 	<select id="selectEmployeeByDepartment" parameterType="java.util.Map" resultType="com.ccttic.entity.employee.EssEmployeeVo" >
 		SELECT emp.*,depart.id AS depid,depart.depNm AS depNm ,org.orgNm AS orgNm FROM ess_employee emp LEFT JOIN ess_employee_dept dept ON emp.id = dept.emp_id LEFT JOIN ess_department depart ON depart.id = dept.dep_id LEFT JOIN ess_organization org ON org.id=depart.org_id WHERE depart.org_id =#{orgId}
-		<if test="emps != null and emps.size >0">
-			and emp.id in
-			<foreach collection="emps" index="index" item="item"
-					 open="(" separator="," close=")">
-				#{item.id}
-			</foreach>
-		</if>
 		<if test="depId != null and depId != ''">
-		and	dept.dep_id =#{depId}
+			and	dept.dep_id =#{depId}
 		</if>
 		<if test="empNm != null and empNm != ''">
 			and	emp.empNm like '%${empNm}%'

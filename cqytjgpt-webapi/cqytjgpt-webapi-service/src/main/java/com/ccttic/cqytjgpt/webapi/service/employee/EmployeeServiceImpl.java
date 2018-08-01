@@ -1,16 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.service.employee;
 
-import java.util.*;
-
-import javax.annotation.Resource;
-
-import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
-import com.ccttic.util.jwt.JWTUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
+import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
@@ -19,31 +11,34 @@ import com.ccttic.cqytjgpt.webapi.mapper.organization.DepartmentMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.post.EssPostMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
-import com.ccttic.entity.employee.Employee;
-import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.entity.employee.EssEmployee;
-import com.ccttic.entity.employee.EssEmployeeDept;
-import com.ccttic.entity.employee.EssEmployeeExample;
-import com.ccttic.entity.employee.EssEmployeePost;
-import com.ccttic.entity.employee.EssEmployeeVo;
+import com.ccttic.entity.employee.*;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
-import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 功能说明： 人员业务实现类
- * 
- * @version 1.0.0
+ *
  * @author xgYin
+ * @version 1.0.0
  * @date 2016年12月4日
  */
 @Service
@@ -67,16 +62,19 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private VehicleMapper vehicleMapper;// 司机基础信息
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
+	@Autowired
+	private IOrganizationService organizationService;
+
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * 
+	 *
+	 *
 	 * @param id
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @throws AppException
-	 * 
+	 *
 	 * @see com.ccttic.service.employee.IEmployeeService#findEmployeeById(java.lang.
 	 * String)
 	 */
@@ -86,36 +84,37 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public EmployeeVo findEmployeeForDynamic(String account) throws AppException {
 		EmployeeVo emp = empMapper.findEmployeeByAccount(account);
 
 		Map<String, String> map = null;
 		Organization organization = null;
-		if(Const.ADMIN.equals(emp.getEmptype())) {
+		if (Const.ADMIN.equals(emp.getEmptype())) {
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			emp.setOrg(organization);
 		}
 		if (Const.SUPERMAN.equals(emp.getEmptype())) {
 
-		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.ONE).equals(emp.getOrg().getOrgType())) {
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && ("" + Const.ONE).equals(emp.getOrg().getOrgType())) {
 
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			List<Organization> organizations = organizationMapper.getLastOrg(organization.getId());
 			emp.setOrg(organization);
-			organizations.add(0,organization);
+			organizations.add(0, organization);
 			emp.setCanSeeOrgs(organizations);
 
 
-		} else if (Const.ADMIN.equals(emp.getEmptype()) && (""+Const.TWO).equals(emp.getOrg().getOrgType())) {
+		} else if (Const.ADMIN.equals(emp.getEmptype()) && ("" + Const.TWO).equals(emp.getOrg().getOrgType())) {
 			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			emp.setOrg(organization);
 
-		}else{
+		} else {
 			organization = organizationMapper.getOrgByEmpId(emp.getId());
 			emp.setOrg(organization);
 		}
-   		return emp;
+		return emp;
 	}
 	/*
 	 * (非 Javadoc)
@@ -136,16 +135,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		EmployeeVo emp = empMapper.findEmployeeByAccount(account);
 		if (Const.SUPERMAN.equals(emp.getEmptype())) {
 			// doNothing
-		}else if(Const.ADMIN.equals(emp.getEmptype())){
+		} else if (Const.ADMIN.equals(emp.getEmptype())) {
 			//企业管理员,查询所属企业
 			emp.setEnt(entMapper.getEntByEmpId(emp.getId()));
-		}else if(Const.SUPER.equals(emp.getEmptype())){
+		} else if (Const.SUPER.equals(emp.getEmptype())) {
 			//组织机构管理员,查询所属组织机构
 			emp.setOrg(organizationMapper.getOrgByEmpId(emp.getId()));
 		}
 		// 员工能使用的菜单,员工角色
 		EmployeeVo datas = service.seRoleMenuById(emp.getId());
-		if(datas != null) {
+		if (datas != null) {
 			emp.setMenus(datas.getMenus());
 			emp.setModels(datas.getModels());
 		}
@@ -249,21 +248,20 @@ public class EmployeeServiceImpl implements IEmployeeService {
 */
 
 
-
 	}
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * 
+	 *
+	 *
 	 * @param account
-	 * 
+	 *
 	 * @param password
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @throws AppException
-	 * 
+	 *
 	 * @see com.ccttic.service.employee.IEmployeeService#login(java.lang.String,
 	 * java.lang.String)
 	 */
@@ -275,22 +273,22 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * 
+	 *
+	 *
 	 * @param involveAllSubOrgs
-	 * 
+	 *
 	 * @param orgCd
-	 * 
+	 *
 	 * @param empNm
-	 * 
+	 *
 	 * @param account
-	 * 
+	 *
 	 * @param postCds
-	 * 
+	 *
 	 * @param page
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @see com.ccttic.service.employee.IEmployeeService#findEmployees(boolean,
 	 * java.lang.String, java.lang.String, java.lang.String, java.util.List,
 	 * com.ccttic.util.page.Pageable)
@@ -298,19 +296,19 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public Page<Employee> findEmployees(boolean involveAllSubOrgs, String orgCd, String empNm, String account,
-			List<String> postCds, Pageable page) {
+										List<String> postCds, Pageable page) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * 
+	 *
+	 *
 	 * @param emp
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @see
 	 * com.ccttic.service.employee.IEmployeeService#addEmployee(com.ccttic.entity.
 	 * employee.Employee)
@@ -319,7 +317,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	@Transactional
 	public void addEmployee(EssEmployeeVo emp) throws AppException {
-	
+
 		String empid = RandomHelper.uuid();
 		EssEmployee employee = emp;
 		employee.setId(empid);
@@ -348,12 +346,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * 
+	 *
+	 *
 	 * @param emp
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @see
 	 * com.ccttic.service.employee.IEmployeeService#editEmployee(com.ccttic.entity.
 	 * employee.Employee)
@@ -388,42 +386,39 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	/*
 	 * (非 Javadoc)
-	 * 
-	 * 
+	 *
+	 *
 	 * @param empId
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @see com.ccttic.service.employee.IEmployeeService#findRolesByEmpId(java.lang.
 	 * String)
 	 */
 
 	@Override
 	public List<RoleEmp> findRolesByEmpId(String empId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Page<EssEmployeeVo> selectEmployee(Pageable page, List<EssEmployee> list, EssEmployeeVo emp)
+	public Page<EssEmployeeVo> selectEmployee(Pageable page, EssEmployeeVo emp)
 			throws AppException {
 		Page<EssEmployeeVo> pager = new PageImpl<EssEmployeeVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (emp.getEptId() != null) {
+		if (null != emp.getOrgCd()) {
+			params.put("orgId", emp.getOrgCd());//组织id
+		}
+		if (null !=emp.getEptId())  {
 			params.put("eptId", emp.getEptId());// 企业id
 		}
-		params.put("emps", list);//员工集合
 		params.put("pageSize", page.getRows() + "");
 		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
-		if (emp.getOrgCd() != null) {
-			params.put("orgCd", emp.getOrgCd());// 组织id
-		}
 		params.put("empNm", emp.getEmpnm());// 员工姓名
 		params.put("account", emp.getAccount());// 员工账号
 		params.put("depid", emp.getDepid());// 部门id
-		params.put("orgid", emp.getOrgCd());// 组织id
-		long totalRows = empMapper.qryPostListCount(params);
-		List<EssEmployeeVo> records = empMapper.qryPostList(params);
+		long totalRows = empMapper.qryEmployeeListCount(params);
+		List<EssEmployeeVo> records = empMapper.qryEmployeeList(params);
 		for (EssEmployeeVo essEmployeeVo : records) {
 			List<EssPost> post = empMapper.selectPostUnderEmp(essEmployeeVo.getId());
 			essEmployeeVo.setPost(post);
@@ -476,21 +471,43 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		EssEmployeeExample example = new EssEmployeeExample();
 		example.createCriteria().andAccountEqualTo(account);
 
-		if(empMapper.selectByExample(example).size()>0){
+		if (empMapper.selectByExample(example).size() > 0) {
 			return 1;
-		}else{
+		} else {
 			return 0;
 		}
 	}
 
 	@Override
-	public List<EssEmployeeVo> selectEmployeeByDepartment(List<EssEmployee> canSeeEmp, String depid, String empnm, String orgCd) throws AppException {
+	public List<EssEmployeeVo> selectEmployeeByDepartment(String depid, String empnm, String orgCd) throws AppException {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("emps",canSeeEmp);
-		params.put("depId",depid);
-		params.put("empNm",empnm);
-		params.put("orgId",orgCd);
+		params.put("depId", depid);
+		params.put("empNm", empnm);
+		params.put("orgId", orgCd);
 		return empMapper.selectEmployeeByDepartment(params);
 	}
 
+	@Override
+	public EmployeePermission getEmployeePermission(EmployeeVo employee) {
+		EmployeePermission employeePermission = new EmployeePermission();
+		EssEnterprise enterprise = null;
+		Organization organization = null;
+		employeePermission.setEmployeeType(employee.getEmptype());
+		switch (employee.getEmptype()) {
+			case Const.SUPERMAN:
+				break;
+			case Const.ADMIN:
+				enterprise = employee.getEnt();
+				employeePermission.setEnterpriseId(enterprise.getId());
+				break;
+			case Const.SUPER:
+				organization = employee.getOrg();
+				employeePermission.setOrgId(organization.getId());
+				employeePermission.setOrgType(organization.getOrgType());
+				break;
+			default:
+				return null;
+		}
+		return employeePermission;
+	}
 }

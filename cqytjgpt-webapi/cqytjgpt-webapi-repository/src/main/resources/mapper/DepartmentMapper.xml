@@ -14,15 +14,29 @@
 	</resultMap>
 	<!-- 通过机构代码获取部门信息 -->
 	<select id="qryDepartmentList" parameterType="java.util.Map" resultMap="Department">
-		select * from  ess_department  WHERE (org_id=#{orgCd} or ept_id=#{orgCd})
+		select * from  ess_department  WHERE 1=1
+		<if test="orgCd != null and orgCd != ''">
+			AND org_id=#{orgCd}
+		</if>
+		<if test="etpId != null and etpId != ''">
+			AND ept_id=#{etpId}
+		</if>
 		and (isDeleted = 0 or isDeleted is null)
 		limit ${startRecord},${pageSize}
 	</select>
 	<!-- 通过机构代码获取部门总条数 -->
 	<select id="qryDepartmentListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from ess_department where 1=1 and ept_id=#{orgCd}
+		select COUNT(1)from  ess_department  WHERE 1=1
+		<if test="orgCd != null and orgCd != ''">
+			AND org_id=#{orgCd}
+		</if>
+		<if test="etpId != null and etpId != ''">
+			AND ept_id=#{etpId}
+		</if>
+		and (isDeleted = 0 or isDeleted is null)
 	</select>
-	
+
+
 	<select id="getDepNm" parameterType="java.lang.String" resultMap="Department">
 		SELECT * FROM ess_department WHERE depNm=#{depNm}
 	</select>

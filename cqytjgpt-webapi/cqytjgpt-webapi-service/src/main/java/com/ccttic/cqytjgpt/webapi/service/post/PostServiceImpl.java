@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ccttic.entity.category.CategoryAttr;
+import com.ccttic.entity.employee.EmployeePermission;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.exception.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,27 @@ import javax.annotation.Resource;
 
 @Service
 public class PostServiceImpl implements IPostService {
-	@Resource
+	@Autowired
 	private EssPostMapper postMapper;
 	@Override
-	public Page<EssPostVo> selectPost(Pageable page, EssPostVo post,List<EssPost> list) throws AppException {
+	public Page<EssPostVo> selectPost(Pageable page, EssPostVo post, EmployeePermission employeePermission) throws AppException {
 		Page<EssPostVo> pager = new PageImpl<EssPostVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		
-		params.put("posts", list);
+		if (null!= employeePermission && null!= employeePermission.getOrgId()){
+			params.put("orgId",employeePermission.getOrgId());
+		}
+		if (null!= employeePermission && null!= employeePermission.getEnterpriseId()){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		if (null!= employeePermission && Const.SUPERMAN.equals(employeePermission.getEmployeeType()) && "true".equals(post.getOrgNm ())){
+			params.put("employeeType",Const.SUPERMAN);
+			params.put("org","true");
+		}
+		if (null!= employeePermission && Const.SUPERMAN.equals(employeePermission.getEmployeeType()) && "false".equals(post.getOrgNm ())){
+			params.put("employeeType",Const.SUPERMAN);
+			params.put("etp","true");
+		}
 		params.put("pageSize", page.getRows() + "");
 		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
 		params.put("postNm", post.getPostnm());// 岗位名称

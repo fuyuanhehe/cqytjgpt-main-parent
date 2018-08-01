@@ -1,9 +1,11 @@
 package com.ccttic.cqytjgpt.webapi.controller.post;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.cqytjgpt.webapi.interfaces.post.IPostService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.EssEmployeeVo;
@@ -45,6 +47,8 @@ public class PostController {
     @Autowired
     private IEmployeeService employeeService;
 
+    @Autowired
+    private IOrganizationService organizationService;
     /**
      * 分页查询岗位
      *
@@ -58,13 +62,15 @@ public class PostController {
                                                    @RequestBody EssPostVo post) {
         ResponseMsg<Page<EssPostVo>> rm = new ResponseMsg<>();
 
-        EmployeeVo vo = employeeService.getUserInfo(access_token);
+        EmployeeVo employee = employeeService.getUserInfo(access_token);
+
+        EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
 
         try {
             PageRequest page = new PageRequest();
             page.setPage(post.getPage());
             page.setRows(post.getRows());
-            Page<EssPostVo> pager = postService.selectPost(page, post, vo.getCanSeePosts());
+            Page<EssPostVo> pager = postService.selectPost(page, post, employeePermission);
 
             rm.setData(pager);
             rm.setMessage("获取post数据成功");
@@ -77,51 +83,51 @@ public class PostController {
         return rm;
     }
 
-    /**
-     * 获取所有组织
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(value = "selectAllOrganization", method = RequestMethod.POST)
-    public ResponseMsg<List<Organization>> selectAllOrganization(ServletRequest request, ServletResponse response, @RequestParam String access_token) {
-        ResponseMsg<List<Organization>> rm = new ResponseMsg<>();
-
-
-        String username = JWTUtil.getUsername(access_token);
-        // redis get data
-        EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
-        // 2. 判断REDIS是否为空
-        if (null != vo) {
-
-        } else {
-            EmployeeVo employee;
-            try {
-                employee = employeeService.findEmployeeByAccount(username);
-                // 3. 更新redis里用户缓存
-                redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
-
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        }
-
-
-        if (vo.getCanSeeOrgs() != null && vo.getCanSeeOrgs().size() > 0) {
-            rm.setData(vo.getCanSeeOrgs());
-            rm.setMessage("获取Organization数据成功");
-            rm.setStatus(0);
-        } else {
-
-            rm.setMessage("获取Organization数据为空");
-            rm.setStatus(-1);
-        }
-
-        return rm;
-    }
+//    /**
+//     * 获取所有组织
+//     *
+//     * @param request
+//     * @param response
+//     * @return
+//     */
+//    @RequestMapping(value = "selectAllOrganization", method = RequestMethod.POST)
+//    public ResponseMsg<List<Organization>> selectAllOrganization(ServletRequest request, ServletResponse response, @RequestParam String access_token) {
+//        ResponseMsg<List<Organization>> rm = new ResponseMsg<>();
+//
+//
+//        String username = JWTUtil.getUsername(access_token);
+//        // redis get data
+//        EmployeeVo vo = (EmployeeVo) redisService.get(username + Const.TOKEN);
+//        // 2. 判断REDIS是否为空
+//        if (null != vo) {
+//
+//        } else {
+//            EmployeeVo employee;
+//            try {
+//                employee = employeeService.findEmployeeByAccount(username);
+//                // 3. 更新redis里用户缓存
+//                redisService.set(username + Const.TOKEN, employee, Const.USER_REDIS_LIVE);
+//
+//            } catch (Exception e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//
+//        }
+//
+//
+//        if (vo.getCanSeeOrgs() != null && vo.getCanSeeOrgs().size() > 0) {
+//            rm.setData(vo.getCanSeeOrgs());
+//            rm.setMessage("获取Organization数据成功");
+//            rm.setStatus(0);
+//        } else {
+//
+//            rm.setMessage("获取Organization数据为空");
+//            rm.setStatus(-1);
+//        }
+//
+//        return rm;
+//    }
 
     /**
      * 查询部门
@@ -184,8 +190,7 @@ public class PostController {
     @ResourceScan(rsc = @Resource(cd = Const.MODIFY_POST, name = "添加", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
             , prsc = {@Resource(cd = Const.POST_MANAGEMENT, url = "/post/addpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
             @Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-    public ResponseMsg<String> addpost(@RequestBody EssPostVo post) {
-
+    public ResponseMsg<String> addpost(@RequestBody EssPostVo post,@RequestParam String access_token) {
         ResponseMsg<String> rm = new ResponseMsg<>();
         try {
             postService.addPost(post);

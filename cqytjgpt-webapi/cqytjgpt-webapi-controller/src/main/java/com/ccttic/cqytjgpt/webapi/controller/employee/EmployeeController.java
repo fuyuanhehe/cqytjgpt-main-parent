@@ -9,6 +9,7 @@ import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
 import com.ccttic.entity.post.ObjectList;
+import com.ccttic.entity.role.Organization;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,30 +154,23 @@ public class EmployeeController {
 	}
 
 	// 分页显示所有员工
-	@RequestMapping(value = "/showEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/showEmployee", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
-			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token,
-			@RequestBody EssEmployeeVo emp) {
+														 @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
-		List<EssPost> post = new ArrayList<>();
-		// redis get data
-		EmployeeVo employee = employeeService.getUserInfo(access_token);
-
-		emp.setDes(employee.getCanSeeDeps()!=null?employee.getCanSeeDeps():null);
-
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(emp.getPage());
 			page.setRows(emp.getRows());
-			Page<EssEmployeeVo> pager = employeeService.selectEmployee(page, employee.getCanSeeEmp(), emp);
+			Page<EssEmployeeVo> pager = employeeService.selectEmployee(page, emp);
 
 			rm.setData(pager);
 			rm.setMessage("获取employee数据成功");
 			rm.setStatus(0);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 
 			rm.setMessage("获取employee数据失败");
 			rm.setStatus(-1);
@@ -186,32 +180,38 @@ public class EmployeeController {
 		return rm;
 	}
 
-    @RequestMapping(value = "/showEmployeeByDepartment", method = { RequestMethod.GET, RequestMethod.POST })
-    public ResponseMsg<List<EssEmployeeVo>> showEmployeeByDepartment(@RequestParam String access_token,
-                                                         @RequestBody EssEmployeeVo emp) {
-        ResponseMsg<List<EssEmployeeVo>> responseMsg = new ResponseMsg<List<EssEmployeeVo>>();
-        // redis get data
-        EmployeeVo employee = employeeService.getUserInfo(access_token);
-        try {
-            if(emp!=null &&emp.getOrgCd()!=null){
-            List<EssEmployeeVo> employees = employeeService.selectEmployeeByDepartment(employee.getCanSeeEmp(), emp.getDepid(),emp.getEmpnm(),emp.getOrgCd());
+	@RequestMapping(value = "/showEmployeeByDepartment", method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseMsg<List<EssEmployeeVo>> showEmployeeByDepartment(@RequestParam String access_token,
+																	 @RequestBody EssEmployeeVo emp) {
+		ResponseMsg<List<EssEmployeeVo>> responseMsg = new ResponseMsg<List<EssEmployeeVo>>();
+		String empType = null;
+		EssEnterprise enterprise = null;
+		Organization organization = null;
+		EmployeeVo employee = employeeService.getUserInfo(access_token);
+		if (employee == null) {
+			responseMsg.fail("查询失败！,获取用户信息失败");
+			return responseMsg;
+		}
+		try {
+			if (emp != null && emp.getOrgCd() != null) {
+				List<EssEmployeeVo> employees = employeeService.selectEmployeeByDepartment(emp.getDepid(), emp.getEmpnm(), emp.getOrgCd());
 
-                responseMsg.setData(employees);
-                responseMsg.setMessage("获取employee数据成功");
-                responseMsg.setStatus(0);
-            }else {
-                responseMsg.setMessage("获取employee数据失败,获取组织id失败");
-                responseMsg.setStatus(-1);
-                }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
+				responseMsg.setData(employees);
+				responseMsg.setMessage("获取employee数据成功");
+				responseMsg.setStatus(0);
+			} else {
+				responseMsg.setMessage("获取employee数据失败,获取组织id失败");
+				responseMsg.setStatus(-1);
+			}
+		} catch (Exception e) {
+			responseMsg.setMessage("获取employee数据失败");
+			responseMsg.setStatus(-1);
+			logger.error("获取employee数据失败", e);
+		}
+		return responseMsg;
+	}
 
-            responseMsg.setMessage("获取employee数据失败");
-            responseMsg.setStatus(-1);
-            logger.error("获取employee数据失败", e);
-        }
-        return responseMsg;
-    }
+
 	@RequestMapping(value = "/refreshtoken", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public ResponseMsg<Map<String, Object>> refreshToken(@RequestBody TokenVo vo) {
