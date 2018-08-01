@@ -78,8 +78,12 @@ public interface EssEnterpriseMapper {
 	 *@Date:10:28 2018/7/11
 	 */
 	public EssEnterprise getEntByEmpId(@Param("id") String id)throws AppException;
-
-
+	/**
+	 *@Author:zhy
+	 *@Description:通过adminid获取企业
+	 *@Date:18:36 2018/8/1
+	 */
+	public EssEnterprise getEntByAdmin(@Param("id") String id)throws AppException;
 	/*
 	 * 企业下属车辆
 	 */

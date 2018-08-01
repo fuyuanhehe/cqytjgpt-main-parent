@@ -137,7 +137,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			// doNothing
 		} else if (Const.ADMIN.equals(emp.getEmptype())) {
 			//企业管理员,查询所属企业
-			emp.setEnt(entMapper.getEntByEmpId(emp.getId()));
+			emp.setEnt(entMapper.getEntByAdmin(emp.getId()));
 		} else if (Const.SUPER.equals(emp.getEmptype())) {
 			//组织机构管理员,查询所属组织机构
 			emp.setOrg(organizationMapper.getOrgByEmpId(emp.getId()));
