@@ -20,45 +20,44 @@
         <result column="updateDepCd" jdbcType="VARCHAR" property="updatedepcd"/>
     </resultMap>
     <select id="qryPostListCount" parameterType="java.util.Map" resultType="java.lang.Long">
-        SELECT count(*) FROM ess_department depart,ess_organization org,ess_post post WHERE depart.org_id=org.id AND
-        post.dep_id=depart.id AND post.isDeleted!=1
-
-        <if test="posts != null and posts.size>0 ">
-            and post.id in
-            <foreach collection="posts" index="index" item="item"
-                     open="(" separator="," close=")">
-                #{item.id}
-            </foreach>
+        <if test="orgId != null and orgId != ''">
+            SELECT COUNT(1) FROM ess_department depart,ess_organization
+            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND org.id =#{orgId}
         </if>
-        <if test="eptId != null and eptId != ''">
-            and depart.ept_id =#{eptId}
+        <if test="etpId != null and etpId != ''">
+            SELECT COUNT(1) FROM ess_department depart,ess_organization
+            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND etp.id =#{etpId}
         </if>
         <if test="postNm != null and postNm != ''">
-            and postNm like '%${postNm}%'
+            and post.postNm like '%${postNm}%'
         </if>
 
     </select>
     <select id="qryPostList" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPostVo">
-        SELECT post.id AS id,org.orgNm AS orgNm,org.id AS orgid,depart.depNm AS depNm,post.postCd AS postCd,post.postNm
-        AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_organization
-        org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
-
-        <if test="posts != null and posts.size>0 ">
-            and post.id in
-            <foreach collection="posts" index="index" item="item"
-                     open="(" separator="," close=")">
-                #{item.id}
-            </foreach>
+        <if test="orgId != null and orgId != ''">
+            SELECT post.id AS id,org.orgNm AS orgNm,org.id AS orgid,depart.depNm AS depNm,post.postCd AS
+            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_organization
+            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND org.id =#{orgId}
         </if>
-        <if test="eptId != null and eptId != ''">
-            and depart.ept_id =#{eptId}
+        <if test="etpId != null and etpId != ''">
+            SELECT post.id AS id,etp.etpNm AS orgNm,etp.id AS orgid,depart.depNm AS depNm,post.postCd AS
+            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_enterprise
+            etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND etp.id =#{etpId}
         </if>
-
+        <if test="employeeType == 'SUPERMAN' and org == 'true'">
+            SELECT post.id AS id,org.orgNm AS orgNm,org.id AS orgid,depart.depNm AS depNm,post.postCd AS
+            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_organization
+            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
+        </if>
+        <if test="employeeType == 'SUPERMAN' and etp == 'true'">
+            SELECT post.id AS id,etp.etpNm AS orgNm,etp.id AS orgid,depart.depNm AS depNm,post.postCd AS
+            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_enterprise
+            etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1
+        </if>
         <if test="postNm != null and postNm != ''">
             and post.postNm like '%${postNm}%'
         </if>
         order by post.createTime DESC
-
         limit ${startRecord},${pageSize}
     </select>
     <select id="getAllOrg" resultType="com.ccttic.entity.role.Organization">
@@ -101,10 +100,11 @@
 	</update>
 
     <select id="selectPostUnderDep" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPost">
-        SELECT post.id AS id,post.postNm AS postnm  FROM ess_post post LEFT JOIN ess_department department ON department.id = post.dep_id  LEFT JOIN ess_organization organization ON organization.id = department.org_id WHERE
+        SELECT post.id AS id,post.postNm AS postnm FROM ess_post post LEFT JOIN ess_department department ON
+        department.id = post.dep_id LEFT JOIN ess_organization organization ON organization.id = department.org_id WHERE
         organization.id = #{orgId}
         <if test="depId != null and depId != ''">
-        AND dep_id=#{depId}
+            AND dep_id=#{depId}
         </if>
         <if test="postNm != null and postNm != ''">
             AND postNm like '%${postNm}%'

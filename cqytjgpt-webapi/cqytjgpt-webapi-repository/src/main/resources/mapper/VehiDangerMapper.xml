@@ -734,14 +734,17 @@
 	</update>
 	<!-- 根据条件查询记录 -->
 	<select id="qryVehicleList" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.vo.VehiDangerVo">
-		SELECT danger.*,area.areaNm,org.orgNm AS orgNm ,etp.etpNm AS etpNm,CASE danger.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '其他' END vehiNoTypeText FROM ess_area AREA ,ess_organization org ,vehi_danger danger ,vehicle vehi,ess_enterprise etp
-		WHERE area.id =org.area_id AND danger.ownerOrgId=org.id AND danger.vehicle_id=vehi.id AND vehi.mgrEnterpriseId =etp.id
+		SELECT danger.id,danger.vehiNo,danger.vehiType,etp.etpNm AS ownerEnterprise,danger.scrappedState,danger.illicitState,danger.overdueExamineState
+		,danger.dangerType,danger.ownerGener,danger.ownerOrgId,danger.vehicle_id,danger.dangerTime,danger.correctTime,danger.correctState,
+		area.areaNm,org.orgNm AS orgNm ,etp.etpNm AS etpNm,CASE danger.vehiType WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '其他' END vehiNoTypeText FROM vehi_danger danger JOIN (select vd.id from vehi_danger vd,ess_organization eo where vd.ownerOrgId = eo.id
 		<if test="list != null and list.size>0 ">
-			 	 and org.id in
-					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-			        #{item.id}
-			    	</foreach>  
+			and eo.id in
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item.id}
+			</foreach>
 		</if>
+		) tmp ON tmp.id = danger.id LEFT JOIN ess_organization org  ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON area.id =org.area_id LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id LEFT JOIN ess_enterprise etp
+		ON vehi.mgrEnterpriseId =etp.id
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
@@ -772,14 +775,15 @@
 	</select>
 	<!-- 根据条件统计条数 -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM ess_area AREA ,ess_organization org ,vehi_danger danger ,vehicle vehi,ess_enterprise etp WHERE area.id =org.area_id AND danger.ownerOrgId=org.id AND danger.vehicle_id=vehi.id AND vehi.mgrEnterpriseId =etp.id
+		SELECT count(1) FROM vehi_danger danger JOIN (select vd.id from vehi_danger vd,ess_organization eo where vd.ownerOrgId = eo.id
 		<if test="list != null and list.size>0 ">
-				 and org.id in
-					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-			        #{item.id}
-			    	</foreach>  
+			and eo.id in
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item.id}
+			</foreach>
 		</if>
-			
+		) tmp ON tmp.id = danger.id LEFT JOIN ess_organization org  ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON area.id =org.area_id LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id LEFT JOIN ess_enterprise etp
+		ON vehi.mgrEnterpriseId =etp.id
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   

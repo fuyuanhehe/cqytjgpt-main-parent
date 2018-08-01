@@ -14,7 +14,7 @@ public interface IDepartmentService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<Department> findOrgDepartmentList(Pageable page, Department tment,String orgCd) throws AppException;
+	public Page<Department> findOrgDepartmentList(Pageable page, Department tment) throws AppException;
 	/**
 	 * 创建部门
 	 * @param ment

@@ -19,7 +19,7 @@ public class EssEmployeeVo extends EssEmployee {
 	//组织id
 	private String orgCd;
 	//企业id
-	private String eptId;
+	private String etpId;
 	//岗位
 	private List<EssPost> post;
 	//部门id
@@ -67,11 +67,12 @@ public class EssEmployeeVo extends EssEmployee {
 	}
 	public void setPost(List<EssPost> post) {
 		this.post = post;
-	}public String getEptId() {
-		return eptId;
 	}
-	public void setEptId(String eptId) {
-		this.eptId = eptId;
+	public String getEtpId() {
+		return etpId;
+	}
+	public void setEtpId(String eptId) {
+		this.etpId = eptId;
 	}
 	
 	public List<Department> getDes() {

@@ -3,7 +3,7 @@ package com.ccttic.cqytjgpt.webapi.interfaces.post;
 import java.util.List;
 import java.util.Map;
 
-import com.ccttic.entity.category.CategoryAttr;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
@@ -19,11 +19,11 @@ public interface IPostService {
 	 * 查询岗位
 	 * @param page
 	 * @param post
-	 * @param list 
+	 * @param list
 	 * @return
 	 * @throws Exception
 	 */
-	Page<EssPostVo> selectPost(Pageable page, EssPostVo post, List<EssPost> list) throws AppException;
+	Page<EssPostVo> selectPost(Pageable page, EssPostVo post, EmployeePermission list) throws AppException;
 
 	/**
 	 * 获取所有组织

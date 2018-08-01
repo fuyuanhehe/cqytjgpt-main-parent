@@ -120,6 +120,11 @@ public class EssEnterprise extends BaseBean implements Serializable{
     private Date createtime;
     private String orgNm;
 
+    private String account;
+	
+	private String password;
+	
+	private String email;	
     public EssEnterprise() {
 		super();
 	}
@@ -128,7 +133,8 @@ public class EssEnterprise extends BaseBean implements Serializable{
 			String lawertel, String etpsafer, String safertel, String adminEmpid, String ownertraffic,
 			String ownertransport, String etpadress, String etpregadress, String etptel, String attachmentId,
 			Integer state, String remark, Integer disporder, String referStartTime, String referEndTime,
-			String checkStartTime, String checkEndTime, String etpType, String issueCardDate, String roadTransport,Date createtime,String orgNm) {
+			String checkStartTime, String checkEndTime, String etpType, String issueCardDate, String roadTransport,
+			Date createtime, String orgNm, String account, String password, String email) {
 		super();
 		this.id = id;
 		this.orgId = orgId;
@@ -158,7 +164,12 @@ public class EssEnterprise extends BaseBean implements Serializable{
 		this.roadTransport = roadTransport;
 		this.createtime = createtime;
 		this.orgNm = orgNm;
+		this.account = account;
+		this.password = password;
+		this.email = email;
 	}
+
+
 
 	/**
      * 主键ID
@@ -534,6 +545,30 @@ public class EssEnterprise extends BaseBean implements Serializable{
 
 	public void setOrgNm(String orgNm) {
 		this.orgNm = orgNm;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
  

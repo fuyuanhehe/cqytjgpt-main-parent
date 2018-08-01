@@ -7,7 +7,7 @@ import com.ccttic.entity.BaseBean;
 /**
 功能说明：     部门基本信息
 @author  admin
-@see  com.ccttic.entity.role.Department.java
+@see  com.ccttic.entity.role.Department
 @date  2018年5月30日
 */
 public class Department extends BaseBean implements Serializable{
@@ -17,7 +17,7 @@ public class Department extends BaseBean implements Serializable{
 	// 机构编码
 	private String orgCd;
 	// 企业id
-	private String eptId;
+	private String etpId;
 	// 部门名称
 	private String depNm;
 	// 部门简称
@@ -35,12 +35,12 @@ public class Department extends BaseBean implements Serializable{
 		super();
 	}
 	
-	public Department(String orgId, String orgCd, String eptId, String depNm, String depShortNm,
+	public Department(String orgId, String orgCd, String etpId, String depNm, String depShortNm,
 			String depCd, String depDuty, String remark, String dispOrder) {
 		super();
 		this.orgId = orgId;
 		this.orgCd = orgCd;
-		this.eptId = eptId;
+		this.etpId = etpId;
 		this.depNm = depNm;
 		this.depShortNm = depShortNm;
 		this.depCd = depCd;
@@ -57,12 +57,12 @@ public class Department extends BaseBean implements Serializable{
 		this.orgId = orgId;
 	}
 
-	public String getEptId() {
-		return eptId;
+	public String getEtpId() {
+		return etpId;
 	}
 
-	public void setEptId(String eptId) {
-		this.eptId = eptId;
+	public void setEtpId(String etpId) {
+		this.etpId = etpId;
 	}
 
 	public String getDepNm() {
@@ -123,7 +123,7 @@ public class Department extends BaseBean implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Department [orgId=" + orgId + ", eptId=" + eptId + ", depNm=" + depNm 
+		return "Department [orgId=" + orgId + ", etpId=" + etpId + ", depNm=" + depNm
 				+ ", depShortNm=" + depShortNm+ ", depCd=" + depCd+ ", remark=" + remark+ ", dispOrder=" + dispOrder
 				+", orgCd=" + orgCd +", id=" + id + "]";
 	}

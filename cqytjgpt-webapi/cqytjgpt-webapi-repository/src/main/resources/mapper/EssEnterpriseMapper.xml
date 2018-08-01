@@ -189,8 +189,8 @@
 	<insert id="insertSelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
 		insert into
 		ess_enterprise
-		(id,attachment_id,etpNm,ownerTransport,etpAdress,etpTel,etpSafer,saferTel,etpLawer,lawerTel,org_id,etpRegAdress,createtime)
-		VALUES(#{id},#{attachmentId},#{etpnm},#{ownertransport},#{etpadress},#{etptel},#{etpsafer},#{safertel},#{etplawer},#{lawertel},#{orgId},#{etpregadress},#{createtime})
+		(id,attachment_id,admin_empid,etpNm,ownerTransport,etpAdress,etpTel,etpSafer,saferTel,etpLawer,lawerTel,org_id,etpRegAdress,createtime)
+		VALUES(#{id},#{attachmentId},#{adminEmpid},#{etpnm},#{ownertransport},#{etpadress},#{etptel},#{etpsafer},#{safertel},#{etplawer},#{lawertel},#{orgId},#{etpregadress},#{createtime})
 
 	</insert>
 	<select id="countByExample" parameterType="com.ccttic.entity.enterprise.EssEnterpriseExample"

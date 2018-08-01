@@ -28,13 +28,18 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	private OrganizationMapper orgMapper;
 	
 	@Override
-	public Page<Department> findOrgDepartmentList(Pageable page, Department tment, String orgCd)
+	public Page<Department> findOrgDepartmentList(Pageable page, Department tment)
 			throws AppException {
 		Page<Department> pager = new PageImpl<Department>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("orgCd", orgCd);
+		if(null != tment && null != tment.getEptId()){
+			params.put("etpId", tment.getEptId());
+		}
+		if(null != tment && null != tment.getOrgId()){
+			params.put("orgId", tment.getOrgId());
+		}
 		long totolRols = mapper.qryDepartmentListCount(params);
 		List<Department> records =mapper.qryDepartmentList(params);
 		pager.setTotalRows(totolRols);
