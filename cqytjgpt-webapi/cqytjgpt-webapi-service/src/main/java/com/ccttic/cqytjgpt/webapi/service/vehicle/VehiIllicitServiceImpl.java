@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
+import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.util.common.DateHelper;
@@ -24,9 +25,11 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 
 	@Resource
 	private VehiIllicitMapper mapper;
+	@Resource
+	private EssEmployeeMapper empMapper;
 
 	@Override
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, List<String> list) throws AppException {
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, String userType,String id) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		Calendar calendar = Calendar.getInstance();
@@ -49,11 +52,13 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		} else {
 			startDate = DateHelper.getFirstDayOfMonth1(year, 1);
 		}
+		
+		params.put("id", id);
+		params.put("userType", userType);
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
 		params.put("pageSize", page.getRows());
-		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("list", list);
+		params.put("startRecord", page.getPage());
 		params.put("mgrDepartAreaId", vehiIllicit.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehiIllicit.getVehiNo()); // 车牌号
 		params.put("etpNm", vehiIllicit.getEtpNm()); // 车所属企业
@@ -63,7 +68,8 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("pickDepartmentDesc", vehiIllicit.getPickDepartmentDesc()); // 采集机关名称
 		params.put("startTime", vehiIllicit.getStartTime()); // 违法开始时间
 		params.put("endTime", vehiIllicit.getEndTime()); // 违法结束时间
-		params.put("tableNmae", "vehi_dr_illicit"+year);
+		params.put("netTrffViolation", "net_trff_violation_"+year);
+		params.put("netTrffSurveil", "net_trff_surveil_"+year);
 		
 		long totolRol = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);

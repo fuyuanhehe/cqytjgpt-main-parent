@@ -20,6 +20,13 @@ public interface DepartmentMapper {
 	public List<Department> findOrgDepartment(@Param("orgCd") String orgCd);
 	
 	/**
+	 * 根据名字查询部门
+	 * @param params
+	 * @return
+	 * @throws AppException
+	 */
+	public Department getDepNm(String depNm);
+	/**
 	 * 
 	 * 根据条件获取部门信息总记录数
 	 * @param params
@@ -27,7 +34,6 @@ public interface DepartmentMapper {
 	 * @throws AppException
 	 */
 	public int qryDepartmentListCount(Map<String, Object> params) throws AppException;
-	
 	/**
 	 * 根据条件获取部门信息
 	 * @param params
@@ -35,12 +41,6 @@ public interface DepartmentMapper {
 	 * @throws AppException
 	 */
 	public List<Department> qryDepartmentList(Map<String, Object> params) throws AppException;
-	
-	/**
-	 * 创建部门
-	 * @param org
-	 */
-	public void createMent(@Param("ment") Department ment);
 	
 	/**
 	 * 修改部门

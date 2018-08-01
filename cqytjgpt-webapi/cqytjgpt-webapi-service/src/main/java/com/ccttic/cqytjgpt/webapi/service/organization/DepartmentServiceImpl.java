@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.DepartmentMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.exception.AppException;
-import com.ccttic.util.exception.DeleteRefusedException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
@@ -24,6 +24,8 @@ public class DepartmentServiceImpl implements IDepartmentService{
 
 	@Resource
 	private DepartmentMapper mapper;
+	@Resource
+	private OrganizationMapper orgMapper;
 	
 	@Override
 	public Page<Department> findOrgDepartmentList(Pageable page, Department tment, String orgCd)
@@ -41,12 +43,16 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	}
 
 	@Override
-	public Department createMent(Department ment, String id) throws AppException {
-		ment.setId(id);
-		ment.setOrgId(ment.getOrgCd());
-		
-		mapper.createMent(ment);
-		return ment;
+	public int createMent(Department ment){
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("depNm", ment.getDepNm());
+		int a = 0;
+		Department depNm = mapper.getDepNm(ment.getDepNm());
+		if (null != depNm) {
+			return a = 2;
+		}
+		a = orgMapper.addMent(ment);
+		return a;
 	}
 
 	@Override

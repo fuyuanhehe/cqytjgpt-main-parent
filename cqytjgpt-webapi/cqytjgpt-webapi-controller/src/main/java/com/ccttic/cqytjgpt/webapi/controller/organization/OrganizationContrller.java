@@ -296,15 +296,18 @@ public class OrganizationContrller implements Serializable {
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<Department> saveDepartment(@RequestBody Department ment) {
 		ResponseMsg<Department> resp = new ResponseMsg<Department>();
-		try {
 			String id = RandomHelper.uuid();
-			ment = departmentService.createMent(ment, id);
-			resp.setData(ment);
-			resp.success("添加成功！");
-		} catch (Exception e) {
-			resp.fail("添加失败！");
-			logger.error(e.getMessage());
-		}
+			ment.setId(id);
+			ment.setOrgId(ment.getOrgCd());
+			int a = departmentService.createMent(ment);
+			if (a==1) {
+				resp.setData(ment);
+				resp.success("添加成功！");
+			} else if (a==2){
+				resp.fail("添加失败,部门名字重复");
+			} else {
+				resp.fail("添加失败");
+			}
 		return resp;
 	}
 

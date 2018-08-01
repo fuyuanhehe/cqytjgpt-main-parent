@@ -23,7 +23,7 @@ public interface IDepartmentService {
 	 * @return
 	 * @throws AppException
 	 */
-	Department createMent(Department ment, String id) throws AppException;
+	int createMent(Department ment);
 	
 	/**
 	 * 修改部门
