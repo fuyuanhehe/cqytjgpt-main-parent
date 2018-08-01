@@ -126,4 +126,10 @@
 	<select id="getOrgByEmpId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
 		SELECT org.* FROM ess_organization org  WHERE admin_empid =#{id}
 	</select>
+	
+	<!-- 创建部门-->
+	<insert id="addMent" parameterType="com.ccttic.entity.role.Department">
+		insert into ess_department(id,org_id,ept_id,depNm,depShortNm,depCd,depDuty,remark,dispOrder) values 
+			(#{ment.id},#{ment.orgId},#{ment.eptId},#{ment.depNm},#{ment.depShortNm},#{ment.depCd},#{ment.depDuty},#{ment.remark},#{ment.dispOrder})
+	</insert>
 </mapper>

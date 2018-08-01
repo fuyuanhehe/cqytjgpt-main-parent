@@ -111,4 +111,10 @@ public interface OrganizationMapper {
 
 
 	Organization getOrgByEmpId(@Param("id")String id);
+	
+	/**
+	 * 创建部门
+	 * @param org
+	 */
+	public int addMent(@Param("ment") Department ment);
 }

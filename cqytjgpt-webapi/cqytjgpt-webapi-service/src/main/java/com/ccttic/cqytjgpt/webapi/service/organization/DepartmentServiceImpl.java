@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.DepartmentMapper;
+import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
 import com.ccttic.util.common.ObjectHelper;
@@ -23,6 +24,8 @@ public class DepartmentServiceImpl implements IDepartmentService{
 
 	@Resource
 	private DepartmentMapper mapper;
+	@Resource
+	private OrganizationMapper orgMapper;
 	
 	@Override
 	public Page<Department> findOrgDepartmentList(Pageable page, Department tment, String orgCd)
@@ -40,17 +43,16 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	}
 
 	@Override
-	public Department createMent(Department ment, String id) throws AppException {
-		ment.setId(id);
-		ment.setOrgId(ment.getOrgCd());
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("depNm", ment.getDepNm());
-		Department depNm = mapper.getDepNm(params);
+	public int createMent(Department ment){
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("depNm", ment.getDepNm());
+		int a = 0;
+		Department depNm = mapper.getDepNm(ment.getDepNm());
 		if (null != depNm) {
-			throw new RuntimeException("添加失败，部门名字重复！");
+			return a = 2;
 		}
-		mapper.createMent(ment);
-		return ment;
+		a = orgMapper.addMent(ment);
+		return a;
 	}
 
 	@Override
