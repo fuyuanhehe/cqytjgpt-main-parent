@@ -110,21 +110,18 @@
 			 ve.nature,ve.ownership,ve.owner,ve.telphone,ve.mobilephone,
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
 			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,ve.mbCar,ve.countrySideUse,
-			ve.state ,area.areaNm,ise.etpNm,attr.attrNm as vehiType
-			 FROM ( SELECT * FROM vehicle
+			 ve.state ,area.areaNm,ise.etpNm,attr.attrNm as vehiType
+			 FROM ( SELECT * FROM vehicle 
 			 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
 			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
 			 	</when>
+			 	<when test="empType == 'SUPER'">
+			 		LEFT JOIN ess_enterprise e ON mgrEnterpriseId=e.id
+					LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+			 	</when>
 			 	<otherwise>
-			 		WHERE (isDeleted is null or isDeleted !=1)
-			 		<if test="list != null and list.size()>0">
-					and mgrEnterpriseId in
-					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-			        #{item}
-			       </foreach>
-					</if>
-
+			 		WHERE mgrEnterpriseId=#{id}
 			 	</otherwise>
 			 </choose>
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
@@ -169,24 +166,19 @@
 
 	<!-- 根据企业编码获取车辆基础信息条数 -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from vehicle
+		select count(1) from vehicle 
 		 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
 			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
 			 	</when>
+			 	<when test="empType == 'SUPER'">
+			 		LEFT JOIN ess_enterprise e ON mgrEnterpriseId=e.id
+					LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+			 	</when>
 			 	<otherwise>
-			 	 where 1=1  and (isDeleted is null or isDeleted !=1)
-			 	 <if test="list != null and list.size()>0">
-			 	 and mgrEnterpriseId in
-					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-			        #{item}
-			    	</foreach>
-			 	 </if>
-
+			 		WHERE mgrEnterpriseId=#{id}
 			 	</otherwise>
 			 </choose>
-
-
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 				and mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>

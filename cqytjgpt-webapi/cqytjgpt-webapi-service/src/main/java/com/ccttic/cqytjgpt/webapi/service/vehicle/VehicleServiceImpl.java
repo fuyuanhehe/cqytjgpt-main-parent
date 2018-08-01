@@ -40,13 +40,13 @@ public class VehicleServiceImpl implements IVehicleService {
 	private CategoryMapper categoryMapper;
 
 	@Override
-	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo vehicle) throws AppException {
+	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo vehicle,String id) throws AppException {
 		Page<Vehicle> pager = new PageImpl<Vehicle>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("entId", vehicle.getMgrEnterpriseId()); // 企业id
-		params.put("list", vehicle.getList()); // 企业id
+		params.put("id", id); 
 		params.put("mgrDepartAreaId", vehicle.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehicle.getVehiNo()); // 车牌号
 		params.put("vehiNoType", vehicle.getVehiNoType()); // 车牌种类
