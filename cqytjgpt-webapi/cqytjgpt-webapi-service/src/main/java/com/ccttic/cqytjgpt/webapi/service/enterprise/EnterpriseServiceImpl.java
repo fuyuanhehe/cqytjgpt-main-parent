@@ -47,9 +47,10 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	public Map<String, Object> selectEnterpriseById(Map<String, String> map) {
 		EssEnterprise essEnterprise = enterpriseMapper.selectByPrimaryKey(map.get("id"));
 		EssEmployee essEmployee = employeeMapper.selectByPrimaryKey(essEnterprise.getAdminEmpid());
+		essEnterprise.setAccount(essEmployee.getAccount());
+		essEnterprise.setPassword(essEmployee.getPassword());
 		Map<String, Object> result = new HashMap<>();
 		result.put("EssEnterprise", essEnterprise);
-		result.put("EssEmployee", essEmployee);
 		return result;
 	}
 
