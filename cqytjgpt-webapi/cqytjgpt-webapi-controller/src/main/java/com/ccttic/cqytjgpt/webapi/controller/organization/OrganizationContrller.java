@@ -273,7 +273,7 @@ public class OrganizationContrller implements Serializable {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			Page<Department> pager = departmentService.findOrgDepartmentList(page, tment, tment.getOrgCd());
+			Page<Department> pager = departmentService.findOrgDepartmentList(page, tment);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");

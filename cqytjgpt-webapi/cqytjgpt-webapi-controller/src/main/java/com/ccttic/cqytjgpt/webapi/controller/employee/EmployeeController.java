@@ -137,6 +137,7 @@ public class EmployeeController {
 		EmployeeVo employee;
 		try {
 			employee = employeeService.findEmployeeByAccount(username);
+			employee.setPassword(null);
 			redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 			if (employee == null) {
 				response.fail("获取用户信息失败!");

@@ -409,8 +409,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		if (null != emp.getOrgCd()) {
 			params.put("orgId", emp.getOrgCd());//组织id
 		}
-		if (null !=emp.getEptId())  {
-			params.put("eptId", emp.getEptId());// 企业id
+		if (null !=emp.getEtpId())  {
+			params.put("eptId", emp.getEtpId());// 企业id
 		}
 		params.put("pageSize", page.getRows() + "");
 		params.put("startRecord", (page.getPage() - 1) * page.getRows() + "");
