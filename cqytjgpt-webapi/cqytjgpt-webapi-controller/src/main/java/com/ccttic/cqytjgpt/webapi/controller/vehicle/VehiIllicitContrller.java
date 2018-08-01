@@ -23,6 +23,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.vo.PageVehiIllicitVo;
 import com.ccttic.util.annotation.Resource;
@@ -73,13 +74,16 @@ public class VehiIllicitContrller implements Serializable{
 			// 从redis获取用户信息 
 			EmployeeVo vo = (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			EssEnterprise ent = null;
+			Organization org = null;
 			if (null != vo) {
 				ent = vo.getEnt();
+				org = vo.getOrg();
 			} else {
 				EmployeeVo employee;
 				try {
 					employee = employeeService.findEmployeeByAccount(username);
 					ent = employee.getEnt();
+					org = employee.getOrg();
 					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -93,13 +97,13 @@ public class VehiIllicitContrller implements Serializable{
 				userType = Const.SUPERMAN;
 			} else if (Const.SUPER.equals(vo.getEmptype())) {
 				userType = Const.SUPER;
-				if (null != ent) {
-					id = ent.getId();
+				if (null != org) {
+					id = org.getOrgCd();
 				}
 			} else if (Const.ADMIN.equals(vo.getEmptype())) {
 				userType = Const.ADMIN;
 				if (null != ent) {
-					id = ent.getOrgId();
+					id = ent.getId();
 				}
 			}
 			

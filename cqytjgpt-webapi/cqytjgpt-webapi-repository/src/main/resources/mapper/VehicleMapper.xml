@@ -111,51 +111,51 @@
 			 ve.adress,ve.permitCar,ve.firstReciveTime,ve.mgrDepart,ve.mgrDepartAreaId,ve.mgrEnterpriseId,
 			 ve.nextExamineTime,ve.effectStartTime,ve.effectEndTime,ve.examineEffectEndTime,ve.scoreTotal,ve.mbCar,ve.countrySideUse,
 			 ve.state ,area.areaNm,ise.etpNm,attr.attrNm as vehiType
-			 FROM ( SELECT * FROM vehicle 
+			 FROM ( SELECT v.* FROM vehicle v
 			 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
-			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
+			 		WHERE 1=1 and (v.isDeleted is null or v.isDeleted !=1)
 			 	</when>
 			 	<when test="empType == 'SUPER'">
-			 		LEFT JOIN ess_enterprise e ON mgrEnterpriseId=e.id
+			 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
 					LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
 			 	</when>
 			 	<otherwise>
-			 		WHERE mgrEnterpriseId=#{id}
+			 		WHERE v.mgrEnterpriseId=#{id}
 			 	</otherwise>
 			 </choose>
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
-				and mgrDepartAreaId = #{mgrDepartAreaId}
+				and v.mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>
 			<if test="etpNm != null and etpNm != ''">
-				and etpNm = #{etpNm}
+				and v.etpNm = #{etpNm}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and vehiNo = #{vehiNo}
+				and v.vehiNo = #{vehiNo}
 			</if>
 			<if test="vehiNoType != null and vehiNoType != ''">
-				and vehiNoType = #{vehiNoType}
+				and v.vehiNoType = #{vehiNoType}
 			</if>
             <if test="vehiType != null and vehiType != ''">
-                and vehiType = #{vehiType}
+                and v.vehiType = #{vehiType}
             </if>
             <if test="state != null and state != ''">
-				and state like CONCAT(CONCAT('%',#{state},'%'))
+				and v.state like CONCAT(CONCAT('%',#{state},'%'))
 			</if>
 			<if test="effectStartTime != null and effectStartTime != ''">
-				and (left(examineEffectEndTime,10) &gt;= #{effectStartTime})
+				and (left(v.examineEffectEndTime,10) &gt;= #{effectStartTime})
 			</if>
 			<if test="effectEndTime != null and effectEndTime != ''">
-				and (left(examineEffectEndTime,10) &lt;= #{effectEndTime})
+				and (left(v.examineEffectEndTime,10) &lt;= #{effectEndTime})
 			</if>
 			<if test="startTime != null and startTime != ''">
-				and left(firstReciveTime,10) &gt;= #{startTime}
+				and left(v.firstReciveTime,10) &gt;= #{startTime}
 			</if>
 			<if test="endTime != null and endTime != ''">
-				and left(firstReciveTime,10) &lt;= #{endTime}
+				and left(v.firstReciveTime,10) &lt;= #{endTime}
 			</if>
 
-			order by firstReciveTime desc
+			order by v.firstReciveTime desc
 			limit ${startRecord},${pageSize}
 			)ve
 			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
@@ -231,7 +231,7 @@
 		net.wfsj as illicitTime,net.wfxw as illicit,net.wfdz as illicitAdress,tablei.illegal_name AS illicitDesc,CASE net.CLBJ WHEN '0' THEN '未处理'
 		WHEN '1' THEN '已处理' ELSE '' END disposeSign,net.fkje AS illicitAmount,net.WFJFS as illicitScore,CASE net.CFZL WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
 		WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-		CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState,net.cjjgmc as pickDepartmentDesc
+		CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState,net.cjjgmc as pickDepartmentDesc,area.areaNm
 		FROM (SELECT * FROM (SELECT vio.id,vio.HPZL,vio.HPHM,vio.WFDZ,vio.WFXW,NULL AS CLBJ,vio.JKBJ,vio.CLJG AS CJJG,vio.CLJGMC AS CJJGMC,vio.WFSJ,vio.FKJE,vio.CLSJ,vio.JDSBH,vio.WFBH,vio.JSZH,vio.WFJFS,vio.DSR,vio.CFZL 
 		FROM ${netTrffViolation} vio WHERE vio.hphm=CONCAT('渝',#{vehiNo}) AND vio.hpzl=#{vehiNoType} UNION all
 		SELECT sur.id,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 

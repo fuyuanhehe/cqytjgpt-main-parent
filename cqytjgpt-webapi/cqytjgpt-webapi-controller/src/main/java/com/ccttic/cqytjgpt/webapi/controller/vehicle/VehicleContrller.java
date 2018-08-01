@@ -100,13 +100,16 @@ public class VehicleContrller implements Serializable {
 			// 从redis获取用户信息 
 			EmployeeVo vo = (EmployeeVo)  redisService.get(username+Const.TOKEN);
 			EssEnterprise ent = null;
+			Organization org = null;
 			if (null != vo) {
 				ent = vo.getEnt();
+				org = vo.getOrg();
 			} else {
 				EmployeeVo employee;
 				try {
 					employee = employeeService.findEmployeeByAccount(username);
 					ent = employee.getEnt();
+					org = employee.getOrg();
 					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -119,13 +122,13 @@ public class VehicleContrller implements Serializable {
 				vehicle.setEmpType(Const.SUPERMAN);
 			} else if (Const.SUPER.equals(vo.getEmptype())) {
 				vehicle.setEmpType(Const.SUPER);
-				if (null != ent) {
-					id = ent.getId();
+				if (null != org) {
+					id = org.getOrgCd();
 				}
 			} else if (Const.ADMIN.equals(vo.getEmptype())) {
 				vehicle.setEmpType(Const.ADMIN);
 				if (null != ent) {
-					id = ent.getOrgId();
+					id = ent.getId();
 				}
 			}
 			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle,id);
