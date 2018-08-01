@@ -38,11 +38,12 @@
     <insert id="insertScreenTotal" parameterType="List">
      INSERT INTO screen_areaInfo_total (`id`, `orgNm`, `drivers`, `cars`,
       `monthDriverDangers`, `monthCarDangers`, `monthTotal`, `driverDangers`,
-      `carDangers`) VALUES
+      `carDangers`,total,monthEtpDangers,enterprises,etpDangers) VALUES
         <foreach collection="list" item="item" separator=",">
            (replace(uuid(),'-',''),#{item.orgNm},#{item.drivers},#{item.cars},
             #{item.monthDriverDangers},#{item.monthCarDangers},#{item.monthTotal},
-            #{item.driverDangers},#{item.carDangers})
+            #{item.driverDangers},#{item.carDangers},#{item.total},#{item.monthEtpDangers},
+            #{item.enterprises},#{item.etpDangers})
         </foreach>
     </insert>
 
