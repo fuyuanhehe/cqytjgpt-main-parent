@@ -2,8 +2,6 @@ package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +10,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ccttic.entity.employee.Employee;
-import com.ccttic.entity.role.vo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +34,11 @@ import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.vo.InputVehiVo;
+import com.ccttic.entity.role.vo.PageVehiIllicitVo;
+import com.ccttic.entity.role.vo.PageVehicleVo;
+import com.ccttic.entity.role.vo.VehicleList;
+import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -91,36 +92,43 @@ public class VehicleContrller implements Serializable {
 				resp.fail("access_token 为空");
 				return resp;
 			}
-
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
-			List<String> list = new ArrayList<String>();
-			List<EssEnterprise> ent = null;
-			String empType = null;
-			String username = JWTUtil.getUsername(access_token);
-
-
-
-				EmployeeVo vo =null;
+			
+			String username=JWTUtil.getUsername(access_token);
+			// 从redis获取用户信息 
+			EmployeeVo vo = (EmployeeVo)  redisService.get(username+Const.TOKEN);
+			EssEnterprise ent = null;
+			if (null != vo) {
+				ent = vo.getEnt();
+			} else {
+				EmployeeVo employee;
 				try {
-					vo = employeeService.findEmployeeByAccount(username);
-					empType = vo.getEmptype();
+					employee = employeeService.findEmployeeByAccount(username);
+					ent = employee.getEnt();
+					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-
-            if(null != vo && null!=vo.getCanSeeEnt()) {
-				for (EssEnterprise essEnterprise : vo.getCanSeeEnt()) {
-					list.add(essEnterprise.getId());
+				
+			}
+			String id = null;
+			 // 根据登录账号类型判断
+			if (Const.SUPERMAN.equals(vo.getEmptype())) {
+				vehicle.setEmpType(Const.SUPERMAN);
+			} else if (Const.SUPER.equals(vo.getEmptype())) {
+				vehicle.setEmpType(Const.SUPER);
+				if (null != ent) {
+					id = ent.getId();
+				}
+			} else if (Const.ADMIN.equals(vo.getEmptype())) {
+				vehicle.setEmpType(Const.ADMIN);
+				if (null != ent) {
+					id = ent.getOrgId();
 				}
 			}
-
-			vehicle.setList(list);
-			vehicle.setEmpType(empType);
-			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle);
+			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle,id);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");

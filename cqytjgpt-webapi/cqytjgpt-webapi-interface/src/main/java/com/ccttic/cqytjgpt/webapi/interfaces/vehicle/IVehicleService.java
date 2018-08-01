@@ -25,7 +25,7 @@ public interface IVehicleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo driver) throws AppException;
+	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo driver,String id) throws AppException;
 
 	/**
 	 * 获取指定车辆基础信息

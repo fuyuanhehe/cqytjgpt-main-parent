@@ -95,7 +95,8 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		// 第一步，向employee表 添加账号
 		int i = 1;
 		EssEmployee employee = new EssEmployee();
-		employee.setId(RandomHelper.uuid());
+		String id = RandomHelper.uuid();
+		employee.setId(id);
 		employee.setEmpstatus(EssEmployeeStatus.START.getValue());
 		employee.setEmail(vo.getEmail());
 		employee.setAccount(vo.getAccount());
@@ -110,7 +111,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		// 第二步，添加企业信息
 		EssEnterprise en = new EssEnterprise();
 		en.setId(RandomHelper.uuid());
-		en.setAdminEmpid(RandomHelper.uuid());
+		en.setAdminEmpid(id);
 		en.setAttachmentId(vo.getAttachmentId());
 		en.setEtpnm(vo.getEtpnm()); // 企业名称
 		en.setOwnertransport(vo.getOwnertransport()); // 所属区域
