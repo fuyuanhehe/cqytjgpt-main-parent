@@ -616,8 +616,23 @@
 				 FROM ${netTrffViolation} vio ) net1 on net1.hpzl = ve.vehiNoType and net1.hphm = CONCAT('渝',ve.vehiNo)
 		   UNION all
 		   select * from (
-		    SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
-		    JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id ) ve 
+		   		<choose>
+		   			<when test="userType == 'SUPERMAN'">
+		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
+		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
+		   			</when>
+		   			<when test="userType == 'SUPER'">
+		   				SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT ${startRecord},${pageSize} ) 
+						temp on ve.id = temp.id  LEFT JOIN ess_enterprise e ON ve.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+		   			</when>
+		   			<otherwise>
+		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
+			    		JOIN ( SELECT id FROM vehicle v WHERE v.mgrEnterpriseId=#{id} LIMIT ${startRecord},${pageSize} ) 
+						temp on ve.id = temp.id WHERE ve.mgrEnterpriseId=#{id}
+		   			</otherwise>
+		   		</choose>
+		    
+		    ) ve 
 		   LEFT JOIN(	
 		      SELECT sur.id ,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
 					FROM ${netTrffSurveil} sur WHERE sur.clbj='0' ) net2 on net2.hpzl = ve.vehiNoType and net2.hphm = CONCAT('渝', ve.vehiNo)
@@ -684,8 +699,22 @@
 				 FROM ${netTrffViolation} vio ) net1 on net1.hpzl = ve.vehiNoType and net1.hphm = CONCAT('渝',ve.vehiNo)
 		   UNION all
 		   select * from (
-		    SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
-		    JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id ) ve 
+		   <choose>
+		   			<when test="userType == 'SUPERMAN'">
+		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
+		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
+		   			</when>
+		   			<when test="userType == 'SUPER'">
+		   				SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT ${startRecord},${pageSize} ) 
+						temp on ve.id = temp.id  LEFT JOIN ess_enterprise e ON ve.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+		   			</when>
+		   			<otherwise>
+		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
+			    		JOIN ( SELECT id FROM vehicle v WHERE v.mgrEnterpriseId=#{id} LIMIT ${startRecord},${pageSize} ) 
+						temp on ve.id = temp.id WHERE ve.mgrEnterpriseId=#{id}
+		   			</otherwise>
+		   		</choose>
+		    ) ve 
 		   LEFT JOIN(	
 		      SELECT sur.id ,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
 					FROM ${netTrffSurveil} sur WHERE sur.clbj='0' ) net2 on net2.hpzl = ve.vehiNoType and net2.hphm = CONCAT('渝', ve.vehiNo)
