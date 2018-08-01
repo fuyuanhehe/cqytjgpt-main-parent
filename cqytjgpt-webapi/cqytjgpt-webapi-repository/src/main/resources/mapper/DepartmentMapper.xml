@@ -27,8 +27,8 @@
 	<!-- 通过机构代码获取部门总条数 -->
 	<select id="qryDepartmentListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select COUNT(1)from  ess_department  WHERE 1=1
-		<if test="orgCd != null and orgCd != ''">
-			AND org_id=#{orgCd}
+		<if test="orgId != null and orgId != ''">
+			AND org_id=#{orgId}
 		</if>
 		<if test="etpId != null and etpId != ''">
 			AND ept_id=#{etpId}
