@@ -34,8 +34,8 @@ public class DepartmentServiceImpl implements IDepartmentService{
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		if(null != tment && null != tment.getEtpId()){
-			params.put("etpId", tment.getEtpId());
+		if(null != tment && null != tment.getEptId()){
+			params.put("etpId", tment.getEptId());
 		}
 		if(null != tment && null != tment.getOrgId()){
 			params.put("orgId", tment.getOrgId());
