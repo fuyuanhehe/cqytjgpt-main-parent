@@ -15,8 +15,8 @@
 	<!-- 通过机构代码获取部门信息 -->
 	<select id="qryDepartmentList" parameterType="java.util.Map" resultMap="Department">
 		select * from  ess_department  WHERE 1=1
-		<if test="orgCd != null and orgCd != ''">
-			AND org_id=#{orgCd}
+		<if test="orgId != null and orgId != ''">
+			AND org_id=#{orgId}
 		</if>
 		<if test="etpId != null and etpId != ''">
 			AND ept_id=#{etpId}
