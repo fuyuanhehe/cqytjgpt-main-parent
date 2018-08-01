@@ -50,14 +50,14 @@ public class PostServiceImpl implements IPostService {
 			params.put("employeeType",Const.SUPERMAN);
 			params.put("org","true");
 		}else{
-			params.put("employeeType",null);
+			params.put("employeeType",Const.SUPERMAN);
 			params.put("org",null);
 		}
 		if (null!= employeePermission && Const.SUPERMAN.equals(employeePermission.getEmployeeType()) && "false".equals(post.getOrgNm ())){
 			params.put("employeeType",Const.SUPERMAN);
 			params.put("etp","true");
 		}else{
-			params.put("employeeType",null);
+			params.put("employeeType",Const.SUPERMAN);
 			params.put("etp",null);
 		}
 		params.put("pageSize", page.getRows() + "");

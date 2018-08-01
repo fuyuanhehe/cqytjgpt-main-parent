@@ -21,12 +21,28 @@
     </resultMap>
     <select id="qryPostListCount" parameterType="java.util.Map" resultType="java.lang.Long">
         <if test="orgId != null and orgId != ''">
-            SELECT COUNT(1) FROM ess_department depart,ess_organization
-            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND org.id =#{orgId}
+            SELECT COUNT(1) FROM ess_department
+            depart,ess_organization
+            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND org.id
+            =#{orgId}
         </if>
         <if test="etpId != null and etpId != ''">
-            SELECT COUNT(1) FROM ess_department depart,ess_organization
-            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND etp.id =#{etpId}
+            SELECT COUNT(1) FROM ess_department
+            depart,ess_enterprise
+            etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND etp.id
+            =#{etpId}
+        </if>
+        <if test="employeeType == 'SUPERMAN'">
+            <if test="org == 'true'">
+                SELECT COUNT(1) FROM ess_department
+                depart,ess_organization
+                org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
+            </if>
+            <if test="etp == 'true'">
+                SELECT COUNT(1) FROM ess_department
+                depart,ess_enterprise
+                etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1
+            </if>
         </if>
         <if test="postNm != null and postNm != ''">
             and post.postNm like '%${postNm}%'
@@ -36,23 +52,31 @@
     <select id="qryPostList" parameterType="java.util.Map" resultType="com.ccttic.entity.post.EssPostVo">
         <if test="orgId != null and orgId != ''">
             SELECT post.id AS id,org.orgNm AS orgNm,org.id AS orgid,depart.depNm AS depNm,post.postCd AS
-            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_organization
-            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND org.id =#{orgId}
+            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department
+            depart,ess_organization
+            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND org.id
+            =#{orgId}
         </if>
         <if test="etpId != null and etpId != ''">
             SELECT post.id AS id,etp.etpNm AS orgNm,etp.id AS orgid,depart.depNm AS depNm,post.postCd AS
-            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_enterprise
-            etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND etp.id =#{etpId}
+            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department
+            depart,ess_enterprise
+            etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1 AND etp.id
+            =#{etpId}
         </if>
-        <if test="employeeType == 'SUPERMAN' and org == 'true'">
-            SELECT post.id AS id,org.orgNm AS orgNm,org.id AS orgid,depart.depNm AS depNm,post.postCd AS
-            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_organization
-            org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
-        </if>
-        <if test="employeeType == 'SUPERMAN' and etp == 'true'">
-            SELECT post.id AS id,etp.etpNm AS orgNm,etp.id AS orgid,depart.depNm AS depNm,post.postCd AS
-            postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department depart,ess_enterprise
-            etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1
+        <if test="employeeType == 'SUPERMAN'">
+            <if test="org == 'true'">
+                SELECT post.id AS id,org.orgNm AS orgNm,org.id AS orgid,depart.depNm AS depNm,post.postCd AS
+                postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department
+                depart,ess_organization
+                org,ess_post post WHERE depart.org_id=org.id AND post.dep_id=depart.id AND post.isDeleted!=1
+            </if>
+            <if test="etp == 'true'">
+                SELECT post.id AS id,etp.etpNm AS orgNm,etp.id AS orgid,depart.depNm AS depNm,post.postCd AS
+                postCd,post.postNm AS postNm,post.description AS description ,post.dep_id AS depId FROM ess_department
+                depart,ess_enterprise
+                etp,ess_post post WHERE depart.ept_id=etp.id AND post.dep_id=depart.id AND post.isDeleted!=1
+            </if>
         </if>
         <if test="postNm != null and postNm != ''">
             and post.postNm like '%${postNm}%'
