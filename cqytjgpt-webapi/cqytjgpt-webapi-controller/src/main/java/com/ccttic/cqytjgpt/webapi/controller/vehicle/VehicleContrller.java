@@ -363,8 +363,7 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value = "/qryOneVehicleInfoList", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseMsg<List<JSON>> qryOneVehicleInfoList(HttpServletRequest request,
-			@RequestParam String access_token) {
+	public ResponseMsg<List<JSON>> qryOneVehicleInfoList(HttpServletRequest request,@RequestParam String access_token,@RequestBody String areaCd) {
 		ResponseMsg<List<JSON>> resp = new ResponseMsg<List<JSON>>();
 		if (StringUtils.isEmpty(access_token)) {
 			resp.fail("access_token 为空");
@@ -381,12 +380,14 @@ public class VehicleContrller implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		Map<String, String> map = JsonUtil.jsonToMap(areaCd);
+		String areas = map.get("areaCd");
 		List<JSON> list = new ArrayList<JSON>();
 
 		Area area = null;
 
 			if ("SUPERMAN".equals(vo.getEmptype()) || "0".equals(vo.getOrg().getOrgType())) {
-				String s = frign.vehicleInfoList(token, "0", "500000");
+				String s = frign.vehicleInfoList(token, "0", areas);
 				list.add(JSON.parseObject(s));
 		} else if ("ADMIN".equals(vo.getEmptype()) && "1".equals(vo.getOrg().getOrgType())) {
 				List<Organization> orgs = vo.getCanSeeOrgs();
