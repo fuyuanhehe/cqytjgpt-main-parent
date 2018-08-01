@@ -93,6 +93,7 @@ public class WarningServiceImpl implements IWarningService{
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("empType", vo.getEmpType()); // 账号类型
 		params.put("list", organizations); // 企业id
+		params.put("driverName", null!=vo.getDrivername()?vo.getDrivername():null);
 		params.put("areaId", vo.getAreaCd());// 区域
 		params.put("etpId", vo.getEtpId());// 公司
 		params.put("fullStudyState", vo.getFullstudystate()==1?true:false);

@@ -664,6 +664,9 @@ GROUP BY
                 #{item.id}
             </foreach>
         </if>
+        <if test="driverName != null and driverName != ''">
+            and danger.driverName = #{driverName}
+        </if>
         <if test="areaId != null and areaId != ''">
             and area.id = #{areaId}
         </if>
