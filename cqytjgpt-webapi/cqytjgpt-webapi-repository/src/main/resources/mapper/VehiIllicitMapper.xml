@@ -601,8 +601,8 @@
 		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
 		   			</when>
 		   			<when test="userType=='SUPER'">
-		   				SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id  LEFT JOIN ess_enterprise e ON ve.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
+						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
 		   			</when>
 		   			<otherwise>
 		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
@@ -622,8 +622,8 @@
 		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
 		   			</when>
 		   			<when test="userType == 'SUPER'">
-		   				SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id  LEFT JOIN ess_enterprise e ON ve.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
+						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
 		   			</when>
 		   			<otherwise>
 		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
@@ -684,8 +684,8 @@
 		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
 		   			</when>
 		   			<when test="userType == 'SUPER'">
-		   				SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id  LEFT JOIN ess_enterprise e ON ve.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
+						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
 		   			</when>
 		   			<otherwise>
 		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
@@ -705,8 +705,8 @@
 		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
 		   			</when>
 		   			<when test="userType == 'SUPER'">
-		   				SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id  LEFT JOIN ess_enterprise e ON ve.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
+						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
 		   			</when>
 		   			<otherwise>
 		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
