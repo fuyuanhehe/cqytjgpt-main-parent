@@ -132,9 +132,7 @@ public class CCtticWebUtils {
         caled.set(Calendar.SECOND, 0);
         //得到两个日期相差的天数
         int days = ((int)(caled.getTimeInMillis()/1000)-(int)(calst.getTimeInMillis()/1000))/3600/24;
-        if (days<0){
-            days = - days;
-        }
+
         map.put("days",days);
         if (60<days && days<=90 && "driver".equals(user)){
             map.put("rank",Const.THREE);
