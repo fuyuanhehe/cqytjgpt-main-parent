@@ -283,57 +283,73 @@
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
 	<select id="seDr_illicitPages"  resultType="com.ccttic.entity.drivers.vo.DriverillicitVo" parameterType="java.util.List">
-        SELECT net.id,d.idcard,d.permicar AS permitcar,d.mgrdepart,d.mgrdepartareaid, net.WFSJ AS illicittime ,net.WFJFS AS illicitscore ,net.DSR AS name ,ict.illegal_name AS illicit,net.CLJGMC AS pickdepartmentdesc,net.id,d.permiCar,d.mgrDepart,d.mgrDepartareaid ,ent.etpNm
-        FROM net_trff_violation_2018 net LEFT JOIN driver d ON net.JSZH =d.idcard LEFT JOIN ess_area a ON a.id  = d.mgrDepartAreaId LEFT JOIN ess_enterprise ent ON ent.id =d.mgrEnterpriseId LEFT JOIN illegal_comparison_table ict ON ict.code = net.WFXW
-        where 1=1
+        SELECT illicit.id,illicit.JSZH as idcard,illicit.mgrdepartareaid,illicit.illicitdesc AS illicit,illicittime ,illicit.illicitScore ,illicit.DSR AS name ,illicit.illicit,illicit.pickdepartmentdesc,
+        illicit.areaNm,illicit.mgrDepartareaid,illicit.etpNm ,illicit.illicitamount,illicit.illicitadress
+        FROM illicit_2018 illicit JOIN (select id FROM illicit_2018 where (disposeSign ="" OR disposeSign IS NULL )
         <if test="list!= null and list.size>0 ">
-         AND  d.mgrDepartAreaId IN
-          <foreach collection="list" index="index" item="item" open="("
-                                             separator="," close=")">
-            #{item}
-           </foreach>
-        </if>
-        <if test="etpId!= null and etpId !='' ">
-            AND ent.id = #{etpId}
-        </if>
-        <if test="id!= null and id !='' ">
-            AND net.id = #{id}
-        </if>
-        <if test="idCard!= null and idCard !='' ">
-            AND net.JSZH = #{idCard}
-        </if>
-        <if test="name!= null and name !='' ">
-            AND d.name LIKE '%${name}%'
-        </if>
-
-        LIMIT ${startRecord} ,${pageSize}
-
-	</select>
-	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
-	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
-        SELECT COUNT(1)
-        FROM net_trff_violation_2018 net ,driver d
-        where net.JSZH =d.idcard
-        <if test="list!= null and list.size>0 ">
-           AND d.mgrDepartAreaId IN
+            AND  mgrDepartAreaId IN
             <foreach collection="list" index="index" item="item" open="("
                      separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="etpId!= null and etpId !='' ">
-            AND ent.id = #{etpId}
+            AND mgrEnterpriseId = #{etpId}
         </if>
         <if test="id!= null and id !='' ">
-            AND net.id = #{id}
+            AND id = #{id}
         </if>
         <if test="idCard!= null and idCard !='' ">
-            AND net.JSZH = #{idCard}
+            AND JSZH = #{idCard}
         </if>
         <if test="name!= null and name !='' ">
-            AND d.name LIKE '%${name}%'
+            AND dsr LIKE '%${name}%'
+        </if>
+        <if test="etpNm!= null and etpNm !='' ">
+            AND etpNm LIKE '%${name}%'
+        </if>
+        <if test="startTime!= null and startTime !='' ">
+            AND illicittime &gt;= #{startTime}
+        </if>
+        <if test="endTime!= null and endTime !='' ">
+            AND etpNm &lt;= #{endTime}
         </if>
 
+         LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id = illicit.id
+
+
+	</select>
+	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
+	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
+        select count(id) FROM illicit_2018 where (disposeSign ="" OR disposeSign IS NULL )
+        <if test="list!= null and list.size>0 ">
+            AND  mgrDepartAreaId IN
+            <foreach collection="list" index="index" item="item" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="etpId!= null and etpId !='' ">
+            AND mgrEnterpriseId = #{etpId}
+        </if>
+        <if test="id!= null and id !='' ">
+            AND id = #{id}
+        </if>
+        <if test="idCard!= null and idCard !='' ">
+            AND JSZH = #{idCard}
+        </if>
+        <if test="name!= null and name !='' ">
+            AND dsr LIKE '%${name}%'
+        </if>
+        <if test="etpNm!= null and etpNm !='' ">
+            AND etpNm LIKE '%${name}%'
+        </if>
+        <if test="startTime!= null and startTime !='' ">
+            AND illicittime &gt;= #{startTime}
+        </if>
+        <if test="endTime!= null and endTime !='' ">
+            AND etpNm &lt;= #{endTime}
+        </if>
 	</select>
 
 	<!-- 一对多查询关联 -->
