@@ -119,11 +119,7 @@ public class TaskCarService implements ITaskCarService {
 			map = CCtticWebUtils.getDateSpace(new Date(), effectEndTime, "scrapped");
 			scrappedRank = (Integer) map.get("rank");
 			sortList.add(scrappedRank);
-			if (scrappedRank == Const.ZERO) {
-				vr.setScrappedstate(Const.ZERO);
-			} else {
-				vr.setScrappedstate(Const.ONE);
-			}
+			vr.setScrappedstate(scrappedRank);
 			scrappedDays = (Integer) map.get("days");
 		} else {
 			vr.setScrappedstate(null);
@@ -133,11 +129,7 @@ public class TaskCarService implements ITaskCarService {
 			map = CCtticWebUtils.getDateSpace(new Date(), examineEffectEndTime, "inspection");
 			overdueExamineRank = (Integer) map.get("rank");
 			sortList.add(overdueExamineRank);
-			if (overdueExamineRank == Const.ZERO) {
-				vr.setOverdueexaminestate(Const.ZERO);
-			} else {
-				vr.setOverdueexaminestate(Const.ONE);
-			}
+			vr.setOverdueexaminestate(overdueExamineRank);
 			overdueExamineDays = (Integer) map.get("days");
 		} else {
 			vr.setOverdueexaminestate(null);
@@ -150,13 +142,13 @@ public class TaskCarService implements ITaskCarService {
 		int countMore15 =0;
 		int countMore30 =0;
 		int totalIllegalNum = 0;
-		for (int x = 0; x < 4; x++) {
-			vehiDrIllicit= "vehi_dr_illicit" + (year - x);
+		//for (int x = 0; x < 4; x++) {
+			vehiDrIllicit= "illicit" + (year);
 			List<Integer> days = vehiIllicitMapper.getIllegalDays(vehiDrIllicit.toString(), vehicle.getVehiNo(), vehicle.getVehiNoType());
 			totalDays.addAll(days);
 			int illegalNum = vehiIllicitMapper.getIllegalNum(vehiDrIllicit.toString(), vehicle.getVehiNo(), vehicle.getVehiNoType());
 			totalIllegalNum += illegalNum;
-		}
+		//}
 		if (totalIllegalNum>=3){
 			vr.setIllicitstate(Const.ONE);
 			illegalRank = Const.THREE;

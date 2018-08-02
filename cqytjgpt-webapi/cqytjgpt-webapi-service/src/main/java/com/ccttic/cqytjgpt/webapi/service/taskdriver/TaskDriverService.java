@@ -122,11 +122,7 @@ public class TaskDriverService implements ITaskDriverService {
 			result = CCtticWebUtils.getDateSpace(new Date(), effectendtime, "driver");
 			overdueproofRank = (int) result.get("rank");
 			sortList.add(overdueproofRank);
-			if (overdueproofRank == 0) {
-				dr.setOverdueproofstate(Const.ZERO);
-			} else {
-				dr.setOverdueproofstate(Const.ONE);
-			}
+			dr.setOverdueproofstate(overdueproofRank);
 			overdueproofDays = (int) result.get("days");
 		} else {
 			dr.setOverdueproofstate(null);
@@ -136,11 +132,7 @@ public class TaskDriverService implements ITaskDriverService {
 			result = CCtticWebUtils.getDateSpace(new Date(), examineeffectendtime, "driver");
 			overdueexaineRank = (int) result.get("rank");
 			sortList.add(overdueexaineRank);
-			if (overdueexaineRank == 0) {
-				dr.setOverdueexaminestate(Const.ZERO);
-			} else {
-				dr.setOverdueexaminestate(Const.ONE);
-			}
+			dr.setOverdueexaminestate(overdueexaineRank);
 			overdueexaineDays = (int) result.get("days");
 		} else {
 			dr.setOverdueexaminestate(null);
