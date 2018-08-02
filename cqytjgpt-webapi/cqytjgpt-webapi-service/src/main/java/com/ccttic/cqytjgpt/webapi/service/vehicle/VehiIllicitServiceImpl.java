@@ -72,6 +72,11 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		
 		long totolRol = mapper.qryVehiIllicitListCount(params);;
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
+		for (VehiIllicit vehi : records) {
+			if (null != vehi.getIllicitScore()) {
+				vehi.setDisposeSign("已处理");
+			}
+		}
 		pager.setTotalRows(totolRol);
 		pager.setRecords(records);
 

@@ -594,11 +594,21 @@
 	<select id="qryEmployeeList" parameterType="java.util.Map"
 			resultType="com.ccttic.entity.employee.EssEmployeeVo">
 		SELECT emp.id AS id , emp.empCd AS empcd,emp.empNm AS empnm,org.orgNm AS
-		orgNm,emp.empType AS emptype,emp.empNo AS empno,emp.account AS
+		orgNm,
+		<if test="eptId != null and eptId != ''">
+		ent.etpNm,
+		</if>
+		emp.empType AS emptype,emp.empNo AS empno,emp.account AS
 		account,depart.depNm AS depNm ,depart.id AS depid FROM ess_employee_dept dept,ess_employee
-		emp,ess_organization org ,ess_department depart WHERE
-		dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND
-		org.orgCd=depart.org_id
+		emp,ess_organization org ,ess_department depart
+		<if test="eptId != null and eptId != ''">
+		,ess_enterprise ent 
+		</if>
+		WHERE dept.emp_id=emp.empCd AND dept.dep_id =depart.id AND
+		org.orgCd=depart.org_id 
+		<if test="eptId != null and eptId != ''">
+		and ent.id=depart.ept_id
+		</if>
 		<if test="orgId != null and orgId != ''">
 			and org.id =#{orgId}
 		</if>

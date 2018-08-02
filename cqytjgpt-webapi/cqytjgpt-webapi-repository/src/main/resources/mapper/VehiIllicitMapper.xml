@@ -610,7 +610,7 @@
             and il.mgrDepartAreaId = #{mgrDepartAreaId}
         </if>
         <if test="vehiNo != null and vehiNo != ''">
-            and il.vehiNo = #{vehiNo}
+            and il.vehiNo = CONCAT('渝', #{vehiNo})
         </if>
         <if test="etpNm != null and etpNm != ''">
             and il.etpNm LIKE '%${etpNm}%'
@@ -619,7 +619,7 @@
             and il.illicit = #{illicit}
         </if>
         <if test="state != null and state != ''">
-            and il.vehiState = #{state}
+            and (il.CFBJStateNumber = #{state} or il.JKBJStateNumber = #{state})
         </if>
         <if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
             and il.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
@@ -655,7 +655,7 @@
             and il.mgrDepartAreaId = #{mgrDepartAreaId}
         </if>
         <if test="vehiNo != null and vehiNo != ''">
-            and il.vehiNo = #{vehiNo}
+             and il.vehiNo = CONCAT('渝', #{vehiNo})
         </if>
         <if test="etpNm != null and etpNm != ''">
             and il.etpNm LIKE '%${etpNm}%'
@@ -664,7 +664,7 @@
             and il.illicit = #{illicit}
         </if>
         <if test="state != null and state != ''">
-            and il.vehiState = #{state}
+             and (il.CFBJStateNumber = #{state} or il.JKBJStateNumber = #{state})
         </if>
         <if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
             and il.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'

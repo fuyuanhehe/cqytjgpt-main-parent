@@ -20,6 +20,8 @@ public class EssEmployeeVo extends EssEmployee {
 	private String orgCd;
 	//企业id
 	private String etpId;
+	// 企业名称
+	private String etpNm;
 	//岗位
 	private List<EssPost> post;
 	//部门id
@@ -80,6 +82,12 @@ public class EssEmployeeVo extends EssEmployee {
 	}
 	public void setDes(List<Department> des) {
 		this.des = des;
+	}
+	public String getEtpNm() {
+		return etpNm;
+	}
+	public void setEtpNm(String etpNm) {
+		this.etpNm = etpNm;
 	}
 	
 }

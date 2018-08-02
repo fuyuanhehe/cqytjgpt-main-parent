@@ -27,9 +27,9 @@
 	<!-- 通过角色ID删除人员角色关系-->
 	<delete id="deleteEmpRoleByRoleId" parameterType="com.ccttic.entity.role.Roles">
 		delete from ess_employee_role where role_id in
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-		(	#{item}  )
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
 		</foreach>
 		
 		

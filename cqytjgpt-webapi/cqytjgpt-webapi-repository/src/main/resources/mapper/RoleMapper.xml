@@ -61,9 +61,9 @@
 	<delete id="deleteRole" parameterType="com.ccttic.entity.role.Roles">
 		delete from ess_role where
 		id in
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			(#{item} )
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
 		</foreach>
 
 	</delete>
