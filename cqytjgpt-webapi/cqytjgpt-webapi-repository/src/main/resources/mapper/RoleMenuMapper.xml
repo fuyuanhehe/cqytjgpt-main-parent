@@ -31,9 +31,9 @@
 	<delete id="deleteRoleMenuByRoleId" parameterType="com.ccttic.entity.role.Roles">
 		delete from
 		ess_role_menu where role_id in
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-		(	#{item}  )
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
 		</foreach>
 		
 	</delete>
