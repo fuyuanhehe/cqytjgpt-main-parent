@@ -28,7 +28,7 @@ public interface DrDangerMapper {
 
 	Map<String, Object> resultDangerForDriver();
 
-	List<Map<String, Object>> areaDangerInfo();
+	List<Map<String, Object>> areaDangerInfo(Map map);
 
     Map<String,Object> noticeDangerDriver(Map map);
 
