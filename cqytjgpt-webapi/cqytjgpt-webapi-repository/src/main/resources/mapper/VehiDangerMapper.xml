@@ -745,6 +745,7 @@
 		</if>
 		) tmp ON tmp.id = danger.id LEFT JOIN ess_organization org  ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON area.id =org.area_id LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id LEFT JOIN ess_enterprise etp
 		ON vehi.mgrEnterpriseId =etp.id
+		WHERE 1=1
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
@@ -784,6 +785,7 @@
 		</if>
 		) tmp ON tmp.id = danger.id LEFT JOIN ess_organization org  ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON area.id =org.area_id LEFT JOIN vehicle vehi ON danger.vehicle_id=vehi.id LEFT JOIN ess_enterprise etp
 		ON vehi.mgrEnterpriseId =etp.id
+		WHERE 1=1
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   

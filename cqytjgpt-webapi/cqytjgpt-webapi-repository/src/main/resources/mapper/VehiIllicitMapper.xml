@@ -592,190 +592,98 @@
   </update>
     <!-- 根据企业编码获取车辆违法信息条数 -->
     <select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-        SELECT COUNT(1)
-        from (
-		   select * from (
-		   		<choose>
-		   			<when test="userType=='SUPERMAN'">
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
-		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
-		   			</when>
-		   			<when test="userType=='SUPER'">
-		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
-						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
-		   			</when>
-		   			<otherwise>
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
-			    		JOIN ( SELECT id FROM vehicle v WHERE v.mgrEnterpriseId=#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id WHERE ve.mgrEnterpriseId=#{id}
-		   			</otherwise>
-		   		</choose>
-		    ) ve 
-		   LEFT JOIN (
-		     SELECT vio.id ,vio.HPZL,vio.HPHM,vio.WFDZ,vio.WFXW,NULL AS CLBJ,vio.JKBJ,vio.CLJG AS CJJG,vio.CLJGMC AS CJJGMC,vio.WFSJ,vio.FKJE,vio.CLSJ,vio.JDSBH,vio.WFBH,vio.JSZH,vio.WFJFS,vio.DSR,vio.CFZL 
-				 FROM ${netTrffViolation} vio ) net1 on net1.hpzl = ve.vehiNoType and net1.hphm = CONCAT('渝',ve.vehiNo)
-		   UNION all
-		   select * from (
-		   		<choose>
-		   			<when test="userType == 'SUPERMAN'">
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
-		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
-		   			</when>
-		   			<when test="userType == 'SUPER'">
-		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
-						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
-		   			</when>
-		   			<otherwise>
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
-			    		JOIN ( SELECT id FROM vehicle v WHERE v.mgrEnterpriseId=#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id WHERE ve.mgrEnterpriseId=#{id}
-		   			</otherwise>
-		   		</choose>
-		    
-		    ) ve 
-		   LEFT JOIN(	
-		      SELECT sur.id ,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
-					FROM ${netTrffSurveil} sur WHERE sur.clbj='0' ) net2 on net2.hpzl = ve.vehiNoType and net2.hphm = CONCAT('渝', ve.vehiNo)
-		  ) net
-		LEFT JOIN ess_area area ON net.mgrDepartAreaId=area.id 
-		LEFT JOIN ess_enterprise ess ON net.mgrEnterpriseId=ess.id 
-		LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id 
+       SELECT COUNT(il.id) FROM 
+   		<choose>
+   			<when test="userType == 'SUPERMAN'">
+   				${tableName} il
+   			</when>
+   			<when test="userType == 'SUPER'">
+   				${tableName} il LEFT JOIN ess_enterprise ent ON il.mgrEnterpriseId=ent.id 
+   				WHERE ent.org_id=#{id}
+   			</when>
+   			<otherwise>
+   				${tableName} il WHERE il.mgrEnterpriseId=#{id}
+   			</otherwise>
+   		</choose>
         WHERE 1=1
         <if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
-            and cit.mgrDepartAreaId = #{mgrDepartAreaId}
+            and il.mgrDepartAreaId = #{mgrDepartAreaId}
         </if>
         <if test="vehiNo != null and vehiNo != ''">
-            and ve.vehiNo = #{vehiNo}
+            and il.vehiNo = CONCAT('渝', #{vehiNo})
         </if>
         <if test="etpNm != null and etpNm != ''">
-            and cit.ownership LIKE '%${etpNm}%'
+            and il.etpNm LIKE '%${etpNm}%'
         </if>
         <if test="illicit != null and illicit != ''">
-            and cit.illicit = #{illicit}
+            and il.illicit = #{illicit}
         </if>
         <if test="state != null and state != ''">
-            and cit.vehiState = #{state}
+            and (il.CFBJStateNumber = #{state} or il.JKBJStateNumber = #{state})
         </if>
         <if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-            and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
+            and il.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
         </if>
         <if test="vehiNoType != null and vehiNoType != ''">
-            and ve.vehiNoType = #{vehiNoType}
+            and il.vehiNoType = #{vehiNoType}
         </if>
         <if test="startTime != null and startTime != ''">
-            and cit.illicitTime &gt;= #{startDate}
+            and il.illicitTime &gt;= #{startDate}
         </if>
         <if test="endTime != null and endTime != ''">
-            and cit.illicitTime &lt;= #{endDate}
+            and il.illicitTime &lt;= #{endDate}
         </if>
     </select>
 
     <!-- 根据条件获取车辆的违法信息 -->
     <select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-        select net.id,ess.etpNm,net.hphm as vehiNo,CASE net.hpzl WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,net.hpzl as vehiNoType,
-		net.wfsj as illicitTime,net.wfxw as illicit,net.wfdz as illicitAdress,tablei.illegal_name AS illicitDesc,CASE net.CLBJ WHEN '0' THEN '未处理'
-		WHEN '1' THEN '已处理' ELSE '' END disposeSign,net.CLBJ as disposeSignType, net.fkje AS illicitAmount,net.WFJFS as illicitScore,CASE net.CFZL WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
-		WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-		CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState,net.cjjgmc as pickDepartmentDesc,area.areaNm from (
-		   select * from (
-		   		<choose>
-		   			<when test="userType == 'SUPERMAN'">
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
-		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
-		   			</when>
-		   			<when test="userType == 'SUPER'">
-		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
-						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
-		   			</when>
-		   			<otherwise>
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
-			    		JOIN ( SELECT id FROM vehicle v WHERE v.mgrEnterpriseId=#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id WHERE ve.mgrEnterpriseId=#{id}
-		   			</otherwise>
-		   		</choose>
-		    ) ve 
-		   LEFT JOIN (
-		     SELECT vio.id ,vio.HPZL,vio.HPHM,vio.WFDZ,vio.WFXW,NULL AS CLBJ,vio.JKBJ,vio.CLJG AS CJJG,vio.CLJGMC AS CJJGMC,vio.WFSJ,vio.FKJE,vio.CLSJ,vio.JDSBH,vio.WFBH,vio.JSZH,vio.WFJFS,vio.DSR,vio.CFZL 
-				 FROM ${netTrffViolation} vio ) net1 on net1.hpzl = ve.vehiNoType and net1.hphm = CONCAT('渝',ve.vehiNo)
-		   UNION all
-		   select * from (
-		   <choose>
-		   			<when test="userType == 'SUPERMAN'">
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve
-		    			JOIN ( SELECT id FROM vehicle LIMIT ${startRecord},${pageSize} ) temp on ve.id = temp.id 
-		   			</when>
-		   			<when test="userType == 'SUPER'">
-		   				SELECT v.vehiNo, v.vehiNoType, v.mgrDepartAreaId, v.mgrEnterpriseId FROM vehicle v JOIN (SELECT v.id FROM vehicle v LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id} LIMIT 1,10)  
-						temp on v.id = temp.id  LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
-		   			</when>
-		   			<otherwise>
-		   				SELECT ve.vehiNo, ve.vehiNoType, ve.mgrDepartAreaId, ve.mgrEnterpriseId FROM vehicle ve 
-			    		JOIN ( SELECT id FROM vehicle v WHERE v.mgrEnterpriseId=#{id} LIMIT ${startRecord},${pageSize} ) 
-						temp on ve.id = temp.id WHERE ve.mgrEnterpriseId=#{id}
-		   			</otherwise>
-		   		</choose>
-		    ) ve 
-		   LEFT JOIN(	
-		      SELECT sur.id ,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
-					FROM ${netTrffSurveil} sur WHERE sur.clbj='0' ) net2 on net2.hpzl = ve.vehiNoType and net2.hphm = CONCAT('渝', ve.vehiNo)
-		  ) net
-		LEFT JOIN ess_area area ON net.mgrDepartAreaId=area.id 
-		LEFT JOIN ess_enterprise ess ON net.mgrEnterpriseId=ess.id 
-		LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id 
+     		SELECT * FROM 
+        	<choose>
+	   			<when test="userType == 'SUPERMAN'">
+	   				${tableName} il
+	   			</when>
+	   			<when test="userType == 'SUPER'">
+	   				${tableName} il LEFT JOIN ess_enterprise ent ON il.mgrEnterpriseId=ent.id 
+	   				WHERE ent.org_id=#{id}
+	   			</when>
+	   			<otherwise>
+	   				${tableName} il WHERE il.mgrEnterpriseId=#{id}
+	   			</otherwise>
+   			</choose>
         WHERE 1=1
         <if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
-            and cit.mgrDepartAreaId = #{mgrDepartAreaId}
+            and il.mgrDepartAreaId = #{mgrDepartAreaId}
         </if>
         <if test="vehiNo != null and vehiNo != ''">
-            and ve.vehiNo = #{vehiNo}
+             and il.vehiNo = CONCAT('渝', #{vehiNo})
         </if>
         <if test="etpNm != null and etpNm != ''">
-            and cit.ownership LIKE '%${etpNm}%'
+            and il.etpNm LIKE '%${etpNm}%'
         </if>
         <if test="illicit != null and illicit != ''">
-            and cit.illicit = #{illicit}
+            and il.illicit = #{illicit}
         </if>
         <if test="state != null and state != ''">
-            and cit.vehiState = #{state}
+             and (il.CFBJStateNumber = #{state} or il.JKBJStateNumber = #{state})
         </if>
         <if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
-            and cit.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
+            and il.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'
         </if>
         <if test="vehiNoType != null and vehiNoType != ''">
-            and ve.vehiNoType = #{vehiNoType}
+            and il.vehiNoType = #{vehiNoType}
         </if>
         <if test="startTime != null and startTime != ''">
-            and cit.illicitTime &gt;= #{startDate}
+            and il.illicitTime &gt;= #{startDate}
         </if>
         <if test="endTime != null and endTime != ''">
-            and cit.illicitTime &lt;= #{endDate}
+            and il.illicitTime &lt;= #{endDate}
         </if>
-        ORDER BY net.WFSJ  DESC limit ${startRecord},${pageSize}
+        ORDER BY il.illicitTime  DESC limit ${startRecord},${pageSize}
     </select>
 
     <!-- 根据id获取指定车辆的违法信息 -->
     <select id="qryOneVehiIllicit" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
-			SELECT net.id,ess.etpNm,net.hphm as vehiNo,CASE net.hpzl WHEN '01' THEN '大型车' WHEN '02' THEN '小型车' ELSE '' END vehiNoTypeText,net.hpzl as vehiNoType,
-			net.wfsj as illicitTime,net.wfxw as illicit,net.wfdz as illicitAdress,tablei.illegal_name AS illicitDesc,CASE net.CLBJ WHEN '0' THEN '未处理'
-			WHEN '1' THEN '已处理' ELSE '' END disposeSign,net.fkje AS illicitAmount,net.WFJFS as illicitScore,CASE net.CFZL WHEN '1' THEN '警告' WHEN '2' THEN '罚款' WHEN '3' THEN '暂扣驾驶证' WHEN '4' THEN '吊销驾驶证'
-			WHEN '5' THEN '行政拘留' WHEN '6' THEN '撤销机动车驾驶许可' WHEN '7' THEN '撤销机动车登记' WHEN '9' THEN '其他' ELSE '' END disposeType,
-			CASE net.CLBJ WHEN '0' THEN '未处理' WHEN '1' THEN '已处理' ELSE '' END vehiState,net.cjjgmc as pickDepartmentDesc,area.areaNm
-				FROM (
-						<choose>
-							<when test="disposeSign == 0">
-								SELECT sur.id,sur.HPZL,sur.HPHM,sur.WFDZ,sur.WFXW,sur.CLBJ,sur.JKBJ,sur.CJJG,sur.CJJGMC,sur.WFSJ,sur.FKJE,sur.CLSJ,sur.JDSBH,NULL AS WFBH,NULL AS JSZH,NULL AS WFJFS,NULL AS DSR,NULL AS CFZL 
-									FROM ${tableNmae} sur WHERE sur.ID=#{id}
-							</when>
-							<otherwise>
-								SELECT vio.id,vio.HPZL,vio.HPHM,vio.WFDZ,vio.WFXW,NULL AS CLBJ,vio.JKBJ,vio.CLJG AS CJJG,vio.CLJGMC AS CJJGMC,vio.WFSJ,vio.FKJE,vio.CLSJ,vio.JDSBH,vio.WFBH,vio.JSZH,vio.WFJFS,vio.DSR,vio.CFZL 
-									FROM ${tableNmae} vio WHERE vio.ID=#{id}
-							</otherwise>
-						</choose>
-					 ) net 
-				LEFT JOIN (SELECT * FROM vehicle v WHERE v.vehiNo =#{vehiNo})ve  ON ve.vehiNo=net.hphm
-				LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
-				LEFT JOIN ess_enterprise ess ON ve.mgrEnterpriseId=ess.id
-				LEFT JOIN illegal_comparison_table tablei ON net.WFXW=tablei.id
+			SELECT * FROM ${tableName} WHERE id=#{id}
 	</select>
     <update id="updateBatch" parameterType="java.util.List">
         update vehi_illicit

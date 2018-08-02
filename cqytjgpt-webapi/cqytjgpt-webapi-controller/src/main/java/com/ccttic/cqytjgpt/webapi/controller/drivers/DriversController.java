@@ -155,30 +155,6 @@ public class DriversController implements Serializable{
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
 			List<String> list = new ArrayList<String>();
-			String empType = null;
-			if(StringUtils.isEmpty(access_token)) {
-				resp.fail("access_token 不能为空");
-				return resp;
-			}
-			String username=JWTUtil.getUsername(access_token);
-			// 从redis获取用户信息 
-			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
-			if (null != vo) {
-				ent = vo.getCanSeeEnt();
-				empType = vo.getEmptype();
-			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent = employee.getCanSeeEnt();
-				empType = employee.getEmptype();
-				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
-			}
-			if(ent != null){
-				for (EssEnterprise essEnterprise : ent) {
-					list.add(essEnterprise.getId());
-				}}
-			tment.setQid(list);
-			tment.setEmpType(empType);
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
 			resp.setMessage("获取基本信息-违法记录成功！");
 			resp.setStatus(0);

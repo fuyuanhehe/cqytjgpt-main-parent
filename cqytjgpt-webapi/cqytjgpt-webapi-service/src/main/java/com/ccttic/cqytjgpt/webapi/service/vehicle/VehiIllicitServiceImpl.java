@@ -68,11 +68,15 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("pickDepartmentDesc", vehiIllicit.getPickDepartmentDesc()); // 采集机关名称
 		params.put("startTime", vehiIllicit.getStartTime()); // 违法开始时间
 		params.put("endTime", vehiIllicit.getEndTime()); // 违法结束时间
-		params.put("netTrffViolation", "net_trff_violation_"+year);
-		params.put("netTrffSurveil", "net_trff_surveil_"+year);
+		params.put("tableName", "illicit_"+year);
 		
-		long totolRol = 948534;
+		long totolRol = mapper.qryVehiIllicitListCount(params);;
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
+		for (VehiIllicit vehi : records) {
+			if (null != vehi.getIllicitScore()) {
+				vehi.setDisposeSign("已处理");
+			}
+		}
 		pager.setTotalRows(totolRol);
 		pager.setRecords(records);
 

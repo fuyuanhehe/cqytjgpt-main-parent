@@ -113,7 +113,7 @@
 	<select id="getAllLastOrg" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
 		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
 			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
-			    from ess_organization org where org.superOrg_id = "2" and (org.isDeleted is null or org.isDeleted = 0) ORDER BY  org.orgType ASC
+			    from ess_organization org where org.orgType = "2" and (org.isDeleted is null or org.isDeleted = 0) ORDER BY  org.orgType ASC
 	</select>
 	<!-- 根据adminid获取组织信息 -->
 	<select id="getOrgByAdminId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
