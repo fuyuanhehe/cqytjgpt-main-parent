@@ -108,7 +108,7 @@ public class DriversServiceImpl implements DriversService {
 			params.put("endTime",driver.getLaString());
 		}
 		if (null!=driver.getId()){
-			params.put("id.getId()",driver.getId());
+			params.put("id",driver.getId());
 		}
 		if(null!=driver.getName()){
 			params.put("name", driver.getName());
