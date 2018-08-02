@@ -619,7 +619,7 @@
             and il.illicit = #{illicit}
         </if>
         <if test="state != null and state != ''">
-            and il.vehiState = #{state}
+            and (il.CFBJStateNumber = #{state} or il.JKBJStateNumber = #{state})
         </if>
         <if test="pickDepartmentDesc != null and pickDepartmentDesc != ''">
             and il.pickDepartmentDesc LIKE '%${pickDepartmentDesc}%'

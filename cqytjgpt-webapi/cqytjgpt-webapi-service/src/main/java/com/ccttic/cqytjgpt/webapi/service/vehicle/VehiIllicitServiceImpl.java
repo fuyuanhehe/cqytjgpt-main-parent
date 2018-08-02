@@ -60,7 +60,7 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("mgrDepartAreaId", vehiIllicit.getMgrDepartAreaId()); // 区域编码
-		params.put("vehiNo", vehiIllicit.getVehiNo()); // 车牌号
+		params.put("vehiNo", "渝"+vehiIllicit.getVehiNo()); // 车牌号
 		params.put("etpNm", vehiIllicit.getEtpNm()); // 车所属企业
 		params.put("illicit", vehiIllicit.getIllicit()); // 违法行为
 		params.put("state", vehiIllicit.getState()); // 处罚状态
@@ -72,6 +72,11 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		
 		long totolRol = mapper.qryVehiIllicitListCount(params);;
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
+		for (VehiIllicit vehi : records) {
+			if (null != vehi.getIllicitScore()) {
+				vehi.setDisposeSign("已处理");
+			}
+		}
 		pager.setTotalRows(totolRol);
 		pager.setRecords(records);
 
