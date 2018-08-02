@@ -345,7 +345,7 @@ public class VehicleContrller implements Serializable {
 		if (token == null) {
 			token = getToken();
 		}
-		String s = frign.vehicleInfo(token, vo.getVehiNo());
+		String s = frign.vehicleInfo(token, vo.getVehiNo(),"0");
 		resp.setData(JSON.parseObject(s));
 		resp.success("查询成功！");
 		return resp;
@@ -386,22 +386,24 @@ public class VehicleContrller implements Serializable {
 
 		Area area = null;
 
-			if ("SUPERMAN".equals(vo.getEmptype()) || "0".equals(vo.getOrg().getOrgType())) {
-				String s = frign.vehicleInfoList(token, "0", areas);
+			if (Const.SUPERMAN.equals(vo.getEmptype()) || "0".equals(vo.getOrg().getOrgType())) {
+				long a=System.currentTimeMillis();
+				String s = frign.vehicleInfoList(token, "0", areas,"1");
+				System.out.println(System.currentTimeMillis()-a);
 				list.add(JSON.parseObject(s));
-		} else if ("ADMIN".equals(vo.getEmptype()) && "1".equals(vo.getOrg().getOrgType())) {
+		} else if (Const.SUPER.equals(vo.getEmptype()) && "1".equals(vo.getOrg().getOrgType())) {
 				List<Organization> orgs = vo.getCanSeeOrgs();
 				for (Organization org : orgs) {
 					area = vehicleService.getfenceIdByEssid(org.getId());
 					list.add(JSON.parseObject(area != null && area.getAreaCd() != null
-							? frign.vehicleInfoList(token, "0", area.getAreaCd())
+							? frign.vehicleInfoList(token, "0", area.getAreaCd(),"1")
 							: null));
 				}
 
-			} else if ("ADMIN".equals(vo.getEmptype()) && "2".equals(vo.getEmptype())) {
+			} else if (Const.ADMIN.equals(vo.getEmptype()) && "2".equals(vo.getEmptype())) {
 				area = vehicleService.getfenceIdByEssid(vo.getOrg().getId());
 				list.add(JSON.parseObject(
-						area != null && area.getAreaCd() != null ? frign.vehicleInfoList(token, "0", area.getAreaCd())
+						area != null && area.getAreaCd() != null ? frign.vehicleInfoList(token, "0", area.getAreaCd(),"1")
 								: null));
 			}
 

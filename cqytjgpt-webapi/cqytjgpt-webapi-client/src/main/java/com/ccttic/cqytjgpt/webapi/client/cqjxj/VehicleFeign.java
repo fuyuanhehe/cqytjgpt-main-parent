@@ -31,7 +31,7 @@ public interface VehicleFeign {
      */
 	@RequestMapping(method=RequestMethod.POST,value="/qryCarOnlinePosition")
 	public String vehicleInfo(@RequestParam(value = "token") String token,@RequestParam(value = "vehiNo") String vehiNo
-			);
+			,@RequestParam(value = "reqList") String reqList);
 	
 	/**
      * 这里@requestMapping里指定的路径就是lkywjxj-service工程里的里的/lkywjxj-service/admin/qryCarOnlinePosition路径
@@ -39,6 +39,7 @@ public interface VehicleFeign {
      */
 	@RequestMapping(method=RequestMethod.POST,value="/qryCarOnlinePosition")
 	public String vehicleInfoList(@RequestParam(value = "token") String token
-			,@RequestParam(value = "flag") String flag,@RequestParam(value = "fenceCd") String fenceCd);
+			,@RequestParam(value = "flag") String flag,@RequestParam(value = "fenceCd") String fenceCd
+			,@RequestParam(value = "reqList") String reqList);
 	
 }

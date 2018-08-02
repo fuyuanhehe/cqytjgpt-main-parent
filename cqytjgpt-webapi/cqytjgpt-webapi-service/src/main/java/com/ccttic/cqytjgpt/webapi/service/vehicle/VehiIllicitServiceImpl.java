@@ -58,7 +58,7 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
 		params.put("pageSize", page.getRows());
-		params.put("startRecord", page.getPage());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("mgrDepartAreaId", vehiIllicit.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehiIllicit.getVehiNo()); // 车牌号
 		params.put("etpNm", vehiIllicit.getEtpNm()); // 车所属企业
@@ -71,7 +71,7 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		params.put("netTrffViolation", "net_trff_violation_"+year);
 		params.put("netTrffSurveil", "net_trff_surveil_"+year);
 		
-		long totolRol = mapper.qryVehiIllicitListCount(params);
+		long totolRol = 948534;
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 		pager.setTotalRows(totolRol);
 		pager.setRecords(records);
