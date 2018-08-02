@@ -98,8 +98,25 @@ public class DriversServiceImpl implements DriversService {
 		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}
-		params.put("id", driver.getId());
-		params.put("name", driver.getName());
+		if(null!=driver.getIdcard()){
+			params.put("idCard",driver.getIdcard());
+		}
+		if(null!=driver.getFiString()){
+			params.put("startTime",driver.getFiString());
+		}
+		if(null!=driver.getLaString()){
+			params.put("endTime",driver.getLaString());
+		}
+		if (null!=driver.getId()){
+			params.put("id.getId()",driver.getId());
+		}
+		if(null!=driver.getName()){
+			params.put("name", driver.getName());
+		}
+		if(null!=driver.getEtpNm()){
+			params.put("etpNm", driver.getEtpNm());
+		}
+
 		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
 
 
