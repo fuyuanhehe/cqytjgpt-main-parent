@@ -5,7 +5,6 @@ package com.ccttic.cqytjgpt.webapi.interfaces.drivers;
 import java.util.List;
 
 import com.ccttic.entity.drivers.Driver;
-import com.ccttic.entity.drivers.vo.DriverIllegal;
 import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
 import com.ccttic.entity.drivers.vo.DriverillicitVo;
@@ -13,6 +12,7 @@ import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.entity.drivers.vo.PermiCarsVo;
 import com.ccttic.entity.drivers.vo.VehicleCountVo;
 import com.ccttic.entity.drivers.vo.vehiclesVo;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
@@ -33,7 +33,7 @@ public interface DriversService {
 	List<PermiCarsVo> getAllpermiCar();
 	
 	///查询驾驶人违法记录分页
-	Page<DriverillicitVo> getDriverPages(Pageable page,DriverillicitVo driverillicitVo);
+	Page<DriverillicitVo> getDriverPages(Pageable page, DriverillicitVo driverillicitVo, EmployeePermission employeePermission);
 
 
 	// 增加驾驶员

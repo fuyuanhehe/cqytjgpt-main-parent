@@ -91,7 +91,7 @@ public class RoleController {
 			// 角色ID
 			String  idss = RandomHelper.uuid();
 			//员工ID
-			if(rolty.getEmp_id() != null)  {
+			if(rolty.getEmp_id() != null &&  !(rolty.getEmp_id().equals("")))  {
 				
 				String str = rolty.getEmp_id();
 				

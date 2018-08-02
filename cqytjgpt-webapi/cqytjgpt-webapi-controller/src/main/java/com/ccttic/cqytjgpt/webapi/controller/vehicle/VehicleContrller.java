@@ -322,8 +322,14 @@ public class VehicleContrller implements Serializable {
 			token = getToken();
 		}
 		String s = frign.queryData(token, "渝" + vo.getVehiNo(), vo.getStartDate(), vo.getEndDate());
-		resp.setData(JSON.parseObject(s));
-		resp.success("查询成功！");
+		Map<String, String> map = JsonUtil.jsonToMap(s);
+		if ("-1".equals(map.get("result"))) {
+			resp.fail("查询失败！第三方接口返回消息"+map.get("msg"));
+		} else {
+			resp.setData(JSON.parseObject(s));
+			resp.success("查询成功！");
+		}
+		
 
 		return resp;
 	}
@@ -346,8 +352,13 @@ public class VehicleContrller implements Serializable {
 			token = getToken();
 		}
 		String s = frign.vehicleInfo(token, vo.getVehiNo(),"0");
-		resp.setData(JSON.parseObject(s));
-		resp.success("查询成功！");
+		Map<String, String> map = JsonUtil.jsonToMap(s);
+		if ("-1".equals(map.get("result"))) {
+			resp.fail("查询失败！第三方接口返回消息"+map.get("msg"));
+		} else {
+			resp.setData(JSON.parseObject(s));
+			resp.success("查询成功！");
+		}
 		return resp;
 	}
 
@@ -363,7 +374,7 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value = "/qryOneVehicleInfoList", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ResponseMsg<List<JSON>> qryOneVehicleInfoList(HttpServletRequest request,@RequestParam String access_token,@RequestBody String areaCd) {
+	public ResponseMsg<List<JSON>> qryOneVehicleInfoList(HttpServletRequest request,@RequestParam String access_token,@RequestBody InputVehiVo vehVo) {
 		ResponseMsg<List<JSON>> resp = new ResponseMsg<List<JSON>>();
 		if (StringUtils.isEmpty(access_token)) {
 			resp.fail("access_token 为空");
@@ -380,31 +391,53 @@ public class VehicleContrller implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		Map<String, String> map = JsonUtil.jsonToMap(areaCd);
-		String areas = map.get("areaCd");
+		
 		List<JSON> list = new ArrayList<JSON>();
 
 		Area area = null;
 
 			if (Const.SUPERMAN.equals(vo.getEmptype()) || "0".equals(vo.getOrg().getOrgType())) {
-				long a=System.currentTimeMillis();
-				String s = frign.vehicleInfoList(token, "0", areas,"1");
-				System.out.println(System.currentTimeMillis()-a);
-				list.add(JSON.parseObject(s));
+				String s =null;
+				if (null != vehVo.getVehiNo()) {
+					s = frign.vehicleInfoList(token,"0",null,"0",vehVo.getVehiNo());
+				} else {
+					s = frign.vehicleInfoList(token,"0",vehVo.getAreaCd(),"1",null);
+				}
+				
+				Map<String, String> maps = JsonUtil.jsonToMap(s);
+				if ("-1".equals(maps.get("result"))) {
+					resp.fail("查询失败！第三方接口返回消息"+maps.get("msg"));
+				} else {
+					list.add(JSON.parseObject(s));
+				}
 		} else if (Const.SUPER.equals(vo.getEmptype()) && "1".equals(vo.getOrg().getOrgType())) {
 				List<Organization> orgs = vo.getCanSeeOrgs();
 				for (Organization org : orgs) {
 					area = vehicleService.getfenceIdByEssid(org.getId());
-					list.add(JSON.parseObject(area != null && area.getAreaCd() != null
-							? frign.vehicleInfoList(token, "0", area.getAreaCd(),"1")
-							: null));
+					if (null != vehVo.getVehiNo()) {
+						list.add(JSON.parseObject(area != null && area.getAreaCd() != null
+								? frign.vehicleInfoList(token, "0", null,"0",vehVo.getVehiNo())
+								: null));
+					} else {
+						list.add(JSON.parseObject(area != null && area.getAreaCd() != null
+								? frign.vehicleInfoList(token, "0", area.getAreaCd(),"1",null)
+								: null));
+					}
+					
 				}
 
 			} else if (Const.ADMIN.equals(vo.getEmptype()) && "2".equals(vo.getEmptype())) {
 				area = vehicleService.getfenceIdByEssid(vo.getOrg().getId());
-				list.add(JSON.parseObject(
-						area != null && area.getAreaCd() != null ? frign.vehicleInfoList(token, "0", area.getAreaCd(),"1")
-								: null));
+				if (null != vehVo.getVehiNo()) {
+					list.add(JSON.parseObject(
+							area != null && area.getAreaCd() != null ? frign.vehicleInfoList(token, "0", null,"0",vehVo.getVehiNo())
+									: null));
+				} else {
+					list.add(JSON.parseObject(
+							area != null && area.getAreaCd() != null ? frign.vehicleInfoList(token, "0", area.getAreaCd(),"0",null)
+									: null));
+				}
+				
 			}
 
 

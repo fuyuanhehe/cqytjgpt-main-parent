@@ -1,5 +1,7 @@
 package com.ccttic.entity.employee;
 
+import java.util.List;
+
 public class EmployeePermission {
 
 	private String orgId;
@@ -9,6 +11,16 @@ public class EmployeePermission {
 	private String enterpriseId;
 
 	private String employeeType;
+
+	private List<String> areaList;
+
+	public List<String> getAreaList() {
+		return areaList;
+	}
+
+	public void setAreaList(List<String> areaList) {
+		this.areaList = areaList;
+	}
 
 	public String getOrgId() {
 		return orgId;

@@ -3,6 +3,8 @@ package com.ccttic.cqytjgpt.webapi.controller.drivers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ccttic.entity.employee.EmployeePermission;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,31 +209,15 @@ public class DriversController implements Serializable{
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
 			List<String> list = new ArrayList<String>();
-			String empType = null;
-			if(StringUtils.isEmpty(access_token)) {
-				resp.fail("access_token 不能为空");
+			EmployeeVo employee = employeeService.getUserInfo(access_token);
+			if(null == employee ){
+				resp.fail("获取用户信息失败");
 				return resp;
 			}
-			String username=JWTUtil.getUsername(access_token);
-			// 从redis获取用户信息 
-			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
-			if (null != vo) {
-				ent = vo.getCanSeeEnt();
-				empType = vo.getEmptype();
-			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				ent = employee.getCanSeeEnt();
-				empType = employee.getEmptype();
-				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
-			}
-			if(ent != null){
-				for (EssEnterprise essEnterprise : ent) {
-					list.add(essEnterprise.getId());
-				}}
-			tment.setQid(list);
-			tment.setEmpType(empType);
-			Page<DriverillicitVo> data = service.getDriverPages(page, tment);
+
+			EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+
+			Page<DriverillicitVo> data = service.getDriverPages(page, tment,employeePermission);
 			resp.setMessage("获取驾驶人信息-信息记录成功！");
 			resp.setStatus(0);
 			resp.setData(data.getRecords());  
@@ -348,9 +334,6 @@ public class DriversController implements Serializable{
 	}
 	/**
 	 * 功能说明：  违法未处理详情
-	 * @param orgNm 区域
-	 * @param etpNm 企业名字
-	 * @param vehiNoType 车辆种类
 	 * @return 
 	 * @date  2018年6月25日
 	 */

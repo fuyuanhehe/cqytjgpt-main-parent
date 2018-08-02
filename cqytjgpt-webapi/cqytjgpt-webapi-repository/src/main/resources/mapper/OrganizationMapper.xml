@@ -96,22 +96,30 @@
 	
 	<!-- 获取所有组织id -->
 	<select id="getAllOrg" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
-		select * from ess_organization where isDeleted is null or isDeleted = 0 ORDER BY orgType ASC
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
+			    from ess_organization org  where org.isDeleted is null or org.isDeleted = 0 ORDER BY org.orgType ASC
 	</select>
 	
 	<!-- 通过第二层的组织获得最底层组织 -->
 	<select id="getLastOrg" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
-		select * from ess_organization where superOrg_id =#{id} and isDeleted is null or isDeleted = 0 ORDER BY  orgType ASC
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
+			    from ess_organization org where org.orgType =#{id} and org.isDeleted is null or org.isDeleted = 0 ORDER BY  orgType ASC
 	</select>
 	
 	
 	<!-- 获取所有组织id -->
 	<select id="getAllLastOrg" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
-		select * from ess_organization where superOrg_id = "2" and (isDeleted is null or isDeleted = 0) ORDER BY  orgType ASC
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
+			    from ess_organization org where org.superOrg_id = "2" and (org.isDeleted is null or org.isDeleted = 0) ORDER BY  org.orgType ASC
 	</select>
 	<!-- 根据adminid获取组织信息 -->
 	<select id="getOrgByAdminId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
-		select * from ess_organization where admin_empid = #{id}  and (isDeleted is null or isDeleted = 0)
+		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
+			    from ess_organization org where org.admin_empid = #{id}  and (org.isDeleted is null or org.isDeleted = 0)
 	</select>
 	
 	<select id="getAllDepart" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Department">
@@ -124,7 +132,9 @@
 		select * from ess_department where etpCd = #{etpCd}
 	</select>
 	<select id="getOrgByEmpId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
-		SELECT org.* FROM ess_organization org  WHERE admin_empid =#{id}
+		SELECT org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
+			    FROM ess_organization org  WHERE admin_empid =#{id}
 	</select>
 	
 	<!-- 创建部门-->

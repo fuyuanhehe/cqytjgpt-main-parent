@@ -4,7 +4,7 @@ public class InputVehiVo {
 	private String vehiNo;
 	private String startDate;
 	private String endDate;
-	
+	private String areaCd;
 	public String getVehiNo() {
 		return vehiNo;
 	}
@@ -22,6 +22,12 @@ public class InputVehiVo {
 	}
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+	public String getAreaCd() {
+		return areaCd;
+	}
+	public void setAreaCd(String areaCd) {
+		this.areaCd = areaCd;
 	}
 	
 	
