@@ -40,6 +40,6 @@ public interface VehicleFeign {
 	@RequestMapping(method=RequestMethod.POST,value="/qryCarOnlinePosition")
 	public String vehicleInfoList(@RequestParam(value = "token") String token
 			,@RequestParam(value = "flag") String flag,@RequestParam(value = "fenceCd") String fenceCd
-			,@RequestParam(value = "reqList") String reqList);
+			,@RequestParam(value = "reqList") String reqList,@RequestParam(value = "vehiNo")String vehiNo);
 	
 }
