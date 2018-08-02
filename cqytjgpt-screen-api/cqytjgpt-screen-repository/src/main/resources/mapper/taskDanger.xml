@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.screen.mapper.danger.TaskDangerMapper">
+
+<delete id="deleteAll" parameterType="Map">
+    delete from ${tableName}
+</delete>
+<insert id="insertEtpTotal" parameterType="Map">
+    INSERT INTO etp_danger_2018
+(`id`, `dangerType`, `etpType`, `dangerCar`, `allCar`,
+ `radioDangerCar`, `radioFirstDanger`,
+ `orgId`,  `orgNm`, `areaCd`, `areaNm`, `etpNm`,
+ `etpId`, `m1`, `m2`, `m3`, `m4`, `m5`, `m6`, `m7`,
+`m8`, `m9`, `m10`, `m11`, `m12`, `year`)
+VALUES
+    <foreach collection="list" item="item" separator=",">
+        (#{item.id}, #{item.dangerType}, #{item.etpType}, #{item.dangerCar}, #{item.allCar}, #{item.radioDangerCar}, #{item.radioFirstDanger},
+        #{item.orgId}, #{oitem.orgNm}, #{item.areaCd}, #{item.areaNm}, #{item.etpNm}, #{item.etpId},  #{item.m1},
+        #{item.m2}, #{item.m3}, #{item.m4}, #{item.m5}, #{item.m6}, #{item.m7}, #{item.m8}, #{item.m9},
+        #{item.m10}, #{item.m11}, #{item.m12}, #{item.year})
+    </foreach>
+
+</insert>
+
+    <select id="allEtp" resultType="map">
+select 	id,org_id orgId,(select attrNm from param_category_attr where attrCd=left(e.etpType,1)  and categoryCd='028')as etpType ,etpNm,id etpId
+ from ess_enterprise e where (isDeleted !=1 or isDeleted is null) and e.org_id in(select id from ess_organization)
+
+</select>
+
+    <select id="findDangerCarByEtpId" resultType="int" parameterType="String">
+	  select count(1) from vehi_danger where ownerEnterprise= #{etpId} and dangerType !=0 and (isDeleted !=1 or isDeleted is null)
+    </select>
+    <select id="findAreaByAreaId" resultType="Map" parameterType="String">
+      select * from ess_area where id =#{areaId} and (isDeleted !=1 or isDeleted is null)
+    </select>
+    <select id="findOrgByOrgId" resultType="Map" parameterType="String">
+       select * from ess_organization where id=#{orgId} and (isDeleted !=1 or isDeleted is null)
+    </select>
+
+    <select id="findFirstDangerCarByEtpId" resultType="int" parameterType="map">
+	 	select count(1) from vehi_danger where ownerEnterprise= #{etpId} and dangerType =1 and (isDeleted !=1 or isDeleted is null)
+</select>
+
+    <select id="findDangerGroupByMonthByEtpId" resultType="Map">
+			select *,sum(m1+m2+m3+m4+m5+m6+m7+m8+m9+m10+m11+m12) year from(
+SELECT
+    sum(case when month(d.dangerTime)=1 then 1 else 0 end) m1,
+    sum(case when month(d.dangerTime)=2 then 1 else 0 end) m2,
+    sum(case when month(d.dangerTime)=3 then 1 else 0 end) m3,
+    sum(case when month(d.dangerTime)=4 then 1 else 0 end) m4,
+    sum(case when month(d.dangerTime)=5 then 1 else 0 end) m5,
+    sum(case when month(d.dangerTime)=6 then 1 else 0 end) m6,
+    sum(case when month(d.dangerTime)=7 then 1 else 0 end) m7,
+    sum(case when month(d.dangerTime)=8 then 1 else 0 end) m8,
+    sum(case when month(d.dangerTime)=9 then 1 else 0 end) m9,
+    sum(case when month(d.dangerTime)=10 then 1 else 0 end) m10,
+    sum(case when month(d.dangerTime)=11 then 1 else 0 end) m11,
+    sum(case when month(d.dangerTime)=12 then 1 else 0 end) m12
+
+from vehi_danger d where month(d.dangerTime)=month(now()) and d.ownerEnterprise = #{etpId} and dangerType !=0 and (isDeleted !=1 or isDeleted is null)) k
+
+	</select>
+
+
+</mapper>

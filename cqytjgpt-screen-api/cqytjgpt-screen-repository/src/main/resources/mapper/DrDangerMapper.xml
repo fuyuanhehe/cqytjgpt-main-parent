@@ -65,39 +65,26 @@
   	</select>
   
   <select id="countDriverDangerNum" resultType="int">
-   select count(1) from dr_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0 and month(dangerTime)=month(now())
+   select count(1) from dr_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0
   </select>
   
   <select id="countWarnNum" resultType="map">
-  	select d.dangerType,count(1) warnNum from dr_danger d where d.dangerType !=0 and (d.isDeleted is null or d.isDeleted !=1) and month(dangerTime)=month(now()) GROUP BY d.dangerType 
+  	select d.dangerType,count(1) warnNum from dr_danger d where d.dangerType !=0 and (d.isDeleted is null or d.isDeleted !=1)  GROUP BY d.dangerType
   </select>
   <!-- 查询隐患问题分布 -->
   <select id="distributionDangerForDriver" resultType="map" parameterType="map">
- 	<if test='date=="year"'>
-select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
+
+select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState !=0 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
       union all
-select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
+select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState  !=0 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
       union all
-select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
- 	</if>
- 	<if test='date=="month"'>
-      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
-      union all
-      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
-      union all
-      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and month(d.dangerTime) = month(now()) and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
- 	</if>
- 	<if test='date=="season"'>
-      select count(1) num,"逾期未换证" dangerName from dr_danger d where d.overdueProofState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (isDeleted is null or isDeleted !=1)
-      union all
-      select count(1) num,"逾期未审验" dangerName from dr_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (isDeleted is null or isDeleted !=1)
-      union all
-      select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (isDeleted is null or isDeleted !=1)
- 	</if>
+select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullStudyState  !=0 and year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1)
+
+
   </select>
   <!-- 隐患治理情况 -->
   <select id="countNoHandleDriver" resultType="int">
-     select count(1) from dr_danger where (isDeleted is null or isDeleted !=1)  and dangerType !=0 and month(now())=month(dangerTime)
+     select count(1) from dr_danger where (isDeleted is null or isDeleted !=1)  and dangerType !=0
   </select>
   <!-- 治理结果趋势 -->
   <select id="resultDangerForDriver" resultType="map" >
@@ -141,7 +128,7 @@ SELECT
 		FROM
 			dr_danger d
 		WHERE
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now()) = month(d.dangerTime)
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 total
 	) monthDriverDangers,
 	(
 		SELECT
@@ -207,7 +194,7 @@ LIMIT  #{top,jdbcType=VARCHAR},1
 		FROM
 			dr_danger d
 		WHERE
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now())=month(dangerTime)
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
 	) driverDangers,
 	(
 		SELECT
@@ -215,7 +202,7 @@ LIMIT  #{top,jdbcType=VARCHAR},1
 		FROM
 			vehi_danger d
 		WHERE 
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now())=month(dangerTime)
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
 	) carDangers,(select carDangers+driverDangers) total
 FROM
 	ess_organization e

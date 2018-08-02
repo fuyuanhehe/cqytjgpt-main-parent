@@ -123,7 +123,7 @@ public class ScreenController {
         return response;
     }
     /**
-     * 机动车隐患发现情况
+     * 企业隐患发现情况
      */
     @RequestMapping("findDangerForEnterprise")
     public ResponseMsg<Map<String, Object>> findDangerForEnterprise() {
@@ -518,7 +518,7 @@ public class ScreenController {
             log.info("开始查询各分所企业治理情况");
             Map<String, Object> tempMap = screenService.deptDangerForCar(map);
             response.setData(tempMap);
-            response.success("各区机企业治理情况查询成功");
+            response.success("各区企业治理情况查询成功");
         } catch (Exception e) {
             log.error("各区企业治理情况查询失败" + e.getMessage());
             response.fail("各区企业治理情况查询失败" + e.getMessage());

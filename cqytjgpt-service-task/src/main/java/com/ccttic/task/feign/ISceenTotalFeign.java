@@ -7,4 +7,6 @@ public interface ISceenTotalFeign {
     @RequestMapping("/task/areaDangerInfo")
     // 统计大屏大地图数据
     String screenTotal();
+    @RequestMapping("/task/etpDangerTotal")
+    String etpTotal();
 }
