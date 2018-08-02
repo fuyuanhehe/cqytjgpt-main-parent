@@ -60,16 +60,25 @@ public class VehicleServiceImpl implements IVehicleService {
 
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<Vehicle> records = mapper.qryVehicleList(params);
-
+		for (Vehicle ve : records) {
+			if (null != ve.getState()){
+				String Stra = upStact(ve.getState());
+				ve.setState(Stra);
+			}
+		}
 		pager.setTotalRows(totolRols);
 		pager.setRecords(records);
 
 		return pager;
 	}
-
+	
 	@Override
 	public VehicleVO qryOneVehicle(Map<String, Object> params) throws AppException {
 		VehicleVO vehicle = mapper.qryOneVehicle(params);
+		if (null != vehicle.getState()) {
+			String Stra=upStact(vehicle.getState());
+			vehicle.setState(Stra);
+		}
 		return vehicle;
 	}
 
@@ -198,6 +207,45 @@ public class VehicleServiceImpl implements IVehicleService {
 		return state;
 	}
 
+	public static String upStact (String zt) {
+		String state = "";
+		for (int i = 0; i < zt.length(); i++) {
+			if (String.valueOf(zt.charAt(i)).equals("G")) {
+				state += ",违法未处理";
+			} else if (String.valueOf(zt.charAt(i)).equals("A")) {
+				state += ",正常";
+			} else if (String.valueOf(zt.charAt(i)).equals("O")) {
+				state += ",锁定";
+			} else if (String.valueOf(zt.charAt(i)).equals("N")) {
+				state += ",事故逃逸";
+			} else if (String.valueOf(zt.charAt(i)).equals("M")) {
+				state += ",达到报废标准";
+			} else if (String.valueOf(zt.charAt(i)).equals("L")) {
+				state += ",扣留";
+			} else if (String.valueOf(zt.charAt(i)).equals("K")) {
+				state += ",查封";
+			} else if (String.valueOf(zt.charAt(i)).equals("J")) {
+				state += ",嫌疑车";
+			} else if (String.valueOf(zt.charAt(i)).equals("D")) {
+				state += ",停驶";
+			} else if (String.valueOf(zt.charAt(i)).equals("E")) {
+				state += ",注销";
+			} else if (String.valueOf(zt.charAt(i)).equals("H")) {
+				state += ",海关监管";
+			} else if (String.valueOf(zt.charAt(i)).equals("C")) {
+				state += ",被盗抢";
+			} else if (String.valueOf(zt.charAt(i)).equals("B")) {
+				state += ",转出";
+			} else if (String.valueOf(zt.charAt(i)).equals("P")) {
+				state += ",达到报废标准公告牌证作废";
+			} else if (String.valueOf(zt.charAt(i)).equals("Q")) {
+				state += ",逾期未检验";
+			}
+		}
+		state = state.substring(1);
+		return state;
+	}
+	
 	@Override
 	public Area getfenceIdByEssid(String id) {
 
