@@ -90,7 +90,7 @@
         <property name="jobDetail" ref="screenTotalJob" />
         <property name="cronExpression">
             <!-- 每天24点执行 -->
-            <value>0 0 24 * * ? *</value>
+            <value>0 0 22 * * ? *</value>
         </property>
     </bean>
     <!-- 定时创建日志表  结束  -->
