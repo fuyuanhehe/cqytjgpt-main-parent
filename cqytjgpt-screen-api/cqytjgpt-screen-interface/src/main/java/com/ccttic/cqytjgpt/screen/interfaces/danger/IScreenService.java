@@ -127,6 +127,11 @@ public interface IScreenService {
     public List<Map<String, Object>> areaDangersTop();
 
     /**
+     * 各区隐患治理排行
+     */
+    List<Map<String, Object>> handleAreaDangersTop();
+
+    /**
      * 各区驾驶员隐患占比
      */
     public List<Map<String, Object>> ratioDangerForDriver();

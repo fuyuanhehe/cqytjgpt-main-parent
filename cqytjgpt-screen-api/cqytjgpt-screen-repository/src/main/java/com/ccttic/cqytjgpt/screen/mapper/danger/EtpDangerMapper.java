@@ -12,20 +12,22 @@ public interface EtpDangerMapper {
 
 	int countEnterpriseDangerNum();
 
-	List countWarnNum();
+	List countWarnNum(Map map);
 
 	List<Map<String, Object>> distributionDangerForEnterprise(Map<String, Object> dateMap);
 
-	int countNoHandleEnterprise();
+	int countNoHandleEnterprise(Map map);
 
-	Map<String, Object> resultDangerForEnterprise();
+	Map<String, Object> resultDangerForEnterprise(Map map);
 
     Map<String,Object> noticeDangerEnterprise(Map map);
 
 	List<Map<String, Object>> findMonthAreaDangerByOrgId(Map<String, Object> map);
-	List<Map<String, Object>> findPreMonthAreaDangerByOrgId(Map<String, Object> map);
 
 	Map<String, Object> allEnterprise();
 
-	List<Map<String,Object>> ratioDangerForEnterprise();
+	List<Map<String,Object>> ratioDangerForEnterprise(Map map);
+
+
+	List<Map<String,Object>> areaInfoTotal();
 }

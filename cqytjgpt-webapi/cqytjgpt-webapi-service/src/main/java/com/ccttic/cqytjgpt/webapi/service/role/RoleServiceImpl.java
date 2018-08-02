@@ -218,11 +218,7 @@ public class RoleServiceImpl implements IRoleService {
 		//员工ID
 		String str = roles.getEmp_id();
 
-		if(str==null){    
-			//修改角色信息
-			mapper.updateRoleById(roles); 
-			return ;
-		}
+		if(str!=null &&  !str.equals("")  ){
 		//角色ID
 		String role_id = roles.getRoleId();
 
@@ -246,7 +242,10 @@ public class RoleServiceImpl implements IRoleService {
 		}
 
 		mapper.addRoleEmp(roless);
-
+		}else {
+			//修改角色信息
+			mapper.updateRoleById(roles); 
+		}
 
 	}
 

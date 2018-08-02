@@ -2,222 +2,86 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.cqytjgpt.screen.mapper.danger.EtpDangerMapper">
 
+
    <!-- 发现数查询模块 -->
   <select id="countIntoNum" resultType="int">
   	select count(1) intoNum from ess_enterprise where (isDeleted is null or isDeleted !=1)
   </select>
-  
-  <select id="countEnterpriseDangerNum" resultType="int">
-      SELECT
-	count(1)
-FROM
-	ess_enterprise e
-WHERE
-( isDeleted is null or  isDeleted !=1)
-and
-(	(
-		SELECT
-			count(1)
-		FROM
-			driver d
-		WHERE
-			d.id IN (
-				SELECT
-					driver_id
-				FROM
-					dr_danger
-				where
-					month(now())= month(dangerTime) and ( isDeleted is null or  isDeleted !=1)
-			)
-		AND d.mgrEnterpriseId = e.id and ( isDeleted is null or  isDeleted !=1)
-	)
-+
-(
-		SELECT
-			count(1)
-		FROM
-			vehicle v
-		WHERE
-			v.id IN (
-				SELECT
-					vehicle_id
-				FROM
-					vehi_danger
-				WHERE
-				month(now())= month(dangerTime) and ( isDeleted is null or  isDeleted !=1)
-			)
-		AND v.mgrEnterpriseId = e.id and ( isDeleted is null or  isDeleted !=1)
-	) )> oneNum
+
+	<select id="countEnterpriseDangerNum" resultType="int">
+		select count(1) from etp_danger_2018 where dangerType != 0
+	</select>
+
+  <select id="allEnterprise" resultType="Map">
+	  select count(1) allEnterprise from ess_enterprise
   </select>
-  
-  <select id="countWarnNum" resultType="map">
-select
-sum(case when num > oneNum then 1 else 0 end) firstWarn,
-sum(case when num > twoNum then 1 else 0 end) secondWarn,
-sum(case when num > threeNum then 1 else 0 end) thirdWarn
-from
-(SELECT
-	count(1) num
-FROM
-	ess_enterprise e
-WHERE
-( isDeleted is null or  isDeleted !=1)
-and
-	(
-		SELECT
-			count(1)
-		FROM
-			driver d
-		WHERE
-			d.id IN (
-				SELECT
-					driver_id
-				FROM
-					dr_danger
-				where
-					month(now())= month(dangerTime) and ( isDeleted is null or  isDeleted !=1)
-			)
-		AND d.mgrEnterpriseId = e.id and ( isDeleted is null or  isDeleted !=1)
-	)
-+
-(
-		SELECT
-			count(1)
-		FROM
-			vehicle v
-		WHERE
-			v.id IN (
-				SELECT
-					vehicle_id
-				FROM
-					vehi_danger
-				WHERE
-				month(now())= month(dangerTime) and ( isDeleted is null or  isDeleted !=1)
-			)
-		AND v.mgrEnterpriseId = e.id and ( isDeleted is null or  isDeleted !=1)
-	) ) etpDanger
+
+  <select id="countWarnNum" resultType="map" parameterType="map">
+		select dangerType,count(1) warnNum from ${tableName} e GROUP BY dangerType
 	  </select>
 
-
+	<select id="areaInfoTotal" resultType="Map">
+        select * from screen_areainfo_total ORDER BY monthTotal
+    </select>
 
   <!-- 企业类型分布情况 -->
    <select id="distributionDangerForEnterprise" resultType="map" parameterType="map">
- 	<if test='date=="year"'>
-
-
-
-	</if>
- 	<if test='date=="month"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
-union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
-union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
-union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
- 	</if>
- 	<if test='date=="season"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
-union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
-union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
-union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
- 	</if>
+		select etpType,sum(${col}) num from ${tableName} where dangerType != 0 GROUP BY etpType;
   </select>
   <!-- 隐患治理情况 -->
-  <select id="countNoHandleEnterprise" resultType="int">
- 	select count(1) from vehi_danger where dangerType !=0 and (isDeleted is null or isDeleted !=1) and month(now())= month(dangerTime)
+  <select id="countNoHandleEnterprise" resultType="int" parameterType="map">
+ 	select count(1) from ${tableName} where dangerType !=0
   </select>
    <!-- 治理结果趋势 -->
-  <select id="resultDangerForEnterprise" resultType="map" >
-	select
-	    sum(case when month(d.dangerTime)=1 then 1 else 0 end) 一, 
-	    sum(case when month(d.dangerTime)=2 then 1 else 0 end) 二,
-	    sum(case when month(d.dangerTime)=3 then 1 else 0 end) 三,
-	    sum(case when month(d.dangerTime)=4 then 1 else 0 end) 四,
-	    sum(case when month(d.dangerTime)=5 then 1 else 0 end) 五,
-	    sum(case when month(d.dangerTime)=6 then 1 else 0 end) 六,
-	    sum(case when month(d.dangerTime)=7 then 1 else 0 end) 七,
-	    sum(case when month(d.dangerTime)=8 then 1 else 0 end) 八,
-	    sum(case when month(d.dangerTime)=9 then 1 else 0 end) 九,
-	    sum(case when month(d.dangerTime)=10 then 1 else 0 end) 十,
-	    sum(case when month(d.dangerTime)=11 then 1 else 0 end) 十一,
-	    sum(case when month(d.dangerTime)=12 then 1 else 0 end) 十二
-	from vehi_danger d where year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1) and dangerType !=0
-  </select>
-  <!-- 通报机动车信息 -->
-  <select id="noticeDangerEnterprise" resultType="map" parameterType="map">
- SELECT
-	d.id,
-	d.vehino,
-	d.vehitype,
-	d.ownerenterprise,
-	d.scrappedstate,
-	d.illicitstate,
-	d.failurestate,
-	d.overdueexaminestate,
-  d.dangertime,
-	d.dangertype,
-	(select count(1) from vehi_danger where dangerType =1 and (isDeleted is null or isDeleted !=1)) totalnum
+  <select id="resultDangerForEnterprise" resultType="map" parameterType="map">
+	SELECT
+	sum(m1) 一,
+	sum(m2) 二,
+	sum(m3) 三,
+	sum(m4) 四,
+	sum(m5) 五,
+	sum(m6) 六,
+	sum(m7) 七,
+	sum(m8) 八,
+	sum(m9) 九,
+	sum(m10) 十,
+	sum(m11) 十一,
+	sum(m12) 十二
 FROM
-	vehi_danger d
-	WHERE
-	d.dangerType = 1 and (d.isDeleted is null or d.isDeleted != 1) 
-ORDER BY 
-  d.dangerTime
+	${tableName} where dangerType != 0
+  </select>
+  <!-- 通报企业信息 -->
+  <select id="noticeDangerEnterprise" resultType="map" parameterType="map">
+SELECT
+  etpNm,
+  orgNm,
+  areaNm,
+	dangerCar,
+	radioFirstDanger,
+	radioDangerCar,
+	etpType,
+	dangerType
+FROM
+	${tableName}
+where dangerType != 0
+ORDER BY
+  dangerType
 desc
 LIMIT  #{top,jdbcType=VARCHAR},1
   </select>
-  <!-- 根据分所查询各区的驾驶员隐患数 -->
-  <!-- 当月 -->
+  <!-- 根据分所查询各区的企业隐患数 -->
+  <!-- 根据col查询月份 -->
   <select id="findMonthAreaDangerByOrgId" resultType="map">
-	SELECT
-	orgNm,
-	(
-		SELECT
-			count(1)
-		FROM
-			vehi_danger
-		WHERE
-			e.id = ownerOrgId
-		AND (isDeleted is null or isDeleted !=1)
-        AND dangerType !=0
-		AND YEAR (now()) = YEAR (dangerTime)
-		AND MONTH (now()) = MONTH (dangerTime)
-	) enterpriseDangers
-FROM
-	ess_organization e
-WHERE
-	e.superOrg_id = #{orgId,jdbcType=VARCHAR}  and (e.isDeleted is null or e.isDeleted != 1)
-GROUP BY
-	e.orgNm
+		select orgNm,sum(${col}) from ${tableName} where dangerType != 0 GROUP BY orgNm
   </select>
-  <!-- 上月 -->
-  <select id="findPreMonthAreaDangerByOrgId" resultType="map">
-  SELECT
-	orgNm,
-	(
-		SELECT
-			count(1)
-		FROM
-			vehi_danger
-		WHERE
-			e.id = ownerOrgId
-		AND (isDeleted is null or isDeleted !=1)
-        AND dangerType !=0
-		AND YEAR (now()) = YEAR (dangerTime)
-		AND MONTH (now())-1 = MONTH (dangerTime)
-	) etpDangers
-FROM
-	ess_organization e
-WHERE
-	e.superOrg_id = #{orgId,jdbcType=VARCHAR}  and (e.isDeleted is null or e.isDeleted != 1)
-GROUP BY
-	e.orgNm
-  </select>
- 
-  
 
+<select id="ratioDangerForEnterprise" resultType="map" parameterType="map">
+SELECT
+	orgNm,(select count(1) from ${tableName} et where et.orgId = e.id and et.dangerType!=0) etpDangers
+FROM
+	ess_organization e
+where e.orgType =2
+GROUP BY
+	orgNm
+</select>
 </mapper>

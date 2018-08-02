@@ -1,11 +1,10 @@
 package com.ccttic.cqytjgpt.screen.service.danger;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.ccttic.cqytjgpt.screen.mapper.danger.EtpDangerMapper;
+import com.ccttic.cqytjgpt.screen.mapper.danger.TaskDangerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +23,7 @@ public class ScreenServiceImpl implements IScreenService{
 	VehiDangerMapper vehiDangerMapper;
 	@Autowired
 	EtpDangerMapper etpDangerMapper;
+
 	@Override
 	public Map<String, Object> findDangerForDriver() {
 		Map map = new HashMap();
@@ -61,13 +61,15 @@ public class ScreenServiceImpl implements IScreenService{
 		Map map = new HashMap();
 		// 查询企业接入数
 		int intoNum =etpDangerMapper.countIntoNum();
-		// 查询隐患企业发现数
-		int findNum = etpDangerMapper.countEnterpriseDangerNum();
+		// 查询企业隐患数
+		int findNum =etpDangerMapper.countEnterpriseDangerNum();
+		// 根据隐患等级分组查询条数
+		map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+		List warnList = etpDangerMapper.countWarnNum(map);
+
 		map.put("intoNum", intoNum);
 		map.put("findNum", findNum);
-		// 查询预警数 根据级别分组 返回list
-		List warnList = etpDangerMapper.countWarnNum();
-
+		map.put("warnList",warnList);
 		return map;
 	}
 
@@ -87,7 +89,12 @@ public class ScreenServiceImpl implements IScreenService{
 
 	@Override
 	public List<Map<String, Object>> distributionDangerForEnterprise(Map<String, Object> dateMap) {
-		return null;
+		dateMap.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+		// 条件有月 季 年
+		//
+			dateMap.put("col","year");
+		List<Map<String,Object>> list = etpDangerMapper.distributionDangerForEnterprise(dateMap);
+		return list;
 	}
 
 	@Override
@@ -116,7 +123,9 @@ public class ScreenServiceImpl implements IScreenService{
 	public Map<String, Object> handleDangerForEnterprise() {
 		Map map = new HashMap();
 		// 查询未处理的企业
-		int noHandleEnterprise = etpDangerMapper.countNoHandleEnterprise();
+		map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+		// 查询列为当月
+		int noHandleEnterprise = etpDangerMapper.countNoHandleEnterprise(map);
 		//查询已处理的机动车隐患 暂时没有
 		map.put("handleEnterprise", 0);
 		map.put("noHandleEnterprise", noHandleEnterprise);
@@ -139,7 +148,10 @@ public class ScreenServiceImpl implements IScreenService{
 
 	@Override
 	public Map<String, Object> resultDangerForEnterprise() {
-		return null;
+		Map map = new HashMap();
+		map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+
+		return etpDangerMapper.resultDangerForEnterprise(map);
 	}
 
 	@Override
@@ -165,7 +177,12 @@ public class ScreenServiceImpl implements IScreenService{
 
 	@Override
 	public Map<String, Object> noticeDangerForEnterprise(Map map) {
-		return null;
+		 // 查询通报企业
+		map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+		// 查询列为当月
+		map.put("col","m"+Calendar.getInstance().get(Calendar.MONTH)+1);
+		Map<String,Object> dangerEtp = etpDangerMapper.noticeDangerEnterprise(map);
+		return dangerEtp;
 	}
 
 	/**
@@ -177,7 +194,14 @@ public class ScreenServiceImpl implements IScreenService{
 		List<Map<String,Object>> areaDangersTopList = drDangerMapper.areaDangersTop();
 		return areaDangersTopList;
 	}
-
+	/**
+	 * 各区隐患处理排行
+	 */
+	@Override
+	public List<Map<String, Object>> handleAreaDangersTop() {
+		// 查询各区处理排行数
+		return new ArrayList();
+	}
 	@Override
 	public List<Map<String, Object>> ratioDangerForDriver() {
 		// 驾驶员各区隐患占比
@@ -195,8 +219,10 @@ public class ScreenServiceImpl implements IScreenService{
 	@Override
 	public List<Map<String, Object>> ratioDangerForEnterprise() {
 		// 企业各区隐患占比
-		List<Map<String,Object>> areaDangersTopList =etpDangerMapper.ratioDangerForEnterprise();
-		return null;
+		Map map = new HashMap();
+		map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+		List<Map<String,Object>> areaDangersTopList =etpDangerMapper.ratioDangerForEnterprise(map);
+		return areaDangersTopList;
 	}
 
 	@Override
@@ -225,7 +251,18 @@ public class ScreenServiceImpl implements IScreenService{
 
 	@Override
 	public Map<String, Object> deptDangerForEnterprise(Map<String, Object> map) {
-		return null;
+		Map theMap = new HashMap();
+		// 根据分所查询当月分所下各区的驾驶员隐患数
+		map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+		// 查询列为当月
+		map.put("col","m"+Calendar.getInstance().get(Calendar.MONTH)+1);
+		List<Map<String,Object>> areaMonthEtpDangerList = etpDangerMapper.findMonthAreaDangerByOrgId(map);
+		// 查询上月的
+		map.put("col","m"+(Calendar.getInstance().get(Calendar.MONTH)));
+		List<Map<String,Object>> areaPreMonthEtpDangerList = etpDangerMapper.findMonthAreaDangerByOrgId(map);
+		theMap.put("本月", areaMonthEtpDangerList);
+		theMap.put("上月", areaPreMonthEtpDangerList);
+		return theMap;
 	}
 
 	@Override
@@ -245,7 +282,7 @@ public class ScreenServiceImpl implements IScreenService{
 
 	@Override
 	public List<Map<String,Object>> areaInfoTotal() {
-		return drDangerMapper.areaInfoTotal();
+		return etpDangerMapper.areaInfoTotal();
 	}
 
 	@Override
@@ -262,7 +299,7 @@ public class ScreenServiceImpl implements IScreenService{
 
 	@Override
 	public Map<String, Object> allEnterprise() {
-		return null;
+		return etpDangerMapper.allEnterprise();
 	}
 
 	@Override
@@ -270,6 +307,17 @@ public class ScreenServiceImpl implements IScreenService{
 		return drDangerMapper.allCar();
 	}
 
-	
 
+	public static int getQuarterByMonth(int month) {
+		int months[] = { 1, 2, 3, 4 };
+		if (month >= 0 && month <= 2) // 1-3月;0,1,2
+			return months[0];
+		else if (month >= 3 && month <= 5) // 4-6月;3,4,5
+			return months[1];
+		else if (month >= 6 && month <= 8) // 7-9月;6,7,8
+			return months[2];
+		else
+			// 10-12月;10,11,12
+			return months[3];
+	}
 }

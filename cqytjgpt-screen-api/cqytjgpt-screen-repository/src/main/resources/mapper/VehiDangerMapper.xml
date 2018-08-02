@@ -36,45 +36,28 @@
   </select>
   
   <select id="countCarDangerNum" resultType="int">
-      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0 and month(now())= month(dangerTime)
+      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0
   </select>
   
   <select id="countWarnNum" resultType="map">
-  	select v.dangerType,count(1) warnNum from vehi_danger v where v.dangerType !=0 and (v.isDeleted is null or v.isDeleted !=1) and month(now())= month(dangerTime) GROUP BY v.dangerType 
+  	select v.dangerType,count(1) warnNum from vehi_danger v where v.dangerType !=0 and (v.isDeleted is null or v.isDeleted !=1)  GROUP BY v.dangerType
   </select>
   <!-- 机动车隐患分布情况 -->
    <select id="distributionDangerForCar" resultType="map" parameterType="map">
- 	<if test='date=="year"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1) 
+
+select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState !=0  and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1)
+select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState !=0  and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1)
+select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState !=0  and (d.isDeleted is null or d.isDeleted != 1)
 union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and (d.isDeleted is null or d.isDeleted != 1)
- 	</if>
- 	<if test='date=="month"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
-union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
-union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
-union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and month(d.dangerTime) = month(now()) and (d.isDeleted is null or d.isDeleted != 1)
- 	</if>
- 	<if test='date=="season"'>
-select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
-union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
-union all
-select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
-union all
-select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState = 1 and year(d.dangerTime) = year(now()) and quarter(now()) = quarter(d.dangerTime) and (d.isDeleted is null or d.isDeleted!=1)
- 	</if>
+select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.overdueExamineState !=0  and (d.isDeleted is null or d.isDeleted != 1)
+
+
   </select>
   <!-- 隐患治理情况 -->
   <select id="countNoHandleCar" resultType="int">
- 	select count(1) from vehi_danger where dangerType !=0 and (isDeleted is null or isDeleted !=1) and month(now())= month(dangerTime)
+ 	select count(1) from vehi_danger where dangerType !=0 and (isDeleted is null or isDeleted !=1)
   </select>
    <!-- 治理结果趋势 -->
   <select id="resultDangerForCar" resultType="map" >

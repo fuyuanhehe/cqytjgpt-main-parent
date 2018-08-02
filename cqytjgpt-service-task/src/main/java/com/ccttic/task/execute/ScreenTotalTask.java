@@ -24,5 +24,6 @@ public class ScreenTotalTask extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
         log.info("定时任务开始");
         feign.screenTotal();
+        feign.etpTotal();
     }
 }
