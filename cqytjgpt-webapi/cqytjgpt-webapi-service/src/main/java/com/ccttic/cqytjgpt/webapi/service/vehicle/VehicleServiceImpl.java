@@ -94,18 +94,12 @@ public class VehicleServiceImpl implements IVehicleService {
 		} else { // 当违法时间为空的时候直接取当前年份
 			year = calendar.get(Calendar.YEAR);
 		}
-//		String startDate = DateHelper.getFirstDayOfMonth1(year, 1);
-//		String endDate = DateHelper.getLastDayOfMonth1(year, 12);
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-//		params.put("id", vehiIllicit.getId());
-//		params.put("startDate", startDate);
-//		params.put("endDate", endDate);
 		
 		params.put("vehiNo", vehiIllicit.getVehiNo());
 		params.put("vehiNoType", vehiIllicit.getVehiNoType());
-		params.put("netTrffSurveil", "net_trff_surveil_"+year);
-		params.put("netTrffViolation", "net_trff_violation_"+year);
+		params.put("tableName", "illicit_"+year);
 		long totolRol = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 	

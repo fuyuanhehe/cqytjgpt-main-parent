@@ -142,19 +142,8 @@ public class VehiIllicitContrller implements Serializable{
 		} else {
 			year = calendar.get(Calendar.YEAR);
 		}
-		if ("0".equals(ve.getDisposeSign())) {
-			params.put("tableNmae", "net_trff_surveil_"+year);
-		} else {
-			params.put("tableNmae", "net_trff_violation_"+year);
-		}
+		params.put("tableName", "illicit_"+year);
 		params.put("id", ve.getId());
-		params.put("disposeSign", ve.getDisposeSign());
-		if(ve.getVehiNo().contains("渝")) {
-			params.put("vehiNo", ve.getVehiNo().substring(1));
-		} else {
-			params.put("vehiNo", ve.getVehiNo());
-		}
-		
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
 			resp.setData(vehiIllicit);
