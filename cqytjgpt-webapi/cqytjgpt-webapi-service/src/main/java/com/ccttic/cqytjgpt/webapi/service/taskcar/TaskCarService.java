@@ -150,7 +150,7 @@ public class TaskCarService implements ITaskCarService {
 			totalIllegalNum += illegalNum;
 		//}
 		if (totalIllegalNum>=3){
-			vr.setIllicitstate(Const.ONE);
+			vr.setIllicitstate(Const.THREE);
 			illegalRank = Const.THREE;
 			Iterator<Integer> iterator = totalDays.iterator();
 			while (iterator.hasNext()){
@@ -163,9 +163,11 @@ public class TaskCarService implements ITaskCarService {
 			}
 			if(countMore15>=Const.THREE && !(countMore30>=Const.THREE) && !(totalDays.size()>=10)){
 				illegalRank = Const.TWO;
+				vr.setIllicitstate(illegalRank);
 			}
 			if(countMore30>=Const.THREE || totalDays.size()>=10){
 				illegalRank = Const.ONE;
+				vr.setIllicitstate(illegalRank);
 			}
 			sortList.add(illegalRank);
 		}else{
