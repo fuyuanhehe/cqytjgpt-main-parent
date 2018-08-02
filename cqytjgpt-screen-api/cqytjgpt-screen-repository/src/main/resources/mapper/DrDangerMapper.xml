@@ -31,7 +31,9 @@
    <delete id="deleteScreenTotal">
        delete from screen_areainfo_total
    </delete>
-
+    <select id="areaInfoTotal" resultType="map">
+  select * from screen_areainfo_total ORDER BY monthTotal DESC
+      </select>
 
     <insert id="insertScreenTotal" parameterType="List">
      INSERT INTO screen_areaInfo_total (`id`, `orgNm`, `drivers`, `cars`,
