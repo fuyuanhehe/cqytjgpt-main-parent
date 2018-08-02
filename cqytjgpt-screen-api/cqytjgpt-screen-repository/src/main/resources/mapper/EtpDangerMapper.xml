@@ -13,7 +13,7 @@
 	</select>
 
   <select id="allEnterprise" resultType="Map">
-	  select count(1) allEnterprise from ess_enterprise
+	  select count(1) allEnterprise from ess_enterprise where ( isDeleted is null or  isDeleted !=1)
   </select>
 
   <select id="countWarnNum" resultType="map" parameterType="map">

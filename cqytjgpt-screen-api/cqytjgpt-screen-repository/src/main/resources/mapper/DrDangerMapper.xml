@@ -104,7 +104,7 @@ select count(1) num,"满分未学习" dangerName from dr_danger d where d.fullSt
 from dr_danger d where year(d.dangerTime) = year(now()) and (isDeleted is null or isDeleted !=1) and dangerType !=0
   </select>
   <!-- 各区隐患详情查询 -->
-  <select id="areaDangerInfo" resultType="map" >
+  <select id="areaDangerInfo" resultType="map" parameterType="Map">
 SELECT
 	e.orgNm,(
 		SELECT
@@ -128,14 +128,14 @@ SELECT
 		FROM
 			dr_danger d
 		WHERE
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 total
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
 	) monthDriverDangers,
 	(
 		SELECT
 			count(1)
 		FROM
 			vehi_danger d
-		WHERE 
+		WHERE
 			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 and month(now()) = month(d.dangerTime)
 	) monthCarDangers,
 (select monthDriverDangers+monthCarDangers) monthTotal,
@@ -145,17 +145,20 @@ SELECT
 		FROM
 			dr_danger d
 		WHERE
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
 	) driverDangers,
 	(
 		SELECT
 			count(1)
 		FROM
 			vehi_danger d
-		WHERE 
-			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0 
+		WHERE
+			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
 	) carDangers,
-(select driverDangers+carDangers) total
+(select driverDangers+carDangers) total,
+(select count(1) from ess_enterprise et where et.org_id=e.id and (et.isDeleted is null or et.isDeleted !=1)) enterprises,
+(select count(1) from ${tableName} ed where dangerType !=0 and ed.orgId=e.id) etpDangers,
+(select count(1) from ${tableName} ed where ${col} !=0 and dangerType !=0 and ed.orgId=e.id)  monthEtpDangers
 FROM
 	ess_organization e
 	WHERE

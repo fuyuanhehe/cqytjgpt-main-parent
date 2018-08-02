@@ -157,7 +157,12 @@ public class ScreenServiceImpl implements IScreenService{
 	@Override
 	public List<Map<String, Object>> areaDangerInfo() {
 		// 查全市不同地区隐患数据
-		List<Map<String,Object>> areaDangerInfoList = drDangerMapper.areaDangerInfo();
+        // 查询通报企业
+        Map map = new HashMap();
+        map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
+        // 查询列为当月
+        map.put("col","m"+Calendar.getInstance().get(Calendar.MONTH)+1);
+		List<Map<String,Object>> areaDangerInfoList = drDangerMapper.areaDangerInfo(map);
 		return areaDangerInfoList;
 	}
 
