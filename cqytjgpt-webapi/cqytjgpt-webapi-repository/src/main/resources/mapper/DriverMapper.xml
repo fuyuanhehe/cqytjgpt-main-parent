@@ -282,116 +282,58 @@
 	</select>
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
-	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
-		parameterType="java.util.Map">
-		SELECT
-		vd.id,
-		a.areaNm,
-		e.etpNm,
-		REPLACE (vd. NAME, ' ', '') NAME,
-		vd.idcard,
-		vd.illicitTime,
-		vd.illicitAdress,
-		vd.illicitScore,
-		vd.illicitAmount,
-		vd.mgrDepart,
-		ict.illegal_name AS illicit,
-		CASE
-		vd.drState WHEN '001' THEN '未处理' WHEN '002' THEN '处理中' WHEN '003'
-		THEN
-		'已处理' ELSE '' END drIllicitState
-		FROM
-		${dring} vd JOIN (select dr.id
-		FROM ${dring} dr where dr.idcard IS NOT NULL
-		<if test="fiString!=null and fiString!='' ">
-			and dr.illicitTime BETWEEN #{fiString} and #{laString}
-		</if>
-		ORDER BY illicitTime LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id
-		=vd.id
-		LEFT JOIN vehicle v ON vd.vehicle_id = v.id
-		LEFT JOIN
-		ess_enterprise e ON v.mgrEnterpriseId = e.id
-		LEFT JOIN ess_area a ON
-		a.id = vd.mgrDepartAreaId
-		LEFT JOIN illegal_comparison_table ict ON
-		ict.code = vd.illicit
-		<choose>
-			<when test="empType == 'SUPERMAN'">
-				WHERE 1=1
-			</when>
-			<otherwise>
-				WHERE e.id in
-				<foreach collection="list" index="index" item="item" open="("
-					separator="," close=")">
-					#{item}
-				</foreach>
-			</otherwise>
-		</choose>
-		<if test="id!=null and id!='' ">
-			and vd.id = #{id}
-		</if>
-		<if test="name !=null and name!='' ">
-			and trim(REPLACE(vd.name, ' ', '')) LIKE
-			trim(REPLACE('%${name}%', ' ', ''))
-		</if>
-		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm like '%${etpNm}%'
-		</if>
-		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm = #{areaNm}
-		</if>
-		<if test="illicitadress!=null and illicitadress!='' ">
-			and vd.illicitadress = #{illicitadress}
-		</if>
-		<if test="illicit!=null and illicit!='' ">
-			and vd.illicit = #{illicit}
-		</if>
+	<select id="seDr_illicitPages"  resultType="com.ccttic.entity.drivers.vo.DriverillicitVo" parameterType="java.util.List">
+        SELECT net.id,d.idcard,d.permicar AS permitcar,d.mgrdepart,d.mgrdepartareaid, net.WFSJ AS illicittime ,net.WFJFS AS illicitscore ,net.DSR AS name ,ict.illegal_name AS illicit,net.CLJGMC AS pickdepartmentdesc,net.id,d.permiCar,d.mgrDepart,d.mgrDepartareaid ,ent.etpNm
+        FROM net_trff_violation_2018 net LEFT JOIN driver d ON net.JSZH =d.idcard LEFT JOIN ess_area a ON a.id  = d.mgrDepartAreaId LEFT JOIN ess_enterprise ent ON ent.id =d.mgrEnterpriseId LEFT JOIN illegal_comparison_table ict ON ict.code = net.WFXW
+        where 1=1
+        <if test="list!= null and list.size>0 ">
+         AND  d.mgrDepartAreaId IN
+          <foreach collection="list" index="index" item="item" open="("
+                                             separator="," close=")">
+            #{item}
+           </foreach>
+        </if>
+        <if test="etpId!= null and etpId !='' ">
+            AND ent.id = #{etpId}
+        </if>
+        <if test="id!= null and id !='' ">
+            AND net.id = #{id}
+        </if>
+        <if test="idCard!= null and idCard !='' ">
+            AND net.JSZH = #{idCard}
+        </if>
+        <if test="name!= null and name !='' ">
+            AND d.name LIKE '%${name}%'
+        </if>
+
+        LIMIT ${startRecord} ,${pageSize}
+
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
 	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
-		SELECT count(vd.id) FROM
-		${dring} vd JOIN (select dr.id FROM ${dring}
-		dr where dr.idcard IS NOT NULL
-		<if test="fiString!=null and fiString!='' ">
-			and dr.illicitTime BETWEEN #{fiString} and #{laString}
-		</if>
-		) tmp ON tmp.id =vd.id
-		<choose>
-			<when test="empType == 'SUPERMAN'">
-				WHERE 1=1
-			</when>
-			<otherwise>
-				WHERE e.id in
-				<foreach collection="list" index="index" item="item" open="("
-					separator="," close=")">
-					#{item}
-				</foreach>
-			</otherwise>
-		</choose>
-		<if test="id!=null and id!='' ">
-			and vd.id = #{id}
-		</if>
-		<if test="name!=null and name!='' ">
-			and trim(REPLACE(vd.name, ' ', '')) LIKE
-			trim(REPLACE('%${name}%', ' ', ''))
-		</if>
-		<if test="etpNm!=null and etpNm!='' ">
-			and e.etpNm like '%${etpNm}%'
-		</if>
-		<if test="areaNm!=null and areaNm!='' ">
-			and a.areaNm = #{areaNm}
-		</if>
-		<if test="illicitadress!=null and illicitadress!='' ">
-			and vd.illicitAdress = #{illicitadress}
-		</if>
-		<if test="illicit!=null and illicit!='' ">
-			and vd.illicit = #{illicit}
-		</if>
-		<if test="fiString!=null and fiString!='' ">
-			and vd.illicitTime BETWEEN #{fiString} and
-			#{laString}
-		</if>
-		AND vd.idcard IS NOT NULL
+        SELECT COUNT(1)
+        FROM net_trff_violation_2018 net ,driver d
+        where net.JSZH =d.idcard
+        <if test="list!= null and list.size>0 ">
+           AND d.mgrDepartAreaId IN
+            <foreach collection="list" index="index" item="item" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="etpId!= null and etpId !='' ">
+            AND ent.id = #{etpId}
+        </if>
+        <if test="id!= null and id !='' ">
+            AND net.id = #{id}
+        </if>
+        <if test="idCard!= null and idCard !='' ">
+            AND net.JSZH = #{idCard}
+        </if>
+        <if test="name!= null and name !='' ">
+            AND d.name LIKE '%${name}%'
+        </if>
+
 	</select>
 
 	<!-- 一对多查询关联 -->

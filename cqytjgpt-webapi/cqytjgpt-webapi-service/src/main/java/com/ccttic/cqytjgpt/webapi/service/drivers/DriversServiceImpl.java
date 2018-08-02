@@ -4,11 +4,9 @@ import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.mapper.drivers.DriverMapper;
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.*;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EssEmployee;
-import com.ccttic.util.common.DateHelper;
-import com.ccttic.util.common.RandomHelper;
-import com.ccttic.util.common.State;
-import com.ccttic.util.common.StringHelper;
+import com.ccttic.util.common.*;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
@@ -82,9 +80,9 @@ public class DriversServiceImpl implements DriversService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("idcard", driver.getIdcard());
+		params.put("idCard", driver.getIdcard());
 		params.put("list", driver.getQid());
-		params.put("empType", driver.getEmpType()); // 账号类型
+
 		pager.setRecords( mapper.seDrillicitByDriverId(params));
 		pager.setTotalRows(mapper.seDrillicitByDriverIdCount(params));
 
@@ -92,32 +90,18 @@ public class DriversServiceImpl implements DriversService {
 	}
 
 	@Override
-	public Page<DriverillicitVo> getDriverPages(Pageable page, DriverillicitVo driver) {
+	public Page<DriverillicitVo> getDriverPages(Pageable page, DriverillicitVo driver, EmployeePermission employeePermission) {
 		Page<DriverillicitVo> pager = new PageImpl<DriverillicitVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
 		params.put("id", driver.getId());
 		params.put("name", driver.getName());
-		params.put("etpNm", driver.getEtpNm());
-		params.put("areaNm", driver.getAreaNm());
-		params.put("illicitadress", driver.getIllicitadress());
-		params.put("illicit", driver.getIllicit());
-		params.put("fiString", driver.getFiString());
-		params.put("laString", driver.getLaString());
-		params.put("list", driver.getQid());
-		params.put("empType", driver.getEmpType()); // 账号类型
+		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
 
-		if(driver.getFiString()!=null){
-			if(  !(driver.getFiString().equals(""))){
-				String year = driver.getFiString().substring(0, 4) ;
-				params.put("dring", "vehi_dr_illicit"+year);
-			}else {
-				params.put("dring", "vehi_dr_illicit"+driver.getYears());
-			}
-		}else {
-			params.put("dring", "vehi_dr_illicit"+driver.getYears());
-		}
 
 		pager.setRecords(mapper.seDr_illicitPages(params));
 		pager.setTotalRows(mapper.getDriverPageCount(params));

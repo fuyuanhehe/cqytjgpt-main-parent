@@ -29,10 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 功能说明： 人员业务实现类
@@ -492,18 +489,38 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		EmployeePermission employeePermission = new EmployeePermission();
 		EssEnterprise enterprise = null;
 		Organization organization = null;
+		List<String> areaList = null;
 		employeePermission.setEmployeeType(employee.getEmptype());
 		switch (employee.getEmptype()) {
 			case Const.SUPERMAN:
+				areaList = new ArrayList<>();
+				List<Organization> organizations = organizationMapper.getAllLastOrg();
+				for (Organization org:organizations){
+					areaList.add(org.getAreaCode());
+				}
+				employeePermission.setAreaList(areaList);
 				break;
 			case Const.ADMIN:
 				enterprise = employee.getEnt();
 				employeePermission.setEnterpriseId(enterprise.getId());
 				break;
 			case Const.SUPER:
+				areaList = new ArrayList<>();
 				organization = employee.getOrg();
 				employeePermission.setOrgId(organization.getId());
 				employeePermission.setOrgType(organization.getOrgType());
+				if("2".equals(organization.getOrgType())) {
+					areaList.add(organization.getAreaCode());
+					employeePermission.setAreaList(areaList);
+				}
+				if ("1".equals(organization.getOrgType())){
+					List<Organization> orgs = organizationMapper.getLastOrg(organization.getId());
+					for (Organization org:orgs){
+						areaList.add(org.getAreaCode());
+					}
+					employeePermission.setAreaList(areaList);
+				}
+
 				break;
 			default:
 				return null;
