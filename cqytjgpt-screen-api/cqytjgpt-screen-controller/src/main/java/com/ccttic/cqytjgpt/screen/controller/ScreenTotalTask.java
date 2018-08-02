@@ -50,7 +50,7 @@ public class ScreenTotalTask {
             int count = 0;
             for (Map m: etpList) {
 
-                System.out.println(count++);
+
                 m.put("etpId",m.get("id"));
                 // 获取组织机构
                 Map org = taskMapper.findOrgByOrgId((String) m.get("orgId"));
@@ -124,7 +124,8 @@ public class ScreenTotalTask {
             }
             Map param = new HashMap();
             param.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
-            taskMapper.deleteAll(param);
+            //taskMapper.deleteAll(param);
+            log.info("删除数据完毕-------------------------开始插入");
             param.put("list",etpList);
             taskMapper.insertEtpTotal(param);
 
