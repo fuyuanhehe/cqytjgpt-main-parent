@@ -44,7 +44,7 @@ public interface DriversService {
 	public List<Driver> getAllDriverMsg();
 	
 	// 企业信息分页
-	Page<EnterprisethenVo> queryEnterprisePage(Pageable page,EnterprisethenVo enterprisethenVo);
+	Page<EnterprisethenVo> queryEnterprisePage(Pageable page,EnterprisethenVo enterprisethenVo, EmployeePermission employeePermission);
 	
 	Page<EssEmployee> queryEmpPage(Pageable page);
 	//<!--企业信息记录分页 -->
