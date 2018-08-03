@@ -749,8 +749,11 @@
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
-			<if test="ownerenterprise != null and ownerenterprise != ''">
-				and danger.ownerEnterprise = #{ownerenterprise}
+			<!--<if test="ownerenterprise != null and ownerenterprise != ''">-->
+				<!--and danger.ownerEnterprise = #{ownerenterprise}-->
+			<!--</if>-->
+			<if test="etpNm != null and etpNm != ''">
+				and etp.etpNm LIKE '${etpNm}'
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
 				and danger.vehiNo LIKE '%${vehiNo}%'
@@ -800,8 +803,11 @@
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
-			<if test="etpId != null and etpId != ''">
-				and vehi.ownerEnterprise = #{etpId}
+			<!--<if test="etpId != null and etpId != ''">-->
+				<!--and vehi.ownerEnterprise = #{etpId}-->
+			<!--</if>-->
+			<if test="etpNm != null and etpNm != ''">
+				and etp.etpNm LIKE '${etpNm}'
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
 				and vehi.vehiNo LIKE '%${vehiNo}%'

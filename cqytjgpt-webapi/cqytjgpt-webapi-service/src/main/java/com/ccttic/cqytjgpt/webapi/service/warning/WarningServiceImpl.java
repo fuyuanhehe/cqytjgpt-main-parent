@@ -46,16 +46,18 @@ public class WarningServiceImpl implements IWarningService{
 		}
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+
 		params.put("list", organizations); // 组织集合
 		params.put("areaId", ve.getAreaId());// 区域
 		params.put("empType", ve.getEmpType()); // 账号类型
-		params.put("ownerenterprise", ve.getOwnerenterprise());// 公司
+		params.put("etpNm", ve.getOwnerenterprise());// 公司
 		params.put("vehiNo", ve.getVehino()); // 车牌号
 		params.put("dangertype", ve.getDangertype());// 预警等级
 		params.put("correctstate", ve.getCorrectstate());// 整改进度
 		params.put("scrappedState", ve.getScrappedstate()==1?true:false);
 		params.put("illicitState", ve.getIllicitstate()==1?true:false);
 		params.put("overdueExamineState", ve.getOverdueexaminestate()==1?true:false);
+
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<VehiDangerVo> records = mapper.qryVehicleList(params);
 		for (VehiDangerVo vo : records) {
