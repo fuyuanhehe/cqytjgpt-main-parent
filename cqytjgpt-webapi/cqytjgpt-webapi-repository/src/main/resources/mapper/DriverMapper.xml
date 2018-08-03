@@ -106,12 +106,15 @@
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
-			<otherwise>
-				WHERE en.id in
+			<when test="list!= null and list.size>0 ">
+				WHERE a.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
+			</when>
+			<otherwise>
+				WHERE en.id = #{etpId}
 			</otherwise>
 		</choose>
 		<if test="etpNm!=null and etpNm!='' ">
@@ -167,12 +170,15 @@
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
-			<otherwise>
-				WHERE en.id in
+			<when test="list!= null and list.size>0 ">
+				WHERE a.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
+			</when>
+			<otherwise>
+				WHERE en.id = #{etpId}
 			</otherwise>
 		</choose>
 		<if test="etpNm!=null and etpNm!='' ">
@@ -214,143 +220,160 @@
 	<!--驾驶人违法记录 -->
 	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
-        SELECT illicit.id,illicit.JSZH as idcard,illicit.mgrdepartareaid,illicit.illicitdesc AS illicit,illicittime ,illicit.illicitScore ,illicit.DSR AS name ,illicit.illicit,illicit.pickdepartmentdesc,
-        illicit.areaNm,illicit.mgrDepartareaid,illicit.etpNm ,illicit.illicitamount,illicit.illicitadress
-        FROM illicit_2018 illicit JOIN (select id FROM illicit_2018 where (disposeSign ="" OR disposeSign IS NULL )
-        <if test="list!= null and list.size>0 ">
-            AND  mgrDepartAreaId IN
-            <foreach collection="list" index="index" item="item" open="("
-                     separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="etpId!= null and etpId !='' ">
-            AND mgrEnterpriseId = #{etpId}
-        </if>
-        <if test="id!= null and id !='' ">
-            AND id = #{id}
-        </if>
-        <if test="idCard!= null and idCard !='' ">
-            AND JSZH = #{idCard}
-        </if>
-        <if test="name!= null and name !='' ">
-            AND dsr LIKE '%${name}%'
-        </if>
-        <if test="etpNm!= null and etpNm !='' ">
-            AND etpNm LIKE '%${name}%'
-        </if>
-        <if test="startTime!= null and startTime !='' ">
-            AND illicittime &gt;= #{startTime}
-        </if>
-        <if test="endTime!= null and endTime !='' ">
-            AND etpNm &lt;= #{endTime}
-        </if>
+		SELECT illicit.id,illicit.JSZH as
+		idcard,illicit.mgrdepartareaid,illicit.illicitdesc AS
+		illicit,illicittime ,illicit.illicitScore ,illicit.DSR AS name
+		,illicit.illicit,illicit.pickdepartmentdesc,
+		illicit.areaNm,illicit.mgrDepartareaid,illicit.etpNm
+		,illicit.illicitamount,illicit.illicitadress
+		FROM illicit_2018 illicit
+		JOIN (select id FROM illicit_2018 where
+		(disposeSign ="" OR disposeSign
+		IS NULL )
+		<if test="list!= null and list.size>0 ">
+			AND mgrDepartAreaId IN
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="etpId!= null and etpId !='' ">
+			AND mgrEnterpriseId = #{etpId}
+		</if>
+		<if test="id!= null and id !='' ">
+			AND id = #{id}
+		</if>
+		<if test="idCard!= null and idCard !='' ">
+			AND JSZH = #{idCard}
+		</if>
+		<if test="name!= null and name !='' ">
+			AND dsr LIKE '%${name}%'
+		</if>
+		<if test="etpNm!= null and etpNm !='' ">
+			AND etpNm LIKE '%${name}%'
+		</if>
+		<if test="startTime!= null and startTime !='' ">
+			AND illicittime &gt;= #{startTime}
+		</if>
+		<if test="endTime!= null and endTime !='' ">
+			AND etpNm &lt;= #{endTime}
+		</if>
 
-        LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id = illicit.id
+		LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id = illicit.id
 
 	</select>
 	<select id="seDrillicitByDriverIdCount" parameterType="java.util.Map"
 		resultType="long">
-        select count(id) FROM illicit_2018 where (disposeSign ="" OR disposeSign IS NULL )
-        <if test="list!= null and list.size>0 ">
-            AND  mgrDepartAreaId IN
-            <foreach collection="list" index="index" item="item" open="("
-                     separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="etpId!= null and etpId !='' ">
-            AND mgrEnterpriseId = #{etpId}
-        </if>
-        <if test="id!= null and id !='' ">
-            AND id = #{id}
-        </if>
-        <if test="idCard!= null and idCard !='' ">
-            AND JSZH = #{idCard}
-        </if>
-        <if test="name!= null and name !='' ">
-            AND dsr LIKE '%${name}%'
-        </if>
-        <if test="etpNm!= null and etpNm !='' ">
-            AND etpNm LIKE '%${name}%'
-        </if>
-        <if test="startTime!= null and startTime !='' ">
-            AND illicittime &gt;= #{startTime}
-        </if>
-        <if test="endTime!= null and endTime !='' ">
-            AND etpNm &lt;= #{endTime}
-        </if>
+		select count(id) FROM illicit_2018 where (disposeSign ="" OR
+		disposeSign IS NULL )
+		<if test="list!= null and list.size>0 ">
+			AND mgrDepartAreaId IN
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="etpId!= null and etpId !='' ">
+			AND mgrEnterpriseId = #{etpId}
+		</if>
+		<if test="id!= null and id !='' ">
+			AND id = #{id}
+		</if>
+		<if test="idCard!= null and idCard !='' ">
+			AND JSZH = #{idCard}
+		</if>
+		<if test="name!= null and name !='' ">
+			AND dsr LIKE '%${name}%'
+		</if>
+		<if test="etpNm!= null and etpNm !='' ">
+			AND etpNm LIKE '%${name}%'
+		</if>
+		<if test="startTime!= null and startTime !='' ">
+			AND illicittime &gt;= #{startTime}
+		</if>
+		<if test="endTime!= null and endTime !='' ">
+			AND etpNm &lt;= #{endTime}
+		</if>
 	</select>
 
 	<!--驾驶人违法信息条件分页 驾驶人信息-信息记录 -->
-	<select id="seDr_illicitPages"  resultType="com.ccttic.entity.drivers.vo.DriverillicitVo" parameterType="java.util.List">
-        SELECT illicit.id,illicit.JSZH as idcard,illicit.mgrdepartareaid,illicit.illicitdesc AS illicit,illicittime ,illicit.illicitScore ,illicit.DSR AS name ,illicit.illicit,illicit.pickdepartmentdesc,
-        illicit.areaNm,illicit.mgrDepartareaid,illicit.etpNm ,illicit.illicitamount,illicit.illicitadress
-        FROM illicit_2018 illicit JOIN (select id FROM illicit_2018 where (disposeSign ="" OR disposeSign IS NULL )
-        <if test="list!= null and list.size>0 ">
-            AND  mgrDepartAreaId IN
-            <foreach collection="list" index="index" item="item" open="("
-                     separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="etpId!= null and etpId !='' ">
-            AND mgrEnterpriseId = #{etpId}
-        </if>
-        <if test="id!= null and id !='' ">
-            AND id = #{id}
-        </if>
-        <if test="idCard!= null and idCard !='' ">
-            AND JSZH = #{idCard}
-        </if>
-        <if test="name!= null and name !='' ">
-            AND dsr LIKE '%${name}%'
-        </if>
-        <if test="etpNm!= null and etpNm !='' ">
-            AND etpNm LIKE '%${name}%'
-        </if>
-        <if test="startTime!= null and startTime !='' ">
-            AND illicittime &gt;= #{startTime}
-        </if>
-        <if test="endTime!= null and endTime !='' ">
-            AND etpNm &lt;= #{endTime}
-        </if>
+	<select id="seDr_illicitPages" resultType="com.ccttic.entity.drivers.vo.DriverillicitVo"
+		parameterType="java.util.List">
+		SELECT illicit.id,illicit.JSZH as
+		idcard,illicit.mgrdepartareaid,illicit.illicitdesc AS
+		illicit,illicittime ,illicit.illicitScore ,illicit.DSR AS name
+		,illicit.illicit,illicit.pickdepartmentdesc,
+		illicit.areaNm,illicit.mgrDepartareaid,illicit.etpNm
+		,illicit.illicitamount,illicit.illicitadress
+		FROM illicit_2018 illicit
+		JOIN (select id FROM illicit_2018 where
+		(disposeSign ="" OR disposeSign
+		IS NULL )
+		<if test="list!= null and list.size>0 ">
+			AND mgrDepartAreaId IN
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="etpId!= null and etpId !='' ">
+			AND mgrEnterpriseId = #{etpId}
+		</if>
+		<if test="id!= null and id !='' ">
+			AND id = #{id}
+		</if>
+		<if test="idCard!= null and idCard !='' ">
+			AND JSZH = #{idCard}
+		</if>
+		<if test="name!= null and name !='' ">
+			AND dsr LIKE '%${name}%'
+		</if>
+		<if test="etpNm!= null and etpNm !='' ">
+			AND etpNm LIKE '%${name}%'
+		</if>
+		<if test="startTime!= null and startTime !='' ">
+			AND illicittime &gt;= #{startTime}
+		</if>
+		<if test="endTime!= null and endTime !='' ">
+			AND etpNm &lt;= #{endTime}
+		</if>
 
-         LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id = illicit.id
+		LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id = illicit.id
 
 
 	</select>
 	<!-- 驾驶人违法分页总数 驾驶人信息-信息记录 -->
 	<select id="getDriverPageCount" resultType="long" parameterType="java.util.Map">
-        select count(id) FROM illicit_2018 where (disposeSign ="" OR disposeSign IS NULL )
-        <if test="list!= null and list.size>0 ">
-            AND  mgrDepartAreaId IN
-            <foreach collection="list" index="index" item="item" open="("
-                     separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="etpId!= null and etpId !='' ">
-            AND mgrEnterpriseId = #{etpId}
-        </if>
-        <if test="id!= null and id !='' ">
-            AND id = #{id}
-        </if>
-        <if test="idCard!= null and idCard !='' ">
-            AND JSZH = #{idCard}
-        </if>
-        <if test="name!= null and name !='' ">
-            AND dsr LIKE '%${name}%'
-        </if>
-        <if test="etpNm!= null and etpNm !='' ">
-            AND etpNm LIKE '%${name}%'
-        </if>
-        <if test="startTime!= null and startTime !='' ">
-            AND illicittime &gt;= #{startTime}
-        </if>
-        <if test="endTime!= null and endTime !='' ">
-            AND etpNm &lt;= #{endTime}
-        </if>
+		select count(id) FROM illicit_2018 where (disposeSign ="" OR
+		disposeSign IS NULL )
+		<if test="list!= null and list.size>0 ">
+			AND mgrDepartAreaId IN
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="etpId!= null and etpId !='' ">
+			AND mgrEnterpriseId = #{etpId}
+		</if>
+		<if test="id!= null and id !='' ">
+			AND id = #{id}
+		</if>
+		<if test="idCard!= null and idCard !='' ">
+			AND JSZH = #{idCard}
+		</if>
+		<if test="name!= null and name !='' ">
+			AND dsr LIKE '%${name}%'
+		</if>
+		<if test="etpNm!= null and etpNm !='' ">
+			AND etpNm LIKE '%${name}%'
+		</if>
+		<if test="startTime!= null and startTime !='' ">
+			AND illicittime &gt;= #{startTime}
+		</if>
+		<if test="endTime!= null and endTime !='' ">
+			AND etpNm &lt;= #{endTime}
+		</if>
 	</select>
 
 	<!-- 一对多查询关联 -->
@@ -490,7 +513,7 @@
 				</foreach>
 			</otherwise>
 		</choose>
-			AND en.id != ''
+		AND en.id != ''
 		<if test="areaNm!= null and areaNm!='' ">
 			AND a.areaNm = #{areaNm}
 		</if>

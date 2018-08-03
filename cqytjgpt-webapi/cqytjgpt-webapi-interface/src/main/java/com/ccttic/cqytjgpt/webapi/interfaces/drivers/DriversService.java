@@ -22,10 +22,12 @@ public interface DriversService {
 	/**
 	 * 分页驾驶人信息
 	 * @param driverVo 筛选条件
+	 * @param employeePermission 
+	 * @param employeePermission 
 	 * @return
 	 */
 
-	Page<DriverVo> seDriverPage(Pageable page,DriverVo driverVo);
+	Page<DriverVo> seDriverPage(Pageable page,DriverVo driverVo, EmployeePermission employeePermission );
 
 	///查询驾驶人违法记录
 	Page<DriverillicitVo> seDrillicitByDriverId(Pageable page,DriverVo driver);
