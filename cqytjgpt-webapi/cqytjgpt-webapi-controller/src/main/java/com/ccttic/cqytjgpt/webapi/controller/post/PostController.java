@@ -197,7 +197,11 @@ public class PostController {
     public ResponseMsg<String> addpost(@RequestBody EssPostVo post,@RequestParam String access_token) {
         ResponseMsg<String> rm = new ResponseMsg<>();
         try {
-            postService.addPost(post);
+            String Msg = postService.addPost(post);
+            if(null !=Msg){
+                rm.fail(Msg);
+                return rm;
+            }
             rm.setMessage("添加post数据成功");
             rm.setStatus(0);
         } catch (Exception e) {

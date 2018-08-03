@@ -51,7 +51,7 @@ public interface IPostService {
 	 * @param post
 	 * @throws Exception
 	 */
-	void addPost(EssPostVo post) throws AppException;
+	String addPost(EssPostVo post) throws AppException;
 
 	/**修改岗位
 	 * @param post
