@@ -26,7 +26,7 @@ public class DriversServiceImpl implements DriversService {
 	private DriverMapper mapper;
 
 	@Override
-	public Page<DriverVo> seDriverPage(Pageable page, DriverVo driverVo) {
+	public Page<DriverVo> seDriverPage(Pageable page, DriverVo driverVo, EmployeePermission employeePermission) {
 		Page<DriverVo> pager = new PageImpl<DriverVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
@@ -42,9 +42,11 @@ public class DriversServiceImpl implements DriversService {
 		params.put("fistShString", driverVo.getFistShString());
 		params.put("laShString", driverVo.getLaShString());
 		params.put("mobilephone", driverVo.getMobilephone());
-		params.put("list", driverVo.getQid());
 		params.put("empType", driverVo.getEmpType()); // 账号类型
-
+		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
 		List<DriverVo> List = mapper.seDriverPage(params);
 		
 		for (DriverVo driverVo2 : List) {

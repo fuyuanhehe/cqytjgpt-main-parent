@@ -74,35 +74,19 @@ public class DriversController implements Serializable{
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			List<String> list = new ArrayList<String>();
-			String empType = null;
 
-			String username=JWTUtil.getUsername(access_token);
-			// 从redis获取用户信息 
-			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
-			if (null != vo) {
-				empType = vo.getEmptype();
-				ent = vo.getCanSeeEnt();
-			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				empType = employee.getEmptype();
-				ent = employee.getCanSeeEnt();
-				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+			EmployeeVo employee = employeeService.getUserInfo(access_token);
+			if(null == employee ){
+				resp.fail("获取用户信息失败");
+				return resp;
 			}
-			if(ent != null){
-				for (EssEnterprise essEnterprise : ent) {
-					list.add(essEnterprise.getId());
-				}
-			}
-				tment.setQid(list);
-				tment.setEmpType(empType);
-				Page<DriverVo> data = service.seDriverPage(page, tment);
-				resp.setMessage("获取驾驶人信息-基本信息成功！");
-				resp.setStatus(0);
-				resp.setData(data.getRecords());
-				resp.setTotal(data.getTotalRows().intValue());
-			
+			EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+			Page<DriverVo> data = service.seDriverPage(page, tment,employeePermission);
+			resp.setMessage("获取驾驶人信息-基本信息成功！");
+			resp.setStatus(0);
+			resp.setData(data.getRecords());
+			resp.setTotal(data.getTotalRows().intValue());
+
 		} catch (Exception e) {
 			resp.setMessage("获取驾驶人信息-基本信息失败！");
 			resp.setStatus(0);
