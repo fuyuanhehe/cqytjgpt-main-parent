@@ -161,7 +161,7 @@ public class ScreenServiceImpl implements IScreenService{
         Map map = new HashMap();
         map.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
         // 查询列为当月
-        map.put("col","m"+Calendar.getInstance().get(Calendar.MONTH)+1);
+        map.put("col","m"+(Calendar.getInstance().get(Calendar.MONTH)+1));
 		List<Map<String,Object>> areaDangerInfoList = drDangerMapper.areaDangerInfo(map);
 		return areaDangerInfoList;
 	}

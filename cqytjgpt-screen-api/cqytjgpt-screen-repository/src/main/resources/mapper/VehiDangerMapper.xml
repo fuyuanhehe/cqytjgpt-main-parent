@@ -36,7 +36,7 @@
   </select>
   
   <select id="countCarDangerNum" resultType="int">
-      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0
+      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0 and year(d.dangerTime) = year(now())
   </select>
   
   <select id="countWarnNum" resultType="map">
@@ -46,8 +46,6 @@
    <select id="distributionDangerForCar" resultType="map" parameterType="map">
 
 select count(1) num,"违法未处理" dangerName from vehi_danger d where d.illicitState !=0  and (d.isDeleted is null or d.isDeleted != 1)
-union all
-select count(1) num,"事故未处理" dangerName from vehi_danger d where d.failureState !=0  and (d.isDeleted is null or d.isDeleted != 1)
 union all
 select count(1) num,"达到报废标准" dangerName from vehi_danger d where d.scrappedState !=0  and (d.isDeleted is null or d.isDeleted != 1)
 union all

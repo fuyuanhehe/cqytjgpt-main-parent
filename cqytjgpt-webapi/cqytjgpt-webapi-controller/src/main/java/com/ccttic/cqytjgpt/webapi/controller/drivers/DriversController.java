@@ -223,7 +223,7 @@ public class DriversController implements Serializable{
 	 */
 	@OperLogging(operType = 3,content="企业信息-基本信息")
 	@ResourceScan(rsc = @Resource(cd = Const.ENTER_ESSENTIAL, name = "企业信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION), prsc = {
-			@Resource(cd = Const.DRIVER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource(cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment,@RequestParam String access_token){
