@@ -155,10 +155,11 @@ SELECT
 		WHERE
 			d.ownerOrgId = e.id and (d.isDeleted is null or d.isDeleted !=1) and d.dangerType!=0
 	) carDangers,
-(select driverDangers+carDangers) total,
+
 (select count(1) from ess_enterprise et where et.org_id=e.id and (et.isDeleted is null or et.isDeleted !=1)) enterprises,
 (select count(1) from ${tableName} ed where dangerType !=0 and ed.orgId=e.id) etpDangers,
-(select count(1) from ${tableName} ed where ${col} !=0 and dangerType !=0 and ed.orgId=e.id)  monthEtpDangers
+(select count(1) from ${tableName} ed where ${col} !=0 and dangerType !=0 and ed.orgId=e.id)  monthEtpDangers,
+(select driverDangers+carDangers+etpDangers) total
 FROM
 	ess_organization e
 	WHERE
