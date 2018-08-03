@@ -141,6 +141,7 @@ public class TaskDriverService implements ITaskDriverService {
 		dr.setId(driver.getIdcard());
 		dr.setDrivername(driver.getName());
 		dr.setDriveridcard(driver.getIdcard());
+		dr.setOwnerorgid(driver.getMgrdepartareaid());
 		simpleDateFormat = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		dr.setDangertime(simpleDateFormat.format(new Date()));
 		String enterpriseId = driver.getMgrenterpriseid();
