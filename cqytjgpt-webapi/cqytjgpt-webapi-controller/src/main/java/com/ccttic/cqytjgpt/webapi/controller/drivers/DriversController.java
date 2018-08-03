@@ -80,6 +80,7 @@ public class DriversController implements Serializable{
 				resp.fail("获取用户信息失败");
 				return resp;
 			}
+			tment.setEmpType( employee.getEmptype());
 			EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
 			Page<DriverVo> data = service.seDriverPage(page, tment,employeePermission);
 			resp.setMessage("获取驾驶人信息-基本信息成功！");
