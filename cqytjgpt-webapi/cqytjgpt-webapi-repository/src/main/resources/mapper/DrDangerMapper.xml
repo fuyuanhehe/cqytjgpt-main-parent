@@ -673,11 +673,16 @@ GROUP BY
         <if test="etpId != null and etpId != ''">
             and dr.mgrEnterpriseId = #{etpId}
         </if>
-        <if test="dangertype == null and dangertype == ''">
-            and danger.dangerType  &gt;= 0
-        </if>
         <if test="dangertype != null and dangertype != ''">
-            and danger.dangerType = #{dangertype}
+            <if test="fullStudyState ==true ">
+                and danger.fullStudyState = #{dangertype}
+            </if>
+            <if test="overdueExamineState ==true ">
+                and danger.overdueExamineState = #{dangertype}
+            </if>
+            <if test="overdueProofState ==true ">
+                and danger.overdueProofState = #{dangertype}
+            </if>
         </if>
         <if test="fullStudyState ==true ">
             and danger.fullStudyState  &gt;= 1
@@ -706,10 +711,15 @@ GROUP BY
             and area.id = #{areaId}
         </if>
         <if test="dangertype != null and dangertype != ''">
-            and danger.dangerType = #{dangertype}
-        </if>
-        <if test="dangertype == null and dangertype == ''">
-            and danger.dangerType  &gt;= 0
+            <if test="fullStudyState ==true ">
+                and danger.fullStudyState = #{dangertype}
+            </if>
+            <if test="overdueExamineState ==true ">
+                and danger.overdueExamineState = #{dangertype}
+            </if>
+            <if test="overdueProofState ==true ">
+                and danger.overdueProofState = #{dangertype}
+            </if>
         </if>
         <if test="fullStudyState ==true ">
             and danger.fullStudyState  &gt;= 1

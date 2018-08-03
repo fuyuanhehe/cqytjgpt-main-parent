@@ -756,7 +756,15 @@
 				and danger.vehiNo = #{vehiNo}
 			</if>
 			<if test="dangertype != null and dangertype != ''">
-				and danger.dangerType = #{dangertype}
+				<if test="scrappedState ==true ">
+					and danger.scrappedState = #{dangertype}
+				</if>
+				<if test="illicitState ==true ">
+					and danger.illicitState = #{dangertype}
+				</if>
+				<if test="overdueExamineState ==true ">
+					and danger.overdueExamineState = #{dangertype}
+				</if>
 			</if>
 			<if test="dangertype == null and dangertype == ''">
 				and danger.dangerType &gt;=1
@@ -799,12 +807,20 @@
 				and vehi.vehiNo = #{vehiNo}
 			</if>
 			<if test="dangertype != null and dangertype != ''">
-				and danger.dangerType = #{dangertype}
+				<if test="scrappedState ==true ">
+					and danger.scrappedState = #{dangertype}
+				</if>
+				<if test="illicitState ==true ">
+					and danger.illicitState = #{dangertype}
+				</if>
+				<if test="overdueExamineState ==true ">
+					and danger.overdueExamineState = #{dangertype}
+				</if>
 			</if>
 			<if test="correctstate != null and correctstate != ''">
 				and danger.correctState = #{correctstate}
 			</if>
-				<if test="scrappedState ==true ">
+			<if test="scrappedState ==true ">
 				and danger.scrappedState  &gt;= 1
 			</if>
 			<if test="illicitState ==true ">
@@ -813,6 +829,7 @@
 			<if test="overdueExamineState ==true ">
 				and danger.overdueExamineState &gt;= 1
 			</if>
+
 	</select>
 	<!-- 根据id查询 -->
 	<select id="qryOneVehicle" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.vo.VehiDangerVo">
