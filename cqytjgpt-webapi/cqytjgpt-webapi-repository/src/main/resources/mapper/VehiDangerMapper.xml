@@ -753,7 +753,7 @@
 				and danger.ownerEnterprise = #{ownerenterprise}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and danger.vehiNo = #{vehiNo}
+				and danger.vehiNo LIKE '%${vehiNo}%'
 			</if>
 			<if test="dangertype != null and dangertype != ''">
 				<if test="scrappedState ==true ">
@@ -804,7 +804,7 @@
 				and vehi.ownerEnterprise = #{etpId}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and vehi.vehiNo = #{vehiNo}
+				and vehi.vehiNo LIKE '%${vehiNo}%'
 			</if>
 			<if test="dangertype != null and dangertype != ''">
 				<if test="scrappedState ==true ">
