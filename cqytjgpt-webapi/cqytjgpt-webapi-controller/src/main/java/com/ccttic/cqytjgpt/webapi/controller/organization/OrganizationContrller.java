@@ -19,6 +19,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.organization.IDepartmentService;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
@@ -32,6 +33,7 @@ import com.ccttic.util.common.Const;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
+import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
@@ -63,16 +65,24 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "获取树头", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<TreeVo>> findAllOrg(@RequestParam String access_token,@RequestBody String orgId) {
+	public ResponseMsg<List<TreeVo>> findAllOrg(@RequestParam String access_token) {
 		ResponseMsg<List<TreeVo>> resp = new ResponseMsg<List<TreeVo>>();
+			Map<String, String> orgIdMap = new HashMap<>();
 			EmployeeVo employee = employeeService.getUserInfo(access_token);
-			Organization org = employee.getOrg();
-		Map<String, String> orgIdMap = new HashMap<>();
-		if (org==null){
-			orgIdMap.put("orgId","162d7b86a54e465d8cf421def2f35ef8");
-		}else{
-			orgIdMap.put("orgId",org.getId());
-		}
+			
+			if (Const.SUPERMAN.equals(employee.getEmptype())) {
+				orgIdMap.put("orgId","162d7b86a54e465d8cf421def2f35ef8");
+			} else if (Const.SUPER.equals(employee.getEmptype())) {
+				Organization org = employee.getOrg();
+				orgIdMap.put("orgId",org.getId());
+			} else if (Const.ADMIN.equals(employee.getEmptype())) {
+				EssEnterprise ent = employee.getEnt();
+				orgIdMap.put("orgId",ent.getOrgId());
+			} else if (Const.USER.equals(employee.getEmptype())) {
+				String account = JWTUtil.getUsername(access_token);
+				String orgId = organizationService.getAccountOrgId(account);
+				orgIdMap.put("orgId",orgId);
+			}
 		List<TreeVo> list = new ArrayList<TreeVo>();
 		TreeVo vo = new TreeVo();
 		try {

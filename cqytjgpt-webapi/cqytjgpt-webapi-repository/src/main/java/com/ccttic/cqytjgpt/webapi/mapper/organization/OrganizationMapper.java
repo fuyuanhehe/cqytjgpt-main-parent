@@ -117,4 +117,11 @@ public interface OrganizationMapper {
 	 * @param org
 	 */
 	public int addMent(@Param("ment") Department ment);
+	/**
+	 * 根据账号获取orgId（新建账号为user 类型）
+	 * @param account
+	 * @return
+	 * @throws AppException
+	 */
+	String getAccountOrgId (String account);
 }

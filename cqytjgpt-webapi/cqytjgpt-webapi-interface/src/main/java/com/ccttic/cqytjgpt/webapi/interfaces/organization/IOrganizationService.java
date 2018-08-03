@@ -77,4 +77,6 @@ public interface IOrganizationService {
 	 *@Date:11:24 2018/7/30
 	 */
 	List<Organization> getOrgByTypeAndId(String id,String type)throws AppException ;
+	
+	String getAccountOrgId (String account);
 }
