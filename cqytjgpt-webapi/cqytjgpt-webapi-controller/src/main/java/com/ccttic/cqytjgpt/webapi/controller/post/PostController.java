@@ -65,6 +65,10 @@ public class PostController {
         EmployeeVo employee = employeeService.getUserInfo(access_token);
 
         EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+        if(null == employeePermission){
+            rm.fail("该用户无数据权限");
+            return rm;
+        }
 
         try {
             PageRequest page = new PageRequest();

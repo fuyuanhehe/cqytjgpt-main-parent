@@ -758,17 +758,20 @@
 			<if test="dangertype != null and dangertype != ''">
 				and danger.dangerType = #{dangertype}
 			</if>
+			<if test="dangertype == null and dangertype == ''">
+				and danger.dangerType &gt;=1
+			</if>
 			<if test="correctstate != null and correctstate != ''">
 				and danger.correctState = #{correctstate}
 			</if>
 			<if test="scrappedState ==true ">
-				and danger.scrappedState = 1
+				and danger.scrappedState &gt;= 1
 			</if>
 			<if test="illicitState ==true ">
-				and danger.illicitState = 1
+				and danger.illicitState &gt;= 1
 			</if>
 			<if test="overdueExamineState ==true ">
-				and danger.overdueExamineState = 1
+				and danger.overdueExamineState &gt;= 1
 			</if>
 			order by danger.dangerType DESC
 		
@@ -802,13 +805,13 @@
 				and danger.correctState = #{correctstate}
 			</if>
 				<if test="scrappedState ==true ">
-				and danger.scrappedState = 1
+				and danger.scrappedState  &gt;= 1
 			</if>
 			<if test="illicitState ==true ">
-				and danger.illicitState = 1
+				and danger.illicitState  &gt;= 1
 			</if>
 			<if test="overdueExamineState ==true ">
-				and danger.overdueExamineState = 1
+				and danger.overdueExamineState &gt;= 1
 			</if>
 	</select>
 	<!-- 根据id查询 -->

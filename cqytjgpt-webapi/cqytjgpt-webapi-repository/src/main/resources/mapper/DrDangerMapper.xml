@@ -674,19 +674,19 @@ GROUP BY
             and dr.mgrEnterpriseId = #{etpId}
         </if>
         <if test="dangertype == null and dangertype == ''">
-            and danger.dangerType != 0
+            and danger.dangerType  &gt;= 0
         </if>
         <if test="dangertype != null and dangertype != ''">
             and danger.dangerType = #{dangertype}
         </if>
         <if test="fullStudyState ==true ">
-            and danger.fullStudyState = 1
+            and danger.fullStudyState  &gt;= 1
         </if>
         <if test="overdueExamineState ==true ">
-            and danger.overdueExamineState = 1
+            and danger.overdueExamineState  &gt;= 1
         </if>
         <if test="overdueProofState ==true ">
-            and danger.overdueProofState = 1
+            and danger.overdueProofState  &gt;= 1
         </if>
         order by danger.dangerType DESC
         limit ${startRecord},${pageSize}
@@ -709,16 +709,16 @@ GROUP BY
             and danger.dangerType = #{dangertype}
         </if>
         <if test="dangertype == null and dangertype == ''">
-            and danger.dangerType != 0
+            and danger.dangerType  &gt;= 0
         </if>
         <if test="fullStudyState ==true ">
-            and danger.fullStudyState = 1
+            and danger.fullStudyState  &gt;= 1
         </if>
         <if test="overdueExamineState ==true ">
-            and danger.overdueExamineState = 1
+            and danger.overdueExamineState  &gt;= 1
         </if>
         <if test="overdueProofState ==true ">
-            and danger.overdueProofState = 1
+            and danger.overdueProofState  &gt;= 1
         </if>
     </select>
 
