@@ -138,4 +138,7 @@
     <select id="getAllPost" resultType="com.ccttic.entity.post.EssPost">
 	select * from ess_post where isDeleted !=1
 	</select>
+    <select id="selectPostByPostCd" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM ess_post WHERE postCd = #{postCd}
+    </select>
 </mapper>

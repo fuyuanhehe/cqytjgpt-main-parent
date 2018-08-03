@@ -105,7 +105,7 @@
 	<select id="getLastOrg" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
 		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
 			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
-			    from ess_organization org where org.orgType =#{id} and org.isDeleted is null or org.isDeleted = 0 ORDER BY  orgType ASC
+			    from ess_organization org where org.superOrg_id =#{id} and org.isDeleted is null or org.isDeleted = 0 ORDER BY  orgType ASC
 	</select>
 	
 	
@@ -142,4 +142,9 @@
 		insert into ess_department(id,org_id,ept_id,depNm,depShortNm,depCd,depDuty,remark,dispOrder) values 
 			(#{ment.id},#{ment.orgId},#{ment.eptId},#{ment.depNm},#{ment.depShortNm},#{ment.depCd},#{ment.depDuty},#{ment.remark},#{ment.dispOrder})
 	</insert>
+	<select id="getAccountOrgId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT dep.org_id FROM ess_employee emp LEFT JOIN ess_employee_dept emp_dept ON emp.id=emp_dept.emp_id
+		LEFT JOIN ess_department dep ON emp_dept.dep_id=dep.id  where
+				emp.account=#{account}
+	</select>
 </mapper>

@@ -96,7 +96,7 @@ public interface RoleMapper {
 	 * 修改角色
 	 * @param roles
 	 */
-	public int updateRoleById(Roles roles);
+	public int updateRoleById(@Param("roles") Roles roles);
 	/**
 	 * 通过员工ID获取角色
 	 * @param roles

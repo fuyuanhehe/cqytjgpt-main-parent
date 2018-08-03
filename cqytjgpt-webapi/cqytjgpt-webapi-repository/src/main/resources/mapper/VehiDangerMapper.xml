@@ -749,26 +749,40 @@
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
-			<if test="ownerenterprise != null and ownerenterprise != ''">
-				and danger.ownerEnterprise = #{ownerenterprise}
+			<!--<if test="ownerenterprise != null and ownerenterprise != ''">-->
+				<!--and danger.ownerEnterprise = #{ownerenterprise}-->
+			<!--</if>-->
+			<if test="etpNm != null and etpNm != ''">
+				and etp.etpNm LIKE '${etpNm}'
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and danger.vehiNo = #{vehiNo}
+				and danger.vehiNo LIKE '%${vehiNo}%'
 			</if>
 			<if test="dangertype != null and dangertype != ''">
-				and danger.dangerType = #{dangertype}
+				<if test="scrappedState ==true ">
+					and danger.scrappedState = #{dangertype}
+				</if>
+				<if test="illicitState ==true ">
+					and danger.illicitState = #{dangertype}
+				</if>
+				<if test="overdueExamineState ==true ">
+					and danger.overdueExamineState = #{dangertype}
+				</if>
+			</if>
+			<if test="dangertype == null and dangertype == ''">
+				and danger.dangerType &gt;=1
 			</if>
 			<if test="correctstate != null and correctstate != ''">
 				and danger.correctState = #{correctstate}
 			</if>
 			<if test="scrappedState ==true ">
-				and danger.scrappedState = 1
+				and danger.scrappedState &gt;= 1
 			</if>
 			<if test="illicitState ==true ">
-				and danger.illicitState = 1
+				and danger.illicitState &gt;= 1
 			</if>
 			<if test="overdueExamineState ==true ">
-				and danger.overdueExamineState = 1
+				and danger.overdueExamineState &gt;= 1
 			</if>
 			order by danger.dangerType DESC
 		
@@ -789,27 +803,39 @@
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
 			</if>   
-			<if test="etpId != null and etpId != ''">
-				and vehi.ownerEnterprise = #{etpId}
+			<!--<if test="etpId != null and etpId != ''">-->
+				<!--and vehi.ownerEnterprise = #{etpId}-->
+			<!--</if>-->
+			<if test="etpNm != null and etpNm != ''">
+				and etp.etpNm LIKE '${etpNm}'
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and vehi.vehiNo = #{vehiNo}
+				and vehi.vehiNo LIKE '%${vehiNo}%'
 			</if>
 			<if test="dangertype != null and dangertype != ''">
-				and danger.dangerType = #{dangertype}
+				<if test="scrappedState ==true ">
+					and danger.scrappedState = #{dangertype}
+				</if>
+				<if test="illicitState ==true ">
+					and danger.illicitState = #{dangertype}
+				</if>
+				<if test="overdueExamineState ==true ">
+					and danger.overdueExamineState = #{dangertype}
+				</if>
 			</if>
 			<if test="correctstate != null and correctstate != ''">
 				and danger.correctState = #{correctstate}
 			</if>
-				<if test="scrappedState ==true ">
-				and danger.scrappedState = 1
+			<if test="scrappedState ==true ">
+				and danger.scrappedState  &gt;= 1
 			</if>
 			<if test="illicitState ==true ">
-				and danger.illicitState = 1
+				and danger.illicitState  &gt;= 1
 			</if>
 			<if test="overdueExamineState ==true ">
-				and danger.overdueExamineState = 1
+				and danger.overdueExamineState &gt;= 1
 			</if>
+
 	</select>
 	<!-- 根据id查询 -->
 	<select id="qryOneVehicle" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.vo.VehiDangerVo">

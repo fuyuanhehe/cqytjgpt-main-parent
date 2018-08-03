@@ -110,4 +110,9 @@ public class OrganizationServiceImpl implements IOrganizationService {
 		return organizations;
 	}
 
+	@Override
+	public String getAccountOrgId(String account) {
+		return mapper.getAccountOrgId(account);
+	}
+
 }

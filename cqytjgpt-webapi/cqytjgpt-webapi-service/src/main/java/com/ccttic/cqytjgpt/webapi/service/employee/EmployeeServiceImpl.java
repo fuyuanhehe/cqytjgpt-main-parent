@@ -418,7 +418,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		List<EssEmployeeVo> records = empMapper.qryEmployeeList(params);
 		for (EssEmployeeVo essEmployeeVo : records) {
 			List<EssPost> post = empMapper.selectPostUnderEmp(essEmployeeVo.getId());
+			String nm = "";
 			essEmployeeVo.setPost(post);
+			if (post.size()>0) {
+				for (EssPost essPost : post) {
+					nm+=","+essPost.getPostnm();
+				}
+				essEmployeeVo.setPostNm(nm.substring(1));
+			}
 		}
 
 		pager.setTotalRows(totalRows);

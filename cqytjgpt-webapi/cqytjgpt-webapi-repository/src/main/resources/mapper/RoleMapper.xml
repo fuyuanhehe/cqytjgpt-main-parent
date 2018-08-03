@@ -144,26 +144,10 @@
 
 	<update id="updateRoleById" parameterType="com.ccttic.entity.role.Roles">
 
-		UPDATE ess_role
-
-		<set>
-			<if test="roleCd!= null and roleCd!='' ">
-				roleCd = #{roleCd} ,
-			</if>
-
-			<if test="roleNm!= null and roleNm!='' ">
-				roleNm=#{roleNm} ,
-			</if>
-
-			<if test="description!= null description!=''  ">
-				description=#{description}
-			</if>
-
-		</set>
-
-		WHERE id
-		= #{roleId}
-
+		update ess_role set
+		roleCd=#{roles.roleCd},roleNm=#{roles.roleNm}
+		,description=#{roles.description} where
+		id=#{roles.roleId}
 	</update>
 	<!-- 删除角色关联公员工根据ID -->
 	<delete id="deleteEssRoleById" parameterType="java.lang.String">

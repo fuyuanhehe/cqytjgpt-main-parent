@@ -65,6 +65,10 @@ public class PostController {
         EmployeeVo employee = employeeService.getUserInfo(access_token);
 
         EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+        if(null == employeePermission){
+            rm.fail("该用户无数据权限");
+            return rm;
+        }
 
         try {
             PageRequest page = new PageRequest();
@@ -193,7 +197,11 @@ public class PostController {
     public ResponseMsg<String> addpost(@RequestBody EssPostVo post,@RequestParam String access_token) {
         ResponseMsg<String> rm = new ResponseMsg<>();
         try {
-            postService.addPost(post);
+            String Msg = postService.addPost(post);
+            if(null !=Msg){
+                rm.fail(Msg);
+                return rm;
+            }
             rm.setMessage("添加post数据成功");
             rm.setStatus(0);
         } catch (Exception e) {

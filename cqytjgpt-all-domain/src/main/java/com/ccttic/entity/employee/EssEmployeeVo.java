@@ -26,6 +26,7 @@ public class EssEmployeeVo extends EssEmployee {
 	private List<EssPost> post;
 	//部门id
 	private List<Department> des;
+	private String postNm;
 	private int page = 1;
 	private int rows = 10;
 	public int getPage() {
@@ -88,6 +89,12 @@ public class EssEmployeeVo extends EssEmployee {
 	}
 	public void setEtpNm(String etpNm) {
 		this.etpNm = etpNm;
+	}
+	public String getPostNm() {
+		return postNm;
+	}
+	public void setPostNm(String postNm) {
+		this.postNm = postNm;
 	}
 	
 }
