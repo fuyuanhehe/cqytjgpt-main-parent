@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.enterprise.EssEnterpriseMapper;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.enums.EssEmployeeStatus;
 import com.ccttic.entity.enterprise.EnterVehicle;
@@ -21,6 +22,7 @@ import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.EmpVo;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.DateHelper;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.RandomHelper;
@@ -156,7 +158,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	}
 
 	@Override
-	public Page<EnterpriseVehiVo> getEnterpriseVe(Pageable page, EnterpriseVehiVo envo)
+	public Page<EnterpriseVehiVo> getEnterpriseVe(Pageable page, EnterpriseVehiVo envo,EmployeePermission employeePermission)
 			throws AppException {
 		Page<EnterpriseVehiVo> pager = new PageImpl<EnterpriseVehiVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -165,11 +167,13 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("etpNm", envo.getEtpNm());
 		params.put("areaNm", envo.getAreaNm());
 		params.put("id", envo.getId());
-		params.put("list", envo.getList());
 		params.put("empType", envo.getEmpType());
 		params.put("vehiNo", envo.getVehiNo());
 		params.put("vehiNoType", envo.getVehiNoType());
-
+		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
 		List<EnterpriseVehiVo> data = enterpriseMapper.getEnterpriseVe(params);
 
 		for (EnterpriseVehiVo enterpriseVehiVo : data) {
@@ -201,7 +205,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	}
 
 	@Override
-	public Page<EnterpriseDriverVo> getEnterpriceDriver(Pageable page, EnterpriseDriverVo envo)
+	public Page<EnterpriseDriverVo> getEnterpriceDriver(Pageable page, EnterpriseDriverVo envo,EmployeePermission employeePermission)
 			throws AppException {
 		Page<EnterpriseDriverVo> pager = new PageImpl<EnterpriseDriverVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -210,11 +214,13 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("etpNm", envo.getEtpNm());
 		params.put("areaNm", envo.getAreaNm());
 		params.put("id", envo.getId());
-		params.put("list", envo.getList());
 		params.put("empType", envo.getEmpType());
 		params.put("empType", envo.getEmpType());
 		params.put("idcard", envo.getIdcard());
-
+		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
 		List<EnterpriseDriverVo> list = enterpriseMapper.getEnterpriceDriver(params);
 
 		for (EnterpriseDriverVo driverVo2 : list) {

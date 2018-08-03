@@ -20,6 +20,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
@@ -204,35 +205,18 @@ public class EnterpriseController implements Serializable {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			List<String> list = new ArrayList<String>();
-			String empType = null;
-
-			String username=JWTUtil.getUsername(access_token);
-			// 从redis获取用户信息 
-			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
-			if (null != vo) {
-				empType = vo.getEmptype();
-				ent = vo.getCanSeeEnt();
-			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				empType = employee.getEmptype();
-				ent = employee.getCanSeeEnt();
-				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+			EmployeeVo employee = employeeService.getUserInfo(access_token);
+			if(null == employee ){
+				resp.fail("获取用户信息失败");
+				return resp;
 			}
-
-			if(ent!= null){
-				for (EssEnterprise essEnterprise : ent) {
-					list.add(essEnterprise.getId());
-				}
-			}
-				tment.setList(list);
-				tment.setEmpType(empType);
-				Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment);
-				resp.setData(data.getRecords());
-				resp.setMessage("获取企业下属车辆成功");
-				resp.setStatus(0);
-				resp.setTotal(data.getTotalRows().intValue());
+			tment.setEmpType( employee.getEmptype());
+			EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+			Page<EnterpriseVehiVo> data = enterpriseService.getEnterpriseVe(page, tment,employeePermission);
+			resp.setData(data.getRecords());
+			resp.setMessage("获取企业下属车辆成功");
+			resp.setStatus(0);
+			resp.setTotal(data.getTotalRows().intValue());
 		} catch (Exception e) {
 			resp.setMessage("获取企业下属车辆失败");
 			resp.setStatus(-1);
@@ -261,36 +245,20 @@ public class EnterpriseController implements Serializable {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			List<String> list = new ArrayList<String>();
-			String empType = null;
-
-			String username=JWTUtil.getUsername(access_token);
-			// 从redis获取用户信息 
-			EmployeeVo vo= (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			List<EssEnterprise> ent = null;
-			if (null != vo) {
-				empType = vo.getEmptype();
-				ent = vo.getCanSeeEnt();
-			} else {
-				EmployeeVo employee = employeeService.findEmployeeByAccount(username);
-				empType = employee.getEmptype();
-				ent = employee.getCanSeeEnt();
-				redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
+		
+			EmployeeVo employee = employeeService.getUserInfo(access_token);
+			if(null == employee ){
+				resp.fail("获取用户信息失败");
+				return resp;
 			}
-			if(ent!= null){
-				for (EssEnterprise essEnterprise : ent) {
-					list.add(essEnterprise.getId());
-				}
-			}
-			if(empType!=null){
-				tment.setEmpType(empType);
-			}
-				tment.setList(list);
-				Page<EnterpriseDriverVo> data = enterpriseService.getEnterpriceDriver(page, tment);
-				resp.setData(data.getRecords());
-				resp.setMessage("获取企业下属驾驶员成功");
-				resp.setStatus(0);
-				resp.setTotal(data.getTotalRows().intValue()); 
+			tment.setEmpType( employee.getEmptype());
+			EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+			
+			Page<EnterpriseDriverVo> data = enterpriseService.getEnterpriceDriver(page, tment,employeePermission);
+			resp.setData(data.getRecords());
+			resp.setMessage("获取企业下属驾驶员成功");
+			resp.setStatus(0);
+			resp.setTotal(data.getTotalRows().intValue()); 
 		} catch (Exception e) {
 			resp.setMessage("获取企业下属驾驶员失败");
 			resp.setStatus(-1);

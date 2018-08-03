@@ -154,7 +154,7 @@ public class DriversServiceImpl implements DriversService {
 
 	@Override
 	public Page<EnterprisethenVo> queryEnterprisePage(Pageable page,
-			EnterprisethenVo enterprisethenVo) {
+			EnterprisethenVo enterprisethenVo,EmployeePermission employeePermission) {
 		Page<EnterprisethenVo> pager = new PageImpl<EnterprisethenVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
@@ -164,10 +164,13 @@ public class DriversServiceImpl implements DriversService {
 		params.put("areaNm", enterprisethenVo.getAreaNm());
 		params.put("ownerTraffic", enterprisethenVo.getOwnertraffic());
 		params.put("ownerTransport", enterprisethenVo.getOwnertransport());
-		params.put("list", enterprisethenVo.getQid());
 		params.put("empType", enterprisethenVo.getEmpType());
 		params.put("etpCd", enterprisethenVo.getEtpcd());
-
+		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
+		
 		List<EnterprisethenVo> list = mapper.queryEnterprisePage(params);
 
 		for (EnterprisethenVo enter : list) {

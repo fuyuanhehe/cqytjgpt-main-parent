@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.interfaces.enterprise;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
@@ -59,12 +60,12 @@ public interface IEnterpriseService {
 	 * 企业下属车辆
 	 */
 
-	public Page<EnterpriseVehiVo> getEnterpriseVe(Pageable page,EnterpriseVehiVo envo)throws AppException ;
+	public Page<EnterpriseVehiVo> getEnterpriseVe(Pageable page,EnterpriseVehiVo envo, EmployeePermission employeePermission)throws AppException ;
 
 	/*
 	 * 企业下属驾驶人
 	 */
-	public Page<EnterpriseDriverVo> getEnterpriceDriver(Pageable page,EnterpriseDriverVo envo)throws AppException ;
+	public Page<EnterpriseDriverVo> getEnterpriceDriver(Pageable page,EnterpriseDriverVo envo, EmployeePermission employeePermission)throws AppException ;
 
 
 	// 企业选择车辆

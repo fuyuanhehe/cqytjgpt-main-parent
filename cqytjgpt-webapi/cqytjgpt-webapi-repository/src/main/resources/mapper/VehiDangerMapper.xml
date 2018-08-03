@@ -753,7 +753,7 @@
 				<!--and danger.ownerEnterprise = #{ownerenterprise}-->
 			<!--</if>-->
 			<if test="etpNm != null and etpNm != ''">
-				and etp.etpNm LIKE '${etpNm}'
+				and etp.etpNm LIKE '%${etpNm}%'
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
 				and danger.vehiNo LIKE '%${vehiNo}%'
@@ -807,7 +807,7 @@
 				<!--and vehi.ownerEnterprise = #{etpId}-->
 			<!--</if>-->
 			<if test="etpNm != null and etpNm != ''">
-				and etp.etpNm LIKE '${etpNm}'
+				and etp.etpNm LIKE '%${etpNm}%'
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
 				and vehi.vehiNo LIKE '%${vehiNo}%'
