@@ -644,7 +644,6 @@
 			<otherwise>
 				WHERE en.id = #{etpId}
 			</otherwise>
-		</otherwise>
 		</choose>
 		AND (v.isDeleted is null OR v.isDeleted !=1)
 		<if test="etpNm!=null and etpNm!='' ">
@@ -690,7 +689,6 @@
 			<otherwise>
 				WHERE en.id = #{etpId}
 			</otherwise>
-		</otherwise>
 		</choose>
 		AND (v.isDeleted is null OR v.isDeleted !=1)
 		<if test="etpNm!=null and etpNm!='' ">
