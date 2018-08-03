@@ -92,7 +92,7 @@ public class VehiIllicitContrller implements Serializable{
 			}
 			String userType = null;
 			String id = null;
-			 // 根据登录账号类型判断
+			 // 根据登录账号类型判断查询数据
 			if (Const.SUPERMAN.equals(vo.getEmptype())) {
 				userType = Const.SUPERMAN;
 			} else if (Const.SUPER.equals(vo.getEmptype())) {
@@ -105,6 +105,9 @@ public class VehiIllicitContrller implements Serializable{
 				if (null != ent) {
 					id = ent.getId();
 				}
+			}  else {
+				resp.fail("该账号无查询数据权限");
+				return resp;
 			}
 			
 			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page,vehiIllicit,userType,id);
