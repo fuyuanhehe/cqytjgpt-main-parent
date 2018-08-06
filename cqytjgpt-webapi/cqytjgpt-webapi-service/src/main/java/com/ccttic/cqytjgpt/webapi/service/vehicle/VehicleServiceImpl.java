@@ -112,7 +112,12 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("tableName", "illicit_"+year);
 		long totolRol = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
-	
+		for (VehiIllicit vehiIllicit2 : records) {
+			if (null != vehiIllicit2.getIllicitScore()) {
+				vehiIllicit.setDisposeSign("已处理");
+				vehiIllicit.setState("已处理");
+			}
+		}
         pager.setRecords(records);
 		pager.setTotalRows(totolRol);
 		return pager;

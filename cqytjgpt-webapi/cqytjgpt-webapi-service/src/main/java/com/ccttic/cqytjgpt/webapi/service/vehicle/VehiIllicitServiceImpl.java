@@ -77,6 +77,7 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		for (VehiIllicit vehi : records) {
 			if (null != vehi.getIllicitScore()) {
 				vehi.setDisposeSign("已处理");
+				vehi.setState("已处理");
 			}
 		}
 		pager.setTotalRows(totolRol);

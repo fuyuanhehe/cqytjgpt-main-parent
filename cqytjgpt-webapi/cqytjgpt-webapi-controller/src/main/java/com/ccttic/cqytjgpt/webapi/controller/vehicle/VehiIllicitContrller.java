@@ -52,10 +52,6 @@ public class VehiIllicitContrller implements Serializable{
 	private IVehiIllicitService vehiIllicitService;
 	@Autowired
 	private IEmployeeService employeeService;
-	@Autowired
-	private RedisService<EmployeeVo> redisService;
-	@Autowired
-	private IOrganizationService organizationService;
 	/**
 	 * 根据条件获取车辆违法信息
 	 * @return
