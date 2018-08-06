@@ -76,11 +76,11 @@ select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.over
   </select>
   <!-- 通报机动车信息 -->
   <select id="noticeDangerCar" resultType="map" parameterType="map">
- SELECT
+SELECT
 	d.id,
 	d.vehino,
 	d.vehitype,
-	d.ownerenterprise,
+	(select etpNm from ess_enterprise e where e.id=d.ownerEnterprise )  ownerEnterprise,
 	d.scrappedstate,
 	d.illicitstate,
 	d.failurestate,
@@ -91,7 +91,7 @@ select count(1) num,"逾期未审验" dangerName from vehi_danger d where d.over
 FROM
 	vehi_danger d
 	WHERE
-	d.dangerType = 1 and (d.isDeleted is null or d.isDeleted != 1) 
+	d.dangerType = 1 and (d.isDeleted is null or d.isDeleted != 1) and d.ownerEnterprise is not null
 ORDER BY 
   d.dangerTime
 desc
