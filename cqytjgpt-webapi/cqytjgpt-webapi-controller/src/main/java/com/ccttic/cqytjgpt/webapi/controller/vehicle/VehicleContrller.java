@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
@@ -30,6 +31,7 @@ import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.AccoutVo;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
@@ -73,6 +75,8 @@ public class VehicleContrller implements Serializable {
 	private RedisService<EmployeeVo> redisService;
 	@Autowired
 	private VehicleFeign frign;
+	@Autowired
+	private IOrganizationService organizationService;
 
 	/**
 	 * 根据条件获取车辆基本信息
@@ -130,6 +134,16 @@ public class VehicleContrller implements Serializable {
 				if (null != ent) {
 					id = ent.getId();
 				}
+			} else if (Const.ORGUSER.equals(vo.getEmptype())) {
+				vehicle.setEmpType(Const.SUPER);
+				String account = JWTUtil.getUsername(access_token);
+				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
+				id = accoutVo.getOrgId();
+			} else if (Const.EPTUSER.equals(vo.getEmptype())) {
+				vehicle.setEmpType(Const.ADMIN);
+				String account = JWTUtil.getUsername(access_token);
+				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
+				id = accoutVo.getOrgId();
 			} else {
 				resp.fail("该账号无查询数据权限");
 				return resp;

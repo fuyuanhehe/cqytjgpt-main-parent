@@ -20,6 +20,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.AccoutVo;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.Enterprise;
@@ -78,10 +79,10 @@ public class OrganizationContrller implements Serializable {
 			} else if (Const.ADMIN.equals(employee.getEmptype())) {
 				EssEnterprise ent = employee.getEnt();
 				orgIdMap.put("orgId",ent.getOrgId());
-			} else if (Const.USER.equals(employee.getEmptype())) {
+			} else if (Const.ORGUSER.equals(employee.getEmptype()) || Const.EPTUSER.equals(employee.getEmptype())) {
 				String account = JWTUtil.getUsername(access_token);
-				String orgId = organizationService.getAccountOrgId(account);
-				orgIdMap.put("orgId",orgId);
+				AccoutVo vo = organizationService.getAccountOrgId(account);
+				orgIdMap.put("orgId",vo.getOrgId());
 			}
 		List<TreeVo> list = new ArrayList<TreeVo>();
 		TreeVo vo = new TreeVo();

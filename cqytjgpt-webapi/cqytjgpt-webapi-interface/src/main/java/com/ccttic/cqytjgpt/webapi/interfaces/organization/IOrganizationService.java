@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.interfaces.organization;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.enterprise.vo.AccoutVo;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
@@ -78,5 +79,5 @@ public interface IOrganizationService {
 	 */
 	List<Organization> getOrgByTypeAndId(String id,String type)throws AppException ;
 	
-	String getAccountOrgId (String account);
+	AccoutVo getAccountOrgId (String account);
 }

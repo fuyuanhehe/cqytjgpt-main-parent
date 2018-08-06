@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.service.organization;
 import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.DepartmentMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper;
+import com.ccttic.entity.enterprise.vo.AccoutVo;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.OrgEmpCombine;
 import com.ccttic.entity.role.Organization;
@@ -111,7 +112,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
 	}
 
 	@Override
-	public String getAccountOrgId(String account) {
+	public AccoutVo getAccountOrgId(String account) {
 		return mapper.getAccountOrgId(account);
 	}
 
