@@ -24,6 +24,7 @@
             <!-- 	<ref bean="driverDangerTrigger"/> -->
             	<ref bean="userOperLoggerTrigger"/>
                 <ref bean="screenTotalTrigger"/>
+                <!-- <ref bean="IIllicitTrigger"/> -->
             </list>
         </property>  
     </bean>  
@@ -94,4 +95,19 @@
         </property>
     </bean>
     <!-- 定时创建日志表  结束  -->
+    
+    <!-- 违法数据定时任务 -->
+     <!-- <bean id="IIllicitJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ccttic.task.execute.IllicitTask"/>
+        <property name="durability" value="true" />
+        <property name="requestsRecovery" value="true" />
+    </bean>
+    <bean id="IIllicitTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="IIllicitJob" />
+        <property name="cronExpression">
+            	每天凌晨1点执行
+            <value>0 0 1 * * ?</value>
+        </property>
+    </bean> -->
+     <!-- 违法数据定时任务 -->
 </beans>
