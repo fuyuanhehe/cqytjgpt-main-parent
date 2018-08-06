@@ -201,8 +201,15 @@ public class TaskCarService implements ITaskCarService {
 		vr.setDangertime(sdf.format(new Date()));
 		vr.setVehicleId(vehicle.getId());
 		String enterpriseId = vehicle.getMgrEnterpriseId();
+		if(null != vehicle.getMgrDepartAreaId()) {
+			Organization org = organizationMapper.getOrgIdByAreaId(vehicle.getMgrDepartAreaId());
+			if (null != org) {
+				vr.setOwnerorgid(org.getId());
+				vr.setOwnergener(org.getOrgNm());
+			}
+		}
 
-		Organization org = organizationMapper.findOrgByEptId(enterpriseId);
+		Organization org = organizationMapper.getOrgIdByAreaId(enterpriseId);
 		if (org != null) {
 			vr.setOwnergener(org.getOrgNm());
 			vr.setOwnerorgid(org.getOrgCd());

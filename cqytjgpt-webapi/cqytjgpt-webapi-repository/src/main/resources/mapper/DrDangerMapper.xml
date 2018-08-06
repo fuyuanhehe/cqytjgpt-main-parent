@@ -655,9 +655,8 @@ GROUP BY
 
     <!-- 根据条件查询记录 -->
     <select id="qryDriverList" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.DrDangerVo">
-        SELECT danger.id,danger.driverName,danger.driverIdcard,danger.dangerType,danger.dangerTime,danger.driver_id,danger.overdueProofState,danger.overdueExamineState,area.areaNm,org.orgNm AS orgNm ,etp.etpNm AS etpNm,org.orgNm AS ownerGener,danger.correctTime FROM ess_area AREA ,ess_organization org
-        ,dr_danger danger ,driver dr,ess_enterprise etp WHERE area.id =org.area_id AND danger.ownerGener=org.id AND
-        danger.driverIdcard = dr.idcard AND dr.mgrEnterpriseId =etp.id
+        SELECT danger.id,danger.driverName,danger.driverIdcard,danger.dangerType,danger.dangerTime,danger.driver_id,danger.overdueProofState,danger.overdueExamineState,area.areaNm,org.orgNm AS orgNm ,etp.etpNm AS etpNm,org.orgNm AS ownerGener,danger.correctTime FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerGener=org.id LEFT JOIN ess_area AREA ON area.id =org.area_id
+        LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id WHERE  1=1
         <if test="list != null and list.size>0 ">
             and org.id in
             <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
