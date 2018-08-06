@@ -502,7 +502,6 @@
 		SELECT
 		COUNT(en.id)
 		FROM
-		FROM
 		ess_area a
 		LEFT JOIN ess_organization eo ON eo.area_id = a.id
 		LEFT JOIN ess_enterprise en ON en.org_id = eo.id
