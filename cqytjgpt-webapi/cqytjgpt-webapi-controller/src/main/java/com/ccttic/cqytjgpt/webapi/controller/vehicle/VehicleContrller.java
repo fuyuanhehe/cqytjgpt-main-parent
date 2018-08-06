@@ -1,11 +1,29 @@
 package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
-import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
-import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
@@ -16,7 +34,11 @@ import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
-import com.ccttic.entity.role.vo.*;
+import com.ccttic.entity.role.vo.InputVehiVo;
+import com.ccttic.entity.role.vo.PageVehiIllicitVo;
+import com.ccttic.entity.role.vo.PageVehicleVo;
+import com.ccttic.entity.role.vo.VehicleList;
+import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
@@ -26,19 +48,6 @@ import com.ccttic.util.exception.AppException;
 import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 功能说明： 车辆基本信息Contrller
@@ -61,11 +70,7 @@ public class VehicleContrller implements Serializable {
 	@Autowired
 	private IEmployeeService employeeService;
 	@Autowired
-	private RedisService<EmployeeVo> redisService;
-	@Autowired
 	private VehicleFeign frign;
-	@Autowired
-	private IOrganizationService organizationService;
 
 	/**
 	 * 根据条件获取车辆基本信息

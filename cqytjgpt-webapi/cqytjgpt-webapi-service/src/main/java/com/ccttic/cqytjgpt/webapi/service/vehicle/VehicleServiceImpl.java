@@ -50,9 +50,11 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("entId", vehicle.getMgrEnterpriseId()); // 企业id
 		if(Const.ETPUSER.equals(employeePermission.getEmployeeType()) || Const.ADMIN.equals(employeePermission.getEmployeeType())){
 			params.put("id", employeePermission.getEnterpriseId());
+			employeePermission.setEmployeeType("ADMIN");
 		}
 		if(Const.SUPER.equals(employeePermission.getEmployeeType()) || Const.ORGUSER.equals(employeePermission.getEmployeeType())){
 			params.put("id", employeePermission.getOrgId());
+			employeePermission.setEmployeeType("SUPER");
 		}
 
 		params.put("mgrDepartAreaId", vehicle.getMgrDepartAreaId()); // 区域编码
