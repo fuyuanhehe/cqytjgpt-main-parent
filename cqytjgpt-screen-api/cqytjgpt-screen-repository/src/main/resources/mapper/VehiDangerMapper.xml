@@ -36,7 +36,7 @@
   </select>
   
   <select id="countCarDangerNum" resultType="int">
-      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0 and year(d.dangerTime) = year(now())
+      select count(1) from vehi_danger where  ( isDeleted is null or  isDeleted !=1) and dangerType !=0 and year(dangerTime) = year(now())
   </select>
   
   <select id="countWarnNum" resultType="map">

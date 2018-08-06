@@ -447,23 +447,28 @@
 		en.issueCardDate,
 		en.roadTransport
 		FROM
+		ess_area a
+		LEFT
+		JOIN
 		ess_organization eo
+		ON
+		eo.area_id = a.id
 		LEFT
 		JOIN ess_enterprise en ON
 		en.org_id = eo.id
-		LEFT
-		JOIN ess_area a ON
-		eo.area_id = a.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
-			<otherwise>
-				WHERE en.id in
+			<when test="list!= null and list.size>0 ">
+				WHERE a.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
+			</when>
+			<otherwise>
+				WHERE en.id = #{etpId}
 			</otherwise>
 		</choose>
 		AND en.id != ''
@@ -497,20 +502,23 @@
 		SELECT
 		COUNT(en.id)
 		FROM
-		ess_organization eo
-		LEFT JOIN ess_enterprise en
-		ON en.org_id = eo.id
-		LEFT JOIN ess_area a ON eo.area_id = a.id
+		FROM
+		ess_area a
+		LEFT JOIN ess_organization eo ON eo.area_id = a.id
+		LEFT JOIN ess_enterprise en ON en.org_id = eo.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
 			</when>
-			<otherwise>
-				WHERE e.id in
+			<when test="list!= null and list.size>0 ">
+				WHERE a.id in
 				<foreach collection="list" index="index" item="item" open="("
 					separator="," close=")">
 					#{item}
 				</foreach>
+			</when>
+			<otherwise>
+				WHERE en.id = #{etpId}
 			</otherwise>
 		</choose>
 		AND en.id != ''
