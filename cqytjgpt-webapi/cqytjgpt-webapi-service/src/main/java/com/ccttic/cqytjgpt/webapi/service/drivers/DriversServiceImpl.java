@@ -46,6 +46,9 @@ public class DriversServiceImpl implements DriversService {
 		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}
+		if(Const.ETPUSER.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
 		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
 		List<DriverVo> List = mapper.seDriverPage(params);
 		
@@ -98,6 +101,9 @@ public class DriversServiceImpl implements DriversService {
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		if(Const.ETPUSER.equals(employeePermission.getEmployeeType())){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}
 		if(null!=driver.getIdcard()){
@@ -167,6 +173,9 @@ public class DriversServiceImpl implements DriversService {
 		params.put("empType", enterprisethenVo.getEmpType());
 		params.put("etpCd", enterprisethenVo.getEtpcd());
 		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		if(Const.ETPUSER.equals(employeePermission.getEmployeeType())){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}
 		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);

@@ -1,24 +1,20 @@
 package com.ccttic.cqytjgpt.webapi.service.vehicle;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
 import com.ccttic.cqytjgpt.webapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehiIllicitMapper;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.role.VehiIllicit;
+import com.ccttic.util.common.Const;
 import com.ccttic.util.common.DateHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.*;
 
 @Service
 public class VehiIllicitServiceImpl implements IVehiIllicitService {
@@ -29,7 +25,7 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 	private EssEmployeeMapper empMapper;
 
 	@Override
-	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit, String userType,String id) throws AppException {
+	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit,EmployeePermission employeePermission) throws AppException {
 		Page<VehiIllicit> pager = new PageImpl<VehiIllicit>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		Calendar calendar = Calendar.getInstance();
@@ -52,9 +48,13 @@ public class VehiIllicitServiceImpl implements IVehiIllicitService {
 		} else {
 			startDate = DateHelper.getFirstDayOfMonth1(year, 1);
 		}
-		
-		params.put("id", id);
-		params.put("userType", userType);
+		if(Const.ETPUSER.equals(employeePermission.getEmployeeType()) || Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("id", employeePermission.getEnterpriseId());
+		}
+		if(Const.SUPER.equals(employeePermission.getEmployeeType()) || Const.ORGUSER.equals(employeePermission.getEmployeeType())){
+			params.put("id", employeePermission.getOrgId());
+		}
+		params.put("userType", employeePermission.getEmployeeType());
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
 		params.put("pageSize", page.getRows());

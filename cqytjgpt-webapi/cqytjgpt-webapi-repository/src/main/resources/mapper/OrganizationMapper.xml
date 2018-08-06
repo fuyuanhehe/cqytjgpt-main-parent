@@ -132,9 +132,9 @@
 		select * from ess_department where etpCd = #{etpCd}
 	</select>
 	<select id="getOrgByEmpId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
-		SELECT org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
+			SELECT org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
 			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
-			    FROM ess_organization org  WHERE admin_empid =#{id}
+			    FROM ess_organization org ,ess_department department,ess_employee_dept dept,ess_employee employee WHERE org.id = department.org_id AND department.id = dept.dep_id AND dept.emp_id = employee.id AND employee.id =#{id}
 	</select>
 	
 	<!-- 创建部门-->

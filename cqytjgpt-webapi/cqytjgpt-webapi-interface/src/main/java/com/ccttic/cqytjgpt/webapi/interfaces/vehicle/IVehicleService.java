@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccttic.entity.car.XMLCar;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
@@ -19,13 +20,14 @@ import com.ccttic.util.page.Pageable;
 public interface IVehicleService {
 	/**
 	 * 根据条件获取车辆基础信息
+	 * @param entId 企业id
 	 * @param page
 	 * @param driver
-	 * @param entId 企业id
+	 * @param id
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo driver,String id) throws AppException;
+	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo driver, EmployeePermission employeePermission) throws AppException;
 
 	/**
 	 * 获取指定车辆基础信息

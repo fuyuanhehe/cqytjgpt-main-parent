@@ -108,7 +108,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			emp.setOrg(organization);
 
 		} else {
-			organization = organizationMapper.getOrgByEmpId(emp.getId());
+			organization = organizationMapper.getOrgByAdminId(emp.getId());
 			emp.setOrg(organization);
 		}
 		return emp;
@@ -137,7 +137,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			emp.setEnt(entMapper.getEntByAdmin(emp.getId()));
 		} else if (Const.SUPER.equals(emp.getEmptype())) {
 			//组织机构管理员,查询所属组织机构
+			emp.setOrg(organizationMapper.getOrgByAdminId(emp.getId()));
+		} else if(Const.ORGUSER.equals(emp.getEmptype())){
 			emp.setOrg(organizationMapper.getOrgByEmpId(emp.getId()));
+		}else if(Const.ETPUSER.equals(emp.getEmptype())){
+			emp.setEnt(entMapper.getEntByEmpId(emp.getId()));
 		}
 		// 员工能使用的菜单,员工角色
 		EmployeeVo datas = service.seRoleMenuById(emp.getId());
@@ -527,7 +531,27 @@ public class EmployeeServiceImpl implements IEmployeeService {
 					}
 					employeePermission.setAreaList(areaList);
 				}
-
+				break;
+			case Const.ORGUSER:
+				areaList = new ArrayList<>();
+				organization = employee.getOrg();
+				employeePermission.setOrgId(organization.getId());
+				employeePermission.setOrgType(organization.getOrgType());
+				if("2".equals(organization.getOrgType())) {
+					areaList.add(organization.getAreaCode());
+					employeePermission.setAreaList(areaList);
+				}
+				if ("1".equals(organization.getOrgType())){
+					List<Organization> orgs = organizationMapper.getLastOrg(organization.getId());
+					for (Organization org:orgs){
+						areaList.add(org.getAreaCode());
+					}
+					employeePermission.setAreaList(areaList);
+				}
+				break;
+			case Const.ETPUSER:
+				enterprise = employee.getEnt();
+				employeePermission.setEnterpriseId(enterprise.getId());
 				break;
 			default:
 				return null;
