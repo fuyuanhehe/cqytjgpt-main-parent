@@ -114,8 +114,8 @@ public class VehicleServiceImpl implements IVehicleService {
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 		for (VehiIllicit vehiIllicit2 : records) {
 			if (null != vehiIllicit2.getIllicitScore()) {
-				vehiIllicit.setDisposeSign("已处理");
-				vehiIllicit.setState("已处理");
+				vehiIllicit2.setDisposeSign("已处理");
+				vehiIllicit2.setState("已处理");
 			}
 		}
         pager.setRecords(records);
