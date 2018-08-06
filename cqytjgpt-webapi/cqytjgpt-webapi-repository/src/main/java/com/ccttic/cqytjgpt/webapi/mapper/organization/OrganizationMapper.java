@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ccttic.entity.enterprise.vo.AccoutVo;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Department;
 import com.ccttic.entity.role.OrgEmpCombine;
@@ -123,5 +124,5 @@ public interface OrganizationMapper {
 	 * @return
 	 * @throws AppException
 	 */
-	String getAccountOrgId (String account);
+	AccoutVo getAccountOrgId (String account);
 }

@@ -65,6 +65,8 @@ public class Const {
 	 * 从sesssion中获取用户的的key
 	 */
 	final public static String USER = "USER";
+	final public static String ORGUSER = "ORGUSER";
+	final public static String EPTUSER = "EPTUSER";
 	/**
 	 * 从sesssion中获取企业的的key
 	 */

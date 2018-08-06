@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.enterprise.vo.AccoutVo;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.vo.PageVehiIllicitVo;
@@ -51,6 +53,8 @@ public class VehiIllicitContrller implements Serializable{
 	private IEmployeeService employeeService;
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
+	@Autowired
+	private IOrganizationService organizationService;
 	/**
 	 * 根据条件获取车辆违法信息
 	 * @return
@@ -105,7 +109,18 @@ public class VehiIllicitContrller implements Serializable{
 				if (null != ent) {
 					id = ent.getId();
 				}
-			}  else {
+			}  else if (Const.ORGUSER.equals(vo.getEmptype())) {
+				userType = Const.SUPER;
+				String account = JWTUtil.getUsername(access_token);
+				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
+				id = accoutVo.getOrgId();
+				
+			} else if (Const.EPTUSER.equals(vo.getEmptype())) {
+				userType = Const.ADMIN;
+				String account = JWTUtil.getUsername(access_token);
+				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
+				id = accoutVo.getEptId();
+			} else {
 				resp.fail("该账号无查询数据权限");
 				return resp;
 			}
