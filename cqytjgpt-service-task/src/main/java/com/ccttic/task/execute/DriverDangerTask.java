@@ -24,6 +24,6 @@ public class DriverDangerTask extends QuartzJobBean{
 		
 //		feign.updateDriver();
 //		feign.addDriverIllega();
-//		feign.addDriverDanger();
+		feign.addDriverDanger();
 	}
 }

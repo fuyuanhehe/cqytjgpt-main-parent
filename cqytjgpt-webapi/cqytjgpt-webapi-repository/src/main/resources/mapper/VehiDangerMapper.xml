@@ -748,15 +748,15 @@
 		WHERE 1=1
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
-			</if>   
-			<!--<if test="ownerenterprise != null and ownerenterprise != ''">-->
-				<!--and danger.ownerEnterprise = #{ownerenterprise}-->
-			<!--</if>-->
+			</if>
 			<if test="etpNm != null and etpNm != ''">
 				and etp.etpNm LIKE '%${etpNm}%'
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
 				and danger.vehiNo LIKE '%${vehiNo}%'
+			</if>
+			<if test="enterpriseId != null and enterpriseId != ''">
+				and etp.id =#{enterpriseId}
 			</if>
 			<if test="dangertype != null and dangertype != ''">
 				<if test="scrappedState ==true ">
@@ -802,10 +802,10 @@
 		WHERE 1=1
 		 	<if test="areaId != null and areaId != ''">
 				and area.id = #{areaId}
-			</if>   
-			<!--<if test="etpId != null and etpId != ''">-->
-				<!--and vehi.ownerEnterprise = #{etpId}-->
-			<!--</if>-->
+			</if>
+			<if test="enterpriseId != null and enterpriseId != ''">
+				and etp.id =#{enterpriseId}
+			</if>
 			<if test="etpNm != null and etpNm != ''">
 				and etp.etpNm LIKE '%${etpNm}%'
 			</if>

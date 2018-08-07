@@ -397,6 +397,11 @@ public class Const {
 	   		 * 取分所审核 二级菜单
 	   		 */
 	   		public static final String CHECK_ENTERPRISE="CHECK_ENTERPRISE";
-	   		
-	   		
+//***************************预警提示 start************************************************************
+		public static final String WARNING = "WARNING";
+		public static final String  VEHICLE_WARNING = "WARNING";
+		public static final String DRIVER_WARNING = "WARNING";
+		public static final String ENTERPRISE_WARNING = "WARNING";
+
+//***************************预警提示 end************************************************************
 }
