@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ccttic.cqytjgpt.webapi.auth.UrlFilterInvocationSecurityMetadataSource;
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleMenuService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeeVo;
@@ -30,7 +32,8 @@ import com.ccttic.util.page.PageRequest;
 @RequestMapping("/menus")
 public class RoleMenuController {
 	private  Logger logger = Logger.getLogger(this.getClass());
-
+	@Autowired
+	 private	UrlFilterInvocationSecurityMetadataSource soruce;
 
 	@Autowired
 	private IRoleMenuService MenService;
@@ -112,6 +115,7 @@ public class RoleMenuController {
 			MenService.setRoleResource(list);
 			resp.setMessage("修改菜单成功！");
 			resp.setStatus(0);
+			soruce.loadModuleResources();
 
 		} catch (Exception e) {
 			resp.setMessage("修改菜单失败！");
