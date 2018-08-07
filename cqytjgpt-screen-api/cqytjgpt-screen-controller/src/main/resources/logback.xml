@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
 	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
-	<property name="LOG_HOME" value="/logs/cqytjgpt-screen-api/" />
+	<property name="LOG_HOME" value="./logs/" />
 	<!-- 每个日志文件的最大大小 -->
 	<property name="log.maxFileSize" value="100MB"/>
 	<!-- 日志文件保存的天数 -->
