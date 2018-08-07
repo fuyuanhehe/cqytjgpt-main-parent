@@ -512,26 +512,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				employeePermission.setAreaList(areaList);
 				break;
 			case Const.ADMIN:
+			case Const.ETPUSER:
 				enterprise = employee.getEnt();
 				employeePermission.setEnterpriseId(enterprise.getId());
 				break;
 			case Const.SUPER:
-				areaList = new ArrayList<>();
-				organization = employee.getOrg();
-				employeePermission.setOrgId(organization.getId());
-				employeePermission.setOrgType(organization.getOrgType());
-				if("2".equals(organization.getOrgType())) {
-					areaList.add(organization.getAreaCode());
-					employeePermission.setAreaList(areaList);
-				}
-				if ("1".equals(organization.getOrgType())){
-					List<Organization> orgs = organizationMapper.getLastOrg(organization.getId());
-					for (Organization org:orgs){
-						areaList.add(org.getAreaCode());
-					}
-					employeePermission.setAreaList(areaList);
-				}
-				break;
 			case Const.ORGUSER:
 				areaList = new ArrayList<>();
 				organization = employee.getOrg();
@@ -548,10 +533,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 					}
 					employeePermission.setAreaList(areaList);
 				}
-				break;
-			case Const.ETPUSER:
-				enterprise = employee.getEnt();
-				employeePermission.setEnterpriseId(enterprise.getId());
 				break;
 			default:
 				return null;

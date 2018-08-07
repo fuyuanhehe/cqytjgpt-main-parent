@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ccttic.cqytjgpt.webapi.auth.UrlFilterInvocationSecurityMetadataSource;
 import com.ccttic.cqytjgpt.webapi.interfaces.role.IRoleService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.role.Role_Emp;
@@ -34,6 +36,8 @@ public class RoleController {
 	@Autowired
 	private IRoleService  Roleservice;
 
+	@Autowired
+ private	UrlFilterInvocationSecurityMetadataSource soruce;
 	/**
 	 * 功能说明：  通过ID删除角色信息
 	 * @param id 角色的ID
@@ -57,7 +61,7 @@ public class RoleController {
 				Roleservice.deleteRole(roles);
 				resp.setStatus(0);
 				resp.setMessage("删除角色成功!");
-
+				soruce.doLoadResourceDefine();
 			}
 		} catch (Exception e) {
 			resp.setStatus(-1);
@@ -122,6 +126,7 @@ public class RoleController {
 				resp.setMessage("添加角色成功");
 				resp.setStatus(0);
 				resp.success("添加角色成功");
+				soruce.doLoadResourceDefine();
 			} catch (Exception e) {
 				resp.success("添加角色关联员工失败");
 				resp.setStatus(-1);
@@ -188,7 +193,7 @@ public class RoleController {
 			Roleservice.updateEssRole(roles);
 			resp.setMessage("修改角色成功!");
 			resp.setStatus(0);
-
+			soruce.doLoadResourceDefine();
 		} catch (Exception e) {
 			resp.success("添加角色关联员工失败");
 			resp.setMessage("添加角色关联员工失败");
