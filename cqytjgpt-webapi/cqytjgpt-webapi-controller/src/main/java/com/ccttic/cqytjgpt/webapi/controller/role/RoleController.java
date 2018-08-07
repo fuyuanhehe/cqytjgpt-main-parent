@@ -61,7 +61,7 @@ public class RoleController {
 				Roleservice.deleteRole(roles);
 				resp.setStatus(0);
 				resp.setMessage("删除角色成功!");
-				soruce.doLoadResourceDefine();
+				soruce.loadModuleResources();
 			}
 		} catch (Exception e) {
 			resp.setStatus(-1);
@@ -126,7 +126,7 @@ public class RoleController {
 				resp.setMessage("添加角色成功");
 				resp.setStatus(0);
 				resp.success("添加角色成功");
-				soruce.doLoadResourceDefine();
+				soruce.loadModuleResources();
 			} catch (Exception e) {
 				resp.success("添加角色关联员工失败");
 				resp.setStatus(-1);
@@ -193,7 +193,7 @@ public class RoleController {
 			Roleservice.updateEssRole(roles);
 			resp.setMessage("修改角色成功!");
 			resp.setStatus(0);
-			soruce.doLoadResourceDefine();
+			soruce.loadModuleResources();
 		} catch (Exception e) {
 			resp.success("添加角色关联员工失败");
 			resp.setMessage("添加角色关联员工失败");
