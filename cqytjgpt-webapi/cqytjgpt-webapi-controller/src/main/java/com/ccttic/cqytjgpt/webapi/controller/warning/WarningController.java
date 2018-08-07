@@ -19,10 +19,7 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,8 +53,9 @@ public class WarningController implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/qryVehicleList", method = {RequestMethod.POST, RequestMethod.GET})
-//	@ResourceScan(rsc = @Resource(cd = Const.VEHICLE_WARNING, url = "/warning/qryVehicleList", name = "车辆预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
-//			, prsc = {@Resource(cd = Const.WARNING, name = "预警提示", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.VEHICLE_WARNING, url = "/warning/qryVehicleList", name = "车辆预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
+			, prsc = {@Resource(cd = Const.WARNING, name = "预警提示", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public ResponseMsg<List<VehiDangerVo>> getVehicleWarningList(@RequestBody VehiDangerVo vdvo,
 																 @RequestParam String access_token) {
 		ResponseMsg<List<VehiDangerVo>> resp = new ResponseMsg<List<VehiDangerVo>>();
@@ -90,8 +88,9 @@ public class WarningController implements Serializable {
 	}
 
 	@RequestMapping(value = "/qryDriverList", method = {RequestMethod.POST, RequestMethod.GET})
-//	@ResourceScan(rsc = @Resource(cd = Const.DRIVER_WARNING, url = "/warning/qryDriverList", name = "驾驶员预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
-//			, prsc = {@Resource(cd = Const.WARNING, name = "预警提示", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@ResponseBody
+	@ResourceScan(rsc = @Resource(cd = Const.DRIVER_WARNING, url = "/warning/qryDriverList", name = "驾驶员预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
+			, prsc = {@Resource(cd = Const.WARNING, name = "预警提示", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	public ResponseMsg<Page<DrDangerVo>> getDriverWarningList(@RequestBody DrDangerVo drVO,
 															  @RequestParam String access_token) {
 		ResponseMsg<Page<DrDangerVo>> resp = new ResponseMsg<Page<DrDangerVo>>();
@@ -157,8 +156,9 @@ public class WarningController implements Serializable {
 		}
 
 		@RequestMapping(value = "/getEnterprise", method = {RequestMethod.POST, RequestMethod.GET})
-//		@ResourceScan(rsc = @Resource(cd = Const.ENTERPRISE_WARNING, url = "/warning/getEnterprise", name = "企业预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
-//				, prsc = {@Resource(cd = Const.WARNING, name = "预警提示", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+		@ResponseBody
+		@ResourceScan(rsc = @Resource(cd = Const.ENTERPRISE_WARNING, url = "/warning/getEnterprise", name = "企业预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
+				, prsc = {@Resource(cd = Const.WARNING, name = "预警提示", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 		public ResponseMsg<List<EssEnterprise>> getEnterprise (@RequestParam String access_token){
 			ResponseMsg<List<EssEnterprise>> resp = new ResponseMsg<List<EssEnterprise>>();
 
