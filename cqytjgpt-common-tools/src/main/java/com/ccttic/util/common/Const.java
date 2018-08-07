@@ -398,10 +398,10 @@ public class Const {
 	   		 */
 	   		public static final String CHECK_ENTERPRISE="CHECK_ENTERPRISE";
 //***************************预警提示 start************************************************************
-		public static final String WARNING = "WARNING";
-		public static final String  VEHICLE_WARNING = "WARNING";
-		public static final String DRIVER_WARNING = "WARNING";
-		public static final String ENTERPRISE_WARNING = "WARNING";
+		public static final String WARNING = "warning";
+		public static final String  VEHICLE_WARNING = "vehicle_warning";
+		public static final String DRIVER_WARNING = "driver_warning";
+		public static final String ENTERPRISE_WARNING = "enterprise_warning";
 
 //***************************预警提示 end************************************************************
 }
