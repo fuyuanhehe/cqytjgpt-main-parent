@@ -113,7 +113,7 @@ public class VehicleServiceImpl implements IVehicleService {
 		long totolRol = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 		for (VehiIllicit vehiIllicit2 : records) {
-			if ("" != vehiIllicit2.getIllicitScore()) {
+			if (vehiIllicit2.getIllicitScore().length()>0) {
 				vehiIllicit2.setDisposeSign("已处理");
 				vehiIllicit2.setState("已处理");
 			}
