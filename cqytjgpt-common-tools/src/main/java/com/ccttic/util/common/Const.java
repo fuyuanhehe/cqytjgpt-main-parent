@@ -20,6 +20,13 @@ package com.ccttic.util.common;
     */
 
 public class Const {
+
+	/**
+	 *@Author:zhy
+	 *@Description:
+	 *@Date:15:30 2018/8/6
+	 */
+	final public static String ZONGSUOID = "162d7b86a54e465d8cf421def2f35ef8";
 	/**
 	 * 组织管理员
 	 */
@@ -66,7 +73,7 @@ public class Const {
 	 */
 	final public static String USER = "USER";
 	final public static String ORGUSER = "ORGUSER";
-	final public static String EPTUSER = "EPTUSER";
+	final public static String ETPUSER = "ETPUSER";
 	/**
 	 * 从sesssion中获取企业的的key
 	 */
@@ -390,6 +397,11 @@ public class Const {
 	   		 * 取分所审核 二级菜单
 	   		 */
 	   		public static final String CHECK_ENTERPRISE="CHECK_ENTERPRISE";
-	   		
-	   		
+//***************************预警提示 start************************************************************
+		public static final String WARNING = "warning";
+		public static final String  VEHICLE_WARNING = "vehicle_warning";
+		public static final String DRIVER_WARNING = "driver_warning";
+		public static final String ENTERPRISE_WARNING = "enterprise_warning";
+
+//***************************预警提示 end************************************************************
 }

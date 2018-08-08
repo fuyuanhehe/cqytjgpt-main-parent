@@ -141,7 +141,13 @@ public class TaskDriverService implements ITaskDriverService {
 		dr.setId(driver.getIdcard());
 		dr.setDrivername(driver.getName());
 		dr.setDriveridcard(driver.getIdcard());
-		dr.setOwnerorgid(driver.getMgrdepartareaid());
+		if(null != driver.getMgrdepartareaid()) {
+			Organization org = organizationMapper.getOrgIdByAreaId(driver.getMgrdepartareaid());
+			if (null != org) {
+				dr.setOwnerorgid(org.getId());
+				dr.setOwnergener(org.getOrgNm());
+			}
+		}
 		simpleDateFormat = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		dr.setDangertime(simpleDateFormat.format(new Date()));
 		String enterpriseId = driver.getMgrenterpriseid();

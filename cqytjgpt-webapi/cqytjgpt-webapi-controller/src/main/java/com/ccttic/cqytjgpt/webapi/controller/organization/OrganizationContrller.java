@@ -72,14 +72,14 @@ public class OrganizationContrller implements Serializable {
 			EmployeeVo employee = employeeService.getUserInfo(access_token);
 			
 			if (Const.SUPERMAN.equals(employee.getEmptype())) {
-				orgIdMap.put("orgId","162d7b86a54e465d8cf421def2f35ef8");
+				orgIdMap.put("orgId",Const.ZONGSUOID);
 			} else if (Const.SUPER.equals(employee.getEmptype())) {
 				Organization org = employee.getOrg();
 				orgIdMap.put("orgId",org.getId());
 			} else if (Const.ADMIN.equals(employee.getEmptype())) {
 				EssEnterprise ent = employee.getEnt();
 				orgIdMap.put("orgId",ent.getOrgId());
-			} else if (Const.ORGUSER.equals(employee.getEmptype()) || Const.EPTUSER.equals(employee.getEmptype())) {
+			} else if (Const.ORGUSER.equals(employee.getEmptype()) || Const.ETPUSER.equals(employee.getEmptype())) {
 				String account = JWTUtil.getUsername(access_token);
 				AccoutVo vo = organizationService.getAccountOrgId(account);
 				orgIdMap.put("orgId",vo.getOrgId());

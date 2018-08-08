@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.ccttic.entity.employee.EmployeePermission;
+import com.ccttic.util.common.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,13 +42,21 @@ public class VehicleServiceImpl implements IVehicleService {
 	private CategoryMapper categoryMapper;
 
 	@Override
-	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo vehicle,String id) throws AppException {
+	public Page<Vehicle> qryVehicleList(Pageable page, PageVehicleVo vehicle, EmployeePermission employeePermission) throws AppException {
 		Page<Vehicle> pager = new PageImpl<Vehicle>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("entId", vehicle.getMgrEnterpriseId()); // 企业id
-		params.put("id", id); 
+		if(Const.ETPUSER.equals(employeePermission.getEmployeeType()) || Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("id", employeePermission.getEnterpriseId());
+			employeePermission.setEmployeeType("ADMIN");
+		}
+		if(Const.SUPER.equals(employeePermission.getEmployeeType()) || Const.ORGUSER.equals(employeePermission.getEmployeeType())){
+			params.put("id", employeePermission.getOrgId());
+			employeePermission.setEmployeeType("SUPER");
+		}
+
 		params.put("mgrDepartAreaId", vehicle.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehicle.getVehiNo()); // 车牌号
 		params.put("vehiNoType", vehicle.getVehiNoType()); // 车牌种类
@@ -56,7 +66,7 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("effectEndTime", vehicle.getEffectEndTime()); // 有效结束时间
 		params.put("startTime", vehicle.getStartTime()); // 初次检验开始日期
 		params.put("endTime", vehicle.getEndTime()); // 初次检验结束日期
-		params.put("empType", vehicle.getEmpType()); // 账号类型
+		params.put("empType", employeePermission.getEmployeeType()); // 账号类型
 
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<Vehicle> records = mapper.qryVehicleList(params);
@@ -102,7 +112,12 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("tableName", "illicit_"+year);
 		long totolRol = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
-	
+		for (VehiIllicit vehiIllicit2 : records) {
+			if (vehiIllicit2.getIllicitScore().length()>0) {
+				vehiIllicit2.setDisposeSign("已处理");
+				vehiIllicit2.setState("已处理");
+			}
+		}
         pager.setRecords(records);
 		pager.setTotalRows(totolRol);
 		return pager;

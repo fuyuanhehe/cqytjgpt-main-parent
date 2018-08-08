@@ -143,7 +143,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     /**
      * 读取模块资源
      */
-    private void loadModuleResources() {
+    public void loadModuleResources() {
     	
     	   //模块资源为KEY,角色为Value 的list
         moduleMap = new HashMap<>();

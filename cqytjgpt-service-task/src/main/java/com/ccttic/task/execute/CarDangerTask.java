@@ -24,6 +24,6 @@ public class CarDangerTask extends QuartzJobBean{
 //		feign.updateCar();
 //		
 //		feign.addCarIllega();	
-//		feign.addCarDanger();
+		feign.addCarDanger();
 	}
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.employee.EmployeePermission;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,6 @@ public class VehiIllicitContrller implements Serializable{
 	private IVehiIllicitService vehiIllicitService;
 	@Autowired
 	private IEmployeeService employeeService;
-	@Autowired
-	private RedisService<EmployeeVo> redisService;
-	@Autowired
-	private IOrganizationService organizationService;
 	/**
 	 * 根据条件获取车辆违法信息
 	 * @return
@@ -74,58 +71,19 @@ public class VehiIllicitContrller implements Serializable{
 				 resp.fail("access_token 不能为空");
 				 return resp;
 			 }
-			 String username=JWTUtil.getUsername(access_token);
-			// 从redis获取用户信息 
-			EmployeeVo vo = (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			EssEnterprise ent = null;
-			Organization org = null;
-			if (null != vo) {
-				ent = vo.getEnt();
-				org = vo.getOrg();
-			} else {
-				EmployeeVo employee;
-				try {
-					employee = employeeService.findEmployeeByAccount(username);
-					ent = employee.getEnt();
-					org = employee.getOrg();
-					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-			}
-			String userType = null;
-			String id = null;
-			 // 根据登录账号类型判断查询数据
-			if (Const.SUPERMAN.equals(vo.getEmptype())) {
-				userType = Const.SUPERMAN;
-			} else if (Const.SUPER.equals(vo.getEmptype())) {
-				userType = Const.SUPER;
-				if (null != org) {
-					id = org.getOrgCd();
-				}
-			} else if (Const.ADMIN.equals(vo.getEmptype())) {
-				userType = Const.ADMIN;
-				if (null != ent) {
-					id = ent.getId();
-				}
-			}  else if (Const.ORGUSER.equals(vo.getEmptype())) {
-				userType = Const.SUPER;
-				String account = JWTUtil.getUsername(access_token);
-				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
-				id = accoutVo.getOrgId();
-				
-			} else if (Const.EPTUSER.equals(vo.getEmptype())) {
-				userType = Const.ADMIN;
-				String account = JWTUtil.getUsername(access_token);
-				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
-				id = accoutVo.getEptId();
-			} else {
+			 EmployeeVo employee = employeeService.getUserInfo(access_token);
+
+			 if (null==employee){
+				 resp.fail("获取用户信息失败");
+				 return resp;
+			 }
+			EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+			if(null == employeePermission)   {
 				resp.fail("该账号无查询数据权限");
 				return resp;
 			}
 			
-			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page,vehiIllicit,userType,id);
+			Page<VehiIllicit> pager = vehiIllicitService.qryVehiIllicitList(page,vehiIllicit,employeePermission);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");
@@ -164,8 +122,9 @@ public class VehiIllicitContrller implements Serializable{
 		params.put("id", ve.getId());
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
-			if (null != vehiIllicit.getIllicitScore()) {
+			if (vehiIllicit.getIllicitScore().length()>0) {
 				vehiIllicit.setDisposeSign("已处理");
+				vehiIllicit.setState("已处理");
 			}
 			resp.setData(vehiIllicit);
 			resp.success("查询成功！");

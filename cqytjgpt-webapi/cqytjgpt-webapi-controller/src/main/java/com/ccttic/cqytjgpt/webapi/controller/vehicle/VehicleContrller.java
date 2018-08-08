@@ -23,15 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.webapi.client.cqjxj.VehicleFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
-import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
 import com.ccttic.cqytjgpt.webapi.interfaces.query.IQueryCarService;
-import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.entity.enterprise.EssEnterprise;
-import com.ccttic.entity.enterprise.vo.AccoutVo;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
@@ -72,11 +70,7 @@ public class VehicleContrller implements Serializable {
 	@Autowired
 	private IEmployeeService employeeService;
 	@Autowired
-	private RedisService<EmployeeVo> redisService;
-	@Autowired
 	private VehicleFeign frign;
-	@Autowired
-	private IOrganizationService organizationService;
 
 	/**
 	 * 根据条件获取车辆基本信息
@@ -100,55 +94,20 @@ public class VehicleContrller implements Serializable {
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
 			
-			String username=JWTUtil.getUsername(access_token);
+
 			// 从redis获取用户信息 
-			EmployeeVo vo = (EmployeeVo)  redisService.get(username+Const.TOKEN);
-			EssEnterprise ent = null;
-			Organization org = null;
-			if (null != vo) {
-				ent = vo.getEnt();
-				org = vo.getOrg();
-			} else {
-				EmployeeVo employee;
-				try {
-					employee = employeeService.findEmployeeByAccount(username);
-					ent = employee.getEnt();
-					org = employee.getOrg();
-					redisService.set(username+Const.TOKEN,employee,Const.USER_REDIS_LIVE);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
+			EmployeeVo vo = employeeService.getUserInfo(access_token);
+			if (null ==vo){
+				resp.fail("用户信息丢失");
+				return resp;
 			}
-			String id = null;
-			 // 根据登录账号类型判断查询数据
-			if (Const.SUPERMAN.equals(vo.getEmptype())) {
-				vehicle.setEmpType(Const.SUPERMAN);
-			} else if (Const.SUPER.equals(vo.getEmptype())) {
-				vehicle.setEmpType(Const.SUPER);
-				if (null != org) {
-					id = org.getOrgCd();
-				}
-			} else if (Const.ADMIN.equals(vo.getEmptype())) {
-				vehicle.setEmpType(Const.ADMIN);
-				if (null != ent) {
-					id = ent.getId();
-				}
-			} else if (Const.ORGUSER.equals(vo.getEmptype())) {
-				vehicle.setEmpType(Const.SUPER);
-				String account = JWTUtil.getUsername(access_token);
-				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
-				id = accoutVo.getOrgId();
-			} else if (Const.EPTUSER.equals(vo.getEmptype())) {
-				vehicle.setEmpType(Const.ADMIN);
-				String account = JWTUtil.getUsername(access_token);
-				AccoutVo accoutVo = organizationService.getAccountOrgId(account);
-				id = accoutVo.getOrgId();
-			} else {
+			EmployeePermission employeePermission = employeeService.getEmployeePermission(vo);
+
+			 if(null == employeePermission) {
 				resp.fail("该账号无查询数据权限");
 				return resp;
 			}
-			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle,id);
+			Page<Vehicle> pager = vehicleService.qryVehicleList(page, vehicle,employeePermission);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");

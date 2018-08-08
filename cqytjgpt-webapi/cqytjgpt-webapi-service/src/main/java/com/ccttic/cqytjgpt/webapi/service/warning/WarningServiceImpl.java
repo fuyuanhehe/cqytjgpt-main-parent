@@ -10,6 +10,7 @@ import com.ccttic.entity.danger.DrDanger;
 import com.ccttic.entity.danger.DrDangerVo;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.danger.vo.VehiDangerVo;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.role.Organization;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -35,16 +36,16 @@ public class WarningServiceImpl implements IWarningService {
 	private IOrganizationService organizationService;
 
 	@Override
-	public Page<VehiDangerVo> qryVehicleList(Pageable page, VehiDangerVo ve) throws AppException {
+	public Page<VehiDangerVo> qryVehicleList(Pageable page, VehiDangerVo ve, EmployeePermission employeePermission) throws AppException {
 		Page<VehiDangerVo> pager = new PageImpl<VehiDangerVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		List<Organization> organizations = null;
-		if (null != ve.getOwnerorgid()) {
-			organizations = organizationService.getOrgByTypeAndId(ve.getOwnerorgid(), ve.getOrgType());
+		if(null!=employeePermission.getOrgId()) {
+			organizations = organizationService.getOrgByTypeAndId(employeePermission.getOrgId(), employeePermission.getOrgType());
 		}
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-
+		params.put("enterpriseId",employeePermission.getEnterpriseId());
 		params.put("list", organizations); // 组织集合
 		params.put("areaId", ve.getAreaId());// 区域
 		params.put("empType", ve.getEmpType()); // 账号类型
@@ -97,23 +98,22 @@ public class WarningServiceImpl implements IWarningService {
 	}
 
 	@Override
-	public Page<DrDangerVo> qryDriverList(Pageable page, DrDangerVo vo) throws AppException {
+	public Page<DrDangerVo> qryDriverList(Pageable page, DrDangerVo vo, EmployeePermission employeePermission) throws AppException {
 
 		Page<DrDangerVo> pager = new PageImpl<DrDangerVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		List<Organization> organizations = null;
-		if (null != vo.getOwnerorgid()) {
-			if (null != vo.getOwnerorgid()) {
-				organizations = organizationService.getOrgByTypeAndId(vo.getOwnerorgid(), vo.getOrgType());
-			}
+		if(null!=employeePermission.getOrgId()) {
+			organizations = organizationService.getOrgByTypeAndId(employeePermission.getOrgId(), employeePermission.getOrgType());
 		}
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("empType", vo.getEmpType()); // 账号类型
-		params.put("list", organizations); // 企业id
+		params.put("list", organizations); // 组织id
 		params.put("driverName", null != vo.getDrivername() ? vo.getDrivername() : null);
 		params.put("areaId", vo.getAreaCd());// 区域
-		params.put("etpId", vo.getEtpId());// 公司
+		params.put("etpId", employeePermission.getEnterpriseId());// 公司
+		params.put("etpNm", vo.getEtpNm());// 公司
 		params.put("fullStudyState", vo.getFullstudystate() == 1 ? true : false);
 		params.put("overdueExamineState", vo.getOverdueexaminestate() == 1 ? true : false);
 		params.put("overdueProofState", vo.getOverdueproofstate() == 1 ? true : false);

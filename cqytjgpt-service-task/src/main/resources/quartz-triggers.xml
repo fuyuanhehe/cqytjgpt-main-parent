@@ -20,10 +20,11 @@
         <property name="configLocation" value="classpath:quartz.yml" />       
         <property name="triggers">  
             <list>
-            <!-- <ref bean="carDangerTrigger"/> -->
-            <!-- 	<ref bean="driverDangerTrigger"/> -->
-            	<ref bean="userOperLoggerTrigger"/>
+                <ref bean="carDangerTrigger"/>
+                <ref bean="driverDangerTrigger"/>
+                <ref bean="userOperLoggerTrigger"/>
                 <ref bean="screenTotalTrigger"/>
+                <!-- <ref bean="IIllicitTrigger"/> -->
             </list>
         </property>  
     </bean>  
@@ -31,36 +32,36 @@
     
     <!-- 定时驾驶人预警 开始 -->
     <!-- JOB上下文 -->
-   <!--  <bean id="driverDangerJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <bean id="driverDangerJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass" value="com.ccttic.task.execute.DriverDangerTask"/>
-        <property name="durability" value="true" />    
+        <property name="durability" value="true" />
         <property name="requestsRecovery" value="true" />
-    </bean> -->
+    </bean>
      <!-- 定时触发器 -->
-   <!--  <bean id="driverDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="driverDangerJob" />    
+    <bean id="driverDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="driverDangerJob" />
         <property name="cronExpression">
-           每天22点启动
-           <value>0 0 22 * * ?</value>
-        </property>  
-    </bean> -->
+           <!--每天0点启动-->
+           <value>0 0 0 * * ?</value>
+        </property>
+    </bean>
      <!-- 定时驾驶人预警  结束  -->
-    
+
     <!-- 定时车辆预警 开始 -->
     <!-- JOB上下文 -->
-   <!--  <bean id="carDangerJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <bean id="carDangerJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass" value="com.ccttic.task.execute.CarDangerTask"/>
-        <property name="durability" value="true" />    
+        <property name="durability" value="true" />
         <property name="requestsRecovery" value="true" />
-    </bean> -->
+    </bean>
      <!-- 定时触发器 -->
-   <!--  <bean id="carDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="carDangerJob" />    
+   <bean id="carDangerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="carDangerJob" />
         <property name="cronExpression">
-            每天22点启动
-           <value>0 0 22 * * ?</value>
-        </property>  
-    </bean> -->
+            <!--每天1点启动-->
+           <value>0 30 9 * * ?</value>
+        </property>
+    </bean>
     <!-- 定时车辆预警  结束  -->
     
     <!-- 定时创建日志表 开始 -->
@@ -94,4 +95,19 @@
         </property>
     </bean>
     <!-- 定时创建日志表  结束  -->
+    
+    <!-- 违法数据定时任务 -->
+     <!-- <bean id="IIllicitJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ccttic.task.execute.IllicitTask"/>
+        <property name="durability" value="true" />
+        <property name="requestsRecovery" value="true" />
+    </bean>
+    <bean id="IIllicitTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="IIllicitJob" />
+        <property name="cronExpression">
+            	每天凌晨1点执行
+            <value>0 0 1 * * ?</value>
+        </property>
+    </bean> -->
+     <!-- 违法数据定时任务 -->
 </beans>

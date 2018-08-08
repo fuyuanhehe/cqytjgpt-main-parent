@@ -125,4 +125,10 @@ public interface OrganizationMapper {
 	 * @throws AppException
 	 */
 	AccoutVo getAccountOrgId (String account);
+	/**
+	 *@Author:zhy
+	 *@Description:通过区域id获取组织id
+	 *@Date:16:21 2018/8/6
+	 */
+	Organization getOrgIdByAreaId (String areaId);
 }

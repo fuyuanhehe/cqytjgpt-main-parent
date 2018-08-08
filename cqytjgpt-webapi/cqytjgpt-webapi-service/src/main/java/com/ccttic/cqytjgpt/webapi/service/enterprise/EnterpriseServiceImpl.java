@@ -173,6 +173,9 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}
+		if(Const.ETPUSER.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
 		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
 		List<EnterpriseVehiVo> data = enterpriseMapper.getEnterpriseVe(params);
 
@@ -218,6 +221,9 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		params.put("empType", envo.getEmpType());
 		params.put("idcard", envo.getIdcard());
 		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
+			params.put("etpId",employeePermission.getEnterpriseId());
+		}
+		if(Const.ETPUSER.equals(employeePermission.getEmployeeType())){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}
 		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
