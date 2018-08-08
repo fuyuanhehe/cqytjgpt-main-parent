@@ -695,25 +695,30 @@ GROUP BY
         <if test="overdueProofState ==true ">
             and danger.overdueProofState  &gt;= 1
         </if>
-        order by danger.dangerType DESC
+        order by danger.dangerType ASC
         limit ${startRecord},${pageSize}
     </select>
     <!-- 根据条件统计条数 -->
     <select id="qryDriverListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM ess_area AREA ,ess_organization org ,dr_danger danger ,driver dr,ess_enterprise etp WHERE
-        area.id =org.area_id AND danger.ownerGener=org.id AND danger.driverIdcard = dr.idcard AND dr.mgrEnterpriseId
-        =etp.id
+        SELECT COUNT(1) FROM dr_danger danger LEFT JOIN ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON area.id =org.area_id
+        LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId =etp.id WHERE  1=1
         <if test="list != null and list.size>0 ">
             and org.id in
             <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
                 #{item.id}
             </foreach>
         </if>
-        <if test="areaId != null and areaId != ''">
-            and area.id = #{areaId}
+        <if test="driverName != null and driverName != ''">
+            and danger.driverName = #{driverName}
         </if>
         <if test="etpNm != null and etpNm != ''">
             and etp.etpNm LIKE '%${etpNm}%'
+        </if>
+        <if test="areaId != null and areaId != ''">
+            and area.id = #{areaId}
+        </if>
+        <if test="etpId != null and etpId != ''">
+            and dr.mgrEnterpriseId = #{etpId}
         </if>
         <if test="dangertype != null and dangertype != ''">
             <if test="fullStudyState ==true ">

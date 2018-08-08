@@ -784,7 +784,7 @@
 			<if test="overdueExamineState ==true ">
 				and danger.overdueExamineState &gt;= 1
 			</if>
-			order by danger.dangerType DESC
+			order by danger.dangerType ASC
 		
 		limit ${startRecord},${pageSize}
 	</select>
