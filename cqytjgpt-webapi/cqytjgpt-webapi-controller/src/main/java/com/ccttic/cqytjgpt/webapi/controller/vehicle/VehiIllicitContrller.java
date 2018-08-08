@@ -122,7 +122,7 @@ public class VehiIllicitContrller implements Serializable{
 		params.put("id", ve.getId());
 		try {
 			VehiIllicit vehiIllicit = vehiIllicitService.qryOneVehiIllicit(params);
-			if ("" != vehiIllicit.getIllicitScore()) {
+			if (vehiIllicit.getIllicitScore().length()>0) {
 				vehiIllicit.setDisposeSign("已处理");
 				vehiIllicit.setState("已处理");
 			}
