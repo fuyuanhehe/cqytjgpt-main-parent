@@ -59,7 +59,7 @@
         <property name="jobDetail" ref="carDangerJob" />
         <property name="cronExpression">
             <!--每天1点启动-->
-           <value>0 0 12 * * ?</value>
+           <value>0 0 1 * * ?</value>
         </property>
     </bean>
     <!-- 定时车辆预警  结束  -->
