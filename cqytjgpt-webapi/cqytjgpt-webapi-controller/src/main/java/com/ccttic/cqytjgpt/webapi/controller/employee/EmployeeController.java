@@ -273,14 +273,14 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 添加员工
+	 * 创建员工
 	 *
 	 * @param request
 	 * @param emp
 	 * @return
 	 */
 	@RequestMapping(value = "/addEmployee", method = { RequestMethod.GET, RequestMethod.POST })
-	@ResourceScan(rsc = @Resource(cd = Const.ADD_EMPLOYEE, name = "添加员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_EMPLOYEE, name = "创建员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/addEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	public ResponseMsg<String> addEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {

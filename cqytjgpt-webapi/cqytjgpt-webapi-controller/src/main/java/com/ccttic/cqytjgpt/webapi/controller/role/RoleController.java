@@ -83,9 +83,9 @@ public class RoleController {
 	 * @return
 	 * @date  2018年5月31日
 	 */
-	@OperLogging(operType = 0,content="新增角色")
+	@OperLogging(operType = 0,content="创建角色")
 	@RequestMapping(value="/addRole_Emp",method={RequestMethod.POST,RequestMethod.GET})
-	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE, name = "新增角色",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
+	@ResourceScan(rsc = @Resource(cd = Const.ADD_ROLE, name = "创建角色",  hierarchy = 4, isMenue = false, pcd = Const.QUERY_ROLE)
 	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
 			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})

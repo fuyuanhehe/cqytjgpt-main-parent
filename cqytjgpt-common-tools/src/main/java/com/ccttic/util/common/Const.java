@@ -289,7 +289,7 @@ public class Const {
 			    public static final String SELECT_EMPLOYEE = "employee-management";
 			    
 			    /**
-			     * 添加员工
+			     * 创建员工
 			     */
 			    public static final String ADD_EMPLOYEE = "add-employee";
 			    
@@ -337,7 +337,7 @@ public class Const {
 		        */
 		       public static final String QUERY_ROLE = "query-role";
 		         /**
-		          * 增加角色三级菜单
+		          * 创建角色三级菜单
 		          */
 		          public static final String ADD_ROLE = "add-role";
 		       
