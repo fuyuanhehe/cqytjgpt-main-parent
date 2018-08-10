@@ -1,9 +1,6 @@
 package com.ccttic.util.common;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.ccttic.entity.role.vo.MenuVo;
 
@@ -33,10 +30,28 @@ public class MenuTreeUtil {
 	} 
 
 	public List<?> menuChild(String id){ 
-		List<Object> lists = new ArrayList<Object>(); 
-		for(MenuVo a:menuCommon){ 
-			Map<String,Object> childArray = new LinkedHashMap<String, Object>(); 
-			if(a.getpId() == id || a.getpId().equals(id) ){ 
+		List<Object> lists = new ArrayList<Object>();
+		List<Map<String,String>> tmpList = new ArrayList<Map<String,String>>();
+		List<Map<String,String>> createList = new ArrayList<Map<String,String>>();
+		List<Map<String,String>> updateList = new ArrayList<Map<String,String>>();
+		for(MenuVo a:menuCommon){
+			Map<String,String> childMap = new HashMap<String, String>();
+			Map<String,Object> childArray = new LinkedHashMap<String, Object>();
+			if(a.getpId() == id || a.getpId().equals(id) ){
+				String start = a.getTitle().substring(0,2);
+				//String end =a.getTitle().substring(2,a.getTitle().length());
+				if("创建".equals(start)){
+					childMap.put("menuId", a.getMenuId());
+					childMap.put("title", a.getTitle());
+					createList.add(childMap);
+					continue;
+				}
+				if("修改".equals(start)){
+					childMap.put("menuId", a.getMenuId());
+					childMap.put("title", a.getTitle());
+					updateList.add(childMap);
+					continue;
+				}
 				childArray.put("menuId", a.getMenuId()); 
 				childArray.put("id", a.getId()); 
 				childArray.put("title", a.getTitle());  
@@ -45,9 +60,22 @@ public class MenuTreeUtil {
 				childArray.put("url", a.getUrl());
 				childArray.put("cen", a.getCen());
 				childArray.put("childList", menuChild(a.getId()));
+
 				lists.add(childArray); 
 			} 
-		} 
+		}
+
+		for (int i =0 ;i<createList.size();i++){
+			Map<String,Object> childArray = new LinkedHashMap<String, Object>();
+			for (int j =0 ;j<updateList.size()-i;j++){
+				if (createList.get(i).get("title").substring(2,4).equals(updateList.get(j).get("title").substring(2,4))){
+					childArray.put("menuId", createList.get(i).get("menuId")+","+ updateList.get(j).get("menuId"));
+					childArray.put("title", "创建"+"/"+"修改"+ createList.get(i).get("title").substring(2,4));
+					lists.add(childArray);
+				}
+			}
+		}
+
 		return lists; 
 	} 
 
