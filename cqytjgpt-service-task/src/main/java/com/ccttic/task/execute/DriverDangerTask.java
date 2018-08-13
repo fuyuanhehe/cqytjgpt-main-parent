@@ -1,5 +1,6 @@
 package com.ccttic.task.execute;
 
+import com.ccttic.task.feign.ICarServiceFeign;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -16,7 +17,10 @@ import com.ccttic.task.feign.IDriverServiceFeign;
 public class DriverDangerTask extends QuartzJobBean{
 	
 	@Autowired
-	private IDriverServiceFeign  feign;
+	private IDriverServiceFeign  driverFeign;
+
+	@Autowired
+	private ICarServiceFeign carFeign;
 	
 	//执行方法
 	@Override
@@ -24,6 +28,8 @@ public class DriverDangerTask extends QuartzJobBean{
 		
 //		feign.updateDriver();
 //		feign.addDriverIllega();
-		feign.addDriverDanger();
+		driverFeign.addDriverDanger();
+
+		carFeign.addCarDanger();
 	}
 }
