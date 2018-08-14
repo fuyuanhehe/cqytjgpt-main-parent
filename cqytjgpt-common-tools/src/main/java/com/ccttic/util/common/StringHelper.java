@@ -43,7 +43,7 @@ public class StringHelper {
 				if(! arr.equals("")){
 					return arr;
 				}else {
-					return "不明确";
+					return "其他";
 				}
 			}
 		}

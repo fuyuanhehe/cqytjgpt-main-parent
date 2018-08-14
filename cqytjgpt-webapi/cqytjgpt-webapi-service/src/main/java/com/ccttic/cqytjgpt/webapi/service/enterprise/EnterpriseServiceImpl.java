@@ -232,12 +232,12 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		for (EnterpriseDriverVo driverVo2 : list) {
 
 			if(driverVo2.getState()==null){
-				driverVo2.setState("不明确");	
+				driverVo2.setState("其他");	
 			}else{
 				driverVo2.setState( StringHelper.getChar(driverVo2.getState() , State.MAPS) );	
 			}   
 			if(driverVo2.getState1()==null){
-				driverVo2.setState1("不明确");	
+				driverVo2.setState1("其他");	
 			}else{
 				driverVo2.setState1( StringHelper.getChar(driverVo2.getState1() , State.MAPS) );	
 			}  
