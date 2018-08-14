@@ -54,12 +54,12 @@ public class DriversServiceImpl implements DriversService {
 		
 		for (DriverVo driverVo2 : List) {
 			if(driverVo2.getState()==null){
-				driverVo2.setState("不明确");	
+				driverVo2.setState("其他");	
 			}else{
 				driverVo2.setState( StringHelper.getChar(driverVo2.getState() , State.MAPS) );	
 			}   
 			if(driverVo2.getState1()==null){
-				driverVo2.setState1("不明确");	
+				driverVo2.setState1("其他");	
 			}else{
 				driverVo2.setState1( StringHelper.getChar(driverVo2.getState1() , State.MAPS) );	
 			}  
@@ -184,7 +184,7 @@ public class DriversServiceImpl implements DriversService {
 
 		for (EnterprisethenVo enter : list) {
 			if(enter.getEtpType()==null){
-				enter.setEtpType("不明确");
+				enter.setEtpType("其他");
 			}else {
 				enter.setEtpType(StringHelper.getChar(enter.getEtpType(),State.ENTERMAP));
 			}
