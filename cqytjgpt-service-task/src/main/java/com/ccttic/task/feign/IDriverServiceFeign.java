@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface IDriverServiceFeign {
 	
 	@RequestMapping("/driverService/addDriverIllega")
-	public String addDriverIllega();
+	public void addDriverIllega();
 	
 	@RequestMapping("/driverService/addDriverDanger")
-	public String addDriverDanger();
+	public void addDriverDanger();
 	
 	@RequestMapping("/driverService/updateCar")
-	public String updateDriver();
+	public void updateDriver();
 
 }

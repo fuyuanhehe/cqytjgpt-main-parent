@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface ICarServiceFeign{
 
 	@RequestMapping("/carService/addCarIllega")
-	public String addCarIllega();
+	public void addCarIllega();
 	
 	@RequestMapping("/carService/addCarDanger")
-	public String addCarDanger();
+	public void addCarDanger();
 	
 	@RequestMapping("/carService/updateCar")
-	public String updateCar();
+	public void updateCar();
 }

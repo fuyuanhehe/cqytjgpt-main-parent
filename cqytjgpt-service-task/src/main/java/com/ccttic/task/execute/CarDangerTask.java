@@ -23,7 +23,8 @@ public class CarDangerTask extends QuartzJobBean{
 	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
 //		feign.updateCar();
 //		
-//		feign.addCarIllega();	
+//		feign.addCarIllega();
+		System.out.print("开始");
 		feign.addCarDanger();
 	}
 }
