@@ -142,13 +142,13 @@ public class TaskCarService implements ITaskCarService {
 		int countMore15 =0;
 		int countMore30 =0;
 		int totalIllegalNum = 0;
-		//for (int x = 0; x < 4; x++) {
+		for (int x = 0; x < 3; x++) {
 			vehiDrIllicit= "illicit_" + (year);
 			List<Integer> days = vehiIllicitMapper.getIllegalDays(vehiDrIllicit.toString(), vehicle.getVehiNo(), vehicle.getVehiNoType());
 			totalDays.addAll(days);
 			int illegalNum = vehiIllicitMapper.getIllegalNum(vehiDrIllicit.toString(), vehicle.getVehiNo(), vehicle.getVehiNoType());
 			totalIllegalNum += illegalNum;
-		//}
+		}
 		if (totalIllegalNum>=3){
 			vr.setIllicitstate(Const.THREE);
 			illegalRank = Const.THREE;
@@ -207,12 +207,6 @@ public class TaskCarService implements ITaskCarService {
 				vr.setOwnerorgid(org.getId());
 				vr.setOwnergener(org.getOrgNm());
 			}
-		}
-
-		Organization org = organizationMapper.getOrgIdByAreaId(enterpriseId);
-		if (org != null) {
-			vr.setOwnergener(org.getOrgNm());
-			vr.setOwnerorgid(org.getOrgCd());
 		}
 
 		vr.setOwnerenterprise(enterpriseId == null ? null : enterpriseId);
