@@ -37,7 +37,7 @@ spring:
     store-type: redis # spring session使用存储类型
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://10.10.20.22:43301/cqytjgpt-test?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://10.10.20.22:43301/cqytjgpt-normal?useSSL=false&useUnicode=true&characterEncoding=utf-8
 #    url: jdbc:mysql://localhost:3306/test?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: root
     password: ccttic!
