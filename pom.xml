@@ -47,6 +47,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <org.springframework.cloud.version>Edgware.SR3</org.springframework.cloud.version>
+        <swagger.api.version>2.9.2</swagger.api.version>
+		<com.google.guava.version>20.0</com.google.guava.version>
     </properties>
 
     <!-- 引入SpringBoot -->
@@ -88,6 +90,23 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- swagger api document start -->
+			<dependency>
+			    <groupId>io.springfox</groupId>
+			    <artifactId>springfox-swagger2</artifactId>
+			    <version>${swagger.api.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>io.springfox</groupId>
+			    <artifactId>springfox-swagger-ui</artifactId>
+			    <version>${swagger.api.version}</version>
+			</dependency>
+		 	<dependency>
+			    <groupId>com.google.guava</groupId>
+			    <artifactId>guava</artifactId>
+			    <version>${com.google.guava.version}</version>
+			</dependency> 
+			<!-- swagger api document end -->
         </dependencies>
     </dependencyManagement>
     

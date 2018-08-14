@@ -3,8 +3,6 @@ package com.ccttic.cqytjgpt.screen.controller;
 import java.util.List;
 import java.util.Map;
 
-
-import com.netflix.discovery.converters.Auto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.screen.interfaces.danger.IScreenService;
 import com.ccttic.entity.common.ResponseMsg;
-import com.ccttic.entity.danger.DrDanger;
-import com.ccttic.entity.danger.VehiDanger;
 
 /**
  * @author zzy 源头监管大屏展示
