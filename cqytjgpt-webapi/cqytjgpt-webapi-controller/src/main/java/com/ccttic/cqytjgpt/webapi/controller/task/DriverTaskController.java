@@ -74,17 +74,17 @@ class DriverTaskController {
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 			}
-			if (result!=null && result.get("update") != null) {
-				update.add((DrDanger) (result.get("update")));
-			}
-			if (result!=null && result.get("insert") != null) {
-				insert.add((DrDanger) (result.get("insert")));
-			}
+//			if (result!=null && result.get("update") != null) {
+//				update.add((DrDanger) (result.get("update")));
+//			}
+//			if (result!=null && result.get("insert") != null) {
+//				insert.add((DrDanger) (result.get("insert")));
+//			}
 		}
-		if(insert.size()>0)
-		driverBatch.addDriverDanger(insert);
-		if(update.size()>0)
-		driverBatch.updateDriverDanger(update);
+//		if(insert.size()>0)
+//		driverBatch.addDriverDanger(insert);
+//		if(update.size()>0)
+//		driverBatch.updateDriverDanger(update);
 	}
 	
 	@RequestMapping("/updateDriver")
