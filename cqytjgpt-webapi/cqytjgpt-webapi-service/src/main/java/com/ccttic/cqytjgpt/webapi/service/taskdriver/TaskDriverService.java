@@ -150,11 +150,11 @@ public class TaskDriverService implements ITaskDriverService {
 		}
 		simpleDateFormat = new SimpleDateFormat(" yyyy-MM-dd HH:mm:ss ");
 		dr.setDangertime(simpleDateFormat.format(new Date()));
-		String enterpriseId = driver.getMgrenterpriseid();
-		Organization org = organizationMapper.findOrgByEptId(enterpriseId);
-		if (org != null) {
-			dr.setOwnergener(org.getId());
-		}
+//		String enterpriseId = driver.getMgrenterpriseid();
+//		Organization org = organizationMapper.findOrgByEptId(enterpriseId);
+//		if (org != null) {
+//			dr.setOwnergener(org.getId());
+//		}
 		dr.setFullstudystate(0);
 
 		if (null == dr.getOverdueproofstate() || null == dr.getOverdueexaminestate() || null == dr.getFullstudystate()) {

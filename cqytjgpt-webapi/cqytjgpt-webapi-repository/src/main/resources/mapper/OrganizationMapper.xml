@@ -149,7 +149,7 @@
 	</select>
 	<select id="getOrgIdByAreaId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
 		SELECT  org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,
-			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType  FROM ess_organization org where org.area_id =#{id}
+			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType  FROM ess_organization org where org.area_id =#{areaId}
 	</select>
 
 </mapper>
