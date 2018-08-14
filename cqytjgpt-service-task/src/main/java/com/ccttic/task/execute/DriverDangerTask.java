@@ -19,9 +19,6 @@ public class DriverDangerTask extends QuartzJobBean{
 	@Autowired
 	private IDriverServiceFeign  driverFeign;
 
-	@Autowired
-	private ICarServiceFeign carFeign;
-	
 	//执行方法
 	@Override
 	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
@@ -29,7 +26,5 @@ public class DriverDangerTask extends QuartzJobBean{
 //		feign.updateDriver();
 //		feign.addDriverIllega();
 		driverFeign.addDriverDanger();
-
-		carFeign.addCarDanger();
 	}
 }
