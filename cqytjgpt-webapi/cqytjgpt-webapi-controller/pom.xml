@@ -74,13 +74,27 @@
 		</exclusions>
 	</dependency>
 	
+	<!-- swagger api document start -->
+	<dependency>
+	    <groupId>io.springfox</groupId>
+	    <artifactId>springfox-swagger2</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>io.springfox</groupId>
+	    <artifactId>springfox-swagger-ui</artifactId>
+	</dependency>
+ 	<dependency>
+	    <groupId>com.google.guava</groupId>
+	    <artifactId>guava</artifactId>
+	</dependency> 
+	<!-- swagger api document end -->
+	
 	<!-- web -->
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
 	
-
 	<!-- 阿里巴巴数据源 -->
 	<dependency>
 		<groupId>com.alibaba</groupId>
