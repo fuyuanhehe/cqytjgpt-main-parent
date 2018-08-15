@@ -135,14 +135,14 @@ public class WarningServiceImpl implements IWarningService {
 			for (DrDangerVo record : records) {
 				record.setOverdueproofstate(null);
 				record.setFullstudystate(null);
-				record.setDangerdesc("逾期未换证");
+				record.setDangerdesc("逾期未审验");
 			}
 		}
 		if (1 == vo.getOverdueproofstate()) {
 			for (DrDangerVo record : records) {
 				record.setOverdueexaminestate(null);
 				record.setFullstudystate(null);
-				record.setDangerdesc("逾期未审验");
+				record.setDangerdesc("逾期未换证");
 			}
 		}
 		for (DrDangerVo drDangerVo : records) {
