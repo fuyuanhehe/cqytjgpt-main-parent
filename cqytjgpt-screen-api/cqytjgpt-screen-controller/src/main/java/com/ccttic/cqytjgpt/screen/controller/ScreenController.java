@@ -3,12 +3,14 @@ package com.ccttic.cqytjgpt.screen.controller;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ccttic.cqytjgpt.screen.interfaces.danger.IScreenService;
 import com.ccttic.entity.common.ResponseMsg;
@@ -18,6 +20,7 @@ import com.ccttic.entity.common.ResponseMsg;
  */
 @RestController
 @RequestMapping("/screen")
+@Api(tags="大屏监管")
 public class ScreenController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -27,7 +30,8 @@ public class ScreenController {
 
 
     // 查询全市接入驾驶员
-    @RequestMapping("allDriver")
+    @RequestMapping(value="allDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询全市接入的驾驶员")
     public ResponseMsg<Map<String, Object>> allDriver() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -42,7 +46,8 @@ public class ScreenController {
     }
 
     // 查询全市接入机动车
-    @RequestMapping("allCar")
+    @RequestMapping(value="allCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询全市接入的机动车")
     public ResponseMsg<Map<String, Object>> allCar() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -57,7 +62,8 @@ public class ScreenController {
     }
 
     // 查询全市接入企业
-    @RequestMapping("allEnterprise")
+    @RequestMapping(value="allEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询全市接入的企业")
     public ResponseMsg<Map<String, Object>> allEnterprise() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -72,7 +78,8 @@ public class ScreenController {
     }
 
     // 查询分所
-    @RequestMapping("findPlace")
+    @RequestMapping(value="findPlace",method = RequestMethod.POST)
+    @ApiOperation(value="查询所有分所")
     public ResponseMsg<List<Map<String, Object>>> findPlace() {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
@@ -88,7 +95,8 @@ public class ScreenController {
 
 
     // 驾驶人隐患发现情况
-    @RequestMapping("findDangerForDriver")
+    @RequestMapping(value="findDangerForDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询驾驶人隐患发现情况")
     public ResponseMsg<Map<String, Object>> findDangerForDriver() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -105,7 +113,8 @@ public class ScreenController {
     /**
      * 机动车隐患发现情况
      */
-    @RequestMapping("findDangerForCar")
+    @RequestMapping(value="findDangerForCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询机动车隐患发现情况")
     public ResponseMsg<Map<String, Object>> findDangerForCar() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -121,7 +130,8 @@ public class ScreenController {
     /**
      * 企业隐患发现情况
      */
-    @RequestMapping("findDangerForEnterprise")
+    @RequestMapping(value="findDangerForEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询企业隐患发现情况")
     public ResponseMsg<Map<String, Object>> findDangerForEnterprise() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -137,10 +147,10 @@ public class ScreenController {
 
     /**
      * 驾驶员隐患问题分布情况
-     *
-     * @param dateMap year年 season季 month月
      */
-    @RequestMapping("distributionDangerForDriver")
+    @RequestMapping(value="distributionDangerForDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询驾驶人隐患分布情况")
+    // dateMap 暂时没用了
     public ResponseMsg<List<Map<String, Object>>> distributionDangerForDriver(@RequestBody Map<String, Object> dateMap) {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         // dateMap 年季月
@@ -160,7 +170,8 @@ public class ScreenController {
      *
      * @param dateMap year年 season季 month月
      */
-    @RequestMapping("distributionDangerForCar")
+    @RequestMapping(value="distributionDangerForCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询机动车隐患分布情况")
     public ResponseMsg<List<Map<String, Object>>> distributionDangerForCar(@RequestBody Map<String, Object> dateMap) {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         // dateMap 年季月
@@ -179,7 +190,8 @@ public class ScreenController {
      * 企业隐患问题分布情况
      * @param dateMap year年 season季 month月
      */
-    @RequestMapping("distributionDangerForEnterprise")
+    @RequestMapping(value="distributionDangerForEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询企业隐患分布情况")
     public ResponseMsg<List<Map<String, Object>>> distributionDangerForEnterprise(@RequestBody Map<String, Object> dateMap) {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         // dateMap 年季月
@@ -198,7 +210,8 @@ public class ScreenController {
     /**
      * 驾驶员隐患治理结果分析
      */
-    @RequestMapping("handleDangerForDriver")
+    @RequestMapping(value="handleDangerForDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询驾驶员隐患治理结果分析")
     public ResponseMsg<Map<String, Object>> handleDangerForDriver() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -215,7 +228,8 @@ public class ScreenController {
     /**
      * 机动车隐患治理结果分析
      */
-    @RequestMapping("handleDangerForCar")
+    @RequestMapping(value="handleDangerForCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询机动车隐患治理结果分析")
     public ResponseMsg<Map<String, Object>> handleDangerForCar() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -232,7 +246,8 @@ public class ScreenController {
     /**
      * 企业隐患治理结果分析
      */
-    @RequestMapping("handleDangerForEnterprise")
+    @RequestMapping(value="handleDangerForEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询企业隐患治理结果分析")
     public ResponseMsg<Map<String, Object>> handleDangerForEnterprise() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -250,7 +265,8 @@ public class ScreenController {
     /**
      * 驾驶员整治效果趋势分析
      */
-    @RequestMapping("resultDangerForDriver")
+    @RequestMapping(value="resultDangerForDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询驾驶员隐患治理趋势分析")
     public ResponseMsg<Map<String, Object>> resultDangerForDriver() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -268,7 +284,8 @@ public class ScreenController {
     /**
      * 机动车整治效果趋势分析
      */
-    @RequestMapping("resultDangerForCar")
+    @RequestMapping(value="resultDangerForCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询机动车隐患治理趋势分析")
     public ResponseMsg<Map<String, Object>> resultDangerForCar() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -285,7 +302,8 @@ public class ScreenController {
     /**
      * 企业整治效果趋势分析
      */
-    @RequestMapping("resultDangerForEnterprise")
+    @RequestMapping(value="resultDangerForEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询企业隐患治理趋势分析")
     public ResponseMsg<Map<String, Object>> resultDangerForEnterprise() {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -303,7 +321,8 @@ public class ScreenController {
     /**
      * 分区隐患信息
      */
-    @RequestMapping("areaDangerInfo")
+    @RequestMapping(value="areaDangerInfo",method = RequestMethod.POST)
+    @ApiOperation(value="查询大地图信息")
     public ResponseMsg<List<Map<String, Object>>> areaDangerInfo() {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
@@ -324,7 +343,11 @@ public class ScreenController {
      * 隐患驾驶员通报
      * @param map top 第几条
      */
-    @RequestMapping("noticeDangerForDriver")
+    @RequestMapping(value="noticeDangerForDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询隐患驾驶员通报")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="top",value="查询条数，{top:1}",required=true,paramType="body"),
+    })
     public ResponseMsg<Map<String, Object>> noticeDangerForDriver(@RequestBody Map<String, Object> map) {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -343,7 +366,11 @@ public class ScreenController {
      * 机动车通报
      * @param map top 第几条
      */
-    @RequestMapping("noticeDangerForCar")
+    @RequestMapping(value="noticeDangerForCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询隐患机动车通报")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="top",value="查询条数，{top:1}",required=true,paramType="body"),
+    })
     public ResponseMsg<Map<String, Object>> noticeDangerForCar(@RequestBody Map<String, Object> map) {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -361,7 +388,11 @@ public class ScreenController {
      * 企业通报
      * @param map top 第几条
      */
-    @RequestMapping("noticeDangerForEnterprise")
+    @RequestMapping(value="noticeDangerForEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询隐患企业通报")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="top",value="查询条数，{top:1}",required=true,paramType="body"),
+    })
     public ResponseMsg<Map<String, Object>> noticeDangerForEnterprise(@RequestBody Map<String, Object> map) {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -379,7 +410,8 @@ public class ScreenController {
     /**
      * 各区隐患排名
      */
-    @RequestMapping("areaDangersTop")
+    @RequestMapping(value="areaDangersTop",method = RequestMethod.POST)
+    @ApiOperation(value="查询各区隐患排名")
     public ResponseMsg<List<Map<String, Object>>> areaDangersTop() {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
@@ -396,7 +428,8 @@ public class ScreenController {
     /**
      * 各区治理排名
      */
-    @RequestMapping("areaHandleDangersTop")
+    @RequestMapping(value="areaHandleDangersTop",method = RequestMethod.POST)
+    @ApiOperation(value="查询各区治理排名")
     public ResponseMsg<List<Map<String, Object>>> areaHandleDangersTop() {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
@@ -413,7 +446,8 @@ public class ScreenController {
     /**
      * 各区驾驶员隐患占比
      */
-    @RequestMapping("ratioDangerForDriver")
+    @RequestMapping(value="ratioDangerForDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询各区驾驶员隐患占比")
     public ResponseMsg<List<Map<String, Object>>> ratioDangerForDriver() {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
@@ -431,7 +465,8 @@ public class ScreenController {
     /**
      * 各区机动车隐患占比
      */
-    @RequestMapping("ratioDangerForCar")
+    @RequestMapping(value="ratioDangerForCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询各区机动车隐患占比")
     public ResponseMsg<List<Map<String, Object>>> ratioDangerForCar() {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
@@ -449,7 +484,8 @@ public class ScreenController {
     /**
      * 各区企业隐患占比
      */
-    @RequestMapping("ratioDangerForEnterprise")
+    @RequestMapping(value="ratioDangerForEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询各区企业隐患占比")
     public ResponseMsg<List<Map<String, Object>>> ratioDangerForEnterprise() {
         ResponseMsg<List<Map<String, Object>>> response = new ResponseMsg<List<Map<String, Object>>>();
         try {
@@ -468,7 +504,11 @@ public class ScreenController {
      * 各分所驾驶员治理情况
      * @param map orgId 分所id
      */
-    @RequestMapping("deptDangerForDriver")
+    @RequestMapping(value="deptDangerForDriver",method = RequestMethod.POST)
+    @ApiOperation(value="查询各分所驾驶员治理情况")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="orgId",value="分所id，{orgId:1}",required=true,paramType="body"),
+    })
     public ResponseMsg<Map<String, Object>> deptDangerForDriver(@RequestBody Map<String, Object> map) {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
 
@@ -489,7 +529,11 @@ public class ScreenController {
      * 各分所机动车治理情况
      * @param map orgId 分所id
      */
-    @RequestMapping("deptDangerForCar")
+    @RequestMapping(value="deptDangerForCar",method = RequestMethod.POST)
+    @ApiOperation(value="查询各分所机动车治理情况")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="orgId",value="分所id，{orgId:1}",required=true,paramType="body"),
+    })
     public ResponseMsg<Map<String, Object>> deptDangerForCar(@RequestBody Map<String, Object> map) {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
@@ -507,7 +551,11 @@ public class ScreenController {
      * 各分所企业治理情况
      * @param map orgId 分所id
      */
-    @RequestMapping("deptDangerForEnterprise")
+    @RequestMapping(value="deptDangerForEnterprise",method = RequestMethod.POST)
+    @ApiOperation(value="查询各分所企业治理情况")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="orgId",value="分所id，{orgId:1}",required=true,paramType="body"),
+    })
     public ResponseMsg<Map<String, Object>> deptDangerForEnterprise(@RequestBody Map<String, Object> map) {
         ResponseMsg<Map<String, Object>> response = new ResponseMsg<Map<String, Object>>();
         try {
