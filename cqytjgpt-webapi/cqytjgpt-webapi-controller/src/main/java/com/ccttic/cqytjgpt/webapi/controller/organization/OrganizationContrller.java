@@ -197,7 +197,8 @@ public class OrganizationContrller implements Serializable {
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@ApiOperation(value="获取组织信息",notes="组织机构代码，必传值")
 	@ApiImplicitParams({
-	    @ApiImplicitParam(name="orgCd",value="组织机构代码，必传值",required=true,paramType="form")
+	    @ApiImplicitParam(name="orgCd",value="组织机构代码，必传值",required=true,paramType="form"),
+	    @ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query")
 	})
 	public ResponseMsg<OrgEmpCombine> findOrgByOrgCd(@RequestBody Organization org) {
 		Map<String, Object> map = new HashMap<String, Object>();
