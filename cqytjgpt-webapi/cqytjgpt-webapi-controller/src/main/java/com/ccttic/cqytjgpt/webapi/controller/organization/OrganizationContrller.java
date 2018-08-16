@@ -200,7 +200,7 @@ public class OrganizationContrller implements Serializable {
 	    @ApiImplicitParam(name="orgCd",value="组织机构代码，必传值",required=true,paramType="form"),
 	    @ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query")
 	})
-	public ResponseMsg<OrgEmpCombine> findOrgByOrgCd(@RequestBody Organization org) {
+	public ResponseMsg<OrgEmpCombine> findOrgByOrgCd(@RequestBody Organization org,@RequestParam String access_token) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ResponseMsg<OrgEmpCombine> resp = new ResponseMsg<OrgEmpCombine>();
 		try {
@@ -228,15 +228,19 @@ public class OrganizationContrller implements Serializable {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@ApiOperation(value="创建组织",notes="组织机构代码，组织机构名称，行政区域代码，机构类型 0机构 1企业 2部门，必传值"
-			+ "父组织机构ID,非必传值")
+			+ "父组织机构ID，备注,组织机构简称,非必传值")
 	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="orgCd",value="组织机构代码",required=true,paramType="form"),
 	    @ApiImplicitParam(name="orgNm",value="组织机构名称",required=true,paramType="form"),
 	    @ApiImplicitParam(name="areaCode",value="行政区域代码",required=true,paramType="form"),
 	    @ApiImplicitParam(name="orgType",value="机构类型",required=true,paramType="form"),
+	    @ApiImplicitParam(name="remark",value="备注",required=true,paramType="form"),
+	    @ApiImplicitParam(name="shortNm",value="组织机构简称",required=true,paramType="form"),
 	    @ApiImplicitParam(name="superOrgId",value="父组织机构ID",required=true,paramType="form")
+	    
 	})
-	public ResponseMsg<Organization> saveOrg(@RequestBody Organization org) {
+	public ResponseMsg<Organization> saveOrg(@RequestBody Organization org,@RequestParam String access_token) {
 		ResponseMsg<Organization> resp = new ResponseMsg<Organization>();
 		try {
 			String id = RandomHelper.uuid();
@@ -259,7 +263,20 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_ORGANIZATION, name = "修改组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Organization> editOrg(@RequestBody Organization org) {
+	@ApiOperation(value="修改组织",notes="组织机构代码，组织机构名称，行政区域代码，机构类型 0机构 1企业 2部门，必传值"
+			+ "父组织机构ID,备注,组织机构简称,非必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="orgCd",value="组织机构代码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="orgNm",value="组织机构名称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="areaCode",value="行政区域代码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="orgType",value="机构类型",required=true,paramType="form"),
+	    @ApiImplicitParam(name="remark",value="备注",required=true,paramType="form"),
+	    @ApiImplicitParam(name="shortNm",value="组织机构简称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="superOrgId",value="父组织机构ID",required=true,paramType="form")
+	    
+	})
+	public ResponseMsg<Organization> editOrg(@RequestBody Organization org,@RequestParam String access_token) {
 		ResponseMsg<Organization> resp = new ResponseMsg<Organization>();
 		try {
 			org = organizationService.editOrg(org);
@@ -281,7 +298,13 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_ORGANIZATION, name = "删除组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<String> removeOrg(@RequestBody Organization org) {
+	@ApiOperation(value="删除组织",notes="组织机构代码，机构类型 0机构 1企业 2部门，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="orgCd",value="组织机构代码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="orgType",value="机构类型",required=true,paramType="form")
+	})
+	public ResponseMsg<String> removeOrg(@RequestBody Organization org,@RequestParam String access_token) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			organizationService.removeOrg(org.getOrgCd(), org.getOrgType());
@@ -302,7 +325,15 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_DEPARTMENT, name = "获取部门信息", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Department>>  findOrgDepartment(@RequestBody PageDepartmentVo tment) {
+	@ApiOperation(value="获取部门信息",notes="企业id,机构id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="rows",value="条数",required=true,paramType="form"),
+	    @ApiImplicitParam(name="page",value="页码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="eptId",value="企业id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="orgId",value="机构id",required=true,paramType="form")
+	})
+	public ResponseMsg<List<Department>>  findOrgDepartment(@RequestBody PageDepartmentVo tment,@RequestParam String access_token) {
 		ResponseMsg<List<Department>> resp = new ResponseMsg<List<Department>>();
 		try {
 			PageRequest page = new PageRequest();
@@ -329,7 +360,19 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_DEPARTMENT, name = "创建部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Department> saveDepartment(@RequestBody Department ment) {
+	@ApiOperation(value="创建部门",notes="所属机构Id，部门名称,部门简称，部门编码，部门职责，岗位名称,必传值"
+			+",企业id，非必传值，若是新增企业部门则为必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="orgId",value="所属机构Id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="eptId",value="企业id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="depNm",value="部门名称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="depShortNm",value="部门简称",required=true,paramType="form"),
+		@ApiImplicitParam(name="depCd",value="部门编码",required=true,paramType="form"),
+		@ApiImplicitParam(name="depDuty",value="部门职责",required=true,paramType="form"),
+		@ApiImplicitParam(name="remark",value="岗位名称",required=true,paramType="form")
+	})
+	public ResponseMsg<Department> saveDepartment(@RequestBody Department ment,@RequestParam String access_token) {
 		ResponseMsg<Department> resp = new ResponseMsg<Department>();
 			String id = RandomHelper.uuid();
 			ment.setId(id);
@@ -356,7 +399,17 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFICATION_DEPARTMENT, name = "修改部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Department> editDepartment(@RequestBody Department ment) {
+	@ApiOperation(value="修改部门",notes="id,必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="id",value="id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="depNm",value="部门名称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="depShortNm",value="部门简称",required=true,paramType="form"),
+		@ApiImplicitParam(name="depCd",value="部门编码",required=true,paramType="form"),
+		@ApiImplicitParam(name="depDuty",value="部门职责",required=true,paramType="form"),
+		@ApiImplicitParam(name="remark",value="岗位名称",required=true,paramType="form")
+	})
+	public ResponseMsg<Department> editDepartment(@RequestBody Department ment,@RequestParam String access_token) {
 		ResponseMsg<Department> resp = new ResponseMsg<Department>();
 		try {
 			ment = departmentService.modifyMent(ment);
@@ -377,7 +430,12 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.DELETE_DEPARTMENT, name = "删除部门", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<String> removeDepartment(@RequestBody Department ment) {
+	@ApiOperation(value="删除部门",notes="id,必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="id",value="id",required=true,paramType="form")
+	})
+	public ResponseMsg<String> removeDepartment(@RequestBody Department ment,@RequestParam String access_token) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		try {
 			int cat = departmentService.removeMent(ment.getId());
@@ -406,7 +464,7 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_ENTERPRISE, name = "创建企业", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<Enterprise> saveEnterprise(@RequestBody Enterprise rise) {
+	public ResponseMsg<Enterprise> saveEnterprise(@RequestBody Enterprise rise,@RequestParam String access_token) {
 		ResponseMsg<Enterprise> resp = new ResponseMsg<Enterprise>();
 		try {
 			String id = RandomHelper.uuid();
@@ -426,6 +484,7 @@ public class OrganizationContrller implements Serializable {
 	 * @return
 	 */
 	@RequestMapping(value = "/getArea", method = { RequestMethod.POST, RequestMethod.GET })
+	@ApiOperation(value="获取行政区域编码",notes="不用传值")
 	public ResponseMsg<List<Area>> getArea() {
 		ResponseMsg<List<Area>> resp = new ResponseMsg<List<Area>>();
 		try {

@@ -28,8 +28,14 @@ import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/menus")
+@Api(tags="菜单业务Contrller")
 public class RoleMenuController {
 	private  Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
@@ -50,6 +56,14 @@ public class RoleMenuController {
 	@ResourceScan(rsc = @Resource(cd = Const.QUERY_MENU, name = "查询菜单", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
 			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="查询菜单",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="roleNm",value="角色名字",required=false,paramType="form"),
+	    @ApiImplicitParam(name="roleId",value="角色id",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	})
 	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(@RequestBody(required = false) rolesPage tment) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();
 
@@ -84,6 +98,12 @@ public class RoleMenuController {
 	@ResourceScan(rsc = @Resource(cd = Const.UPDATE_MENU, name = "修改角色权限", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
 			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="修改角色权限",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="roleId",value="角色id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="menuId",value="菜单id",required=true,paramType="form"),
+	})
 	public ResponseMsg<String> addMenu(@RequestBody Roles roles){
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		try {
@@ -138,6 +158,7 @@ public class RoleMenuController {
 	@ResourceScan(rsc = @Resource(cd = Const.QUERYALL_MENU, name = "查询菜单树", isMenue = false, hierarchy = 3, pcd = Const.MENU_MANAGE), prsc = {
 			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="查询菜单树")
 	public ResponseMsg<List<Object>> seAllMenu(){
 		ResponseMsg<List<Object>> resp = new ResponseMsg<>();
 
@@ -165,6 +186,7 @@ public class RoleMenuController {
 			@Resource(cd = Const.MENU_MANAGE, name = "功能权限管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/seAllEmp",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="查询所有员工")
 	public ResponseMsg<List<EmpVo>> seAllEmp(){
 		ResponseMsg<List<EmpVo>>  resp = new ResponseMsg<>();
 
@@ -202,6 +224,7 @@ public class RoleMenuController {
 	} 
 	//获取所有角色
 	@RequestMapping(value="/getRoleNm",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="获取所有角色")
 	public ResponseMsg<List<String>> getRoleNm(){
 		ResponseMsg<List<String>>  resp = new ResponseMsg<>();
 		try { 

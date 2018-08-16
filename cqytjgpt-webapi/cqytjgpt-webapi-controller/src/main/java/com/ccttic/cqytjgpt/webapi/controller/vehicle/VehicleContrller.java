@@ -50,6 +50,9 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 功能说明： 车辆基本信息Contrller
@@ -85,6 +88,20 @@ public class VehicleContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_BASE_INFO, name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="车辆信息-基本信息",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="rows",value="条数",required=true,paramType="form"),
+	    @ApiImplicitParam(name="page",value="页码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="mgrDepartAreaId",value="区域编码",required=true,paramType="form"),
+		@ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
+		@ApiImplicitParam(name="vehiType",value="车俩类型",required=true,paramType="form"),
+		@ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form"),
+		@ApiImplicitParam(name="effectStartTime",value="有效开始时间",required=true,paramType="form"),
+		@ApiImplicitParam(name="effectEndTime",value="有效结束时间",required=true,paramType="form"),
+		@ApiImplicitParam(name="startTime",value="初次检验开始日期",required=true,paramType="form"),
+		@ApiImplicitParam(name="endTime",value="初次检验结束日期",required=true,paramType="form")
+	})
 	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody PageVehicleVo vehicle,
 			@RequestParam String access_token) {
 		ResponseMsg<List<Vehicle>> resp = new ResponseMsg<List<Vehicle>>();
@@ -135,6 +152,13 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.CAR_BASE_INFO, url = "/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="新增车辆",notes="access_token，车牌号，号牌种类，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
+	    @ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form")
+//	    @ApiImplicitParam(name="carTypeName",value="车辆种类",required=true,paramType="form")	  
+	})
 	public ResponseMsg<String> saveVehicle(@RequestBody VehicleList listMap, HttpServletRequest request,
 			@RequestParam String access_token) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
@@ -194,7 +218,13 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.CAR_BASE_INFO, url = "/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<String> modifVehicle(@RequestBody VehicleList listMap) {
+	@ApiOperation(value="修改车辆",notes="access_token，车牌号，号牌种类，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
+	    @ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form")
+	})
+	public ResponseMsg<String> modifVehicle(@RequestBody VehicleList listMap,@RequestParam String access_token) {
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 		List<Map<String, String>> maps = listMap.getListMap();
 		for (int i = 0; i < maps.size(); i++) {
@@ -228,7 +258,12 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.CAR_BASE_INFO, url = "/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<VehicleVO> qryOneVehicle(@RequestBody Vehicle ve) {
+	@ApiOperation(value="车辆详情",notes="access_token，车牌号，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form")
+	})
+	public ResponseMsg<VehicleVO> qryOneVehicle(@RequestBody Vehicle ve,@RequestParam String access_token) {
 		ResponseMsg<VehicleVO> resp = new ResponseMsg<VehicleVO>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		// 去掉空格
@@ -265,6 +300,13 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.CAR_BASE_INFO, url = "/vehicle/qryVehicleList", name = "车辆信息-基本信息", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="违法信息",notes="access_token，车牌号,号牌种类,违法时间,必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
+	    @ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form"),
+		@ApiImplicitParam(name="illicitTime",value="违法时间",required=true,paramType="form")
+	})
 	public ResponseMsg<List<VehiIllicit>> qryOneVehiIllicit(@RequestBody PageVehiIllicitVo vehiIllicit) {
 		ResponseMsg<List<VehiIllicit>> resp = new ResponseMsg<List<VehiIllicit>>();
 		try {
@@ -295,7 +337,14 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.CAR_TRACK, url = "/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<JSON> qryOneHistoryTrack(@RequestBody InputVehiVo vo) {
+	@ApiOperation(value="掉第三方接口查询车辆信息",notes="access_token，车牌号,开始时间,结束时间,必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
+	    @ApiImplicitParam(name="startDate",value="开始时间",required=true,paramType="form"),
+		@ApiImplicitParam(name="endDate",value="结束时间",required=true,paramType="form")
+	})
+	public ResponseMsg<JSON> qryOneHistoryTrack(@RequestBody InputVehiVo vo,@RequestParam String access_token) {
 		ResponseMsg<JSON> resp = new ResponseMsg<JSON>();
 		if (token == null) {
 			token = getToken();
@@ -325,7 +374,12 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.CAR_TRACK, url = "/vehicle/qryOneVehicleInfoList", name = "动态监管", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<JSON> qryOneVehicleInfo(@RequestBody InputVehiVo vo) {
+	@ApiOperation(value="掉第三方接口搜索车辆信息",notes="access_token，车牌号,必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form")
+	})
+	public ResponseMsg<JSON> qryOneVehicleInfo(@RequestBody InputVehiVo vo,@RequestParam String access_token) {
 		ResponseMsg<JSON> resp = new ResponseMsg<JSON>();
 		if (token == null) {
 			token = getToken();
@@ -353,6 +407,12 @@ public class VehicleContrller implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value = "/qryOneVehicleInfoList", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
+	@ApiOperation(value="动态监管",notes="access_token,必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
+		@ApiImplicitParam(name="areaCd",value="区域编码",required=true,paramType="form")
+	})
 	public ResponseMsg<List<JSON>> qryOneVehicleInfoList(HttpServletRequest request,@RequestParam String access_token,@RequestBody InputVehiVo vehVo) {
 		ResponseMsg<List<JSON>> resp = new ResponseMsg<List<JSON>>();
 		if (StringUtils.isEmpty(access_token)) {

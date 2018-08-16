@@ -43,8 +43,14 @@ import com.ccttic.util.page.PageRequest;
  *功能说明 : 驾驶员业务
  */
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/drvers")
+@Api(tags="驾驶人业务Contrller")
 public class DriversController implements Serializable{ 
 
 	private static final long serialVersionUID = 1262917332392058333L;
@@ -64,6 +70,22 @@ public class DriversController implements Serializable{
 			@Resource(cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="删除角色",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+		@ApiImplicitParam(name="etpNm",value="所属企业",required=false,paramType="form"),
+		@ApiImplicitParam(name="areaNm",value="所属区域",required=false,paramType="form"),
+		@ApiImplicitParam(name="name",value="驾驶人名字",required=false,paramType="form"),
+		@ApiImplicitParam(name="idcard",value="身份证号码",required=false,paramType="form"),
+		@ApiImplicitParam(name="id",value="驾驶人ID主键",required=false,paramType="form"),
+		@ApiImplicitParam(name="mobilephone",value="手机号码",required=false,paramType="form"),
+		@ApiImplicitParam(name="fiString",value="初次领证时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="laString",value="最后领证时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="fistShString",value="初次审核时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="laShString",value="最后审核时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form")
+	})
 	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
 		try {
@@ -104,6 +126,7 @@ public class DriversController implements Serializable{
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@OperLogging(operType = 3,content="获取准假车型")
 	@RequestMapping(value="/getAllpermiCar",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="获取所有准假车型")
 	public ResponseMsg<List<PermiCarsVo>>getAllpermiCar(){
 		ResponseMsg<List<PermiCarsVo>> resp = new ResponseMsg<>();
 
@@ -133,13 +156,19 @@ public class DriversController implements Serializable{
 			@Resource( cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/getDrillicitByDriverId",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="基本信息-违法记录",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+		@ApiImplicitParam(name="id",value="驾驶人ID",required=false,paramType="form")
+	})
 	public ResponseMsg<List<DriverillicitVo>> seDrillicitByDriverId(@RequestBody DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			List<String> list = new ArrayList<String>();
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
 			resp.setMessage("获取基本信息-违法记录成功！");
 			resp.setStatus(0);
@@ -163,13 +192,25 @@ public class DriversController implements Serializable{
 			@Resource(cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getIllicitPages",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="驾驶人信息-信息记录-违法",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+		@ApiImplicitParam(name="etpNm",value="所属企业",required=false,paramType="form"),
+		@ApiImplicitParam(name="areaNm",value="所属区域",required=false,paramType="form"),
+		@ApiImplicitParam(name="name",value="驾驶人名字",required=false,paramType="form"),
+		@ApiImplicitParam(name="fiString",value="违法开始时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="laString",value="违法结束时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="illicitadress",value="违法地址",required=false,paramType="form"),
+		@ApiImplicitParam(name="illicit",value="违法行为",required=false,paramType="form")
+	})
 	public ResponseMsg<List<DriverillicitVo>> getDriveresPages(@RequestBody(required = false) DriverillicitVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverillicitVo>> resp = new ResponseMsg<List<DriverillicitVo>>();
 		try {
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			List<String> list = new ArrayList<String>();
 			EmployeeVo employee = employeeService.getUserInfo(access_token);
 			if(null == employee ){
 				resp.fail("获取用户信息失败");
@@ -195,12 +236,17 @@ public class DriversController implements Serializable{
 	 * @return
 	 * @date  2018年6月15日
 	 */
-	@OperLogging(operType = 0,content="增加驾驶人")
+	@OperLogging(operType = 0,content="新增驾驶人")
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_DRIVER, name = "新增驾驶人",  hierarchy = 4, isMenue = false, pcd = Const.PERSONAL_INFORMATION)
 	, prsc = {@Resource( cd = Const.PERSONAL_INFORMATION, name = "驾驶人信息-基本信息", isMenue = false, hierarchy = 3, pcd = Const.DRIVER_INFORMATION),
 			@Resource( cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/insertDriver",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="新增驾驶人",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="idcard",value="身份证",required=true,paramType="form")
+	})
 	public ResponseMsg<String> insertDriver(@RequestBody DriverInsert driver){
 		ResponseMsg<String> resp = new ResponseMsg<>();
 
@@ -226,6 +272,17 @@ public class DriversController implements Serializable{
 			@Resource(cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="企业信息-基本信息",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+		@ApiImplicitParam(name="areaNm",value="区域名称",required=false,paramType="form"),
+		@ApiImplicitParam(name="id",value="企业id,详情传这个",required=false,paramType="form"),
+		@ApiImplicitParam(name="etpnm",value="第几页",required=false,paramType="form"),
+		@ApiImplicitParam(name="ownertraffic",value="交警大队",required=false,paramType="form"),
+		@ApiImplicitParam(name="ownertransport ",value="运管所",required=false,paramType="form")
+	})
 	public ResponseMsg<List<EnterprisethenVo>> queryEnterprisePage(@RequestBody(required = false) EnterprisethenVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterprisethenVo>> resp = new ResponseMsg<>();
 
@@ -237,7 +294,7 @@ public class DriversController implements Serializable{
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			
+
 			EmployeeVo employee = employeeService.getUserInfo(access_token);
 			if(null == employee ){
 				resp.fail("获取用户信息失败");
@@ -283,6 +340,7 @@ public class DriversController implements Serializable{
 	 * @return 
 	 * @date  2018年6月25日
 	 */
+	//测试查询,没用的接口
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/queryVehiclespage",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<vehiclesVo>>queryVehiclespage(@RequestBody vehiclesVoPage tment,@RequestParam String access_token){
@@ -340,7 +398,7 @@ public class DriversController implements Serializable{
 	 * @param orgNm 
 	 * @param vehiType  
 	 */
-
+	//测试查询,没用的接口
 	@OperLogging(operType = 3)
 	@RequestMapping(value="/getvehiclesCount",method={RequestMethod.POST,RequestMethod.GET})
 	public ResponseMsg<List<VehiTotal>>getvehiclesCount(@RequestBody VehicleCountVo tment,@RequestParam String access_token){

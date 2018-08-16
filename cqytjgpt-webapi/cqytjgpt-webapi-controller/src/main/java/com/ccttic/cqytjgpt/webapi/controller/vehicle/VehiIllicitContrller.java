@@ -32,6 +32,9 @@ import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 功能说明： 车辆违法信息Contrller
@@ -57,6 +60,21 @@ public class VehiIllicitContrller implements Serializable{
 	@ResourceScan(rsc = @Resource(cd = Const.CAR_ILLICIT_INFO, name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE), prsc = {
 			@Resource(cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="车辆信息-违法记录",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="rows",value="条数",required=true,paramType="form"),
+	    @ApiImplicitParam(name="page",value="页码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="mgrDepartAreaId",value="区域编码",required=true,paramType="form"),
+		@ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
+		@ApiImplicitParam(name="etpNm",value="企业",required=true,paramType="form"),
+		@ApiImplicitParam(name="illicit",value="违法行为",required=true,paramType="form"),
+		@ApiImplicitParam(name="state",value="处罚状态",required=true,paramType="form"),
+		@ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form"),
+		@ApiImplicitParam(name="pickDepartmentDesc",value="采集机关名称",required=true,paramType="form"),
+		@ApiImplicitParam(name="startTime",value="违法开始时间",required=true,paramType="form"),
+		@ApiImplicitParam(name="endTime",value="违法结束时间",required=true,paramType="form")
+	})
 	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,@RequestParam String access_token) {
 		ResponseMsg<List<VehiIllicit>> resp = new ResponseMsg<List<VehiIllicit>>();
 		try {
@@ -103,7 +121,13 @@ public class VehiIllicitContrller implements Serializable{
     , prsc = {@Resource( cd = Const.CAR_ILLICIT_INFO, url="/vehiIllicit/qryVehiIllicitList", name = "车辆信息-违法记录", isMenue = true, hierarchy = 3, pcd = Const.CAR_SUPERVISE),
     		@Resource( cd = Const.CAR_SUPERVISE, name = "车辆监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
     		@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<VehiIllicit> qryOneVehiIllicit (@RequestBody VehiIllicit ve) {
+	@ApiOperation(value="车辆信息-违法详情",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="illicitTime",value="违法时间",required=true,paramType="form")
+		})
+	public ResponseMsg<VehiIllicit> qryOneVehiIllicit (@RequestBody VehiIllicit ve,@RequestParam String access_token) {
 		ResponseMsg<VehiIllicit> resp = new ResponseMsg<VehiIllicit>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		Calendar calendar = Calendar.getInstance();
