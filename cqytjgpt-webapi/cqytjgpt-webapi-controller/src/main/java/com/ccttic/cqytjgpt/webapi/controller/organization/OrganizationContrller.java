@@ -38,6 +38,11 @@ import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 功能说明： 组织机构信息Contrller
  * 
@@ -46,6 +51,7 @@ import com.ccttic.util.page.PageRequest;
  */
 @RestController
 @RequestMapping("/organization")
+@Api(tags=" 组织机构信息Contrller")
 public class OrganizationContrller implements Serializable {
 
 	private static final long serialVersionUID = -7767353326548858542L;
@@ -66,6 +72,10 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_HEAD, name = "组织机构管理", isMenue = false, hierarchy = 3, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="组织机构管理",notes="access_token，必传值")
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query")
+	})
 	public ResponseMsg<List<TreeVo>> findAllOrg(@RequestParam String access_token) {
 		ResponseMsg<List<TreeVo>> resp = new ResponseMsg<List<TreeVo>>();
 			Map<String, String> orgIdMap = new HashMap<>();
@@ -185,6 +195,10 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.GET_ORGANIZATION, name = "获取组织信息", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="获取组织信息",notes="组织机构代码，必传值")
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name="orgCd",value="组织机构代码，必传值",required=true,paramType="form")
+	})
 	public ResponseMsg<OrgEmpCombine> findOrgByOrgCd(@RequestBody Organization org) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ResponseMsg<OrgEmpCombine> resp = new ResponseMsg<OrgEmpCombine>();
@@ -212,6 +226,15 @@ public class OrganizationContrller implements Serializable {
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_ORGANIZATION, name = "创建组织", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="创建组织",notes="组织机构代码，组织机构名称，行政区域代码，机构类型 0机构 1企业 2部门，必传值"
+			+ "父组织机构ID,非必传值")
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name="orgCd",value="组织机构代码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="orgNm",value="组织机构名称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="areaCode",value="行政区域代码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="orgType",value="机构类型",required=true,paramType="form"),
+	    @ApiImplicitParam(name="superOrgId",value="父组织机构ID",required=true,paramType="form")
+	})
 	public ResponseMsg<Organization> saveOrg(@RequestBody Organization org) {
 		ResponseMsg<Organization> resp = new ResponseMsg<Organization>();
 		try {
