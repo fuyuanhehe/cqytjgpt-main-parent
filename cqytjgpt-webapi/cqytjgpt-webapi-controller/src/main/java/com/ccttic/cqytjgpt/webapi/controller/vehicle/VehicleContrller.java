@@ -49,6 +49,8 @@ import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
+import io.swagger.annotations.Api;
+
 /**
  * 功能说明： 车辆基本信息Contrller
  * 
@@ -57,6 +59,7 @@ import com.ccttic.util.page.PageRequest;
  */
 @RestController
 @RequestMapping("/vehicle")
+@Api(tags="车辆基本信息Contrller")
 public class VehicleContrller implements Serializable {
 
 	private String token = null;

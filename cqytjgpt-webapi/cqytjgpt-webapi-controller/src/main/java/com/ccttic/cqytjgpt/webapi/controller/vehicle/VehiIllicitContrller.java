@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ccttic.entity.employee.EmployeePermission;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +18,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
-import com.ccttic.cqytjgpt.webapi.interfaces.organization.IOrganizationService;
-import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehiIllicitService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.entity.enterprise.EssEnterprise;
-import com.ccttic.entity.enterprise.vo.AccoutVo;
-import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.vo.PageVehiIllicitVo;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.exception.AppException;
-import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
+
+import io.swagger.annotations.Api;
 
 /**
  * 功能说明： 车辆违法信息Contrller
@@ -44,7 +40,7 @@ import com.ccttic.util.page.PageRequest;
  */
 @RestController
 @RequestMapping("/vehiIllicit")
-//@SessionAttributes(Const.ENT)
+@Api(tags="车辆违法信息Contrller")
 public class VehiIllicitContrller implements Serializable{
 	private static final long serialVersionUID = 4967775901502780928L;
 	private Logger logger = Logger.getLogger(this.getClass());
