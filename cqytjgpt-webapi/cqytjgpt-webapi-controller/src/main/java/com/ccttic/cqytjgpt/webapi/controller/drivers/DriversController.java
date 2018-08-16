@@ -169,7 +169,6 @@ public class DriversController implements Serializable{
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			List<String> list = new ArrayList<String>();
 			Page<DriverillicitVo> data = service.seDrillicitByDriverId(page,tment);
 			resp.setMessage("获取基本信息-违法记录成功！");
 			resp.setStatus(0);
@@ -212,7 +211,6 @@ public class DriversController implements Serializable{
 			PageRequest page = new PageRequest();
 			page.setPage(tment.getPage());
 			page.setRows(tment.getRows());
-			List<String> list = new ArrayList<String>();
 			EmployeeVo employee = employeeService.getUserInfo(access_token);
 			if(null == employee ){
 				resp.fail("获取用户信息失败");
@@ -244,7 +242,7 @@ public class DriversController implements Serializable{
 			@Resource( cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/insertDriver",method={RequestMethod.POST,RequestMethod.GET})
-	@ApiOperation(value="身份证",notes="access_token，必传值")
+	@ApiOperation(value="新增驾驶人",notes="access_token，必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 		@ApiImplicitParam(name="idcard",value="身份证",required=true,paramType="form")
@@ -274,7 +272,7 @@ public class DriversController implements Serializable{
 			@Resource(cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/queryEnterprisePage",method={RequestMethod.POST,RequestMethod.GET})
-	@ApiOperation(value="删除角色",notes="access_token，必传值")
+	@ApiOperation(value="企业信息-基本信息",notes="access_token，必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
