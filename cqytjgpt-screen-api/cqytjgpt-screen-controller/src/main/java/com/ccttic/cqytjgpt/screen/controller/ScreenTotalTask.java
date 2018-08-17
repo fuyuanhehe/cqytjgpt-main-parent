@@ -63,13 +63,15 @@ public class ScreenTotalTask {
             param.put("list",insertList);
             int count = 0;
             for (Map m: etpList) {
+                insertList.add(m);
                 if(insertList.size()>100){
                     taskMapper.insertEtpTotal(param);
                     System.out.println("开始插入");
                     Thread.sleep(5000);
                     insertList.clear();
+                    continue;
                 }
-                insertList.add(m);
+
                 m.put("etpId",m.get("id"));
                 // 获取组织机构
                 Map org = taskMapper.findOrgByOrgId((String) m.get("orgId"));

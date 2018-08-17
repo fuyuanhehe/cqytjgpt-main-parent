@@ -192,6 +192,12 @@ public class Const {
       	 * 企业下属车辆	     	三级   
       	 */
           public static final String ENTER_VEHICLE = "enter-vehicle";
+          
+          /*
+           * 企业解绑车辆，驾驶人 三级 
+           */
+          public static final String ENTER_REMOVE = "enter-remove";
+          
           /*
       	 * 企业下属驾驶人		三级   	     
       	 */   
@@ -210,7 +216,7 @@ public class Const {
               // 移除车辆  4级
               public static final String REEMOVE_VEHICLE = "remove-vehicle";
               
-           // 移除车辆 4级
+           // 移除驾驾驾驶人 4级
               public static final String REEMOVE_DRIVER = "remove-driver";
 //***************************日常监管菜单 end************************************************************
 				

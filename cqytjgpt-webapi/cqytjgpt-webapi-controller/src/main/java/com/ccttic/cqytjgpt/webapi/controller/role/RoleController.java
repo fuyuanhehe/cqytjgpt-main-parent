@@ -25,11 +25,17 @@ import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 /*
  * 功能说明：角色业务操作
  */
 @RestController
 @RequestMapping("/roles")
+@Api(tags="角色业务Contrller")
 public class RoleController {
 	private Logger logger = Logger.getLogger(this.getClass());
 
@@ -51,6 +57,11 @@ public class RoleController {
 	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
 			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@ApiOperation(value="删除角色",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="角色id",required=true,paramType="form"),
+	})
 	public ResponseMsg<String> deleteById(@RequestBody Roles roles) {
 
 		ResponseMsg<String> resp = new ResponseMsg<>();
@@ -89,6 +100,14 @@ public class RoleController {
 	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
 			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@ApiOperation(value="创建角色",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="roleCd",value="角色编码",required=true,paramType="form"),
+	    @ApiImplicitParam(name="roleNm",value="角色名称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="description",value="角色描述",required=true,paramType="form"),
+	    @ApiImplicitParam(name="emp_id",value="员工id",required=false,paramType="form"),
+	})
 	public ResponseMsg<String> addRole_Emp(@RequestBody(required = false) Roles rolty) {
 		ResponseMsg<String> resp = new ResponseMsg<>();
 		if(ObjectHelper.isNotEmpty(rolty)) {
@@ -150,6 +169,14 @@ public class RoleController {
 	@ResourceScan(rsc = @Resource(cd = Const.QUERY_ROLE, name = "查询角色", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE), prsc = {
 			@Resource(cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
+	@ApiOperation(value="查询角色所属的人员",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="roleNm",value="角色名称",required=false,paramType="form"),
+	    @ApiImplicitParam(name="roleId",value="角色id",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	})
 	public ResponseMsg<List<Roles>> loadRolePages(@RequestBody(required = false) rolesPage tment)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 		try {
@@ -186,6 +213,15 @@ public class RoleController {
 	, prsc = {@Resource( cd = Const.QUERY_ROLE, name = "查询角色信息", isMenue = false, hierarchy = 3, pcd = Const.ROLE_MANAGE),
 			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@ApiOperation(value="修改角色和关联的员工",notes="access_token，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="roleId",value="角色id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="roleCd",value="角色id",required=false,paramType="form"),
+	    @ApiImplicitParam(name="roleNm",value="角色id",required=false,paramType="form"),
+	    @ApiImplicitParam(name="description",value="角色id",required=false,paramType="form"),
+	    @ApiImplicitParam(name="emp_id",value="角色id",required=false,paramType="form"),
+	})
 	public ResponseMsg<List<Roles>> updateEssRole(@RequestBody Roles roles){
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
 
@@ -217,6 +253,11 @@ public class RoleController {
 			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@OperLogging(operType = 3)
+	@ApiOperation(value="获取用户信息")
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	})
 	public ResponseMsg<List<EmpRoleMenuVo> > getEmpParameter(@RequestBody EmpRoleMenuVo emp){
 		ResponseMsg<List<EmpRoleMenuVo>> resp = new ResponseMsg<List<EmpRoleMenuVo>>();
 
@@ -246,6 +287,11 @@ public class RoleController {
 			@Resource( cd = Const.ROLE_MANAGE, name = "角色管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource( cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@OperLogging(operType = 3)
+	@ApiOperation(value="获取组织和部门")
+/*	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="角色id",required=true,paramType="form"),
+	})*/
 	public ResponseMsg<OrgAndDep> getOrgAndep(){
 		ResponseMsg<OrgAndDep> resp = new ResponseMsg<OrgAndDep>();
 
