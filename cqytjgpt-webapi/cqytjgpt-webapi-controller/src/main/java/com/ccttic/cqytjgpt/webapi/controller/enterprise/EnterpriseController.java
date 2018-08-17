@@ -37,8 +37,14 @@ import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/enterprise")
+@Api(tags="企业信息Contrller")
 public class EnterpriseController implements Serializable {
 
 	/**
@@ -193,6 +199,17 @@ public class EnterpriseController implements Serializable {
 			@Resource(cd = Const.DRIVER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getEnterpriseVe",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="企业下属车辆",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="车辆id,",required=false,paramType="form"),
+	    @ApiImplicitParam(name="areaNm",value="区域名称",required=false,paramType="form"),
+		 @ApiImplicitParam(name="etpNm ",value="企业名称",required=false,paramType="form"),
+		 @ApiImplicitParam(name="vehiNo  ",value="车牌号",required=false,paramType="form"),
+		 @ApiImplicitParam(name="vehiNoType",value="车类型01大型车,02小型车",required=false,paramType="form"),
+		 @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+		 @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form")
+		})
 	public ResponseMsg<List<EnterpriseVehiVo>>getEnterpriseVe(@RequestBody EnterpriseVehiVo tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterpriseVehiVo>> resp = new ResponseMsg<List<EnterpriseVehiVo>>();
 
@@ -233,6 +250,16 @@ public class EnterpriseController implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@OperLogging(operType = 3,content="企业下属驾驶员")
 	@RequestMapping(value="/getEnterpriceDriver",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="车辆信息-违法详情",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="驾驶员id,详情传这个",required=false,paramType="form"),
+	    @ApiImplicitParam(name="areaNm",value="区域名称",required=false,paramType="form"),
+		 @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+		 @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+		 @ApiImplicitParam(name="etpNm",value="企业名称",required=false,paramType="form"),
+		 @ApiImplicitParam(name="idcard",value="身份证",required=false,paramType="form")
+		})
 	public ResponseMsg<List<EnterpriseDriverVo>>getEnterpriceDriver(@RequestBody EnterpriseDriverVo tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterpriseDriverVo>> resp = new ResponseMsg<List<EnterpriseDriverVo>>();
 
@@ -279,6 +306,11 @@ public class EnterpriseController implements Serializable {
 			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/setVehicle",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="企业选择车辆",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="车辆id",required=true,paramType="form")
+		})
 	public ResponseMsg<String>updateVehicleByid(@RequestBody EmpVo tment,@RequestParam String access_token){
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 
@@ -341,6 +373,11 @@ public class EnterpriseController implements Serializable {
 			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/setDriver",method={RequestMethod.POST,RequestMethod.GET})
+	@ApiOperation(value="企业选择驾驶人",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="驾驶人id",required=true,paramType="form")
+		})
 	public ResponseMsg<String>setVehicle(@RequestBody EmpVo tment,@RequestParam String access_token){
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 
@@ -397,6 +434,15 @@ public class EnterpriseController implements Serializable {
 	// id
 	@OperLogging(operType = 1)
 	@RequestMapping(value="/removeVehicle",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.REEMOVE_VEHICLE, name = "企业移除车辆",  hierarchy = 4, isMenue = false, pcd = Const.ENTER_REMOVE)
+	, prsc = {@Resource( cd = Const.ENTER_REMOVE, name = "企业解绑", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION),
+			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@ApiOperation(value="企业移除车辆",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="车辆id",required=true,paramType="form")
+		})
 	public ResponseMsg<String>removeVehicle(@RequestBody EmpVo tmen){
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 
@@ -417,6 +463,15 @@ public class EnterpriseController implements Serializable {
 	// id
 	@OperLogging(operType = 1)
 	@RequestMapping(value="/removeDriver",method={RequestMethod.POST,RequestMethod.GET})
+	@ResourceScan(rsc = @Resource(cd = Const.REEMOVE_DRIVER, name = "企业移除车辆",  hierarchy = 4, isMenue = false, pcd = Const.ENTER_REMOVE)
+	, prsc = {@Resource( cd = Const.ENTER_REMOVE, name = "企业解绑", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION),
+			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
+			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
+	@ApiOperation(value="企业解绑驾驶人",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="驾驶人id",required=true,paramType="form")
+		})
 	public ResponseMsg<String>removeDriver(@RequestBody EmpVo tmen){
 		ResponseMsg<String> resp = new ResponseMsg<String>();
 
@@ -435,6 +490,12 @@ public class EnterpriseController implements Serializable {
 
 	//获取管理部门
 	@RequestMapping(value = "/getDepar", method = { RequestMethod.GET, RequestMethod.POST })
+	@ApiOperation(value="车辆信息-违法详情",notes="access_token，id，必传值")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+	    @ApiImplicitParam(name="id",value="id",required=true,paramType="form"),
+	    @ApiImplicitParam(name="illicitTime",value="违法时间",required=true,paramType="form")
+		})
 	public ResponseMsg<List<String>> getDepar() {
 		ResponseMsg<List<String>> rm = new ResponseMsg<List<String>>();
 		try {
