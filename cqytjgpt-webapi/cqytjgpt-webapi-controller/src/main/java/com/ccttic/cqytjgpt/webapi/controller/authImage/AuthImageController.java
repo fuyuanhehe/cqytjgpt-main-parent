@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +16,7 @@ import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.VerifyCodeUtils;
-
+@Api(tags="生成验证码")
 @Controller
 @RequestMapping("/authimage")
 public class AuthImageController {
@@ -22,9 +25,9 @@ public class AuthImageController {
 	
 	@Autowired
 	RedisService<String> redis;
-
+	@ApiOperation(value="生成验证码方法")
 	@RequestMapping("/img")
-	public ResponseMsg<String> img(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ResponseMsg<String> img(HttpServletResponse response, HttpSession session) {
 		ResponseMsg<String> rm = new ResponseMsg<>();
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-Control", "no-cache");

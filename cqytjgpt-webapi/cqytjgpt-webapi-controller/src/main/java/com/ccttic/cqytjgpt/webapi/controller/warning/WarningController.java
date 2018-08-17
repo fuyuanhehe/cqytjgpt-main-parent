@@ -17,6 +17,10 @@ import com.ccttic.util.exception.AppException;
 import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +35,9 @@ import java.util.List;
  * @author admin
  *
  */
+@Api(tags="预警提示")
 @Controller
 @RequestMapping("/warning")
-// @SessionAttributes(Const.ENT)
 public class WarningController implements Serializable {
 	private static final long serialVersionUID = 2213999569272828267L;
 
@@ -47,11 +51,17 @@ public class WarningController implements Serializable {
 	private IWarningService warningService;
 
 
-	/**
-	 * 根据条件获取车辆预警信息
-	 *
-	 * @return
-	 */
+	@ApiOperation(value="根据条件获取车辆预警信息")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="access_token",value="token",required=true,paramType="query "),
+			@ApiImplicitParam(name="areaId",value="区域id",required=true,paramType="form "),
+			@ApiImplicitParam(name="ownerenterprise",value="公司名",required=true,paramType="form "),
+			@ApiImplicitParam(name="vehino",value="车牌号",required=true,paramType="form "),
+			@ApiImplicitParam(name="dangertype",value="预警等级",required=true,paramType="form "),
+			@ApiImplicitParam(name="scrappedstate",value="逾期未报废",required=true,paramType="form "),
+			@ApiImplicitParam(name="illicitstate",value="违法未处理",required=true,paramType="form "),
+			@ApiImplicitParam(name="overdueexaminestate",value="逾期未检验",required=true,paramType="form ")
+	})
 	@RequestMapping(value = "/qryVehicleList", method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.VEHICLE_WARNING, url = "/warning/qryVehicleList", name = "车辆预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
@@ -86,7 +96,17 @@ public class WarningController implements Serializable {
 		}
 		return resp;
 	}
-
+	@ApiOperation(value="根据条件获取车辆预警信息")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="access_token",value="token",required=true,paramType="query "),
+			@ApiImplicitParam(name="areaCd",value="区域id",required=true,paramType="form "),
+			@ApiImplicitParam(name="etpNm",value="公司名",required=true,paramType="form "),
+			@ApiImplicitParam(name="drivername",value="驾驶员名",required=true,paramType="form "),
+			@ApiImplicitParam(name="dangertype",value="预警等级",required=true,paramType="form "),
+			@ApiImplicitParam(name="fullstudystate",value="满分学习",required=true,paramType="form "),
+			@ApiImplicitParam(name="overdueproofstate",value="逾期未报废",required=true,paramType="form "),
+			@ApiImplicitParam(name="overdueexaminestate",value="逾期未审验",required=true,paramType="form ")
+	})
 	@RequestMapping(value = "/qryDriverList", method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	@ResourceScan(rsc = @Resource(cd = Const.DRIVER_WARNING, url = "/warning/qryDriverList", name = "驾驶员预警", isMenue = true, hierarchy = 2, pcd = Const.WARNING)
@@ -122,11 +142,10 @@ public class WarningController implements Serializable {
 			return resp;
 		}
 
-		/**
-		 * 根据条件获取车辆预警信息
-		 *
-		 * @return
-		 */
+		@ApiOperation(value="根据id获取车辆预警信息")
+		@ApiImplicitParams({
+				@ApiImplicitParam(name="id",value="预警id",required=true,paramType="form ")
+		})
 		@RequestMapping(value = "/getByIdVehicleWarning", method = {RequestMethod.POST, RequestMethod.GET})
 		public ResponseMsg<VehiDangerVo> getByIdVehicleWarning (@RequestBody VehiDangerVo vo){
 			ResponseMsg<VehiDangerVo> resp = new ResponseMsg<VehiDangerVo>();
@@ -140,7 +159,10 @@ public class WarningController implements Serializable {
 			}
 			return resp;
 		}
-
+		@ApiOperation(value="根据id获取驾驶人预警信息")
+		@ApiImplicitParams({
+				@ApiImplicitParam(name="id",value="预警id",required=true,paramType="form ")
+		})
 		@RequestMapping(value = "/getByIdDriverWarning", method = {RequestMethod.POST, RequestMethod.GET})
 		public ResponseMsg<DrDanger> getByIdDriverWarning (@RequestBody DrDanger dr){
 			ResponseMsg<DrDanger> resp = new ResponseMsg<DrDanger>();

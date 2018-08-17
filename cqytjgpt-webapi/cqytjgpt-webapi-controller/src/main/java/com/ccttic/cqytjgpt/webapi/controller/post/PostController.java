@@ -6,6 +6,10 @@ import java.util.Map;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +34,7 @@ import com.ccttic.util.common.Const;
 import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
-
+@Api(tags="岗位管理")
 @RestController
 @RequestMapping("/post")
 public class PostController {
@@ -46,6 +50,11 @@ public class PostController {
      *
      * @return
      */
+    @ApiOperation(value="分页查询岗位")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="access_token",value="token",required=true,paramType="query "),
+            @ApiImplicitParam(name="postnm",value="岗位名称",required=true,paramType="form ")
+    })
     @RequestMapping(value = "selectPost", method = RequestMethod.POST)
     @ResourceScan(rsc = @Resource(cd = Const.SELECT_POST, name = "岗位主页", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE)
             , prsc = {@Resource(cd = Const.POST_MANAGEMENT,name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
@@ -56,7 +65,7 @@ public class PostController {
 
         EmployeeVo employee = employeeService.getUserInfo(access_token);
 
-        EmployeePermission employeePermission = employeeService.getEmployeePermission(employee);
+        EmployeePermission employeePermission = employeeService.getEmployeePermission(employee) ;
         if(null == employeePermission){
             rm.fail("该用户无数据权限");
             return rm;
@@ -125,12 +134,10 @@ public class PostController {
 //        return rm;
 //    }
 
-    /**
-     * 查询部门
-     *
-     * @param orgid
-     * @return
-     */
+    @ApiOperation(value="根据组织查询部门")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="orgid",value="组织id",required=true,paramType="form ")
+    })
     @RequestMapping(value = "selectDepartment", method = RequestMethod.POST)
     public ResponseMsg<List<Department>> selectDepartment(@RequestBody String orgid) {
         ResponseMsg<List<Department>> rm = new ResponseMsg<>();
@@ -151,12 +158,10 @@ public class PostController {
         return rm;
     }
 
-    /**
-     * 查询员工
-     *
-     * @param depid
-     * @return
-     */
+    @ApiOperation(value="根据部门查询员工")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="depid",value="部门id",required=true,paramType="form ")
+    })
     @RequestMapping(value = "selectEmployeeByDep", method = RequestMethod.POST)
     public ResponseMsg<List<EssEmployee>> selectEmployee(@RequestBody String depid) {
         ResponseMsg<List<EssEmployee>> rm = new ResponseMsg<>();
@@ -176,17 +181,19 @@ public class PostController {
         return rm;
     }
 
-    /**
-     * 创建岗位
-     *
-     * @param post
-     * @return
-     */
+    @ApiOperation(value="创建岗位")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="depId",value="部门id",required=true,paramType="form"),
+            @ApiImplicitParam(name="description",value="岗位描述",required=true,paramType="form"),
+            @ApiImplicitParam(name="postcd",value="岗位编号",required=true,paramType="form"),
+            @ApiImplicitParam(name="postnm",value="岗位名称",required=true,paramType="form"),
+
+    })
     @RequestMapping(value = "addpost", method = RequestMethod.POST)
     @ResourceScan(rsc = @Resource(cd = Const.ADD_POST, name = "创建岗位", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
             , prsc = {@Resource(cd = Const.POST_MANAGEMENT, url = "/post/addpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
             @Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-    public ResponseMsg<String> addpost(@RequestBody EssPostVo post,@RequestParam String access_token) {
+    public ResponseMsg<String> addpost(@RequestBody EssPostVo post) {
         ResponseMsg<String> rm = new ResponseMsg<>();
         try {
             String Msg = postService.addPost(post);
@@ -204,7 +211,15 @@ public class PostController {
         }
         return rm;
     }
+    @ApiOperation(value="修改岗位")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="id",value="id",required=true,paramType="form"),
+            @ApiImplicitParam(name="depId",value="部门id",required=true,paramType="form"),
+            @ApiImplicitParam(name="description",value="岗位描述",required=true,paramType="form"),
+            @ApiImplicitParam(name="postcd",value="岗位编号",required=true,paramType="form"),
+            @ApiImplicitParam(name="postnm",value="岗位名称",required=true,paramType="form"),
 
+    })
     @RequestMapping(value = "updatepost", method = RequestMethod.POST)
     @ResourceScan(rsc = @Resource(cd = Const.MODIFY_POST, name = "修改岗位", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
             , prsc = {@Resource(cd = Const.POST_MANAGEMENT, url = "/post/updatepost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
@@ -230,6 +245,10 @@ public class PostController {
      *
      * @return
      */
+    @ApiOperation(value="根据部门查询员工")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="depid",value="部门id",required=true,paramType="form ")
+    })
     @RequestMapping(value = "delpost", method = RequestMethod.POST)
     @ResourceScan(rsc = @Resource(cd = Const.DELETE_POST, name = "删除岗位", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE)
             , prsc = {@Resource(cd = Const.POST_MANAGEMENT, url = "/post/delpost", name = "岗位管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),

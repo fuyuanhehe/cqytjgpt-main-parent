@@ -48,7 +48,7 @@ public class WarningServiceImpl implements IWarningService {
 		params.put("enterpriseId",employeePermission.getEnterpriseId());
 		params.put("list", organizations); // 组织集合
 		params.put("areaId", ve.getAreaId());// 区域
-		params.put("empType", ve.getEmpType()); // 账号类型
+		params.put("empType", employeePermission.getEmployeeType()); // 账号类型
 		params.put("etpNm", ve.getOwnerenterprise());// 公司
 		params.put("vehiNo", ve.getVehino()); // 车牌号
 		params.put("dangertype", ve.getDangertype());// 预警等级
@@ -111,7 +111,7 @@ public class WarningServiceImpl implements IWarningService {
 		}
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("empType", vo.getEmpType()); // 账号类型
+		params.put("empType", employeePermission.getEmployeeType()); // 账号类型
 		params.put("list", organizations); // 组织id
 		params.put("driverName", null != vo.getDrivername() ? vo.getDrivername() : null);
 		params.put("areaId", vo.getAreaCd());// 区域

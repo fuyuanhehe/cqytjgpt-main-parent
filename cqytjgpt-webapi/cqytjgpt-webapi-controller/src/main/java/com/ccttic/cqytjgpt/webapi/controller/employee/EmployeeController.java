@@ -5,11 +5,16 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.ccttic.entity.employee.*;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.post.EssPostVo;
 import com.ccttic.entity.post.ObjectList;
 import com.ccttic.entity.role.Organization;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +32,6 @@ import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
-import com.ccttic.entity.employee.Employee;
-import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.entity.employee.EssEmployee;
-import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.employee.vo.TokenVo;
 import com.ccttic.entity.role.Department;
 import com.ccttic.util.annotation.Resource;
@@ -53,6 +54,7 @@ import net.sf.json.JSONObject;
  * @date 2018年5月31日
  *
  */
+@Api(tags="用户Controller")
 @RestController
 @RequestMapping("/employee")
 // @SessionAttributes(Const.USER)
@@ -62,8 +64,6 @@ public class EmployeeController {
 
 	@Autowired
 	private IEmployeeService employeeService;
-	@Autowired
-	private IEnterpriseService enterpriseService;
 
 	@Autowired
 	private AuthServiceFeign authFeign;
@@ -77,6 +77,12 @@ public class EmployeeController {
 	 *         参数 @return ResponseMsg<String> 返回类型 @throws
 	 */
 	// @Logger(content = "${}", remark = "用户登录", operType = 1)
+	@ApiOperation(value="用户登录")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="picCode",value="验证码",required=true,paramType="form"),
+			@ApiImplicitParam(name="account",value="员工账号",required=true,paramType="form"),
+			@ApiImplicitParam(name="password",value="员工密码",required=true,paramType="form")
+	})
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<JSON> login(HttpServletRequest request, @RequestBody EmployeeVo empVo) {
 		ResponseMsg<JSON> response = new ResponseMsg<JSON>();
@@ -125,8 +131,12 @@ public class EmployeeController {
 	 * @Title: employeeInfo @Description: 获取用户信息 @param @param request @param @param
 	 *         useranme @param @return 参数 @return ResponseMsg<Employee> 返回类型 @throws
 	 */
+	@ApiOperation(value="用户信息查询")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="access_token",value="用户token",required=true,paramType="form")
+	})
 	@RequestMapping(value = "/employeeInfo", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseMsg<EmployeeVo> employeeInfo(HttpSession session, @RequestParam String access_token) {
+	public ResponseMsg<EmployeeVo> employeeInfo(@RequestParam String access_token) {
 		ResponseMsg<EmployeeVo> response = new ResponseMsg<EmployeeVo>();
 		if (StringUtils.isEmpty(access_token)) {
 			response.fail("access_token 不能为空");
@@ -147,14 +157,16 @@ public class EmployeeController {
 			response.setData((EmployeeVo) employee);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return response;
 	}
 
-	// 分页显示所有员工
+	@ApiOperation(value="分页显示所有员工")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="access_token",value="用户token",required=true,paramType="form"),
+	})
 	@RequestMapping(value = "/showEmployee", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
@@ -180,19 +192,15 @@ public class EmployeeController {
 
 		return rm;
 	}
-
+	@ApiOperation(value="根据部门显示员工")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="depid",value="部门id",required=true,paramType="form"),
+			@ApiImplicitParam(name="empnm",value="用户名",required=true,paramType="form"),
+			@ApiImplicitParam(name="orgCd",value="组织id",required=true,paramType="form")
+	})
 	@RequestMapping(value = "/showEmployeeByDepartment", method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseMsg<List<EssEmployeeVo>> showEmployeeByDepartment(@RequestParam String access_token,
-																	 @RequestBody EssEmployeeVo emp) {
+	public ResponseMsg<List<EssEmployeeVo>> showEmployeeByDepartment(@RequestBody EssEmployeeVo emp) {
 		ResponseMsg<List<EssEmployeeVo>> responseMsg = new ResponseMsg<List<EssEmployeeVo>>();
-		String empType = null;
-		EssEnterprise enterprise = null;
-		Organization organization = null;
-		EmployeeVo employee = employeeService.getUserInfo(access_token);
-		if (employee == null) {
-			responseMsg.fail("查询失败！,获取用户信息失败");
-			return responseMsg;
-		}
 		try {
 			if (emp != null && emp.getOrgCd() != null) {
 				List<EssEmployeeVo> employees = employeeService.selectEmployeeByDepartment(emp.getDepid(), emp.getEmpnm(), emp.getOrgCd());
@@ -212,7 +220,10 @@ public class EmployeeController {
 		return responseMsg;
 	}
 
-
+	@ApiOperation(value="刷新token")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="refreshToken",value="刷新token",required=true,paramType="form"),
+	})
 	@RequestMapping(value = "/refreshtoken", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public ResponseMsg<Map<String, Object>> refreshToken(@RequestBody TokenVo vo) {
@@ -272,13 +283,14 @@ public class EmployeeController {
 		return result;
 	}
 
-	/**
-	 * 创建员工
-	 *
-	 * @param request
-	 * @param emp
-	 * @return
-	 */
+	@ApiOperation(value="创建员工")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="account",value="员工账号",required=true,paramType="form"),
+			@ApiImplicitParam(name="password",value="员工密码",required=true,paramType="form"),
+			@ApiImplicitParam(name="empno",value="员工工号",required=true,paramType="form"),
+			@ApiImplicitParam(name="empnm",value="员工名",required=true,paramType="form"),
+			@ApiImplicitParam(name="emptype",value="员工类型",required=true,paramType="form")
+	})
 	@RequestMapping(value = "/addEmployee", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_EMPLOYEE, name = "创建员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/addEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
@@ -303,13 +315,15 @@ public class EmployeeController {
 		return rm;
 	}
 
-	/**
-	 * 修改员工信息
-	 *
-	 * @param request
-	 * @param emp
-	 * @return
-	 */
+	@ApiOperation(value="修改员工")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="id",value="员工id",required=true,paramType="form"),
+			@ApiImplicitParam(name="account",value="员工账号",required=true,paramType="form"),
+			@ApiImplicitParam(name="password",value="员工密码",required=true,paramType="form"),
+			@ApiImplicitParam(name="empno",value="员工工号",required=true,paramType="form"),
+			@ApiImplicitParam(name="empnm",value="员工名",required=true,paramType="form"),
+			@ApiImplicitParam(name="emptype",value="员工类型",required=true,paramType="form")
+	})
 	@RequestMapping(value = "/editEmployee", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "修改员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/editEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
@@ -325,7 +339,6 @@ public class EmployeeController {
 			employeeService.editEmployee(emp);
 			rm.success("修改employee数据成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			rm.fail("修改employee数据失败");
 			logger.error("修改employee数据失败", e);
@@ -334,13 +347,11 @@ public class EmployeeController {
 		return rm;
 	}
 
-	/**
-	 * 修改员工密码
-	 *
-	 * @param request
-	 * @param list
-	 * @return
-	 */
+	@ApiOperation(value="修改密码")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="str",value="新密码",required=true,paramType="form"),
+
+	})
 	@RequestMapping(value = "/modifyPassword", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<String> modifyPassword(HttpServletRequest request, @RequestBody ObjectList list) {
 		ResponseMsg<String> rm = new ResponseMsg<String>();
@@ -373,7 +384,11 @@ public class EmployeeController {
 		return rm;
 
 	}
+	@ApiOperation(value="修改密码")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="str",value="新密码",required=true,paramType="form"),
 
+	})
 	@RequestMapping(value = "/delEmployee", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "删除员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/delEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
