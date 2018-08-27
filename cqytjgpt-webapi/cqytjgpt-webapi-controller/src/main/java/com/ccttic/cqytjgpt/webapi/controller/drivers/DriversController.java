@@ -1,9 +1,7 @@
 package com.ccttic.cqytjgpt.webapi.controller.drivers;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import com.ccttic.entity.employee.EmployeePermission;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccttic.cqytjgpt.webapi.interfaces.drivers.DriversService;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
-import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.drivers.vo.DriverInsert;
 import com.ccttic.entity.drivers.vo.DriverVo;
@@ -25,18 +22,11 @@ import com.ccttic.entity.drivers.vo.DriverillicitVoPage;
 import com.ccttic.entity.drivers.vo.EnterprisethenVo;
 import com.ccttic.entity.drivers.vo.EnterprisethenVoPage;
 import com.ccttic.entity.drivers.vo.PermiCarsVo;
-import com.ccttic.entity.drivers.vo.VehiTotal;
-import com.ccttic.entity.drivers.vo.VehicleCountVo;
-import com.ccttic.entity.drivers.vo.vehiclesVo;
-import com.ccttic.entity.drivers.vo.vehiclesVoPage;
 import com.ccttic.entity.employee.EmployeeVo;
-import com.ccttic.entity.employee.EssEmployee;
-import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.annotation.OperLogging;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
-import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 /*
@@ -82,7 +72,8 @@ public class DriversController implements Serializable{
 		@ApiImplicitParam(name="laString",value="最后领证时间",required=false,paramType="form"),
 		@ApiImplicitParam(name="fistShString",value="初次审核时间",required=false,paramType="form"),
 		@ApiImplicitParam(name="laShString",value="最后审核时间",required=false,paramType="form"),
-		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int")
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int"),
+		@ApiImplicitParam(name="orgNm",value="组织机构名称",required=false,paramType="form")
 	})
 	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
