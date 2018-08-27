@@ -114,11 +114,27 @@
 			 FROM ( SELECT v.* FROM vehicle v
 			 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
+			 		<if test="orgNm != null and orgNm != ''">
+			 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
+					LEFT JOIN ess_organization org on e.org_id=org.id
+			 		</if>
+			 		<if test="entNm != null and entNm != ''">
+			 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
+			 		</if>
 			 		WHERE 1=1 and (v.isDeleted is null or v.isDeleted !=1)
+			 		<if test="orgNm != null and orgNm != ''">
+			 		and org.orgNm like CONCAT(CONCAT('%',#{orgNm},'%'))
+			 		</if>
+			 		<if test="entNm != null and entNm != ''">
+			 		and e.etpNm like CONCAT(CONCAT('%',#{entNm},'%'))
+			 		</if>
 			 	</when>
 			 	<when test="empType == 'SUPER'">
 			 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
 					LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+					<if test="entNm != null and entNm != ''">
+			 		and e.etpNm like CONCAT(CONCAT('%',#{entNm},'%'))
+			 		</if>
 			 	</when>
 			 	<otherwise>
 			 		WHERE v.mgrEnterpriseId=#{id}
@@ -166,14 +182,30 @@
 
 	<!-- 根据企业编码获取车辆基础信息条数 -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(1) from vehicle 
+		select count(1) from vehicle v
 		 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
-			 		WHERE 1=1 and (isDeleted is null or isDeleted !=1)
+			 		<if test="orgNm != null and orgNm != ''">
+				 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
+						LEFT JOIN ess_organization org on e.org_id=org.id
+			 		</if>
+			 		<if test="entNm != null and entNm != ''">
+			 			LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
+			 		</if>
+			 		WHERE 1=1 and (v.isDeleted is null or v.isDeleted !=1)
+			 		<if test="orgNm != null and orgNm != ''">
+			 			and org.orgNm like CONCAT(CONCAT('%',#{orgNm},'%'))
+			 		</if>
+			 		<if test="entNm != null and entNm != ''">
+			 			and e.etpNm like CONCAT(CONCAT('%',#{entNm},'%'))
+			 		</if>
 			 	</when>
 			 	<when test="empType == 'SUPER'">
 			 		LEFT JOIN ess_enterprise e ON mgrEnterpriseId=e.id
 					LEFT JOIN ess_organization org on e.org_id=org.id WHERE org.id =#{id}
+					<if test="entNm != null and entNm != ''">
+			 		and e.etpNm like CONCAT(CONCAT('%',#{entNm},'%'))
+			 		</if>
 			 	</when>
 			 	<otherwise>
 			 		WHERE mgrEnterpriseId=#{id}

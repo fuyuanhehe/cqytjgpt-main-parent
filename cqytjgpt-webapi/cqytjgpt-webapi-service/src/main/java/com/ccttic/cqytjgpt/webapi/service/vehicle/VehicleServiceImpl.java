@@ -67,6 +67,8 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("startTime", vehicle.getStartTime()); // 初次检验开始日期
 		params.put("endTime", vehicle.getEndTime()); // 初次检验结束日期
 		params.put("empType", employeePermission.getEmployeeType()); // 账号类型
+		params.put("orgNm", vehicle.getOrgNm()); // 组织中文名字
+		params.put("entNm", vehicle.getEntNm()); // 企业中文名字
 
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<Vehicle> records = mapper.qryVehicleList(params);
