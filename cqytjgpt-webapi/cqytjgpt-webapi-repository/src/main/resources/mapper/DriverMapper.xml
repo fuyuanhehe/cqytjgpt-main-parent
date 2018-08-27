@@ -102,6 +102,8 @@
 		en ON
 		d.mgrEnterpriseId =
 		en.id
+		LEFT JOIN ess_organization
+		o ON o.id = en.org_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
@@ -119,6 +121,13 @@
 		</choose>
 		<if test="etpNm!=null and etpNm!='' ">
 			AND en.etpNm like '%${etpNm}%'
+		</if>
+		<if test="orgid!=null and orgid.size>0 ">
+			AND o.id in
+			<foreach collection="orgid" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			AND a.areaNm = #{areaNm}
@@ -166,6 +175,8 @@
 		d.mgrDepartAreaId
 		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
 		en.id
+		LEFT JOIN ess_organization
+		o ON o.id = en.org_id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
 				WHERE 1=1
@@ -183,6 +194,13 @@
 		</choose>
 		<if test="etpNm!=null and etpNm!='' ">
 			AND en.etpNm like '%${etpNm}%'
+		</if>
+		<if test="orgid!=null and orgid.size>0 ">
+			AND o.id in
+			<foreach collection="orgid" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			AND a.areaNm = #{areaNm}
@@ -454,7 +472,8 @@
 		ON
 		eo.area_id = a.id
 		LEFT
-		JOIN ess_enterprise en ON
+		JOIN
+		ess_enterprise en ON
 		en.org_id = eo.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
@@ -503,7 +522,8 @@
 		COUNT(en.id)
 		FROM
 		ess_area a
-		LEFT JOIN ess_organization eo ON eo.area_id = a.id
+		LEFT JOIN ess_organization eo ON
+		eo.area_id = a.id
 		LEFT JOIN ess_enterprise en ON en.org_id = eo.id
 		<choose>
 			<when test="empType == 'SUPERMAN'">
