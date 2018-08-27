@@ -72,7 +72,8 @@ public class DriversController implements Serializable{
 		@ApiImplicitParam(name="laString",value="最后领证时间",required=false,paramType="form"),
 		@ApiImplicitParam(name="fistShString",value="初次审核时间",required=false,paramType="form"),
 		@ApiImplicitParam(name="laShString",value="最后审核时间",required=false,paramType="form"),
-		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int")
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int"),
+		@ApiImplicitParam(name="orgNm",value="组织机构名称",required=false,paramType="form")
 	})
 	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
