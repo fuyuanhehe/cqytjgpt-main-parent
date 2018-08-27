@@ -70,10 +70,10 @@ public class DriversController implements Serializable{
 			@Resource(cd = Const.DRIVER_INFORMATION, name = "驾驶人监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getDriversPages",method={RequestMethod.POST,RequestMethod.GET})
-	@ApiOperation(value="删除角色",notes="access_token，必传值")
+	@ApiOperation(value="删除角色",notes="access_token必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
-		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
+		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form",dataType="int"),
 		@ApiImplicitParam(name="etpNm",value="所属企业",required=false,paramType="form"),
 		@ApiImplicitParam(name="areaNm",value="所属区域",required=false,paramType="form"),
 		@ApiImplicitParam(name="name",value="驾驶人名字",required=false,paramType="form"),
@@ -84,7 +84,7 @@ public class DriversController implements Serializable{
 		@ApiImplicitParam(name="laString",value="最后领证时间",required=false,paramType="form"),
 		@ApiImplicitParam(name="fistShString",value="初次审核时间",required=false,paramType="form"),
 		@ApiImplicitParam(name="laShString",value="最后审核时间",required=false,paramType="form"),
-		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form")
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int")
 	})
 	public ResponseMsg<List<DriverVo>> seDriverPages(@RequestBody(required = false) DriverVoPage tment,@RequestParam String access_token){
 		ResponseMsg<List<DriverVo>> resp = new ResponseMsg<List<DriverVo>>();
@@ -275,8 +275,8 @@ public class DriversController implements Serializable{
 	@ApiOperation(value="企业信息-基本信息",notes="access_token，必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
-		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
-		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+		@ApiImplicitParam(name="page",value="第几页",required=false,paramType="form",dataType="int"),
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int"),
 		@ApiImplicitParam(name="areaNm",value="区域名称",required=false,paramType="form"),
 		@ApiImplicitParam(name="id",value="企业id,详情传这个",required=false,paramType="form"),
 		@ApiImplicitParam(name="etpnm",value="第几页",required=false,paramType="form"),
