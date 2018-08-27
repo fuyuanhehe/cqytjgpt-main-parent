@@ -289,7 +289,11 @@ public class EmployeeController {
 			@ApiImplicitParam(name="password",value="员工密码",required=true,paramType="form"),
 			@ApiImplicitParam(name="empno",value="员工工号",required=true,paramType="form"),
 			@ApiImplicitParam(name="empnm",value="员工名",required=true,paramType="form"),
-			@ApiImplicitParam(name="emptype",value="员工类型",required=true,paramType="form")
+			@ApiImplicitParam(name="emptype",value="员工类型",required=true,paramType="form"),
+			@ApiImplicitParam(name="id",value="岗位id",required=false,paramType="form"),
+			@ApiImplicitParam(name="description",value="岗位描述",required=false,paramType="form"),
+			@ApiImplicitParam(name="postcd",value="岗位编号",required=false,paramType="form"),
+			@ApiImplicitParam(name="postnm",value="岗位名称",required=false,paramType="form"),
 	})
 	@RequestMapping(value = "/addEmployee", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.ADD_EMPLOYEE, name = "创建员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
@@ -322,7 +326,11 @@ public class EmployeeController {
 			@ApiImplicitParam(name="password",value="员工密码",required=true,paramType="form"),
 			@ApiImplicitParam(name="empno",value="员工工号",required=true,paramType="form"),
 			@ApiImplicitParam(name="empnm",value="员工名",required=true,paramType="form"),
-			@ApiImplicitParam(name="emptype",value="员工类型",required=true,paramType="form")
+			@ApiImplicitParam(name="emptype",value="员工类型",required=true,paramType="form"),
+			@ApiImplicitParam(name="id",value="岗位id",required=false,paramType="form"),
+			@ApiImplicitParam(name="description",value="岗位描述",required=false,paramType="form"),
+			@ApiImplicitParam(name="postcd",value="岗位编号",required=false,paramType="form"),
+			@ApiImplicitParam(name="postnm",value="岗位名称",required=false,paramType="form"),
 	})
 	@RequestMapping(value = "/editEmployee", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "修改员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {

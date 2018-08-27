@@ -187,6 +187,12 @@ public class PostController {
             @ApiImplicitParam(name="description",value="岗位描述",required=true,paramType="form"),
             @ApiImplicitParam(name="postcd",value="岗位编号",required=true,paramType="form"),
             @ApiImplicitParam(name="postnm",value="岗位名称",required=true,paramType="form"),
+            @ApiImplicitParam(name="id",value="员工id",required=false,paramType="form"),
+            @ApiImplicitParam(name="account",value="员工账号",required=false,paramType="form"),
+            @ApiImplicitParam(name="password",value="员工密码",required=false,paramType="form"),
+            @ApiImplicitParam(name="empno",value="员工工号",required=false,paramType="form"),
+            @ApiImplicitParam(name="empnm",value="员工名",required=false,paramType="form"),
+            @ApiImplicitParam(name="emptype",value="员工类型",required=false,paramType="form")
 
     })
     @RequestMapping(value = "addpost", method = RequestMethod.POST)
@@ -218,6 +224,12 @@ public class PostController {
             @ApiImplicitParam(name="description",value="岗位描述",required=true,paramType="form"),
             @ApiImplicitParam(name="postcd",value="岗位编号",required=true,paramType="form"),
             @ApiImplicitParam(name="postnm",value="岗位名称",required=true,paramType="form"),
+            @ApiImplicitParam(name="id",value="员工id",required=false,paramType="form"),
+            @ApiImplicitParam(name="account",value="员工账号",required=false,paramType="form"),
+            @ApiImplicitParam(name="password",value="员工密码",required=false,paramType="form"),
+            @ApiImplicitParam(name="empno",value="员工工号",required=false,paramType="form"),
+            @ApiImplicitParam(name="empnm",value="员工名",required=false,paramType="form"),
+            @ApiImplicitParam(name="emptype",value="员工类型",required=false,paramType="form")
 
     })
     @RequestMapping(value = "updatepost", method = RequestMethod.POST)
