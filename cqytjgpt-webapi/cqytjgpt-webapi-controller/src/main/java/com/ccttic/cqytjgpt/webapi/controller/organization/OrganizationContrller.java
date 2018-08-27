@@ -161,29 +161,29 @@ public class OrganizationContrller implements Serializable {
 		}
 		return list;
 	}
-	/**
-	 * 取得当前节点的下级节点
-	 *            当前节点的code
-	 * @return 下级节点
-	 */
-	@RequestMapping(value = "/findNextNode", method = { RequestMethod.POST, RequestMethod.GET })
+//	/**
+//	 * 取得当前节点的下级节点
+//	 *            当前节点的code
+//	 * @return 下级节点
+//	 */
+//	@RequestMapping(value = "/findNextNode", method = { RequestMethod.POST, RequestMethod.GET })
 //	@ResourceScan(rsc = @Resource(cd = Const.GET_NEXT_NODE, name = "获取下级节点", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 //			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/organization/findHeadOrg", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 //			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
-	public ResponseMsg<List<Organization>> findNextNode(@RequestBody Organization org) {
-		ResponseMsg<List<Organization>> resp = new ResponseMsg<List<Organization>>();
-		try {
-			List<Organization> list = organizationService.findNextNode(org.getOrgCd());
-			if (!ObjectHelper.isEmpty(list)) {
-				resp.setData(list);
-				resp.success("获取信息成功！");
-			}
-		} catch (AppException e) {
-			resp.fail("获取信息失败！");
-			logger.error(e.getMessage());
-		}
-		return resp;
-	}
+//	public ResponseMsg<List<Organization>> findNextNode(@RequestBody Organization org) {
+//		ResponseMsg<List<Organization>> resp = new ResponseMsg<List<Organization>>();
+//		try {
+//			List<Organization> list = organizationService.findNextNode(org.getOrgCd());
+//			if (!ObjectHelper.isEmpty(list)) {
+//				resp.setData(list);
+//				resp.success("获取信息成功！");
+//			}
+//		} catch (AppException e) {
+//			resp.fail("获取信息失败！");
+//			logger.error(e.getMessage());
+//		}
+//		return resp;
+//	}
 
 	/**
 	 * 根据机构orgCd取得组织信息
@@ -235,8 +235,8 @@ public class OrganizationContrller implements Serializable {
 	    @ApiImplicitParam(name="orgNm",value="组织机构名称",required=true,paramType="form"),
 	    @ApiImplicitParam(name="areaCode",value="行政区域代码",required=true,paramType="form"),
 	    @ApiImplicitParam(name="orgType",value="机构类型",required=true,paramType="form"),
-	    @ApiImplicitParam(name="remark",value="备注",required=true,paramType="form"),
-	    @ApiImplicitParam(name="shortNm",value="组织机构简称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="remark",value="备注",required=false,paramType="form"),
+	    @ApiImplicitParam(name="shortNm",value="组织机构简称",required=false,paramType="form"),
 	    @ApiImplicitParam(name="superOrgId",value="父组织机构ID",required=true,paramType="form")
 	    
 	})
@@ -271,8 +271,8 @@ public class OrganizationContrller implements Serializable {
 	    @ApiImplicitParam(name="orgNm",value="组织机构名称",required=true,paramType="form"),
 	    @ApiImplicitParam(name="areaCode",value="行政区域代码",required=true,paramType="form"),
 	    @ApiImplicitParam(name="orgType",value="机构类型",required=true,paramType="form"),
-	    @ApiImplicitParam(name="remark",value="备注",required=true,paramType="form"),
-	    @ApiImplicitParam(name="shortNm",value="组织机构简称",required=true,paramType="form"),
+	    @ApiImplicitParam(name="remark",value="备注",required=false,paramType="form"),
+	    @ApiImplicitParam(name="shortNm",value="组织机构简称",required=false,paramType="form"),
 	    @ApiImplicitParam(name="superOrgId",value="父组织机构ID",required=true,paramType="form")
 	    
 	})
@@ -328,8 +328,8 @@ public class OrganizationContrller implements Serializable {
 	@ApiOperation(value="获取部门信息",notes="企业id,机构id，必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
-		@ApiImplicitParam(name="rows",value="条数",required=true,paramType="form"),
-	    @ApiImplicitParam(name="page",value="页码",required=true,paramType="form"),
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="页码",required=false,paramType="form"),
 	    @ApiImplicitParam(name="eptId",value="企业id",required=true,paramType="form"),
 	    @ApiImplicitParam(name="orgId",value="机构id",required=true,paramType="form")
 	})

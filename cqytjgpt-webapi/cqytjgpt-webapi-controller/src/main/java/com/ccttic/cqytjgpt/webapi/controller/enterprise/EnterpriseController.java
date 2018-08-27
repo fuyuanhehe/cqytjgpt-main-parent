@@ -199,7 +199,7 @@ public class EnterpriseController implements Serializable {
 			@Resource(cd = Const.DRIVER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@RequestMapping(value="/getEnterpriseVe",method={RequestMethod.POST,RequestMethod.GET})
-	@ApiOperation(value="企业下属车辆",notes="access_token，id，必传值")
+	@ApiOperation(value="企业下属车辆",notes="access_token必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="id",value="车辆id,",required=false,paramType="form"),
@@ -207,8 +207,8 @@ public class EnterpriseController implements Serializable {
 		 @ApiImplicitParam(name="etpNm ",value="企业名称",required=false,paramType="form"),
 		 @ApiImplicitParam(name="vehiNo  ",value="车牌号",required=false,paramType="form"),
 		 @ApiImplicitParam(name="vehiNoType",value="车类型01大型车,02小型车",required=false,paramType="form"),
-		 @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
-		 @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form")
+		 @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form",dataType="int"),
+		 @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int")
 		})
 	public ResponseMsg<List<EnterpriseVehiVo>>getEnterpriseVe(@RequestBody EnterpriseVehiVo tment,@RequestParam String access_token){
 		ResponseMsg<List<EnterpriseVehiVo>> resp = new ResponseMsg<List<EnterpriseVehiVo>>();
@@ -250,13 +250,13 @@ public class EnterpriseController implements Serializable {
 			@Resource(cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT) })
 	@OperLogging(operType = 3,content="企业下属驾驶员")
 	@RequestMapping(value="/getEnterpriceDriver",method={RequestMethod.POST,RequestMethod.GET})
-	@ApiOperation(value="车辆信息-违法详情",notes="access_token，id，必传值")
+	@ApiOperation(value="车辆信息-违法详情",notes="access_token必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="id",value="驾驶员id,详情传这个",required=false,paramType="form"),
 	    @ApiImplicitParam(name="areaNm",value="区域名称",required=false,paramType="form"),
-		 @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
-		 @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+		 @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form",dataType="int"),
+		 @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int"),
 		 @ApiImplicitParam(name="etpNm",value="企业名称",required=false,paramType="form"),
 		 @ApiImplicitParam(name="idcard",value="身份证",required=false,paramType="form")
 		})
@@ -306,7 +306,7 @@ public class EnterpriseController implements Serializable {
 			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/setVehicle",method={RequestMethod.POST,RequestMethod.GET})
-	@ApiOperation(value="企业选择车辆",notes="access_token，id，必传值")
+	@ApiOperation(value="企业选择车辆",notes="access_token必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="id",value="车辆id",required=true,paramType="form")
@@ -373,7 +373,7 @@ public class EnterpriseController implements Serializable {
 			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
 	@RequestMapping(value="/setDriver",method={RequestMethod.POST,RequestMethod.GET})
-	@ApiOperation(value="企业选择驾驶人",notes="access_token，id，必传值")
+	@ApiOperation(value="企业选择驾驶人",notes="access_token必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="id",value="驾驶人id",required=true,paramType="form")
@@ -438,7 +438,7 @@ public class EnterpriseController implements Serializable {
 	, prsc = {@Resource( cd = Const.ENTER_REMOVE, name = "企业解绑", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION),
 			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	@ApiOperation(value="企业移除车辆",notes="access_token，id，必传值")
+	@ApiOperation(value="企业移除车辆",notes="access_token必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="id",value="车辆id",required=true,paramType="form")
@@ -467,7 +467,7 @@ public class EnterpriseController implements Serializable {
 	, prsc = {@Resource( cd = Const.ENTER_REMOVE, name = "企业解绑", isMenue = false, hierarchy = 3, pcd = Const.ENTER_INFORMATION),
 			@Resource( cd = Const.ENTER_INFORMATION, name = "企业监管", isMenue = true, hierarchy = 2, pcd = Const.DAY_SUPERVISE),
 			@Resource( cd = Const.DAY_SUPERVISE, name = "日常监管", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	@ApiOperation(value="企业解绑驾驶人",notes="access_token，id，必传值")
+	@ApiOperation(value="企业解绑驾驶人",notes="access_token必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="id",value="驾驶人id",required=true,paramType="form")

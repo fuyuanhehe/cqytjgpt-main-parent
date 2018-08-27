@@ -174,8 +174,8 @@ public class RoleController {
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="roleNm",value="角色名称",required=false,paramType="form"),
 	    @ApiImplicitParam(name="roleId",value="角色id",required=false,paramType="form"),
-	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
-	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form",dataType="int"),
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int"),
 	})
 	public ResponseMsg<List<Roles>> loadRolePages(@RequestBody(required = false) rolesPage tment)  {
 		ResponseMsg<List<Roles>> resp = new ResponseMsg<List<Roles>>();
@@ -255,8 +255,8 @@ public class RoleController {
 	@OperLogging(operType = 3)
 	@ApiOperation(value="获取用户信息")
 	@ApiImplicitParams({
-	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
-	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form",dataType="int"),
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int"),
 	})
 	public ResponseMsg<List<EmpRoleMenuVo> > getEmpParameter(@RequestBody EmpRoleMenuVo emp){
 		ResponseMsg<List<EmpRoleMenuVo>> resp = new ResponseMsg<List<EmpRoleMenuVo>>();

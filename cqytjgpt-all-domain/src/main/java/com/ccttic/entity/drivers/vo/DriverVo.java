@@ -20,13 +20,24 @@ public class DriverVo  extends Driver{
 	private String fistShString;
 	//最后审核时期
 	private String laShString;
-   //企业id
-    private List<String> qid;
-     //账号类型
-    private String empType;
-    
-    public DriverVo() {
-		// TODO Auto-generated constructor stub
+	//企业id
+	private List<String> qid;
+	//账号类型
+	private String empType;
+
+	// 分所id
+	private List<String> orgid;
+
+	
+	public List<String> getOrgid() {
+		return orgid;
+	}
+
+	public void setOrgid(List<String> orgid) {
+		this.orgid = orgid;
+	}
+
+	public DriverVo() {
 	}
 
 	@Override
@@ -120,7 +131,7 @@ public class DriverVo  extends Driver{
 		this.empType = empType;
 	}
 
-    
-    
+
+
 
 }

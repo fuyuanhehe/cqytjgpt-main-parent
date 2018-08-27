@@ -61,8 +61,8 @@ public class RoleMenuController {
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
 	    @ApiImplicitParam(name="roleNm",value="角色名字",required=false,paramType="form"),
 	    @ApiImplicitParam(name="roleId",value="角色id",required=false,paramType="form"),
-	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form"),
-	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="第几页",required=false,paramType="form",dataType="int"),
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form",dataType="int"),
 	})
 	public  ResponseMsg<List<Model_RmsVo>> loadRolePages(@RequestBody(required = false) rolesPage tment) {
 		ResponseMsg<List<Model_RmsVo>> resp = new ResponseMsg<List<Model_RmsVo>>();

@@ -10,18 +10,21 @@ public class PageVehicleVo extends Vehicle {
 	private int rows = 10;
 	private List<String> list;
 	private String empType;
+	private String orgNm;
+	private String entNm;
 	public PageVehicleVo() {
 		super();
 	}
-	public PageVehicleVo(int page, int rows, List<String> list, String empType) {
+
+	public PageVehicleVo(int page, int rows, List<String> list, String empType, String orgNm, String entNm) {
 		super();
 		this.page = page;
 		this.rows = rows;
 		this.list = list;
 		this.empType = empType;
+		this.orgNm = orgNm;
+		this.entNm = entNm;
 	}
-
-
 
 	public int getPage() {
 		return page;
@@ -49,6 +52,21 @@ public class PageVehicleVo extends Vehicle {
 	public void setEmpType(String empType) {
 		this.empType = empType;
 	}
-	
+
+	public String getOrgNm() {
+		return orgNm;
+	}
+
+	public void setOrgNm(String orgNm) {
+		this.orgNm = orgNm;
+	}
+
+	public String getEntNm() {
+		return entNm;
+	}
+
+	public void setEntNm(String entNm) {
+		this.entNm = entNm;
+	}
 	
 }

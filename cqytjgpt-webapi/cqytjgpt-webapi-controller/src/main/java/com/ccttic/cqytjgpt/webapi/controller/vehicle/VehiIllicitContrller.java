@@ -63,17 +63,17 @@ public class VehiIllicitContrller implements Serializable{
 	@ApiOperation(value="车辆信息-违法记录",notes="access_token，必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
-	    @ApiImplicitParam(name="rows",value="条数",required=true,paramType="form"),
-	    @ApiImplicitParam(name="page",value="页码",required=true,paramType="form"),
-	    @ApiImplicitParam(name="mgrDepartAreaId",value="区域编码",required=true,paramType="form"),
-		@ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
-		@ApiImplicitParam(name="etpNm",value="企业",required=true,paramType="form"),
-		@ApiImplicitParam(name="illicit",value="违法行为",required=true,paramType="form"),
-		@ApiImplicitParam(name="state",value="处罚状态",required=true,paramType="form"),
-		@ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form"),
-		@ApiImplicitParam(name="pickDepartmentDesc",value="采集机关名称",required=true,paramType="form"),
-		@ApiImplicitParam(name="startTime",value="违法开始时间",required=true,paramType="form"),
-		@ApiImplicitParam(name="endTime",value="违法结束时间",required=true,paramType="form")
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="页码",required=false,paramType="form"),
+	    @ApiImplicitParam(name="mgrDepartAreaId",value="区域编码",required=false,paramType="form"),
+		@ApiImplicitParam(name="vehiNo",value="车牌号",required=false,paramType="form"),
+		@ApiImplicitParam(name="etpNm",value="企业",required=false,paramType="form"),
+		@ApiImplicitParam(name="illicit",value="违法行为",required=false,paramType="form"),
+		@ApiImplicitParam(name="state",value="处罚状态",required=false,paramType="form"),
+		@ApiImplicitParam(name="vehiNoType",value="号牌种类",required=false,paramType="form"),
+		@ApiImplicitParam(name="pickDepartmentDesc",value="采集机关名称",required=false,paramType="form"),
+		@ApiImplicitParam(name="startTime",value="违法开始时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="endTime",value="违法结束时间",required=false,paramType="form")
 	})
 	public ResponseMsg<List<VehiIllicit>> qryVehiIllicitList (@RequestBody PageVehiIllicitVo vehiIllicit,@RequestParam String access_token) {
 		ResponseMsg<List<VehiIllicit>> resp = new ResponseMsg<List<VehiIllicit>>();

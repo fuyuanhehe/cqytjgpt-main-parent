@@ -91,16 +91,18 @@ public class VehicleContrller implements Serializable {
 	@ApiOperation(value="车辆信息-基本信息",notes="access_token，必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
-	    @ApiImplicitParam(name="rows",value="条数",required=true,paramType="form"),
-	    @ApiImplicitParam(name="page",value="页码",required=true,paramType="form"),
-	    @ApiImplicitParam(name="mgrDepartAreaId",value="区域编码",required=true,paramType="form"),
-		@ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
-		@ApiImplicitParam(name="vehiType",value="车俩类型",required=true,paramType="form"),
-		@ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form"),
-		@ApiImplicitParam(name="effectStartTime",value="有效开始时间",required=true,paramType="form"),
-		@ApiImplicitParam(name="effectEndTime",value="有效结束时间",required=true,paramType="form"),
-		@ApiImplicitParam(name="startTime",value="初次检验开始日期",required=true,paramType="form"),
-		@ApiImplicitParam(name="endTime",value="初次检验结束日期",required=true,paramType="form")
+	    @ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="页码",required=false,paramType="form"),
+	    @ApiImplicitParam(name="mgrDepartAreaId",value="区域编码",required=false,paramType="form"),
+		@ApiImplicitParam(name="vehiNo",value="车牌号",required=false,paramType="form"),
+		@ApiImplicitParam(name="vehiType",value="车俩类型",required=false,paramType="form"),
+		@ApiImplicitParam(name="vehiNoType",value="号牌种类",required=false,paramType="form"),
+		@ApiImplicitParam(name="effectStartTime",value="有效开始时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="effectEndTime",value="有效结束时间",required=false,paramType="form"),
+		@ApiImplicitParam(name="startTime",value="初次检验开始日期",required=false,paramType="form"),
+		@ApiImplicitParam(name="endTime",value="初次检验结束日期",required=false,paramType="form"),
+		@ApiImplicitParam(name="orgNm",value="组织中文名字",required=false,paramType="form"),
+		@ApiImplicitParam(name="entNm",value="企业中文名字",required=false,paramType="form")
 	})
 	public ResponseMsg<List<Vehicle>> qryVehicleList(@RequestBody PageVehicleVo vehicle,
 			@RequestParam String access_token) {
@@ -303,6 +305,8 @@ public class VehicleContrller implements Serializable {
 	@ApiOperation(value="违法信息",notes="access_token，车牌号,号牌种类,违法时间,必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
+		@ApiImplicitParam(name="rows",value="条数",required=false,paramType="form"),
+	    @ApiImplicitParam(name="page",value="页码",required=false,paramType="form"),
 	    @ApiImplicitParam(name="vehiNo",value="车牌号",required=true,paramType="form"),
 	    @ApiImplicitParam(name="vehiNoType",value="号牌种类",required=true,paramType="form"),
 		@ApiImplicitParam(name="illicitTime",value="违法时间",required=true,paramType="form")
