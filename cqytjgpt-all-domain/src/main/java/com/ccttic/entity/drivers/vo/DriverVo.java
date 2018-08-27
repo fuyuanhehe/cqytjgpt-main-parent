@@ -26,15 +26,15 @@ public class DriverVo  extends Driver{
 	private String empType;
 
 	// 分所id
-	private List<String> orgid;
+	private String orgNm;
 
-	
-	public List<String> getOrgid() {
-		return orgid;
+
+	public String getOrgNm() {
+		return orgNm;
 	}
 
-	public void setOrgid(List<String> orgid) {
-		this.orgid = orgid;
+	public void setOrgNm(String orgNm) {
+		this.orgNm = orgNm;
 	}
 
 	public DriverVo() {

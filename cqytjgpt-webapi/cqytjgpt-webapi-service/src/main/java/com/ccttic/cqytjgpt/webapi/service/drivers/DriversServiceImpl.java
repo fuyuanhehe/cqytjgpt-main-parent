@@ -43,7 +43,7 @@ public class DriversServiceImpl implements DriversService {
 		params.put("laShString", driverVo.getLaShString());
 		params.put("mobilephone", driverVo.getMobilephone());
 		params.put("empType", driverVo.getEmpType()); // 账号类型
-		params.put("orgid", driverVo.getOrgid()); // 分所id
+		params.put("orgNm", driverVo.getOrgNm()); // 分所id
 		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
 			params.put("etpId",employeePermission.getEnterpriseId());
 		}

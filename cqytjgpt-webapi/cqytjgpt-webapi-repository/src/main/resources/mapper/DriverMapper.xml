@@ -122,12 +122,8 @@
 		<if test="etpNm!=null and etpNm!='' ">
 			AND en.etpNm like '%${etpNm}%'
 		</if>
-		<if test="orgid!=null and orgid.size>0 ">
-			AND o.id in
-			<foreach collection="orgid" index="index" item="item" open="("
-				separator="," close=")">
-				#{item}
-			</foreach>
+		<if test="orgNm!=null and orgNm!='' ">
+			AND o.orgNm like '%${orgNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			AND a.areaNm = #{areaNm}
@@ -195,12 +191,8 @@
 		<if test="etpNm!=null and etpNm!='' ">
 			AND en.etpNm like '%${etpNm}%'
 		</if>
-		<if test="orgid!=null and orgid.size>0 ">
-			AND o.id in
-			<foreach collection="orgid" index="index" item="item" open="("
-				separator="," close=")">
-				#{item}
-			</foreach>
+		<if test="orgNm!=null and orgNm!='' ">
+			AND o.orgNm like '%${orgNm}%'
 		</if>
 		<if test="areaNm!=null and areaNm!='' ">
 			AND a.areaNm = #{areaNm}
