@@ -114,13 +114,8 @@
 			 FROM ( SELECT v.* FROM vehicle v
 			 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
-			 		<if test="orgNm != null and orgNm != ''">
 			 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
 					LEFT JOIN ess_organization org on e.org_id=org.id
-			 		</if>
-			 		<if test="entNm != null and entNm != ''">
-			 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
-			 		</if>
 			 		WHERE 1=1 and (v.isDeleted is null or v.isDeleted !=1)
 			 		<if test="orgNm != null and orgNm != ''">
 			 		and org.orgNm like CONCAT(CONCAT('%',#{orgNm},'%'))
@@ -185,13 +180,8 @@
 		select count(1) from vehicle v
 		 <choose>
 			 	<when test="empType == 'SUPERMAN'" >
-			 		<if test="orgNm != null and orgNm != ''">
-				 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
-						LEFT JOIN ess_organization org on e.org_id=org.id
-			 		</if>
-			 		<if test="entNm != null and entNm != ''">
-			 			LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
-			 		</if>
+			 		LEFT JOIN ess_enterprise e ON v.mgrEnterpriseId=e.id
+					LEFT JOIN ess_organization org on e.org_id=org.id
 			 		WHERE 1=1 and (v.isDeleted is null or v.isDeleted !=1)
 			 		<if test="orgNm != null and orgNm != ''">
 			 			and org.orgNm like CONCAT(CONCAT('%',#{orgNm},'%'))
