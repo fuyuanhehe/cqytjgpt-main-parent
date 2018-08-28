@@ -17,9 +17,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableAsync
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@MapperScan("com.ccttic.cqytjgpt.webapi.mapper")
-public class WebAPIApplication {
+@MapperScan("com.ccttic.cqytjgpt.enterprise.mapper")
+public class EnterpriseAPIApplication {
     public static void main(String [] args) {
-   	 	SpringApplication.run(WebAPIApplication.class, args);
+   	 	SpringApplication.run(EnterpriseAPIApplication.class, args);
     }
 }
