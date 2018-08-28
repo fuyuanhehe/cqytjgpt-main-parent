@@ -38,9 +38,6 @@
     	<!-- 基本的web模块 -->
     	<module>cqytjgpt-webapi</module>
     <module>cqytjgpt-service-logger</module>
-        <module>cqytjgptentapi</module>
-        <module>cqytjgpt-ent-api</module>
-        <module>cqytjgptentapi</module>
         <module>cqytjgpt-enterprise-api</module>
     </modules>
 
