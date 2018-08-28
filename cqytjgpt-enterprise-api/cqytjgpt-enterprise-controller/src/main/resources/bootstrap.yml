@@ -1,0 +1,27 @@
+info:
+  description: 重庆交巡警源头监管项目主要web模块
+
+server:
+  port: 12002
+
+spring:
+  application:
+    name: cqytjgpt-webapi
+  profiles:
+    active: dev
+  cloud:
+    config:
+      enabled: true
+      discovery:
+        enabled: true
+        service-id: cqytjgpt-eureka-config
+      fail-fast: true
+      label: master
+      
+eureka:
+  instance:
+    instance-id: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8090/eureka/

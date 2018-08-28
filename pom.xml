@@ -38,7 +38,11 @@
     	<!-- 基本的web模块 -->
     	<module>cqytjgpt-webapi</module>
     <module>cqytjgpt-service-logger</module>
-  </modules>
+        <module>cqytjgptentapi</module>
+        <module>cqytjgpt-ent-api</module>
+        <module>cqytjgptentapi</module>
+        <module>cqytjgpt-enterprise-api</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
