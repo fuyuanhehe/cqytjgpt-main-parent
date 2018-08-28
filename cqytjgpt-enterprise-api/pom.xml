@@ -22,6 +22,7 @@
         <module>cqytjgpt-enterprise-controller</module>
         <!-- 远程接口 调用client -->
         <module>cqytjgpt-enterprise-client</module>
+        <module>cqytjgpt-enterprise-repository</module>
     </modules>
 
 

@@ -77,12 +77,12 @@ public interface VehiIllicitMapper {
 	 * @Description: 获取违法未交款的天数
 	 * @Date:14:40 2018/7/26
 	 */
-	public  List<Integer> getIllegalDays(@Param("vehiDrIllicit") String vehiDrIllicit,@Param("vehiNo") String vehiNo,@Param("vehiNoType") String vehiNoType);
+	public  List<Integer> getIllegalDays(@Param("vehiDrIllicit") String vehiDrIllicit, @Param("vehiNo") String vehiNo, @Param("vehiNoType") String vehiNoType);
 
 	/**
 	 * @Author:zhy
 	 * @Description:获得违法条数
 	 * @Date:14:41 2018/7/26
 	 */
-	public  int getIllegalNum(@Param("vehiDrIllicit") String vehiDrIllicit,@Param("vehiNo") String vehiNo,@Param("vehiNoType") String vehiNoType);
+	public  int getIllegalNum(@Param("vehiDrIllicit") String vehiDrIllicit, @Param("vehiNo") String vehiNo, @Param("vehiNoType") String vehiNoType);
 }

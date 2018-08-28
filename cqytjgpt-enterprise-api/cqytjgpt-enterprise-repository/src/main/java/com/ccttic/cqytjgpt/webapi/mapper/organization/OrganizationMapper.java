@@ -108,10 +108,10 @@ public interface OrganizationMapper {
 	
 	public List<Department> getAllDepart(@Param("orgId") String orgId);
 
-	public List<Department> getDepartByEntCd(@Param("etpCd")String etpCd);
+	public List<Department> getDepartByEntCd(@Param("etpCd") String etpCd);
 
 
-	Organization getOrgByEmpId(@Param("id")String id);
+	Organization getOrgByEmpId(@Param("id") String id);
 	
 	/**
 	 * 创建部门
@@ -124,11 +124,11 @@ public interface OrganizationMapper {
 	 * @return
 	 * @throws AppException
 	 */
-	AccoutVo getAccountOrgId (String account);
+	AccoutVo getAccountOrgId(String account);
 	/**
 	 *@Author:zhy
 	 *@Description:通过区域id获取组织id
 	 *@Date:16:21 2018/8/6
 	 */
-	Organization getOrgIdByAreaId (String areaId);
+	Organization getOrgIdByAreaId(String areaId);
 }

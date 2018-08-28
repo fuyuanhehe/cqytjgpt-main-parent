@@ -25,7 +25,7 @@ public interface DriverMapper {
    public long seDrillicitByDriverIdCount(Map<String, Object> params);
 	
 	//准假车型
-	public List<PermiCarsVo> getAllpermiCar ();
+	public List<PermiCarsVo> getAllpermiCar();
    
 	//驾驶人违法分页
 	public List<DriverillicitVo> seDr_illicitPages(Map<String, Object> params);

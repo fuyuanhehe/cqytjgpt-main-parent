@@ -66,7 +66,7 @@ public interface RoleMenuMapper {
 	 * @return
 	 */
 
-	public void deletesRoleMenuById(String [] roleId);
+	public void deletesRoleMenuById(String[] roleId);
 
 	/**
 	 * 查询菜单id，名称

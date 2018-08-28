@@ -23,7 +23,7 @@ public interface EssEmployeeRoleMapper {
 	EssEmployeeRole selectByPrimaryKey(String id);
 
 	int updateByExampleSelective(@Param("record") EssEmployeeRole record,
-			@Param("example") EssEmployeeRoleExample example);
+								 @Param("example") EssEmployeeRoleExample example);
 
 	int updateByExample(@Param("record") EssEmployeeRole record, @Param("example") EssEmployeeRoleExample example);
 

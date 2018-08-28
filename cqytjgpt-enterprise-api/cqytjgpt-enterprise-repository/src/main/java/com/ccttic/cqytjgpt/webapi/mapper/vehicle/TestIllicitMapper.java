@@ -15,7 +15,7 @@ public interface TestIllicitMapper {
 	
 	public List<NetTrffSurveil> qryNetTrffSurveilList(Map<String, Object> params);
 	
-	public void addIllicit (VehiDrIllicit cit);
+	public void addIllicit(VehiDrIllicit cit);
 	
 	public List<NetTrffViolation> qryNetTrffViolationList(Map<String, Object> params);
 	
