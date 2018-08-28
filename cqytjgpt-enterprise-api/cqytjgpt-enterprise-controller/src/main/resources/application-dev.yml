@@ -88,7 +88,7 @@ fdfs:
 security:
   oauth2:
     resource:
-      id: cqytjgpt-webapi
+      id: cqytjgpt-enterprise-api
       user-info-uri: http://localhost:10001/user
       prefer-token-info: false  
       

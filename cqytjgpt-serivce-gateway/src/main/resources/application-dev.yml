@@ -29,7 +29,14 @@ zuul:
     cqytjgpt-screen-api:
       path: /manager/**
       serviceId: cqytjgpt-screen-api
-      sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token      
+      sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token   
+     
+    cqytjgpt-enterprise-api:
+      path: /ent/**
+      serviceId: cqytjgpt-enterprise-api
+      sensitiveHeaders:   # 清空敏感头，让下游服务可以获得token   
+     
+        
 
 # 设置logback.xml地址
 logging:

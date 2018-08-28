@@ -1,12 +1,12 @@
 info:
-  description: 重庆交巡警源头监管项目主要web模块
+  description: 重庆交巡警源头监管项目主要企业模块
 
 server:
   port: 12002
 
 spring:
   application:
-    name: cqytjgpt-webapi
+    name: cqytjgpt-enterprise-api
   profiles:
     active: dev
   cloud:
