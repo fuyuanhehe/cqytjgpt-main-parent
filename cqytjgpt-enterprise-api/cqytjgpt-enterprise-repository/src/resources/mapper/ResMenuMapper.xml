@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.employee.ResMenuMapper">
+  <resultMap id="BaseResultMap" type="com.ccttic.entity.employee.ResMenu">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="resource" jdbcType="VARCHAR" property="resource" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="groupResource" jdbcType="VARCHAR" property="groupresource" />
+    <result column="sortOrder" jdbcType="INTEGER" property="sortorder" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="ismenu" jdbcType="CHAR" property="ismenu" />
+    <result column="hierarchy" jdbcType="INTEGER" property="hierarchy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, resource, label, groupResource, sortOrder, icon, description, path, ismenu, hierarchy
+  </sql>
+  <select id="selectByExample" parameterType="com.ccttic.entity.employee.ResMenuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from res_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from res_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from res_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ccttic.entity.employee.ResMenuExample">
+    delete from res_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ccttic.entity.employee.ResMenu">
+    insert into res_menu (id, resource, label, 
+      groupResource, sortOrder, icon, 
+      description, path, ismenu, 
+      hierarchy)
+    values (#{id,jdbcType=VARCHAR}, #{resource,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
+      #{groupresource,jdbcType=VARCHAR}, #{sortorder,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{ismenu,jdbcType=CHAR}, 
+      #{hierarchy,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ccttic.entity.employee.ResMenu">
+    insert into res_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="resource != null">
+        resource,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="groupresource != null">
+        groupResource,
+      </if>
+      <if test="sortorder != null">
+        sortOrder,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="ismenu != null">
+        ismenu,
+      </if>
+      <if test="hierarchy != null">
+        hierarchy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="resource != null">
+        #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="groupresource != null">
+        #{groupresource,jdbcType=VARCHAR},
+      </if>
+      <if test="sortorder != null">
+        #{sortorder,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="ismenu != null">
+        #{ismenu,jdbcType=CHAR},
+      </if>
+      <if test="hierarchy != null">
+        #{hierarchy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ccttic.entity.employee.ResMenuExample" resultType="java.lang.Long">
+    select count(*) from res_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update res_menu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resource != null">
+        resource = #{record.resource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupresource != null">
+        groupResource = #{record.groupresource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortorder != null">
+        sortOrder = #{record.sortorder,jdbcType=INTEGER},
+      </if>
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.path != null">
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ismenu != null">
+        ismenu = #{record.ismenu,jdbcType=CHAR},
+      </if>
+      <if test="record.hierarchy != null">
+        hierarchy = #{record.hierarchy,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update res_menu
+    set id = #{record.id,jdbcType=VARCHAR},
+      resource = #{record.resource,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR},
+      groupResource = #{record.groupresource,jdbcType=VARCHAR},
+      sortOrder = #{record.sortorder,jdbcType=INTEGER},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      path = #{record.path,jdbcType=VARCHAR},
+      ismenu = #{record.ismenu,jdbcType=CHAR},
+      hierarchy = #{record.hierarchy,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.employee.ResMenu">
+    update res_menu
+    <set>
+      <if test="resource != null">
+        resource = #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="groupresource != null">
+        groupResource = #{groupresource,jdbcType=VARCHAR},
+      </if>
+      <if test="sortorder != null">
+        sortOrder = #{sortorder,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="ismenu != null">
+        ismenu = #{ismenu,jdbcType=CHAR},
+      </if>
+      <if test="hierarchy != null">
+        hierarchy = #{hierarchy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ccttic.entity.employee.ResMenu">
+    update res_menu
+    set resource = #{resource,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      groupResource = #{groupresource,jdbcType=VARCHAR},
+      sortOrder = #{sortorder,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      ismenu = #{ismenu,jdbcType=CHAR},
+      hierarchy = #{hierarchy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

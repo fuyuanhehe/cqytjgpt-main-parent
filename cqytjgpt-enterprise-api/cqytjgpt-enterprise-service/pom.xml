@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.ccttic.framework</groupId>
+    <artifactId>cqytjgpt-enterprise-api</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>cqytjgpt-enterprise-service</artifactId>
+  <name>cqytjgpt-enterprise-service</name>
+  <description>源头监管webapi 服务实现层</description>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <com.fastdfs.client.version>1.26.2</com.fastdfs.client.version>
+  </properties>
+  <dependencies>
+    <!-- 所有的实体类 -->
+	<dependency>
+		<groupId>com.ccttic.framework</groupId>
+		<artifactId>cqytjgpt-all-domain</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	
+	<!-- 工具模块 -->
+	<dependency>
+		<groupId>com.ccttic.framework</groupId>
+		<artifactId>cqytjgpt-common-tools</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<exclusions>
+		  <exclusion>
+			<groupId>com.ccttic.framework</groupId>
+			<artifactId>cqytjgpt-all-domain</artifactId>
+		  </exclusion>
+	    </exclusions>
+	</dependency>
+	
+	<!-- 接口暴露模块 -->
+	<dependency>
+	   <groupId>com.ccttic.framework</groupId>
+	   <artifactId>cqytjgpt-enterprise-interface</artifactId>
+	   	<version>1.0-SNAPSHOT</version>
+	</dependency>
+	
+	<!-- 外部服务接入client -->
+	<dependency>
+	   <groupId>com.ccttic.framework</groupId>
+	   <artifactId>cqytjgpt-enterprise-client</artifactId>
+	   <version>1.0-SNAPSHOT</version>
+ 	   <exclusions>
+		  <exclusion>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+		  </exclusion>
+	   </exclusions> 
+	</dependency>
+	
+	<!-- 持久模块 -->
+	<dependency>
+	   <groupId>com.ccttic.framework</groupId>
+	   <artifactId>cqytjgpt-enterprise-repository</artifactId>
+	   <version>1.0-SNAPSHOT</version>
+	   <exclusions>
+		  <exclusion>
+		      <groupId>org.mybatis</groupId>
+		      <artifactId>mybatis</artifactId>
+		  </exclusion>
+	   </exclusions> 	
+	</dependency>
+	
+	<!-- 支持发送邮件 -->  
+<!--      <dependency>  
+         <groupId>org.springframework.boot</groupId>  
+         <artifactId>spring-boot-starter-mail</artifactId>  
+     </dependency>  -->
+	
+	<!-- spring 事务依赖 -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-tx</artifactId>
+	</dependency>
+	
+	<!-- logback -->
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-classic</artifactId>
+	</dependency>
+	
+	<!-- 文件服务器fastfds -->
+	<dependency>
+	    <groupId>com.github.tobato</groupId>
+	    <artifactId>fastdfs-client</artifactId>
+	    <version>${com.fastdfs.client.version}</version>
+	</dependency>
+		<!-- redis -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+	  <dependency>
+		  <groupId>com.ccttic.framework</groupId>
+		  <artifactId>cqytjgpt-enterprise-repository</artifactId>
+		  <version>1.0-SNAPSHOT</version>
+	  </dependency>
+      <dependency>
+          <groupId>com.ccttic.framework</groupId>
+          <artifactId>cqytjgpt-enterprise-repository</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
+	  <dependency>
+		  <groupId>com.ccttic.framework</groupId>
+		  <artifactId>cqytjgpt-enterprise-repository</artifactId>
+		  <version>1.0-SNAPSHOT</version>
+	  </dependency>
+
+  </dependencies>
+</project>

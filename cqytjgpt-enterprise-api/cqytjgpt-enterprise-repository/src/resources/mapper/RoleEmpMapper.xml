@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.role.RoleEmpMapper">
+	<!-- 自定义返回结果集 -->
+	<resultMap id="roleEmpMap" type="com.ccttic.entity.role.RoleEmp">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="roleCd" column="roleCd" javaType="java.lang.String"></result>
+		<result property="roleNm" column="roleNm" javaType="java.lang.String"></result>
+		<result property="roleId" column="roleId" javaType="java.lang.String"></result>
+		<result property="empCd" column="empCd" javaType="java.lang.String"></result>
+		<result property="empNm" column="empNm" javaType="java.lang.String"></result>
+		<result property="empId" column="empId" javaType="java.lang.String"></result>
+		<result property="version" column="version" javaType="java.lang.Integer"></result>
+	</resultMap>
+	<!-- 通过角色ID获取人员信息-->
+	<select id="findEmpsByRoleId" parameterType="java.lang.String" resultMap="roleEmpMap">
+		select emprole.id as id,emp.id as empId,emp.empCd as empCd,emp.empNm as empNm, role.id as roleId,role.roleCd as roleCd, role.roleNm as roleNm, emprole.version as version 
+		from ess_employee emp left join ess_employee_role emprole on emp.id = emprole.emp_id 
+		left join ess_role role on emprole.role_id = role.id where role.id = #{roleId}  
+	</select>
+	<!-- 通过人员ID获取角色信息-->
+	<select id="findRolesByEmpId" parameterType="java.lang.String" resultMap="roleEmpMap">
+		select emprole.id as id,emp.id as empId,emp.empCd as empCd,emp.empNm as empNm, role.id as roleId,role.roleCd as roleCd, role.roleNm as roleNm, emprole.version as version 
+		from ess_role role left join ess_employee_role emprole on role.id = emprole.role_id 
+		left join ess_employee emp on emprole.emp_id = emp.id where emp.id = #{empId}  
+	</select>
+	<!-- 通过角色ID删除人员角色关系-->
+	<delete id="deleteEmpRoleByRoleId" parameterType="com.ccttic.entity.role.Roles">
+		delete from ess_employee_role where role_id in
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+		
+		
+	</delete>
+	<!--  通过人员ID删除人员角色关系 -->
+	<delete id="deleteEmpRoleByEmpId" parameterType="java.lang.String">
+		delete from ess_employee_role where emp_id=#{empId}
+	</delete>
+	<!-- 插入人员角色关系 -->
+	<insert id="addRoleEmp" parameterType="com.ccttic.entity.role.RoleEmp">
+		insert into ess_employee_role (id, emp_id,role_id,version) values (#{roleEmp.id},#{roleEmp.empId},#{roleEmp.roleId},#{roleEmp.version})
+	</insert>
+</mapper>	
