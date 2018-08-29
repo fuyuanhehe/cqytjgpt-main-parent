@@ -9,6 +9,8 @@ public class EmployeePermission {
 	private String orgType;
 
 	private String enterpriseId;
+	
+	private String superEntId;
 
 	private String employeeType;
 
@@ -53,4 +55,13 @@ public class EmployeePermission {
 	public void setEmployeeType(String employeeType) {
 		this.employeeType = employeeType;
 	}
+
+	public String getSuperEntId() {
+		return superEntId;
+	}
+
+	public void setSuperEntId(String superEntId) {
+		this.superEntId = superEntId;
+	}
+	
 }
