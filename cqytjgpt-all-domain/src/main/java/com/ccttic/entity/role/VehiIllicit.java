@@ -70,18 +70,19 @@ public class VehiIllicit extends BaseBean implements Serializable {
 	// 违法结束时间
 	private String endTime;
 	private String areaNm;
+	private String isState;
 
 	public VehiIllicit() {
 		super();
 	}
 
-	public VehiIllicit(String areaNm ,String vehiNo, String vehiNoType, String vehiNoTypeText, String nature, String ownership,
+	public VehiIllicit(String vehiNo, String vehiNoType, String vehiNoTypeText, String nature, String ownership,
 			String owner, String adress, String mgrDepart, String mgrDepartAreaId, String vehicleId, String illicitTime,
-			String illicitScore, String illicitAmount, String illicitAdress, String illicit, String illicitDesc,
-			String pickDepartment, String pickDepartmentDesc, String state, String remark, String etpNm,
-			String startTime, String endTime,String disposeSign,String serialNumber,String disposeType,String disposeSignType) {
+			String illicitScore, String illicitAmount, String disposeType, String illicitAdress, String illicit,
+			String illicitDesc, String serialNumber, String pickDepartment, String pickDepartmentDesc,
+			String disposeSign, String disposeSignType, String state, String remark, String etpNm, String startTime,
+			String endTime, String areaNm, String isState) {
 		super();
-		this.areaNm = areaNm;
 		this.vehiNo = vehiNo;
 		this.vehiNoType = vehiNoType;
 		this.vehiNoTypeText = vehiNoTypeText;
@@ -95,21 +96,25 @@ public class VehiIllicit extends BaseBean implements Serializable {
 		this.illicitTime = illicitTime;
 		this.illicitScore = illicitScore;
 		this.illicitAmount = illicitAmount;
+		this.disposeType = disposeType;
 		this.illicitAdress = illicitAdress;
 		this.illicit = illicit;
 		this.illicitDesc = illicitDesc;
+		this.serialNumber = serialNumber;
 		this.pickDepartment = pickDepartment;
 		this.pickDepartmentDesc = pickDepartmentDesc;
+		this.disposeSign = disposeSign;
+		this.disposeSignType = disposeSignType;
 		this.state = state;
 		this.remark = remark;
 		this.etpNm = etpNm;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.disposeSign = disposeSign;
-		this.serialNumber = serialNumber;
-		this.disposeType = disposeType;
-		this.disposeSignType = disposeSignType;
+		this.areaNm = areaNm;
+		this.isState = isState;
 	}
+
+
 
 	public String getAreaNm() {
 		return areaNm;
@@ -333,6 +338,14 @@ public class VehiIllicit extends BaseBean implements Serializable {
 
 	public void setDisposeSignType(String disposeSignType) {
 		this.disposeSignType = disposeSignType;
+	}
+
+	public String getIsState() {
+		return isState;
+	}
+
+	public void setIsState(String isState) {
+		this.isState = isState;
 	}
 
 }
