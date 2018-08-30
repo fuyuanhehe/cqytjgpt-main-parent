@@ -1,9 +1,8 @@
 package com.ccttic.entity.role.vo;
 
-import com.ccttic.entity.BaseBean;
-import com.ccttic.entity.role.Vehicle;
-
 import java.io.Serializable;
+
+import com.ccttic.entity.role.Vehicle;
 
 /**
  * 机动车 基本信息

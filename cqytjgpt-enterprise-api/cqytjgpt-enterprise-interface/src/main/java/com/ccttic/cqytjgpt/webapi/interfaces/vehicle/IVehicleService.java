@@ -3,15 +3,14 @@ package com.ccttic.cqytjgpt.webapi.interfaces.vehicle;
 import java.util.List;
 import java.util.Map;
 
-import com.ccttic.entity.car.XMLCar;
 import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.VehicleDispatch;
 import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.VehicleIllegal;
-import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -47,20 +46,24 @@ public interface IVehicleService {
 	 * @throws AppException
 	 */
 	public Page<VehiIllicit> qryVehiIllicitList(Pageable page, VehiIllicit vehiIllicit) throws AppException;
-
 	/**
-	 * 新增车牌号和车辆类型
+	 * 根据id获取车辆违法信息
+	 * @param params
+	 * @return
 	 * @throws AppException
 	 */
-	public Map<String, Object> saveVehicle(VehicleList listMap,String entId) throws AppException;
-
+	public VehiIllicit qryOneVehiIllicit(Map<String, Object> params)throws AppException;
+	
 	/**
-	 * 修改车辆基础信息（补全信息）
-	 * @param vehicle
+	 * 根据条件获取车辆出车信息
+	 * @param page
+	 * @param driver
+	 * @param id
+	 * @return
 	 * @throws AppException
 	 */
-	public void modifVehicle(XMLCar xmlCar) throws AppException;
-
+	public Page<VehicleDispatch> qryVehicleDispatchList(Pageable page, VehicleDispatch vehiIllicit,EmployeePermission employeePermission) throws AppException;
+	
 	public Area getfenceIdByEssid(String id);
 
     List<VehicleIllegal> getVehicleByEnterprises(List<EssEnterprise> enterprises);

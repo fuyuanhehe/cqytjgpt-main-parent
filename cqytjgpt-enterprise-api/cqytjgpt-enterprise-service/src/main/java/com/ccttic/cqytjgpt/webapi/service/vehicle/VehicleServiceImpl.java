@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.ccttic.entity.employee.EmployeePermission;
-import com.ccttic.util.common.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,16 +15,15 @@ import org.springframework.stereotype.Service;
 import com.ccttic.cqytjgpt.webapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.cqytjgpt.webapi.mapper.category.CategoryMapper;
 import com.ccttic.cqytjgpt.webapi.mapper.vehicle.VehicleMapper;
-import com.ccttic.entity.car.XMLCar;
+import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.VehicleDispatch;
 import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.VehicleIllegal;
-import com.ccttic.entity.role.vo.VehicleList;
 import com.ccttic.entity.role.vo.VehicleVO;
-import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
@@ -47,16 +44,8 @@ public class VehicleServiceImpl implements IVehicleService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("entId", vehicle.getMgrEnterpriseId()); // 企业id
-		if(Const.ETPUSER.equals(employeePermission.getEmployeeType()) || Const.ADMIN.equals(employeePermission.getEmployeeType())){
-			params.put("id", employeePermission.getEnterpriseId());
-			employeePermission.setEmployeeType("ADMIN");
-		}
-		if(Const.SUPER.equals(employeePermission.getEmployeeType()) || Const.ORGUSER.equals(employeePermission.getEmployeeType())){
-			params.put("id", employeePermission.getOrgId());
-			employeePermission.setEmployeeType("SUPER");
-		}
-
+		params.put("entId", employeePermission.getEnterpriseId()); // 企业id
+		params.put("superEntId", employeePermission.getSuperEntId()); // 企业父id
 		params.put("mgrDepartAreaId", vehicle.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehicle.getVehiNo()); // 车牌号
 		params.put("vehiNoType", vehicle.getVehiNoType()); // 车牌种类
@@ -66,10 +55,7 @@ public class VehicleServiceImpl implements IVehicleService {
 		params.put("effectEndTime", vehicle.getEffectEndTime()); // 有效结束时间
 		params.put("startTime", vehicle.getStartTime()); // 初次检验开始日期
 		params.put("endTime", vehicle.getEndTime()); // 初次检验结束日期
-		params.put("empType", employeePermission.getEmployeeType()); // 账号类型
-		params.put("orgNm", vehicle.getOrgNm()); // 组织中文名字
-		params.put("entNm", vehicle.getEntNm()); // 企业中文名字
-
+		
 		long totolRols = mapper.qryVehicleListCount(params);
 		List<Vehicle> records = mapper.qryVehicleList(params);
 		for (Vehicle ve : records) {
@@ -115,69 +101,54 @@ public class VehicleServiceImpl implements IVehicleService {
 		long totolRol = mapper.qryVehiIllicitListCount(params);
 		List<VehiIllicit> records = mapper.qryVehiIllicitList(params);
 		for (VehiIllicit vehiIllicit2 : records) {
-			if (null!= vehiIllicit2.getIllicitScore() && vehiIllicit2.getIllicitScore().length()>0) {
-				vehiIllicit2.setDisposeSign("已处理");
-				vehiIllicit2.setState("已处理");
+			if (null != vehiIllicit2.getState()) {
+				if (vehiIllicit2.getState().trim().equals("已处理")) {
+					vehiIllicit2.setIsState("完成");
+				} else if (vehiIllicit2.getState().trim().equals("未处理")) {
+					vehiIllicit2.setIsState("未完成");
+				}
 			}
 		}
         pager.setRecords(records);
 		pager.setTotalRows(totolRol);
 		return pager;
 	}
-
 	@Override
-	public Map<String, Object> saveVehicle(VehicleList listMap, String entId) throws AppException {
-		Map<String, Object> map = new HashMap<String, Object>();
-		int cet = 0;
-		String gather = "";
-		List<Map<String, String>> maps = listMap.getListMap();
-		for (int i = 0; i < maps.size(); i++) {
-			Map<String, String> mapVe = maps.get(i);
-			Map<String, Object> params = new HashMap<String, Object>();
-			String uuid = RandomHelper.uuid();
-			params.put("id", uuid);
-			params.put("vehiNo", mapVe.get("vehiNo"));
-			params.put("vehiNoType", mapVe.get("vehiNoType"));
-			params.put("carTypeName", mapVe.get("carTypeName"));
-			params.put("entId", entId);
-			if (mapper.qryOneVehiNo(maps.get(i).get("vehiNo")) != null) {
-				logger.info("VehicleBasicServiceImpl-->saveVehicle::车牌号[" + maps.get(i).get("vehiNo") + "]已存在！");
-				gather = gather + "车牌号[" + maps.get(i).get("vehiNo") + "]已存在！";
-				cet = 1;
-				continue;
+	public VehiIllicit qryOneVehiIllicit(Map<String, Object> params) {
+		VehiIllicit illicit = mapper.qryOneVehiIllicit(params);
+		if (null != illicit.getState()) {
+			if (illicit.getState().trim().equals("已处理")) {
+				illicit.setIsState("完成");
+			} else if (illicit.getState().trim().equals("未处理")) {
+				illicit.setIsState("未完成");
 			}
-
-			// 入库
-			mapper.saveVehicle(params);
 		}
-		map.put("cet", cet);
-		map.put("gather", gather);
-		return map;
+		return illicit;
 	}
-
+	
 	@Override
-	public void modifVehicle(XMLCar xmlCar) throws AppException {
-		Vehicle vehicle = new Vehicle();
-		// 根据编号查询机动车 如果机动车里面有所有人则不修改 否则修改
+	public Page<VehicleDispatch> qryVehicleDispatchList(Pageable page, VehicleDispatch vehiIllicit,EmployeePermission employeePermission)
+			throws AppException {
+		Page<VehicleDispatch> pager = new PageImpl<VehicleDispatch>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("vehiNo", xmlCar.getHphm());
-		Vehicle v = mapper.qryOneVehicle(params);
-		if (v.getOwner() == null || v.getOwner() == "" || ("未上报").equals(v.getOwner())) {
-			// 根据车牌号修改车辆基础信息
-			vehicle.setOwner(xmlCar.getSyr());// 所有人
-		}
-		vehicle.setVehiNo(xmlCar.getHphm());
-		vehicle.setEffectStartTime(xmlCar.getCcdjrq());// 初次登记日期
-		vehicle.setEffectEndTime(xmlCar.getYxqz());// 有效结束时间
-		String state = null;
-		if (null != xmlCar.getZt()) {
-			state = stateConvert(xmlCar.getZt());
-		}
-
-		vehicle.setState(state); // 状态
-		mapper.modifVehicle(vehicle);
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		params.put("entId", employeePermission.getEnterpriseId()); // 企业id
+		params.put("superEntId", employeePermission.getSuperEntId()); // 企业父id
+		params.put("driver", vehiIllicit.getDriver());
+		params.put("vehiNo", vehiIllicit.getDriver());
+		params.put("dispatchTime", vehiIllicit.getDispatchTime());
+		params.put("goodsType", vehiIllicit.getGoodsType());
+		params.put("onSite", vehiIllicit.getOnSite());
+		params.put("debusSite", vehiIllicit.getDebusSite());
+		params.put("state", vehiIllicit.getState());
+		long totolRols = mapper.qryVehicleDispatchListCount(params);
+		List<VehicleDispatch> records = mapper.qryVehicleDispatchList(params);
+		pager.setRecords(records);
+		pager.setTotalRows(totolRols);
+		return pager;
 	}
-
+	
 	public static String stateConvert(String zt) {
 		String state = "";
 		String[] stait = zt.split(",");

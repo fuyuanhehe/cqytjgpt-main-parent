@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
+import com.ccttic.entity.role.VehicleDispatch;
 import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.util.exception.AppException;
 
@@ -71,21 +72,27 @@ public interface VehicleMapper {
 	 */
 	public int qryVehiIllicitListCount(Map<String, Object> params) throws AppException;
 	
+	public VehiIllicit qryOneVehiIllicit(Map<String, Object> params);
+	
 	/**
-	 * 添加车辆基础信息
-	 * 
-	 * @param post
-	 * @throws AppException
-	 */
-	public int saveVehicle(Map<String, Object> params) throws AppException;
-
-	/**
-	 * 修改车辆基础信息
+	 * 根据条件获取车辆出车信息
 	 * 
 	 * @param params
+	 * @return
 	 * @throws AppException
 	 */
-	public int modifVehicle(Vehicle vehicle) throws AppException;
+	public List<VehicleDispatch> qryVehicleDispatchList(Map<String, Object> params) throws AppException;
+	
+	/**
+	 * 
+	 * 根据条件获取车辆出车信息总记录数
+	 * 
+	 * @param params
+	 * @return
+	 * @throws AppException
+	 */
+	public int qryVehicleDispatchListCount(Map<String, Object> params) throws AppException;
+	
 	//根据车辆id获取数据库违章信息
 	List<VehiIllicit>selectByVehicleId(String vehicleId);
 
