@@ -16,19 +16,19 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
 	@Override
 	public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection)
 			throws AccessDeniedException, AuthenticationException {
-		Iterator<ConfigAttribute> iterator = collection.iterator();
-		while (iterator.hasNext()) {
-			ConfigAttribute ca = iterator.next();
-			String role = ca.getAttribute();
-			// 当前用户所具有的权限
-			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-			for (GrantedAuthority authority : authorities) {
-				if (authority.getAuthority().equals(role)) {
-					return;
-				}
-			}
-		}
-		throw new AccessDeniedException("权限不足!");
+//		Iterator<ConfigAttribute> iterator = collection.iterator();
+//		while (iterator.hasNext()) {
+//			ConfigAttribute ca = iterator.next();
+//			String role = ca.getAttribute();
+//			// 当前用户所具有的权限
+//			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//			for (GrantedAuthority authority : authorities) {
+//				if (authority.getAuthority().equals(role)) {
+//					return;
+//				}
+//			}
+//		}
+//		throw new AccessDeniedException("权限不足!");
 
 	}
 
