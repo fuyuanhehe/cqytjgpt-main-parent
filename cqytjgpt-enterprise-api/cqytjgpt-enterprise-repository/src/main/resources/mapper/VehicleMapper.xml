@@ -70,7 +70,7 @@
 				and left(ve.firstReciveTime,10) &lt;= #{endTime}
 			</if>
 
-			order by v.effectEndTime desc
+			order by ve.effectEndTime desc
 			limit ${startRecord},${pageSize}
 	</select>
 

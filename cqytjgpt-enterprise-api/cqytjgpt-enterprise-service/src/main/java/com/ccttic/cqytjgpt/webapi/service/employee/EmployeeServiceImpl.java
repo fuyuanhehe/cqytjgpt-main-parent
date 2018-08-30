@@ -513,7 +513,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				break;
 			case Const.ADMIN:
 			case Const.ETPUSER:
-				enterprise = employee.getEnt();
+			try {
+				enterprise = entMapper.getEntByAdmin(employee.getId());
+			} catch (AppException e) {
+				e.printStackTrace();
+			}
 				employeePermission.setEnterpriseId(enterprise.getId());
 				break;
 			case Const.SUPER:

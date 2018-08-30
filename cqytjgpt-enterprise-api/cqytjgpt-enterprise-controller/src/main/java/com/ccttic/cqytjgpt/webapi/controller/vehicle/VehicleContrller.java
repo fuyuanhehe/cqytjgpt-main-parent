@@ -1,6 +1,8 @@
 package com.ccttic.cqytjgpt.webapi.controller.vehicle;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,11 +191,21 @@ public class VehicleContrller implements Serializable {
 	@ApiOperation(value="车辆违法详情",notes="access_token，id，必传值")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="access_token",value="access_token",required=true,paramType="query"),
-	    @ApiImplicitParam(name="id",value="id",required=true,paramType="form")
+	    @ApiImplicitParam(name="id",value="id",required=true,paramType="form"),
+		@ApiImplicitParam(name="illicitTime",value="违法时间",required=true,paramType="form")
 	})
 	public ResponseMsg<VehiIllicit> qryOneVehiIllicit(@RequestBody PageVehiIllicitVo vehiIllicit,@RequestParam String access_token) {
 		ResponseMsg<VehiIllicit> resp = new ResponseMsg<VehiIllicit>();
 		Map<String, Object> params = new HashMap<String, Object>();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		int year = 0;
+		if (null != vehiIllicit.getIllicitTime()) {
+			year = Integer.valueOf(vehiIllicit.getIllicitTime().substring(0, 4));
+		} else {
+			year = calendar.get(Calendar.YEAR);
+		}
+		params.put("tableName", "illicit_"+year);
 		params.put("id", vehiIllicit.getId());
 		try {
 			VehiIllicit illicit = vehicleService.qryOneVehiIllicit(params);
