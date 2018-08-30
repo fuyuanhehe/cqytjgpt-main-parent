@@ -847,7 +847,7 @@
     </insert>
 
     <select id="getIllegalDays" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select to_days(now()) - to_days(vdi.illicitTime) AS days  FROM ${vehiDrIllicit} vdi join (select id FROM ${vehiDrIllicit} where vehiState ="001" AND vehiNo LIKE '%${vehiNo}%' AND vehiNoType=#{vehiNoType} AND
+        select to_days(now()) - to_days(vdi.illicitTime) AS days  FROM ${vehiDrIllicit} vdi join (select id FROM ${vehiDrIllicit} where CFBJStateNumber ="001" AND vehiNo LIKE '%${vehiNo}%' AND vehiNoType=#{vehiNoType} AND
         DATE_SUB(CURDATE(), INTERVAL 36 MONTH) &lt;= illicitTime)tmp ON tmp.id =vdi.id
     </select>
 
