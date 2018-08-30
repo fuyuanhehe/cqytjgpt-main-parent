@@ -21,9 +21,7 @@ public class DriverIllegal extends Driver {
 			String permicar, String firstrecivetime, String mgrdepart, String mgrdepartareaid, String mgrenterpriseid,
 			String nextexaminetime, String effectstarttime, String effectendtime, String examineeffectendtime,
 			String scoretotal, String state, List<DrIllicit> drIllicits) {
-		super(id, name, idcard, telphone, mobilephone, adress, permicar, firstrecivetime, mgrdepart, mgrdepartareaid,
-				mgrenterpriseid, nextexaminetime, effectstarttime, effectendtime, examineeffectendtime, scoretotal,
-				state);
+		super();
 		this.drIllicits = drIllicits;
 	}
 
@@ -36,8 +34,7 @@ public class DriverIllegal extends Driver {
 			String permicar, String firstrecivetime, String mgrdepart, String mgrdepartareaid, String mgrenterpriseid,
 			String nextexaminetime, String effectstarttime, String effectendtime, String examineeffectendtime,
 			String scoretotal, String state) {
-		super(id, name, idcard, telphone, mobilephone, adress, permicar, firstrecivetime, mgrdepart, mgrdepartareaid,
-				mgrenterpriseid, nextexaminetime, effectstarttime, effectendtime, examineeffectendtime, scoretotal, state);
+		super();
 		// TODO Auto-generated constructor stub
 	}
       

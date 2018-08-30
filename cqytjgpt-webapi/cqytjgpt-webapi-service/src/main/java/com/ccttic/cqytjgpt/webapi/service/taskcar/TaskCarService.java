@@ -144,9 +144,11 @@ public class TaskCarService implements ITaskCarService {
 		int totalIllegalNum = 0;
 		//for (int x = 0; x < 3; x++) {
 			vehiDrIllicit= "illicit_" + (year);
-			List<Integer> days = vehiIllicitMapper.getIllegalDays(vehiDrIllicit.toString(), vehicle.getVehiNo(), vehicle.getVehiNoType());
-			totalDays.addAll(days);
-			int illegalNum = vehiIllicitMapper.getIllegalNum(vehiDrIllicit.toString(), vehicle.getVehiNo(), vehicle.getVehiNoType());
+			List<Integer> days = vehiIllicitMapper.getIllegalDays(vehiDrIllicit.toString(), "渝"+vehicle.getVehiNo(), vehicle.getVehiNoType());
+			if(null!=days){
+				totalDays.addAll(days);
+			}
+			int illegalNum = vehiIllicitMapper.getIllegalNum(vehiDrIllicit.toString(),"渝"+ vehicle.getVehiNo(), vehicle.getVehiNoType());
 			totalIllegalNum += illegalNum;
 		//}
 		if (totalIllegalNum>=3){
@@ -213,9 +215,11 @@ public class TaskCarService implements ITaskCarService {
 
 
 		if (vehiDangerMapper.selectByPrimaryKey(vr.getId()) !=null) {
+			//map.put("insert",vr);
 			vehiDangerMapper.updateByPrimaryKeySelective(vr);
 		} else {
 			vehiDangerMapper.insertSelective(vr);
+			//map.put("update",vr);
 		}
 		return map;
 	}

@@ -54,9 +54,7 @@ public class DriverVo  extends Driver{
 			String scoretotal, String state, String areaNm, String etpNm, String fiString,
 			String laString, String fistShString, String laShString, List<String> qid,
 			String empType) {
-		super(id, name, idcard, telphone, mobilephone, adress, permicar, firstrecivetime, mgrdepart,
-				mgrdepartareaid, mgrenterpriseid, nextexaminetime, effectstarttime, effectendtime,
-				examineeffectendtime, scoretotal, state);
+		super();
 		this.areaNm = areaNm;
 		this.etpNm = etpNm;
 		this.fiString = fiString;

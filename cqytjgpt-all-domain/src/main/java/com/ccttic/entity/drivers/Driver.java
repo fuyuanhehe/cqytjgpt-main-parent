@@ -57,10 +57,22 @@ public class Driver extends BaseBean{
 
     // 驾照状态
     private String state1;
-  
-    
-    
-    
+    /**
+     *@Author:zhy
+     *@Description:就职状态
+     *@Date:15:42 2018/8/29
+     */
+    private String inaugurationStatus;
+
+
+    public String getInaugurationStatus() {
+        return inaugurationStatus;
+    }
+
+    public void setInaugurationStatus(String inaugurationStatus) {
+        this.inaugurationStatus = inaugurationStatus;
+    }
+
     public String getState1() {
 		return state1;
 	}
@@ -208,7 +220,7 @@ public class Driver extends BaseBean{
 	public Driver(String id, String name, String idcard, String telphone, String mobilephone, String adress,
 			String permicar, String firstrecivetime, String mgrdepart, String mgrdepartareaid, String mgrenterpriseid,
 			String nextexaminetime, String effectstarttime, String effectendtime, String examineeffectendtime,
-			String scoretotal, String state) {
+			String scoretotal, String state,String inaugurationStatus) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -227,11 +239,12 @@ public class Driver extends BaseBean{
 		this.examineeffectendtime = examineeffectendtime;
 		this.scoretotal = scoretotal;
 		this.state = state;
+		this.inaugurationStatus = inaugurationStatus;
 	}
 
 	public Driver() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}   
     
 }

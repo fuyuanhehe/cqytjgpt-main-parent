@@ -107,17 +107,17 @@ public class CarTaskController {
 				logger.info(e.getMessage());
 			}
 			
-//			if (result!=null && result.get("update") != null) {
-//				update.add((VehiDanger) (result.get("update")));
-//			}else if (result!=null && result.get("insert") != null) {
-//				insert.add((VehiDanger) (result.get("insert")));
-//			}
+			if (result!=null && result.get("update") != null) {
+				update.add((VehiDanger) (result.get("update")));
+			}else if (result!=null && result.get("insert") != null) {
+				insert.add((VehiDanger) (result.get("insert")));
+			}
 		}
 		
-//		if(insert.size()>0)
-//		carBatch.addCarDanger(insert);
-//		if(update.size()>0)
-//		carBatch.updateCarDanger(update);
+		if(insert.size()>0)
+		carBatch.addCarDanger(insert);
+		if(update.size()>0)
+		carBatch.updateCarDanger(update);
 	}
 	
 	/*@RequestMapping("/updateCar")

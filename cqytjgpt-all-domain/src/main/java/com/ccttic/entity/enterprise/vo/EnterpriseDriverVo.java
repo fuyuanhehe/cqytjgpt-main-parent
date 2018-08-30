@@ -52,9 +52,7 @@ public class EnterpriseDriverVo extends Driver implements Serializable {
 			String mgrdepart, String mgrdepartareaid, String mgrenterpriseid, String nextexaminetime,
 			String effectstarttime, String effectendtime, String examineeffectendtime,
 			String scoretotal, String state, int page, int rows, String empType, List<String> list) {
-		super(id, name, idcard, telphone, mobilephone, adress, permicar, firstrecivetime, mgrdepart,
-				mgrdepartareaid, mgrenterpriseid, nextexaminetime, effectstarttime, effectendtime,
-				examineeffectendtime, scoretotal, state);
+		super();
 		this.page = page;
 		this.rows = rows;
 		this.empType = empType;

@@ -70,163 +70,46 @@
 		trim(REPLACE('%${name}%', ' ', ''))
 	</sql>
 
-	<!-- 驾驶员分页 -->
-	<select id="seDriverPage" resultType="com.ccttic.entity.drivers.vo.DriverVo"
+	<!-- 查看聘用驾驶员分页 -->
+	<select id="driverPage" resultType="com.ccttic.entity.drivers.vo.DriverVo"
 		parameterType="java.util.Map">
-		SELECT
-		d.id,
-		d.adress,
-		a.areaNm,
-		<include refid="names"></include>
-		d.idcard,
-		d.mobilephone,
-		en.etpNm,
-		d.permiCar,
-		d.firstReciveTime,
-		d.nextExamineTime,
-		d.state,
-		d.mgrDepart,
-		d.telphone,
-		d.scoreTotal,
-		d.examineEffectEndTime,
-		d.effectStartTime,
-		d.effectEndTime,
-		d.state1
-		FROM
-		ess_area a
-		LEFT JOIN driver d
-		ON a.id =
-		d.mgrDepartAreaId
-		LEFT JOIN
-		ess_enterprise
-		en ON
-		d.mgrEnterpriseId =
-		en.id
-		LEFT JOIN ess_organization
-		o ON o.id = en.org_id
-		<choose>
-			<when test="empType == 'SUPERMAN'">
-				WHERE 1=1
-			</when>
-			<when test="list!= null and list.size>0 ">
-				WHERE a.id in
-				<foreach collection="list" index="index" item="item" open="("
-					separator="," close=")">
-					#{item}
-				</foreach>
-			</when>
-			<otherwise>
-				WHERE en.id = #{etpId}
-			</otherwise>
-		</choose>
-		<if test="etpNm!=null and etpNm!='' ">
-			AND en.etpNm like '%${etpNm}%'
-		</if>
-		<if test="orgNm!=null and orgNm!='' ">
-			AND o.orgNm like '%${orgNm}%'
-		</if>
-		<if test="areaNm!=null and areaNm!='' ">
-			AND a.areaNm = #{areaNm}
+		SELECT a.areaNm,d.id,en.etpNm,d.name,d.idcard,d.mobilephone,d.permiCar,CASE d.inaugurationStatus WHEN 0 THEN '离职' WHEN 1 THEN'在职' end as inaugurationStatus FROM driver d LEFT JOIN ess_area a ON a.id =
+		d.mgrDepartAreaId  LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId = en.id where d.inaugurationStatus =#{inaugurationStatus}
+		<if test="enterprise!=null and enterprise!='' ">
+			AND d.name =#{enterprise}
 		</if>
 		<if test="name!=null and name!='' ">
-			AND
-			<include refid="dnames"></include>
+			AND d.name =#{name}
 		</if>
 		<if test="idcard!=null and idcard!='' ">
 			AND d.idcard = #{idcard}
-		</if>
-		<if test="permicar!=null and permicar!='' ">
-			AND d.permiCar like '%${permicar}%'
-		</if>
-		<if test="id!=null and id!='' ">
-			AND d.id = #{id}
-		</if>
-		<if test="mobilephone!=null and mobilephone!='' ">
-			AND d.mobilephone = #{mobilephone}
-		</if>
-		<if test="fiString!=null and fiString!='' ">
-			AND d.firstReciveTime &gt; #{fiString}
-		</if>
-		<if test="laString!=null and laString!='' ">
-			AND d.firstReciveTime &lt; #{laString}
-		</if>
-		<if test="fistShString!=null and fistShString!='' ">
-			AND d.nextexaminetime &gt; #{fistShString}
-		</if>
-		<if test="laShString!=null and laShString!='' ">
-			AND d.nextexaminetime &lt; #{laShString}
 		</if>
 		AND (d.isDelete is null OR d.isDelete !=1)
 		LIMIT
 		${startRecord},${pageSize}
 	</select>
-	<!-- 驾驶人分页总数 -->
-	<select id="sePageCount" resultType="long" parameterType="java.util.Map">
+	<!-- 查看聘用驾驶员分页总数 -->
+	<select id="pageCount" resultType="java.lang.Long" parameterType="java.util.Map">
 
-		SELECT
-		COUNT(d.id)
-		FROM
-		ess_area a
-		LEFT JOIN driver d ON a.id =
-		d.mgrDepartAreaId
-		LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId =
-		en.id
-		LEFT JOIN ess_organization
-		o ON o.id = en.org_id
-		<choose>
-			<when test="empType == 'SUPERMAN'">
-				WHERE 1=1
-			</when>
-			<when test="list!= null and list.size>0 ">
-				WHERE a.id in
-				<foreach collection="list" index="index" item="item" open="("
-					separator="," close=")">
-					#{item}
-				</foreach>
-			</when>
-			<otherwise>
-				WHERE en.id = #{etpId}
-			</otherwise>
-		</choose>
-		<if test="etpNm!=null and etpNm!='' ">
-			AND en.etpNm like '%${etpNm}%'
-		</if>
-		<if test="orgNm!=null and orgNm!='' ">
-			AND o.orgNm like '%${orgNm}%'
-		</if>
-		<if test="areaNm!=null and areaNm!='' ">
-			AND a.areaNm = #{areaNm}
-		</if>
+		SELECT COUNT(1) FROM driver d LEFT JOIN ess_area a ON a.id =
+		d.mgrDepartAreaId  LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId = en.id
 		<if test="name!=null and name!='' ">
-			AND trim(REPLACE(`name`, ' ', '')) LIKE
-			trim(REPLACE('%${name}%', ' ', ''))
+			AND d.name =#{name}
 		</if>
 		<if test="idcard!=null and idcard!='' ">
 			AND d.idcard = #{idcard}
 		</if>
-		<if test="permicar!=null and permicar!='' ">
-			AND d.permiCar like '%${permicar}%'
-		</if>
-		<if test="id!=null and id!='' ">
-			AND d.id = #{id}
-		</if>
-		<if test="mobilephone!=null and mobilephone!='' ">
-			AND d.mobilephone = #{mobilephone}
-		</if>
-		<if test="fiString!=null and fiString!='' ">
-			AND d.firstReciveTime &gt; #{fiString}
-		</if>
-		<if test="laString!=null and laString!='' ">
-			AND d.firstReciveTime &lt; #{laString}
-		</if>
-		<if test="fistShString!=null and fistShString!='' ">
-			AND d.nextexaminetime &gt; #{fistShString}
-		</if>
-		<if test="laShString!=null and laShString!='' ">
-			AND d.nextexaminetime &lt; #{laShString}
-		</if>
 		AND (d.isDelete is null OR d.isDelete !=1)
+
 	</select>
+
+	<select id="driverDetails" parameterType="java.util.Map" resultType="com.ccttic.entity.drivers.vo.DriverVo">
+		SELECT a.areaNm,d.adress,d.firstReciveTime,d.nextExamineTime,d.effectEndTime,d.effectStartTime,d.examineEffectEndTime,d.mgrDepart,d.id,en.etpNm,d.name,d.idcard,d.mobilephone,d.permiCar,CASE d.inaugurationStatus WHEN 0 THEN '离职' WHEN 1 THEN'在职' end as inaugurationStatus FROM driver d LEFT JOIN ess_area a ON a.id =
+		d.mgrDepartAreaId  LEFT JOIN ess_enterprise en ON d.mgrEnterpriseId = en.id WHERE d.id = #{id}
+
+	</select>
+
+
 	<!--驾驶人违法记录 -->
 	<select id="seDrillicitByDriverId" parameterType="java.util.Map"
 		resultType="com.ccttic.entity.drivers.vo.DriverillicitVo">
@@ -268,7 +151,6 @@
 		<if test="endTime!= null and endTime !='' ">
 			AND etpNm &lt;= #{endTime}
 		</if>
-
 		LIMIT ${startRecord} ,${pageSize}) tmp ON tmp.id = illicit.id
 
 	</select>

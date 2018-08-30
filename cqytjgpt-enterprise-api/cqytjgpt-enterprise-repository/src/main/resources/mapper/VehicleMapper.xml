@@ -137,7 +137,7 @@
 	</select>
 
 	<select id="getVehicleMsg" resultType="com.ccttic.entity.role.Vehicle">
-		SELECT id ,vehiNo,vehiNoType,mgrEnterpriseId,mgrDepartAreaId,effectEndTime,DATE_FORMAT(effectEndTime,'%Y-%m-%d') AS effectEndTime,DATE_FORMAT(examineEffectEndTime,'%Y-%m-%d') AS examineEffectEndTime FROM vehicle GROUP BY vehiNo,vehiNoType	</select>
+		SELECT id ,vehiNo,vehiNoType,mgrEnterpriseId,mgrDepartAreaId,effectEndTime,DATE_FORMAT(effectEndTime,'%Y-%m-%d') AS effectEndTime,DATE_FORMAT(examineEffectEndTime,'%Y-%m-%d') AS examineEffectEndTime FROM vehicle GROUP BY vehiNo,vehiNoType </select>
 
 	<update id="updateBatch" parameterType="java.util.List">
 

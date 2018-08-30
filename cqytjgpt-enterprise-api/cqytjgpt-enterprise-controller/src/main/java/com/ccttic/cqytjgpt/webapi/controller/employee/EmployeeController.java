@@ -106,6 +106,9 @@ public class EmployeeController {
 			if (employee == null) {
 				response.fail("用户名或密码错误!");
 				return response;
+			}else if(!Const.ADMIN.equals(employee.getEmpType())){
+				response.fail("请使用企业账号登录!");
+				return response;
 			}
 
 
@@ -417,7 +420,6 @@ public class EmployeeController {
 			}
 			rm.success("删除Employee成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			rm.fail("删除Employee失败");
 			logger.error("删除Employee失败", e);

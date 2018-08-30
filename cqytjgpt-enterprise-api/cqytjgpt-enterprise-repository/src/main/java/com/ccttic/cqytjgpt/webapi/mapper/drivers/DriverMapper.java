@@ -14,10 +14,20 @@ import com.ccttic.entity.drivers.vo.vehiclesVo;
 import com.ccttic.entity.employee.EssEmployee;
 
 public interface DriverMapper {
-
-	public List<DriverVo> seDriverPage(Map<String, Object> params);
+	/**
+	 *@Author:zhy
+	 *@Description:查看聘用驾驶员分页
+	 *@Date:14:58 2018/8/29
+	 */
+	List<DriverVo> driverPage(Map<String, Object> params);
+	/**
+	 *@Author:zhy
+	 *@Description:查询驾驶员详情
+	 *@Date:14:58 2018/8/29
+	 */
+	DriverVo driverDetails(Map<String, Object> params);
 	//分页数量
-	public long sePageCount(Map<String, Object> params);
+	public long pageCount(Map<String, Object> params);
 
 	///查询驾驶人违法记录
 	public	List<DriverillicitVo> seDrillicitByDriverId(Map<String, Object> params);

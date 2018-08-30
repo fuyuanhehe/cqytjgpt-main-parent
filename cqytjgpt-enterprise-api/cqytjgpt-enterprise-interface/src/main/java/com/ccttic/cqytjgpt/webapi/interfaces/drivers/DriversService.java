@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.webapi.interfaces.drivers;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.ccttic.entity.drivers.Driver;
 import com.ccttic.entity.drivers.vo.DriverInsert;
@@ -20,14 +21,18 @@ import com.ccttic.util.page.Pageable;
 public interface DriversService {
 
 	/**
-	 * 分页驾驶人信息
-	 * @param driverVo 筛选条件
-	 * @param employeePermission 
-	 * @param employeePermission 
-	 * @return
+	 *@Author:zhy
+	 *@Description:查询所有未被聘用的驾驶员
+	 *@Date:11:22 2018/8/29
 	 */
+	Page<DriverVo> driverPage(Pageable page,DriverVo driverVo);
 
-	Page<DriverVo> seDriverPage(Pageable page,DriverVo driverVo, EmployeePermission employeePermission );
+	/**
+	 *@Author:zhy
+	 *@Description:查询驾驶员详情
+	 *@Date:14:58 2018/8/29
+	 */
+	DriverVo driverDetails(Map<String, Object> params);
 
 	///查询驾驶人违法记录
 	Page<DriverillicitVo> seDrillicitByDriverId(Pageable page,DriverVo driver);

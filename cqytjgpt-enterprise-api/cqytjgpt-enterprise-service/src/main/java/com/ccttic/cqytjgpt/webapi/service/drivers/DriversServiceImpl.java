@@ -26,58 +26,28 @@ public class DriversServiceImpl implements DriversService {
 	private DriverMapper mapper;
 
 	@Override
-	public Page<DriverVo> seDriverPage(Pageable page, DriverVo driverVo, EmployeePermission employeePermission) {
+	public Page<DriverVo> driverPage(Pageable page, DriverVo driverVo) {
 		Page<DriverVo> pager = new PageImpl<DriverVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
-		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("etpNm", driverVo.getEtpNm());
 		params.put("areaNm", driverVo.getAreaNm());
+		params.put("mobilephone", driverVo.getMobilephone());
+		params.put("enterprise",driverVo.getMgrenterpriseid());
+		params.put("inaugurationStatus",driverVo.getInaugurationStatus());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("name", driverVo.getName());
 		params.put("idcard", driverVo.getIdcard());
-		params.put("permicar", driverVo.getPermicar());
-		params.put("id", driverVo.getId() );
-		params.put("fiString", driverVo.getFiString());
-		params.put("laString", driverVo.getLaString());
-		params.put("fistShString", driverVo.getFistShString());
-		params.put("laShString", driverVo.getLaShString());
-		params.put("mobilephone", driverVo.getMobilephone());
-		params.put("empType", driverVo.getEmpType()); // 账号类型
-		params.put("orgNm", driverVo.getOrgNm()); // 分所id
-		if(Const.ADMIN.equals(employeePermission.getEmployeeType())){
-			params.put("etpId",employeePermission.getEnterpriseId());
-		}
-		if(Const.ETPUSER.equals(employeePermission.getEmployeeType())){
-			params.put("etpId",employeePermission.getEnterpriseId());
-		}
-		params.put("list", employeePermission.getAreaList()!=null?employeePermission.getAreaList():null);
-		List<DriverVo> List = mapper.seDriverPage(params);
-		
-		for (DriverVo driverVo2 : List) {
-			if(driverVo2.getState()==null){
-				driverVo2.setState("其他");	
-			}else{
-				driverVo2.setState( StringHelper.getChar(driverVo2.getState() , State.MAPS) );	
-			}   
-			if(driverVo2.getState1()==null){
-				driverVo2.setState1("其他");	
-			}else{
-				driverVo2.setState1( StringHelper.getChar(driverVo2.getState1() , State.MAPS) );	
-			}  
-
-			driverVo2.setFirstrecivetime(DateHelper.getDataString(driverVo2.getFirstrecivetime()));
-			driverVo2.setNextexaminetime(DateHelper.getDataString(driverVo2.getNextexaminetime()));	
-			driverVo2.setEffectstarttime(DateHelper.getDataString(driverVo2.getEffectstarttime()));
-			driverVo2.setEffectendtime(DateHelper.getDataString(driverVo2.getEffectendtime()));
-			driverVo2.setExamineeffectendtime(DateHelper.getDataString(driverVo2.getExamineeffectendtime()));
-		}
-
-
+		List<DriverVo> List = mapper.driverPage(params);
 		pager.setRecords(List);
-		pager.setTotalRows( mapper.sePageCount(params));
+		pager.setTotalRows( mapper.pageCount(params));
 
 
 		return pager;
+	}
+
+	@Override
+	public DriverVo driverDetails(Map<String, Object> params) {
+		return mapper.driverDetails(params);
 	}
 
 	@Override
