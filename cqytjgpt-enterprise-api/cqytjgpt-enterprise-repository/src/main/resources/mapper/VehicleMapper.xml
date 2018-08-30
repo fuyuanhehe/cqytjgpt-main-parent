@@ -35,7 +35,7 @@
 	</select>
 
 	<!-- 根据企业编码获取车辆基础信息 -->
-	<select id="qryVehicleList" parameterType="java.util.Map" resultMap="Vehicle">
+	<select id="qryVehicleList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
 		SELECT ve.id,area.areaNm,ve.mgrDepartAreaId,ve.vehiNo,ve.vehiType,attr.attrNm as vehiTypeText,ve.vehiNoType,attr1.attrNm as vehiNoTypeText,ve.nature,ve.owner,ve.state,ve.firstReciveTime,ve.effectStartTime,ve.effectEndTime 
 		FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
 		LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id

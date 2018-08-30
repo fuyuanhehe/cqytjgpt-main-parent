@@ -15,6 +15,17 @@ public class VehicleVO extends Vehicle implements Serializable {
 	private String areaNm;
 	//企业名
 	private String etpNm;
+	//所有权
+	private String etplawer;
+	
+
+	public String getEtplawer() {
+		return etplawer;
+	}
+
+	public void setEtplawer(String etplawer) {
+		this.etplawer = etplawer;
+	}
 
 	@Override
 	public String getEtpNm() {
