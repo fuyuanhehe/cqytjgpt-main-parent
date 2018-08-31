@@ -20,7 +20,7 @@
 		<Prudent>true</Prudent>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/DEBUG/cqytjgpt-web-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+			<FileNamePattern>${LOG_HOME}/DEBUG/cqytjgpt-enterpise-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
 			<!--文件的大小  -->
 			<maxFileSize>${log.maxFileSize}</maxFileSize>
 			<!--日志文件保留天数 -->
@@ -42,7 +42,7 @@
 		<Prudent>true</Prudent>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/INFO/cqytjgpt-web-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+			<FileNamePattern>${LOG_HOME}/INFO/cqytjgpt-enterpise-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
 			<!--文件的大小  -->
 			<maxFileSize>${log.maxFileSize}</maxFileSize>
 			<!--日志文件保留天数 -->
@@ -64,7 +64,7 @@
 		<Prudent>true</Prudent>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/ERROR/cqytjgpt-web-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+			<FileNamePattern>${LOG_HOME}/ERROR/cqytjgpt-enterpise-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
 			<!--文件的大小  -->
 			<maxFileSize>${log.maxFileSize}</maxFileSize>
 			<!--日志文件保留天数 -->
@@ -86,7 +86,7 @@
 		<Prudent>true</Prudent>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/WARN/cqytjgpt-web-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+			<FileNamePattern>${LOG_HOME}/WARN/cqytjgpt-enterpise-api.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
 			<!--文件的大小  -->
 			<maxFileSize>${log.maxFileSize}</maxFileSize>
 			<!--日志文件保留天数 -->

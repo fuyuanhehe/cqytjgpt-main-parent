@@ -27,12 +27,9 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("源头监管 WEB-API文档")
-                .description("源头监管对外服务API文档构件")
+                .title("源头监管 WEB-ENTERPRISE-API文档")
+                .description("源头监管企业版对外服务API文档构件")
                 .version("1.0")
-           /*     .termsOfServiceUrl("http://www.ccttic.com/")
-                .contact(new Contact("xxx", "xxx", "11"))
-              */
                 .build();
     }
 }

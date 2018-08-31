@@ -2,7 +2,7 @@ info:
   description: 重庆交巡警源头监管项目主要企业模块
 
 server:
-  port: 12022
+  port: 12003
 
 spring:
   application:
