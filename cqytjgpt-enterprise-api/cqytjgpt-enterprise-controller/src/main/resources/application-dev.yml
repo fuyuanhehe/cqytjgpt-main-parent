@@ -68,7 +68,7 @@ logging:
     com: 
       ccttic:
         cqytjgpt:
-          webapi:
+          enterpriseapi:
             client: DEBUG
   
 fdfs:

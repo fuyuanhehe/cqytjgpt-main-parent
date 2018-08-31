@@ -9,7 +9,7 @@
     </parent>
     <artifactId>cqytjgpt-enterprise-repository</artifactId>
     <name>cqytjgpt-enterprise-repository</name>
-    <description>webapi 数据持久层</description>
+    <description>enterpriseapi 数据持久层</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.mybatis.version>3.4.5</org.mybatis.version>

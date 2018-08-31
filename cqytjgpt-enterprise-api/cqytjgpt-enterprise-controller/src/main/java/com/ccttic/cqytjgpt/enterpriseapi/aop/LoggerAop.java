@@ -46,7 +46,7 @@ public class LoggerAop {
 	@Autowired
 	private UserOperLoggerFeign feign;
 
-	@Around("execution(* com.ccttic.cqytjgpt.webapi.controller..*.*(..))")
+	@Around("execution(* com.ccttic.cqytjgpt.enterpriseapi.controller..*.*(..))")
 	public Object logAspect(ProceedingJoinPoint joinPoint) throws Throwable {
 		writeLogger(joinPoint);
 		// 执行目标方法,如果这一句不执行，那么目标方法不会执行
