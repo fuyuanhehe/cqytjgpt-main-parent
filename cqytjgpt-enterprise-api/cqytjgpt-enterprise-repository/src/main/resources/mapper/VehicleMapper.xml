@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.enterpriseapi.mapper.vehicle.VehicleMapper">
+	<resultMap type="com.ccttic.entity.role.Vehicle" id="Vehicle">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="vehiNo" column="vehiNo" javaType="java.lang.String"></result>
+		<result property="vehiNoType" column="vehiNoType" javaType="java.lang.String"></result>
+		<result property="nature" column="nature" javaType="java.lang.String"></result>
+		<result property="ownership" column="ownership" javaType="java.lang.String"></result>
+		<result property="owner" column="owner" javaType="java.lang.String"></result>
+		<result property="telphone" column="telphone" javaType="java.lang.String"></result>
+		<result property="mobilephone" column="mobilephone" javaType="java.lang.String"></result>
+		<result property="adress" column="adress" javaType="java.lang.String"></result>
+		<result property="permitCar" column="permitCar" javaType="java.lang.String"></result>
+		<result property="firstReciveTime" column="firstReciveTime" javaType="java.lang.String"></result>
+		<result property="mgrDepart" column="mgrDepart" javaType="java.lang.String"></result>
+		<result property="mgrDepartAreaId" column="mgrDepartAreaId" javaType="java.lang.String"></result>
+		<result property="mgrEnterpriseId" column="mgrEnterpriseId" javaType="java.lang.String"></result>
+		<result property="nextExamineTime" column="nextExamineTime" javaType="java.lang.String"></result>
+		<result property="effectStartTime" column="effectStartTime" javaType="java.lang.String"></result>
+		<result property="effectEndTime" column="effectEndTime" javaType="java.lang.String"></result>
+		<result property="examineEffectEndTime" column="examineEffectEndTime" javaType="java.lang.String"></result>
+		<result property="scoreTotal" column="scoreTotal" javaType="java.lang.String"></result>
+		<result property="state" column="state" javaType="java.lang.String"></result>
+		<result property="remark" column="remark" javaType="java.lang.String"></result>
+	</resultMap>
+
+	<!-- 根据车牌号获取车辆 -->
+	<select id="qryOneVehiNo" parameterType="java.lang.String" resultMap="Vehicle">
+		SELECT * FROM vehicle WHERE vehiNo =#{vehiNo} and (isDeleted is null or isDeleted !=1)
+	</select>
+	<!-- 根据企业id获取fenced -->
+	<select id="getfenceIdByEssid" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT area.* FROM ess_area AREA LEFT JOIN ess_organization org ON area.id=org.area_id WHERE org.id=#{id}
+	</select>
+
+	<!-- 根据企业编码获取车辆基础信息 -->
+	<select id="qryVehicleList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
+		SELECT ve.id,area.areaNm,ve.mgrDepartAreaId,ve.vehiNo,ve.vehiType,attr.attrNm as vehiTypeText,ve.vehiNoType,attr1.attrNm as vehiNoTypeText,ve.nature,ve.owner,ve.state,ve.firstReciveTime,ve.effectStartTime,ve.effectEndTime 
+		FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
+		LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
+		LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '024'
+		LEFT JOIN param_category_attr attr1 ON ve.vehiNoType=attr1.attrCd
+		WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+				and ve.mgrDepartAreaId = #{mgrDepartAreaId}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and ve.vehiNo = #{vehiNo}
+			</if>
+			<if test="vehiNoType != null and vehiNoType != ''">
+				and ve.vehiNoType = #{vehiNoType}
+			</if>
+            <if test="vehiType != null and vehiType != ''">
+                and ve.vehiType = #{vehiType}
+            </if>
+            <if test="state != null and state != ''">
+				and ve.state like CONCAT(CONCAT('%',#{state},'%'))
+			</if>
+			<if test="effectStartTime != null and effectStartTime != ''">
+				and (left(ve.examineEffectEndTime,10) &gt;= #{effectStartTime})
+			</if>
+			<if test="effectEndTime != null and effectEndTime != ''">
+				and (left(ve.examineEffectEndTime,10) &lt;= #{effectEndTime})
+			</if>
+			<if test="startTime != null and startTime != ''">
+				and left(ve.firstReciveTime,10) &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				and left(ve.firstReciveTime,10) &lt;= #{endTime}
+			</if>
+
+			order by ve.effectEndTime desc
+			limit ${startRecord},${pageSize}
+	</select>
+
+	<!-- 根据企业编码获取车辆基础信息条数 -->
+	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
+			WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+				and mgrDepartAreaId = #{mgrDepartAreaId}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and vehiNo = #{vehiNo}
+			</if>
+			<if test="vehiNoType != null and vehiNoType != ''">
+				and vehiNoType = #{vehiNoType}
+			</if>
+			<if test="state != null and state != ''">
+				and state = #{state}
+			</if>
+			<if test="effectStartTime != null and effectStartTime != ''">
+				and left(examineEffectEndTime,10) &gt;= #{effectStartTime}
+			</if>
+			<if test="effectEndTime != null and effectEndTime != ''">
+				and left(examineEffectEndTime,10) &lt;= #{effectEndTime}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				and left(firstReciveTime,10) &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				and left(firstReciveTime,10) &lt;= #{endTime}
+			</if>
+	</select>
+
+	<!-- 根据id获取指定车辆基础详情信息 -->
+	<select id="qryOneVehicle" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
+		SELECT ise.etpNm,ise.etplawer,ve.owner,ve.mgrDepart,ve.telphone,ve.mobilephone,ve.adress,area.areaNm,ve.nature,attr1.attrNm as vehiNoTypeText,ve.vehiNoType,
+			 ve.vehiNo,ve.firstReciveTime,attr.attrNm as vehiTypeText,ve.vehiType,ve.examineForceEffectEndTime,ve.effectEndTime,ve.mbCar,ve.countrySideUse,ve.state
+ 			FROM (
+				SELECT * FROM vehicle  WHERE id=#{id} and (isDeleted is null or isDeleted !=1)
+			)ve 
+			LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id 
+			LEFT JOIN ess_enterprise ise ON ve.mgrEnterpriseId=ise.id
+			LEFT JOIN param_category_attr attr1 ON ve.vehiNoType=attr1.attrCd
+			LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and attr.categoryCd = '024'
+	</select>
+
+	<!-- 根据vehiNo和vehiNoType获取指定车辆的违法信息 -->
+	<select id="qryVehiIllicitList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
+	SELECT id,areaNm,illicitTime,illicitAdress,illicit,illicitDesc,pickDepartmentDesc,state,illicitAmount,illicitScore
+	 FROM ${tableName} WHERE vehiNo=CONCAT('渝',#{vehiNo}) AND vehiNoType=#{vehiNoType}
+	limit ${startRecord},${pageSize}
+	</select>
+
+	<!-- 根据id获取指定车辆的违法信息条数-->
+	<select id="qryVehiIllicitListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(ID) FROM ${tableName} WHERE vehiNo=CONCAT('渝',#{vehiNo}) AND vehiNoType=#{vehiNoType}
+	</select>
+
+	<!-- 根据id获取指定车辆的违法信息 -->
+	<select id="qryOneVehiIllicit" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehiIllicit">
+	SELECT id,areaNm,illicitTime,illicitAdress,illicit,illicitDesc,pickDepartmentDesc,state,illicitAmount,illicitScore
+	 FROM ${tableName} WHERE id=#{id}
+	
+	</select>
+
+	<select id="getVehicleMsg" resultType="com.ccttic.entity.role.Vehicle">
+		SELECT id ,vehiNo,vehiNoType,mgrEnterpriseId,mgrDepartAreaId,effectEndTime,DATE_FORMAT(effectEndTime,'%Y-%m-%d') AS effectEndTime,DATE_FORMAT(examineEffectEndTime,'%Y-%m-%d') AS examineEffectEndTime FROM vehicle GROUP BY vehiNo,vehiNoType </select>
+
+	<update id="updateBatch" parameterType="java.util.List">
+
+		update vehicle
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="owner = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.owner != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.owner,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="effectStartTime = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.effectStartTime != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.effectStartTime,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="effectEndTime = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.effectEndTime != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.effectEndTime,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="state = case" suffix="end,">
+				<foreach collection="list" item="item" index="index">
+					<if test="item.state != null">
+						when id = #{item.id,jdbcType=VARCHAR} then
+						#{item.state,jdbcType=INTEGER}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+
+		where id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+	<delete id="deleteBatch" parameterType="java.util.List">
+	DELETE FROM vehicle where id in
+	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+	#{item}
+	</foreach>
+	</delete>
+
+	<!-- 根据企业编码获取车辆基础信息 -->
+	<select id="qryVehicleDispatchList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehicleDispatch">
+		SELECT dis.id,dis.vehiNo,dis.dispatchTime,dis.goodsType,ve.owner,dis.onSite,dis.debusSite,dis.state 
+		FROM vehicle_dispatch dis LEFT JOIN vehicle ve ON dis.vehiNo=ve.vehiNo
+		LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id
+		WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+			<if test="owner != null and owner != ''">
+				and ve.owner = #{owner}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and dis.vehiNo = #{vehiNo}
+			</if>
+			<if test="dispatchTime != null and dispatchTime != ''">
+				and (left(dis.examineEffectEndTime,10) &gt;= #{dispatchTime})
+			</if>
+			<if test="dispatchTime != null and dispatchTime != ''">
+				and (left(dis.dispatchTime,10) &lt;= #{dispatchTime})
+			</if>
+            <if test="goodsType != null and goodsType != ''">
+                and dis.goodsType = #{goodsType}
+            </if>
+            <if test="onSite != null and onSite != ''">
+                and dis.onSite = #{onSite}
+            </if>
+            <if test="debusSite != null and debusSite != ''">
+                and dis.debusSite = #{debusSite}
+            </if>
+            <if test="state != null and state != ''">
+                and dis.state = #{state}
+            </if>
+
+			order by dis.dispatchTime desc
+			limit ${startRecord},${pageSize}
+	</select>
+
+	<!-- 根据企业编码获取车辆基础信息条数 -->
+	<select id="qryVehicleDispatchListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM vehicle_dispatch dis LEFT JOIN vehicle ve ON dis.vehiNo=ve.vehiNo
+			LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id
+			WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+			<if test="owner != null and owner != ''">
+				and ve.owner = #{owner}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and dis.vehiNo = #{vehiNo}
+			</if>
+			<if test="dispatchTime != null and dispatchTime != ''">
+				and (left(dis.examineEffectEndTime,10) &gt;= #{dispatchTime})
+			</if>
+			<if test="dispatchTime != null and dispatchTime != ''">
+				and (left(dis.dispatchTime,10) &lt;= #{dispatchTime})
+			</if>
+            <if test="goodsType != null and goodsType != ''">
+                and dis.goodsType = #{goodsType}
+            </if>
+            <if test="onSite != null and onSite != ''">
+                and dis.onSite = #{onSite}
+            </if>
+            <if test="debusSite != null and debusSite != ''">
+                and dis.debusSite = #{debusSite}
+            </if>
+            <if test="state != null and state != ''">
+                and dis.state = #{state}
+            </if>
+	</select>
+
+</mapper>

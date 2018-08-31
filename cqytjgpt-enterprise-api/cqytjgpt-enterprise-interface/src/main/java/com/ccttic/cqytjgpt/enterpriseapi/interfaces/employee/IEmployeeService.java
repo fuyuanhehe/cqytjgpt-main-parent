@@ -20,24 +20,6 @@ import java.util.List;
 public interface IEmployeeService {
 
 	/**
-	 * 根据ID查询人员
-	 *
-	 * @param id
-	 * @return
-	 * @throws AppException
-	 */
-	public Employee findEmployeeById(String id) throws AppException;
-
-	/**
-	 * 动态监管专用查询
-	 *
-	 * @param account
-	 * @return
-	 * @throws AppException
-	 */
-	EmployeeVo findEmployeeForDynamic(String account) throws AppException;
-
-	/**
 	 * 根据账号查找用户
 	 *
 	 * @param account
@@ -54,40 +36,6 @@ public interface IEmployeeService {
 	 * @throws AppException
 	 */
 	public Employee login(String account, String password);
-
-	/**
-	 * 分页显示员工
-	 *
-	 * @param involveAllSubOrgs
-	 * @param orgCd
-	 * @param empNm
-	 * @param account
-	 * @param postCds
-	 * @param page
-	 * @return
-	 * @throws AppException
-	 */
-	public Page<Employee> findEmployees(boolean involveAllSubOrgs, String orgCd, String empNm, String account,
-										List<String> postCds, Pageable page);
-
-	/**
-	 * 添加员工
-	 *
-	 * @param emp
-	 * @return
-	 * @throws AppException
-	 */
-	public void addEmployee(EssEmployeeVo emp) throws AppException;
-
-	/**
-	 * 修改员工
-	 *
-	 * @param emp
-	 * @return
-	 * @throws AppException
-	 */
-	public void editEmployee(EssEmployeeVo emp) throws AppException;
-
 
 	/**
 	 * 通过人员编号获取岗位
