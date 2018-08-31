@@ -6,14 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResourcesAuthLoad implements CommandLineRunner {
-
-	@Autowired
- private	UrlFilterInvocationSecurityMetadataSource soruce;
+	
+    @Autowired
+    private	UrlFilterInvocationSecurityMetadataSource soruce;
 	
 	@Override
 	public void run(String... args) throws Exception {
 		soruce.doLoadResourceDefine();
 
 	}
-
 }

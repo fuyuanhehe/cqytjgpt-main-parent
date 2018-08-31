@@ -14,22 +14,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
-	
-	@Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ccttic.cqytjgpt.enterpriseapi.controller"))
-                .paths(PathSelectors.any())
-                .build();
-    }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("源头监管 WEB-ENTERPRISE-API文档")
-                .description("源头监管企业版对外服务API文档构件")
-                .version("1.0")
-                .build();
-    }
+	@Bean
+	public Docket createRestApi() {
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+				.apis(RequestHandlerSelectors.basePackage("com.ccttic.cqytjgpt.enterpriseapi.controller"))
+				.paths(PathSelectors.any()).build();
+	}
+
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder().title("源头监管 WEB-ENTERPRISE-API文档").description("源头监管企业版对外服务API文档构件").version("1.0")
+				.build();
+	}
 }

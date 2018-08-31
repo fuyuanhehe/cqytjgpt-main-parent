@@ -4,23 +4,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-  mail:
-    default-encoding: UTF-8
-    host: smtp.yeah.net
-    username: ccttic@yeah.net
-    password: ccttic123
-    port: 25
-    protocol: smtp
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-          timeout: 25000
-          socketFactory:
-            class: javax.net.ssl.SSLSocketFactory
   redis:
 #      host: 127.0.0.1
       host: 10.10.20.22 
