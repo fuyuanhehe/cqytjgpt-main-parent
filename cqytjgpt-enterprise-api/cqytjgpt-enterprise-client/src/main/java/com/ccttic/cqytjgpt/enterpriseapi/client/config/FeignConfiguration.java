@@ -14,6 +14,6 @@ public class FeignConfiguration{
 
     @Bean
     public BasicAuthRequestInterceptor basicAuthRequestInterceptor(){
-         return new BasicAuthRequestInterceptor("client_1","123456");
+         return new BasicAuthRequestInterceptor("client_3","123456");
    }
 }
