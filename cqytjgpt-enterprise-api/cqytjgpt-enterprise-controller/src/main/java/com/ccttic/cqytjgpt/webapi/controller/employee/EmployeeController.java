@@ -1,20 +1,12 @@
 package com.ccttic.cqytjgpt.webapi.controller.employee;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import com.ccttic.entity.employee.*;
-import com.ccttic.entity.enterprise.EssEnterprise;
-import com.ccttic.entity.post.EssPost;
-import com.ccttic.entity.post.EssPostVo;
-import com.ccttic.entity.post.ObjectList;
-import com.ccttic.entity.role.Organization;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,23 +19,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.ccttic.cqytjgpt.webapi.client.auth.AuthServiceFeign;
+import com.ccttic.cqytjgpt.enterpriseapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.webapi.interfaces.employee.IEmployeeService;
-import com.ccttic.cqytjgpt.webapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.webapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.Employee;
+import com.ccttic.entity.employee.EmployeeVo;
+import com.ccttic.entity.employee.EssEmployee;
+import com.ccttic.entity.employee.EssEmployeeVo;
 import com.ccttic.entity.employee.vo.TokenVo;
-import com.ccttic.entity.role.Department;
+import com.ccttic.entity.post.ObjectList;
 import com.ccttic.util.annotation.Resource;
 import com.ccttic.util.annotation.ResourceScan;
 import com.ccttic.util.common.Const;
-import com.ccttic.util.common.JsonUtil;
 import com.ccttic.util.common.MD5;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
 
 /**

@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.ccttic.cqytjgpt.webapi.client.system.UserOperLoggerFeign;
+import com.ccttic.cqytjgpt.enterpriseapi.client.system.UserOperLoggerFeign;
 import com.ccttic.entity.logger.LoggerModel;
 import com.ccttic.entity.logger.UserOperLogger;
 import com.ccttic.util.common.CCtticDateUtils;
