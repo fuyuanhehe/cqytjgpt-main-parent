@@ -9,7 +9,7 @@
   </parent>
   <artifactId>cqytjgpt-enterprise-controller</artifactId>
   <name>cqytjgpt-enterprise-controller</name>
-  <description>源头监管webapi 服务控制层</description>
+  <description>源头监管enterpriseapi 服务控制层</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    	<com.alibaba.version>1.1.9</com.alibaba.version>
