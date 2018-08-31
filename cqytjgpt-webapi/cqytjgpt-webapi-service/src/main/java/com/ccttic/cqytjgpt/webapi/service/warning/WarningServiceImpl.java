@@ -64,6 +64,7 @@ public class WarningServiceImpl implements IWarningService {
 				record.setOverdueexaminestate(null);
 				record.setIllicitstate(null);
 				record.setDangerdesc("逾期未报废");
+				record.setDangertype(record.getScrappedstate().toString());
 			}
 		}
 		if (1 == ve.getOverdueexaminestate()) {
@@ -71,6 +72,7 @@ public class WarningServiceImpl implements IWarningService {
 				record.setScrappedstate(null);
 				record.setIllicitstate(null);
 				record.setDangerdesc("逾期未检验");
+				record.setDangertype(record.getOverdueexaminestate().toString());
 			}
 		}
 		if (1 == ve.getIllicitstate()) {
@@ -78,6 +80,7 @@ public class WarningServiceImpl implements IWarningService {
 				record.setOverdueexaminestate(null);
 				record.setScrappedstate(null);
 				record.setDangerdesc("违法未处理");
+				record.setDangertype(record.getIllicitstate().toString());
 			}
 		}
 		for (VehiDangerVo vo : records) {
@@ -129,6 +132,7 @@ public class WarningServiceImpl implements IWarningService {
 				record.setOverdueexaminestate(null);
 				record.setOverdueproofstate(null);
 				record.setDangerdesc("满分学习");
+				record.setDangertype(record.getFullstudystate().toString());
 			}
 		}
 		if (1 == vo.getOverdueexaminestate()) {
@@ -136,6 +140,7 @@ public class WarningServiceImpl implements IWarningService {
 				record.setOverdueproofstate(null);
 				record.setFullstudystate(null);
 				record.setDangerdesc("逾期未审验");
+				record.setDangertype(record.getOverdueexaminestate().toString());
 			}
 		}
 		if (1 == vo.getOverdueproofstate()) {
@@ -143,6 +148,7 @@ public class WarningServiceImpl implements IWarningService {
 				record.setOverdueexaminestate(null);
 				record.setFullstudystate(null);
 				record.setDangerdesc("逾期未换证");
+				record.setDangertype(record.getOverdueproofstate().toString());
 			}
 		}
 		for (DrDangerVo drDangerVo : records) {

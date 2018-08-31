@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.vehicle.TestIllicitMapper">
+<mapper namespace="com.ccttic.cqytjgpt.enterpriseapi.mapper.vehicle.TestIllicitMapper">
 	<!-- 获取所有车辆 -->
   	<select id="qryVehicleList" resultType="com.ccttic.entity.role.Vehicle">
   		SELECT * FROM vehicle

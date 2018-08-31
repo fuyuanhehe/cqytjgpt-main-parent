@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.attachment.AttachmentMapper">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.enterpriseapi.attachment.AttachmentMapper">
 	<select id="findAttachmentList" parameterType="java.util.Map" resultType="com.ccttic.entity.attchment.Attachment">
 		select * from attachment where 1=1 and isDeleted = 0
 			order by uploadTime desc limit ${startRecord},${pageSize}
