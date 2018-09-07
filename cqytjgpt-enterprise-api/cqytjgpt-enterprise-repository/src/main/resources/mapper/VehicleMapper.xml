@@ -34,14 +34,14 @@
 		SELECT area.* FROM ess_area AREA LEFT JOIN ess_organization org ON area.id=org.area_id WHERE org.id=#{id}
 	</select>
 
-	<!-- 根据企业编码获取车辆基础信息 -->
+	<!-- 获取车辆基础信息(车辆关联) -->
 	<select id="qryVehicleList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
 		SELECT ve.id,area.areaNm,ve.mgrDepartAreaId,ve.vehiNo,ve.vehiType,attr.attrNm as vehiTypeText,ve.vehiNoType,attr1.attrNm as vehiNoTypeText,ve.nature,ve.owner,ve.state,ve.firstReciveTime,ve.effectStartTime,ve.effectEndTime 
-		FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
+		FROM vehicle ve 
 		LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
 		LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '024'
 		LEFT JOIN param_category_attr attr1 ON ve.vehiNoType=attr1.attrCd
-		WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+		where 1=1
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 				and ve.mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>
@@ -57,50 +57,38 @@
             <if test="state != null and state != ''">
 				and ve.state like CONCAT(CONCAT('%',#{state},'%'))
 			</if>
-			<if test="effectStartTime != null and effectStartTime != ''">
-				and (left(ve.examineEffectEndTime,10) &gt;= #{effectStartTime})
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &gt;= #{firstReciveTime})
 			</if>
-			<if test="effectEndTime != null and effectEndTime != ''">
-				and (left(ve.examineEffectEndTime,10) &lt;= #{effectEndTime})
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &lt;= #{firstReciveTime})
 			</if>
-			<if test="startTime != null and startTime != ''">
-				and left(ve.firstReciveTime,10) &gt;= #{startTime}
-			</if>
-			<if test="endTime != null and endTime != ''">
-				and left(ve.firstReciveTime,10) &lt;= #{endTime}
-			</if>
-
-			order by ve.effectEndTime desc
+			order by ve.firstReciveTime desc
 			limit ${startRecord},${pageSize}
 	</select>
 
-	<!-- 根据企业编码获取车辆基础信息条数 -->
+	<!-- 获取车辆基础信息条数(车辆关联) -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
-			WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+		SELECT COUNT(1) FROM vehicle
+		where 1=1
+			<!-- WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId}) -->
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
-				and mgrDepartAreaId = #{mgrDepartAreaId}
+				and ve.mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>
 			<if test="vehiNo != null and vehiNo != ''">
-				and vehiNo = #{vehiNo}
+				and ve.vehiNo = #{vehiNo}
 			</if>
 			<if test="vehiNoType != null and vehiNoType != ''">
-				and vehiNoType = #{vehiNoType}
+				and ve.vehiNoType = #{vehiNoType}
 			</if>
-			<if test="state != null and state != ''">
-				and state = #{state}
+			 <if test="state != null and state != ''">
+				and ve.state like CONCAT(CONCAT('%',#{state},'%'))
 			</if>
-			<if test="effectStartTime != null and effectStartTime != ''">
-				and left(examineEffectEndTime,10) &gt;= #{effectStartTime}
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &gt;= #{firstReciveTime})
 			</if>
-			<if test="effectEndTime != null and effectEndTime != ''">
-				and left(examineEffectEndTime,10) &lt;= #{effectEndTime}
-			</if>
-			<if test="startTime != null and startTime != ''">
-				and left(firstReciveTime,10) &gt;= #{startTime}
-			</if>
-			<if test="endTime != null and endTime != ''">
-				and left(firstReciveTime,10) &lt;= #{endTime}
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &lt;= #{firstReciveTime})
 			</if>
 	</select>
 
@@ -136,62 +124,8 @@
 	
 	</select>
 
-	<select id="getVehicleMsg" resultType="com.ccttic.entity.role.Vehicle">
-		SELECT id ,vehiNo,vehiNoType,mgrEnterpriseId,mgrDepartAreaId,effectEndTime,DATE_FORMAT(effectEndTime,'%Y-%m-%d') AS effectEndTime,DATE_FORMAT(examineEffectEndTime,'%Y-%m-%d') AS examineEffectEndTime FROM vehicle GROUP BY vehiNo,vehiNoType </select>
-
-	<update id="updateBatch" parameterType="java.util.List">
-
-		update vehicle
-		<trim prefix="set" suffixOverrides=",">
-			<trim prefix="owner = case" suffix="end,">
-				<foreach collection="list" item="item" index="index">
-					<if test="item.owner != null">
-						when id = #{item.id,jdbcType=VARCHAR} then
-						#{item.owner,jdbcType=VARCHAR}
-					</if>
-				</foreach>
-			</trim>
-			<trim prefix="effectStartTime = case" suffix="end,">
-				<foreach collection="list" item="item" index="index">
-					<if test="item.effectStartTime != null">
-						when id = #{item.id,jdbcType=VARCHAR} then
-						#{item.effectStartTime,jdbcType=VARCHAR}
-					</if>
-				</foreach>
-			</trim>
-			<trim prefix="effectEndTime = case" suffix="end,">
-				<foreach collection="list" item="item" index="index">
-					<if test="item.effectEndTime != null">
-						when id = #{item.id,jdbcType=VARCHAR} then
-						#{item.effectEndTime,jdbcType=VARCHAR}
-					</if>
-				</foreach>
-			</trim>
-			<trim prefix="state = case" suffix="end,">
-				<foreach collection="list" item="item" index="index">
-					<if test="item.state != null">
-						when id = #{item.id,jdbcType=VARCHAR} then
-						#{item.state,jdbcType=INTEGER}
-					</if>
-				</foreach>
-			</trim>
-		</trim>
-
-		where id in
-		<foreach collection="list" index="index" item="item"
-			separator="," open="(" close=")">
-			#{item.id}
-		</foreach>
-	</update>
-	<delete id="deleteBatch" parameterType="java.util.List">
-	DELETE FROM vehicle where id in
-	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-	#{item}
-	</foreach>
-	</delete>
-
 	<!-- 根据企业编码获取车辆基础信息 -->
-	<select id="qryVehicleDispatchList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehicleDispatch">
+	<!-- <select id="qryVehicleDispatchList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehicleDispatch">
 		SELECT dis.id,dis.vehiNo,dis.dispatchTime,dis.goodsType,ve.owner,dis.onSite,dis.debusSite,dis.state 
 		FROM vehicle_dispatch dis LEFT JOIN vehicle ve ON dis.vehiNo=ve.vehiNo
 		LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id
@@ -223,10 +157,10 @@
 
 			order by dis.dispatchTime desc
 			limit ${startRecord},${pageSize}
-	</select>
+	</select> -->
 
 	<!-- 根据企业编码获取车辆基础信息条数 -->
-	<select id="qryVehicleDispatchListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+	<!-- <select id="qryVehicleDispatchListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT COUNT(1) FROM vehicle_dispatch dis LEFT JOIN vehicle ve ON dis.vehiNo=ve.vehiNo
 			LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id
 			WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
@@ -254,6 +188,92 @@
             <if test="state != null and state != ''">
                 and dis.state = #{state}
             </if>
+	</select> -->
+
+	<!-- 根据登录账号查询企业 -->
+	<select id="getEssEnterprise" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.EssEnterprise">
+	SELECT id,etpNm FROM ess_enterprise ent 
+	WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+	</select>
+	
+	<!-- 车辆关联 -->
+	<update id="vehicleRelevance" parameterType="java.util.Map">
+		update vehicle set  
+			<if test="mgrEnterpriseId != null and mgrEnterpriseId != ''">	
+				mgrEnterpriseId = #{mgrEnterpriseId} 
+			</if>
+			WHERE id=#{id}
+	</update>
+	
+	<!-- 根据企业编码获取车辆基础信息 -->
+	<select id="qryVehicleAMList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
+		SELECT ve.id,area.areaNm,ve.mgrDepartAreaId,ve.vehiNo,ve.vehiType,attr.attrNm as vehiTypeText,ve.vehiNoType,attr1.attrNm as vehiNoTypeText,ve.nature,ve.owner,ve.state,ve.firstReciveTime,ve.effectStartTime,ve.effectEndTime 
+		FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
+		LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
+		LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '024'
+		LEFT JOIN param_category_attr attr1 ON ve.vehiNoType=attr1.attrCd
+		WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+				and ve.mgrDepartAreaId = #{mgrDepartAreaId}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and ve.vehiNo = #{vehiNo}
+			</if>
+			<if test="vehiNoType != null and vehiNoType != ''">
+				and ve.vehiNoType = #{vehiNoType}
+			</if>
+            <if test="vehiType != null and vehiType != ''">
+                and ve.vehiType = #{vehiType}
+            </if>
+            <if test="state != null and state != ''">
+				and ve.state like CONCAT(CONCAT('%',#{state},'%'))
+			</if>
+			<if test="entNm != null and entNm != ''">
+				and ent.etpNm like CONCAT(CONCAT('%',#{entNm},'%'))
+			</if>
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &gt;= #{firstReciveTime})
+			</if>
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &lt;= #{firstReciveTime})
+			</if>
+
+			order by ve.firstReciveTime desc
+			limit ${startRecord},${pageSize}
 	</select>
 
+	<!-- 根据企业编码获取车辆基础信息条数 -->
+	<select id="qryVehicleAMListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
+			WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
+				and ve.mgrDepartAreaId = #{mgrDepartAreaId}
+			</if>
+			<if test="vehiNo != null and vehiNo != ''">
+				and ve.vehiNo = #{vehiNo}
+			</if>
+			<if test="vehiNoType != null and vehiNoType != ''">
+				and ve.vehiNoType = #{vehiNoType}
+			</if>
+			 <if test="state != null and state != ''">
+				and ve.state like CONCAT(CONCAT('%',#{state},'%'))
+			</if>
+			<if test="entNm != null and entNm != ''">
+				and ent.etpNm like CONCAT(CONCAT('%',#{entNm},'%'))
+			</if>
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &gt;= #{firstReciveTime})
+			</if>
+			<if test="firstReciveTime != null and firstReciveTime != ''">
+				and (left(ve.firstReciveTime,10) &lt;= #{firstReciveTime})
+			</if>
+	</select>
+	<select id="getVehicleSupervise" parameterType="java.lang.String" resultType="com.ccttic.entity.role.vo.TreeVehileVo">
+		SELECT id,vehiNo FROM vehicle where mgrEnterpriseId=#{entId};
+	</select>
+	
+	
+	
+	
+	
 </mapper>

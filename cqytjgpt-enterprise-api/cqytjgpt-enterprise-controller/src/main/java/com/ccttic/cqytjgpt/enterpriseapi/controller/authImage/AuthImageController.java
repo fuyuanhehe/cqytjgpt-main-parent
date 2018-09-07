@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.redis.RedisService;
 import com.ccttic.entity.common.ResponseMsg;
+import com.ccttic.entity.employee.EmployeeVo;
 import com.ccttic.util.common.Const;
 import com.ccttic.util.common.VerifyCodeUtils;
 
@@ -21,6 +22,8 @@ import io.swagger.annotations.ApiOperation;
 public class AuthImageController {
 
 	private Logger logger = Logger.getLogger(getClass());
+	@Autowired
+	private RedisService<Object> redisService;
 	
 	@Autowired
 	RedisService<String> redis;
@@ -38,7 +41,7 @@ public class AuthImageController {
 			
 			// 存入session
 			session.setAttribute(Const.PIC_CODE, verifyCode);
-
+			redisService.set(Const.PIC_CODE, verifyCode);
 			// 生成图片
 			int w = 200, h = 80;
 
