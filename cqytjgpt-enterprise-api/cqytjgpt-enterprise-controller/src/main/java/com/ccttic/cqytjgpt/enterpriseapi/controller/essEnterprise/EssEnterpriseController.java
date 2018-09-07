@@ -3,14 +3,11 @@ package com.ccttic.cqytjgpt.enterpriseapi.controller.essEnterprise;
 import java.io.Serializable;
 import java.util.List;
 
+import com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise.IEnterpriseService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.employee.IEmployeeService;
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.vehicle.IVehicleService;
@@ -36,6 +33,8 @@ public class EssEnterpriseController implements Serializable{
 	private IVehicleService vehicleService;
 	@Autowired
 	private IEmployeeService employeeService;
+	@Autowired
+	private IEnterpriseService enterpriseService;
 	
 	
 	/**
@@ -76,4 +75,44 @@ public class EssEnterpriseController implements Serializable{
 		}
 		return resp;
 	}
+
+	/**
+	 * 获取企业及子企业id和name
+	 *
+	 * @param
+	 * @return
+	 */
+	@RequestMapping(value = "/getSubordinateEnterprise", method = { RequestMethod.POST, RequestMethod.GET })
+	@ResponseBody
+	@ApiOperation(value = "获取企业及子企业id和name", notes = "access_token，必传值")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access_token", value = "access_token", required = true, paramType = "query") })
+	public ResponseMsg<List<EssEnterprise>> getSubordinateEnterprise(@RequestParam String access_token) {
+		ResponseMsg<List<EssEnterprise>> resp = new ResponseMsg<List<EssEnterprise>>();
+		try {
+			if (StringUtils.isEmpty(access_token)) {
+				resp.fail("access_token 为空");
+				return resp;
+			}
+			// 从redis获取用户信息
+			EmployeeVo vo = employeeService.getUserInfo(access_token);
+			if (null == vo) {
+				resp.fail("用户信息丢失");
+				return resp;
+			}
+			EmployeePermission employeePermission = employeeService.getEmployeePermission(vo);
+			if (null == employeePermission || null == employeePermission.getEnterpriseId()) {
+				resp.fail("该账号无查询数据权限");
+				return resp;
+			}
+			List<EssEnterprise> essEnt = enterpriseService.getSubordinateEnterprise(employeePermission.getEnterpriseId());
+			resp.setData(essEnt);
+			resp.success("查询成功！");
+		} catch (Exception e) {
+			resp.fail("查询失败！");
+			logger.error(e.getMessage());
+		}
+		return resp;
+	}
+
 }

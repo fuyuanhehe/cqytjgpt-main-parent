@@ -3,6 +3,7 @@ package com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.role.Enterprise;
 import org.apache.ibatis.annotations.Param;
 
 import com.ccttic.entity.enterprise.EnterVehicle;
@@ -143,4 +144,7 @@ public interface EssEnterpriseMapper {
 	
 	//企业获取所有管理部门
 	public List<String> getDepar();
+
+	//获取当前企业的下级企业
+    List<EssEnterprise> getSubordinateEnterprise(String id);
 }

@@ -1,10 +1,7 @@
 package com.ccttic.cqytjgpt.enterpriseapi.service.enterprise;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +37,8 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	private EssEnterpriseMapper enterpriseMapper;
 	@Autowired
 	private EssEmployeeMapper employeeMapper;
+
+
 
 	@Override
 	public Map<String, Object> selectEnterpriseById(Map<String, String> map) {
@@ -332,12 +331,28 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 
 	@Override
 	public List<String> getDepar() {
-		// TODO Auto-generated method stub
 		return enterpriseMapper.getDepar();
 	}
 
+	@Override
+	public List<EssEnterprise> getSubordinateEnterprise(String enterpriseId) {
+		 List<EssEnterprise> entId = new ArrayList<>();
 
+		getChildren(enterpriseId,entId);
+		EssEnterprise essEnterprise = enterpriseMapper.selectByPrimaryKey(enterpriseId);
+		entId.add(essEnterprise);
+		return entId;
+	}
 
+	public void getChildren(String id,List<EssEnterprise> entId){
+		List<EssEnterprise> ids  = enterpriseMapper.getSubordinateEnterprise(id);
 
+		if(ids.size() > 0){
+			entId.addAll(ids);
+		}
+		for (EssEnterprise i : ids){
+			getChildren(i.getId(),entId);
+		}
 
+	}
 }

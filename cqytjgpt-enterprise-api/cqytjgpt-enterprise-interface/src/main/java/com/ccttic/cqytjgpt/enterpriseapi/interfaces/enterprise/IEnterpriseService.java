@@ -91,5 +91,8 @@ public interface IEnterpriseService {
 	Page<EssEnterprise> selectEnterpriseList(Pageable page,EssEnterprise ess);
 	
 	//企业获取所有管理部门
-		public List<String> getDepar();
+	public List<String> getDepar();
+	//获取下级企业
+	List<EssEnterprise> getSubordinateEnterprise(String enterpriseId);
+
 }

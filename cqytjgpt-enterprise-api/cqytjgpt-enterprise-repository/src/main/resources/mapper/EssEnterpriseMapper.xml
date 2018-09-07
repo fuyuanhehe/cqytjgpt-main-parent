@@ -906,4 +906,8 @@
 		SELECT * FROM ess_enterprise WHERE admin_empid = #{id}
 	</select>
 
+	<select id="getSubordinateEnterprise" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.EssEnterprise">
+		select id,etpNm from ess_enterprise where superEnt_id = #{id}
+	</select>
+
 </mapper>
