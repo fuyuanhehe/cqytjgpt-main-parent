@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.employee.IEmployeeService;
+import com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.vehicle.IVehicleService;
 import com.ccttic.entity.common.ResponseMsg;
 import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EmployeeVo;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.PageVehiIllicitVo;
@@ -56,6 +58,8 @@ public class VehicleContrller implements Serializable {
 	private IVehicleService vehicleService;
 	@Autowired
 	private IEmployeeService employeeService;
+	@Autowired
+	private IEnterpriseService enterpriseService;
 
 	/**
 	 * 根据条件获取车辆基本信息（车辆关联）
@@ -186,15 +190,17 @@ public class VehicleContrller implements Serializable {
 				return resp;
 			}
 			EmployeePermission employeePermission = employeeService.getEmployeePermission(vo);
-			if (null == employeePermission || null != employeePermission.getEnterpriseId()) {
+			if (null == employeePermission || null == employeePermission.getEnterpriseId()) {
 				resp.fail("该账号无查询数据权限");
 				return resp;
 			}
+			// 获取该企业下的所有子企业id
+			List<EssEnterprise> essEnt = enterpriseService.getSubordinateEnterprise(employeePermission.getEnterpriseId());
 			PageRequest page = new PageRequest();
 			page.setPage(vehicle.getPage());
 			page.setRows(vehicle.getRows());
 			vehicle.setMgrEnterpriseId(employeePermission.getEnterpriseId());
-			Page<Vehicle> pager = vehicleService.qryVehicleAMList(page, vehicle);
+			Page<Vehicle> pager = vehicleService.qryVehicleAMList(page,vehicle,essEnt);
 			resp.setData(pager.getRecords());
 			resp.setTotal(pager.getTotalRows().intValue());
 			resp.success("查询成功！");

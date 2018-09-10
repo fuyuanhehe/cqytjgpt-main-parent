@@ -8,7 +8,6 @@ import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.TreeVehileVo;
-import com.ccttic.entity.role.vo.VehicleSuperviseVo;
 import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -45,14 +44,6 @@ public interface IVehicleService {
 //	public Page<VehicleDispatch> qryVehicleDispatchList(Pageable page, VehicleDispatch vehiIllicit,EmployeePermission employeePermission) throws AppException;
 	
 	/**
-	 * 根据登录账号查询企业
-	 * @param entId
-	 * @return
-	 * @throws AppException
-	 */
-	public List<EssEnterprise> getEssEnterprise (String entId)throws AppException;
-	
-	/**
 	 * 车辆关联
 	 * @param params
 	 * @return
@@ -68,7 +59,7 @@ public interface IVehicleService {
 	 * @return
 	 * @throws AppException
 	 */
-	public Page<Vehicle> qryVehicleAMList(Pageable page, PageVehicleVo vehicleVo) throws AppException;
+	public Page<Vehicle> qryVehicleAMList(Pageable page, PageVehicleVo vehicleVo,List<EssEnterprise> essEnt) throws AppException;
 	
 	/**
 	 * 根据条件获取车辆违法信息

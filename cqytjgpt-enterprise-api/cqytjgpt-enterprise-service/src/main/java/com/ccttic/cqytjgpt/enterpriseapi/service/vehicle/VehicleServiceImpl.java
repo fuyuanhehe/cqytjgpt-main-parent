@@ -19,7 +19,6 @@ import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.PageVehicleVo;
 import com.ccttic.entity.role.vo.TreeVehileVo;
-import com.ccttic.entity.role.vo.VehicleSuperviseVo;
 import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -217,11 +216,6 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public List<EssEnterprise> getEssEnterprise(String entId) throws AppException {
-		return mapper.getEssEnterprise(entId);
-	}
-
-	@Override
 	public int vehicleRelevance(Map<String, Object> params) throws AppException {
 		int net;
 		net = mapper.vehicleRelevance(params);
@@ -229,12 +223,12 @@ public class VehicleServiceImpl implements IVehicleService {
 	}
 
 	@Override
-	public Page<Vehicle> qryVehicleAMList(Pageable page, PageVehicleVo vehicle) throws AppException {
+	public Page<Vehicle> qryVehicleAMList(Pageable page, PageVehicleVo vehicle,List<EssEnterprise> essEnt) throws AppException {
 		Page<Vehicle> pager = new PageImpl<Vehicle>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageSize", page.getRows());
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
-		params.put("entId", vehicle.getMgrEnterpriseId()); // 企业id
+		params.put("list", essEnt); // 企业id
 		params.put("mgrDepartAreaId", vehicle.getMgrDepartAreaId()); // 区域编码
 		params.put("vehiNo", vehicle.getVehiNo()); // 车牌号
 		params.put("vehiNoType", vehicle.getVehiNoType()); // 车牌种类

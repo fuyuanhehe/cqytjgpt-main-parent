@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.TreeVehileVo;
@@ -69,14 +68,7 @@ public interface VehicleMapper {
 //	 * @throws AppException
 //	 */
 //	public int qryVehicleDispatchListCount(Map<String, Object> params) throws AppException;
-	/**
-	 * 根据登录账号查询企业
-	 * @param entId
-	 * @return
-	 * @throws AppException
-	 */
-	public List<EssEnterprise> getEssEnterprise (@Param("entId") String entId)throws AppException;
-	
+
 	/**
 	 * 车辆关联
 	 * @param params

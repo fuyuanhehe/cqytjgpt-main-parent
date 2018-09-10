@@ -69,7 +69,7 @@
 
 	<!-- 获取车辆基础信息条数(车辆关联) -->
 	<select id="qryVehicleListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM vehicle
+		SELECT COUNT(1) FROM vehicle ve
 		where 1=1
 			<!-- WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId}) -->
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
@@ -124,7 +124,7 @@
 	
 	</select>
 
-	<!-- 根据企业编码获取车辆基础信息 -->
+	<!-- 根据企业编码获取车辆出车信息 -->
 	<!-- <select id="qryVehicleDispatchList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.VehicleDispatch">
 		SELECT dis.id,dis.vehiNo,dis.dispatchTime,dis.goodsType,ve.owner,dis.onSite,dis.debusSite,dis.state 
 		FROM vehicle_dispatch dis LEFT JOIN vehicle ve ON dis.vehiNo=ve.vehiNo
@@ -159,7 +159,7 @@
 			limit ${startRecord},${pageSize}
 	</select> -->
 
-	<!-- 根据企业编码获取车辆基础信息条数 -->
+	<!-- 根据企业编码获取车辆出车信息条数 -->
 	<!-- <select id="qryVehicleDispatchListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT COUNT(1) FROM vehicle_dispatch dis LEFT JOIN vehicle ve ON dis.vehiNo=ve.vehiNo
 			LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id
@@ -190,12 +190,6 @@
             </if>
 	</select> -->
 
-	<!-- 根据登录账号查询企业 -->
-	<select id="getEssEnterprise" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.EssEnterprise">
-	SELECT id,etpNm FROM ess_enterprise ent 
-	WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
-	</select>
-	
 	<!-- 车辆关联 -->
 	<update id="vehicleRelevance" parameterType="java.util.Map">
 		update vehicle set  
@@ -207,12 +201,18 @@
 	
 	<!-- 根据企业编码获取车辆基础信息 -->
 	<select id="qryVehicleAMList" parameterType="java.util.Map" resultType="com.ccttic.entity.role.vo.VehicleVO">
-		SELECT ve.id,area.areaNm,ve.mgrDepartAreaId,ve.vehiNo,ve.vehiType,attr.attrNm as vehiTypeText,ve.vehiNoType,attr1.attrNm as vehiNoTypeText,ve.nature,ve.owner,ve.state,ve.firstReciveTime,ve.effectStartTime,ve.effectEndTime 
+		SELECT ve.id,ent.etpNm,area.areaNm,ve.mgrDepartAreaId,ve.vehiNo,ve.vehiType,attr.attrNm as vehiTypeText,ve.vehiNoType,attr1.attrNm as vehiNoTypeText,ve.nature,ve.owner,ve.state,ve.firstReciveTime,ve.effectStartTime,ve.effectEndTime 
 		FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
 		LEFT JOIN ess_area area ON ve.mgrDepartAreaId=area.id
 		LEFT JOIN param_category_attr attr ON ve.vehiType=attr.attrCd and categoryCd = '024'
 		LEFT JOIN param_category_attr attr1 ON ve.vehiNoType=attr1.attrCd
-		WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+		WHERE 1=1
+			<if test="list != null and list.size>0">
+				and ent.id in
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					#{item.id}
+				</foreach>
+			</if>
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 				and ve.mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>
@@ -245,7 +245,13 @@
 	<!-- 根据企业编码获取车辆基础信息条数 -->
 	<select id="qryVehicleAMListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT COUNT(1) FROM vehicle ve LEFT JOIN ess_enterprise ent ON ve.mgrEnterpriseId=ent.id 
-			WHERE (ent.id=#{entId} OR ent.superEnt_id=#{entId})
+			WHERE 1=1
+			<if test="list != null and list.size>0">
+				and ent.id in
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					#{item.id}
+				</foreach>
+			</if>
 			<if test="mgrDepartAreaId != null and mgrDepartAreaId != ''">
 				and ve.mgrDepartAreaId = #{mgrDepartAreaId}
 			</if>
