@@ -9,6 +9,7 @@ import com.ccttic.entity.danger.DrDangerVo;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.danger.vo.VehiDangerVo;
 import com.ccttic.entity.employee.EmployeePermission;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
@@ -95,7 +96,7 @@ public class WarningServiceImpl implements IWarningService {
 	}
 
 	@Override
-	public Page<DrDangerVo> qryDriverList(Pageable page, DrDangerVo vo, EmployeePermission employeePermission) throws AppException {
+	public Page<DrDangerVo> qryDriverList(Pageable page, DrDangerVo vo, List<EssEnterprise> entList) throws AppException {
 
 		Page<DrDangerVo> pager = new PageImpl<DrDangerVo>(page);
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -104,7 +105,7 @@ public class WarningServiceImpl implements IWarningService {
 		params.put("startRecord", (page.getPage() - 1) * page.getRows());
 		params.put("driverName",  vo.getDrivername());
 		params.put("areaId", vo.getAreaCd());// 区域
-		params.put("list", vo.getList());// 公司
+		params.put("entList", entList);// 公司
 		params.put("fullStudyState", vo.getFullstudystate() == 1 ? true : false);
 		params.put("overdueExamineState", vo.getOverdueexaminestate() == 1 ? true : false);
 		params.put("overdueProofState", vo.getOverdueproofstate() == 1 ? true : false);

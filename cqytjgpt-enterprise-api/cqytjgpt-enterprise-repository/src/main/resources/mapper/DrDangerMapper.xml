@@ -661,10 +661,10 @@ GROUP BY
         ess_organization org ON danger.ownerOrgId=org.id LEFT JOIN ess_area AREA ON area.id =org.area_id
         LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId
         =etp.id WHERE 1=1
-        <if test="list != null and list.size>0 ">
+        <if test="entList.size>0 ">
             and etp.id in
-            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-                #{item}
+            <foreach collection="entList" index="index" item="item" open="(" separator="," close=")">
+                #{item.id}
             </foreach>
         </if>
         <if test="driverName != null and driverName != ''">
@@ -702,10 +702,10 @@ GROUP BY
         ess_area AREA ON area.id =org.area_id
         LEFT JOIN driver dr ON danger.driverIdcard = dr.idcard LEFT JOIN ess_enterprise etp ON dr.mgrEnterpriseId
         =etp.id WHERE 1=1
-        <if test="list != null and list.size>0 ">
+        <if test=" entList.size>0 ">
             and etp.id in
-            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-                #{item}
+            <foreach collection="entList" index="index" item="item" open="(" separator="," close=")">
+                #{item.id}
             </foreach>
         </if>
         <if test="driverName != null and driverName != ''">

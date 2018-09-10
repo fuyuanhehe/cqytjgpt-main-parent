@@ -5,9 +5,12 @@ import com.ccttic.entity.danger.DrDangerVo;
 import com.ccttic.entity.danger.VehiDanger;
 import com.ccttic.entity.danger.vo.VehiDangerVo;
 import com.ccttic.entity.employee.EmployeePermission;
+import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
+
+import java.util.List;
 
 public interface IWarningService {
 	/**
@@ -28,12 +31,8 @@ public interface IWarningService {
 	
 	
 	/**根据条件查询驾驶人预警信息
-	 * @param page
-	 * @param vo
-	 * @param employeePermission
-	 * @return
 	 */
-	 Page<DrDangerVo> qryDriverList(Pageable page, DrDangerVo vo, EmployeePermission employeePermission)throws AppException;
+	 Page<DrDangerVo> qryDriverList(Pageable page, DrDangerVo vo, List<EssEnterprise> entList)throws AppException;
 	
 	/**
 	 * 根据id查询驾驶员预警详情信息

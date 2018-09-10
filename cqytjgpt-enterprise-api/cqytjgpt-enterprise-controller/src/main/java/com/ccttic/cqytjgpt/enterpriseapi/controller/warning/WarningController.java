@@ -121,6 +121,7 @@ public class WarningController implements Serializable {
         ResponseMsg<Page<DrDangerVo>> resp = new ResponseMsg<Page<DrDangerVo>>();
         List<String> list = new ArrayList<>();
         PageRequest page = new PageRequest();
+        List<EssEnterprise> entList ;
         page.setPage(drVO.getPage());
         page.setRows(drVO.getRows());
 
@@ -137,15 +138,17 @@ public class WarningController implements Serializable {
             return resp;
         }
         if (null == drVO.getList()){
-            List<String> str = new ArrayList<>();
-            List<EssEnterprise> entList = enterpriseService.getSubordinateEnterprise(employeePermission.getEnterpriseId());
-            for(EssEnterprise enterprise : entList){
-                str.add( enterprise.getId());
-            }
-            drVO.setList(str);
+
+            entList = enterpriseService.getSubordinateEnterprise(employeePermission.getEnterpriseId());
+        }else{
+            entList = new ArrayList<>();
+            EssEnterprise enterprise = new EssEnterprise();
+            enterprise.setId(drVO.getList().get(0));
+            entList.add(enterprise);
+
         }
         try {
-            Page<DrDangerVo> pager = warningService.qryDriverList(page, drVO, employeePermission);
+            Page<DrDangerVo> pager = warningService.qryDriverList(page, drVO,entList);
             resp.setData(pager);
             resp.success("查询成功！");
         } catch (AppException e) {
