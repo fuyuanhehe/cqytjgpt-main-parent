@@ -1,7 +1,11 @@
 package com.ccttic.cqytjgpt.enterpriseapi.service.enterprise;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise.EssEnterpriseMapper;
+import com.ccttic.entity.danger.vo.DangerCountVo;
 import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.enums.EssEmployeeStatus;
@@ -354,5 +359,19 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 			getChildren(i.getId(),entId);
 		}
 
+	}
+
+	@Override
+	public DangerCountVo getVehiDangerCount(List<EssEnterprise> essEnt) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("list", essEnt);
+		return enterpriseMapper.getVehiDangerCount(params);
+	}
+
+	@Override
+	public DangerCountVo getDrDangerCount(List<EssEnterprise> essEnt) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("list", essEnt);
+		return enterpriseMapper.getDrDangerCount(params);
 	}
 }

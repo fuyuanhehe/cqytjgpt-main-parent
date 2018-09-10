@@ -3,12 +3,12 @@ package com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise;
 import java.util.List;
 import java.util.Map;
 
+import com.ccttic.entity.danger.vo.DangerCountVo;
 import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
-import com.ccttic.entity.enterprise.vo.PageEssEnterpriseVo;
 import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
@@ -94,5 +94,19 @@ public interface IEnterpriseService {
 	public List<String> getDepar();
 	//获取下级企业
 	List<EssEnterprise> getSubordinateEnterprise(String enterpriseId);
+	
+	/**
+	 * 首页-企业隐患自查
+	 * @param essEnt
+	 * @return
+	 */
+	public DangerCountVo getVehiDangerCount(List<EssEnterprise> essEnt);
+	
+	/**
+	 * 首页-驾驶人隐患自查
+	 * @param essEnt
+	 * @return
+	 */
+	public DangerCountVo getDrDangerCount(List<EssEnterprise> essEnt);
 
 }
