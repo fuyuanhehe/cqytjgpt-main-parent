@@ -124,6 +124,7 @@ public class TaskDriverService implements ITaskDriverService {
 			sortList.add(overdueproofRank);
 			dr.setOverdueproofstate(overdueproofRank);
 			overdueproofDays = (int) result.get("days");
+			dr.setOverDueproofDays(overdueproofDays);
 		} else {
 			dr.setOverdueproofstate(null);
 		}
@@ -134,6 +135,7 @@ public class TaskDriverService implements ITaskDriverService {
 			sortList.add(overdueexaineRank);
 			dr.setOverdueexaminestate(overdueexaineRank);
 			overdueexaineDays = (int) result.get("days");
+			dr.setOverDueexamineDays(overdueexaineDays);
 		} else {
 			dr.setOverdueexaminestate(null);
 		}
@@ -156,7 +158,7 @@ public class TaskDriverService implements ITaskDriverService {
 //			dr.setOwnergener(org.getId());
 //		}
 		dr.setFullstudystate(0);
-
+		dr.setFullStudyDays(fullStudyDays);
 		if (null == dr.getOverdueproofstate() || null == dr.getOverdueexaminestate() || null == dr.getFullstudystate()) {
 			dr.setDangertype(null);
 		}

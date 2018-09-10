@@ -71,6 +71,20 @@ public class DrDanger extends BaseBean implements Serializable{
      * 满分未学习  1是0否
      */
     private Integer fullstudystate;
+    /**
+     * 预期未换证天数
+     */
+    private Integer overdueProofDays;
+
+    /**
+     * 预期未审验天数
+     */
+    private Integer overdueExamineDays;
+
+    /**
+     * 满分未学习天数
+     */
+    private Integer fullStudyDays;
 
     /**
      * 备注
@@ -304,4 +318,53 @@ public class DrDanger extends BaseBean implements Serializable{
         this.remark = remark == null ? null : remark.trim();
     }
 
+
+
+    public Integer getFullStudyDays() {
+        return fullStudyDays;
+    }
+
+    public void setFullStudyDays(Integer fullStudyDays) {
+        this.fullStudyDays = fullStudyDays;
+    }
+
+
+    public Integer getOverdueProofDays() {
+        return overdueProofDays;
+    }
+
+    public void setOverdueProofDays(Integer overdueProofDays) {
+        this.overdueProofDays = overdueProofDays;
+    }
+
+    public Integer getOverdueExamineDays() {
+        return overdueExamineDays;
+    }
+
+    public void setOverdueExamineDays(Integer overdueExamineDays) {
+        this.overdueExamineDays = overdueExamineDays;
+    }
+
+    public DrDanger(String drivername, String driveridcard, String dangertype, String ownergener, String ownerorgid, String dangertime, String correcttime, String correctstate, String dangerdesc, String driverId, Integer overdueproofstate, Integer overdueexaminestate, Integer fullstudystate, Integer overdueProofDays, Integer overdueExamineDays, Integer fullStudyDays, String remark) {
+        this.drivername = drivername;
+        this.driveridcard = driveridcard;
+        this.dangertype = dangertype;
+        this.ownergener = ownergener;
+        this.ownerorgid = ownerorgid;
+        this.dangertime = dangertime;
+        this.correcttime = correcttime;
+        this.correctstate = correctstate;
+        this.dangerdesc = dangerdesc;
+        this.driverId = driverId;
+        this.overdueproofstate = overdueproofstate;
+        this.overdueexaminestate = overdueexaminestate;
+        this.fullstudystate = fullstudystate;
+        this.overdueProofDays = overdueProofDays;
+        this.overdueExamineDays = overdueExamineDays;
+        this.fullStudyDays = fullStudyDays;
+        this.remark = remark;
+    }
+
+    public DrDanger() {
+    }
 }

@@ -38,6 +38,21 @@ public class VehiDanger extends BaseBean implements Serializable{
     private Integer overdueexaminestate;
 
     /**
+     * 达到报废标准天数
+     */
+    private Integer scrappedDays;
+
+    /**
+     * 违法处理天数
+     */
+    private Integer illicitDays;
+
+    /**
+     * 逾期未验审核天数
+     */
+    private Integer ovedueExamineDays;
+
+    /**
      * 事故处理状态 1是，2否
      */
     private Integer failurestate;
@@ -346,4 +361,52 @@ public class VehiDanger extends BaseBean implements Serializable{
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public Integer getScrappedDays() {
+        return scrappedDays;
+    }
+
+    public void setScrappedDays(Integer scrappedDays) {
+        this.scrappedDays = scrappedDays;
+    }
+
+    public Integer getIllicitDays() {
+        return illicitDays;
+    }
+
+    public void setIllicitDays(Integer illicitDays) {
+        this.illicitDays = illicitDays;
+    }
+
+    public Integer getOvedueExamineDays() {
+        return ovedueExamineDays;
+    }
+
+    public void setOvedueExamineDays(Integer ovedueExamineDays) {
+        this.ovedueExamineDays = ovedueExamineDays;
+    }
+
+    public VehiDanger(String vehino, String vehitype, String ownerenterprise, Integer scrappedstate, Integer illicitstate, Integer overdueexaminestate, Integer scrappedDays, Integer illicitDays, Integer ovedueExamineDays, Integer failurestate, String dangertype, String ownergener, String ownerorgid, String vehicleId, String dangertime, String correcttime, String correctstate, String dangerdesc, String remark) {
+        this.vehino = vehino;
+        this.vehitype = vehitype;
+        this.ownerenterprise = ownerenterprise;
+        this.scrappedstate = scrappedstate;
+        this.illicitstate = illicitstate;
+        this.overdueexaminestate = overdueexaminestate;
+        this.scrappedDays = scrappedDays;
+        this.illicitDays = illicitDays;
+        this.ovedueExamineDays = ovedueExamineDays;
+        this.failurestate = failurestate;
+        this.dangertype = dangertype;
+        this.ownergener = ownergener;
+        this.ownerorgid = ownerorgid;
+        this.vehicleId = vehicleId;
+        this.dangertime = dangertime;
+        this.correcttime = correcttime;
+        this.correctstate = correctstate;
+        this.dangerdesc = dangerdesc;
+        this.remark = remark;
+    }
+
+    public VehiDanger() {
+    }
 }

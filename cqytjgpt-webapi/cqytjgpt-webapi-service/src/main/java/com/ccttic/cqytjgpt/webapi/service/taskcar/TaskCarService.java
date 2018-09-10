@@ -111,8 +111,8 @@ public class TaskCarService implements ITaskCarService {
 		Map<String, Object> map = new HashMap<>();
 		VehiDanger vr = new VehiDanger();
 		List<Integer> sortList = new ArrayList<>();
-		int scrappedDays = 0, overdueExamineDays = 0, illegalDays = 0;
-		int scrappedRank = 0, overdueExamineRank = 0, illegalRank = 0;
+		int scrappedDays =0, overdueExamineDays =0, illegalDays;
+		int scrappedRank, overdueExamineRank, illegalRank ;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		if (null != vehicle.getEffectEndTime()) {
 			Date effectEndTime = simpleDateFormat.parse(vehicle.getEffectEndTime());
@@ -137,20 +137,20 @@ public class TaskCarService implements ITaskCarService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		int year = calendar.get(Calendar.YEAR);
-		String vehiDrIllicit = null;
+		String vehiDrIllicit;
 		List<Integer> totalDays = new ArrayList<>();
 		int countMore15 =0;
 		int countMore30 =0;
 		int totalIllegalNum = 0;
-		//for (int x = 0; x < 3; x++) {
+		for (int x = 0; x < 3; x++) {
 			vehiDrIllicit= "illicit_" + (year);
-			List<Integer> days = vehiIllicitMapper.getIllegalDays(vehiDrIllicit.toString(), "渝"+vehicle.getVehiNo(), vehicle.getVehiNoType());
+			List<Integer> days = vehiIllicitMapper.getIllegalDays(vehiDrIllicit, "渝"+vehicle.getVehiNo(), vehicle.getVehiNoType());
 			if(null!=days){
 				totalDays.addAll(days);
 			}
-			int illegalNum = vehiIllicitMapper.getIllegalNum(vehiDrIllicit.toString(),"渝"+ vehicle.getVehiNo(), vehicle.getVehiNoType());
+			int illegalNum = vehiIllicitMapper.getIllegalNum(vehiDrIllicit,"渝"+ vehicle.getVehiNo(), vehicle.getVehiNoType());
 			totalIllegalNum += illegalNum;
-		//}
+		}
 		if (totalIllegalNum>=3){
 			vr.setIllicitstate(Const.THREE);
 			illegalRank = Const.THREE;
@@ -181,7 +181,6 @@ public class TaskCarService implements ITaskCarService {
 		if (null == vr.getScrappedstate() || null == vr.getOverdueexaminestate() || null == vr.getIllicitstate()) {
 			vr.setDangertype(null);
 		}
-		Collections.sort(sortList);
 		for (int i = 0; i < sortList.size(); i++) {
 			if (sortList.get(i) != 0 && i != (sortList.size() - 1)) {
 				vr.setDangertype(sortList.get(i).toString());
@@ -191,6 +190,10 @@ public class TaskCarService implements ITaskCarService {
 				vr.setDangertype(sortList.get(i).toString());
 			}
 		}
+		Collections.sort(totalDays);
+		vr.setIllicitDays(totalDays.get(0));
+		vr.setOvedueExamineDays(overdueExamineDays);
+		vr.setScrappedDays(scrappedDays);
 		sortList.clear();
 		sortList.add(overdueExamineDays);
 		sortList.add(scrappedDays);
