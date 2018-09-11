@@ -1,15 +1,17 @@
 package com.ccttic.cqytjgpt.enterpriseapi.mapper.vehicle;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
+import com.ccttic.entity.enterprise.EssEnterprise;
+import com.ccttic.entity.role.Area;
 import com.ccttic.entity.role.VehiIllicit;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.TreeVehileVo;
+import com.ccttic.entity.role.vo.VehicleIllegal;
 import com.ccttic.entity.role.vo.VehicleVO;
 import com.ccttic.util.exception.AppException;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 
 public interface VehicleMapper {

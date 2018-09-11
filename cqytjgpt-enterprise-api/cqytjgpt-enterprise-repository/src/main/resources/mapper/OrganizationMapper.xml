@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ccttic.cqytjgpt.enterpriseapi.mapper.organization.OrganizationMapper">
+<mapper namespace="com.ccttic.cqytjgpt.webapi.mapper.organization.OrganizationMapper">
 	<resultMap type="com.ccttic.entity.role.Organization" id="Organization">
 		<id property="id" column="id" javaType="java.lang.String"></id>
 		<result property="orgCd" column="orgCd" javaType="java.lang.String"></result>
@@ -107,10 +108,12 @@
 			   org.area_id as areaCode,org.dispOrder as dispOrder,org.superOrg_id as superOrgId,org.orgType as orgType
 			    from ess_organization org where org.superOrg_id =#{id} and org.isDeleted is null or org.isDeleted = 0 ORDER BY  orgType ASC
 	</select>
+
 	<!--根据id获取组织机构-->
 	<select id="getOrgById" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
 			select * from ess_organization where id=#{id}
 	</select>
+
 
 
 	<!-- 获取所有组织id -->

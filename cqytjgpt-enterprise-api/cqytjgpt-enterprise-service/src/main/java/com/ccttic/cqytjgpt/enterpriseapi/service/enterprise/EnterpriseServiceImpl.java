@@ -1,16 +1,5 @@
 package com.ccttic.cqytjgpt.enterpriseapi.service.enterprise;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise.EssEnterpriseMapper;
@@ -373,6 +362,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 			}
 			return deptList;
 		}
+	}
 	@Override
 	public List<EssEnterprise> getSubordinateEnterprise(String enterpriseId) {
 		 List<EssEnterprise> entId = new ArrayList<>();
@@ -394,7 +384,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		}
 
 	}
-	}
+
 
 	@Override
 	public DangerCountVo getVehiDangerCount(List<EssEnterprise> essEnt) {

@@ -1,12 +1,7 @@
 package com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise;
 
-import com.ccttic.entity.enterprise.DeptTree;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.ccttic.entity.danger.vo.DangerCountVo;
+import com.ccttic.entity.enterprise.DeptTree;
 import com.ccttic.entity.enterprise.EnterVehicle;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.EssEnterpriseExample;
@@ -150,18 +145,14 @@ public interface EssEnterpriseMapper {
 	//企业获取所有管理部门
 	public List<String> getDepar();
 
-	//获取当前企业的下级企业
-    List<EssEnterprise> getSubordinateEnterprise(String id);
 
     /**
 	 * 首页-企业隐患自查
-	 * @param essEnt
 	 * @return
 	 */
 	public DangerCountVo getVehiDangerCount(Map<String, Object> params);
 	/**
 	 * 首页-驾驶人隐患自查
-	 * @param essEnt
 	 * @return
 	 */
 	public DangerCountVo getDrDangerCount(Map<String, Object> params);
@@ -169,4 +160,8 @@ public interface EssEnterpriseMapper {
 	List<DeptTree> getDeptByEtpId(String etpId);
 
 	List<DeptTree> getDeptBySuperId(String deptId);
+
+	//获取当前企业的下级企业
+    List<EssEnterprise> getSubordinateEnterprise(String id);
+
 }

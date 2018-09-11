@@ -51,16 +51,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private RedisService<EmployeeVo> redisService;
 	@Autowired
 	private EssPostMapper postMapper;
-    @Resource
-    private EmployeeMapper mapper;
-    @Resource
-    private EssEmployeeMapper empMapper;
-    @Resource
-    private EssEnterpriseMapper entMapper;
-    @Autowired
-    private IRoleMenuService service;
-    @Autowired
-    private RedisService<EmployeeVo> redisService;
+
 
 	@Override
 	@Transactional
@@ -91,8 +82,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 	}
 
-	@Override
-	public EmployeeVo findEmployeeByAccount(String account) throws AppException {
     @Override
     public EmployeeVo findEmployeeByAccount(String account) throws AppException {
 

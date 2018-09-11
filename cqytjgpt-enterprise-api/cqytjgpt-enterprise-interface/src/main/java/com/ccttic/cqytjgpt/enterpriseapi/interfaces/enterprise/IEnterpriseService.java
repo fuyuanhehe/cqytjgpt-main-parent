@@ -1,6 +1,8 @@
 package com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise;
 
+import com.ccttic.entity.danger.vo.DangerCountVo;
 import com.ccttic.entity.employee.EmployeePermission;
+import com.ccttic.entity.enterprise.DeptTree;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
@@ -93,7 +95,6 @@ public interface IEnterpriseService {
 		public List<String> getDepar();
 
     List<DeptTree> showDeptTree(String etpId);
-	public List<String> getDepar();
 	//获取下级企业
 	List<EssEnterprise> getSubordinateEnterprise(String enterpriseId);
 
