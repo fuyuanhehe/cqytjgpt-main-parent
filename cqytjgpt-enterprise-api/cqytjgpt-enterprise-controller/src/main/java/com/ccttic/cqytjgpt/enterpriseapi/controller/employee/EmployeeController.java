@@ -59,6 +59,9 @@ public class EmployeeController {
 	private AuthServiceFeign authFeign;
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
+	
+	@Autowired
+	private RedisService<Object> redisServiceObj;
 
 	/**
 	 *
@@ -79,7 +82,8 @@ public class EmployeeController {
 
 		try {
 
-			Object picCodeCache = request.getSession(true).getAttribute(Const.PIC_CODE);
+//			Object picCodeCache = request.getSession(true).getAttribute(Const.PIC_CODE);
+			Object picCodeCache = redisServiceObj.get(Const.PIC_CODE);
 			if (ObjectHelper.isEmpty(picCodeCache)) {
 				response.fail("获取session中的验证码失败");
 				logger.error("获取session中的验证码失败");

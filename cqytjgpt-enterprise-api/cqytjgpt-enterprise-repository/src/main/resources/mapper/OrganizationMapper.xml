@@ -111,7 +111,8 @@
 	<select id="getOrgById" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
 			select * from ess_organization where id=#{id}
 	</select>
-	
+
+
 	<!-- 获取所有组织id -->
 	<select id="getAllLastOrg" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Organization">
 		select org.id as id ,org.orgCd as orgCd, org.orgNm as orgNm, org.shortNm as shortNm,org.remark as remark,

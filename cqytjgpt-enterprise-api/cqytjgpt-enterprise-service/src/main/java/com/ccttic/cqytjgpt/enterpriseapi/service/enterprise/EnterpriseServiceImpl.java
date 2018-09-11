@@ -1,10 +1,22 @@
 package com.ccttic.cqytjgpt.enterpriseapi.service.enterprise;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise.EssEnterpriseMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.organization.DepartmentMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.organization.OrganizationMapper;
+import com.ccttic.entity.danger.vo.DangerCountVo;
 import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.enums.EssEmployeeStatus;
@@ -39,6 +51,8 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	private EssEmployeeMapper employeeMapper;
 	@Autowired
 	private DepartmentMapper deptMapper;
+
+
 
 	@Override
 	public Map<String, Object> selectEnterpriseById(Map<String, String> map) {
@@ -337,7 +351,6 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 
 	@Override
 	public List<String> getDepar() {
-		// TODO Auto-generated method stub
 		return enterpriseMapper.getDepar();
 	}
 
@@ -360,7 +373,40 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 			}
 			return deptList;
 		}
+	@Override
+	public List<EssEnterprise> getSubordinateEnterprise(String enterpriseId) {
+		 List<EssEnterprise> entId = new ArrayList<>();
 
+		getChildren(enterpriseId,entId);
+		EssEnterprise essEnterprise = enterpriseMapper.selectByPrimaryKey(enterpriseId);
+		entId.add(essEnterprise);
+		return entId;
 	}
 
+	public void getChildren(String id,List<EssEnterprise> entId){
+		List<EssEnterprise> ids  = enterpriseMapper.getSubordinateEnterprise(id);
+
+		if(ids.size() > 0){
+			entId.addAll(ids);
+		}
+		for (EssEnterprise i : ids){
+			getChildren(i.getId(),entId);
+		}
+
+	}
+	}
+
+	@Override
+	public DangerCountVo getVehiDangerCount(List<EssEnterprise> essEnt) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("list", essEnt);
+		return enterpriseMapper.getVehiDangerCount(params);
+	}
+
+	@Override
+	public DangerCountVo getDrDangerCount(List<EssEnterprise> essEnt) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("list", essEnt);
+		return enterpriseMapper.getDrDangerCount(params);
+	}
 }

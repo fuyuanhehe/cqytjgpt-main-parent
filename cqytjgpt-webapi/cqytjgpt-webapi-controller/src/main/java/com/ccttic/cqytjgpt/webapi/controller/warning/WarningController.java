@@ -96,7 +96,7 @@ public class WarningController implements Serializable {
 		}
 		return resp;
 	}
-	@ApiOperation(value="根据条件获取车辆预警信息")
+	@ApiOperation(value="根据条件获取驾驶员预警信息")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name="access_token",value="token",required=true,paramType="query "),
 			@ApiImplicitParam(name="areaCd",value="区域id",required=true,paramType="form "),

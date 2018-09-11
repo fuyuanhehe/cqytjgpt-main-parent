@@ -865,4 +865,43 @@
 		select d.org_id orgId,d.ept_id eptId,d.depNm,d.depCd,d.depDuty,d.remark,d.depShortNm
 ,e.orgNm orgNm from ess_department d,ess_organization e where d.superId =#{superId} and e.id=d.org_id
 	</select>
+
+	<select id="getSubordinateEnterprise" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.EssEnterprise">
+		select id,etpNm from ess_enterprise where superEnt_id = #{id}
+	</select>
+	<!-- 首页-企业车辆隐患自查 -->
+	<select id="getVehiDangerCount" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.vo.DangerCountVo">
+		SELECT
+		COUNT(IF(danger.scrappedState='1',true,null))as scrappedCount,
+		COUNT(IF(danger.illicitState='1',true,null))as illicitCount,
+		COUNT(IF(danger.overdueExamineState='1',true,null))as vehicleExamineCount
+		FROM vehi_danger danger
+		LEFT JOIN vehicle ve ON ve.id=danger.vehicle_id
+		LEFT JOIN ess_enterprise ent ON ent.id=ve.mgrEnterpriseId
+		WHERE 1=1
+		<if test="list != null and list.size>0">
+			and ent.id in
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item.id}
+			</foreach>
+		</if>
+	</select>
+
+	<!-- 首页-企业驾驶人隐患自查 -->
+	<select id="getDrDangerCount" parameterType="java.util.Map" resultType="com.ccttic.entity.danger.vo.DangerCountVo">
+		SELECT
+		COUNT(DISTINCT danger.driver_id, IF(danger.overdueProofState='1',true,null)) as overdueProofCount,
+		COUNT(DISTINCT danger.driver_id, IF(danger.overdueExamineState='1',true,null)) as DrExamineCount,
+		COUNT(DISTINCT danger.driver_id, IF(danger.fullStudyState='1',true,null)) as fullStudyCount
+		FROM dr_danger danger
+		LEFT JOIN driver dr ON danger.driver_id=dr.id
+		LEFT JOIN ess_enterprise ent ON ent.id=dr.mgrEnterpriseId
+		WHERE 1=1
+		<if test="list != null and list.size>0">
+			and ent.id in
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item.id}
+			</foreach>
+		</if>
+	</select>
 </mapper>

@@ -18,6 +18,7 @@ public interface OrganizationMapper {
 	 * @return
 	 */
 	public Organization getOrgById(String id);
+
 	/**
 	 * 获取机构
 	 * @return
