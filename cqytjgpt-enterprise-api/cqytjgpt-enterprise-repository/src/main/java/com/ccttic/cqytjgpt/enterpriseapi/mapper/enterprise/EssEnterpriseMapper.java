@@ -1,10 +1,6 @@
 package com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
+import com.ccttic.entity.enterprise.DeptTree;
 import com.ccttic.entity.enterprise.EnterVehicle;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.EssEnterpriseExample;
@@ -13,6 +9,10 @@ import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.exception.AppException;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface EssEnterpriseMapper {
 	long countByExample(EssEnterpriseExample example);
@@ -143,4 +143,8 @@ public interface EssEnterpriseMapper {
 	
 	//企业获取所有管理部门
 	public List<String> getDepar();
+
+	List<DeptTree> getDeptByEtpId(String etpId);
+
+	List<DeptTree> getDeptBySuperId(String deptId);
 }

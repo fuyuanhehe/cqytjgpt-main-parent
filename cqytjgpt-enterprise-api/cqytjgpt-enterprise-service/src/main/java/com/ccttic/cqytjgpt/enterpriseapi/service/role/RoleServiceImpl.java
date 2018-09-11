@@ -1,17 +1,5 @@
 package com.ccttic.cqytjgpt.enterpriseapi.service.role;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.role.IRoleService;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.role.RoleEmpMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.role.RoleMapper;
@@ -20,22 +8,22 @@ import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
-import com.ccttic.entity.role.vo.EmpRoleMenuVo;
-import com.ccttic.entity.role.vo.ModelByRole;
-import com.ccttic.entity.role.vo.Model_MenuVo;
-import com.ccttic.entity.role.vo.OrgAndDep;
-import com.ccttic.entity.role.vo.RoleMenuVo;
+import com.ccttic.entity.role.vo.*;
 import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
    功能说明：     角色业务实现类
  @version  1.0.0
  @author  xgYin
- @see  com.studio.framework.service.ess.impl.RoleServiceImpl.java
  @date  2016年12月11日
  */
 @Service
@@ -156,6 +144,8 @@ public class RoleServiceImpl implements IRoleService {
 
 	}
 
+
+
 	@Override
 	@Transactional
 	public void addRoless(Roles rolty) {
@@ -163,9 +153,21 @@ public class RoleServiceImpl implements IRoleService {
 		mapper.addRoless(rolty);
 
 	}
-
 	@Override
-
+	public Page<Roles> listRole(Pageable page,Roles roles) {
+		Page<Roles> pager = new PageImpl<Roles>(page);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageSize", page.getRows());
+		params.put("startRecord", (page.getPage() - 1) * page.getRows());
+		params.put("roleNm", roles.getRoleNm());
+		params.put("roleCd", roles.getRoleCd());
+		long totolRols = mapper.seRoleCount(params);
+		List<Roles> records = mapper.listRole(params);
+		pager.setTotalRows(totolRols);
+		pager.setRecords(records);
+		return pager;
+	}
+	@Override
 	public Page<Roles> seAllRole(Pageable page,Roles roles) {
 		Page<Roles> pager = new PageImpl<Roles>(page);
 		Map<String, Object> params = new HashMap<String, Object>();

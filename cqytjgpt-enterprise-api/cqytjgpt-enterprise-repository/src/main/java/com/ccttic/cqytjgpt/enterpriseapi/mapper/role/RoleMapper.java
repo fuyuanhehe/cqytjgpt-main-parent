@@ -20,6 +20,7 @@ import com.ccttic.entity.role.vo.OrgDepVo;
 
 public interface RoleMapper {
 
+
 	/**
 	 * 根据条件获取角色信息
 	 * @param params
@@ -84,7 +85,10 @@ public interface RoleMapper {
 	public	long seRoleCount(Map<String, Object> params);
 
 	public	List<Roles> seRoleAll(Map<String, Object> params);
-
+	/**
+	 * 查询角色列表
+	 */
+	List<Roles> listRole(Map<String,Object> params);
 	/**
 	 * 删除角色员工关联
 	 * @param id

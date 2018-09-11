@@ -6,11 +6,14 @@ import com.ccttic.cqytjgpt.enterpriseapi.interfaces.role.IRoleMenuService;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.employee.EmployeeMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise.EssEnterpriseMapper;
+import com.ccttic.cqytjgpt.enterpriseapi.mapper.post.EssPostMapper;
 import com.ccttic.entity.employee.*;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.post.EssPost;
 import com.ccttic.entity.role.RoleEmp;
 import com.ccttic.util.common.Const;
+import com.ccttic.util.common.MD5;
+import com.ccttic.util.common.RandomHelper;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +49,37 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private IRoleMenuService service;
 	@Autowired
 	private RedisService<EmployeeVo> redisService;
+	@Autowired
+	private EssPostMapper postMapper;
 
+	@Override
+	@Transactional
+	public void addEmployee(EssEmployeeVo emp) throws AppException {
 
-
+		String empid = RandomHelper.uuid();
+		EssEmployee employee = emp;
+		employee.setId(empid);
+		employee.setEmpcd(empid);
+		employee.setEmptype(emp.getEmptype());
+		employee.setPassword(MD5.sign(emp.getAccount(), emp.getPassword(), "utf-8"));
+		employee.setCreatetime(new Date());
+		empMapper.insertSelective(employee);
+		EssEmployeeDept dept = new EssEmployeeDept();
+		dept.setDepId(emp.getDepid());
+		dept.setEmpId(empid);
+		dept.setVersion(1);
+		dept.setId(RandomHelper.uuid());
+		empMapper.relatedDepAndEmp(dept);
+		for (int i = 0; i < emp.getPost().size(); i++) {
+			String postId = emp.getPost().get(i).getId();
+			EssEmployeePost eep = new EssEmployeePost();
+			eep.setEmpId(empid);
+			eep.setId(RandomHelper.uuid());
+			eep.setVersion(1);
+			eep.setPostId(postId);
+			postMapper.relatedPostAndEmp(eep);
+		}
+	}
 
 	@Override
 	public EmployeeVo findEmployeeByAccount(String account) throws AppException {

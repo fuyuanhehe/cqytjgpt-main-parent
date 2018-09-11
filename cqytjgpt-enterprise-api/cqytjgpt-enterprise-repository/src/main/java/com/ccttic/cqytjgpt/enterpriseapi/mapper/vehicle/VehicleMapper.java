@@ -99,7 +99,7 @@ public interface VehicleMapper {
 	public Area getfenceIdByEssid(@Param("id") String id);
 
 	/**批量更新车辆信息
-	 * @param update
+	 * @param vehicle
 	 */
 	public void updateBatch(List<Vehicle> vehicle);
 	

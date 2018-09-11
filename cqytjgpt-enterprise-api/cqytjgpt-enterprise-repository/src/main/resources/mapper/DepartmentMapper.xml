@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccttic.cqytjgpt.enterpriseapi.mapper.organization.DepartmentMapper">
+	<resultMap type="com.ccttic.entity.role.Department" id="Department">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="orgId" column="org_id" javaType="java.lang.String"></result>
+		<result property="eptId" column="ept_id" javaType="java.lang.String"></result>
+		<result property="depNm" column="depNm" javaType="java.lang.String"></result>
+		<result property="depShortNm" column="depShortNm" javaType="java.lang.String"></result>
+		<result property="depCd" column="depCd" javaType="java.lang.String"></result>
+		<result property="depDuty" column="depDuty" javaType="java.lang.String"></result>
+		<result property="remark" column="remark" javaType="java.lang.String"></result>
+		<!-- <result property="dispOrder" column="dispOrder" javaType="java.lang.Integer"></result> -->
+	</resultMap>
+	<!-- 通过机构代码获取部门信息 -->
+	<select id="qryDepartmentList" parameterType="java.util.Map" resultMap="Department">
+		select * from  ess_department  WHERE 1=1
+		<if test="orgId != null and orgId != ''">
+			AND org_id=#{orgId}
+		</if>
+		<if test="etpId != null and etpId != ''">
+			AND ept_id=#{etpId}
+		</if>
+		and (isDeleted = 0 or isDeleted is null)
+		limit ${startRecord},${pageSize}
+	</select>
+	<!-- 通过机构代码获取部门总条数 -->
+	<select id="qryDepartmentListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select COUNT(1)from  ess_department  WHERE 1=1
+		<if test="orgId != null and orgId != ''">
+			AND org_id=#{orgId}
+		</if>
+		<if test="etpId != null and etpId != ''">
+			AND ept_id=#{etpId}
+		</if>
+		and (isDeleted = 0 or isDeleted is null)
+	</select>
+
+
+	<select id="getDepNm" parameterType="java.lang.String" resultMap="Department">
+		SELECT * FROM ess_department WHERE depNm=#{depNm}
+	</select>
+	
+	<!-- 修改部门 -->
+	<update id="modifyMent" parameterType="com.ccttic.entity.role.Department">
+		update ess_department set 
+		  	<if test="ment.depCd != null and ment.depCd != ''">
+				nature = #{ment.depCd},
+			</if>
+		  	<if test="ment.depNm != null and ment.depNm != ''">
+				depNm = #{ment.depNm},
+			</if>
+		  	<if test="ment.depShortNm != null and ment.depShortNm != ''">
+				depShortNm = #{ment.depShortNm},
+			</if>
+		  	<if test="ment.depDuty != null and ment.depDuty != ''">
+				depDuty = #{ment.depDuty},
+			</if>
+		  	<if test="ment.remark != null and ment.remark != ''">
+				remark = #{ment.remark},
+			</if>
+		  	<if test="ment.dispOrder != null and ment.dispOrder != ''">
+				dispOrder = #{ment.dispOrder}
+			</if>
+			id=#{ment.id}
+		  where id=#{ment.id}
+	</update>
+	
+	<!-- 删除部门 -->
+	<update id="removeMent" parameterType="java.lang.String">
+		update ess_department set isDeleted = 1,deleteTime=now() where id=#{id}
+	</update>
+
+	<!-- 创建企业-->
+	<insert id="createRise" parameterType="com.ccttic.entity.role.Enterprise">
+		insert into ess_enterprise(id,org_id,etpCd,etpNm,etpshortNm,etpLawer,lawerTel,etpSafer,saferTel,ownerTraffic,ownerTransport,remark,dispOrder) values 
+			(#{rise.id},#{rise.orgId},#{rise.etpCd},#{rise.etpNm},#{rise.etpshortNm},#{rise.etpLawer},#{rise.lawerTel},#{rise.etpSafer},#{rise.saferTel},#{rise.ownerTraffic}
+			,#{rise.ownerTransport},#{rise.remark},#{rise.dispOrder})
+	</insert>
+
+	<!-- 通过部门id取部门在职人员 -->
+	<select id="finByDepEmpId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.DepartmentEnterpriseCombine">
+	SELECT middle.dep_id middleDepId,middle.emp_id middleEmpId, dep.id as depId,yee.id as empId ,dep.depCd as depCd,dep.depNm as depNm,dep.depShortNm as depShortNm,
+		dep.depDuty as depDuty,yee.id as id,yee.empCd as empCd,yee.empNm as empNm,yee.empNo as empNo,yee.duty as duty,yee.empGender as empGender,yee.phone as phone
+		FROM ess_employee_dept middle LEFT JOIN ess_department dep ON middle.dep_id=dep.id
+		LEFT JOIN ess_employee yee ON middle.emp_id=yee.id WHERE dep.id=#{id}
+	 	AND (yee.isDeleted = 0 or yee.isDeleted is null)
+	</select>
+
+	<select id="getDepartmentbyId" parameterType="java.lang.String" resultType="com.ccttic.entity.role.Department">
+	select * from ess_department where id=#{id}
+	</select>
+
+
+
+</mapper>

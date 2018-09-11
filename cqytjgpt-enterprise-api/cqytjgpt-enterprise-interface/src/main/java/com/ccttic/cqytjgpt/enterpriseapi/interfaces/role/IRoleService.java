@@ -2,6 +2,8 @@ package com.ccttic.cqytjgpt.enterpriseapi.interfaces.role;
 
 
 import java.util.List;
+import java.util.Map;
+
 import com.ccttic.entity.role.Role;
 import com.ccttic.entity.role.Role_Emp;
 import com.ccttic.entity.role.Roles;
@@ -26,8 +28,6 @@ public interface IRoleService {
 	 * 获取所有角色信息
 	 * @param page
 	 * @param role
-	 * @return
-	 * @throws AppException
 	 */
 	Page<Role> loadRolePages(Pageable page, Role role);
 
@@ -42,53 +42,46 @@ public interface IRoleService {
 	/**
 	 * 通过ID获取角色信息
 	 * @param id
-	 * @return
-	 * @throws AppException
 	 */
 	public Role findRoleById(String id);
 
 	/**
 	 * 通过ID删除角色信息
-	 * @param id
-	 * @return
-	 * @throws AppException
 	 */
 	public boolean deleteRole(Roles roles);
 
 	/**
 	 * 查询所有角色对应的菜单
-	 * @return
-	 * @throws AppException
 	 */
 	public List<RoleMenuVo> findAllRoleMeun();
 
 	/**
 	 * 增加角色关联员工
-	 * @return
-	 * @throws AppException
 	 */
 	public void addRoless(Roles rolty);
 
 	public void addRole_Emp(List<Role_Emp> role);
 
+
+	/**
+	 * 查询角色列表
+	 */
+
+	Page<Roles> listRole(Pageable page,Roles roles);
+
 	/**
 	 * 分页角色
-	 * @return
-	 * @throws AppException
 	 */
 
 	Page<Roles> seAllRole(Pageable page,Roles roles);
 
 	/**
 	 * 修改角色信息和关联的员工
-	 * @return
-	 * @throws AppException
 	 */
 	public void updateEssRole(Roles roles);
 		
 	/**
 	 * 通过员工ID获取角色
-	 * @param roles
 	 */
 	public ModelByRole seRoleByEmpId(String emp_id);	
 	

@@ -1,20 +1,15 @@
 package com.ccttic.cqytjgpt.screen.controller;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.ccttic.cqytjgpt.screen.interfaces.danger.IScreenService;
+import com.ccttic.cqytjgpt.screen.mapper.danger.TaskDangerMapper;
+import com.ccttic.entity.common.ResponseMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccttic.cqytjgpt.screen.interfaces.danger.IScreenService;
-import com.ccttic.cqytjgpt.screen.mapper.danger.TaskDangerMapper;
-import com.ccttic.entity.common.ResponseMsg;
+import java.util.*;
 
 @RestController
 @RequestMapping("/task")
@@ -59,14 +54,12 @@ public class ScreenTotalTask {
             param.put("tableName","etp_danger_"+Calendar.getInstance().get(Calendar.YEAR));
             log.info("清空etpDanger表");
             taskMapper.deleteAll(param);
-            //  taskMapper.deleteAll(param);
             param.put("list",insertList);
             int count = 0;
             for (Map m: etpList) {
                 insertList.add(m);
                 if(insertList.size()>100){
                     taskMapper.insertEtpTotal(param);
-                    System.out.println("开始插入");
                     Thread.sleep(5000);
                     insertList.clear();
                     continue;

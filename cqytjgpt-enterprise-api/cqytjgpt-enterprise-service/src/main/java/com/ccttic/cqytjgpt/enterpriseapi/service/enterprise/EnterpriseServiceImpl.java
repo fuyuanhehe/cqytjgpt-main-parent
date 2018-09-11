@@ -1,45 +1,44 @@
 package com.ccttic.cqytjgpt.enterpriseapi.service.enterprise;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise.IEnterpriseService;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.employee.EssEmployeeMapper;
 import com.ccttic.cqytjgpt.enterpriseapi.mapper.enterprise.EssEnterpriseMapper;
+import com.ccttic.cqytjgpt.enterpriseapi.mapper.organization.DepartmentMapper;
+import com.ccttic.cqytjgpt.enterpriseapi.mapper.organization.OrganizationMapper;
 import com.ccttic.entity.employee.EmployeePermission;
 import com.ccttic.entity.employee.EssEmployee;
 import com.ccttic.entity.employee.enums.EssEmployeeStatus;
+import com.ccttic.entity.enterprise.DeptTree;
 import com.ccttic.entity.enterprise.EnterVehicle;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
+import com.ccttic.entity.role.Organization;
 import com.ccttic.entity.role.Vehicle;
 import com.ccttic.entity.role.vo.EmpVo;
-import com.ccttic.util.common.Const;
-import com.ccttic.util.common.DateHelper;
-import com.ccttic.util.common.MD5;
-import com.ccttic.util.common.RandomHelper;
-import com.ccttic.util.common.State;
-import com.ccttic.util.common.StringHelper;
+import com.ccttic.util.common.*;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageImpl;
 import com.ccttic.util.page.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class EnterpriseServiceImpl implements IEnterpriseService {
 	@Autowired
 	private EssEnterpriseMapper enterpriseMapper;
 	@Autowired
+	private OrganizationMapper organizationMapper;
+	@Autowired
 	private EssEmployeeMapper employeeMapper;
+	@Autowired
+	private DepartmentMapper deptMapper;
 
 	@Override
 	public Map<String, Object> selectEnterpriseById(Map<String, String> map) {
@@ -55,8 +54,14 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 	@Override
 	@Transactional
 	public void modifyEnterpriseById(EssEnterprise essEnterprise) throws AppException {
-		enterpriseMapper.updateByPrimaryKeySelective(essEnterprise);
-
+			// 获取根据管理部门id(orgId)获取组织机构
+			Organization organization = organizationMapper.getOrgById(essEnterprise.getOrgId());
+			essEnterprise.setOwnertransport(organization.getOrgNm());
+			// 获取父组织机构（几分所）
+			Organization superOrg = organizationMapper.getOrgById(organization.getSuperOrgId());
+			// 设置交警大队（几分所）
+			essEnterprise.setOwnertraffic(superOrg.getOrgNm());
+			enterpriseMapper.updateByPrimaryKeySelective(essEnterprise);
 	}
 
 	@Override
@@ -336,8 +341,26 @@ public class EnterpriseServiceImpl implements IEnterpriseService {
 		return enterpriseMapper.getDepar();
 	}
 
+	@Override
+	public List<DeptTree> showDeptTree(String etpId) {
+		List<DeptTree> deptList = enterpriseMapper.getDeptByEtpId(etpId);
+		// 递归获取一级部门列表下的所有数据
+			for (DeptTree d : deptList) {
+				d.setSubList(getDeptSub(d.getId()));
+			}
+		return deptList;
+	}
+	List<DeptTree> getDeptSub(String deptId){
+		List<DeptTree> deptList = enterpriseMapper.getDeptBySuperId(deptId);
+		if(deptList.size()==0){
+			return deptList;
+		}else{
+			for (DeptTree d : deptList) {
+				d.setSubList(showDeptTree(d.getSuperId()));
+			}
+			return deptList;
+		}
 
-
-
+	}
 
 }

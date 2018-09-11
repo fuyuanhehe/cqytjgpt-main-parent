@@ -293,67 +293,7 @@
 			<include refid="Update_By_Example_Where_Clause" />
 		</if>
 	</update>
-	<update id="updateByExample" parameterType="map">
-		update ess_enterprise
-		set id = #{record.id,jdbcType=VARCHAR},
-		org_id =
-		#{record.orgId,jdbcType=VARCHAR},
-		etpCd =
-		#{record.etpcd,jdbcType=VARCHAR},
-		etpNm =
-		#{record.etpnm,jdbcType=VARCHAR},
-		etpshortNm =
-		#{record.etpshortnm,jdbcType=VARCHAR},
-		etpLawer =
-		#{record.etplawer,jdbcType=VARCHAR},
-		lawerTel =
-		#{record.lawertel,jdbcType=VARCHAR},
-		etpSafer =
-		#{record.etpsafer,jdbcType=VARCHAR},
-		saferTel =
-		#{record.safertel,jdbcType=VARCHAR},
-		admin_empid =
-		#{record.adminEmpid,jdbcType=VARCHAR},
-		ownerTraffic =
-		#{record.ownertraffic,jdbcType=VARCHAR},
-		ownerTransport =
-		#{record.ownertransport,jdbcType=VARCHAR},
-		etpAdress =
-		#{record.etpadress,jdbcType=VARCHAR},
-		etpRegAdress =
-		#{record.etpregadress,jdbcType=VARCHAR},
-		etpTel =
-		#{record.etptel,jdbcType=VARCHAR},
-		attachment_id =
-		#{record.attachmentId,jdbcType=VARCHAR},
-		state =
-		#{record.state,jdbcType=INTEGER},
-		remark =
-		#{record.remark,jdbcType=VARCHAR},
-		dispOrder =
-		#{record.disporder,jdbcType=INTEGER},
-		version =
-		#{record.version,jdbcType=INTEGER},
-		isDeleted =
-		#{record.isdeleted,jdbcType=BIT},
-		createTime =
-		#{record.createtime,jdbcType=TIMESTAMP},
-		updateTime =
-		#{record.updatetime,jdbcType=TIMESTAMP},
-		deleteTime =
-		#{record.deletetime,jdbcType=TIMESTAMP},
-		createBy =
-		#{record.createby,jdbcType=VARCHAR},
-		createDepCd =
-		#{record.createdepcd,jdbcType=VARCHAR},
-		updateBy =
-		#{record.updateby,jdbcType=VARCHAR},
-		updateDepCd =
-		#{record.updatedepcd,jdbcType=VARCHAR}
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
+
 	<update id="updateByPrimaryKeySelective" parameterType="com.ccttic.entity.enterprise.EssEnterprise">
 		update ess_enterprise
 		<set>
@@ -437,6 +377,18 @@
 			</if>
 			<if test="updatedepcd != null">
 				updateDepCd = #{updatedepcd,jdbcType=VARCHAR},
+			</if>
+			<if test="etpType != null">
+				etpType = #{etpType,jdbcType=VARCHAR},
+			</if>
+			<if test="issueCardDate != null">
+				issueCardDate = #{issueCardDate,jdbcType=VARCHAR},
+			</if>
+			<if test="roadTransport != null">
+				roadTransport = #{roadTransport,jdbcType=VARCHAR},
+			</if>
+			<if test="superId != null">
+				superId = #{superId,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
@@ -905,5 +857,12 @@
 		resultType="com.ccttic.entity.enterprise.EssEnterprise">
 		SELECT * FROM ess_enterprise WHERE admin_empid = #{id}
 	</select>
-
+	<select id="getDeptByEtpId" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.DeptTree">
+		select d.org_id orgId,d.ept_id eptId,d.depNm,d.depCd,d.depDuty,d.remark,d.depShortNm
+,e.orgNm orgNm from ess_department d,ess_organization e where d.ept_id =#{etpId} and e.id=d.org_id
+	</select>
+	<select id="getDeptBySuperId" parameterType="java.lang.String" resultType="com.ccttic.entity.enterprise.DeptTree">
+		select d.org_id orgId,d.ept_id eptId,d.depNm,d.depCd,d.depDuty,d.remark,d.depShortNm
+,e.orgNm orgNm from ess_department d,ess_organization e where d.superId =#{superId} and e.id=d.org_id
+	</select>
 </mapper>

@@ -93,4 +93,6 @@ public interface IEmployeeService {
 	List<EssEmployeeVo> selectEmployeeByDepartment(String depid, String empnm, String orgCd) throws AppException;
 
 	EmployeePermission getEmployeePermission(EmployeeVo employee);
+
+	void addEmployee(EssEmployeeVo emp) throws AppException;
 }

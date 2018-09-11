@@ -21,6 +21,10 @@ import com.ccttic.entity.enterprise.EssEnterprise;
     */
 
 public class EnterpriseVo extends EssEnterprise {
+	/**
+	 * 所属行政区县id
+	 */
+	private String areaId;
 
 	/**
 	 * 

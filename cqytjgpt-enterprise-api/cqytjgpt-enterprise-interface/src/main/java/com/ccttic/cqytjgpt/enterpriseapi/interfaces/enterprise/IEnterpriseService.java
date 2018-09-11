@@ -1,18 +1,18 @@
 package com.ccttic.cqytjgpt.enterpriseapi.interfaces.enterprise;
 
-import java.util.List;
-import java.util.Map;
-
 import com.ccttic.entity.employee.EmployeePermission;
+import com.ccttic.entity.enterprise.DeptTree;
 import com.ccttic.entity.enterprise.EssEnterprise;
 import com.ccttic.entity.enterprise.vo.EnterpriseDriverVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVehiVo;
 import com.ccttic.entity.enterprise.vo.EnterpriseVo;
-import com.ccttic.entity.enterprise.vo.PageEssEnterpriseVo;
 import com.ccttic.entity.role.vo.EmpVo;
 import com.ccttic.util.exception.AppException;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.Pageable;
+
+import java.util.List;
+import java.util.Map;
 
 public interface IEnterpriseService {
 
@@ -92,4 +92,6 @@ public interface IEnterpriseService {
 	
 	//企业获取所有管理部门
 		public List<String> getDepar();
+
+    List<DeptTree> showDeptTree(String etpId);
 }

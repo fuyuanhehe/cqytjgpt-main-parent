@@ -1,23 +1,5 @@
 package com.ccttic.cqytjgpt.enterpriseapi.controller.employee;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.alibaba.fastjson.JSON;
 import com.ccttic.cqytjgpt.enterpriseapi.client.auth.AuthServiceFeign;
 import com.ccttic.cqytjgpt.enterpriseapi.interfaces.employee.IEmployeeService;
@@ -37,12 +19,22 @@ import com.ccttic.util.common.ObjectHelper;
 import com.ccttic.util.jwt.JWTUtil;
 import com.ccttic.util.page.Page;
 import com.ccttic.util.page.PageRequest;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -111,7 +103,7 @@ public class EmployeeController {
 
 
 			String tokenValue = authFeign.getAccessToken(empVo.getAccount(), md5pasword, "password",
-					"ccttic1");
+					"ccttic3");
 			if (ObjectHelper.isEmpty(tokenValue)) {
 				response.fail("获取访问token失败");
 				return response;
@@ -126,7 +118,38 @@ public class EmployeeController {
 		}
 		return response;
 	}
-
+	@ApiOperation(value="创建员工")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="account",value="员工账号",required=true,paramType="form"),
+			@ApiImplicitParam(name="password",value="员工密码",required=true,paramType="form"),
+			@ApiImplicitParam(name="empno",value="员工工号",required=true,paramType="form"),
+			@ApiImplicitParam(name="empnm",value="员工名",required=true,paramType="form"),
+			@ApiImplicitParam(name="emptype",value="员工类型",required=true,paramType="form"),
+			@ApiImplicitParam(name="id",value="岗位id",required=false,paramType="form"),
+			@ApiImplicitParam(name="description",value="岗位描述",required=false,paramType="form"),
+			@ApiImplicitParam(name="postcd",value="岗位编号",required=false,paramType="form"),
+			@ApiImplicitParam(name="postnm",value="岗位名称",required=false,paramType="form"),
+			@ApiImplicitParam(name="phone",value="电话号码",required=false,paramType="form"),
+	})
+	@RequestMapping(value = "/addEmployee", method = { RequestMethod.GET, RequestMethod.POST })
+	public ResponseMsg<String> addEmployee(HttpServletRequest request, @RequestBody EssEmployeeVo emp) {
+		ResponseMsg<String> rm = new ResponseMsg<String>();
+		try {
+			int cat = employeeService.selectEmpByAccount(emp.getAccount());
+			if (cat == 1) {
+				rm.fail("添加employee数据失败，用户名重复");
+				return rm;
+			}
+			employeeService.addEmployee(emp);
+			rm.success("添加employee数据成功");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			rm.fail("添加employee数据失败");
+			logger.error("添加employee数据失败", e);
+		}
+		return rm;
+	}
 	/**
 	 *
 	 * @Title: employeeInfo @Description: 获取用户信息 @param @param request @param @param
@@ -167,13 +190,15 @@ public class EmployeeController {
 	@ApiOperation(value="分页显示所有员工")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name="access_token",value="用户token",required=true,paramType="form"),
+			@ApiImplicitParam(name="empnm",value="用户名字查询",required=false,paramType="form"),
+			@ApiImplicitParam(name="etpId",value="所属公司查询",required=false,paramType="form"),
+			@ApiImplicitParam(name="depid",value="所属部门查询",required=false,paramType="form"),
 	})
 	@RequestMapping(value = "/showEmployee", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResourceScan(rsc = @Resource(cd = Const.SELECT_EMPLOYEE, name = "查询员工信息", hierarchy = 3, isMenue = true, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {
 			@Resource(cd = Const.ORGANIZATION_SUPERVISE, url = "/employee/showEmployee", name = "组织管理", isMenue = true, hierarchy = 2, pcd = Const.SYSTEM_SUPERVISE),
 			@Resource(cd = Const.SYSTEM_SUPERVISE, name = "系统管理", isMenue = true, hierarchy = 1, pcd = Const.ROOT)})
-	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token,
-														 @RequestBody EssEmployeeVo emp) {
+	public ResponseMsg<Page<EssEmployeeVo>> showEmployee(@RequestParam String access_token, @RequestBody EssEmployeeVo emp) {
 		ResponseMsg<Page<EssEmployeeVo>> rm = new ResponseMsg<Page<EssEmployeeVo>>();
 		try {
 			PageRequest page = new PageRequest();
@@ -287,7 +312,7 @@ public class EmployeeController {
 	@ApiOperation(value="修改密码")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name="str",value="新密码",required=true,paramType="form"),
-
+			@ApiImplicitParam(name="listMap",value="要修改的用户列表(id,account)",required=true,paramType="form"),
 	})
 	@RequestMapping(value = "/modifyPassword", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseMsg<String> modifyPassword(HttpServletRequest request, @RequestBody ObjectList list) {
@@ -321,10 +346,9 @@ public class EmployeeController {
 		return rm;
 
 	}
-	@ApiOperation(value="修改密码")
+	@ApiOperation(value="删除员工")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name="str",value="新密码",required=true,paramType="form"),
-
+			@ApiImplicitParam(name="listMap",value="要删除的员工id列表(id,depid)",required=true,paramType="form")
 	})
 	@RequestMapping(value = "/delEmployee", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResourceScan(rsc = @Resource(cd = Const.MODIFY_EMPLOYEE, name = "删除员工", hierarchy = 3, isMenue = false, pcd = Const.ORGANIZATION_SUPERVISE), prsc = {

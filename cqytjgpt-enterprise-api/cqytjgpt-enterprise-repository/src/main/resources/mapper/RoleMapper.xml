@@ -120,6 +120,28 @@
 		limit ${startRecord},${pageSize}
 	</select>
 
+
+	<!--分页查询数据列表（不包含员工信息) -->
+	<select id="listRole" parameterType="java.util.Map" resultType="com.ccttic.entity.role.Roles">
+		SELECT
+		r.id AS roleId,
+		r.roleCd,
+		r.roleNm,
+		r.description
+		FROM
+		ess_role r
+		WHERE 1 = 1
+		<if test="roleNm!=null and roleNm!='' ">
+			and r.roleNm like '%${roleNm}%'
+		</if>
+		<if test="roleCd!=null and roleCd!='' ">
+			and r.roleCd like '%${roleCd}%'
+		</if>
+		GROUP BY
+		r.id
+		limit ${startRecord},${pageSize}
+	</select>
+
 	<!-- 根据条件查询总记录数目 -->
 	<select id="seRoleCount" parameterType="java.util.Map"
 		resultType="long">
